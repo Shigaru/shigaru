@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5">
+	<name>CB Profile Pro</name>
+	<author>Den KD</author>
+	<creationDate>February 2009</creationDate>
+	<copyright>Copyright (C) 2009 Joomduck. All rights reserved.</copyright>
+	<license>Commercial</license>
+	<authorEmail>support@joomduck.com</authorEmail>
+	<authorUrl>www.joomduck.com</authorUrl>
+	<version>1.0</version>
+	<description>This component provides functionality of CB Profile Pro plugins only. It won't be shown in the components menu in joomla admin backend.</description>
+    	<files>
+    	</files>
+    <administration>
+        <files>
+        <filename>admin.cbprofilepro.php</filename>
+	    <filename>index.html</filename>
+        </files>
+    </administration>
+</install>
+
+

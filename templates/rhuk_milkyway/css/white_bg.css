@@ -1,0 +1,43 @@
+/* white */
+#page_bg {
+	background: #fff;
+}
+
+div#wrapper {
+}
+
+div#wrapper_r {
+position:relative;
+	z-index:2000;
+}
+
+div#header {
+position:relative;
+	z-index:2000;
+	float:left;
+}
+
+div#header p {
+	margin:0 0 0 23%;
+}
+
+div#header_l {
+	position:relative;
+	z-index:2000;
+	float:left;
+}
+
+div#header_r {
+	background: #fff;
+	position:relative;
+	z-index:2000;
+}
+
+div#footer {
+}
+
+div#footer_l {
+}
+
+div#footer_r {
+}

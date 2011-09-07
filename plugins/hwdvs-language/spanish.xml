@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="hwdvs-language" method="upgrade">
+    <name>Spanish Language</name>
+    <creationDate>2010 04 19</creationDate>
+    <author>Shigaru.com</author>
+    <copyright>(C) 2007 - 2010 Shigaru.com</copyright>
+    <authorEmail>info@shigaru.com</authorEmail>
+    <authorUrl>http://shigaru.com</authorUrl>
+    <version>[ Beta ]</version>
+    <description>Añade el lenguage español a hwdVideoShare</description>
+    <files>
+        <filename plugin="spanish">es-ES.be.php</filename>
+        <filename plugin="spanish">es-ES.fe.php</filename>
+        <filename plugin="spanish">es-ES.plugs.php</filename>
+        <filename plugin="spanish">es-ES.settings.php</filename>
+    </files>
+    <params>
+    </params>
+</install>
+

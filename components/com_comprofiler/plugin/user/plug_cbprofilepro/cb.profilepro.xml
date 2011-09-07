@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user">
+	<name>CB Profile Pro</name>
+	<author>Den KD</author>
+	<creationDate>2009-02-11</creationDate>
+	<authorEmail>support@joomduck.com</authorEmail>
+	<authorUrl>http://www.joomduck.com</authorUrl>
+	<license>Commercial</license>
+	<version>1.0</version>	
+	<description>Provides an extended community builder profile page.</description>
+		<files>
+		<filename plugin="cb.profilepro">cb.profilepro.php</filename>
+		<filename>index.html</filename>
+		<filename>lang/english.php</filename>
+		</files>		
+    <params>	
+	<param name="userchoose" type="list" default="no" label="User can choose profile page?" description="If you have different profile pages created and you want users to choose between them in their profile - choose YES (you can specify the default profile page in the below fields), if you have only one profile page created - choose NO and specify this profile page in the below fields.">
+		<option value="yes">Yes</option>
+		<option value="no">No</option>
+	</param>	
+	<param name="@spacer" type="spacer" default="Specify (default) CB Profile Page" label="" description="" />
+	<param name="profilearticleid" type="text" label="Content item ID" description="Type here the ID of the article that is created as a community builder (default) profile page." />
+	<param name="profilearticletitle" type="text" label="OR content item Title" description="Type here the Title of the article that is created as a community builder (default) profile page." />		
+    </params>	
+    <tabs>
+    <tab name="Profile Pro" description="" class="getpro" cbfields="0">
+		<params>			
+		</params>
+		<fields>
+		<field title="Profile Type" name="cb_profilechoose" description="Choose Your Profile Page Type" type="select" required="0" registration="1" profile="0" readonly="0" /> 
+		</fields>
+	</tab>
+    </tabs>   
+    <install>
+    	<queries>
+    	</queries>
+    </install>
+    <uninstall>
+        <queries>
+    	</queries>
+    </uninstall>
+	<database>
+	</database>
+</cbinstall>

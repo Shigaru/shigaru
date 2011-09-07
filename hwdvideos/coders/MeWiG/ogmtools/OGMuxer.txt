@@ -1,0 +1,349 @@
+OGMuxer v1.1a2 -- an Ogg Media File multiplexer
+
+Copyright (C) 2002 Cyrius
+
+
+OGMuxer is inspired by ogmmerge (by Moritz Bunkus)
+ogmmerge is part of ogmtools by Moritz Bunkus
+ogmmerge is based on Xiph.org's 'oggmerge' found in their CVS repository
+See http://www.xiph.org
+For more information on ogmtoools, you can see this page :
+  http://www.bunkus.org
+
+OGMuxer uses some of the VirtualDub 1.4.10 reading routines.
+VirtualDub Copyright (C) 1998-2001 Avery Lee
+For more information on VirtualDub, you can visit one of its homepage:
+  http:///www.virtualdub.org
+
+ If you experience troubles with AVI files, don't send bug reports to Avery Lee!
+ It is more likely to be the way I link OGMuxer with some tools coming from
+ VirtualDub that causes problems!
+
+This program needs ogg.dll and vorbis.dll to be installed on your system (either
+in the same directory, or in your Windows' System directory).
+You may find latest version of these files in the Ogg Vorbis SDK, see:
+http://www.xiph.org
+
+
+
+This program is free software (see GPL.txt file for more information).
+Anyone may copy and use parts of this program free of charge.
+You may distribute them only if the following fact is respected :
+ - revelant text files (such as this one, GPL.txt, and COPYING) MUST be included.
+If you plan to use parts (or everything) of this program for selling, please
+contribute to the development of free softwares and donate part of your profit
+to the Free Software Fundation (http://www.fsf.org/fsf/fsf.html) or some other
+free software development projects.
+
+
+Warranty
+---------
+- This program comes with ABSOLUTELY NO WARRANTY
+- I take no responsibility for any kind of damage caused by OGMerge.
+  USE THIS PROGRAM AT YOUR OWN RISK!
+- Beware : Using this program for illegal purposes is not permitted.
+
+
+E-mail : <suiryc AT yahoo DOT com>
+
+
+Usage
+-----
+See "OGMuxer -h"
+
+Syntax : OGMuxer.exe [option] -o <output> <input1> ... <inputN>
+   <output>  Output filename
+   <inputN>  Input filename
+    options :
+     -h/-?/--help        show this help
+     -s/--setup <setup>  use setup as automatisation setup file
+     -l/--list           list known file types
+     -p/--probe <file>   probe file (valid input?)
+     -r/--reprocess      enable/disable reprocessing of audio streams (in AVI/WAV files)
+     -f/--force          force overwriting output file
+     --split <size>      use size as split size
+     --parts <n>         won't create more than n parts
+     --simulate          just tell you where it should cut
+     --chapters <id>     what to do with chapters
+                          (id is binary flags)
+                  bit 1 -> throw away chapters belonging to previous part
+                  bit 2 -> throw away chapters belonging to next parts
+                  bit 3 -> keep the last chapter of the previous part
+     --title "..."       title
+     --titles n ...      titles for each part (n titles)
+     --frames "frm"      define frames where to cut
+
+Nb :
+ - Reprocessing of audio streams is disabled by default
+ - "--chapters 0" means keep all the chapters
+ - "--chapters 1" means throw away chapters belonging to previous parts
+ - "--chapters 2" means throw away chapters belonging to next parts
+ - "--chapters 3" means "--chapters 1" & "--chapters 2"
+ - "--chapters 4" means keep the last chapter of the previous part (equivalent to "--chapters 0")
+ - "--chapters 5" means "--chapters 1" & "--chapters 4"
+ - "--chapters 6" means "--chapters 2" & "--chapters 4"
+ - "--chapters 7" means "--chapters 1" & "--chapters 2" & "--chapters 4"
+ - default behaviour is "--chapters 7"
+ - using the "--frames" option will disable the default behaviour regarding title
+   If you want titles to be changed, just use the --title option after the --frames option
+ - "frm" contains list of frame number and/or time (??:??:??.???] separated by spaces
+ - using the "--parts" option may result in a last part bigger than your split size
+ - you can use <size>K and size <size>M to precise Kilo/Mega Bytes
+
+
+Exemple :
+ OGMuxer -f -o "C:\My Directory\OutputFile.ogm"  "C:\My Directory\InputFile1.avi" "C:\My Directory\InputFile2.ogg"
+will
+ - open InputFile1.avi and InputFile2.ogg
+ - create OutputFile.ogm (deleting it if already exists)
+ - mux the input streams into OutputFile.ogm
+ 
+ If all went well, you should have seen :
+ ...
+ Status in ... : new Packetizer created (handling ...)
+ (n times, where n is the number of input streams)
+ ...
+ ...
+ Status in ... : EOS reached
+ (n times too)
+ ...
+ 
+ 
+ valid input types are :
+ - standard AVI video stream (also audio streams : new in v0.9a6)
+ - standard Ogg/Ogm file
+ - standard AC3 file
+ - standard MP3 file
+ - standard SRT file
+ - standard WAV file (new in v0.9a6)
+ 
+New in version 0.9a2 :
+ Use the -s option to precise an automatisation setup file (same as OggMux).
+ 
+New in version 0.9a6 :
+- Audio streams in AVI file are now processed. WAV format added as input (using VirtualDub
+  reading routines :) ).
+- Audio streams (MP3 and AC3) coming from an AVI or WAV file can be "reprocessed".
+What does that mean ?
+You may know that AVI container (and also WAV) are not really meant to contain VBR streams.
+With latest versions of VirtualDub, a warning tell you about such problems. If you save
+this AVI file thanks to VirtualDub, you may experience synchonisation problems with the
+resulting AVI file. It is exactly the same when processing audio streams coming from
+AVI or WAV file in OGMuxer (of course since I use VirtualDub routines ;) ). However
+I added the possiblity to treat those streams separately (as if they were coming from
+a normal AC3 or MP3 file), which should solve the problem (since OGMuxer normally
+correctly handle VBR MP3 or AC3).
+This of course add some extra steps in stream processing within OGMuxer, which
+means OGMuxer will be slower than if you don't reprocess those streams, wiil need
+more memory and may encounter more problems also.
+
+By default this option is disabled. Use -r in commandline to enable this option.
+
+New in version 1.0a1 :
+Added same options than OGMCutter, allowing to split the OGM file.
+Each file's name will end with " - Part %n%.ogm" where %n% is the number of the part.
+
+OGMuxer should do the following with your comments :
+ - The TITLE comment will end with the " - Part %n%" string where %n% is the number
+   of the part being written
+ - The CHAPTER's times should be adjusted corresponding to the beginning time of
+   the part being written. If a CHAPTER belongs to a previous part, then its time
+   is set to 0 (it's the most convenient way I found)
+
+In other words, suppose you have a 2.1GB file, that the TITLE you used is
+ "The title of my big file", that the video lasts 3 hours, that you have
+3 chapters at 01:00:00.000, 02:00:00.000 and 03:00:00.000, and that OGMuxer
+found cut points @ 702MB (01:00:00.000) and 1404MB (02:00:00.000) making
+3 parts of each 702MB (well if you have a case like that you must have did it
+on purpose ;)), then you should end with this :
+
+- File "C:\My Big File - Part 1.ogm", 702MB
+  Title : "The title of my big file - Part 1"
+  Chapters : Chapter 1 @ 01:00:00.000
+             Chapter 2 @ 02:00:00.000
+             Chapter 3 @ 03:00:00.000
+             
+- File "C:\My Big File - Part 2.ogm", 702MB
+  Title : "The title of my big file - Part 2"
+  Chapters : Chapter 1 @ 00:00:00.000
+             Chapter 2 @ 01:00:00.000
+             Chapter 3 @ 02:00:00.000
+             
+- File "C:\My Big File - Part 3.ogm", 702MB
+  Title : "The title of my big file - Part 3"
+  Chapters : Chapter 1 @ 00:00:00.000
+             Chapter 2 @ 00:00:00.000
+             Chapter 3 @ 01:00:00.000
+
+For "throwing away" chapters not belonging to a part, change the "--chapters #"
+option (see "OGMuxer -h").
+For preventing OGMCutter from changing the video title, use the "--title" option.
+
+You can specify a maximum number of parts to create by using the --parts option.
+
+You can also specify specific points in the clip where to cut.
+For doing so you must use the --frames option. Points can be specified either by frame
+number (frame 0 = first frame) or by time (HH:MM:SS.mmmmm format).
+The points given in parameter will be used to define subsets to keep or throw.
+First frame of a subset is kept, last one is thrown.
+The first part (from the beginning of the clip till the first point given in parameter)
+will be skipped, and every other part (on two) will be kept.
+Example :
+  OGMuxer --frames "1000 00:59:00.00000 80000 01:30:00.00000"
+will define 5 subsets :
+ -> Subset 1 : Beginning of the clip -> frame 1000     => THROWN
+ -> Subset 2 : frame 1000 -> time 00:59:00.00000       => KEPT
+ -> Subset 3 : time 00:59:00.00000 -> frame 75000      => THROWN
+ -> Subset 4 : frame 75000 -> time 01:30:00.00000      => KEPT
+ -> Subset 5 : time 01:30:00.00000 -> End of the clip  => THROWN
+When a subset is KEPT, it can end on any frame
+When a subset is THROWN, the next subset will begin on the first keyframe previous
+to the end of the subset.
+For KEPT subsets :
+  If the end of the subset is located before the beginning of this subset, this subset
+  is considered as useless and removed.
+For THROWN subsets :
+  If the keyframe found (see above) is located before (or at the same position) the
+  beginning of this subset, the program will change both Beginning and End of the
+  subset to the first keyframe next to the beginning of the subset. This will force
+  OGMCutter to split on this keyframe.
+  In this case, and if the subset is the first one, this specifically mean that you
+  will keep the beginning of the clip.
+So if the clip was a 25fps one, we would have (in frames) :
+ -> Subset 1 : Beginning of the clip -> frame 1000     => THROWN
+ -> Subset 2 : frame 1000 -> frame 88500               => KEPT
+ -> Subset 3 : frame 85000 -> frame 75000              => THROWN
+ -> Subset 4 : frame 75000 -> time 135000              => KEPT
+ -> Subset 5 : frame 135000 -> End of the clip         => THROWN
+Suppose that first keyframe previous to frame 1000 is the first frame (0).
+Subset 3 is not valid, and suppose the first keyframe previous to frame 85000 is
+frame 84750.
+Then OGMuxer will really work on those subsets :
+ -> Subset 1 : Beginning of the clip -> frame 1000     => THROWN
+ -> Subset 2 : frame 0 -> frame 84750                  => KEPT
+ -> Subset 3 : frame 84750 -> frame 84750              => THROWN
+ -> Subset 4 : frame 84750 -> time 135000              => KEPT
+ -> Subset 5 : frame 135000 -> End of the clip         => THROWN
+Subset 1 will be ignored (as useless) and Subset 3 means a split will be forced
+on keyframe 84750.
+
+You can still use --parts and/or --split options together with the --frames option.
+In this case the --parts and/or --split options will be applied on each KEPT subset.
+
+
+New in version 1.0a8 :
+The --title option is now :
+ --title "The title of my clip{{ what i want to add for part %n}}"
+Where the "{{...}}" block is used when cutting/splitting in more then one part.
+This block is not necessary (this allow you to use a fixed title). The "%n" string
+in this block will be replaced by the part number.
+You can also use the option
+ --titles n "title 1" ... "title n"
+This option allow you to precise specific titles for the first n parts you
+will get by cutting/splitting. Each title is processed like the main title
+(i.e. you can also use the "{{...}}" block).
+
+So for each part written :
+ - if no title have been precised by the user, use the original one
+ - if a specific title have been precised for the part, use this one
+ - if no specific title have been precised, but a main one, use the main one
+
+
+New in version 1.1a1 :
+The setup file is now parsed using a really basic XML-like parser.
+The standard .omx specs can still be used (except that now you are not
+bound to the very restrictive formatting of those files ;)).
+For an example of the new format you can use, see Setup-New.omx
+Text values must be kind of HTML-like. This means you have the following
+correspondances :
+ Normal -> HTML
+  '&'      &amp;   (necessary)
+  '<'      &lt;    (idem)
+  '>'      &gt;    (idem)
+  '"'      &quot;  (necessary for attributes)
+ '™'(tm)   &trade; (both normal and translated text should work)
+  '©'      &copy;  (idem)
+  '®'      &reg;   (idem)
+This is why I call it HTML-like (there should be much more
+correspondances but I am too lazy to put them all ;)).
+
+ 
+ Restrictions :
+  - there is no real stream error detection, so if your source files are corrupted,
+    the program should end the processing of the correspondant stream, but I don't
+    know what could happen, hence the "USE AT YOUR OWN RISK!".
+    
+Technical notes :
+How does OGMuxer works ?
+First point, it read data coming from input files thanks to Reader objects.
+As each type of file has a specific structure, each type of file has its proper
+Reader (AVIReader for AVI files, AC3Reader for AC3 files, ...).
+To construct Pages using the Ogg layer, we need to construct Packets containing
+a certain amount of samples (sample = frame for video, sample for audio, and ms
+for text), give those Packets to the Ogg layer, and wait Pages in return (when
+enough data have been sent). This is the role of the Packetizer object.
+So the Reader get data coming from the input file, give those data to the correct
+Packetizer (one Packetizer per stream), and wait for Pages in return.
+To control all the Reader created (one per input file), there is an object
+called OGMuxer. It controls each Reader have not reached EOF, and that it can
+give Pages to write into the output file. It also determines the order in which
+those Pages should be written into the file (so that you can at the end play
+the ogm file without too much stuttering ;) ).
+So suppose you use three input files :
+ - File1.avi : AVI file containing a video stream and 1 audio stream
+ - File2.ogg : Ogg file
+ - File3.srt : SRT file
+Then after having initialized everything, we have the following objects working :
+                       
+                        /-->Packetizer (AVI video stream)
+         /-->AVIReader--|
+         |              \-->Packetizer (AVI audio stream)
+OGMuxer--|                  
+         |-->OGMReader----->Packetizer (Ogg Vorbis stream)
+         |
+         \-->SRTReader----->Packetizer (SRT subtitle stream)
+
+Some of you will notice this is very similar to the way ogmtools (developped by
+Moritz Bunkus) works. And this is normal since my tools are inspired by his tools :).
+
+Now what does the audio reprocessing mean here ?
+Before going further, I must tell that a Reader doesn't directly read data from a file.
+It uses an object called InputStream. A derived class that uses a file as input
+is the InputFile object, which is what we give to the Reader.
+There is another derived class that uses a Reader as "input", which is the Stream_Reader
+object, and which is what we will use for reprocessing.
+Suppose the audio stream in AVI is an AC3 one, and that you enabled audio reprocessing.
+Then the AVIReader will create an AC3Reader object and give it a Stream_Reader (the input
+of this Stream_Reader is the AVIReader) as input. When processing the AVI file, if
+data belong to the AC3 stream, those data won't be sent to the Packetizer, but
+given to this Stream_Reader instead (the Packetizer is now a Fake one since it
+should not process anything).
+Then the AVIReader will ask the OGMuxer object to add this new Reader, which give :
+
+
+                        /-->Packetizer (AVI video stream)
+         /-->AVIReader--|
+         |              \-->Packetizer (AVI audio stream - Fake)
+OGMuxer--|                  
+         |-->OGMReader----->Packetizer (Ogg Vorbis stream)
+         |
+         |-->SRTReader----->Packetizer (SRT subtitle stream)
+         |
+         \-->AC3Reader----->Packetizer (AVI audio stream - AC3)
+
+So what happens in OGMuxer now ?
+OGMuwer verify each Reader have not reached EOF and that it has Pages that
+can be written into the output file. 
+For each Reader, if it is not EOF, and that no Pages are ready, OGMuxer ask
+the Reader to prepare Pages. The Reader then read data coming from its
+InputStream, and give the data to the correct Packetizer (or the Stream_Reader
+when needed) till Pages are ready to be written.
+The new AC3Reader will so ask data to the Stream_Reader. If the AVIReader gave
+enough data to the Stream_Reader, all is fine. If not then the Stream_Reader
+will ask the AVIReader to read more data (if possible).
+
+The situation is different for a WAV file, because in this case there is only
+one stream handled by a Packetizer (which will become a fake one), which causes
+problems (since in this case the Reader doesn't have anything to give to OGMuxer
+while the AVIReader still have the video stream).
+To solve this the WAVReader is removed from the list of Readers handled by OGMuxer.

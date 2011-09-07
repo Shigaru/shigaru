@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system" method="upgrade">
+	<name>System - Unicode Slugs</name>
+	<author>infograf768</author>
+	<creationDate>September 2009</creationDate>
+	<copyright>Copyright (C) 2009 infograf768</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorUrl></authorUrl>
+	<authorEmail></authorEmail>
+	<version>1.1</version>
+	<description>PLG_UNICODESLUG_DESCRIPTION</description>
+	<files>
+		<filename plugin="unicodeslug">unicodeslug.php</filename>
+		<filename plugin="unicodeslug">unicodeslug/filteroutput.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_unicodeslug.ini</language>
+		<language tag="fr-FR">fr-FR.plg_system_unicodeslug.ini</language>
+	</languages>
+	<params/>
+</install>

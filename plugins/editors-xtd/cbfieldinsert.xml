@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="editors-xtd">
+	<name>Editor Button - CB Field Insert</name>
+	<author>Den KD</author>
+	<creationDate>February 2009</creationDate>
+	<copyright>Copyright (C) 2009 Joomduck. All rights reserved.</copyright>
+	<license>Commercial</license>
+	<authorEmail>support@joomduck.com</authorEmail>
+	<authorUrl>www.joomduck.com</authorUrl>
+	<version>1.0</version>
+	<description>This button gives an ability to easy insert cb field in user profile</description>
+		<files>
+		<filename plugin="cbfieldinsert">cbfieldinsert.php</filename>
+		<filename plugin="cbfieldinsert">cbfieldinsert/button.png</filename>
+		<filename plugin="cbfieldinsert">cbfieldinsert/button_hover.png</filename>
+		</files>
+</install>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="search">
+	<name>Search - Community Builder</name>
+	<author>Joe Palmer</author>
+	<creationDate>May 2009</creationDate>
+	<copyright>Copyright 2009 SoftForge</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>joe@softforge.co.uk</authorEmail>
+	<authorUrl>www.softforge.co.uk</authorUrl>
+	<version>1.0</version>
+	<description>Community Builder Search Plugin. Please use the Blacklist parameter to supress these fields. Also on huge amount of accounts in the database you should think about to create indices for the searched table/fields to speed up the search performance.</description>
+	<files>
+		<filename plugin="cbsearch">cbsearch.php</filename>
+	</files>
+	<params>
+		<param name="Itemid" type="text" size="4" default="1" label="Menu Item Id for results" description="Enter here the menu Itemid from the com_comprofiler link"/>
+		<param name="linked_title_format" type="list" default="0" label="Linked title format" description="Format of the linked title in the found search result item. Username and Name are obtained from table #__users. Firstname Lastname are obtained from CB table #__comprofiler NOTE: The used fields must exist in the tables to avoid SQL errors">
+ 			<option value="0">Username</option>
+ 			<option value="1">Name (Username)</option>
+			<option value="2">Firstname Lastname</option>
+			<option value="3">Firstname Lastname (Username)</option>
+ 		</param>
+		<param name="search_result_section_name" type="text" size="25" default="Profiles" label="Search Result Section Name" description="Enter here which section/category name should be displayed in the search result items. It is usually Profiles"/>		
+		<param name="date_result_field" type="list" default="u.registerDate" label="Date field in results" description="Here you can select which Date field will be displayed in the search result items">
+ 			<option value="u.registerDate">registerDate</option>
+			<option value="u.lastvisitDate">lastvisitDate</option>
+ 			<option value="c.lastupdatedate">lastupdateDate</option>
+ 		</param>
+		<param name="advanced_order_field" type="list" default="0" label="Advanced order oldest/newest" description="Here you can select which Date field will be taken into account when selecting the order by oldest/newest within the advanced search options">
+ 			<option value="0">As Date field</option>
+			<option value="u.registerDate">Register Date</option>
+			<option value="u.lastvisitDate">Last Visit Date</option>
+ 			<option value="c.lastupdatedate">Last Update Date</option>
+ 		</param>
+		<param name="search_fields" type="text" size="40" default="" label="Fields to be searched (blank=all)" description="Fields to be searched (only *char or *text fields are be used) separated by , or leave blank to search within all character fields from tables #__users and #__comprofiler. (Invalid field names in this list will be ignored)"/>
+		<param name="blacklist_search_fields" type="text" size="40" default="email" label="Blacklist of searched fields" description="Here you can add a blacklist of fields separated by , which should not be searched/displayed. Usefull if value 'Fields to be searched' is blank=all. The password is always in the blacklist. There are also other fields which are always added to a $stdBlacklist. See the source code to get an overview which are ignored by default"/>
+		<param name="display_result_fields" type="text" size="40" label="Display additional CB fields in results" description="Additional CB fields to be displayed in the search results separated by ,"/>
+		<param name="display_empty_fields" type="list" default="0" label="Display empty additional fields too?" description="Shows a language dependent text 'Not available' if field value is empty and this param is set to 'Yes'. Otherwise the fieldname incl. the empty value will be suppressed.">
+ 			<option value="0">No</option>
+ 			<option value="1">Yes</option>
+ 		</param>
+		<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Count of maximum search items to return."/>
+	</params>
+</install>

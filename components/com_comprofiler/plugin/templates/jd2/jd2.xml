@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="templates">
+	<name>JD2</name>
+	<author>MamboJoe and Beat, DenKD</author>
+	<creationDate>1 July 2009</creationDate>
+	<copyright>(C) 2005-2009 joomlapolis.com, 2009 joomduck.com</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+	<authorEmail>beat@joomlapolis.com, admin@joomduck.com</authorEmail>
+	<authorUrl>www.joomlapolis.com, www.joomduck.com</authorUrl>
+	<version>1.2</version>
+	<description>JD2 Template for Community Builder. More Community Builder templates here - http://www.joomduck.com/community-builder-templates.html</description>
+	<files>
+		<filename plugin="jd2">calendar.css</filename>
+		<filename>index.html</filename>
+		<filename>menuarrow.gif</filename>
+		<filename>noprofiles.gif</filename>
+		<filename>profiles.gif</filename>
+		<filename>required.gif</filename>
+		<filename>template.css</filename>
+		<filename>tooltip.png</filename>
+		<filename>tab.active.png</filename>
+		<filename>tab.hover.png</filename>
+		<filename>tab.png</filename>
+		<filename>menu_pro1.jpg</filename>
+		<filename>menu_pro2.jpg</filename>
+		<filename>lightbox.css</filename>
+		<filename>calendar_next.gif</filename>
+		<filename>calendar_prev.gif</filename>
+		<filename>calendar_icon.jpg</filename>
+		<filename>images/index.html</filename>
+		<filename>images/avatar/tnpending_n.png</filename>
+		<filename>images/avatar/tnpending_f.png</filename>
+		<filename>images/avatar/tnnophoto_f.png</filename>
+		<filename>images/avatar/nophoto_n.png</filename>
+		<filename>images/avatar/tnpending_m.png</filename>
+		<filename>images/avatar/index.html</filename>
+		<filename>images/avatar/pending_n.png</filename>
+		<filename>images/avatar/nophoto_f.png</filename>
+		<filename>images/avatar/tnnophoto_m.png</filename>
+		<filename>images/avatar/pending_f.png</filename>
+		<filename>images/avatar/nophoto_m.png</filename>
+		<filename>images/avatar/pending_m.png</filename>
+		<filename>images/avatar/tnnophoto_n.png</filename>
+		<filename>images/cluetip/index.html</filename>
+		<filename>images/cluetip/arrowdown.gif</filename>
+		<filename>images/cluetip/arrowleft.gif</filename>
+		<filename>images/cluetip/arrowright.gif</filename>
+		<filename>images/cluetip/wait.gif</filename>
+		<filename>images/cluetip/arrowup.gif</filename>
+		<filename>images/lightbox/close.gif</filename>
+		<filename>images/lightbox/loading.gif</filename>
+		<filename>images/lightbox/nextlabel.gif</filename>
+		<filename>images/lightbox/index.html</filename>
+		<filename>images/lightbox/next.gif</filename>
+		<filename>images/lightbox/prev.gif</filename>
+		<filename>images/lightbox/prevlabel.gif</filename>
+		<filename>images/lightbox/blank.gif</filename>
+		<filename>images/lightbox/closelabel.gif</filename>
+		<filename>images/mini-icons/icon-16-profile-no.png</filename>
+		<filename>images/mini-icons/icon-15-online.png</filename>
+		<filename>images/mini-icons/icon-16-info.png</filename>
+		<filename>images/mini-icons/icon-16-tick.png</filename>
+		<filename>images/mini-icons/icon-16-warning.png</filename>
+		<filename>images/mini-icons/icon-16-rating-delete.gif</filename>
+		<filename>images/mini-icons/icon-16-required.png</filename>
+		<filename>images/mini-icons/icon-16-error.png</filename>
+		<filename>images/mini-icons/icon-15-offline.png</filename>
+		<filename>images/mini-icons/icon-16-profile-yes.png</filename>
+		<filename>images/mini-icons/index.html</filename>
+		<filename>images/mini-icons/icon-16-rating-star.gif</filename>
+	
+	</files>
+    <params>
+    </params>
+	<database>
+	</database>
+</cbinstall>

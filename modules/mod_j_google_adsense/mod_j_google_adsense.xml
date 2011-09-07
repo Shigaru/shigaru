@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5" method="upgrade">
+	<name>J - Google AdSense</name>
+	<author>tridentsystemsgroup.com</author>
+	<creationDate>2011</creationDate>
+	<copyright>Copyright (C) 2011 tridentsystemsgroup.com All rights reserved.</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>tridentsystemsgroup@gmail.com</authorEmail>
+	<authorUrl>http://www.tridentsystemsgroup.com</authorUrl>
+	<version>3.3</version>
+	<description>DESCRIPTION_MOD</description>
+	<files>
+		<filename module="mod_j_google_adsense">mod_j_google_adsense.php</filename>
+		<filename>index.html</filename>
+		<filename>logo.png</filename>
+		<folder>elements/</folder>
+		<folder>js/</folder>
+	</files>
+	<languages folder="lang">
+		<language tag="ar-AA">ar-AA.mod_j_google_adsense.ini</language>
+		<language tag="de-DE">de-DE.mod_j_google_adsense.ini</language>
+		<language tag="en-GB">en-GB.mod_j_google_adsense.ini</language>
+		<language tag="en-US">en-US.mod_j_google_adsense.ini</language>
+		<language tag="es-ES">es-ES.mod_j_google_adsense.ini</language>
+		<language tag="fr-FR">fr-FR.mod_j_google_adsense.ini</language>
+		<language tag="hi-IN">hi-IN.mod_j_google_adsense.ini</language>
+		<language tag="it-IT">it-IT.mod_j_google_adsense.ini</language>
+		<language tag="ja-JP">ja-JP.mod_j_google_adsense.ini</language>
+		<language tag="nl-NL">nl-NL.mod_j_google_adsense.ini</language>
+		<language tag="ru-RU">ru-RU.mod_j_google_adsense.ini</language>
+		<language tag="tr-TR">tr-TR.mod_j_google_adsense.ini</language>
+		<language tag="zh-CN">zh-CN.mod_j_google_adsense.ini</language>
+    </languages>
+	<params addpath="/modules/mod_j_google_adsense/elements">
+		<param name="J - Google AdSense" type="spacer" default="EREWEW" />
+		<param name="@spacer" type="spacer" default=" " label=" " description=" " />
+		<param name="moduleclass_sfx" type="text" default="" label="CLASS SUFFIX" description="A SUFFIX TO BE APPLIED TO THE CSS CLASS OF THE MODULE" size="30" />	
+		<param name="j_ad_format" type="list" default="250x250_as" label="AD LAYOUT" description="CHOOSE THE AD FORMAT AND SIZE THAT YOU WOULD LIKE TO DISPLAY ON YOUR PAGE">
+			<option value="728x90_as">728 X 90 LEADERBOARD</option>
+			<option value=""> ----------------- </option>			
+			<option value="468x60_as">468 X 60 BANNER</option> 
+			<option value="234x60_as">234 X 60 HALF BANNER</option> 
+			<option value=""> ----------------- </option> 
+			<option value="120x600_as">120 X 600 SKYSCRAPER</option> 
+			<option value="160x600_as">160 X 600 WIDE SKYSCRAPER</option> 
+			<option value="120x240_as">120 X 240 VERTICAL BANNER</option> 
+			<option value=""> ----------------- </option>
+			<option value="336x280_as">336 X 280 LARGE RECTANGLE</option>
+			<option value="300x250_as">300 X 250 MEDIUM RECTANGLE</option> 
+			<option value="250x250_as">250 X 250 SQUARE</option> 
+			<option value="200x200_as">200 X 200 SMALL SQUARE</option>
+			<option value="180x150_as">180 X 150 SMALL RECTANGLE</option>
+			<option value="125x125_as">125 X 125 BUTTON</option>
+			<option value=""> ----------------- </option>			
+			<option value="728x15_0ads_al">728 X 15 ADLINK 4 LINKS</option>
+			<option value="468x15_0ads_al">468 X 15 ADLINK 4 LINKS</option>
+			<option value="120x90_0ads_al">120 X 90 ADLINK 4 LINKS</option>
+			<option value="160x90_0ads_al">160 X 90 ADLINK 4 LINKS</option>
+			<option value="180x90_0ads_al">180 X 90 ADLINK 4 LINKS</option>
+			<option value="200x90_0ads_al">200 X 90 ADLINK 4 LINKS</option>
+			<option value=""> ----------------- </option>
+			<option value="728x15_0ads_al_s">728 X 15 ADLINK 5 LINKS</option>
+			<option value="468x15_0ads_al_s">468 X 15 ADLINK 5 LINKS</option>
+			<option value="120x90_0ads_al_s">120 X 90 ADLINK 5 LINKS</option>
+			<option value="160x90_0ads_al_s">160 X 90 ADLINK 5 LINKS</option>
+			<option value="180x90_0ads_al_s">180 X 90 ADLINK 5 LINKS</option>
+			<option value="200x90_0ads_al_s">200 x 90 Adlink 5 links</option>
+		</param>
+		<param name="j_ad_type" type="list" default="text_image" label="Ad Type" description="CHOOSE THE AD TYPES YOU WOULD LIKE TO DISPLAY ON YOUR PAGE">
+			<option value="text_image">TEXT AND IMAGE</option>
+			<option value="text">TEXT ONLY</option>
+			<option value="image">IMAGE ONLY</option>
+		</param>
+		<param name="j_ad_uifeatures"	type="list" default="0" label="CORNER STYLES" description="OPTIONALLY, CHOOSE FROM ONE OF THE PRE-DESIGNED CORNER STYLES">
+			<option value="">SELECT CORNER STYLE</option> 
+			<option value="0">SQUARE CORNERS</option> 
+			<option value="6">SLIGHTLY ROUNDED CORNERS</option> 
+			<option value="10">VERY ROUNDED CORNERS</option>
+		</param>
+		<param name="j_color_border" type="TSGColor" default="#FFFFFF" label="BORDER COLOR" description="BORDER COLOR, IN HEX" size="30" />
+		<param name="j_color_link" type="TSGColor" default="#0000FF" label="LINK COLOR" description="LINK COLOR, IN HEX" size="30" />	
+		<param name="j_color_bg" type="TSGColor" default="#FFFFFF" label="BACKGROUND COLOR" description="BACKGROUND COLOR, IN HEX" size="30" />		
+		<param name="j_color_text" type="TSGColor" default="#000000" label="TEXT COLOR" description="TEXT COLOR, IN HEX" size="30" />
+		<param name="j_color_url" type="TSGColor" default="#008000" label="URL COLOR" description="URL COLOR, IN HEX" size="30" />
+		<param name="j_ad_css" type="text" default="text-align:center;" label="DIV CSS CODES" description="INPUT ANY CSS CODE THAT YOU WANT HERE" size="30" />
+		<param name="j_ad_client" type="text" default="" label="PUB-ID" description="PUB DES" size="30" />
+		<param name="j_ad_channel" type="text" default="" label="CHANNEL" description="CHANNEL DES" size="30" />	
+	</params>
+	<params group="advanced">
+		<param name="j_alternate_ad_url" type="text" default="" label="ALTERNATE AD URL" description="ALTERNATE AD URL TO SPECIFY OTHER ADS WHEN NO ADS ARE AVAILABLE" />
+		<param name="@spacer" type="spacer" default=" " label=" " description=" " />
+		<param name="j_ip_block1" type="text" default="" label="IP BLOCK 1" description="ENTER AN IP NUMBER HERE THAT YOU WISH TO BLOCK GOOGLE ADS FROM" />
+		<param name="j_ip_block2" type="text" default="" label="IP BLOCK 2" description="ENTER AN IP NUMBER HERE THAT YOU WISH TO BLOCK GOOGLE ADS FROM" />
+		<param name="j_ip_block3" type="text" default="" label="IP BLOCK 3" description="ENTER AN IP NUMBER HERE THAT YOU WISH TO BLOCK GOOGLE ADS FROM" />
+		<param name="j_ip_block4" type="text" default="" label="IP BLOCK 4" description="ENTER AN IP NUMBER HERE THAT YOU WISH TO BLOCK GOOGLE ADS FROM" />
+		<param name="j_ip_block5" type="text" default="" label="IP BLOCK 5" description="ENTER AN IP NUMBER HERE THAT YOU WISH TO BLOCK GOOGLE ADS FROM" />
+		<param name="j_ip_block6" type="text" default="" label="IP BLOCK 6" description="ENTER AN IP NUMBER HERE THAT YOU WISH TO BLOCK GOOGLE ADS FROM" />
+		<param name="j_ip_block7" type="text" default="" label="IP BLOCK 7" description="ENTER AN IP NUMBER HERE THAT YOU WISH TO BLOCK GOOGLE ADS FROM" />
+		<param name="j_ip_block8" type="text" default="" label="IP BLOCK 8" description="ENTER AN IP NUMBER HERE THAT YOU WISH TO BLOCK GOOGLE ADS FROM" />
+		<param name="ip_block_alt_code" type="textarea" default="" label="ALTERNATE CODE IF IP BLOCKED" description="ENTER ANYTHING" cols="35" rows="6" />
+	</params>
+</install>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<install type="module" version="1.5.0">
+	<name>CB Activity SUPER!</name>
+	<author>grVulture AXXIS.gr</author>
+	<creationDate>01/01/2009</creationDate>
+	<copyright>axxis.gr</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>grvulture@yahoo.com</authorEmail>
+	<authorUrl>http://www.axxis.gr</authorUrl>
+	<version>1.0</version>
+	<description>
+	This module will display CB User Activities in your site, in a chronological order. 
+	It will attract your users' attention to click other user profile and encourage them to be more active in the website</description>
+
+	<files>
+		<filename module="mod_cb_superactivity">mod_cb_superactivity.php</filename>
+		<filename module="mod_cb_superactivity">helper.php</filename>
+		<filename module="mod_cb_superactivity">index.html</filename>
+		<filename module="mod_cb_superactivity">css/index.html</filename>
+		<filename module="mod_cb_superactivity">css/default.css</filename>
+		<filename module="mod_cb_superactivity">cb_activity/offline.gif</filename>
+		<filename module="mod_cb_superactivity">cb_activity/online.gif</filename>
+		<filename module="mod_cb_superactivity">cb_activity/logo.jpg</filename>
+		<filename module="mod_cb_superactivity">cb_activity/play.jpg</filename>
+		<filename module="mod_cb_superactivity">helpers/index.html</filename>
+		<filename module="mod_cb_superactivity">helpers/error_handler.php</filename>
+		<filename module="mod_cb_superactivity">helpers/functions.php</filename>
+		<filename module="mod_cb_superactivity">helpers/loop_vars.php</filename>
+		<filename module="mod_cb_superactivity">helpers/parameters.php</filename>
+		<filename module="mod_cb_superactivity">helpers/sql_loads.php</filename>
+		<filename module="mod_cb_superactivity">helpers/flag_switch.php</filename>
+		<filename module="mod_cb_superactivity">helpers/sqlloop.php</filename>
+		<filename module="mod_cb_superactivity">helpers/conditions.php</filename>
+		<filename module="mod_cb_superactivity">helpers/phpbb_helper.php</filename>
+		<filename module="mod_cb_superactivity">language/index.html</filename>
+		<filename module="mod_cb_superactivity">language/english.php</filename>
+		<filename module="mod_cb_superactivity">views/index.html</filename>
+		<filename module="mod_cb_superactivity">views/defaultdisplay.php</filename>
+		<filename module="mod_cb_superactivity">views/supera.php</filename>
+	</files>
+
+	<params>
+    <param name="modulename" type="list" default="24" label="Module Function" description="">
+			<option value="24">SUPERACTIVITY LIGHT</option>
+			<option value="5">Most Popular Users</option>
+		</param>
+    <param name="debug" type="radio" default="0" label="Debug Mode" description="Debug Mode is used for debugging. When in this mode, your site will run slower. To use this mode you have to create a file called php_error.html with 777 permissions to your root directory, eg. public_html. All errors associated with cb_superactivity will be written to this file, and also sent to info@axxis.gr. PHP 4 mode should ONLY be checked, if the module informs you to do so.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+			<option value="2">PHP 4</option>
+		</param>
+
+    <param name="timeissues" type="radio" default="0" label="Time Issues" description="If you experience time issues (time displaying incorrectly, or other issues related to how CB Super Activity handles time), please check this option.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+
+  	<param name="@space" type="spacer" default="Module Settings" label="Module Settings" description="--------------------------------------"></param>
+
+	 <param name="style" type="list" default="0" label="Style of Module?" description="Default template is a basic template where everything will be displayed according to your default Joomla template. You can add your own values in the CSS file and make a template that matches your taste. Dark Template is used as an example of personal templating. Both files are in the mod_cb_superactivity/css folder.">
+			<option value="0">Default Template</option>
+		</param>
+
+	 <param name="activity" type="radio" default="1" label="Show Activity?" description="">
+			<option value="1">Yes (Show activity)</option>
+			<option value="0">No (Show only avatar/name/username)</option>
+		</param>
+
+    <param name="specificid" type="radio" default="0" label="Show activities only for each user profile?" description="If you select this, only user's activities on his/her profile will be shown.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+    </param>
+
+	 <param name="friendactivity" type="radio" default="0" label="Show Only Friend Activity?" description="Select if you want to show activity of friends on selected module function. BE SURE TO CHECK 'SHOW ACTIVITY' ABOVE ALSO!">
+			<option value="1">Yes (Show ONLY friend activity)</option>
+			<option value="0">No (show ALL activity)</option>
+		</param>
+
+	 <param name="spacerline" type="radio" default="1" label="Show Horizontal Line Between Activities?" description="Select if you want to show the horizontal line between activities of users or not">
+			<option value="1">Yes (Show horizontal line)</option>
+			<option value="0">No (Dont show horizontal line)</option>
+		</param>
+
+   <param name="datetimepattern" type="list" default="0" label="Date/Time Pattern" description="Select how you want dates and time displayed. Please contribute to beta-testing. If you experience erroneous times, please report!">
+      <option value="0">Show regular date/time</option>
+      <option value="1">Show Today/Yesterday/ago date/time</option>
+   </param>
+	 <param name="showdaily" type="radio" default="1" label="Show Activities Grouped by Date?" description="Select if you want to group activities that occured the same day">
+			<option value="1">Yes (Group daily activities)</option>
+			<option value="0">No (Dont group daily activities)</option>
+		</param>
+	 <param name="infotext" type="list" default="1" label="Show info text?" description="Select if you want to display the small text that tells you the type and date of activity">
+			<option value="1">Yes, include</option>
+			<option value="2">Yes, include but with no timestamp please</option>
+			<option value="0">No (Dont include)</option>
+		</param>
+
+	 <param name="myactiv" type="radio" default="0" label="Include user's own activities?" description="Select if you want to display the activities of the currently logged in user, or hide them. Normally you should not include these activities, as people want to see other people's activities. Facebook doesn't include own activities!">
+			<option value="1">Yes (Include)</option>
+			<option value="0">No (Dont include)</option>
+		</param>
+
+	 <param name="showyou" type="radio" default="0" label="Show 'YOU'?" description="Show 'you' instead of username/name and 'yours' instead of 'his/her/their' when user is viewing own activities?">
+			<option value="1">Show YOU instead of username/name</option>
+			<option value="0">Show username/name (default)</option>
+		</param>
+
+	 <param name="excludeadmin" type="text" default="" label="Exclude user's activities?" description="Enter here the user IDs of users you want to hide activities for. Separate IDs with commas, WITHOUT SPACES! (e.g. 62,67,144,13)"/>
+	 <param name="custominclude" type="text" default="" label="Include CUSTOM activities?" description="Enter here the custom activityIDs you want to display. Separate IDs with commas (e.g. 2,7,13). Works with SuperActivity EXPERT component."/>
+	 <param name="groupinclude" type="text" default="" label="Include ONLY these groups' activities?" description="Enter here the group IDs of groups you want to show activities for. Separate IDs with commas, WITHOUT SPACES! (e.g. 62,67,144,13)"/>
+
+	 <param name="noactiv" type="radio" default="0" label="Show text informing of no activities, or hide the module if no activities?" description="Select if you want to display an informative text if no activities were found, or if you simply want to hide the module if there are no activities to display.">
+			<option value="1">Show text for no activities</option>
+			<option value="0">Hide the module</option>
+		</param>
+
+	 <param name="guestlink" type="text" default="GUESTS ALLOWED" label="Link for Guests?" description="Please enter the link where guests will be redirected if they click on a link (eg. a page where you notify them that links work only for registered users, or a registration page). If you want that links simply not work for guests, enter here 'NOT ALLOWED'. If you want links to work for guests also, enter here 'GUESTS ALLOWED'."></param>
+
+		
+  	<param name="@space" type="spacer" default="Activities" label="Activities" description="Select which activities to include in the module"></param>
+	 <param name="logins" type="radio" default="0" label="Latest Logins" description="">
+			<option value="1">Yes (Include)</option>
+			<option value="0">No (Dont include)</option>
+		</param>
+		
+	 <param name="pupdates" type="radio" default="0" label="Profile Updates" description="">
+			<option value="1">Yes (Include)</option>
+			<option value="0">No (Dont include)</option>
+		</param>
+		
+	 <param name="lusers" type="radio" default="0" label="New Users" description="">
+			<option value="1">Yes (Include)</option>
+			<option value="0">No (Dont include)</option>
+		</param>
+		
+	 <param name="newships" type="radio" default="0" label="New Friendships" description="">
+			<option value="1">Yes (Include)</option>
+			<option value="0">No (Dont include)</option>
+		</param>
+		
+   	<param name="@space" type="spacer" default="CB Settings" label="CB Settings" description="--------------------------------------"></param>
+    <param name="count" type="text" default="10" label="Number of Activities" description="Enter the number of activities you want to be displayed."></param>
+    <param name="imageinc" type="radio" default="1" label="Display avatar thumbnail?" description="Select if you want to show thumbnail of the profile photo of users.">
+  			<option value="1">Yes (Display avatar)</option>
+  			<option value="0">No (Dont display avatar)</option>
+  	</param>
+  	<param name="height_thumbcb" type="text" default="15" label="Thumbnail Height:" description="If you want to keep aspect ratio of the avatar based on width, enter 0 here"></param>
+    <param name="width_thumbcb" type="text" default="0" label="Thumbnail Width:" description="If you want to keep aspect ratio of the avatar based on height, enter 0 here."></param>
+
+    <param name="showonline" type="radio" default="0" label="See users online gif?" description="Select if you want to show whether a user is online or not, by using online/offline gif image.">
+  			<option value="1">Yes (Show online/offline gif)</option>
+  			<option value="0">No (Dont show online/offline gif)</option>
+  	</param>
+  
+    <param name="shownotavatar" type="radio" default="1" label="See users without picture?" description="Select if you want to show up users with no photo or just users with photo!">
+  			<option value="1">Yes (Show users without picture)</option>
+  			<option value="0">No (Dont show users without picture)</option>
+  	</param>
+  
+    <param name="shownamedetails" type="radio" default="1" label="Show name/username?" description="Select if you want to show the username/name ?">
+  			<option value="1">Yes</option>
+  			<option value="0">No</option>
+  	</param>
+  
+    <param name="showimagenot" type="radio" default="0" label="Users without Avatar Approved" description="Select if you want to show or not users with CB avatar not approved or pending approval">
+  			<option value="1">Show Users</option>
+  			<option value="0">Dont Show users</option>
+  	</param>
+  
+    <param name="imagelinked" type="radio" default="1" label="Link User Avatar?" description="Select if you want the avatar of the user to be linked to him profile">
+  			<option value="1">Yes</option>
+  			<option value="0">No</option>
+  	</param>
+  
+    <param name="userlinked" type="radio" default="1" label="Link the username/name?" description="Select if you want the username or the real name of the user to be linked to his/her profile">
+  			<option value="1">Yes</option>
+  			<option value="0">No</option>
+  	</param>
+  </params>
+
+
+	<params group="advanced">
+    	<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module, this allows individual module styling" />
+  </params>
+
+</install>
+

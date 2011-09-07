@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+    <name>Udjamaflip's Automated Tag Cloud</name>
+    <author>Andy Sharman</author>
+    <creationDate>February 2010</creationDate>
+    <copyright>Copyright(C).</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>andy@udjamaflip.com</authorEmail>
+    <authorUrl>www.udjamaflip.com</authorUrl>
+    <version>0.5 BETA</version>
+    <description>This module displays an automatically generated tag cloud from the content on your Joomla website.</description>
+    <files>
+        <filename module="mod_tagCloud">mod_tagCloud.php</filename>
+        <filename module="mod_tagCloud">helper.php</filename>
+    </files>
+    <params>
+        <param name="minSize" type="text" size="25" default="10" label="Min Font Size (px)" description="The size of the smallest element in the list of tags in Pixels." />
+        <param name="maxSize" type="text" size="25" default="25" label="Max Font Size (px)" description="The size of the largest element in the list of tags in Pixels." />
+        <param name="tagCount" type="text" size="25" default="25" label="Word Tag Count" description="The amount of words you would like to show in your tag cloud." />
+        <param name="minWordLength" type="text" size="25" default="3" label="Word min length" description="The amount of characters required to be included within the tag cloud." />
+        <param name="maxRowCount" type="text" size="25" default="300" label="Row Count" description="The maximum number of rows from each section to use to evaluate the tag cloud." />
+        <param type="spacer" />
+
+        <param name="articles" type="radio" default="1" label="Use Joomla articles" description="Use content from the Joomla articles to generate the tag cloud">
+            <option value="1">yes</option>
+            <option value="0">no</option>
+        </param>
+        <param name="ccboard" type="radio" default="0" label="Use ccBoard Posts" description="Use content from the ccBoard posts in your ccBoard forum to generate the tag cloud">
+            <option value="1">yes</option>
+            <option value="0">no</option>
+        </param>
+        <param name="virtuemart" type="radio" default="0" label="Use VirtueMart products" description="Use content from the Virtuemart product descriptions to generate the tag cloud">
+            <option value="1">yes</option>
+            <option value="0">no</option>
+        </param>
+        <param name="jcomments" type="radio" default="0" label="Use JComments" description="Use content from the JComment comments to generate the tag cloud">
+            <option value="1">yes</option>
+            <option value="0">no</option>
+        </param>
+        <param name="k2comments" type="radio" default="0" label="Use K2 Comments" description="Use content from the k2 comments to generate the tag cloud">
+            <option value="1">yes</option>
+            <option value="0">no</option>
+        </param>
+        <param name="k2content" type="radio" default="0" label="Use K2 Content" description="Use content from the k2 content items to generate the tag cloud">
+            <option value="1">yes</option>
+            <option value="0">no</option>
+        </param>
+
+        <param type="spacer" />
+
+        <param name="excludeList" type="textarea" cols="25" label="Exlude List" description="Write here words you would like to not be displayed in your tag cloud. (plurals will be excluded automatically, as will any word shorter than 3 chars.)" rows="3" />
+
+        <param type="spacer" />
+
+        <param name="signature" type="list" default="1" label="Allow a discreet signature to www.udjamaflip.com" description="Allow a discreet signature to www.udjamaflip.com">
+            <option value="1">Yes support the development.</option>
+            <option value="0">I refuse to support the development.</option>
+        </param>
+    </params>
+</install>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
+<install type="module" client="administrator" version="1.5.0">
+	<name>JComments Latest Backend</name>
+	<creationDate>06/08/2008</creationDate>
+	<author>smart</author>
+	<copyright>Copyright 2006-2008 Joomlatune.ru All rights reserved!</copyright>
+	<authorEmail>smart@joomlatune.ru</authorEmail>
+	<authorUrl>http://www.joomlatune.ru</authorUrl>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<version>1.0</version>
+	<description>This module shows a list of the latest comments in administrator panel</description>
+	<files>
+		<filename module="mod_jcomments_latest_backend">mod_jcomments_latest_backend.php</filename>
+	</files>
+	<params>
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+			<option value="0">Never</option>
+	  	</param>
+	</params>
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_jcomments_latest_backend.ini</language>
+		<language tag="ru-RU">languages/ru-RU.mod_jcomments_latest_backend.ini</language>
+	</languages>
+</install>

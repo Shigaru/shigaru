@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/plugin-install.dtd">
+<install type="plugin" group="jcomments" version="1.5.0" method="upgrade">
+	<name>JComments - Avatar</name>
+	<creationDate>07/11/2009</creationDate>
+	<author>smart</author>
+	<copyright>(c) 2007-2009 JoomlaTune.ru</copyright> 
+	<authorEmail>smart@joomlatune.ru</authorEmail>
+	<authorUrl>http://www.joomlatune.ru</authorUrl>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<version>3.1</version>
+	<description>Plugin for JComments to support user avatars from 3rd party extensions</description>
+	<files>
+		<filename plugin="jcomments.avatar">jcomments.avatar.php</filename>
+	</files>
+	<params>
+		<param name="avatar_type" type="list" default="gravatar" label="Avatar Source" description="Select user avatars source">
+			<option value="agora">Agora Forum</option>
+			<option value="cb">CommunityBuilder</option>
+			<option value="ccboard">ccBoard</option>
+			<option value="contacts">Contacts</option>
+			<option value="fireboard">FireBoard Forum</option>
+			<option value="gravatar">Gravatar</option>
+			<option value="idoblog">IDoBlog</option>
+			<option value="jomsocial">JomSocial</option>
+			<option value="joobb">JooBB Forum</option>
+			<option value="joomsuite_user">JoomSuite User</option>
+			<option value="k2">K2</option>
+			<option value="kunena">Kunena Forum</option>
+			<option value="magazine">iJoomla Magazine</option>
+			<option value="ninjaboard">Ninjaboard</option>
+			<option value="p8pbb">phpBB3 - Blogomunity p8pbb bridge</option>
+			<option value="phpbb3_jf">phpBB3 - JFusion bridge</option>
+			<option value="phpbb3_rb">phpBB3 - RokBridge</option>
+			<option value="vb">vBulletin</option>
+		</param>
+
+		<param name="avatar_noavatar" type="list" default="default" label="NoAvatar" description="">
+			<option value="default">Default image</option>
+			<option value="custom">Custom image</option>
+			<option value="gravatar">Gravatar</option>
+		</param>
+		<param name="avatar_custom_noavatar" type="text" default="" label="Custom NoAvatar image" description="" />
+
+		<param name="avatar_link" type="radio" default="0" label="Link to profile" description="Link avatar to user profile">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="avatar_link_target" type="radio" default="_blank" label="Target" description="Target window when the profile link is clicked">
+			<option value="">Parent Window with Browser Navigation</option>
+			<option value="_blank">New Window with Browser Navigation</option>
+		</param>
+	</params>
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_jcomments_jcomments.avatar.ini</language>
+		<language tag="ru-RU">languages/ru-RU.plg_jcomments_jcomments.avatar.ini</language>
+	</languages>
+</install>

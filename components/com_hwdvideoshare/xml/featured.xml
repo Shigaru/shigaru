@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist version="1">
+<title>hwdVideoShare featured Playlist</title>
+<info>http:/xspf.org/xspf-v1.html</info>
+<trackList>
+
+  <track>
+    <id><![CDATA[8]]></id>
+    <videotitle><![CDATA[TV3 - Pol]]></videotitle>
+    <videocode><![CDATA[6LLLsbLSG8o,http%3A%2F%2Fimg.youtube.com%2Fvi%2F6LLLsbLSG8o%2Fdefault.jpg]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[9]]></category_id>
+    <description><![CDATA[Un nou cap]]></description>
+    <views><![CDATA[52]]></views>
+    <duration><![CDATA[03:39]]></duration>
+    <rating><![CDATA[5.00]]></rating>
+    <uploader><![CDATA[pichica]]></uploader>
+    <uploader_id><![CDATA[63]]></uploader_id>
+    <avatar><![CDATA[63_4bdfddeadd3b6.jpg]]></avatar>
+  </track>
+
+  <track>
+    <id><![CDATA[9]]></id>
+    <videotitle><![CDATA[TV3 - Pol]]></videotitle>
+    <videocode><![CDATA[bYJV32oCbNA,http%3A%2F%2Fimg.youtube.com%2Fvi%2FbYJV32oCbNA%2Fdefault.jpg]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[11]]></category_id>
+    <description><![CDATA[El rei Joan Carles estudia el nou protocol de seguretat per evitar que passi una desgr]]></description>
+    <views><![CDATA[75]]></views>
+    <duration><![CDATA[03:22]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[pichica]]></uploader>
+    <uploader_id><![CDATA[63]]></uploader_id>
+    <avatar><![CDATA[63_4bdfddeadd3b6.jpg]]></avatar>
+  </track>
+
+  <track>
+    <id><![CDATA[10]]></id>
+    <videotitle><![CDATA[Mexicali Earthquake 4-4-10]]></videotitle>
+    <videocode><![CDATA[4z06GY_JYkE,http%3A%2F%2Fimg.youtube.com%2Fvi%2F4z06GY_JYkE%2Fdefault.jpg]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[1]]></category_id>
+    <description><![CDATA[This was taped about 5 minutes after the 4-4-10 Mexicali Earthquake, we live in Moreno Valley Ca, and our Chandeleir hit the wall, it was pretty cool!]]></description>
+    <views><![CDATA[73]]></views>
+    <duration><![CDATA[00:30]]></duration>
+    <rating><![CDATA[5.00]]></rating>
+    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
+    <uploader_id><![CDATA[0]]></uploader_id>
+    <avatar><![CDATA[]]></avatar>
+  </track>
+
+  <track>
+    <id><![CDATA[11]]></id>
+    <videotitle><![CDATA[Mexicali Earthquake Pool Tsunami]]></videotitle>
+    <videocode><![CDATA[a3Pj4Dzjf0k,http%3A%2F%2Fimg.youtube.com%2Fvi%2Fa3Pj4Dzjf0k%2Fdefault.jpg]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[6]]></category_id>
+    <description><![CDATA[Mexicali Earthquake Pool Sploshing in West Los Angeles, California - Easter Sunday 4/4/2010 - Baja California, Mexico - Magnitude 7.2 - ]]></description>
+    <views><![CDATA[62]]></views>
+    <duration><![CDATA[01:06]]></duration>
+    <rating><![CDATA[3.00]]></rating>
+    <uploader><![CDATA[pichica]]></uploader>
+    <uploader_id><![CDATA[63]]></uploader_id>
+    <avatar><![CDATA[63_4bdfddeadd3b6.jpg]]></avatar>
+  </track>
+
+  <track>
+    <id><![CDATA[23]]></id>
+    <videotitle><![CDATA[dsfsdfs]]></videotitle>
+    <videocode><![CDATA[itgymbc5x0goy3]]></videocode>
+    <videotype><![CDATA[local]]></videotype>
+    <thumbnail><![CDATA[]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[fsdfdsfsdf]]></description>
+    <views><![CDATA[62]]></views>
+    <duration><![CDATA[0:00:20]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4c94f29d6ba9b.jpg]]></avatar>
+  </track>
+
+</trackList>
+</playlist>

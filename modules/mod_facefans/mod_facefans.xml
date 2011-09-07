@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>Face FanBox or LikeBox</name>
+	<author>Cico Zeljko</author>
+	<creationDate>April 2011</creationDate>
+	<copyright>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</copyright>
+	<authorEmail>add@artcentar.org</authorEmail>
+	<authorUrl>www.artcreative.me</authorUrl>
+	<version>1.5.1.0</version>
+	<description><![CDATA[
+		<p><h4>Face FanBox or LikeBox</h4></p>
+		<p>Module that displays your Like or Fan box into your Joomla site.</p>
+		<p>Created by: <a href="http:// www.artcreative.me" target="_blank">ArtCreative (Joomla Mod Plugin)</a></p>
+		]]></description>
+	<files>
+		<filename>mod_facefans.xml</filename>
+		<filename module="mod_facefans">mod_facefans.php</filename>
+		<filename>index.html</filename>
+	</files>
+    <params>
+        <param name="@spacer" type="spacer" default="Face FanBox or LikeBox" label="" description="" />
+        <param name="groupid" size="50" type="text" default="" label="Your Fan Page Url" description="Just paste you page url http://www.facebook.com/pagenamesomething or http://www.facebook.com/apps/application.php?id=xxxxxx" />
+        <param name="locale_lang" type="list" default="54" label="Set locale language" description="Set your language">
+		<option value="0">Catalan</option>
+		<option value="1">Czech</option>
+		<option value="2">Welsh</option>
+		<option value="3">Danish</option>
+		<option value="4">German</option>
+		<option value="5">Basque</option>
+		<option value="6">English (Pirate)</option>
+		<option value="7">English (Upside Down)</option>
+		<option value="8">Cherokee</option>
+		<option value="9">English (US)</option>
+		<option value="10">Spanish</option>
+		<option value="11">Spanish (Chile)</option>
+		<option value="12">Spanish (Colombia)</option>
+		<option value="13">Spanish (Spain)</option>
+		<option value="14">Spanish (Mexico)</option>
+		<option value="15">Spanish (Venezuela)</option>
+		<option value="18">Finnish (test)</option>
+		<option value="19">Finnish</option>
+		<option value="20">French (France)</option>
+		<option value="21">Galician</option>
+		<option value="22">Hungarian</option>
+		<option value="23">Italian</option>
+		<option value="24">Japanese</option>
+		<option value="25">Korean</option>
+		<option value="26">Norwegian (bokmal)</option>
+		<option value="27">Norwegian (nynorsk)</option>
+		<option value="28">Dutch</option>
+		<option value="29">Polish</option>
+		<option value="30">Portuguese (Brazil)</option>
+		<option value="31">Portuguese (Portugal)</option>
+		<option value="32">Romanian</option>
+		<option value="33">Russian</option>
+		<option value="34">Slovak</option>
+		<option value="35">Slovenian</option>
+		<option value="36">Swedish</option>
+		<option value="37">Thai</option>
+		<option value="38">Turkish</option>
+		<option value="39">Kurdish</option>
+        <option value="40">Simplified Chinese (China)</option>
+		<option value="41">Traditional Chinese (Hong Kong)</option>
+        <option value="42">Traditional Chinese (Taiwan)</option>
+         <option value="43">Leet Speak</option>
+		<option value="44">Afrikaans</option>
+		<option value="45">Albanian</option>
+		<option value="46">Armenian</option>
+		<option value="47">Azeri</option>
+		<option value="48">Belarusian</option>
+		<option value="49">Bengali</option>
+		<option value="50">Bosnian</option>
+		<option value="51">Bulgarian</option>
+		<option value="52">Croatian</option>
+		<option value="53">Dutch (België)</option>
+		<option value="54">English (UK)</option>
+		<option value="55">Esperanto</option>
+		<option value="56">Estonian</option>
+		<option value="57">Faroese</option>
+		<option value="58">French (Canada)</option>
+		<option value="59">Georgian</option>
+		<option value="60">Greek</option>
+		<option value="61">Gujarati</option>
+		<option value="62">Hindi</option>
+        <option value="63">Icelandic</option>
+		<option value="64">Indonesian</option>
+        <option value="65">Irish</option>
+        <option value="66">Javanese</option>
+		<option value="67">Kannada</option>
+		<option value="68">Kazakh</option>
+		<option value="69">Latin</option>
+		<option value="70">Latvian</option>
+		<option value="71">Limburgish</option>
+		<option value="72">Lithuanian</option>
+		<option value="73">Macedonian</option>
+		<option value="74">Malagasy</option>
+		<option value="75">Malay</option>
+		<option value="76">Maltese</option>
+		<option value="77">Marathi</option>
+		<option value="78">Mongolian</option>
+		<option value="79">Nepali</option>
+		<option value="80">Punjabi</option>
+		<option value="81">Romansh</option>
+		<option value="82">Sanskrit</option>
+		<option value="83">Serbian</option>
+		<option value="84">Somali</option>
+		<option value="85">Swahili</option>
+        <option value="86">Filipino</option>
+		<option value="87">Tamil</option>
+        <option value="88">Tatar</option>
+        <option value="89">Telugu</option>
+		<option value="90">Malayalam</option>
+		<option value="91">Ukrainian</option>
+		<option value="92">Uzbek</option>
+		<option value="93">Vietnamese</option>
+		<option value="94">Xhosa</option>
+		<option value="95">Zulu</option>
+		<option value="96">Khmer</option>
+		<option value="97">Tajik</option>
+		<option value="98">Arabic</option>
+		<option value="99">Hebrew</option>
+		<option value="100">Urdu</option>
+		<option value="101">Persian</option>
+		<option value="102">Syriac</option>
+		<option value="103">Yiddish</option>
+		<option value="104">Guaraní</option>
+		<option value="105">Quechua</option>
+		<option value="106">Aymara</option>
+		<option value="107">Northern Sámi</option>
+		<option value="108">Pashto</option>
+ 		<option value="109">Klingon</option>
+		</param>
+        <param name="mojstrim" type="list" default="1" label="Show Stories" description="Show stream Stories" >
+			<option value="1">Show Stream</option>
+			<option value="0">Do not show stream</option>
+		</param>
+        <param name="bcolorfb" size="10" type="text" default="#CCCCCC" label="Border Color" description="Border color on like box" /> 
+        <param name="dislogobar" type="list" default="1" label="Display Find Us bar" description="Show the 'Find us on Facebook' bar at top. Only shown when either stream or faces are present.">
+		<option value="1">yes</option>
+		<option value="0">no</option>
+		</param>
+        <param name="lica" type="list" default="1" label="Show face" description="Show or hide face">
+		<option value="1">yes</option>
+		<option value="0">no</option>
+		</param>
+        <param name="boje" type="list" default="1" label="Color scheme" description="Light or dark layout module">
+		<option value="1">light</option>
+		<option value="0">dark</option>
+		</param>
+
+        <param name="fanwidth" size="4" type="text" default="240" label="Width" description="Width of modul" />
+		<param name="fanheight" size="4" type="text" default="400" label="Height" description="Height of modul" />
+     </params>
+     <params group="advanced">
+      <param name="artcreative" type="radio" default="1" label="Display ArtCreative " description="If you dont want to keep the links we ask you to bay commercial version.Notice or select No to turn off (Link will be hidden)">
+		<option value="0">yes</option>
+		<option value="1">no</option>
+		</param>
+        <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+        <param name="cache" type="list" default="1" label="Caching" description="Selection of cache of this module" >
+						<option value="1">Use global</option>
+						<option value="0">No caching
+						</option>
+					</param>
+        <param name="cache_time" type="text" default="900"  label="Cache Time" description="Time before the module is recached" />
+  </params>
+</install>

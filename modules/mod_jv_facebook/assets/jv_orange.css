@@ -1,0 +1,101 @@
+.fan_box {
+    font-family: Arial,Tahoma,Helvetica,sans-serif;
+}
+.fan_box .profileimage {
+    width:40;
+    height:40;
+    margin:0 0 4px;
+    padding:0 10px 0 0;
+}
+.fan_box .full_widget {
+    border:1px solid #e4edf7;
+    background:#DC8505 none repeat scroll 0 0;
+    color:;
+}
+.fan_box .full_widget .connect_top {
+    background:transparent;
+    color:#fff;
+    padding:10px 10px 8px;
+}
+.fan_box .full_widget .connect_top a {
+    color:#fff;
+} 
+.fan_box .connect_widget td.connect_widget_vertical_center a.connect_widget_like_button {
+    background-color:#f1f1f1;
+    margin-right:7px;
+}
+.fan_box .connect_widget .connect_widget_interactive_area {}
+.connect_widget_like_button .liketext {
+    color:#e4edf7;
+}
+.fan_box .page_stream, .fan_box .page_stream_short {
+    border-top:1px solid #e4edf7;
+    background:transparent;
+    height:250px;
+    overflow:auto;
+    padding:0 10px;
+    position:relative;
+    text-align:center;
+}
+.UIStoryAttachment_Title a {
+    color: #f1f1f1 !important;
+}
+.UIStoryAttachment_Copy {
+    color: #f1f1f1;
+    padding: 3px 0;
+}
+.UIStoryAttachment_Caption a{
+    color: #f1f1f1;
+}
+.fan_box .UIIntentionalStory span, .UIIntentionalStory_Message, .UIIntentionalStory .location {
+    color:#f1f1f1;
+    font-size:12px;
+    font-weight:normal;
+    overflow:hidden;
+}
+.fan_box .UIIntentionalStory span a, .UIIntentionalStory_Message a {
+    color:#f1f1f1;
+}
+.UIIntentionalStory_Names a {
+    display:none;
+    font-weight:bold;
+}
+.UIIntentionalStory_Info {
+    clear:left;
+    display:none;
+    margin-top:1px;
+    min-height:16px;
+    padding:2px 0 0;
+}
+.UIIntentionalStory_Time, .UIIntentionalStory_Time a {
+    color:#7C568C !important;
+}
+.UIIntentionalStory {
+    border-top:1px solid #ebedf0;
+}
+.UIIntentionalStory .UIStoryAttachment_MediaSingle {
+    clear:both; padding-right:10px;
+}
+.fan_box .connections {
+    border-top:1px solid #e4edf7;
+    background:transparent; none repeat scroll 0 0;
+    color:#f1f1f1;
+    min-height:100px;
+}
+.fan_box .connections a {
+    color:#4E7AC7
+}
+.fan_box .connections_grid .grid_item .name {
+    color:#fff;
+    font-size:10px;
+}
+.fan_box .connections_grid .grid_item {
+    font-family: Tahoma, Geneva, sans-serif;
+    float:left;
+    overflow:hidden;
+    padding:0 3px 3px 3px;
+    width:50px;
+}
+.fan_box .connections_grid .grid_item img {
+    border:;
+}

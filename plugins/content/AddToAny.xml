@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="content">
+    <name>Content - AddToAny</name>
+    <author>Bill Smith</author>
+    <creationDate>February 2010</creationDate>
+    <copyright>Copyright (C) 2010 Bill Smith</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>toolmaster[at]tonystoolshed.com</authorEmail>
+    <authorUrl>www.tonystoolshed.com</authorUrl>
+    <version>1.5</version>
+    <description>This native Joomla 1.5 plugin will add the addtoany social bookmarking button to your pages. This button make it simple for visitors to bookmark your page with their favorite tool, and does it all with one button.</description>
+    <files>
+        <filename plugin="AddToAny">AddToAny.php</filename>
+	<filename>addtoany_images/share_save_171_16.gif</filename>
+	<filename>addtoany_images/share_save_120_16.gif</filename>
+	<filename>addtoany_images/favicon.png</filename>
+	<filename>addtoany_images/share_save_256_24.gif</filename>
+	<filename>addtoany_images/share_save_171_16.png</filename>
+	<filename>addtoany_images/share_save_256_24.png</filename>
+	<filename>addtoany_images/tt_icon.png</filename>
+    </files>
+    <languages>
+	    <language tag="en-GB">language/en-GB/en-GB.plg_content_AddToAny.ini</language>
+    </languages>
+	<params>
+		<param name="addtoany_buttonname" type="list" default="0" label="PARAM_ADDTOANY_BUTTONNAME_L" description="PARAM_ADDTOANY_BUTTONNAME_D">
+ 			<option value="0">PARAM_ADDTOANY_BUTTONNAME_V0D</option>
+ 			<option value="1">PARAM_ADDTOANY_BUTTONNAME_V1D</option>
+			<option value="2">PARAM_ADDTOANY_BUTTONNAME_V2D</option>
+			<option value="3">PARAM_ADDTOANY_BUTTONNAME_V3D</option>
+			<option value="4">PARAM_ADDTOANY_BUTTONNAME_V4D</option>
+			<option value="5">PARAM_ADDTOANY_BUTTONNAME_V5D</option>
+			<option value="6">PARAM_ADDTOANY_BUTTONNAME_V6D</option>
+			<option value="7">PARAM_ADDTOANY_BUTTONNAME_V7D</option>
+		</param>		
+		<param name="addtoany_hover" type="list" default="0" label="PARAM_ADDTOANY_HOVER_L" description="PARAM_ADDTOANY_HOVER_D">
+ 			<option value="0">PARAM_ADDTOANY_HOVER_V0D</option>
+ 			<option value="1">PARAM_ADDTOANY_HOVER_V1D</option>
+		</param>		
+		<param name="addtoany_customtag" type="textarea" rows="4" cols="40" default="" label="PARAM_ADDTOANY_CUSTOMTAG_L" description="PARAM_ADDTOANY_CUSTOMTAG_D">
+		</param>
+		<param name="addtoany_location" type="list" default="0" label="PARAM_ADDTOANY_LOCATION_L" description="PARAM_ADDTOANY_LOCATION_D">
+ 			<option value="0">PARAM_ADDTOANY_LOCATION_V0D</option>
+ 			<option value="1">PARAM_ADDTOANY_LOCATION_V1D</option>
+		</param>		
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="addtoany_colorwheel" type="textarea" rows="6" cols="40" default="Visit www.addtoany.com/buttons/subscribe/menu_style/joomla to select custom colors and see sample" label="PARAM_ADDTOANY_COLORWHEEL_L" description="PARAM_ADDTOANY_COLORWHEEL_D" />
+		<param name="addtoany_colormain" type="text"  default="" label="PARAM_ADDTOANY_COLORMAIN_L" description="PARAM_ADDTOANY_COLORMAIN_D">
+		</param>
+		<param name="addtoany_colorbg" type="text"  default="" label="PARAM_ADDTOANY_COLORBG_L" description="PARAM_ADDTOANY_COLORBG_D">
+		</param>
+		<param name="addtoany_colorborder" type="text"  default="" label="PARAM_ADDTOANY_COLORBORDER_L" description="PARAM_ADDTOANY_COLORBORDER_D">
+		</param>
+		<param name="addtoany_colorlink" type="text"  default="" label="PARAM_ADDTOANY_COLORLINK_L" description="PARAM_ADDTOANY_COLORLINK_D">
+		</param>
+		<param name="addtoany_colorhover" type="text"  default="" label="PARAM_ADDTOANY_COLORHOVER_L" description="PARAM_ADDTOANY_COLORHOVER_D">
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="addtoany_frontpage" type="list" default="0" label="PARAM_ADDTOANY_FRONTPAGE_L" description="PARAM_ADDTOANY_FRONTPAGE_D">
+ 			<option value="0">PARAM_ADDTOANY_FRONTPAGE_V0D</option>
+ 			<option value="1">PARAM_ADDTOANY_FRONTPAGE_V1D</option>
+		</param>		
+		<param name="addtoany_intro" type="list" default="0" label="PARAM_ADDTOANY_INTRO_L" description="PARAM_ADDTOANY_INTRO_D">
+ 			<option value="0">PARAM_ADDTOANY_INTRO_V0D</option>
+ 			<option value="1">PARAM_ADDTOANY_INTRO_V1D</option>
+		</param>
+		<param name="addtoany_article_skip" type="text"  default="" label="PARAM_ADDTOANY_ARTICLE_L" description="PARAM_ADDTOANY_ARTICLE_D">
+		</param>
+		<param name="addtoany_showincat" type="list" default="0" label="PARAM_ADDTOANY_SHOWINCAT_L" description="PARAM_ADDTOANY_SHOWINCAT_D">
+ 			<option value="0">PARAM_ADDTOANY_SHOWINCAT_V0D</option>
+ 			<option value="1">PARAM_ADDTOANY_SHOWINCAT_V1D</option>
+		</param>		
+		<param name="addtoany_category_skip" type="text"  default="" label="PARAM_ADDTOANY_CATEGORY_L" description="PARAM_ADDTOANY_CATEGORY_D">
+		</param>
+		<param name="addtoany_showinsec" type="list" default="0" label="PARAM_ADDTOANY_SHOWINSEC_L" description="PARAM_ADDTOANY_SHOWINSEC_D">
+ 			<option value="0">PARAM_ADDTOANY_SHOWINSEC_V0D</option>
+ 			<option value="1">PARAM_ADDTOANY_SHOWINSEC_V1D</option>
+		</param>		
+		<param name="addtoany_section_skip" type="text"  default="" label="PARAM_ADDTOANY_SECTION_L" description="PARAM_ADDTOANY_SECTION_D">
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="addtoany_customcssflag" type="list" default="0" label="PARAM_ADDTOANY_CUSTOMCSSFLAG_L" description="PARAM_ADDTOANY_CUSTOMCSSFLAG_D">
+ 			<option value="0">PARAM_ADDTOANY_CUSTOMCSSFLAG_V0D</option>
+ 			<option value="1">PARAM_ADDTOANY_CUSTOMCSSFLAG_V1D</option>
+		</param>		
+		<param name="addtoany_customcssvalue" type="textarea" rows="6" cols="40" default="div.addtoany{padding: 2px 2px 2px 2px; float: left;}" label="PARAM_ADDTOANY_CUSTOMCSS_L" description="PARAM_ADDTOANY_CUSTOMCSS_D">
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="addtoany_credit" type="list" default="0" label="PARAM_ADDTOANY_CREDIT_L" description="PARAM_ADDTOANY_CREDIT_D">
+ 			<option value="0">PARAM_ADDTOANY_CREDIT_V0D</option>
+ 			<option value="1">PARAM_ADDTOANY_CREDIT_V1D</option>
+		</param>
+    </params>
+</install>

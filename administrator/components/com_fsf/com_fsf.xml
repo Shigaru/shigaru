@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+  <name>FSF</name>
+  <!-- The following elements are optional and free of formatting constraints -->
+  <creationDate>2010 05 12</creationDate>
+  <authorEmail>support@freestyle-joomla.com</authorEmail>
+  <authorUrl>http://www.freestyle-joomla.com</authorUrl>
+  <author>Freestyle Joomla</author>
+  <copyright>Copyright Freestyle Joomla 2010</copyright>
+  <license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+  <version>1.5.5</version>
+  <description>Freestyle FAQs Lite</description>
+
+  <installfile>install.fsf.php</installfile>
+  <uninstallfile>uninstall.fsf.php</uninstallfile>
+
+  <!-- Site Main File Copy Section -->
+  <files folder="site">
+    <filename>controller.php</filename>
+    <filename>fsf.php</filename>
+    <filename>index.html</filename>
+    <filename>paginationex.php</filename>
+    <filename>settings.php</filename>
+    <filename>_powered.php</filename>
+
+    <folder>views</folder>
+    <folder>models</folder>
+    <folder>assets</folder>
+  </files>
+
+  <administration>
+    <!-- Administration Menu Section -->
+    <menu img="components/com_fsf/assets/menu_icon_f.png">Freestyle FAQs Lite</menu>
+    <submenu>
+      <menu img="images/blank.png" link="option=com_fsf&amp;view=settings">Settings</menu>
+      <menu img="images/blank.png" link="option=com_fsf&amp;view=faqs">FAQs</menu>
+      <menu img="images/blank.png" link="option=com_fsf&amp;view=faqcats">FAQ Categories</menu>
+      <menu img="images/blank.png" link="option=com_fsf&amp;view=backup">Admin</menu>
+    </submenu>
+
+    <!-- Administration Main File Copy Section -->
+    <files folder="admin">
+
+      <filename>install.fsf.php</filename>
+      <filename>uninstall.fsf.php</filename>
+ 
+      <filename>database.dat</filename>
+
+      <filename>controller.php</filename>
+      <filename>fsf.php</filename>
+      <filename>index.html</filename>
+      <filename>settings.php</filename>
+      <filename>updatedb.php</filename>
+
+      <folder>assets</folder>
+      <folder>controllers</folder>
+      <folder>models</folder>
+      <folder>tables</folder>
+      <folder>views</folder>
+    </files>
+
+  </administration>
+
+  <!-- [START_COMBINED] -->
+  <files folder="site">
+    <filename>combined.php</filename>
+  </files>
+
+  <mod_fsf_cats>
+    <files folder="modules/mod_fsf_cats">
+      <file>index.html</file>
+      <file module="mod_fsf_cats">mod_fsf_cats.php</file>
+      <file>mod_fsf_cats.xml</file>
+      <folder>tmpl</folder>
+    </files>
+  </mod_fsf_cats>
+  <!-- [END_COMBINED] -->
+
+</install>

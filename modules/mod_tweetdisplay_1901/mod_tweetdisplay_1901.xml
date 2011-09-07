@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install type="module" version="1.5">
+	<name>Tweet Display 1901</name>
+	<author>Nikolaos Koliopoulos</author>
+	<creationDate>9 Mau 2011</creationDate>
+	<copyright>Copyright (C) 2011. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>info@a.1901webdesign.com</authorEmail>
+	<authorUrl>www.a.1901webdesign.com</authorUrl>
+	<version>1.0.0</version>
+	<description>
+		<![CDATA[Tweet Display module for Joomla CMS 1.5 , the fastest twitter widget by http://www.a.1901webdesign.com ! USE JAVA html is propably not WORKING]]>
+	</description>
+	<files>
+		<filename module="mod_tweetdisplay_1901">mod_tweetdisplay_1901.php</filename>
+
+	</files>
+
+<params>
+
+<param name="moduleclass_sfx" type="text" default="" label="Class:" description="specify class to apply" />
+<param name="username" type="text" default="twitter" label="Twitter UserName" description="Type Twitter Username" />
+		<param name="style" type="radio" default="1" label="Style" description="Version of flash or html.">
+			<option value="0">Html</option> 
+			<option value="1">Java</option> 
+		</param>		
+<param name="count" type="text" default="10" label="Twitter count" description="Twitter Count" />		
+<param name="width" type="text" default="200" label="width" description="width" />
+<param name="height" type="text" default="350" label="height" description="height" />
+		
+</params>
+	
+</install>
+
+

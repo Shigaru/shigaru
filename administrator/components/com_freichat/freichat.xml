@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<install type="component" version="1.5.0">
+	<name>freichat</name>
+	<creationDate>2010-07-09</creationDate>
+	<author>Avinash and Adesh</author>
+	<authorEmail>evnix.com@gmail.com</authorEmail>
+	<copyright>This component is released under the GNU/GPL version 3 License and parts under Community Builder Free License. All copyright statements must be kept and derivate work must prominently duly acknowledge original work on web interface and on website where downloaded.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+	<authorUrl>http://evnix.co.cc</authorUrl>
+	<version>3.1</version>
+	<description>Chat Component for joomla with community builder</description>
+	<files>
+		<filename>freichat.php</filename>
+	</files>
+		<administration>
+	<files>
+  <filename>admin.freichat.php</filename>
+    </files>
+	</administration>
+	<install>
+
+		<queries>
+	<query>
+DROP TABLE IF EXISTS `frei_chat`;
+	</query>	
+			<query>
+CREATE TABLE IF NOT EXISTS `frei_chat` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `from` int(11) NOT NULL,
+  `from_name` varchar(30) NOT NULL,
+  `to` int(11) NOT NULL,
+  `to_name` varchar(30) NOT NULL,
+  `message` text NOT NULL,
+  `sent` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `recd` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=502 ;
+			</query>
+<query>
+INSERT INTO #__components (`id`,`name`,`link`,`menuid`,`parent`,`admin_menu_link`,`admin_menu_alt`,`option`,`ordering`,`iscore`,`enabled`) VALUES (null,'FreiChat','option=com_freichat',0,0,'option=com_freichat','com_freichat','com_freichat',1,0,1);
+</query>
+		</queries>
+	</install>
+	
+		<administration>
+			</administration>
+
+</install>

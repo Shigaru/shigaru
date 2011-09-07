@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="content">
+	<name>Content - MultiAds</name>
+	<author>Joe Guo</author>
+	<creationDate>18 May 2008</creationDate>
+
+	<copyright>GNU/GPLv2</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>joeguo@gmail.com</authorEmail>
+	<authorUrl>www.eboga.org</authorUrl>
+	<version>2.1</version>
+       <description>MULTI_ADS_DESC</description>
+	<files>
+		<filename plugin="MultiAds">MultiAds.php</filename>
+	</files>	
+  <params>
+      <param name="Before_content_ads" type="textarea" default="" label="BEFORE_CONTENT_ADS" description="BEFORE_CONTENT_ADS_DESC" rows="8" cols="40"/>
+      <param name="Content_top_ads" type="textarea" default="" label="CONTENT_TOP_ADS" description="CONTENT_TOP_ADS_DESC"  rows="8" cols="40"/>
+      <param name="Content_bottom_ads" type="textarea" default="" label="CONTENT_BOTTOM_ADS" description="CONTENT_BOTTOM_ADS_DESC"  rows="8" cols="40"/>
+		<param name="After_content_ads" type="textarea" default="" label="AFTER_CONTENT_ADS" description="AFTER_CONTENT_ADS_DESC"  rows="8" cols="40" />
+
+	
+	   <param name="@spacer" type="spacer" default="" label="" description="" />
+	   <param name="adsense_section" type="list" default="0" label="ENABLE_ADSENSE_SECTION" description="ENABLE_ADSENSE_SECTION_DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
+	   <param name="@spacer" type="spacer" default="" label="" description="" />
+  		<param name="align" type="list" default="0" label="Align" description="ALIGN_DESC">
+			<option value="0">Right</option>
+			<option value="1">Left</option>
+         <option value="2">Center</option>
+         <option value="3">None</option>
+		</param>
+	<param name="margin" type="text" default="1" label="MARGIN_LABEL" description="MARGIN_DESC"/>
+      <param name="Front_page_ads_count" type="text" default="1" label="FRONT_PAGE_ADS_COUNT" description="FRONT_PAGE_ADS_COUNT_DESC"/>
+      <param name="@spacer" type="spacer" default="" label="" description="" />
+      <param name="ONLY_GUEST" type="list" default="0" label="ONLY_GUEST" description="ONLY_GUEST_DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
+      <param name="Exclude_Article_Ids" type="text" default="" label="EXCLUDE_ARTICLE_IDS" description="EXCLUDE_ARTICLE_IDS_DESC"/>
+      <param name="Exclude_Category_Ids" type="text" default="" label="EXCLUDE_CATEGORY_IDS" description="EXCLUDE_CATEGORY_IDS_DESC"/>
+      <param name="Exclude_Section_Ids" type="text" default="" label="EXCLUDE_SECTION_IDS" description="EXCLUDE_SECTION_IDS_DESC"/>
+      <param name="Block_IPs" type="textarea" default="" label="BLOCK_IPS" description="BLOCK_IPS_DESC" rows="4" cols="40"/>
+      <param name="Block_User_Agent" type="textarea" default="" label="BLOCK_USER_AGENT" description="BLOCK_USER_AGENT_DESC" rows="4" cols="40"/>
+      <param name="Only_Authors" type="text" default="" label="ONLY_AUTHORS_LABEL" description="ONLY_AUTHORS_DESC"/>
+ 
+
+      
+  </params>
+
+	<languages folder="language">
+	   <language tag="en-GB">en-GB.plg_content_MultiAds.ini</language>  
+           <language tag="zh-CN">zh-CN.plg_content_MultiAds.ini</language>  
+           <language tag="ja-JP">ja-JP.plg_content_MultiAds.ini</language>   
+	</languages>
+
+</install>

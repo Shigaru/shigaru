@@ -1,0 +1,75 @@
+------------------------------------------DOCUMENTATION-----------------------------------------------
+
+=====================================================================================================
+
+Installation:-
+
+0. Unzip the freichat.3.1.zip file
+1. Install com_freichat.zip from joomla install/uninstall
+2. Then, install mod_freichat.zip from joomla install/uninstall
+3. Enable the mod_freichat module from the module manager
+
+4. *Please note if you have any older versions of FreiChat please uninstall them
+   and remove all old freichat files installed(if any)
+   Before you install this version.
+
+=====================================================================================================
+
+Procedure after installation:-
+
+1. Go to components->freichat [In Joomla Backend]
+2. Set the parameters as how you want the freichat to behave.
+
+*Important:-
+
+[The option for setting access level can be found in Extensions->Module Manager->mod_freichat]  
+
+A. Do not set the chat speed in freichat parameters to fast if you are using
+   free hosting services.
+
+For any problems or queries you can always turn to our forums in
+ http://evnix.co.cc
+
+B. Note anyone wanting cyrillic characters in chat must disable wordwrap.
+   One can do that by going to
+   components->com_freichat->freichat.php 
+   Search and comment the following line:
+   $message=mywordwrap($message); 
+   It should look this way:
+   //$message=mywordwrap($message);
+=====================================================================================================
+
+Requirements:-
+
+1. Joomla installed.
+2. Community Builder installed with connections enabled.
+3. Two people must be online so that you can chat.
+
+=====================================================================================================
+Trouble Shooting:-
+
+1. The chatbox doesnt appear:
+   Make sure you have enabled the module in module manager->mod_freichat
+
+2. The chatbox shows no one is online [Even when they are online]
+    A. Open two browsers(chrome or firefox) not(firefox and firefox) and check if 
+       you can see any name in the chatbox.
+    B. Try setting the access level of the module to public.
+    
+3. Messages are not appended on the other chat window or there is no sound.
+    Try Deleting your browser cookies then close the browser and then check again 
+    if the problem persists. 
+
+4. The chatbox appears blank, Check if you have CB installed and connections enabled
+   If no thing works try downloading freichatpure.3.1.beta
+
+5.Getting errors in joomla backend. Check your file permissions. The folders,
+  --components/com_freichat/   
+  --modules/mod_freichat/
+  should have read and write permissions
+=====================================================================================================
+
+If your problem does not get solved or if you have any other problems please post
+them in our freichat forums in http://evnix.co.cc 
+
+---------------------------------------------The End------------------------------------------------

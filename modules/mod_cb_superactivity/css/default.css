@@ -1,0 +1,84 @@
+div.activity_wrapper {
+  overflow:hidden;
+}
+
+div.activity_inner {
+  width: 100%;
+}
+
+div.activity_inner:hover {
+}
+
+table.activity_table {
+}
+
+table.activity_table td {
+  padding-right: 1px;
+}
+
+table.activity_registers {
+}
+
+img.activity_image {
+}
+
+a.activity_uname {
+}
+a.activity_uname:hover {
+}
+
+a.activity_links {
+}
+a.activity_links:hover {
+}
+
+a.activity_small_links {
+  font-size:smaller;
+}
+a.activity_small_links:hover {
+}
+
+a.activity_event_links {
+  font-weight:bold;
+}
+a.activity_event_links:hover {
+}
+
+a.activity_comment {
+  font-size:smaller;
+  color:#666666;
+}
+
+.activity_content {
+  font-size:smaller;
+  font-style: italic;
+  color:#666666;
+}
+
+a.activity_status {
+  color:#A0A000;
+}
+
+.activity_status {
+  color:#666666;
+  font-weight:bold;
+}
+
+.activity_text {
+}
+.activity_small_text {
+  font-size:smaller;
+}
+
+.activity_day {
+  font-weight:bold;
+  color: #000000;
+  text-align: left;
+  text-decoration: underline;
+}
+
+.activity_infotext {
+  font-size:smaller;
+  color: #999999;
+}
+

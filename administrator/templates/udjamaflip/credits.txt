@@ -1,0 +1,23 @@
+
+=======================================================
+
+DESIGNED AND DEVELOPED BY 	:: Andrew Sharman
+WEBSITE				:: www.udjamaflip.com
+EMAIL				:: andy@udjamaflip.com
+
+=======================================================
+
+AIDED BY
+
+Khepri Template by Andy Millar (andy.millar@joomla.org)
+
+Icon set by Louie Mantia for original Agua theme?- ronin2046 for requesting and pitching the idea?- royale for granting ronin2046's request?- Rafael Barbosa's bigger neon icons?- Some symbols came from Tollboy's icons used in Glyphs
+
+---
+
+TOFFEENUT.DEVIANTART.COM
+
+#PHP on irc.netgamers.org
+#jquery on irc.freenode.org
+
+				

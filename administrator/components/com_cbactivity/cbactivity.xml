@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<install type="component" version="1.5.0">
+<name>CB Activity</name>
+<creationDate>10/2/2009</creationDate>
+<author>Chris Michaelides</author>
+<copyright>This component is released under the GNU/GPL License</copyright>
+<authorEmail>grvulture@yahoo.com</authorEmail>
+<authorUrl>www.axxis.gr</authorUrl>
+<version>1.0</version>
+    <description>Component for displaying CB Super Activity Log in the backend. It provides also a basic configuration for your modules and CB tab. Frontend display is FORBIDDEN!</description>
+
+<install>
+  <queries>
+    <query>
+    CREATE TABLE IF NOT EXISTS `#__supera_versions` (
+    	`versionid` int(11) NOT NULL auto_increment,
+    	`component` TINYTEXT,
+    	`module` TINYTEXT,
+    	`cb` TINYTEXT,
+    	`avatar` TINYTEXT,
+      PRIMARY KEY  (`versionid`)
+    	)
+    </query>
+    <query>
+      INSERT INTO `#__supera_versions` (`component`,`module`,`cb`,`avatar`) VALUES ('LIGHT','v0','v0','v0')
+    </query>
+  </queries>
+</install>
+
+<uninstall>
+</uninstall>
+
+    <installfile>install.cbactivity.php</installfile>
+    <uninstallfile></uninstallfile>
+    <languages></languages>
+    
+<files>
+  <filename>index.html</filename>
+  <filename>cbactivity.php</filename>
+</files>
+
+<administration>
+	<menu>CB Super Activity</menu>
+	<submenu>
+		<menu act="log">Activity Log</menu>
+		<menu act="configure">Configuration</menu>
+	</submenu>
+<files>
+  <filename>index.html</filename>
+	<filename>housekeeping.php</filename>
+	<filename>controller.php</filename>
+	<filename>admin.cbactivity.php</filename>
+	<filename>admin.cbactivity.html.php</filename>
+	<filename>tables/dailymessage.php</filename>
+  <filename>tables/index.html</filename>
+</files>
+</administration>
+<params/>
+</install>

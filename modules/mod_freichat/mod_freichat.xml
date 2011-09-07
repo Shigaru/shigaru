@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<install type="module" version="1.5.0" >
+ <name>mod_freichat</name>
+ <author>Avinash Roshan D'silva</author>
+ <creationDate>june 2010</creationDate>
+<copyright>This module is released under the GNU/GPL version 3 License and parts under Community Builder Free License. All copyright statements must be kept and derivate work must prominently duly acknowledge original work on web interface and on website where downloaded.</copyright>
+<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+ <authorEmail>evnix.com@gmail.com</authorEmail>
+ <authorUrl>no url</authorUrl>
+ <version>3.1</version>
+ <description>Simple chat</description>
+ <files>
+  <filename module="mod_freichat">mod_freichat.php</filename>
+          <folder>jquery</folder>
+ </files>
+ <params>
+  <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+ </params>
+</install>

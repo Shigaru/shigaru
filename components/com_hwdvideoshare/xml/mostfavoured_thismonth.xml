@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist version="1">
+<title>hwdVideoShare mostfavoured_thismonth Playlist</title>
+<info>http:/xspf.org/xspf-v1.html</info>
+<trackList>
+
+  <track>
+    <id><![CDATA[45]]></id>
+    <videotitle><![CDATA[Picolo znp - Asi me expreso]]></videotitle>
+    <videocode><![CDATA[9CC1vcAqVg4,http%3A%2F%2Fimg.youtube.com%2Fvi%2F9CC1vcAqVg4%2Fdefault.jpg]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[Temazo de uno de los mejores escritores de rap nacional e internacional]]></description>
+    <views><![CDATA[42]]></views>
+    <duration><![CDATA[06:32]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[62]]></uploader_id>
+    <avatar><![CDATA[gallery/frog.gif]]></avatar>
+  </track>
+
+</trackList>
+</playlist>

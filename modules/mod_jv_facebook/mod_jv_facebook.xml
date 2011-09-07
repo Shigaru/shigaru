@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install method="upgrade" type="module" version="1.5.0">
+	<name>JV Facebook</name>
+	<creationDate>October 2010</creationDate>
+	<author>http://www.ZooTemplate.com</author>
+	<authorEmail>support@ZooTemplate.com</authorEmail>
+	<authorUrl>http://www.ZooTemplate.com</authorUrl>
+	<copyright>Copyright (C) 2010 http://www.ZooTemplate.com . All rights reserved.</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>	
+	<version>1.5.3</version>
+	<description>JVFACEBOOK INSTALLATION</description>
+	<files>
+    	<filename>mod_jv_facebook.xml</filename>
+      	<filename module="mod_jv_facebook">mod_jv_facebook.php</filename>
+      	<filename>index.html</filename>
+      	<filename>helper.php</filename>
+		<filename>changelog.txt</filename>
+		<folder>tmpl</folder>
+		<folder>assets</folder>
+		<folder>elements</folder>
+  	</files>
+  	<languages>
+    	<language tag="en-GB">en-GB.mod_jv_facebook.ini</language>
+  	</languages>
+  	<params addpath="/modules/mod_jv_facebook/elements/">
+  		<param name="fb_options" type="fboption" default="fb_activity_feed" label="FB Option" description="You chose Facebook flugin" />
+  		<param name="@spacer" type="spacer" default="" label="" description="" />
+  		
+  		<param name="af_domain" type="text" size="35" default="" label="Domain" description="The domain to show activity for. XFBML defaults to the domain plugin is on" />
+		<param name="af_box_width" type="text" default="250" label="Width" description="The width of the plugin in pixels" />
+		<param name="af_box_height" type="text" default="650" label="Height" description="The height of the plugin in pixels" />
+		<param name="af_header" type="radio" default="1" label="Show Header" description="Show the Facebook header on the plugin">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="af_color_scheme" type="list" default="light" label="Color Scheme" description="The color scheme of the plugin">
+			<option value="light">light</option>
+			<option value="dark">dark</option>
+		</param>
+		<param name="af_font" type="list" default="arial" label="Font" description="The font of the plugin">
+			<option value="arial">arial</option>
+			<option value="lucida grande">lucida grande</option>
+			<option value="segoe ui">segoe ui</option>
+			<option value="tahoma">tahoma</option>
+			<option value="trebuchet ms">trebuchet ms</option>
+			<option value="verdana">verdana</option>
+		</param>
+		<param name="af_border_color" type="text" default="" label="Border Corlor" description="The border color of the plugin"/>
+		<param name="af_recomm" type="radio" default="1" label="Recommendations" description="Show recommendations">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>		
+  		
+		<param name="fb_page_id" type="text" size="50" default="101188143276788" label="Page ID or Url of the Facebook" description="The ID of the Facebook Page for this Like Box or The URL of the Facebook page for this Likebox" />
+		<param name="fb_box_width" type="text" default="250" label="Width" description="The width of the plugin in pixels" />
+		<param name="fb_box_height" type="text" default="650" label="Height" description="The height of the plugin in pixels" />
+		<param name="fb_number_fan" type="text" default="12" label="Number of fans" description="Show a sample of this many users who have liked this page" />
+		<param name="fb_stream" type="radio" default="0" label="Show Stream" description="Show the profile stream for public profile">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="fb_header" type="radio" default="1" label="Show Header" description="Show the Find Us on facebook bar at top. Only shown when either stream or connections are present ">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		 
+		<param name="fb_style" type="list" default="default" label="Choose Style" description="Choose style display">
+			<option value="default">Default</option>
+			<option value="orange">Orange</option>
+			<option value="blue">Blue</option>
+			<option value="pink">Pink</option>
+			<option value="black">Black</option>
+			<option value="basic">Basic</option>
+		</param>
+		
+		<param name="ls_app_id" type="text" default="" label="App ID" description="Your facebook application ID or API key"/>
+		<param name="ls_width" type="text" default="250" label="Width" description="The width of the plugin in pixels"/>
+		<param name="ls_height" type="text" default="650" label="Height" description="The height of the plugin in pixels"/>
+		<param name="ls_xid" type="text" default="" label="XID" description="If you have multiple live stream boxes on the same page, specify a unique for `xid` each"/>
+		
+		<param name="r_domain" size="35" type="text" default="" label="Domain" description="The domain for which to show recommendations."/>
+		<param name="r_width" type="text" default="250" label="Width" description="The width of the plugin in pixels"/>
+		<param name="r_height" type="text" default="650" label="Height" description="The height of the plugin in pixels"/>
+		<param name="r_header" type="radio" default="1" label="Show Header" description="Show the Facebook header on the plugin">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="r_color_scheme" type="list" default="light" label="Color Scheme" description="The color scheme of the plugin">
+			<option value="light">light</option>
+			<option value="dark">dark</option>
+		</param>
+		<param name="r_font" type="list" default="arial" label="Font" description="The font of the plugin">
+			<option value="arial">arial</option>
+			<option value="lucida grande">lucida grande</option>
+			<option value="segoe ui">segoe ui</option>
+			<option value="tahoma">tahoma</option>
+			<option value="trebuchet ms">trebuchet ms</option>
+			<option value="verdana">verdana</option>
+		</param>
+		<param name="r_border_color" type="text" default="" label="Border Corlor" description="The border color of the plugin"/>
+		
+	</params>
+	<params group="advanced">
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the CSS class of module for individual styling." />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
+	</params>
+</install>

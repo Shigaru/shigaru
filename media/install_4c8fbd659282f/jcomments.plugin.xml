@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.6" type="plugin" group="user">
+	<name>JComments Tab</name>
+	<creationDate>29/09/2009</creationDate>
+	<author>smart</author>
+	<copyright>Copyright 2006-2009 JoomlaTune.ru All rights reserved!</copyright>
+	<authorEmail>smart@joomlatune.ru</authorEmail>
+	<authorUrl>http://www.joomlatune.ru</authorUrl>
+	<version>1.1</version>
+	<description>Displays a tab with the last user comments</description>
+	<files>
+		<filename plugin="jcomments.plugin">jcomments.plugin.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<params>
+		<param name="object_group" type="text" default="com_content" label="Source" description="" />
+		<param name="count" type="text" size="2" default="10" label="Comments Limit" description="Enter the maximum number of comments you would like listed in the tab" />
+		<param name="length" type="text" size="20" default="20" label="Max. number of characters" description="The number of characters to display" />
+		<param name="showsmiles" type="list" default="0" label="Show smiles" description="Select whether to show smiles as text or as images">
+			<option value="0">Text</option>
+			<option value="1">Images</option>
+			<option value="2">Strip smiles</option>
+		</param>
+		<param name="label4more" type="text" default="More..." label="Label for more..." description="Custom your link read more" />
+	</params>
+
+	<tabs>
+		<tab name="My latest comments" description="" class="JCommentsTab" fields="0" position="cb_tabmain" displaytype="tab">
+			<fields>
+			</fields>
+		</tab>
+	</tabs>
+</cbinstall>

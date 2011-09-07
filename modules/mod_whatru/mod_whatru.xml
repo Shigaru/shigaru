@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+    <name>What Are You Doing Module</name>
+    <author>Chatura Dilan Perera</author>
+    <version>1.0.0</version>
+    <description>What Are You Doing Module</description>
+    <files>
+        <filename>mod_whatru.xml</filename>
+        <filename module="mod_whatru">mod_whatru.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+    </files>
+    <params>
+	<param name="whatru_users_params" type="text" size="5" default="5" label="Users To Display" description="Maximum users to display in the module"/>
+	<param name="whatru_users_sort_order" type="list" default="ascending" label="Users Sort Order" description="Users sort order by status added time">
+		<option value="random">Random</option>
+		<option value="ascending">Ascending</option>
+		<option value="descending">Descending</option>
+	</param>
+	<param name="whatru_max_char" type="text" size="5" default="1000" label="Limit Text" description="Maximum characters for a status to display"/>
+	<param name="whatru_space" type="text" size="5" default="5" label="Space Between Messages(px)" description="Space between two messages"/>
+    </params>
+</install>
+

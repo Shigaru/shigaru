@@ -1,0 +1,109 @@
+
+/** toolbar icons **/
+
+.icon-32-back			{ background-image: url(../images/toolbar/tb_32_back.png); background-repeat:no-repeat; }
+.icon-32-forward		{ background-image: url(../images/toolbar/tb_32_forward.png); background-repeat:no-repeat; }
+.icon-32-upload 		{ background-image: url(../images/toolbar/tb_32_upload.png); background-repeat:no-repeat; }
+.icon-32-html 			{ background-image: url(../images/toolbar/tb_32_html.png); background-repeat:no-repeat; }
+.icon-32-css 			{ background-image: url(../images/toolbar/tb_32_css.png); background-repeat:no-repeat; }
+.icon-32-restore		{ background-image: url(../images/toolbar/tb_32_revert.png); background-repeat:no-repeat; }
+.icon-32-assign 		{ background-image: url(../images/toolbar/tb_32_publish.png); background-repeat:no-repeat; }
+.icon-32-send 			{ background-image: url(../images/toolbar/tb_32_sendmail.png); background-repeat:no-repeat; }
+.icon-32-delete 		{ background-image: url(../images/toolbar/tb_32_delete.png); background-repeat:no-repeat; }
+.icon-32-help 			{ background-image: url(../images/toolbar/tb_32_help.png); background-repeat:no-repeat; }
+.icon-32-cancel 		{ background-image: url(../images/toolbar/tb_32_cancel.png); background-repeat:no-repeat; }
+.icon-32-config 		{ background-image: url(../images/toolbar/tb_32_parameters.png); background-repeat:no-repeat; }
+.icon-32-apply 			{ background-image: url(../images/toolbar/tb_32_apply.png); background-repeat:no-repeat; }
+.icon-32-save 			{ background-image: url(../images/toolbar/tb_32_save.png); background-repeat:no-repeat; }
+.icon-32-edit 			{ background-image: url(../images/toolbar/tb_32_edit.png); background-repeat:no-repeat; }
+.icon-32-copy 			{ background-image: url(../images/toolbar/tb_32_copy.png); background-repeat:no-repeat; }
+.icon-32-move 			{ background-image: url(../images/toolbar/tb_32_move.png); background-repeat:no-repeat; }
+.icon-32-new 			{ background-image: url(../images/toolbar/tb_32_add.png); background-repeat:no-repeat; }
+.icon-32-menus 			{ background-image: url(../images/toolbar/tb_32_menu.png); background-repeat:no-repeat; }
+.icon-32-publish 		{ background-image: url(../images/toolbar/tb_32_publish.png); background-repeat:no-repeat; }
+.icon-32-unpublish 		{ background-image: url(../images/toolbar/tb_32_unpublish.png); background-repeat:no-repeat; }
+.icon-32-trash 			{ background-image: url(../images/toolbar/tb_32_trash.png); background-repeat:no-repeat; }
+.icon-32-archive 		{ background-image: url(../images/toolbar/tb_32_archive.png); background-repeat:no-repeat; }
+.icon-32-unarchive 		{ background-image: url(../images/toolbar/tb_32_archive_out.png); background-repeat:no-repeat; }
+.icon-32-preview 		{ background-image: url(../images/toolbar/tb_32_preview.png); background-repeat:no-repeat; }
+.icon-32-default 		{ background-image: url(../images/toolbar/tb_32_default.png); background-repeat:no-repeat; }
+
+/** container of toolbar **/
+div#header 
+{
+	background-image:url("../images/toolbar/toolbarBg.jpg");
+	background-repeat:repeat-x;
+	background-position:top left;
+	-moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+	border:1px solid #000000;
+	color:#CCCCFF;
+	height:50px;
+}
+
+div#header h1
+{
+	float:left;
+	margin-top:12px;
+	margin-left:12px;
+	width:auto;
+	color:#CCCCFF;
+}
+
+    div#header h1 div
+    {
+        background-repeat:no-repeat;
+        background-position:right center;
+    }
+
+div.toolbar
+{
+	float:right;
+	padding-right:5px;
+}
+	
+	div.toolbar table.toolbar td
+	{
+		text-align: center;
+		color: #59CC0E;
+		height: 48px;
+        padding-left:10px;
+		text-align:center;
+        vertical-align:top;
+	}
+	
+		div.toolbar table.toolbar td span
+		{
+			display:block;	
+			margin:0 auto;
+			width:32px;
+			height:32px;
+		}
+	
+		div.toolbar table.toolbar td a
+		{
+			display:block;
+			border:none;	
+			opacity:0.9;
+			color:#CCCCCC;
+		}
+		
+			div.toolbar table.toolbar td a:hover
+			{
+				border:none;
+				opacity:1.0;
+				color:#FFFFFF;
+			}
+		
+div.border div.padding div#element-box div.m form table.adminlist thead tr th
+{
+	background-color:#333333;
+	color:#CCCCCC;
+	padding-top:3px;
+	padding-bottom:3px;
+}
+
+	div.border div.padding div#element-box div.m form table.adminlist thead tr th a
+	{
+		color:#FFFFFF;
+	}

@@ -1,0 +1,146 @@
+/**
+* @version $Id: kunena.iesix.css 001 Template Lintzys_Summerdream 2009-06-15 14:57:36Z Lintzy $
+* @Copyright (C) 2009 Lintzy (Angelika Reisiger) All rights reserved
+* @license http://creativecommons.org/licenses/by-nc-sa/3.0/deed.de 
+* @link http://www.webdesign-welt.de
+
+* Based on Kunena Component
+* @Copyright (C) 2008 - 2009 Kunena Team All rights reserved
+* @package Kunena
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GP
+* @link http://www.kunena.com
+*
+* Based on FireBoard Component
+* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* @link http://www.bestofjoomla.com
+**/
+
+/* ======= */
+
+div#Kunena_wrapper{
+ width: 650px;
+ width: expression(
+  (document.documentElement && document.documentElement.clientHeight) ?
+   (document.documentElement.clientWidth < 650) ? "650px" : (( document.documentElement.clientWidth > 700 ) ? "700px" : "auto") :
+   (document.body.clientWidth < 650) ? "650px" : (( document.body.clientWidth > 700 ) ? "701px" : "auto")
+ );
+}
+/* hack for expanding boxes*/
+div.msgtext {
+width:600px;
+overflow:hidden!important;
+word-wrap: break-word;
+}
+/*end of hack*/
+#Kunena tr.fb_sthtopic{
+background:#FFF6C2;
+line-height:25px;
+font-size:1.5em;
+}
+#Kunena #fb_views th  {
+height:10px;
+padding:0;
+}
+#Kunena .topic_latest_post_avatar {
+margin-left:0;
+margin-right:auto;
+}
+#Kunena span.newchar {
+font-size:1.4em;
+letterspacing:3px;
+}
+#Kunena #fb_post_buttons .fb_button {
+padding-bottom:0;
+} 
+#Kunena #fb_postmessage textarea.fb_txtarea {
+width:92%!important;
+}
+#Kunena div#previewMsg .fb_quote {
+width:92%!important;
+}
+#Kunena .bbcodestyleone .fb_button {
+padding-bottom:0px!important;
+}
+#Kunena .fb_title, #Kunena a.fb_title {
+font-size:1em!important;
+}
+#Kunena .view-th{
+padding-right:8px;
+height:10px;
+}
+#Kunena span.fb_quote {
+background:#FFFFFC url(images/zitat.gif) no-repeat scroll 98% 30px;
+line-height:1.4em;
+font-size:11px;
+}
+#Kunena div.fb_file_attachment {
+background:#FFFFFC url(images/download.gif) no-repeat scroll 98% 20px;
+}
+#Kunena img.fb_list_avatar {
+padding-left:0;
+}
+#Kunena .topic_latest_post_avatar {
+margin-right:0!important;
+padding-right:6px;
+padding-left:2px;
+}
+#Kunena table#fb_forumprofile_sub{
+background:#FDFFEF url(images/sign.gif) no-repeat scroll bottom right;
+}
+#Kunena table#fb_forumprofile_sub #signonleft .signleft{
+background:transparent url(images/sign.gif) no-repeat scroll bottom right!important;
+}
+#Kunena span.fb-myprofile_info_helpbox {
+margin-left:14px;	
+}
+#Kunena td.fb_fb-userlistinfo td.td-2 {
+margin-top:auto;
+margin-bottom:auto;
+padding-top:auto;
+padding-bottom:auto;
+}
+#Kunena td.fb_list_actions_forum  {
+padding-bottom:0!important;
+padding-top:2px;
+}
+#Kunena div.fb_message_buttons_cover {
+padding-bottom:0!important;
+margin-top:5px;
+}
+#Kunena  td.fb_list_markallcatsread form input {
+padding:0;
+width:164px;
+}
+#Kunena tr.fb_sthtopic th.th-6{
+padding-left:64px;
+}
+#Kunena table#fb_flattable td.td-2 img{
+padding-top:0;
+padding-bottom:0;
+margin-top:10px;
+margin-bottom:10px;
+height:auto;
+display:inline-block;
+}
+#Kunena div.fb_thead-child {
+padding-bottom:0px;
+}
+#Kunena div.viewcovercontainer {
+background:transparent url(images/viewcover.jpg) no-repeat scroll left top;
+width:154px;
+}
+#Kunena div.anncreated {
+background:transparent url(images/info.jpg) no-repeat scroll left 2px;
+}
+#Kunena td.fb_anndesc div.anncreated {
+background:transparent url(images/info.jpg) no-repeat scroll left top;
+}
+#Kunena  td.td-1 img  {
+margin-top:auto!important;
+margin-bottom:auto!important;
+height:auto;
+}
+#Kunena td.fb_profileboxcnt {
+background:transparent url(images/backmsgprofileheader.jpg) no-repeat scroll bottom right!important;
+}

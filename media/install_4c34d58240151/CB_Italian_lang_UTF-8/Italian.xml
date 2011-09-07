@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cbinstall version="1.0" type="plugin" group="language">
+	<name>Italian</name>
+	<author>Viames Marino</author>
+	<creationDate>2008-06-12</creationDate>
+	<copyright>(C) 2005 - 2008 joomlapolis.com</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+	<authorEmail>me@viames.it</authorEmail>
+	<authorUrl>www.viames.it</authorUrl>
+	<version>1.2 RC 2</version>
+	<description>File di lingua italiana per Community Builder.</description>
+	<files>
+		<filename plugin="Italian">italian.php</filename>
+		<filename>index.html</filename>
+		<filename>calendar-locals.js</filename>
+		<filename>images/index.html</filename>
+		<filename>images/nophoto.jpg</filename>
+		<filename>images/pendphoto.jpg</filename>
+		<filename>images/tnnophoto.jpg</filename>
+		<filename>images/tnpendphoto.jpg</filename>
+	</files>
+	<params>
+	</params>
+	<database>
+	</database>
+</cbinstall>

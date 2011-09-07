@@ -1,0 +1,79 @@
+/**
+* @version $Id: kunena.ieseven.css 001 Template Lintzys_Summerdream 2009-06-15 14:57:36Z Lintzy $
+* @Copyright (C) 2009 Lintzy (Angelika Reisiger) All rights reserved
+* @license http://creativecommons.org/licenses/by-nc-sa/3.0/deed.de 
+* @link http://www.webdesign-welt.de
+
+* Based on Kunena Component
+* @Copyright (C) 2008 - 2009 Kunena Team All rights reserved
+* @package Kunena
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GP
+* @link http://www.kunena.com
+*
+* Based on FireBoard Component
+* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* @link http://www.bestofjoomla.com
+**/
+
+/* ======= */
+
+div#Kunena_wrapper{
+ width: 675px;
+ width: expression(
+  (document.documentElement && document.documentElement.clientHeight) ?
+   (document.documentElement.clientWidth < 675) ? "675px" : (( document.documentElement.clientWidth > 720 ) ? "720px" : "auto") :
+   (document.body.clientWidth < 675) ? "675px" : (( document.body.clientWidth > 720 ) ? "721px" : "auto")
+ );
+}
+#Kunena tr.fb_sthtopic{
+background:#FFF6C2;
+line-height:25px;
+font-size:1.5em;
+}
+#Kunena #fb_views th  {
+height:20px;
+padding:0;
+}
+#Kunena span.newchar {
+font-size:1.7em;
+letterspacing:3px;
+font-weight:bold;
+}
+#Kunena #fb_post_buttons .fb_button {
+padding-bottom:0;
+}
+#Kunena .bbcodestyleone .fb_button {
+padding-bottom:0px!important;
+}
+#Kunena .fb_title, #Kunena a.fb_title {
+font-size:1em!important;
+}
+#Kunena .view-th{
+padding-right:8px;
+height:10px;
+}
+#Kunena span.fb_quote {
+background:#FFFFFC url(images/zitat.png) no-repeat scroll 98% 30px;
+line-height:1.4em;
+font-size:11px;
+}
+#Kunena span.fb-myprofile_info_helpbox {
+margin-left:14px;	
+}
+#Kunena  td.fb_list_markallcatsread form input {
+padding:0;
+width:164px;
+}
+#Kunena .fb-topic-title-cover{
+padding-bottom:2px;
+}
+#Kunena #fb_postmessage textarea.fb_txtarea {
+width:92%!important;
+}
+#Kunena div#previewMsg .fb_quote {
+width:92%!important;
+}
+#Kunena div.fb_thead-child {
+padding-bottom:0px;
+}

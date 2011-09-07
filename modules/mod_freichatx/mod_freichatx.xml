@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>FreiChatX-I</name>
+	<author>Avinash and Adesh D'silva</author>
+	<creationDate>3 - MAY - 2011</creationDate>
+	<copyright>EvNix</copyright>
+	<license>GNU GPL V3 or later</license>
+	<authorEmail>evnix.com@gmail.com</authorEmail>
+	<authorUrl>http://www.evnix.com</authorUrl>
+	<version>1.0.0</version>
+	<description>A simple AjaX based CHAT</description>	
+		
+	<files>
+         <filename module="mod_freichatx">mod_freichatx.php</filename>
+     </files>
+</install>

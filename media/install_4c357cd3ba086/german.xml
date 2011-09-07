@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cbinstall version="1.0" type="plugin" group="language">
+	<name>German</name>
+	<author>Bernd Krystofiak (Kurt Steiner)</author>
+	<creationDate>23.12.2008</creationDate>
+	<copyright>(C)2008 www.composer.de</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>kurt.steiner@composer.de</authorEmail>
+	<authorUrl>www.composer.de</authorUrl>
+	<version>1.2 RC 4</version>
+	<description>CB Language Plugin: deutsch formal (german) Version 1.2 RC 4</description>
+	<files>
+	<filename plugin="german">german.php</filename>
+	<filename>index.html</filename>  
+	<filename>calendar-locals.js</filename>
+        <filename>images/index.html</filename>  
+		<filename>images/nophoto.jpg</filename>     
+        <filename>images/pendphoto.jpg</filename>      
+        <filename>images/tnnophoto.jpg</filename>      
+        <filename>images/tnpendphoto.jpg</filename>  
+	</files>
+    <params>	
+    </params>
+    <database>
+	</database>
+	<database>
+	</database>
+</cbinstall>

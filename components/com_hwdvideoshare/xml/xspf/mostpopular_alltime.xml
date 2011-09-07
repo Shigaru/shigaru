@@ -1,0 +1,15 @@
+<playlist version="1" xmlns="http://xspf.org/ns/0/">
+<title>hwdVideoShare Playlist</title>
+<info>http:/xspf.org/xspf-v1.html</info>
+<trackList>
+
+  <track>
+    <location><![CDATA[http://localhost/shigaru/hwdvideos/uploads/ax6jo4zwmkw6i3.mp4]]></location>
+    <image><![CDATA[http://localhost/shigaru/hwdvideos/thumbs/ax6jo4zwmkw6i3.jpg]]></image>
+    <title><![CDATA[god]]></title>
+    <annotation><![CDATA[is a rocker]]></annotation>
+	<meta rel='type'>video</meta>
+  </track>
+
+</trackList>
+</playlist>

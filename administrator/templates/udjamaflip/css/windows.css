@@ -1,0 +1,127 @@
+
+.title {
+    color:#999999;
+    background-color: Transparent;
+    height:20px;
+    cursor:move;
+    padding-top:2px;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+    .title img
+    {
+        padding-top:2px;
+    }
+
+.icons { float:right; }
+
+.close { color:White; text-decoration:none; margin-right:2px; }
+
+.minimise { color:Yellow; text-decoration:none; }
+
+.maximise
+{
+    color:Orange;
+    text-decoration:none;
+}
+
+.content
+{
+    overflow:auto;
+    border:none;
+    background-color:#FFFFFF;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    padding:5px;
+}
+
+#window-container div.window
+{
+    /* sorts out positioning */
+    position: absolute;
+    clear: both;
+    background-color:#333333;
+    background-image:url("../images/window/maingBg.png");
+    background-repeat:repeat-x;
+    background-position:top;
+    border:#212121 1px solid;
+    -moz-border-radius:12px;
+    -webkit-border-radius:12px;
+    
+    -moz-box-shadow: 3px  3px 3px #000;
+	-webkit-box-shadow: 3px 3px 3px #000;
+	box-shadow: 3px 3px 3px #000;
+}
+
+    #window-container div.window iframe
+    {
+        /* actual styling */
+        background-color:white;
+        position:absolute;
+        left:5px;
+        top:25px;
+    }
+     
+    #window-container div.window img.bottomRightCorner
+    {
+        position:absolute;
+        bottom:0;
+        right:0;
+    }
+
+
+#window-container div.snapper
+{
+    position:absolute;
+    border:2px solid #000000;
+    opacity:0.8;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    z-index:9999999;
+}
+
+#window-container div#snapLeft
+{
+    top:0px;
+    left:0px;
+    width:50%;
+    height:100%;
+}
+
+#window-container div#snapRight
+{
+    top:0px;
+    left:50%;
+    width:50%;
+    height:100%;
+}
+
+#window-container div#snapTop
+{
+    top:0px;
+    left:0px;
+    width:100%;
+    height:50%;
+}
+
+#window-container div#snapBottom
+{
+    margin-top:50%;
+    left:0px;
+    width:100%;
+    height:50%;
+}
+
+/* Resizable ----------------------------------*/
+.ui-resizable { position: relative;}
+.ui-resizable-handle { position: absolute;font-size: 0.1px;z-index: 99999; display: block;}
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
+.ui-resizable-n { cursor: n-resize; height: 7px; width: 100%; top: -5px; left: 0; }
+.ui-resizable-s { cursor: s-resize; height: 7px; width: 100%; bottom: -2px; left: 0; }
+.ui-resizable-e { cursor: e-resize; width: 7px; right: -2px; top: 0; height: 100%; }
+.ui-resizable-w { cursor: w-resize; width: 7px; left: -5px; top: 0; height: 100%; }
+.ui-resizable-se { cursor: se-resize; width: 12px; height: 12px; right: 3px; bottom: 3px; }
+.ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: -5px; bottom: -5px; }
+.ui-resizable-nw { cursor: nw-resize; width: 9px; height: 9px; left: -5px; top: -5px; }
+.ui-resizable-ne { cursor: ne-resize; width: 9px; height: 9px; right: -5px; top: -5px;}

@@ -1,0 +1,117 @@
+27.11.2002
+Version 1.1a2
+ - streams coming from AVI (except video) or OGM file can be excluded for the final OGM
+   thanks to a new option in the .omx file (latest format)
+
+10.11.2002
+Version 1.1a1
+ - now use a (really) basic XML-like parser to read the setup file (you are not bound to
+   the former strict use of this setup file concerning section presence and formatting)
+ - you can use another type of setup file with some new features : frames where to cut
+   , offset, proper comments, filetype forcing, ...
+   See OGMuxer.txt for more information (and Setup-New.omx for an example)
+ - fixed a bug occuring when cutting subtitles in very specific circunstances and resulting
+   in last part(s) being unplayable
+
+01.11.2002
+Version 1.0a10
+ - fixed a bug making DVobSub write subtitles one on another
+
+27.10.2002
+Version 1.0a9
+ - fixed some bugs regarding subtitles cutting
+ 
+24.10.2002
+Version 1.0a8
+ - titles are managed more efficiently (see OGMuxer.txt)
+
+21.10.2002
+Version 1.0a7
+ - fixed a bug where TITLE was renamed "... - Part 1 - Part %n" when splitting
+
+20.10.2002
+Version 1.0a6
+ - fixed a bug concerning the use of --frames "..." in certain cases
+
+18.10.2002
+Version 1.0a5
+ - fixed a problem when using 0 as split size in the .omx file
+ - fixed a bug causing OGMuxer generating invalid Vorbis streams when cutting
+ - fixed a bug causing first part containing all chapters (even those not
+   belonging to this first part)
+
+14.10.2002
+Version 1.0a4
+ - forgot to allow split in .omx file :p
+ 
+13.10.2002
+Version 1.0a3
+ - changed the order in which file type is tested to avoid some very rare cases
+   where a SRT file containing specific characters (Cyrillic, ...) could be badly
+   treated as being an MP3 or AC3 file
+ - some minor bug fixes
+ 
+07.10.2002
+Version 1.0a2
+ - fixed a bug where OGMuxer would loop doing nothing while opening input files
+ - fixed a bug causing OGMuxer to crash when using an omx file
+ - fixed a bug causing error when using a Vorbis stream
+ - changed some things in header declarations for MP3 and AC3 streams
+
+04.10.2002
+Version 1.0a1
+ - fixed another bug that could have caused problems when using OGM (with more than
+   1 stream) file as input
+ - added the possibility to cut the resulting OGM file according to a split size,
+   frames you specified, or both (see OGMuxer.txt for more information).
+   This works similarly to OGMCutter.
+ 
+02.10.2002
+Version 0.9a6
+ - fixed what could have caused problems when using OGM (with more than 1 stream)
+   file as input
+ - added a lazy mode for Emp3r0r :p : you can precise the Setup file as unique option
+   thus allowing drag'n'drop of such Setup file
+ - (great) internal rework
+ - seems a little faster to process now :)
+ - added WAV format for input
+ - will now process all audio streams coming from an AVI file
+ - can "reprocess" audio streams coming from an AVI or WAV file (instead of just
+   writing the data as is, reprocess them regarding their type - valid for MP3 or
+   AC3 streams in AVI and WAV files)
+   Nb : This is of great help when the audio stream is a VBR one :) (on my test
+   reprocessing fixes a synchronisation problem I have when not using reprocessing)
+   See OGMuxer.txt for more information.
+
+26.09.2002
+Version 0.9a5
+ - added the possiblity to test if an input file is of a known type
+ - fixed a problem causing comments (coming from Setup file) to be applied
+   to all the streams in an ogm file (now only apply to the video for title
+   and to audio when language)
+
+20.09.2002
+Version 0.9a4
+ - corrected a little bug regarding multichannel Vorbis streams
+
+18.09.2002
+Version 0.9a3
+ - try to be more compliant with Ogg and OggDS
+
+12.09.2002
+Version 0.9a2
+ - fixed memory leak (version 0.9a1)
+ - added some code coming from OggMux (automatisation setup file parsing)
+ - added some tools (reading routines) coming from VirtualDub 1.4.10 for opening AVI files
+   thus replacing the AVILib use (because of its 2GB limit), and breaking the 2GB limit
+   (at least in theory)
+
+06.09.2002
+Version 0.9a1 (non public release)
+ - internal rework
+ - added buffering for input and output files (except for AVILib) to speed up the process
+ - added comments for input streams (internally)
+
+04.09.2002
+Version 0.9
+ - first public release

@@ -1,0 +1,18 @@
+<playlist version="1" xmlns="http://xspf.org/ns/0/">
+<title>hwdVideoShare Playlist</title>
+<info>http:/xspf.org/xspf-v1.html</info>
+<trackList>
+
+  <track>
+    <location><![CDATA[http://localhost/shigaru/hwdvideos/uploads/opkw53shinynhr.flv]]></location>
+    <image><![CDATA[http://localhost/shigaru/hwdvideos/thumbs/opkw53shinynhr.jpg]]></image>
+    <title><![CDATA[ehhhhhhhhhhhh]]></title>
+    <annotation><![CDATA[dda&#241;skas&#241;
+fdasfsf
+fdsfsd
+?dsadkdas'as...]]></annotation>
+	<meta rel='type'>video</meta>
+  </track>
+
+</trackList>
+</playlist>

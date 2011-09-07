@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.3" type="plugin" group="user">
+	<name>CB Social Networks</name>
+	<author>Edfel J. RIvera</author>
+	<creationDate>April 22, 2010</creationDate>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>webmaster@juntehispano.com</authorEmail>
+	<authorUrl>http://www.juntehispano.com</authorUrl>
+	<version>1.2</version>
+	<description>Shows user's Social Network's at user CB profile. </description>
+	<files>
+		<filename plugin="plug_cb_social">plug_cb_social.php</filename>
+		<filename>images/blogger.jpg</filename>
+		<filename>images/facebook.jpg</filename>
+		<filename>images/flickr.jpg</filename>
+		<filename>images/google.jpg</filename>
+		<filename>images/hi5.jpg</filename>
+		<filename>images/linkedin.jpg</filename>
+		<filename>images/myspace.jpg</filename>
+		<filename>images/twitter.jpg</filename>
+		<filename>images/youtube.jpg</filename>
+		<filename>images/wordpress.jpg</filename>
+		<filename>images/none.png</filename>
+	</files>
+    <params>
+    </params>	    
+	<tabs>
+		<tab name="Social Networks" description="" class="getsocialpagesURL" fields="1" position="cb_tabmain" displaytype="tab">
+			<params>
+			</params>
+			<fields>
+			<field name="cb_myspacepageURL" type="text" size="40" default="" title="MySpace" profile="0" description="http://home.myspace.com/" />
+			<field name="cb_twitterpageURL" type="text" size="40" default="" title="Twitter" profile="0" description="http://twitter.com/" />
+			<field name="cb_facebookURL" type="text" size="40" default="" title="FaceBook" profile="0" description="http://facebook.com/" />
+			<field name="cb_linkedinURL" type="text" size="40" default="" title="Linkedin" profile="0" description="http://linkedin.com/" />
+			<field name="cb_hi5URL" type="text" size="40" default="" title="HI5" profile="0" description="http://hi5.com/" />
+			<field name="cb_googleURL" type="text" size="40" default="" title="Google" profile="0" description="http://google.com/" />
+			<field name="cb_youtubeURL" type="text" size="40" default="" title="YouTube" profile="0" description="http://youtube.com/" />
+			<field name="cb_flickrURL" type="text" size="40" default="" title="Flickr" profile="0" description="http://flickr.com/" />
+			<field name="cb_bloggerURL" type="text" size="40" default="" title="Blogger" profile="0" description="http://blogger.com/" />
+			<field name="cb_wordpressURL" type="text" size="40" default="" title="Wordpress" profile="0" description="http://wordpress.com/" />
+			</fields>
+		</tab>
+	</tabs>
+</cbinstall>

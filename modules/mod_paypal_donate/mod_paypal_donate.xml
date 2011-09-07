@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+    <name> Paypal Donate</name>
+    <author>Akkachai </author>
+	<creationDate>April 2008</creationDate>
+	<authorEmail>acdsin24@live.com</authorEmail>
+	<authorUrl>www.mindphp.com</authorUrl>
+    <version>1.5.0</version>
+    <description> Donate System use paypal . Thank you for installing the PayPal Donations Module</description>
+    <files>
+        <filename module="mod_paypal_donate">mod_paypal_donate.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+    </files>
+ <params>  
+  <param name="paypal_email" type="text" default="you@yourdomain.com" label="PayPal Email" size="36" 
+     description="Your PayPal Email Address." />
+  <param name="item_name" type="text" default="Donate to yourdomain.com" label="Title name" size="48" 
+     description="Your Text Title ." />
+   </params>   
+</install>

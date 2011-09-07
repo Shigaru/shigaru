@@ -1,0 +1,21 @@
+Name: JV Facebook Module
+Author: ZooTemplate
+CreationDate: March 2011
+Copyright (c) 2008 - 2011 ZooTemplate. All rights reserved.
+AuthorURL: http://www.ZooTemplate.com/
+Description: JV Facebook Module by ZooTemplate
+---------------------------------------------------------
+CHANGE LOG:
+
+Legend:
+
+# -> Bug Fix
+$ -> Language fix or change
++ -> Addition
+^ -> Change
+- -> Removed
+! -> Note
+------------ 1.5.3 Release [May-04-2011] ------------
+May 04, 2011: George Tong
+# Fix bug: display ie9
++ Add choose style display

@@ -1,0 +1,29 @@
+This file is about which features MeWiG should get in the future...
+(and which are already done)
+
+Working:
+- single source/file encoding
+- (basic) cropping, scaling, deinterlacing.
+- audio-encoding using mp3lame
+- video-encoding using ffmpeg
+- 2 pass-encoding
+- Bitrate-calculator
+- script export
+- thread-priority ("nicing")
+- shutdown
+- multiple file-sources (long scripts ;) )
+- dvd sources
+- auto-cropping (remove black borders)
+- autosense for filters (get res/aspect from mplayer, fix by 16, etc.)
+- local dvd (from dir, not disc) usage
+- xvid-support
+- ogg/ogm - support
+- ivtc
+
+Todo:
+- "profiles"
+- svcd-sources
+- preview-window for filters (show bitmap)
+- 3pass encoding (auto-bitrate)
+- min. bitrate (more discs)
+

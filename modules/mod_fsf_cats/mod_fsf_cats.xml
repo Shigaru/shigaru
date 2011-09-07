@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+  <name>FSF - FAQ category listing</name>
+  <author>Freestyle Joomla</author>
+  <version>1.5.5</version>
+  <description>Module to list your faq categories</description>
+  <copyright>Copyright Freestyle Joomla 2010</copyright>
+  <license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+  <files>
+    <filename>mod_fsf_cats.xml</filename>
+    <filename module="mod_fsf_cats">mod_fsf_cats.php</filename>
+    <filename>index.html</filename>
+    <folder>tmpl</folder>
+  </files>
+  <params addpath="/administrator/components/com_fsf/elements">
+    <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+    <param name="pagefaq" type="pagefaqa" default="-1" label="FAQs Menu Item" description="Select your main menu item that links to FAQs. Allow you to use the parameters from this page. Alternatly, you can select default parameters." />
+    <param name="show_images" type="radio" default="1" label="Show Images" description="Show images against category heading">
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </param>
+  </params>
+</install>

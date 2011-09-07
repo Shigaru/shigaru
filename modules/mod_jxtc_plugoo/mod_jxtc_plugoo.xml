@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<install type="module" version="1.5.0" method="upgrade">
+	<name>JoomlaXTC Plugoo Module</name>
+	<author>JoomlaXTC</author>
+	<creationDate>2009-09-14</creationDate>
+	<copyright>Copyright (C) 2009,2010 Monev Software LLC. All rights reserved.</copyright>
+	<authorUrl>http://www.joomlaxtc.com</authorUrl>
+	<version>1.1</version>
+	<description>JoomlaXTC Plugoo Module v1.1 - Visit www.joomlaxtc.com documents area for help.</description>
+	<files>
+		<filename module="mod_jxtc_plugoo">mod_jxtc_plugoo.php</filename>
+		<filename>COPYRIGHT.php</filename>
+		<filename>LICENSE.php</filename>
+	</files>
+	<params>
+		<param name="width" type="text" default="540" label="Module width" description="Module width in pixels (default = 540)." />
+		<param name="height" type="text" default="300" label="Module height" description="Module height in pixels (default = 300)." />
+		<param name="display_mode" type="list" default="m" label="Display mode" description="Choose between regular module or Lightbox display." >
+			<option value="m">Module</option>
+			<option value="l">Lightbox</option>
+			<option value="p">Pop-up window</option>
+		</param>
+		<param name="button" type="imagelist" default="" directory="/images" hide_default="1" hide_none="1" label="Button image" description="Button image file (from '/images' directory)." />
+		<param name="plugoo" type="text" size="30" default="" label="Plugoo code" description="Enter your unique Plugoo ID (as shown on Plugoo embed code)." />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+</install>

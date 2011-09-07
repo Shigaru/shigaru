@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<install type="component" version="1.5">
+	<name>cbjuice</name>
+	<creationDate>March 27, 2010</creationDate>
+	<author>Paul Jacobson and Stephen Thompson </author>
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<authorEmail>jci.soft@gmail.com</authorEmail>
+	<authorUrl>http://joomlacode.org/gf/project/cbjuice/</authorUrl>
+	<version>v1.7Beta7</version>
+	<description>CBJoomla User Import/Edit Component - Use this software at your own risk!!! Please read Components | CBJUICE | About CBJUICE beforing using this component.</description>
+
+	<files>
+	<filename>views/index.html</filename>
+	</files>
+
+  	<install>
+  	</install>
+
+  	<uninstall>
+  	</uninstall>
+
+	<administration>
+		<menu task="">CBJUICE</menu>
+		<submenu>
+			<menu task="">Process Users from or to a CSV file</menu>
+			<menu task="save">Save Users</menu>
+			<menu task="about">About CBJUICE</menu>
+		</submenu>
+		<files>
+			<filename>admin.cbjuice.html.php</filename>
+			<filename>admin.cbjuice.php</filename>
+			<filename>toolbar.cbjuice.html.php</filename>
+			<filename>toolbar.cbjuice.php</filename>
+			<filename>cbjuicd.xml</filename>
+			<filename>index.html</filename>
+			</files>
+	</administration>
+</install>

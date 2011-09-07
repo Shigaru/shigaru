@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>VirtueMart Clouds</name>
+	<author>Danny Buytaert</author>
+	<creationDate>juli 2009</creationDate>
+	<copyright>Copyright (C) 2009 Danny Buytaert All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>danny@freakout.be</authorEmail>
+	<authorUrl>www.joomlafreak.be www.freakout.be</authorUrl>
+	<version>1.3.3</version>
+	<description>Virtuemart Clouds generates a Cloud or a List of the most ocurrences words from your VirtueMart products. See http://www.joomlafreak.be for more info and downloads.</description>
+	<files>
+	<filename module="mod_virtuemart_cloud">mod_virtuemart_cloud.php</filename>
+	<filename>index.html</filename>
+    <filename>helper.php</filename>
+    <filename>tmpl/default.php</filename>
+    <filename>tmpl/index.html</filename>
+	</files>	
+	<params>
+			<param name="sql_select" type="list" default="name_short" label="Select words from" description="Select text from these fields">
+			<option value="name_short_full">Product name,Short desc,Full desc</option>
+			<option value="name_short">Product name, Short desc</option>
+			<option value="name_full">Product name,Full desc</option>
+			<option value="name">Product name</option>
+			<option value="short">Short desc</option>
+			<option value="full">Full desc</option>
+			<option value="short_full">Short desc, Full desc</option>
+	  	</param>
+		<param name="tagcategory_id" type="text" default=""
+			label="Category ID(s)"
+			description="Here you can fill in one or more category IDs (comma-separated list), so that only most used words from this category are used. Just leave blank if you want to show words from all categories. Does NOT use name of child products to generate tags when used." />
+		<param name="filterspecial" type="list" default="all"
+			label="(filter) Select words from"
+			description="Tag only discounted or special products ?">
+			<option value="all">all products</option>
+			<option value="featured">featured (special) products</option>
+			<option value="discounted">discounted products</option>
+			<option value="featured_and_discounted">featured and discounted products</option>
+		</param>
+			<param name="tagchild" type="radio" default="1" label="Create tags from child products name" description="Does NOT work when Auto Category Tag is enabled, or when CategoryID(s) are used!">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+	  	</param>	
+			<param name="auto_category_tag" type="radio" default="0" label="Auto Category Tag" description="Show only tags from the actual category the user browses in. Does NOT use name of child products to generate tags">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+	  	</param>
+		<param name="checkstock" type="radio" default="0" label="Check Stock?" description="Don't create tags of products that are not in stock">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+	  	</param>	
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="searchfunction" type="list" default="normalsearch"
+			label="Search results from"
+			description="Default search shows default search page. Advanced search shows default category page">
+			<option value="normalsearch">Product Name, SKU, Short desc, Full desc (Default search)</option>
+			<option value="name">Product name (Advanced search)</option>
+			<option value="desc">Short desc, Full desc (Advanced search)</option>
+			<option value="full">Product Name, SKU, Short desc, Full desc, Category name, Url (Advanced search)</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />	
+		<param name="show_link" type="radio" default="1" label="Enable link" description="Enable link on tags (default = yes).">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+	  	</param>
+
+		<param name="max_items" type="text" default="40" label="Number of Tags to display" description="The number of items to display (default 40)" />
+		<param name="format_list" type="list" default="0" label="List format" description="Select format: List/Cloud">
+			<option value="0">Cloud</option>
+			<option value="1">ul li List</option>
+	  	</param>	
+		
+		<param name="ordering" type="list" default="1" label="Ordering" description="Ordering options">
+			<option value="0">No ordering</option>
+			<option value="1">Alphabetical (A->Z)</option>
+			<option value="2">Alphabetical (Z->A)</option>			
+			<option value="3">Highest rate</option>
+			<option value="4">Lowest rate</option>
+			<option value="5">Shuffle (Random)</option>
+	  	</param>
+		<param name="show_numbers" type="radio" default="0" label="Show numbers" description="Shows a number how many times the word is used">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+	  	</param>
+		<param name="show_numbers_left_separator" type="text"  size="3" default="(" label="Left rate separator" description="Left rate separator" />
+		<param name="show_numbers_right_separator" type="text"  size="3" default=")" label="Right rate separator" description="Right rate separator" />						
+		<param name="minimum_word_length" type="text"  size="5" default="4" label="Minimum word length" description="Minimum word length" />	
+		<param name="maximum_word_length" type="text"  size="5" default="15" label="Maximum word length" description="Maximum word length" />	
+		<param name="minimum_fontsize" type="text"  size="5" default="10" label="Minimum tag font size" description="Minimum TAG font size" />	
+		<param name="maximum_fontsize" type="text"  size="5" default="24" label="Maximum tag font size" description="Maximum TAG font size" />	
+		<param name="css_fontsize_length" type="list" default="px" label="Tag font size length unit" description="Select font size length unit">
+			<option value="px">px</option>
+			<option value="%">%</option>
+			<option value="em">em</option>			
+			<option value="ex">ex</option>
+	    </param>
+        <param name="separator" type="text"  size="3" default="" label="Word separator" description="Word separator. Leave blank for default. Default is a non-breaking space." />					
+		<param name="max_records" type="text" default="100"  size="5" label="Max. Rows in Database Query" description="Max. Last Rows in Database Query (very important for good performances)" />	
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="color_usecolor" type="radio" default="1" label="Use Random Color" description="Show tags in random color.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+	  	</param>		
+		<param name="color_start" type="text" default="004E00" label="Minimal color value #" description="Minimal color value ,Hex format without #. This is not 000000 as you have a big change on black (default = 004E00 ) " />
+        <param name="color_end" type="text" default="FFFFFF" label="Maximal color value #" description="Maximal color value ,Hex format without #. Default is white (default = FFFFFF ) " />
+		<param name="@spacer" type="spacer" default="" label="" description="" />	
+		<param name="blacklist" type="textarea" rows="6" cols="50" default="about, above, across, after, afterwards, again, against, all, almost, alone, along, already, also, although, always, am, among, amongst, amoungst, amount, an, and, another, any, anyhow, anyone, anything, anyway, anywhere, are, around, as, at, back, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, below, beside, besides, between, beyond, bill, both, bottom, but, by, call, can, cannot, cant, co, computer, con, could, couldnt, cry, de, describe, detail, do, done, down, due, during, each, eg, eight, either, eleven, else, elsewhere, empty, enough, etc, even, ever, every, everyone, everything, everywhere, except, few, fifteen, fify, fill, find, fire, first, five, for, former, formerly, forty, found, four, from, front, full, further, get, give, go, had, has, hasnt, have, he, hence, her, here, hereafter, hereby, herein, hereupon, hers, herself, him, himself, his, how, however, hundred, i, ie, if, in, inc, indeed, interest, into, is, it, its, itself, keep, last, latter, latterly, least, less, ltd, made, many, may, me, meanwhile, might, mill, mine, more, moreover, most, mostly, move, much, must, my, myself, name, namely, neither, never, nevertheless, next, nine, no, nobody, none, noone, nor, not, nothing, now, nowhere, of, off, often, on, once, one, only, onto, or, other, others, otherwise, our, ours, ourselves, out, over, own, part, per, perhaps, please, put, rather, re, same, see, seem, seemed, seeming, seems, serious, several, she, should, show, side, since, sincere, six, sixty, so, some, somehow, someone, something, sometime, sometimes, somewhere, still, such, system, take, ten, than, that, the, their, them, themselves, then, thence, there, thereafter, thereby, therefore, therein, thereupon, these, they, thick, thin, third, this, those, though, three, through, throughout, thru, thus, to, together, too, top, toward, towards, twelve, twenty, two, un, under, until, up, upon, us, very, via, was, we, well, were, what, whatever, when, whence, whenever, where, whereafter, whereas, whereby, wherein, whereupon, wherever, whether, which, while, whither, who, whoever, whole, whom, whose, why, will, with, within, without, would, yet, you, your, yours, yourself, yourselves" label="Black list / Stopwords  not usefuly" description="Black list / Stopwords  not usefuly" />
+
+	</params>		
+	<params group="advanced">
+		<param name="tipo_low" type="list" default="0" label="UTF-8 strtolower options" description="Strtolower function options. if tou have UTF8 problems change the strtolower function option.">
+			<option value="0">PHP strtolower standard function</option>
+			<option value="1">PHP strtolower alternative function 1</option>
+			<option value="2">PHP mb_strtolower function</option>
+	  	</param>	
+		<param name="@spacer" type="spacer" default="" label="" description="" />	
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
+	</params>
+
+</install>

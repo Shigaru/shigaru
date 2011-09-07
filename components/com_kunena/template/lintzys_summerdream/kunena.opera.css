@@ -1,0 +1,74 @@
+/**
+* @version $Id: kunena.opera.css 001 Template Lintzys_Summerdream 2009-06-15 14:57:36Z Lintzy $
+* @Copyright (C) 2009 Lintzy (Angelika Reisiger) All rights reserved
+* @license http://creativecommons.org/licenses/by-nc-sa/3.0/deed.de 
+* @link http://www.webdesign-welt.de
+
+* Based on Kunena Component
+* @Copyright (C) 2008 - 2009 Kunena Team All rights reserved
+* @package Kunena
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GP
+* @link http://www.kunena.com
+*
+* Based on FireBoard Component
+* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* @link http://www.bestofjoomla.com
+**/
+
+/* ======= */
+
+div#Kunena_wrapper{
+margin-left:auto;
+margin-right:auto;
+}
+
+#Kunena #fb_postmessage tr.fb_sectiontableentry2 td {
+border-left: 1px solid #DDDDDD;
+border-right: 1px solid #DDDDDD;
+}
+
+#Kunena #fb_postmessage tr.fb_sectiontableentry1 td {
+border-left: 1px solid #DDDDDD;
+border-right: 1px solid #DDDDDD;
+}
+
+#Kunena #fb_postmessage textarea.fb_txtarea {
+border-bottom: 1px solid #DDDDDD!important;
+width:100%;
+overflow:hidden;
+}
+#Kunena .bbcodestyleone .fb_button {
+font-size:1.3em!important;
+padding-bottom:0px!important;
+}
+#Kunena #fb_postmessage tr.fb_sectiontableentry2 td.fb-topicicons table {
+margin-left:10px;
+}
+#Kunena #fb_postmessage textarea.fb_txtarea {
+width:95%!important;
+}
+#Kunena td.td-1 {
+border-top:1px solid #BFC3C6!important;
+}
+#Kunena td.td-2 {
+border-left:1px solid #BFC3C6!important;
+}
+#Kunena td.td-3 {
+border-left:1px solid #BFC3C6!important;
+}
+#Kunena td.td-4 {
+border-left:1px solid #BFC3C6!important;
+}
+#Kunena td.td-5 {
+border-left:1px solid #BFC3C6!important;
+}
+#Kunena td.td-6 {
+border-left:1px solid #BFC3C6!important;
+}
+#Kunena th{
+border-left:0 solid #BFC3C6!important;
+}
+#Kunena div.fb_thead-child {
+padding-bottom:14px;
+}

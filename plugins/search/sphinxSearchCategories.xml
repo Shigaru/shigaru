@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="search">
+	<name>Sphinx Search - Categories</name>
+	<author>Ivinco</author>
+	<creationDate>June 2011</creationDate>
+	<copyright>Copyright (C) 2011 Ivinco LTD. All rights reserved.</copyright>
+	<license></license>
+	<authorEmail>opensource@ivinco.com</authorEmail>
+	<authorUrl>ivinco.com</authorUrl>
+	<version>0.1</version>
+	<description>Joomla! Sphinx Search Plugin allows to use Sphinx Search Server power to enable ultra-fast and feature-rich search by Joomla! Categories.</description>
+	<files>
+		<filename plugin="sphinxSearchCategories">sphinxSearchCategories.php</filename>
+		<filename>sphinxSearchCategories.lib.php</filename>
+	</files>
+	<params>
+		<param name="server" type="text" size="25" default="localhost" label="Sphinx Server" description="Server that Sphinx is hosted on (i.e. localhost)"/>
+		<param name="port" type="text" size="25" default="9312" label="Sphinx Port" description="Port that Sphinx is hosted on (i.e. 3312)"/>
+		<param name="index" type="text" size="25" default="joomla_categories" label="Index Name" description="Name of the index"/>
+
+	</params>
+</install>

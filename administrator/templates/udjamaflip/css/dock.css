@@ -1,0 +1,75 @@
+/* dock - top */
+.dock {
+	position: relative; 
+	height: 40px; 
+	text-align: center;
+}
+
+/* dock2 - bottom */
+#dock {
+	width: 100%;
+	bottom: 0px;
+	position: absolute;
+	left: 0px;
+	z-index:99999;
+}
+.dock-container {
+	position: absolute;
+	height: 40px;
+	background: url(../images/dock-bg.jpg);
+	padding-left: 20px;
+}
+a.dock-item {
+	display: block; 
+	font: bold 12px Arial, Helvetica, sans-serif;
+	width: 60px; 
+	color: #000; 
+	bottom: 5px;
+	position: absolute;
+	text-align: center;
+	text-decoration: none;
+}
+.dock-item span {
+    color:#CCCCCC;
+	display: none;
+	padding-left: 20px;
+}
+.dock-item img {
+	border: none; 
+	margin: 5px 10px 0px; 
+	width: 96%;
+}
+
+#dynamic-icons
+{
+    display: block;
+	width: auto;
+	position: absolute;
+    left:5px;
+}
+
+#dock a.maximise {
+	display: block; 
+	font: bold 12px Arial, Helvetica, sans-serif;
+	width: 60px; 
+	color: #000;
+	bottom: 5px; 
+	position: absolute;
+	text-align: center;
+	text-decoration: none;
+    opacity:0.8;
+}
+
+#dock a.maximise:hover {
+    opacity:1.0;
+}
+
+.maximise span {
+	display: none;
+	padding-left: 20px;
+}
+.maximise img {
+	border: none; 
+	margin: 5px 10px 0px; 
+	width: 96%; 
+}

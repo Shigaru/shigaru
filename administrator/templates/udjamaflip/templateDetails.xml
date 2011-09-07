@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://dev.joomla.org/xml/1.5/template-install.dtd">
+<install type="template" version="1.5.0" client="administrator">
+	<name>Udjamaflip</name>
+	<creationDate>02/02/2010</creationDate>
+	<author>Andy Sharman</author>
+	<authorEmail>andy@udjamaflip.com</authorEmail>
+	<authorUrl>http://www.joomla.org</authorUrl>
+	<copyright></copyright>
+	<license>GNU/GPL</license>
+	<version>1.0 BETA</version>
+	<description>Administration template for Joomla! 1.5</description>
+	<files>
+        <filename>includes/tmpl.cpanel.php</filename>
+        <filename>includes/tmpl.header.php</filename>
+        <filename>includes/tmpl.window.php</filename>
+        <filename>includes/tmpl.footer.php</filename>
+        <filename>index.html</filename>
+        <filename>template_thumbnail.png</filename>
+        <filename>images/toolbar/tb_32_menu.png</filename>
+        <filename>images/toolbar/tb_32_parameters.png</filename>
+        <filename>images/toolbar/index.html</filename>
+        <filename>images/toolbar/tb_32_css.png</filename>
+        <filename>images/toolbar/icon-32-export.png</filename>
+        <filename>images/toolbar/icon-32-new-style.png</filename>
+        <filename>images/toolbar/tb_32_forward.png</filename>
+        <filename>images/toolbar/tb_32_refresh.png</filename>
+        <filename>images/toolbar/tb_32_upload.png</filename>
+        <filename>images/toolbar/icon-32-download.png</filename>
+        <filename>images/toolbar/tb_32_cancel.png</filename>
+        <filename>images/toolbar/icon-32-delete-style.png</filename>
+        <filename>images/toolbar/icon-32-edit.png</filename>
+        <filename>images/toolbar/icon-32-lock.png</filename>
+        <filename>images/toolbar/tb_32_archive.png</filename>
+        <filename>images/toolbar/tb_32_html.png</filename>
+        <filename>images/toolbar/tb_32_archive_out.png</filename>
+        <filename>images/toolbar/tb_32_unpublish.png</filename>
+        <filename>images/toolbar/tb_32_save.png</filename>
+        <filename>images/toolbar/tb_32_sendmail.png</filename>
+        <filename>images/toolbar/tb_32_publish.png</filename>
+        <filename>images/toolbar/tb_32_help.png</filename>
+        <filename>images/toolbar/icon-32-print.png</filename>
+        <filename>images/toolbar/tb_32_copy.png</filename>
+        <filename>images/toolbar/icon-32-xml.png</filename>
+        <filename>images/toolbar/icon-32-default.png</filename>
+        <filename>images/toolbar/tb_32_move.png</filename>
+        <filename>images/toolbar/icon-32-forward.png</filename>
+        <filename>images/toolbar/tb_32_trash.png</filename>
+        <filename>images/toolbar/icon-32-adduser.png</filename>
+        <filename>images/toolbar/tb_32_preview.png</filename>
+        <filename>images/toolbar/icon-32-back.png</filename>
+        <filename>images/toolbar/tb_32_back.png</filename>
+        <filename>images/toolbar/icon-32-purge.png</filename>
+        <filename>images/toolbar/tb_32_restore.png</filename>
+        <filename>images/toolbar/tb_32_edit.png</filename>
+        <filename>images/toolbar/icon-32-css.png</filename>
+        <filename>images/toolbar/tb_32_default.png</filename>
+        <filename>images/toolbar/tb_32_apply.png</filename>
+        <filename>images/toolbar/icon-32-error.png</filename>
+        <filename>images/toolbar/tb_32_delete.png</filename>
+        <filename>images/toolbar/tb_32_add.png</filename>
+        <filename>images/toolbar/toolbarBg.jpg</filename>
+        <filename>images/dock-bg.gif</filename>
+        <filename>images/loginBg.png</filename>
+        <filename>images/taskbarBG.png</filename>
+        <filename>images/refresh.png</filename>
+        <filename>images/legacy.png</filename>
+        <filename>images/blank.gif</filename>
+        <filename>images/minimise.png</filename>
+        <filename>images/favicon.ico</filename>
+        <filename>images/bodyBG.png</filename>
+        <filename>images/icons/tb_copy.png</filename>
+        <filename>images/icons/tb_forward.png</filename>
+        <filename>images/icons/tb_archive_out.png</filename>
+        <filename>images/icons/tb_back.png</filename>
+        <filename>images/icons/tb_restore.png</filename>
+        <filename>images/icons/tb_move.png</filename>
+        <filename>images/icons/tb_help.png</filename>
+        <filename>images/icons/tb_upload.png</filename>
+        <filename>images/icons/tb_preview.png</filename>
+        <filename>images/icons/tb_refresh.png</filename>
+        <filename>images/icons/tb_archive.png</filename>
+        <filename>images/icons/tb_cancel.png</filename>
+        <filename>images/icons/tb_edit.png</filename>
+        <filename>images/icons/tb_css.png</filename>
+        <filename>images/icons/tb_parameters.png</filename>
+        <filename>images/icons/tb_menu.png</filename>
+        <filename>images/icons/tb_add.png</filename>
+        <filename>images/icons/tb_sendmail.png</filename>
+        <filename>images/icons/tb_save.png</filename>
+        <filename>images/icons/tb_trash.png</filename>
+        <filename>images/icons/tb_apply.png</filename>
+        <filename>images/icons/tb_default.png</filename>
+        <filename>images/icons/tb_delete.png</filename>
+        <filename>images/icons/tb_publish.png</filename>
+        <filename>images/icons/tb_unpublish.png</filename>
+        <filename>images/icons/tb_html.png</filename>
+        <filename>images/startButton.png</filename>
+        <filename>images/close.png</filename>
+        <filename>images/menuBG.png</filename>
+        <filename>images/maximise.png</filename>
+        <filename>images/udjamaflip-logo.png</filename>
+        <filename>images/dock-bg2.gif</filename>
+        <filename>images/login-logo.png</filename>
+        <filename>images/window/mainBg.png</filename>
+        <filename>images/window/bottomRightCornerExpand.png</filename>
+        <filename>images/window/miniLogo.png</filename>
+        <filename>images/startButton-on.png</filename>
+        <filename>images/dock-bg.jpg</filename>
+        <filename>favicon.ico</filename>
+        <filename>cpanel.php</filename>
+        <filename>component.php</filename>
+        <filename>credits.txt</filename>
+        <filename>index.php</filename>
+        <filename>params.ini</filename>
+        <filename>login.php</filename>
+        <filename>templateDetails.xml</filename>
+        <filename>js/jquery.js</filename>
+        <filename>js/jquery-inc.js</filename>
+        <filename>js/functions.js</filename>
+        <filename>js/init.js</filename>
+        <filename>js/interface.js</filename>
+        <filename>js/jquery-ui.js</filename>
+        <filename>js/jclock.js</filename>
+        <filename>css/windows.css</filename>
+        <filename>css/toolbar.css</filename>
+        <filename>css/_notes/dwsync.xml</filename>
+        <filename>css/udjamaflip.css</filename>
+        <filename>css/menu.css</filename>
+        <filename>css/dock.css</filename>
+        <filename>css/template.css</filename>
+    </files>
+	<positions>
+		<position>menu</position>
+		<position>submenu</position>
+		<position>toolbar</position>
+		<position>title</position>
+		<position>status</position>
+		<position>icon</position>
+		<position>cp_shell</position>
+		<position>cpanel</position>
+		<position>debug</position>
+    </positions>
+	<params>
+        <param type="spacer" default="Default Settings" />
+        <param name="defaultWidth" type="text" default="950" size="40" label="Default window width" />
+        <param name="defaultHeight" type="text" default="650" size="40" label="Default window height" />
+        <param name="defaultX" type="text" default="10" size="40" label="Default X position of new window" />
+        <param name="defaultY" type="text" default="10" size="40" label="Default Y position of new window" />
+        
+        <param type="spacer" default="Custom Dock Item 1" />
+        <param name="customDockItem1-title" type="text" default="" size="40" label="Title of dock item" />
+        <param name="customDockItem1-url" type="sql" default="" label="Select a component" query="SELECT admin_menu_link, admin_menu_alt FROM #__components WHERE admin_menu_link != '' AND parent=0 AND enabled=1" key_field="admin_menu_link" value_field="admin_menu_alt" />
+        <param name="customDockItem1-image" type="imagelist" default="" label="Select an image" description="" directory="administrator/templates/udjamaflip/images/icons" exclude="" stripext="" />
+        <param type="spacer" />
+
+        <param type="spacer" default="Custom Dock Item 2" />
+        <param name="customDockItem2-title" type="text" default="" size="40" label="Title of dock item" />
+        <param name="customDockItem2-url" type="sql" default="" label="Select a component" query="SELECT admin_menu_link, admin_menu_alt FROM #__components WHERE admin_menu_link != '' AND parent=0 AND enabled=1" key_field="admin_menu_link" value_field="admin_menu_alt" />
+        <param name="customDockItem2-image" type="imagelist" default="" label="Select an image" description="" directory="administrator/templates/udjamaflip/images/icons" exclude="" stripext="" />
+        <param type="spacer" />
+
+        <param type="spacer" default="Custom Dock Item 3" />
+        <param name="customDockItem3-title" type="text" default="" size="40" label="Title of dock item" />
+        <param name="customDockItem3-url" type="sql" default="" label="Select a component" query="SELECT admin_menu_link, admin_menu_alt FROM #__components WHERE admin_menu_link != '' AND parent=0 AND enabled=1" key_field="admin_menu_link" value_field="admin_menu_alt" />
+        <param name="customDockItem3-image" type="imagelist" default="" label="Select an image" description="" directory="administrator/templates/udjamaflip/images/icons" exclude="" stripext="" />
+        <param type="spacer" />
+
+        <param type="spacer" default="Custom Dock Item 4" />
+        <param name="customDockItem4-title" type="text" default="" size="40" label="Title of dock item" />
+        <param name="customDockItem4-url" type="sql" default="" label="Select a component" query="SELECT admin_menu_link, admin_menu_alt FROM #__components WHERE admin_menu_link != '' AND parent=0 AND enabled=1" key_field="admin_menu_link" value_field="admin_menu_alt" />
+        <param name="customDockItem4-image" type="imagelist" default="" label="Select an image" description="" directory="administrator/templates/udjamaflip/images/icons" exclude="" stripext="" />
+        <param type="spacer" />
+
+        <param type="spacer" default="Custom Dock Item 5" />
+        <param name="customDockItem5-title" type="text" default="" size="40" label="Title of dock item" />
+        <param name="customDockItem5-url" type="sql" default="" label="Select a component" query="SELECT admin_menu_link, admin_menu_alt FROM #__components WHERE admin_menu_link != '' AND parent=0 AND enabled=1" key_field="admin_menu_link" value_field="admin_menu_alt" />
+        <param name="customDockItem5-image" type="imagelist" default="" label="Select an image" description="" directory="administrator/templates/udjamaflip/images/icons" exclude="" stripext="" />
+        <param type="spacer" />
+	</params>
+</install>

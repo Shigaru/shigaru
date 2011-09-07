@@ -1,0 +1,12 @@
+/*=====  mod jv facebook fanbox  =====*/
+
+.fan_box {/*font-family: 'Courier New', Courier, monospace;*/}
+.fan_box .full_widget {/*border:1px solid #445533; color:;*/}
+.fan_box .full_widget .connect_top { /*background:#91AA9D none repeat scroll 0 0; color:#445533; padding:10px 10px 8px;*/}
+.fan_box .full_widget .connect_top a { /*color:#7C568C; */ }
+.fan_box .page_stream { /*background:#69D2F0 none repeat scroll 0 0; overflow:hidden; padding:0 10px; position:relative; text-align:center;*/ }
+.fan_box .connections { /* background:#62A5C0 none repeat scroll 0 0; color:#EBE9DD;*/ }
+.fan_box .connections .total{ }
+.fan_box .connections a { /*color:#EBE9DD */ }
+.fan_box .connections_grid .grid_item .name {/*color:#EBE9DD*/}
+.fan_box .connections_grid .grid_item img {/*border:1px solid #445533;*/}

@@ -1,0 +1,14 @@
+.zntooltip { 
+	display:none; 
+	background-color:#000; 
+	padding:7px 7px 7px 7px; 
+	font-size:11px; 
+	color:#fff; 
+	border:0px;
+	z-index:1000;
+
+} 
+.zncbmimg { 
+	cursor:pointer;
+
+} 

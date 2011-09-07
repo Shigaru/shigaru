@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="content">
+	<name>Load CB Field</name>
+	<author>Den KD</author>
+	<creationDate>3 February 2009</creationDate>
+	<copyright>Copyright (C) 2009 Joomduck. All rights reserved.</copyright>
+	<license>Commercial</license>
+	<authorEmail>support@joomduck.com</authorEmail>
+	<authorUrl>www.joomduck.com</authorUrl>
+	<version>1.0</version>
+	<description>This plugin provides loading of community builder fields in user profile.</description>
+		<files>
+		<filename plugin="cbfieldload">cbfieldload.php</filename>
+		</files>
+		<params>
+		</params>
+</install>

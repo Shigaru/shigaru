@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user">
+	<name>CB SUPER Avatar Updates</name>
+	<author>grVulture AXXIS.gr</author>
+	<creationDate>01/01/2009</creationDate>
+	<copyright>axxis.gr</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>grvulture@yahoo.com</authorEmail>
+	<authorUrl>http://www.axxis.gr</authorUrl>
+	<version>1.1</version>
+	<description>
+	This plugin will distinguish avatar updates from profile updates. Just publish it in your CB Plugin Management.</description>
+
+	<files>
+		<filename plugin="cb_plugin_super_avatar_update">cb_plugin_super_avatar_update.php</filename>
+    <filename>install.cbsuperavatarupdates.php</filename>
+    <filename>uninstall.cbsuperavatarupdates.php</filename>
+		<filename >index.html</filename>
+	</files>
+
+	<params>
+		<param name="@space" type="spacer" default="Avatar Update Plugin" label="Plugin Description" description=" This plugin will distinguish avatar updates from profile updates. Just publish it in your CB Plugin Management. ">
+		</param>
+  </params>
+
+
+	<tabs>
+	</tabs>
+  <install>
+    <queries>
+      <query>
+        UPDATE #__supera_versions SET avatar = 'v1.4' WHERE versionid=1
+      </query>
+    </queries>
+  </install>
+  <uninstall>
+  </uninstall>
+
+    <installfile>install.cbsuperavatarupdates.php</installfile>
+
+    <uninstallfile>uninstall.cbsuperavatarupdates.php</uninstallfile>
+
+</cbinstall>
+

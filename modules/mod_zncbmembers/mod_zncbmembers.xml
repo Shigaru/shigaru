@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>ZnCbMembers</name>
+	<author>ZnJoomla</author>
+	<creationDate>06/09/2010</creationDate>
+	<copyright>ZnJoomla.blogspot.com</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>zauanznjoomla@gmail.com</authorEmail>
+	<authorUrl>ZnJoomla.blogspot.com</authorUrl>
+	<version>1.0.0</version>
+	<description>This module will display a wall of your cb members in various settings.For more information and help with the use of this module please visit http://znjoomla.blogspot.com
+	</description>
+	<files>
+        <filename>mod_zncbmembers.xml</filename>
+        <filename module="mod_zncbmembers">mod_zncbmembers.php</filename>
+        <filename>helper.php</filename>
+		<filename>includes/jquery.tools.min.js</filename>
+        <filename>tmpl/default.php</filename>
+		<filename>tmpl/css/default.css</filename>
+	</files>
+	<params>
+		<param name="General settings:" type="" default="General Settings" label="" description=""></param>
+        <param name="count" type="text" default="10" label="Number of Members displayed" description="Choose how many members are displayed."></param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="module_width" type="text" default="400" label="Module Width" description="Choose the Module Width in pixels."></param>
+		<param name="module_height" type="text" default="400" label="Module Height" description="Choose the Module Height in pixels."></param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="width_thumbcb" type="text" default="60" label="Thumbnail Width" description="Choose the Thumbnail Width in pixels."></param>
+		<param name="height_thumbcb" type="text" default="80" label="Thumbnail Height" description="Choose the Thumbnail Height in pixels."></param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="modulefunction" type="list" default="1" label="Module Function" description="Select the funtion of the module">
+			<option value="1">Display Random User</option>
+			<option value="2">Display Latest User's</option>
+			<option value="3">Display Latest Login</option>
+			<option value="4">Display Most Popular users</option>
+			<option value="5">Display Last Updated Profiles</option>
+			<option value="6">Display Online Users</option>
+		</param>
+		<param name="showavataronly" type="radio" default="0" label="See users without picture?" description="Select if you want to show all the users or only the ones with picture.">
+			<option value="1">Yes (Show all users)</option>
+			<option value="0">No (Dont show users without picture)</option>
+		</param>
+        <param name="viewname" type="radio" default="0" label="Username or Real Name" description="Please choose if you want to choose the username or the Real Name of the user after the thumb...">
+			<option value="1">Real Name</option>
+			<option value="0">Username</option>
+		</param>
+		<param name="showimageapr" type="radio" default="0" label="Users without Avatar Approved" description="Select if you want to show or not users with CB avatar not approved or pending approval">
+			<option value="1">Show Users</option>
+			<option value="0">Dont Show users</option>
+		</param>
+		<param name="imagelinked" type="radio" default="0" label="Link User Avatar?" description="Select if you want the avatar of the user to be linked to him profile">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="Tooltip fields settings" description="" />
+		<param name="showgender" type="radio" default="0" label="Show users gender in tooltip?" description="Please choose if you want to show the users gender in the tooltip.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="gender_field" type="text" default="cb_gender" label="Gender field" description="Type the name of your gender field from Community builder fields."></param>
+		<param name="showage" type="radio" default="0" label="Show users age in tooltip?" description="Please choose if you want to show the users age in the tooltip.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="age_field" type="text" default="cb_birthday" label="Birthday field" description="Type the name of your birthday field from Community builder fields."></param>
+		<param name="showlocation" type="radio" default="0" label="Show users location?" description="Please choose if you want to show the users location in tooltip.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="location_field" type="text" default="cb_location" label="Location field" description="Type the name of your location field from Community builder fields."></param>
+		
+</params>
+</install>

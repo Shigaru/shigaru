@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="hwdvs-videoplayer" method="upgrade">
+    <name>Flow Player</name>
+    <creationDate>2010 04 19</creationDate>
+    <author>Highwood Design</author>
+    <copyright>(C) 2007 - 2009 Highwood Design</copyright>
+    <authorEmail>info@highwooddesign.co.uk</authorEmail>
+    <authorUrl>http://hwdmediashare.co.uk</authorUrl>
+    <version>[ Masterton ]</version>
+    <description>Adds Flow Player support to hwdVideoShare</description>
+    <files>
+	<folder>flow/</folder>
+        <filename plugin="flow">flow.view.php</filename>
+    </files>
+    <params>
+        <param name="accelerated" type="list" default="0" label="Accelerated" description="Flag indicating whether Flash 9 (and above) hardware-accelerated full screen mode should be used.">
+            <option value="1">Yes</option>
+            <option value="0">No (default)</option>
+        </param>
+        <param name="autoBuffering" type="list" default="1" label="Auto Buffering" description="Flag indicating whether loading of clip into player's memory should begin straight away. When this is true and autoPlay is false then the clip will automatically stop at first frame of the video.">
+            <option value="1">Yes (default)</option>
+            <option value="0">No</option>
+        </param>        
+        <param name="autoPlay" type="list" default="0" label="Auto Play" description="Flag indicating whether the player should start playback immediately upon loading.">
+            <option value="1">Yes</option>
+            <option value="0">No (default)</option>
+        </param>  
+        <param name="repeat" type="list" default="0" label="Repeat Playback" description="Repeat the video playback.">
+            <option value="1">Yes</option>
+            <option value="0">No (default)</option>
+        </param>  
+        <param name="bufferLength" type="list" default="3" label="Buffer Length" description="The amount of video data (in seconds) which should be loaded into Flowplayer's memory in advance of playback commencing.">
+            <option value="1">1 Sec</option>
+            <option value="2">2 Sec</option>
+            <option value="3">3 Sec (default)</option>
+            <option value="4">4 Sec</option>
+            <option value="5">5 Sec</option>
+            <option value="6">6 Sec</option>
+            <option value="7">7 Sec</option>
+            <option value="8">8 Sec</option>
+            <option value="9">9 Sec</option>
+            <option value="10">10 Sec</option>
+            <option value="11">11 Sec</option>
+            <option value="12">12 Sec</option>
+            <option value="13">13 Sec</option>
+            <option value="14">14 Sec</option>
+            <option value="15">15 Sec</option>
+            <option value="16">16 Sec</option>
+            <option value="17">17 Sec</option>
+            <option value="18">18 Sec</option>
+            <option value="19">19 Sec</option>
+            <option value="20">20 Sec</option>
+        </param>         
+        <param name="linkUrl" type="text" default="" size="10" label="External Link" description="Link to an external site." />    
+        <param name="scaling" type="list" default="0" label="Scaling" description="Setting which defines how video is scaled on the video screen.">
+            <option value="0">Scale (default)</option>
+            <option value="1">Fit</option>
+            <option value="2">Half</option>
+            <option value="3">Original</option>
+        </param>   
+        <param name="pseudostreaming" type="list" default="0" label="Allow Pseudostreaming" description="The biggest advantage of using pseudostreaming or any other streaming solution is the ability to seek in the timeline to positions that have not been downloaded yet to the player. This is most desirable for full-length movies because the visitor can seek to the last scene of a 2-hour movie if she wants to.">
+            <option value="0">No (default)</option>
+            <option value="1">xMoov-PHP</option>
+            <option value="2">H.264 Streaming Module</option>
+        </param> 
+	<param name="start" type="text" size="10" default="" label="Start Time" description="Position in seconds where the playback should start. Only used when streaming." />
+
+	<param name="" type="spacer" />
+
+	<param name="key" type="text" size="10" default="" label="Commercial Key" description="Commercial features require a product key." />
+	<param name="logo" type="text" size="50" default="" label="Logo" description="Location of a logo image." />
+
+	<param name="" type="spacer" />
+
+	<param name="backgroundColor"      type="text" size="10" default="#222222"         label="backgroundColor" description="" />
+	<param name="durationColor"        type="text" size="10" default="#ffffff"         label="durationColor" description="" />
+	<param name="volumeSliderColor"    type="text" size="10" default="#000000"         label="volumeSliderColor" description="" />
+	<param name="bufferColor"          type="text" size="10" default="#445566"         label="bufferColor" description="" />
+	<param name="buttonOverColor"      type="text" size="10" default="#728B94"         label="buttonOverColor" description="" />
+	<param name="sliderColor"          type="text" size="10" default="#000000"         label="sliderColor" description="" />
+	<param name="progressColor"        type="text" size="10" default="#112233"         label="progressColor" description="" />
+	<param name="volumeSliderGradient" type="text" size="10" default="none"            label="volumeSliderGradient" description="" />
+	<param name="backgroundGradient"   type="text" size="10" default="[0.6,0.3,0,0,0]" label="backgroundGradient" description="" />
+	<param name="borderRadius"         type="text" size="10" default="0px"             label="borderRadius" description="" />
+	<param name="buttonColor"          type="text" size="10" default="#5F747C"         label="buttonColor" description="" />
+	<param name="tooltipTextColor"     type="text" size="10" default="#ffffff"         label="tooltipTextColor" description="" />
+	<param name="sliderGradient"       type="text" size="10" default="none"            label="sliderGradient" description="" />
+	<param name="timeColor"            type="text" size="10" default="#01DAFF"         label="timeColor" description="" />
+	<param name="progressGradient"     type="text" size="10" default="medium"          label="progressGradient" description="" />
+	<param name="timeBgColor"          type="text" size="10" default="#555555"         label="timeBgColor" description="" />
+	<param name="tooltipColor"         type="text" size="10" default="#5F747C"         label="tooltipColor" description="" />
+	<param name="bufferGradient"       type="text" size="10" default="none"            label="bufferGradient" description="" />
+	<param name="cbheight"             type="text" size="10" default="24"              label="height" description="" />
+	<param name="opacity"              type="text" size="10" default="1.0"             label="opacity" description="" />
+
+    </params>
+</install>

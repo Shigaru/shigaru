@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="content">
+	<name>Content - JComments</name>
+	<creationDate>17/07/2009</creationDate>
+	<author>smart</author>
+	<copyright>Copyright 2006-2009 JoomlaTune.ru All rights reserved!</copyright>
+	<authorEmail>smart@joomlatune.ru</authorEmail>
+	<authorUrl>http://www.joomlatune.ru</authorUrl>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<version>1.0</version>
+	<description>Plugin to integrate JComments into Joomla! articles</description>
+	<files>
+		<filename plugin="jcomments">jcomments.php</filename>
+	</files>
+	<params>
+		<param name="show_frontpage" type="radio" default="1" label="Show on Frontpage" description="Show links Add comment on Frontpage">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+
+		<param name="comments_count" type="list" default="1" label="Comments Link" description="">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+
+		<param name="add_comments" type="list" default="1" label="Add comments Link" description="">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+
+		<param name="links_position" type="list" default="1" label="Links Position" description="">
+			<option value="0">Before article</option>
+			<option value="1">After article</option>
+		</param>
+
+		<param name="readmore_link" type="list" default="1" label="Readmore Style" description="">
+			<option value="0">Joomla</option>
+			<option value="1">JComments</option>
+		</param>
+
+	</params>
+</install>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: install.xml 01 2010-03-20 18:32:00 Lintzy (Angelika Reisiger) $ -->
+<install type="component" version="1.5" method="upgrade">
+  <name>kunena</name>
+	<version>1.5.10.1</version>
+	<creationDate>20.03.2010</creationDate>
+	<author>Angelika Reisiger</author>
+	<authorEmail>lintzy@webdesign-welt.de</authorEmail>
+	<authorUrl>http://www.webdesign-welt.de</authorUrl>
+	<copyright>Copyright (C) Kunena http://www.kunena.com - All rights reserved.</copyright>
+	<copyright>Copyright (C) German Kunena Translation 2009-2010 Angelika Reisiger(Lintzy). Alle Rechte vorbehalten.</copyright>
+	<license>GNU GPL</license>
+    <files folder="site">
+	<filename>template/default/images/german/expand.gif</filename>
+	<filename>template/default/images/german/index.php</filename>
+	<filename>template/default/images/german/shrink.gif</filename>
+	<filename>template/default/images/german/tree-blank.gif</filename>
+	<filename>template/default/images/german/tree-end.gif</filename>
+	<filename>template/default/images/german/tree-join.gif</filename>
+	<filename>template/default/images/german/tree-vert.gif</filename>
+	<filename>template/default_ex/images/german/expand.gif</filename>
+	<filename>template/default_ex/images/german/index.php</filename>
+	<filename>template/default_ex/images/german/shrink.gif</filename>
+	<filename>template/default_ex/images/german/tree-blank.gif</filename>
+	<filename>template/default_ex/images/german/tree-end.gif</filename>
+	<filename>template/default_ex/images/german/tree-join.gif</filename>
+	<filename>template/default_ex/images/german/tree-vert.gif</filename>
+  		<folder>template/default/images/german/emoticons</folder>
+		<folder>template/default/images/german/graph</folder>
+		<folder>template/default/images/german/icons</folder>
+		<folder>template/default/images/german/ranks</folder>
+		<folder>template/default_ex/images/german/emoticons</folder>
+		<folder>template/default_ex/images/german/graph</folder>
+		<folder>template/default_ex/images/german/icons</folder>
+		<folder>template/default_ex/images/german/ranks</folder>
+  	</files>
+  <administration>
+    <files folder="admin">
+  		<filename>language/kunena.german.php</filename>
+	</files>
+	<menu>Kunena Forum</menu>
+  </administration>
+
+
+  <params>
+	</params>
+</install>

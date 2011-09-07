@@ -1,0 +1,77 @@
+﻿/**
+* @version $Id: kunena.ieeight.css 001 Template Lintzys_Summerdream 2009-06-15 14:57:36Z Lintzy $
+* @Copyright (C) 2009 Lintzy (Angelika Reisiger) All rights reserved
+* @license http://creativecommons.org/licenses/by-nc-sa/3.0/deed.de 
+* @link http://www.webdesign-welt.de
+
+* Based on Kunena Component
+* @Copyright (C) 2008 - 2009 Kunena Team All rights reserved
+* @package Kunena
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GP
+* @link http://www.kunena.com
+*
+* Based on FireBoard Component
+* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* @link http://www.bestofjoomla.com
+**/
+
+/* ======= */
+
+
+div#Kunena_wrapper{
+ width: 748px;
+ width: expression(
+  (document.documentElement && document.documentElement.clientHeight) ?
+   (document.documentElement.clientWidth < 748) ? "748px" : (( document.documentElement.clientWidth > 950 ) ? "950px" : "auto") :
+   (document.body.clientWidth < 748) ? "748px" : (( document.body.clientWidth > 950 ) ? "951px" : "auto")
+ );
+}
+
+/* hack for expanding boxes*/
+div.msgtext {
+max-width:950px;
+overflow:hidden!important;
+word-wrap: break-word;
+}
+/*end of hack*/
+#Kunena div.fb_thead-title sup{
+padding:0px!important;
+margin:0px!important;
+}
+#Kunena tr.fb_sthtopic{
+background:#FFF6C2;
+line-height:25px;
+font-size:1.5em;
+}
+#Kunena span.newchar {
+font-size:1.5em;
+letterspacing:3px;
+}
+#Kunena #fb_postmessage textarea.fb_txtarea {
+background:transparent;
+width:92%!important;
+}
+#Kunena .fb_title, #Kunena a.fb_title {
+font-size:1em!important;
+}
+#Kunena div.spoilerbegin{
+color:#EE6600;
+padding-left:2px;
+background:none;
+padding-bottom:5px;
+}
+#Kunena div.spoilerbegin:hover{
+background:none;
+padding-left:2px;
+text-decoration:underline;
+padding-bottom:5px;
+}
+#Kunena table.fb_forum-headerdesc  td{
+padding-left: 20px;
+padding-top: 5px;
+padding-bottom:8px;
+}
+#Kunena table#fb_postmessage td.fb_leftcolumn {
+border-left: 1px solid #DDDDDD!important;
+}
