@@ -1,7 +1,7 @@
 <?php
 /**
 * Forum Tab Class for handling the CB tab api
-* @version $Id: cb.simpleboardtab.model.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: cb.simpleboardtab.model.php 1497 2011-07-16 20:30:27Z beat $
 * @package Community Builder
 * @subpackage plug_cbsimpleboardtab.php
 * @author JoomlaJoe and Beat (Nick A. fixed Fireboard support)
@@ -101,7 +101,7 @@ class getForumModel extends cbTabHandler {
 
 		if ( ! isset( $usersdetailsCache[$user->id] ) ) {
 
-			if ( ( isset ( $forum->config['showuserstats'] ) ? $forum->config['showuserstats'] : $forum->config['showstats'] ) || ( ! $forum->config['showranking'] && ! $forum->config['showkarma'] && ! ( isset ( $forum->config['poststats'] ) ? $forum->config['poststats'] : $forum->config['postStats'] ) ) ) {
+			if ( ( isset ( $forum->config['showuserstats'] ) ? $forum->config['showuserstats'] : $forum->config['showstats'] ) || ( ! $forum->config['showranking'] && ! $forum->config['showkarma'] && ! ( isset ( $forum->config['poststats'] ) ? $forum->config['poststats'] : ( isset ( $forum->config['postStats'] ) ? $forum->config['postStats'] : ( isset ( $forum->config['userlist_posts'] ) ? $forum->config['userlist_posts'] : $forum->config['showstats'] ) ) ) ) ) {
 				if ( ( ( $forum->component == 'com_fireboard' ) && ( $forum->version >= '1.0.3' ) ) || ( $forum->component == 'com_kunena' ) ) {
 					$supportsDbRanks							=	', ' . $_CB_database->NameQuote( 'rank' );
 				} else {
@@ -133,7 +133,7 @@ class getForumModel extends cbTabHandler {
 							$userRank							=	null;
 							$_CB_database->loadObject( $userRank );
 							
-				         	$pathImage							=	$pathImage . $this->params->get( 'TemplateRank', '/template/default/images/english' );
+				         	$pathImage							=	$pathImage . $this->params->get( 'TemplateRank', '/template/default/images' );
 							$rText								=	$userRank->rank_title;
 							$rImg								=	$pathImage . '/ranks/' . $userRank->rank_image;
 						} else {
@@ -196,7 +196,7 @@ class getForumModel extends cbTabHandler {
 			if ( $forum->config['showranking'] && ( $this->params->get( 'statRanking', 1 ) == 1 ) && ( $forum->userdetails !== false ) ) {
 				$stats['forumrank']							=	$forum->userdetails->msg_userrank . ( $this->params->get('statRankingImg', 1 ) == 1 ? '<br />' . $forum->userdetails->msg_userrankimg : null );
 			}
-			if ( ( isset ( $forum->config['poststats'] ) ? $forum->config['poststats'] : $forum->config['postStats'] ) && ( ( $this->params->get( 'statPosts', 1 ) == 2 ) || ( ( $this->params->get( 'statPosts', 1 ) == 1 ) && ( $forum->userdetails !== false ) ) ) ) {
+			if ( ( isset ( $forum->config['poststats'] ) ? $forum->config['poststats'] : ( isset ( $forum->config['postStats'] ) ? $forum->config['postStats'] : ( isset ( $forum->config['userlist_posts'] ) ? $forum->config['userlist_posts'] : $forum->config['showstats'] ) ) ) && ( ( $this->params->get( 'statPosts', 1 ) == 2 ) || ( ( $this->params->get( 'statPosts', 1 ) == 1 ) && ( $forum->userdetails !== false ) ) ) ) {
 				$stats['forumposts']						=	( ( $forum->userdetails !== false ) ? $forum->userdetails->posts : 0 );
 			}
 		}
@@ -537,9 +537,8 @@ class getForumModel extends cbTabHandler {
 															.	( $categories != null ? "\n AND b." . $_CB_database->NameQuote( 'id' ) . " IN ( " . $categories . " )" : null )
 															.	( $pagingParams['fposts_search'] ? "\n AND ( a." . $_CB_database->NameQuote( 'subject' ) . " LIKE '%" . cbEscapeSQLsearch( cbGetEscaped( $pagingParams['fposts_search'] ) ) . "%' OR d." . $_CB_database->NameQuote( 'message' ) . " LIKE '%" . cbEscapeSQLsearch( $pagingParams['fposts_search'] ) . "%' )" : null )
 															.	"\n ORDER BY "	. $order
-															.	"\n LIMIT "		. (int) ( $pagingParams['fposts_limitstart'] ? $pagingParams['fposts_limitstart'] : 0 ) . ',' . (int) $postsNumber;
 															;
-		$_CB_database->setQuery( $query );
+		$_CB_database->setQuery( $query, (int) ( $pagingParams['fposts_limitstart'] ? $pagingParams['fposts_limitstart'] : 0 ), (int) $postsNumber );
 		$posts												=	$_CB_database->loadObjectList();
 		
 		return ( $posts ? $posts : null );
@@ -609,9 +608,8 @@ class getForumModel extends cbTabHandler {
 															.	"\n AND a."		. $_CB_database->NameQuote( 'catid' )	. ' = b.' . $_CB_database->NameQuote( 'id' )
 															.	"\n AND s."		. $_CB_database->NameQuote( 'userid' )	. ' = ' . (int) $user->id
 															.	"\n ORDER BY " . $order
-															.	"\n LIMIT "		. (int) ( $pagingParams['fsubs_limitstart'] ? $pagingParams['fsubs_limitstart'] : 0 ) . ',' . (int) $postsNumber;
 															;
-		$_CB_database->setQuery( $query );
+		$_CB_database->setQuery( $query, (int) ( $pagingParams['fsubs_limitstart'] ? $pagingParams['fsubs_limitstart'] : 0 ), (int) $postsNumber );
 		$subs												=	$_CB_database->loadObjectList();
 		
 		return ( $subs ? $subs : null );
@@ -681,9 +679,8 @@ class getForumModel extends cbTabHandler {
 															.	"\n AND a."		. $_CB_database->NameQuote( 'catid' )	. ' = b.' . $_CB_database->NameQuote( 'id' )
 															.	"\n AND s."		. $_CB_database->NameQuote( 'userid' )	. ' = ' . (int) $user->id
 															.	"\n ORDER BY " . $order
-															.	"\n LIMIT "		. (int) ( $pagingParams['ffavs_limitstart'] ? $pagingParams['ffavs_limitstart'] : 0 ) . ',' . (int) $postsNumber;
 															;
-		$_CB_database->setQuery( $query );
+		$_CB_database->setQuery( $query, (int) ( $pagingParams['ffavs_limitstart'] ? $pagingParams['ffavs_limitstart'] : 0 ), (int) $postsNumber );
 		$subs												=	$_CB_database->loadObjectList();
 		
 		return ( $subs ? $subs : null );
@@ -773,7 +770,13 @@ class getForumModel extends cbTabHandler {
 			}
 		} elseif ( in_array( $forumType, array( 0, 4 ) ) && file_exists( $path . '/administrator/components/com_kunena/' ) ) {
 			$forumParams->component							=	'com_kunena';
-			$forumParams->prefix							=	'fb';
+			if ( file_exists( $path . '/administrator/components/com_kunena/api.php' ) ) {
+				// Kunena 1.6:
+				$forumParams->prefix						=	'kunena';
+			} else {
+				// Kunena 1.0-1.5:
+				$forumParams->prefix						=	'fb';
+			}
 			if ( file_exists( $path . '/components/com_kunena/lib/kunena.config.class.php' ) ) {
 				$forumParams->config						=	$path . '/components/com_kunena/lib/kunena.config.class.php';
 			} else {
@@ -814,28 +817,27 @@ class getForumModel extends cbTabHandler {
 		$forums												=	null;
 
 		if ( file_exists( $path . '/administrator/components/com_joomlaboard/' ) ) {
-			$forums											.=	'<div>' . $installed . ' Joomlaboard</div>';
+			$forums											.=	'<div>' . $installed . ' ' . CBTxt::T( 'Joomlaboard' ) . '</div>';
 		} else {
-			$forums											.=	'<div>' . $uninstalled . ' Joomlaboard</div>';
+			$forums											.=	'<div>' . $uninstalled . ' ' . CBTxt::T( 'Joomlaboard' ) . '</div>';
 		}
 		
 		if ( file_exists( $path . '/administrator/components/com_simpleboard/' ) ) {
-			$forums											.=	'<div>' . $installed . ' Simpleboard</div>';
+			$forums											.=	'<div>' . $installed . ' ' . CBTxt::T( 'Simpleboard' ) . '</div>';
 		} else {
-			$forums											.=	'<div>' . $uninstalled . ' Simpleboard</div>';
+			$forums											.=	'<div>' . $uninstalled . ' ' . CBTxt::T( 'Simpleboard' ) . '</div>';
 		}
 		
 		if ( file_exists( $path . '/administrator/components/com_fireboard/' ) ) {
-			$forums											.=	'<div>' . $installed . ' Fireboard</div>';
+			$forums											.=	'<div>' . $installed . ' ' . CBTxt::T( 'Fireboard' ) . '</div>';
 		} else {
-			$forums											.=	'<div>' . $uninstalled . ' Fireboard</div>';
+			$forums											.=	'<div>' . $uninstalled . ' ' . CBTxt::T( 'Fireboard' ) . '</div>';
 		}
 		
 		if ( file_exists( $path . '/administrator/components/com_kunena/' ) ) {
-			$forums											.=	'<div>' . $installed . ' Kunena (It is advised to select Kunena manually as Kunena has additional options)</div>';
+			$forums											.=	'<div>' . $installed . ' ' . CBTxt::T( 'Kunena (It is advised to select Kunena manually as Kunena has additional options)' ) . '</div>';
 		} else {
-			$forums											.=	'<div>' . $uninstalled . ' Kunena</div>';
-		}
+			$forums											.=	'<div>' . $uninstalled . ' ' . CBTxt::T( 'Kunena' ) . '</div>';		}
 		
 		return $forums;
 	}

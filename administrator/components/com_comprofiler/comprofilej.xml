@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install type="component" version="1.5" method="upgrade">
 	<name>comprofiler</name>
-	<creationDate>2010-03-04</creationDate>
+	<creationDate>2011-07-31</creationDate>
 	<author>Beat and JoomlaJoe</author>
 	<authorEmail>beat@joomlapolis.com</authorEmail>
-	<copyright>Copyright 2004-2010 Beat, MamboJoe/JoomlaJoe and CB team on joomlapolis.com . This component is released under the GNU/GPL version 2 License and parts under Community Builder Free License. All copyright statements must be kept and derivate work must prominently duly acknowledge original work on web interface and on website where downloaded.</copyright>
+	<copyright>Copyright 2004-2011 Beat, MamboJoe/JoomlaJoe and CB team on joomlapolis.com . This component is released under the GNU/GPL version 2 License. All copyright statements must be kept and derivate work must prominently duly acknowledge original work on web interface and on website where downloaded.</copyright>
 	<authorUrl>www.joomlapolis.com</authorUrl>
-	<version>1.2.2</version>
-	<description>Joomla/Mambo Community Builder 1.2.2 native for Joomla! 1.5.3 - 1.5.15, 1.0.0 - 1.0.15 and Mambo 4.5.0 - 4.6.5.</description>
+	<version>1.7</version>
+	<description>Joomla/Mambo Community Builder 1.7 native for Joomla! 1.7.0, 1.6.0 - 1.6.6, 1.5.3 - 1.5.23, 1.0.0 - 1.0.15 and Mambo 4.5.0 - 4.6.5.</description>
 	<files>
 		<filename>comprofiler.xml</filename>
 		<filename>metadata.xml</filename>
@@ -28,12 +28,6 @@
 		<filename>images/noprofiles.gif</filename>
 		<filename>images/required.gif</filename>
 		<filename>images/smcblogo.gif</filename>
-		<filename>images/cbconfig.gif</filename>
-		<filename>images/cbfield.gif</filename>
-		<filename>images/cblist.gif</filename>
-		<filename>images/cbtool.gif</filename>
-		<filename>images/cbuser.gif</filename>
-		<filename>images/cbtab.gif</filename>
 		<filename>images/publish_x.png</filename>
 		<filename>images/publish_g.png</filename>
 		<filename>images/tick.png</filename>
@@ -70,57 +64,56 @@
 		<filename>js/index.html</filename>
 		<filename>js/tabpane.js</filename>
 		<filename>js/tabpane.min.js</filename>
-		<filename>js/overlib_mini.js</filename>
-		<filename>js/overlib_hideform_mini.js</filename>
-		<filename>js/overlib_anchor_mini.js</filename> 
-		<filename>js/overlib_centerpopup_mini.js</filename> 
+		<filename>js/overlib_all_mini.js</filename>
 		<filename>js/calendar.js</filename>
 		<filename>js/calendar.min.js</filename>
 		<filename>js/calendar-setup.js</filename>
 		<filename>js/calendar-setup.min.js</filename>
 		<filename>js/calendardateinput.js</filename>
 		<filename>js/calendardateinput.min.js</filename>
+		<filename>js/curvycorners.js</filename>
+		<filename>js/curvycorners.min.js</filename>
 		<filename>js/menubest.js</filename>
 		<filename>js/menubest.min.js</filename>
 		<filename>js/cb12.js</filename>
 		<filename>js/cb12.min.js</filename>
-		<filename>js/jquery-1.4.2/index.html</filename>
-		<filename>js/jquery-1.4.2/jquery-1.4.2.js</filename>
-		<filename>js/jquery-1.4.2/jquery-1.4.2.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.ajaxfileupload.js</filename>
-		<filename>js/jquery-1.4.2/jquery.ajaxfileupload.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.autogrow.js</filename>
-		<filename>js/jquery-1.4.2/jquery.autogrow.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.cluetip.js</filename>
-		<filename>js/jquery-1.4.2/jquery.cluetip.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.excanvas.js</filename>
-		<filename>js/jquery-1.4.2/jquery.excanvas.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.flot.js</filename>
-		<filename>js/jquery-1.4.2/jquery.flot.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.flydom.js</filename>
-		<filename>js/jquery-1.4.2/jquery.flydom.min.js</filename>		
-		<filename>js/jquery-1.4.2/jquery.form.js</filename>
-		<filename>js/jquery-1.4.2/jquery.form.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.jeditable.js</filename>
-		<filename>js/jquery-1.4.2/jquery.jeditable.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.jmap.js</filename>
-		<filename>js/jquery-1.4.2/jquery.jmap.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.maskedinput.js</filename>
-		<filename>js/jquery-1.4.2/jquery.maskedinput.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.metadata.js</filename>
-		<filename>js/jquery-1.4.2/jquery.metadata.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.slimbox2.js</filename>
-		<filename>js/jquery-1.4.2/jquery.slimbox2.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.rating.js</filename>
-		<filename>js/jquery-1.4.2/jquery.rating.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.ui-all.js</filename>
-		<filename>js/jquery-1.4.2/jquery.ui-all.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.validate.js</filename>
-		<filename>js/jquery-1.4.2/jquery.validate.min.js</filename>
-		<filename>js/jquery-1.4.2/jquery.wysiwyg.css</filename>
-		<filename>js/jquery-1.4.2/jquery.wysiwyg.gif</filename>
-		<filename>js/jquery-1.4.2/jquery.wysiwyg.js</filename>
-		<filename>js/jquery-1.4.2/jquery.wysiwyg.min.js</filename>
+		<filename>js/jquery-1.5.2/index.html</filename>
+		<filename>js/jquery-1.5.2/jquery-1.5.2.js</filename>
+		<filename>js/jquery-1.5.2/jquery-1.5.2.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.ajaxfileupload.js</filename>
+		<filename>js/jquery-1.5.2/jquery.ajaxfileupload.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.autogrow.js</filename>
+		<filename>js/jquery-1.5.2/jquery.autogrow.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.cluetip.js</filename>
+		<filename>js/jquery-1.5.2/jquery.cluetip.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.excanvas.js</filename>
+		<filename>js/jquery-1.5.2/jquery.excanvas.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.flot.js</filename>
+		<filename>js/jquery-1.5.2/jquery.flot.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.flydom.js</filename>
+		<filename>js/jquery-1.5.2/jquery.flydom.min.js</filename>		
+		<filename>js/jquery-1.5.2/jquery.form.js</filename>
+		<filename>js/jquery-1.5.2/jquery.form.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.jeditable.js</filename>
+		<filename>js/jquery-1.5.2/jquery.jeditable.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.jmap.js</filename>
+		<filename>js/jquery-1.5.2/jquery.jmap.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.maskedinput.js</filename>
+		<filename>js/jquery-1.5.2/jquery.maskedinput.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.metadata.js</filename>
+		<filename>js/jquery-1.5.2/jquery.metadata.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.slimbox2.js</filename>
+		<filename>js/jquery-1.5.2/jquery.slimbox2.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.rating.js</filename>
+		<filename>js/jquery-1.5.2/jquery.rating.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.ui-all.js</filename>
+		<filename>js/jquery-1.5.2/jquery.ui-all.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.validate.js</filename>
+		<filename>js/jquery-1.5.2/jquery.validate.min.js</filename>
+		<filename>js/jquery-1.5.2/jquery.wysiwyg.css</filename>
+		<filename>js/jquery-1.5.2/jquery.wysiwyg.gif</filename>
+		<filename>js/jquery-1.5.2/jquery.wysiwyg.js</filename>
+		<filename>js/jquery-1.5.2/jquery.wysiwyg.min.js</filename>
 	</files>
 	<install>
 		<queries>
@@ -143,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `#__comprofiler` (
 `bannedreason` mediumtext,
 `acceptedterms` tinyint(1) NOT NULL default '0',
 PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 			</query>
 			<query>
 CREATE TABLE IF NOT EXISTS `#__comprofiler_field_values` (
@@ -153,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `#__comprofiler_field_values` (
 `ordering` int(11) NOT NULL default '0',
 `sys` tinyint(4) NOT NULL default '0',
 PRIMARY KEY  (`fieldvalueid`)
-) TYPE=MyISAM AUTO_INCREMENT=16 ;
+) ENGINE=MyISAM AUTO_INCREMENT=16 ;
 			</query>
 			<query>
 CREATE TABLE IF NOT EXISTS `#__comprofiler_fields` (
@@ -178,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `#__comprofiler_fields` (
 `calculated` tinyint(1) NOT NULL default '0',
 `sys` tinyint(4) NOT NULL default '0',
 PRIMARY KEY  (`fieldid`)
-) TYPE=MyISAM AUTO_INCREMENT=54 ;
+) ENGINE=MyISAM AUTO_INCREMENT=54 ;
 			</query>
 			<query>
 CREATE TABLE IF NOT EXISTS `#__comprofiler_lists` (
@@ -207,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `#__comprofiler_lists` (
 `col4fields` mediumtext,
 `col4captions` tinyint(1) NOT NULL default '0',
 PRIMARY KEY  (`listid`)
-) TYPE=MyISAM AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM AUTO_INCREMENT=4 ;
 			</query>
 			<query>
 CREATE TABLE IF NOT EXISTS `#__comprofiler_tabs` (
@@ -220,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `#__comprofiler_tabs` (
 `plugin` VARCHAR( 255 ) DEFAULT NULL ,
 `sys` tinyint(4) NOT NULL default '0',
 PRIMARY KEY  (`tabid`)
-) TYPE=MyISAM AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM AUTO_INCREMENT=11 ;
 			</query>
 			<query>
 CREATE TABLE IF NOT EXISTS `#__comprofiler_userreports` (
@@ -231,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `#__comprofiler_userreports` (
 `reportexplaination` text NOT NULL,
 `reportedstatus` tinyint(4) NOT NULL default '0',
 PRIMARY KEY  (`reportid`)
-) TYPE=MyISAM AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM AUTO_INCREMENT=11 ;
 			</query>
 			<query>
 CREATE TABLE IF NOT EXISTS `#__comprofiler_members` (
@@ -243,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `#__comprofiler_members` (
 `description` varchar(255) default NULL,
 `type` MEDIUMTEXT default NULL,
 PRIMARY KEY  (`referenceid`,`memberid`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 			</query>
 			<query>
 CREATE TABLE IF NOT EXISTS `#__comprofiler_views` (
@@ -255,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `#__comprofiler_views` (
 `vote` tinyint(3) default NULL,
 `lastvote` datetime NOT NULL default '0000-00-00 00:00:00',
 PRIMARY KEY  (`viewer_id`,`profile_id`,`lastip`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 			</query>
 			<query>
 CREATE TABLE IF NOT EXISTS `#__comprofiler_plugin` (
@@ -274,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `#__comprofiler_plugin` (
 `params` text NOT NULL ,
 PRIMARY KEY ( `id` ) ,
 KEY `idx_folder` ( `published` , `client_id` , `access` , `folder` )
-) TYPE=MyISAM AUTO_INCREMENT=500;
+) ENGINE=MyISAM AUTO_INCREMENT=500;
 			</query>
 			<query> 
 INSERT IGNORE INTO `#__comprofiler_fields` (`fieldid`, `name`, `table`, `title`, `type`, `maxlength`, `size`, `required`, `tabid`, `ordering`, `cols`, `rows`, `value`, `default`, `published`, `registration`, `profile`, `calculated`, `sys`) 
@@ -344,18 +337,33 @@ VALUES (1, 'CB Core', 'cb.core', 'user', 'plug_cbcore', 0, 1, 1, 1, 0, 0, '0000-
 			<filename>database/database.cbcore.xml</filename>
 			<filename>xmlcb/index.html</filename>
 			<filename>xmlcb/cb.lists.xml</filename>
+			<filename>controller/index.html</filename>
+			<filename>controller/controller.default.php</filename>
+			<filename>controller/controller.field.php</filename>
+			<filename>controller/controller.plugin.php</filename>
+			<filename>controller/controller.tab.php</filename>
+			<filename>controller/controller.user.php</filename>
+			<filename>controller/controller.users.php</filename>
+			<filename>view/index.html</filename>
+			<filename>view/view.field.php</filename>
+			<filename>view/view.plugin.php</filename>
+			<filename>view/view.tab.php</filename>
+			<filename>view/view.user.php</filename>
+			<filename>view/view.users.php</filename>
 			<filename>library/index.html</filename>
 			<filename>library/cb/index.html</filename>
 			<filename>library/cb/cb.params.php</filename>
 			<filename>library/cb/cb.adminfilesystem.php</filename>
 			<filename>library/cb/cb.authentication.php</filename>
 			<filename>library/cb/cb.installer.php</filename>
+			<filename>library/cb/cb.lists.php</filename>
 			<filename>library/cb/cb.pagination.php</filename>
 			<filename>library/cb/cb.database.php</filename>
 			<filename>library/cb/cb.dbchecker.php</filename>
 			<filename>library/cb/cb.acl.php</filename>
 			<filename>library/cb/cb.session.php</filename>
 			<filename>library/cb/cb.tables.php</filename>
+			<filename>library/cb/cb.validator.php</filename>
 			<filename>library/cb/xml/index.html</filename>
 			<filename>library/cb/xml/cb.xml.simplexml.php</filename>
 			<filename>library/cb/xml/cb.xml.xml.php</filename>
@@ -367,6 +375,9 @@ VALUES (1, 'CB Core', 'cb.core', 'user', 'plug_cbcore', 0, 1, 1, 1, 0, 0, '0000-
 			<filename>library/pcl/index.html</filename>
 			<filename>library/pcl/pcl.tar.php</filename>
 			<filename>library/pcl/pcl.pclziplib.php</filename>
+			<filename>library/pear/index.html</filename>
+			<filename>library/pear/pear.php</filename>
+			<filename>library/pear/pear5.php</filename>
 			<filename>library/phpmailer/index.html</filename>
 			<filename>library/phpmailer/phpmailer.phpmailer.php</filename>
 			<filename>library/phpmailer/phpmailer.smtp.php</filename>

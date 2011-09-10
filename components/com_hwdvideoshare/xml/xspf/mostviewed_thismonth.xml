@@ -4,11 +4,52 @@
 <trackList>
 
   <track>
-    <location><![CDATA[http://localhost/shigaru/hwdvideos/uploads/itgymbc5x0goy3.flv]]></location>
-    <image><![CDATA[http://localhost/shigaru/hwdvideos/thumbs/itgymbc5x0goy3.jpg]]></image>
-    <title><![CDATA[dsfsdfs]]></title>
-    <annotation><![CDATA[fsdfdsfsdf]]></annotation>
-	<meta rel='type'>video</meta>
+    <location><![CDATA[http://www.youtube.com/watch?v=yP4crzUVhH0]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/yP4crzUVhH0/default.jpg]]></image>
+    <title><![CDATA[How To Play Iron Man By Black Sabbath On Guitar]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=XZwE5vXCChQ]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/XZwE5vXCChQ/default.jpg]]></image>
+    <title><![CDATA[How To Play Viva La Vida By Coldplay On Guitar]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=TMSaSRyGgQs]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/TMSaSRyGgQs/default.jpg]]></image>
+    <title><![CDATA[How to Play TITANIC Theme on Guitar, WITH TABS!!!]]></title>
+    <annotation><![CDATA[This guitar lesson shows how to play "Titanic"...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=-ooik5IuI1I]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/-ooik5IuI1I/default.jpg]]></image>
+    <title><![CDATA[ming Home by Diddy-Dirty Money on Guitar
+      -...]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=stK47MWu6Jo]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/stK47MWu6Jo/default.jpg]]></image>
+    <title><![CDATA[How to Play Love The Way You Lie by Eminem and...]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=L3QrP1kiRko]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/L3QrP1kiRko/default.jpg]]></image>
+    <title><![CDATA[How to Two-Step in Hip Hop Dance]]></title>
+    <annotation><![CDATA[There are multiple different types of two step in...]]></annotation>
+	<meta rel='type'>youtube</meta>
   </track>
 
   <track>
@@ -20,6 +61,30 @@ fdasfsf
 fdsfsd
 ?dsadkdas'as...]]></annotation>
 	<meta rel='type'>video</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://localhost/shigaru/hwdvideos/uploads/itgymbc5x0goy3.flv]]></location>
+    <image><![CDATA[http://localhost/shigaru/hwdvideos/thumbs/itgymbc5x0goy3.jpg]]></image>
+    <title><![CDATA[dsfsdfs]]></title>
+    <annotation><![CDATA[fsdfdsfsdf]]></annotation>
+	<meta rel='type'>video</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=9CC1vcAqVg4]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/9CC1vcAqVg4/default.jpg]]></image>
+    <title><![CDATA[Picolo znp - Asi me expreso]]></title>
+    <annotation><![CDATA[Temazo de uno de los mejores escritores de rap...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=5Iqbkjx3zk8]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/5Iqbkjx3zk8/default.jpg]]></image>
+    <title><![CDATA[Beginner's Old Time Banjo Lesson - As Easy As 123]]></title>
+    <annotation><![CDATA[Here Tony Thomas teaches a simple method of...]]></annotation>
+	<meta rel='type'>youtube</meta>
   </track>
 
 </trackList>

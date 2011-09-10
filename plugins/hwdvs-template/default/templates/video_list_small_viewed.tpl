@@ -8,13 +8,12 @@
 *}
 
 <div class="box">
-<div style="float:left;">{$data->thumbnail}</div>
+<div class="listthumb">{$data->thumbnail}</div>
 <div >
 
 <div class="listtitle">{$data->title} {$data->editvideo} {$data->deletevideo}</div>
 <div class="listshared">{$smarty.const._HWDVIDS_INFO_SHARED}  {$data->uploader} </div>
 <div class="listviews"> {$smarty.const._HWDVIDS_INFO_PLAYS} <br /> <span>{$data->views}</span></div>
-<div class="listshared"> {$smarty.const._HWDVIDS_INFO_PLAYS} <br /> <span>{$data->upload_date}</span></div>
      
 </div>
 <div style="clear:both;"></div>

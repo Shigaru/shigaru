@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla/Mambo Community Builder : User toolbar handler
-* @version $Id: comprofiler.toolbar.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: comprofiler.toolbar.php 1088 2010-06-14 14:59:58Z beat $
 * @package Community Builder
 * @subpackage toolbar.comprofiler.php
 * @author JoomlaJoe and Beat
@@ -12,9 +12,13 @@
 // ensure this file is being included by a parent file
 if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' ) ) ) { die( 'Direct Access to this location is not allowed.' ); }
 
-global $_CB_framework;
+global $_CB_framework, $mainframe;
 
-require_once( $mainframe->getPath( 'toolbar_html' ) );
+if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
+	require_once JPATH_ADMINISTRATOR . '/components/com_comprofiler/toolbar.comprofiler.html.php';
+} else {
+	require_once $mainframe->getPath( 'toolbar_html' );
+}
 
 global $_CB_Backend_Menu, $_CB_Backend_task;
 
@@ -67,6 +71,9 @@ switch ( $_CB_Backend_task ) {
 		break;
 	case "showusers":
 		TOOLBAR_usersextras::_DEFAULT();
+		break;
+	case "emailusers":
+		TOOLBAR_usersextras::_EMAIL_USERS();
 		break;
 	case "tools":
 		//TOOLBAR_usersextras::_DEFAULT_LIST();

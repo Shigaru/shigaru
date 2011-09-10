@@ -125,18 +125,20 @@ class hwd_vs_usrfunc
 		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
-		$my = & JFactory::getUser();
-
-		if (!$my->id) {
+		$my = & JFactory::getUser();	
+		$my->paramId = & JRequest::getVar('userId');
+		 
+		 
+		if (!$my->id && !$my->paramId) {
 			$msg = _HWDVIDS_ALERT_LOG2CYV;
 			$mainframe->enqueueMessage($msg);
 			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
 		}
-
+		
 		$limit 	= intval($c->vpp);
-
-		$user_id = $my->id;
-
+		if (!$my->id && $my->paramId) {
+			$user_id = $my->paramId;
+		}
 		$where = ' WHERE video.approved = "yes"';
 		$where .= ' AND video.published = 1';
 		$where .= ' AND video.user_id = '.$user_id;
@@ -572,6 +574,45 @@ class hwd_vs_usrfunc
 
 		hwd_vs_html::featuredVideos($rows, $pageNav, $total);
 	}
+	
+	/**
+	* Recent videos
+	*/
+	function mostRecentVideos()
+	{
+		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+
+		$limit 	= intval($c->vpp);
+
+		$where = ' WHERE video.approved = "yes"';
+		$where .= ' AND video.published = 1';
+		$where .= ' AND video.featured = 1';
+
+		$db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 . $where
+					 );
+  		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+
+		$query = 'SELECT'.$hwdvs_selectv
+				. ' FROM #__hwdvidsvideos AS video'
+				. $hwdvs_joinv
+				. $where
+				. ' ORDER BY video.date_uploaded DESC'
+				;
+
+		$db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
+		$rows = $db->loadObjectList();
+
+		hwd_vs_html::featuredVideos($rows, $pageNav, $total);
+	}
+	
    /**
 	* Featured groups
 	*/

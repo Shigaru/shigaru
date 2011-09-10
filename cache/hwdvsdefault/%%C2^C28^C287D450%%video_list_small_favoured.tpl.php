@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-09-04 00:22:30
+<?php /* Smarty version 2.6.26, created on 2011-09-10 17:44:28
          compiled from video_list_small_favoured.tpl */ ?>
 
 <div class="box">

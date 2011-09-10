@@ -1,7 +1,7 @@
 <?php
 /**
 * PMS Handler and Tab Class for handling the CB tab api
-* @version $Id: pms.mypmspro.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: pms.mypmspro.php 1431 2011-02-10 09:58:02Z beat $
 * @package Community Builder
 * @subpackage pms.mypmspro.php
 * @author JoomlaJoe and Beat, UddeIM part contributed by Benjamin, PMS Enhanced part contributed by Stefan, JIM part contributed by Nick
@@ -135,7 +135,7 @@ class getmypmsproTab extends cbPMSHandler {
 		if($allow_change_email_new==1)
 		{
 			// check if recip has personal settings, otherwise load defaults
-			$_CB_database->setQuery("SELECT count(id) FROM #__pms_conf WHERE user_id=$to_id LIMIT 1");
+			$_CB_database->setQuery("SELECT count(id) FROM #__pms_conf WHERE user_id=$to_id", 0, 1);
 			if(!$_CB_database->query()) die("SQL error" . $_CB_database->stderr(true));
 			$result = $_CB_database->loadResult();
 			if($result==1)
@@ -169,7 +169,7 @@ class getmypmsproTab extends cbPMSHandler {
 			{
 				$email_site_name = $_CB_framework->getCfg( 'sitename' );
 				$email_sender_name = $_CB_framework->myUsername();
-				$_CB_database->setQuery("SELECT email FROM #__users WHERE id=$from_id LIMIT 1");
+				$_CB_database->setQuery("SELECT email FROM #__users WHERE id=$from_id", 0, 1);
 				if(!$_CB_database->query()) die("SQL error" . $_CB_database->stderr(true));
 				$email_sender_email = $_CB_database->loadResult();
 				$email_recip_name = $recip_name;
@@ -303,9 +303,11 @@ class getmypmsproTab extends cbPMSHandler {
 				die("SQL error" . $_CB_database->stderr(true));
 			}
 		}
+
+		$udde_msgid = $_CB_database->insertid();
 		
 		// E-Mail notification code
-		$this->_pmsUddeNotify($udde_fromid, $udde_toid, $udde_msg, $udde_sysm);
+		$this->_pmsUddeNotify($udde_msgid, $udde_fromid, $udde_toid, $udde_msg, $udde_sysm);
 		
 	}
 	function _sendPMSuddeimMSG($udde_toid,$udde_fromid,$to,$from,$sub,$msg) {
@@ -394,9 +396,11 @@ class getmypmsproTab extends cbPMSHandler {
 			}
 		}
 
+		$udde_msgid = $_CB_database->insertid();
+
 		// E-Mail notification code
 		$udde_sysm="";
-		$this->_pmsUddeNotify($udde_fromid, $udde_toid, $udde_msg, $udde_sysm);
+		$this->_pmsUddeNotify($udde_msgid, $udde_fromid, $udde_toid, $udde_msg, $udde_sysm);
 		
 	}
 	
@@ -793,12 +797,13 @@ class getmypmsproTab extends cbPMSHandler {
 	 * Udde PMS notification by email depending on user's settings
 	 *
 	 * @access private
+	 * @param int $savemsgid
 	 * @param int $savefromid
 	 * @param int $savetoid
 	 * @param string $savemessage
 	 * @param boolean $udde_sysm
 	 */
-	function _pmsUddeNotify ($savefromid, $savetoid, $savemessage, $udde_sysm) {
+	function _pmsUddeNotify ($savemsgid, $savefromid, $savetoid, $savemessage, $udde_sysm) {
 		global $_CB_database, $_CB_framework;
 
 		$params = $this->params;
@@ -870,7 +875,7 @@ class getmypmsproTab extends cbPMSHandler {
 				$_CB_database->setQuery($sql);
 				$ison=$_CB_database->loadResult();
 				if (($ison==1) || ($ison==2 && !$currentlyonline) || ($ison==10 && !$itisareply) || ($ison==20 && !$currentlyonline && !$itisareply))  {
-					$this->_pmsUddeDispatchEMN($savefromid, $savetoid, $savemessage, 0, $udde_sysm); 
+					$this->_pmsUddeDispatchEMN($savemsgid, $savefromid, $savetoid, $savemessage, 0, $udde_sysm);
 									// 0 stands for normal (not forgetmenot)
 				} 
 			} elseif ($config_allowemailnotify==2) {
@@ -883,7 +888,7 @@ class getmypmsproTab extends cbPMSHandler {
 					$_CB_database->setQuery($sql);
 					$ison=$_CB_database->loadResult();
 					if (($ison==1) || ($ison==2 && !$currentlyonline) || ($ison==10 && !$itisareply) || ($ison==20 && !$currentlyonline && !$itisareply))  {
-						$this->_pmsUddeDispatchEMN($savefromid, $savetoid, $savemessage, 0, $udde_sysm); 
+						$this->_pmsUddeDispatchEMN($savemsgid, $savefromid, $savetoid, $savemessage, 0, $udde_sysm);
 									// 0 stands for normal (not forgetmenot)
 					} 	
 				}	
@@ -895,13 +900,14 @@ class getmypmsproTab extends cbPMSHandler {
 	 * Udde PMS notification by email
 	 *
 	 * @access private
+	 * @param int $var_msgid
 	 * @param int $var_fromid
 	 * @param int $var_toid
 	 * @param string $var_message
 	 * @param int $emn_option
 	 * @param boolean $udde_sysm
 	 */
-	function _pmsUddeDispatchEMN($var_fromid, $var_toid, $var_message, $emn_option, $udde_sysm) {
+	function _pmsUddeDispatchEMN($var_msgid, $var_fromid, $var_toid, $var_message, $emn_option, $udde_sysm) {
 		global $_CB_database, $_CB_framework;
 
 // --
@@ -992,28 +998,39 @@ class getmypmsproTab extends cbPMSHandler {
 		if (!$var_tomail) {
 			return;
 		}
-		
+
+		$msglink		=	cbSef( "index.php?option=com_uddeim&task=show&messageid=" . (int) $var_msgid, false );
+
 		if ($emn_option==1) {
 			$var_body = _UDDEIM_EMN_FORGETMENOT;
+			$var_body = str_replace("%livesite%", $_CB_framework->getCfg( 'live_site' ), $var_body);
 			$var_body = str_replace("%you%", $var_toname, $var_body);
 			$var_body = str_replace("%site%", $_CB_framework->getCfg( 'sitename' ), $var_body);
+			$var_body = str_replace("%msglink%", $msglink, $var_body);
 		} else {
 			if (isset($config_emailwithmessage) && $config_emailwithmessage) {
 				$var_body = _UDDEIM_EMN_BODY_WITHMESSAGE;
+				$var_body = str_replace("%livesite%", $_CB_framework->getCfg( 'live_site' ), $var_body);
 				$var_body = str_replace("%you%", $var_toname, $var_body);
-				$var_body = str_replace("%site%", $_CB_framework->getCfg( 'sitename' ), $var_body);	
+				$var_body = str_replace("%site%", $_CB_framework->getCfg( 'sitename' ), $var_body);
+				$var_body = str_replace("%msglink%", $msglink, $var_body);
 				$var_body = str_replace("%user%", $var_fromname, $var_body);
-				$var_body = str_replace("%pmessage%", $var_message, $var_body);	
+				$var_body = str_replace("%pmessage%", $var_message, $var_body);
 			} else {
-			$var_body=_UDDEIM_EMN_BODY_NOMESSAGE;
+				$var_body = _UDDEIM_EMN_BODY_NOMESSAGE;
+				$var_body = str_replace("%livesite%", $_CB_framework->getCfg( 'live_site' ), $var_body);
 				$var_body = str_replace("%you%", $var_toname, $var_body);
-				$var_body = str_replace("%site%", $_CB_framework->getCfg( 'sitename' ), $var_body);		
-				$var_body = str_replace("%user%", $var_fromname, $var_body);			
+				$var_body = str_replace("%site%", $_CB_framework->getCfg( 'sitename' ), $var_body);
+				$var_body = str_replace("%msglink%", $msglink, $var_body);
+				$var_body = str_replace("%user%", $var_fromname, $var_body);
 			}
 		}
 		
-		$subject=_UDDEIM_EMN_SUBJECT;
-		$subject=str_replace("%site%", $_CB_framework->getCfg( 'sitename' ), $subject);
+		$subject = _UDDEIM_EMN_SUBJECT;
+		$subject = str_replace("%livesite%", $_CB_framework->getCfg( 'live_site' ), $subject);
+		$subject = str_replace("%site%", $_CB_framework->getCfg( 'sitename' ), $subject);
+		$subject = str_replace("%you%", $var_toname, $subject);
+		$subject = str_replace("%user%", $var_fromname, $subject);
 		
 /*
 		$header  = "MIME-Version: 1.0\n";

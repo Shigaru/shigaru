@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla Community Builder : Plugin Handler
-* @version $Id: cb.adminfilesystem.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: cb.adminfilesystem.php 1309 2010-11-28 13:43:05Z beat $
 * @package Community Builder
 * @subpackage cb.adminfilesystem.php
 * @author Beat
@@ -32,7 +32,7 @@ class cbAdminFileSystem {
 	 * @param  boolean $purePHP  TRUE: uses only PHP functions
 	 * @return cbAdminFileSystem
 	 */
-	function & getInstance( $purePHP = false ) {
+	static function & getInstance( $purePHP = false ) {
 		static $singleInstance				=	array( false => null, true => null );
 		static $emptyArray					=	array();
 		if ( ( ! isset( $singleInstance[$purePHP] ) ) || ( $singleInstance[$purePHP] === null ) ) {
@@ -42,7 +42,7 @@ class cbAdminFileSystem {
 				$singleInstance[$purePHP]	=	new cbAdminFileSystem( $purePHP );
 			} else {
 				global $CB_AdminFileFunctions;
-	
+
 				$singleInstance[$purePHP]	=	new cbAdminFileSystem( $CB_AdminFileFunctions );
 			}
 		}
@@ -58,40 +58,55 @@ class cbAdminFileSystem {
 	 * creates a directory
 	 *
 	 * @param  string   $pathname    The directory path
-	 * @param  int      $mode        Default is 0777 like PHP function's default relying on Umask
+	 * @param  int      $mode        Default is not 0777 like PHP function's default, but our default is relying on CMS's 'dirperm' configuration, and if not existant or not set, on Umask
 	 * @param  boolean  $recursive   PHP 5.0.0+
 	 * @param  resource $context     PHP 5.0.0+: see streams
 	 * @return boolean               Returns TRUE on success or FALSE on failure
 	 */
-	function mkdir( $pathname, $mode = 0777, $recursive = null, $context = null ) {
+	function mkdir( $pathname, $mode = null, $recursive = null, $context = null ) {
+		if ( $mode === null ) {
+			global $_CB_framework;
+			if ( ( ! $_CB_framework ) || $_CB_framework->getCfg( 'dirperms' ) == '' ) {
+				// rely on umask:
+				$mode						=	0755;
+			} else {
+				$origmask					=	@umask( 0 );
+				$mode						=	octdec( $_CB_framework->getCfg( 'dirperms' ) );
+			}
+		}
 		if ( isset( $this->functions['mkdir'] ) ) {
-			return call_user_func_array( $this->functions['mkdir'], array( $pathname, $mode, $recursive, $context ) );
+			$return							=	call_user_func_array( $this->functions['mkdir'], array( $pathname, $mode, $recursive, $context ) );
 		} else {
 			if ( version_compare( phpversion(), '5.0.0', '>=' ) ) {
-				return ( is_null( $context ) ? mkdir( $pathname, $mode, $recursive ) : mkdir( $pathname, $mode, $recursive, $context ) );
+				$return						=	( is_null( $context ) ? mkdir( $pathname, $mode, $recursive ) : mkdir( $pathname, $mode, $recursive, $context ) );
 			} else {
 				if ( $recursive ) {
 					$parts					=	explode( '/', $pathname );
 					$n						=	count( $parts );
 					if ( $n < 1 ) {
-						return false;
+						$return				=	false;
 					} else {
 						$path				=	'';
+						$return				=	true;
 						for ( $i = 0; $i < $n; $i++ ) {
 							$path			.=	$parts[$i] . '/';
 							if ( ! file_exists( $path ) ) {
 								if ( ! mkdir( substr( $path, 0, -1 ), $mode ) ) {
-									return false;
+									$return	=	false;
+									break;
 								}
 							}
 						}
-						return true;
 					}
 				} else {
-					return mkdir( $pathname, $mode );
+					$return					=	mkdir( $pathname, $mode );
 				}
 			}
 		}
+		if ( isset( $origmask ) ) {
+			@umask( $origmask );
+		}
+		return $return;
 	}
 	function rmdir( $dirname, $context = null ) {
 		if ( isset( $this->functions['rmdir'] ) ) {
@@ -109,7 +124,7 @@ class cbAdminFileSystem {
 	}
 	/**
 	 * DIRECTORY LISTING METHODS:
-	 */	
+	 */
 	function opendir( $path, $context = null ) {
 		if ( isset( $this->functions['opendir'] ) ) {
 			return call_user_func_array( $this->functions['opendir'], array( $path, $context ) );
@@ -183,12 +198,14 @@ class cbAdminFileSystem {
 		if ( isset( $this->functions['unlink'] ) ) {
 			return call_user_func_array( $this->functions['unlink'], array( $filename, $context ) );
 		} else {
+			@chmod( $filename, 0777 );
 			return ( is_null( $context ) ? unlink( $filename ) : unlink( $filename, $context ) );
 		}
 	}
 	function file_put_contents( $file, $data, $flags = null, $context = null ) {
 		if ( isset( $this->functions['file_put_contents'] ) ) {
-			return call_user_func_array( $this->functions['file_put_contents'], array( $file, $data, $flags, $context ) );
+			$params				=	array( &$file, &$data, &$flags, &$context ) ;
+			return call_user_func_array( $this->functions['file_put_contents'], $params );
 		} elseif( is_callable( 'file_put_contents' ) ) {
 			return ( is_null( $context ) ? file_put_contents( $file, $data, $flags ) : file_put_contents( $file, $data, $flags, $context ) );
 		} else {
@@ -239,6 +256,7 @@ class cbAdminFileSystem {
 			}
 			$this->closedir( $current_dir );
 		}
+		@chmod( $dir, 0777 );
 		return $this->rmdir( $dir );
 	}
 }
@@ -267,7 +285,7 @@ if (is_callable("jimport")) {
 		if ( $FTPOptions['enabled'] == 1 ) {
 			jimport( 'joomla.client.ftp' );
 			$ftp		=&	JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-	
+
 			//Translate path to FTP account:
 			$dest		=	JPath::clean(str_replace( JPATH_ROOT, $FTPOptions['root'], $pathname), '/' );
 			return $ftp->chmod( $dest, $mode );

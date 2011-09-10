@@ -1,7 +1,7 @@
 <?php
 /**
 * Forum Tab Class for handling the CB tab api
-* @version $Id: cb.simpleboardtab.php 837 2010-01-26 15:04:03Z beat $
+* @version $Id: cb.simpleboardtab.php 1425 2011-02-09 15:27:11Z beat $
 * @package Community Builder
 * @subpackage plug_cbsimpleboardtab.php
 * @author JoomlaJoe and Beat (Nick A. fixed Fireboard support)
@@ -72,17 +72,27 @@ class CBfield_forumsettings extends cbFieldHandler {
 					if ( $field->name == 'forumsignature' ) {
 						$field->cols				=	$field->params->get( 'fs_signature_cols', 0 );
 						$field->rows				=	$field->params->get( 'fs_signature_rows', 0 );
-						$return						=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'textarea', $value, 'class="inputbox cbforumsignature" cols="60" rows="4"' );
+						if ( $reason == 'search' ) {
+							$return					=	$this->_fieldSearchModeHtml( $field, $user, $this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '' ), 'text', $list_compare_types );
+						} else {
+							$return						=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'textarea', $value, ' cols="60" rows="4"', null, true, array('cbforumsignature') );
+						}
 					} elseif ( $field->name == 'forumorder' ) {
 						$choices					=	array();
 						$choices[]					=	moscomprofilerHTML::makeOption( '0', _UE_FB_ORDERING_OLDEST );
 						$choices[]					=	moscomprofilerHTML::makeOption( '1', _UE_FB_ORDERING_LATEST );
-						$return						=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'select', ( $value === '' ? '0' : $value ), 'class="inputbox"', $choices );
+						$return						=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'select', ( $value === '' ? '0' : $value ), '', $choices );
+						if ( $reason == 'search' ) {
+							$return					=	$this->_fieldSearchModeHtml( $field, $user, $return, 'singlechoice', $list_compare_types );
+						}
 					} elseif ( $field->name == 'forumview' ) {
 						$choices					=	array();
 						$choices[]					=	moscomprofilerHTML::makeOption( 'flat', _UE_FB_VIEWTYPE_FLAT );
 						$choices[]					=	moscomprofilerHTML::makeOption( 'threaded', _UE_FB_VIEWTYPE_THREADED );
-						$return						=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'select', ( $value === '' ? 'flat' : $value ), 'class="inputbox"', $choices );
+						$return						=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'select', ( $value === '' ? 'flat' : $value ), '', $choices );
+						if ( $reason == 'search' ) {
+							$return					=	$this->_fieldSearchModeHtml( $field, $user, $return, 'singlechoice', $list_compare_types );
+						}
 					}
 				break;
 				default:
@@ -118,7 +128,11 @@ class CBfield_forumsettings extends cbFieldHandler {
 				$userSettings						=	$_PLUGINS->call( $this->getPluginId(), 'getUserSettings', 'getForumModel', $params );
 				
 				if ( isset( $userSettings ) ) {
-					$new['signature']				=	cbGetParam( $postdata, 'forumsignature', null );
+					if ( ( $forum->component == 'com_kunena' ) && ( substr( $forum->version, 0, 3 ) >= '1.6' ) ) {
+						$new['signature']			=	stripslashes( cbGetParam( $postdata, 'forumsignature', null ) );
+					} else {
+						$new['signature']			=	cbGetParam( $postdata, 'forumsignature', null );
+					}
 					$new['ordering']				=	cbGetParam( $postdata, 'forumorder', null );
 					$new['view']					=	cbGetParam( $postdata, 'forumview', null );
 					$setQueries						=	array();
@@ -273,7 +287,7 @@ class getForumTab extends getForumModel {
 		if ( $statDisplay == 2 ) {
 			$template->showStats					=	( isset ( $forum->config['showuserstats'] ) ? $forum->config['showuserstats'] : $forum->config['showstats'] );
 			$template->showRank						=	( $forum->config['showranking'] && ( $params->get( 'statRanking', 1 ) == 1 ) && ( $forum->userdetails !== false ) );
-			$template->showPosts					=	( ( isset ( $forum->config['poststats'] ) ? $forum->config['poststats'] : $forum->config['postStats'] ) && ( ( $params->get( 'statPosts', 1 ) == 2 ) || ( ( $params->get( 'statPosts', 1 ) == 1 ) && ( $forum->userdetails !== false ) ) ) );
+			$template->showPosts					=	( ( isset ( $forum->config['poststats'] ) ? $forum->config['poststats'] : ( isset ( $forum->config['postStats'] ) ? $forum->config['postStats'] : ( isset ( $forum->config['userlist_posts'] ) ? $forum->config['userlist_posts'] : $forum->config['showstats'] ) ) ) && ( ( $params->get( 'statPosts', 1 ) == 2 ) || ( ( $params->get( 'statPosts', 1 ) == 1 ) && ( $forum->userdetails !== false ) ) ) );
 			$template->showKarma					=	( $forum->config['showkarma'] && ( $forum->userdetails !== false ) && ( ( $params->get( 'statKarma', 1 ) == 2 ) || ( ( $params->get( 'statKarma', 1 ) == 1 ) && ( $forum->userdetails->karma != 0 ) ) ) );
 			
 			$return									.=	getForumTabTemplate::ShowStats( $template, $forum, $this );
@@ -458,8 +472,13 @@ class getForumTab extends getForumModel {
 			$messageobject							=	$msg_params['messageobject'];
 			
 			if ( $mode === 1 ) { //Beginner
-				$username							=	$this->getFieldValue( $user, (int) $this->params->get( 'sidebarBeginnerName', null ), 'html', 'list' );
+				$version							=	substr( $forum->version, 0, 3 );
 				
+				if ( strcasecmp( $version, '1.6' ) >= 0 ) {
+					$username						=	$this->getFieldValue( $user, (int) $this->params->get( 'sidebarBeginnerName', null ) );
+				} else {
+					$username						=	$this->getFieldValue( $user, (int) $this->params->get( 'sidebarBeginnerName', null ), 'html', 'list' );
+				}
 				if ( $config->changename && ( $messageobject->name != $msg_params['username'] ) ) {
 					$msg_params['username']			=	$messageobject->name;
 				} elseif ( $username ) {
@@ -475,7 +494,10 @@ class getForumTab extends getForumModel {
 				}
 				
 				if ( $format ) {
-					$return							=	$cbUser->replaceUserVars( $format );
+					$extraFrom						=	array( '[karmaplus]', '[karmaminus]' );
+					$extraTo						=	array(	( isset( $msg_params['karmaplus'] ) ? $msg_params['karmaplus'] : '' ),
+																( isset( $msg_params['karmaminus'] ) ? $msg_params['karmaminus'] : '' ) );
+					$return							=	$cbUser->replaceUserVars( str_replace( $extraFrom, $extraTo, $format ) );
 				}
 			} elseif ( $mode === 3 ) { //Expert
 				include_once( $_CB_framework->getCfg( 'absolute_path' ) . '/components/com_comprofiler/plugin/user/plug_cbsimpleboardtab/view/cb.simpleboardtab.sidebar.php' );
@@ -505,11 +527,12 @@ class getForumTab extends getForumModel {
 		if ( $forum && ( $forum->component == 'com_kunena' ) ) {
 			$mode									=	(int) $this->params->get( 'sidebarMode', 0 );
 			$userinfo								=	$params['userinfo'];
+			$version								=	substr( $forum->version, 0, 3 );
 			
 			if ( $mode === 1 ) { //Beginner
 				$fields								=	array();
 				$fields[]							=	$this->getFieldValue( $user, (int) $this->params->get( 'sidebarBeginnerAvatar', null ), 'html', 'list' );
-				for ( $i = 1; $i <= 11; $i++ ) {
+				for ( $i = 1; $i <= 21; $i++ ) {
 					$fields[]						=	trim( $this->getFieldValue( $user, (int) $this->params->get( 'sidebarBeginner' . $i, null ), 'csv' ) );
 				}
 				
@@ -575,8 +598,57 @@ class getForumTab extends getForumModel {
 					$userinfo->websitename			=	$value[1];
 					$userinfo->websiteurl			=	$value[0];
 				}
+
+				if ( strcasecmp( $version, '1.6' ) == 0 ) {
+					if ( $fields[12] ) {
+						$userinfo->TWITTER			=	$fields[12];
+					}
+
+					if ( $fields[13] ) {
+						$userinfo->FACEBOOK			=	$fields[13];
+					}
+
+					if ( $fields[14] ) {
+						$userinfo->MYSPACE			=	$fields[14];
+					}
+
+					if ( $fields[15] ) {
+						$userinfo->LINKEDIN			=	$fields[15];
+					}
+
+					if ( $fields[16] ) {
+						$userinfo->DELICIOUS		=	$fields[16];
+					}
+
+					if ( $fields[17] ) {
+						$userinfo->FRIENDFEED		=	$fields[17];
+					}
+
+					if ( $fields[18] ) {
+						$userinfo->DIGG				=	$fields[18];
+					}
+
+					if ( $fields[19] ) {
+						$userinfo->BLOGSPOT			=	$fields[19];
+					}
+
+					if ( $fields[20] ) {
+						$userinfo->FLICKR			=	$fields[20];
+					}
+
+					if ( $fields[21] ) {
+						$userinfo->BEBO				=	$fields[21];
+					}
+				}
 			}
-		}
-	}
+
+			if ( strcasecmp( $version, '1.6' ) >= 0 ) {
+				global $ueConfig;
+
+				$userinfo->hideEmail				=	( $ueConfig['allow_email_display'] < 4 ? '0' : '1' );
+				$userinfo->showOnline				=	$ueConfig['allow_onlinestatus'];
+					}
+				}
+			}
 } //end of getForumTab
 ?>

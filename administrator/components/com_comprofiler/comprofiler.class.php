@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla/Mambo Community Builder
-* @version $Id: comprofiler.class.php 956 2010-03-05 21:20:02Z beat $
+* @version $Id: comprofiler.class.php 1555 2011-07-31 00:34:58Z beat $
 * @package Community Builder
 * @subpackage comprofiler.class.php
 * @author JoomlaJoe and Beat
@@ -13,19 +13,17 @@
 if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' ) ) ) { die( 'Direct Access to this location is not allowed.' ); }
 
 /** @global int $_CB_OneTwoRowsStyleToggle */
-/** @global int $_CB_ProfileItemid */
 /** @global array $_CB_outputedHeads storing already outputed items in head to output only once and avoid double-outputing */
-global $_CB_PMS, $_CB_OneTwoRowsStyleToggle, $_CB__Cache_ProfileItemid, $_CB_outputedHeads;
+global $_CB_PMS, $_CB_OneTwoRowsStyleToggle, $_CB_outputedHeads;
 // $_CB_PMS = new cbPMS();					// moved at end of file
 $_CB_OneTwoRowsStyleToggle	=	1;			// toggle for status sectionTableEntry display
 $_CB_outputedHeads			=	array();
-$_CB__Cache_ProfileItemid	=	null;
 
 cbimport( 'cb.tables' );
 cbimport( 'phpinputfilter.inputfilter' );
 cbimport( 'cb.acl' );
 
-define( "_UE_PREGMATCH_VALID_EMAIL", "/[a-z0-9!#$%&'*+\\/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+\\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/" );
+define( "_UE_PREGMATCH_VALID_EMAIL", "/[a-z0-9!#$%&'*+\\/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+\\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i" );
 /**
  * Checks if a given string is a valid email address
  *
@@ -77,15 +75,14 @@ function & comprofilerCreateMail( $from = '', $fromname = '', $subject, $body ) 
 		if ( ( $smtpsecure === 'ssl' ) || ( $smtpsecure === 'tls' ) ) {
 			$mail->SMTPSecure	=	$smtpsecure;
 		}
-		$mail->Sender		=	$mail->From	;
 	} elseif ( $_CB_framework->getCfg( 'mailer' ) == 'sendmail' ) {
 		// Set sendmail path:
 		if ( $_CB_framework->getCfg( 'sendmail' ) ) {
 			$mail->Sendmail	=	$_CB_framework->getCfg( 'sendmail' );
-			$mail->Sender	=	$mail->From;
 		}
 	}
-
+	$mail->Sender			=	$mail->From;
+	
 	$mail->Subject 			=	$subject;
 	$mail->Body 			=	$body;
 
@@ -103,7 +100,7 @@ function & comprofilerCreateMail( $from = '', $fromname = '', $subject, $body ) 
 * @param  boolean       $mode         false = plain text, true = HTML
 * @param  string|array  $cc           CC e-mail address(es)
 * @param  string|array  $bcc          BCC e-mail address(es)
-* @param  string|array  $attachment   Attachment file name(s)
+* @param  string|array  $attachment   Attachment file name(s) (array index is filename, if string)
 * @param  string|array  $replyto      ReplyTo e-mail address(es)
 * @param  string|array  $replytoname  ReplyTo name(s)
 * @return boolean                     True: mail sent, False: mail not sent (error)
@@ -141,8 +138,12 @@ function comprofilerMail( $from, $fromname, $recipient, $subject, $body, $mode =
 	}
     if ( $attachment ) {
         if ( is_array( $attachment ) ) {
-            foreach ( $attachment as $fname ) {
-            	$mail->AddAttachment($fname);
+            foreach ( $attachment as $fname => $fpath ) {
+            	if ( is_string( $fname ) ) {
+	            	$mail->AddAttachment( $fpath, $fname );
+            	} else {
+            		$mail->AddAttachment( $fpath );
+            	}
             }
         } else {
             $mail->AddAttachment( $attachment );
@@ -227,7 +228,7 @@ function cbCheckMail( $from, $recipient ) {
 
 	foreach ( $mxRecords as $host ) {
 		$mail->Host			=	$host;
-	
+
 		if ( ! $mail->SmtpConnect() ) {
 			continue;
 		}
@@ -267,7 +268,7 @@ class moscomprofilerHTML {
 	 * @param  string  $textName    name of the text variable
 	 * @return stdClass             selection object
 	 */
-	function makeOption( $value, $text = '', $valueName = 'value', $textName = 'text' ) {
+	static function makeOption( $value, $text = '', $valueName = 'value', $textName = 'text' ) {
 		$option					=	new stdClass;
 		$option->$valueName		=	$value;
 		$option->$textName		=	trim( $text ) ? $text : $value;
@@ -281,15 +282,24 @@ class moscomprofilerHTML {
 	 * @param  string  $textName    name of the text variable
 	 * @return stdClass             selection object
 	 */
-	function makeOptGroup( $text = '', $valueName = 'value', $textName = 'text' ) {
+	static function makeOptGroup( $text = '', $valueName = 'value', $textName = 'text' ) {
 		$option					=	new stdClass;
 		$option->$valueName		=	( $text !== null ? array( 'optgroup' ) : array( '/optgroup' ) );
-		$option->$textName		=	trim( $text ); 
+		$option->$textName		=	trim( $text );
 		return $option;
 	}
-	function radioListArr( &$arr, $tag_name, $tag_attribs, $key, $text, $selected, $required=0 ) {
+	static function radioListArr( &$arr, $tag_name, $tag_attribs, $key, $text, $selected, $required=0, $classes = null ) {
 		reset( $arr );
 		$html = array();
+		if ( $classes === null ) {
+			$classes			=	array();
+		}
+		if ( $required ) {
+			$classes[]			=	'required';
+		}
+		if ( count( $classes ) > 0 ) {
+			$tag_attribs		.=	' class="' . implode( ' ', $classes ) . '"';
+		}
 		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
 			$k = /* stripslashes */ ($arr[$i]->$key);
 			$t = /* stripslashes */ ($arr[$i]->$text);
@@ -315,7 +325,7 @@ class moscomprofilerHTML {
 			} else {
 				$extra .= ($k == /* stripslashes */ ($selected) ? "  checked=\"checked\"" : '');
 			}
-			if ( $required && ( $i == 0 ) ) {
+			if ( $required && ( $i == 0 ) && ! defined( '_CB_VALIDATE_NEW' ) ) {
 				$isReq="mosReq=\"".$required."\"";
 			} else {
 				$isReq="";
@@ -324,14 +334,14 @@ class moscomprofilerHTML {
 		}
 		return $html;
 	}
-	function radioList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected, $required = 0 ) {
-		return "\n\t".implode("\n\t ", moscomprofilerHTML::radioListArr( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $required ))."\n";
+	static function radioList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected, $required = 0, $classes = null ) {
+		return "\n\t".implode("\n\t ", moscomprofilerHTML::radioListArr( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $required, $classes ))."\n";
 	}
-	function radioListTable( &$arr, $tag_name, $tag_attribs, $key, $text, $selected, $cols=0, $rows=1, $size=0, $required=0 ) {
-		$cellsHtml = moscomprofilerHTML::radioListArr( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $required );
+	static function radioListTable( &$arr, $tag_name, $tag_attribs, $key, $text, $selected, $cols=0, $rows=1, $size=0, $required=0, $classes = null ) {
+		$cellsHtml = moscomprofilerHTML::radioListArr( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $required, $classes );
 		return moscomprofilerHTML::list2Table( $cellsHtml, $cols, $rows, $size );
 	}
-	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected, $required = 0, $htmlspecialcharText = true, $addBlank = null ) {
+	static function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected, $required = 0, $htmlspecialcharText = true, $addBlank = null ) {
 		reset( $arr );
 		$id_name				=	moscomprofilerHTML::htmlId( $tag_name );
 		$html	=	"\n"
@@ -391,15 +401,24 @@ class moscomprofilerHTML {
 		$html					.=	"\n</select>\n";
 		return $html;
 	}
-	function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes = _UE_YES, $no = _UE_NO ) {
+	static function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes = _UE_YES, $no = _UE_NO ) {
 		$arr = array(	moscomprofilerHTML::makeOption( '0', $no ),
 						moscomprofilerHTML::makeOption( '1', $yes )
 					);
 		return moscomprofilerHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected, 2, true, false );
 	}
-	function checkboxListArr( &$arr, $tag_name, $tag_attribs,  $key='value', $text='text',$selected=null, $required=0  ) {
+	static function checkboxListArr( &$arr, $tag_name, $tag_attribs,  $key='value', $text='text',$selected=null, $required = 0, $classes = null ) {
 		reset( $arr );
 		$html = array();
+		if ( $classes === null ) {
+			$classes			=	array();
+		}
+		if ( $required ) {
+			$classes[]			=	'required';
+		}
+		if ( count( $classes ) > 0 ) {
+			$tag_attribs		.=	' class="' . implode( ' ', $classes ) . '"';
+		}
 		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
 			$k = $arr[$i]->$key;
 			$t = $arr[$i]->$text;
@@ -425,7 +444,7 @@ class moscomprofilerHTML {
 			} else {
 				$extra .= ($k == $selected ? " checked=\"checked\"" : '');
 			}
-			if ( $required && ( $i == 0 ) ) {
+			if ( $required && ( $i == 0 ) && ! defined( '_CB_VALIDATE_NEW' ) ) {
 				$isReq="mosReq=\"".$required."\"";
 			} else {
 				$isReq="";
@@ -434,15 +453,15 @@ class moscomprofilerHTML {
 		}
 		return $html;
 	}
-	function checkboxList( &$arr, $tag_name, $tag_attribs,  $key='value', $text='text',$selected=null, $required=0 ) {
-		return "\n\t".implode("\n\t", moscomprofilerHTML::checkboxListArr( $arr, $tag_name, $tag_attribs,  $key, $text,$selected, $required ))."\n";
+	static function checkboxList( &$arr, $tag_name, $tag_attribs,  $key='value', $text='text',$selected=null, $required = 0, $classes = null ) {
+		return "\n\t".implode("\n\t", moscomprofilerHTML::checkboxListArr( $arr, $tag_name, $tag_attribs,  $key, $text,$selected, $required, $classes ))."\n";
 	}
-	function checkboxListTable( &$arr, $tag_name, $tag_attribs,  $key='value', $text='text',$selected=null, $cols=0, $rows=0, $size=0, $required=0 ) {
-		$cellsHtml = moscomprofilerHTML::checkboxListArr( $arr, $tag_name, $tag_attribs,  $key, $text,$selected, $required );
+	static function checkboxListTable( &$arr, $tag_name, $tag_attribs,  $key='value', $text='text',$selected=null, $cols=0, $rows=0, $size=0, $required=0, $classes = null ) {
+		$cellsHtml = moscomprofilerHTML::checkboxListArr( $arr, $tag_name, $tag_attribs,  $key, $text,$selected, $required, $classes );
 		return moscomprofilerHTML::list2Table( $cellsHtml, $cols, $rows, $size );
 	}
 	// private methods:
-	function list2Table ( $cellsHtml, $cols, $rows, $size ) {
+	static function list2Table ( $cellsHtml, $cols, $rows, $size ) {
 		$cells					=	count( $cellsHtml );
 
 		$size					=	(int) ( ( $size - ( $size % 3 ) ) / 3  ) * 2;	// int div  3 * 2 width/heigh ratio
@@ -492,7 +511,7 @@ class moscomprofilerHTML {
 	 * @param  string  $name
 	 * @return string
 	 */
-	function htmlId( $name ) {
+	static function htmlId( $name ) {
 		return str_replace( array( '[', ']' ), array( '__', '' ), $name );
 	}
 	/**
@@ -500,7 +519,7 @@ class moscomprofilerHTML {
 	* email cloacking
  	* by default replaces an email with a mailto link with email cloacked
 	*/
-	function emailCloaking( $mail, $mailto=1, $text='', $email=1, $cloaktext=true ) {
+	static function emailCloaking( $mail, $mailto=1, $text='', $email=1, $cloaktext=true ) {
 		global $_CB_framework;
 		static $spanId	=	null;
 
@@ -509,7 +528,7 @@ class moscomprofilerHTML {
 		} else {
 			$spanId		+=	1;
 		}
-		
+
 		// convert text
 		$mail 			=	moscomprofilerHTML::encoding_converter( $mail );
 		// split email by @ symbol
@@ -578,7 +597,7 @@ class moscomprofilerHTML {
 	* email cloacking
  	* by default replaces an email with a mailto link with email cloacked
 	*
-	function emailCloaking( $mail, $mailto=1, $text='', $email=1, $cloaktext=true ) {
+	static function emailCloaking( $mail, $mailto=1, $text='', $email=1, $cloaktext=true ) {
 		// convert text
 		$mail 		= moscomprofilerHTML::encoding_converter( $mail );
 		// split email by @ symbol
@@ -634,7 +653,7 @@ class moscomprofilerHTML {
 		return $replacement;
 	}
 */
-	function encoding_converter( $text ) {
+	static function encoding_converter( $text ) {
 		// replace vowels with character encoding
 		$text 	= str_replace( 'a', '&#97;', $text );
 		$text 	= str_replace( 'e', '&#101;', $text );
@@ -679,7 +698,7 @@ function getActivationMessage( &$user, $cause ) {
 	if ( ! isset( $ueConfig['emailpass'] ) ) {
 		$ueConfig['emailpass']	=	'0';
 	}
-	
+
 	$messagesToUser = null;
 	if ( in_array( $cause, array( 'UserRegistration', 'SameUserRegistrationAgain' ) ) ) {
 		if 		 ( $ueConfig['emailpass'] == '1' && $user->approved != 1 && $user->confirmed == 1 ){
@@ -710,7 +729,7 @@ function getActivationMessage( &$user, $cause ) {
 			}
 		}
 	}
-	
+
 	if ( $messagesToUser ) {
 		$messagesToUser = array( 'sys' => $messagesToUser );
 		if ( $cause == 'SameUserRegistrationAgain' ) {
@@ -739,7 +758,7 @@ function activateUser( &$user, $ui, $cause, $mailToAdmins = true, $mailToUser = 
 	$activate = ( $user->confirmed && ( $user->approved == 1 ) );
 	$showSysMessage = true;
 	$messagesToUser = getActivationMessage( $user, $cause );
-	
+
 	if ( $cause == 'UserConfirmation' && $user->approved == 0) {
 		$activate = false;
 		$msg = array(
@@ -779,7 +798,7 @@ function activateUser( &$user, $ui, $cause, $mailToAdmins = true, $mailToUser = 
 		);
 	}
 	$msg['messagesToUser']		=	$messagesToUser;
-	
+
 	if ( $triggerBeforeActivate ) {
 		$results = $_PLUGINS->trigger( 'onBeforeUserActive', array( &$user, $ui, $cause, $mailToAdmins, $mailToUser ));
 		if( $_PLUGINS->is_errors() && ( $ui != 0 ) ) {
@@ -811,7 +830,7 @@ function activateUser( &$user, $ui, $cause, $mailToAdmins = true, $mailToUser = 
 			unset( $msg['messagesToUser']['sys'] );
 		}
 	}
-	
+
 	if ( $activate ) {
 		$query = 'UPDATE #__users'
 		. "\n SET block = 0"
@@ -820,39 +839,34 @@ function activateUser( &$user, $ui, $cause, $mailToAdmins = true, $mailToUser = 
 		if ( ( !$_CB_database->query() ) && ( $ui != 0 ) ) {
 			echo 'SQL-unblock1 error: ' . $_CB_database->stderr(true);
 		}
-		$query = 'UPDATE #__comprofiler'
-		. "\n SET cbactivation = ''"
-		. "\n WHERE id = " . (int) $user->id;
-		$_CB_database->setQuery( $query );
-		if ( ( !$_CB_database->query() ) && ( $ui != 0 ) ) {
-			echo 'SQL-unblock2 error: ' . $_CB_database->stderr(true);
-		}
 		$user->block			=	'0';
-		$user->activation		=	'';
+
+		$user->removeActivationCode();
 	}
 
+	if ( $activate ) {
+		$_PLUGINS->trigger( 'onUserActive', array( &$user, $ui, $cause, $mailToAdmins, $mailToUser ) );
+		if( $_PLUGINS->is_errors() && ( $ui != 0 ) ) {
+			 $msg['messagesToUser']	=	$_PLUGINS->getErrorMSG( '<br />' )
+			 						.	$msg['messagesToUser'];
+		}
+	}
 	if ( ! isset( $notificationsSent[$user->id][$user->confirmed][$user->approved][$user->block] ) ) {		// in case done several times (e.g. plugins), avoid resending messages.
 		$cbNotification				=	new cbNotification();
-		
+
 		if ( $ueConfig['moderatorEmail'] && count( $msg['emailAdminMessage'] ) ) {
 			$pwd					=	$user->password;
 			$user->password			=	null;
-			$cbNotification->sendToModerators( implode( ', ', $msg['emailAdminSubject'] ), 
+			$cbNotification->sendToModerators( implode( ', ', $msg['emailAdminSubject'] ),
 											   $cbNotification->_replaceVariables( implode( '\n\n', $msg['emailAdminMessage'] ), $user ) );
 			$user->password			=	$pwd;
 		}
-	
+
 		if ( count( $msg['emailUserMessage'] ) ) {
 			$cbNotification->sendFromSystem( $user, implode( ', ', $msg['emailUserSubject'] ), implode( '\n\n', $msg['emailUserMessage'] ) );
 		}
 		$notificationsSent[$user->id][$user->confirmed][$user->approved][$user->block]	=	true;
 	}
-	if ( $activate ) {
-		$_PLUGINS->trigger( 'onUserActive', array( &$user, true ) );
-		if( $_PLUGINS->is_errors() && ( $ui != 0 ) ) {
-			echo $_PLUGINS->getErrorMSG( '<br />' );
-		}
-	}	
 	return $msg['messagesToUser'];
 }
 
@@ -883,7 +897,8 @@ function writePagesLinks($limitstart, $limit, $total,$ue_base_url,$search=null,$
 	} else {
 		$search_str = (($search) ? '&amp;'.urlencode($prefix).'search='.urlencode($search) : '');
 	}
-	$limstart_str = '&amp;'.urlencode($prefix).'limitstart=';
+	// limit is not used in CB but helps sh404sef according to feature #1707:
+	$limstart_str	=	'&amp;' . urlencode($prefix) . 'limit=' . (int) $limit . '&amp;'.urlencode($prefix) . 'limitstart=';
 	$pages_in_list = 6;                // set how many pages you want displayed in the menu (not including first&last, and ev. ... repl by single page number.
 	$displayed_pages = $pages_in_list;
 	$total_pages = ceil( $total / $limit );
@@ -1062,11 +1077,11 @@ function dateConverter($oDate,$oFromFormat,$oToFormat) {
  * @param mixed		string $date in "Y-m-d H:i:s" format, or 	int : unix timestamp
  * @param int $serverTimeOffset : 0: don't offset, 1: offset if time also in $date
  * @param boolean $showtime : false don't show time even if time is present in string
- * @return string date formatted 
+ * @return string date formatted
  */
 function cbFormatDate( $date, $serverTimeOffset = 1, $showtime = true ) {
 	global $ueConfig;
-	
+
 	if ( is_int( $date ) ) {
 		$date = date( ($showtime) ? "Y-m-d H:i:s" : "Y-m-d", $date );
 	}
@@ -1163,7 +1178,7 @@ function cbSplitSingleName( &$user ) {
 			// $sql = "INSERT IGNORE INTO #__comprofiler(id,user_id,lastname,firstname) "
  			//	  ." SELECT id,id, SUBSTRING_INDEX(name,' ',-1), "
  			//					 ."SUBSTRING( name, 1, length( name ) - length( SUBSTRING_INDEX( name, ' ', -1 ) ) -1 ) "
- 			//	  ." FROM #__users";    		
+ 			//	  ." FROM #__users";
 		break;
 		case 3:
 			// firstname + middlename + lastname:
@@ -1214,7 +1229,7 @@ function getFieldValue( $oType, $oValue=null, $user=null, $prefix=null, $imgMode
 	switch ($oType){
 		CASE 'checkbox':
 			if($oValue!='' && $oValue!=null) {
-				if($oValue==1) { $oReturn=_UE_YES; 
+				if($oValue==1) { $oReturn=_UE_YES;
 				} elseif($oValue==0) { $oReturn=_UE_NO;
 				} else { $oReturn=null; }
 			}
@@ -1322,7 +1337,7 @@ function getFieldValue( $oType, $oValue=null, $user=null, $prefix=null, $imgMode
 						$oReturn .= "<a href=\"".cbSef($res["url"])."\" title=\"".getLangDefinition($res["tooltip"])."\">".$linkItem."</a>";
 				 	}
 				}
-			}			
+			}
 		break;
 		CASE 'emailaddress':
 			if ( $oValue == null ) {
@@ -1353,7 +1368,7 @@ function getFieldValue( $oType, $oValue=null, $user=null, $prefix=null, $imgMode
 /*
 			if(is_dir($_CB_framework->getCfg('absolute_path')."/components/com_comprofiler/plugin/language/".$_CB_framework->getCfg( 'lang' )."/images")) $fileLang=$_CB_framework->getCfg( 'lang' );
 			else $fileLang="default_language";
-			
+
 			if($user->avatarapproved==0) $oValue="components/com_comprofiler/plugin/language/".$fileLang."/images/tnpendphoto.jpg";
 			elseif(($user->avatar=='' || $user->avatar==null) && $user->avatarapproved==1) $oValue = "components/com_comprofiler/plugin/language/".$fileLang."/images/tnnophoto.jpg";
 			elseif(strpos($user->avatar,"gallery/")===false) $oValue="images/comprofiler/tn".$oValue;
@@ -1382,13 +1397,13 @@ function getFieldValue( $oType, $oValue=null, $user=null, $prefix=null, $imgMode
 				} else {
 					$isonline = $oValue;
 				}
-				if($isonline > 0) { 
+				if($isonline > 0) {
 					$oValue = _UE_ISONLINE;
 					// $img			=	'online.png';
 					$class			=	'cb_online';
 
 					// $onlineIMG= "<img src=\"components/com_comprofiler/images/online.gif\" border=\"0\" alt=\"".$oValue."\" title=\"".$oValue."\" />";
-				} else { 
+				} else {
 					$oValue = _UE_ISOFFLINE;
 					// $img			=	'offline.png';
 					$class			=	'cb_offline';
@@ -1446,7 +1461,7 @@ function getFieldValue( $oType, $oValue=null, $user=null, $prefix=null, $imgMode
 			} else {
 				$oReturn	=	htmlspecialchars( $oValue );
 			}
-			break;	
+			break;
 	}
 	if ($prefix != null && ($oReturn != null || $oReturn != '')) {
 		$oReturn = $prefix.$oReturn;
@@ -1479,12 +1494,12 @@ function addCbHeadTag($old_ui,$text) {
 /**
 * Outputs an arbitrary html text into head tags if possible and configured, otherwise echo it.
 * Adds RTL overrides in 'rtl.css' on 'template.css' file if in RTL output mode from template's rtl.css file if existing, otherwise from default template.
-* 
-* @param  int     $ui   user interface : 1: frontend, 2: backend
+*
+* @param  int     $obsoleteUi    (was int $ui user interface : 1: frontend, 2: backend)
 * @param  string  $templatefile
 * @param  string  $media         e.g. "screen"
 */
-function outputCbTemplate( $ui, $templateFile = 'template.css', $media = null ) {
+function outputCbTemplate( $obsoleteUi = 0, $templateFile = 'template.css', $media = null ) {
 	global $_CB_framework;
 
 	$_CB_framework->document->addHeadStyleSheet( selectTemplate() . $templateFile, false, $media );
@@ -1497,50 +1512,64 @@ function outputCbTemplate( $ui, $templateFile = 'template.css', $media = null ) 
 		}
 		$_CB_framework->document->addHeadStyleSheet( $rtlPath . '/rtl.css', false, $media );
 	}
+	$useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "unknown";
+	if ( strstr( $useragent, 'MSIE' ) ) {
+		$matches	=	null;
+		if ( preg_match( '/MSIE\s(\d+\.\d+)/i', $useragent, $matches ) ) {
+			if ( $matches[1] < 9 ) {
+				// Internet Explorer before version 9 doesn't understand curvy corners: help it:
+				$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/curvycorners.js', true );
+			}
+		}
+	}
 }
 /**
 * Outputs an arbitrary html text into head tags if possible and configured, otherwise echo it.
-* @param int user interface : 1: frontend, 2: backend
+* @param int $obsoleteUi  (was int user interface : 1: frontend, 2: backend)
 */
-function outputCbJs($ui) {
-	global $_CB_framework;
-
-	$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/cb12.js', true );
-}
-
-function utf8RawUrlDecode ($source) {
-	$decodedStr = ''; 
-	$pos = 0;
-	$len = strlen ($source); 
-	while ($pos < $len) { 
-		$charAt = substr ($source, $pos, 1); 
-		if ($charAt=='%') { 
-			$pos++; 
-			$charAt = substr ($source, $pos, 1); 
-			if ($charAt=='u') { // we got a unicode character 
-				$pos++; 
-				$unicodeHexVal = substr ($source, $pos, 4); 
-				$unicode = hexdec ($unicodeHexVal); 
-				$entity = "&#". $unicode . ';'; 
-				$decodedStr .= utf8_encode ($entity); 
-				$pos += 4;
-			} else { // we have an escaped ascii character 
-				$hexVal = substr ($source, $pos, 2); 
-				$decodedStr .= chr (hexdec ($hexVal)); 
-				$pos += 2;
-			} 
-		} else { 
-			$decodedStr .= $charAt; 
-			$pos++; 
-		} 
-	} 
-	return $decodedStr;
-}
-
-function cbArrayToInts( &$array ) {
-	foreach ( $array as $k => $v ) {
-		$array[$k]	=	(int) $v;
+function outputCbJs( ) {
+	static $needOut	=	1;
+	if ( $needOut-- ) {
+		global $_CB_framework;
+		$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/cb12.js', true );
 	}
+}
+
+function utf8RawUrlDecode ($source, $charset = null ) {
+	if ( $charset === null ) {
+		global $_CB_framework;
+		$charset	=	$_CB_framework->outputCharset();
+	}
+	$decodedStr = '';
+	$pos = 0;
+	$len = strlen ($source);
+	while ($pos < $len) {
+		$charAt = substr ($source, $pos, 1);
+		if ($charAt=='%') {
+			$pos++;
+			$charAt = substr ($source, $pos, 1);
+			if ($charAt=='u') { // we got a unicode character
+				$pos++;
+				$unicodeHexVal = substr ($source, $pos, 4);
+				$unicode = hexdec ($unicodeHexVal);
+				$entity = "&#". $unicode . ';';
+				$decodedStr .= html_entity_decode($entity, ENT_QUOTES, $charset );
+				$pos += 4;
+			} else { // we have an escaped ascii character
+				$hexVal = substr ($source, $pos, 2);
+				if ( $charset == 'UTF-8' ) {
+					$decodedStr .= utf8_encode( chr( hexdec( $hexVal ) ) );
+				} else {
+					$decodedStr .= chr( hexdec( $hexVal ) );
+				}
+				$pos += 2;
+			}
+		} else {
+			$decodedStr .= $charAt;
+			$pos++;
+		}
+	}
+	return $decodedStr;
 }
 
 /** Escapes with real database escaping algorythm (stripslashes first if magic_quotes_gpc are set to take care of MB charsets) */
@@ -1568,12 +1597,16 @@ function cbUnEscapeSQL($string) {
 	return str_replace(array("\\0","\\n","\\r","\\\\","\\'","\\\"","\\Z"),array("\x00","\n","\r","\\","'","\"","\x1a"),$string);
 }
 
-/** Escapes SQL search strings. To be used only on escaped strings */
+/** Escapes SQL search strings. To be used only on escaped strings
+ *	@deprecated cb 1.2.3  use: $_CB_database->getEscaped( $string, true ) on non-escaped string
+ */
 function cbEscapeSQLsearch( $string ) {
 	return str_replace(array("%","_"),array("\\%","\\_"), $string );
 }
 
-/** Unescapes SQL search strings */
+/** Unescapes SQL search strings
+ *	@deprecated cb 1.2.3
+ */
 function cbUnEscapeSQLsearch( $string ) {
 	return str_replace(array("\\%","\\_"),array("%","_"), $string );
 }
@@ -1700,11 +1733,11 @@ function cbIsoUtf_strlen( $string ) {
  */
 function cbutf8_substr( $str, $start, $length = null ) {
 	if ( function_exists( 'mb_substr' ) ) {
-		return mb_substr( $str, $start, $length );
+		return mb_substr( $str, $start, $length, 'UTF-8' );
 	} else {
 		$ar = null;
 		preg_match_all("/./u", $str, $ar);
-	
+
 		if($length != null) {
 			return join("",array_slice($ar[0],$start,$length));
 		} else {
@@ -1754,7 +1787,7 @@ function _cbMakeHtmlSafe( &$mixed, $quote_style = ENT_QUOTES, $exclude_keys = ''
 /**
  * Reads the files and directories in a directory
  * Backend-only
- * 
+ *
  * @param  string   $path      The file system path
  * @param  string   $filter    A filter for the names
  * @param  boolean  $recurse   Recurse search into sub-directories
@@ -1769,8 +1802,8 @@ function cbReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  )
 	$handle						=	opendir( $path );
 
 	while ( true == ( $file = readdir( $handle ) ) ) {
-		$dir					=	_cbPathName( $path . '/' . $file, false );
-		if ( ( $file != '.' ) && ( $file != '..' ) && ( $file != '.svn' ) ) {
+		if ( ! in_array( $file, array( '.', '..', '.svn', '.git', '.gitignore', '.gitattributes' ) ) ) {
+			$dir				=	_cbPathName( $path . '/' . $file, false );
 			if ( preg_match( "/$filter/", $file ) ) {
 				if ( $fullpath ) {
 					$arr[]		=	trim( _cbPathName( $path . '/' . $file, false ) );
@@ -1824,11 +1857,11 @@ function _cbPathName( $p_path, $p_addtrailingslash = true ) {
 
 /**
 * Utility function to include ToolTips and set defaults for CB
-* @param int user interface : 1: frontend, 2: backend NOT USED ANYMORE !
+* @param int   $obsoleteUi    Obsolete (was $ui  user interface : 1: frontend, 2: backend NOT USED ANYMORE !)
 * @param string width of tooltips
 * @return void
 */
-function initToolTip( $ui, $width='250' ) {
+function initToolTip( $obsoleteUi = 0, $width='250' ) {
 	static $outputed	=	false;
 
 	if ( ! $outputed ) {
@@ -1838,10 +1871,7 @@ function initToolTip( $ui, $width='250' ) {
 						.	'TEXTFONTCLASS,\'cb-tips-font\',FGCLASS,\'cb-tips-fg\',BGCLASS,\'cb-tips-bg\''
 						.	',CAPTIONFONTCLASS,\'cb-tips-capfont\', CLOSEFONTCLASS, \'cb-tips-closefont\');'
 						;
-		$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/overlib_mini.js' );
-		$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/overlib_hideform_mini.js' );
-		$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/overlib_anchor_mini.js' );
-		$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/overlib_centerpopup_mini.js', false, null, $postScript );
+		$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/overlib_all_mini.js', false, null, $postScript );
 		$outputed		=	true;
 	}
 	return null;
@@ -1861,18 +1891,18 @@ function CB45_mosToolTip( $ui, $tooltip, $title='', $width='', $image='tooltip.p
 		$altText	=	' alt="' . strip_tags( sprintf( _UE_INFORMATION_FOR_FIELD, htmlspecialchars( stripslashes( $title ) ), htmlspecialchars( stripslashes( $tooltip ) ) ) ) . '"';
 	}
 	if ( $width ) {
-		$width = ', WIDTH, \''.$width .'\'';
+		$width = ', WIDTH, \''. addslashes( $width ) .'\'';
 	}
 	if ( $title ){
-		$title = ', CAPTION, \''.$title .'\'';
+		$title = ', CAPTION, \''. addslashes( stripslashes( $title ) ) .'\'';
 	}
 	if ( $olparams ) {
 		$olparams = ', '.$olparams;
 	}
 	if ($click) {
-		$tooltipcode = " onclick=\"return overlib('" . str_replace( "\n", ' ', $tooltip ) . "'". $title . $width . $olparams . ");\"";
+		$tooltipcode = " onclick=\"return overlib('" . addslashes( str_replace( array( "\n", "\r" ), ' ', stripslashes( $tooltip ) ) ) . "'" . $title . $width . $olparams . ");\"";
 	} else {
-		$tooltipcode = " onmouseover=\"return overlib('" . str_replace( "\n", ' ', $tooltip ) . "'". $title . $width . $olparams . ");\" onmouseout=\"return nd();\"";
+		$tooltipcode = " onmouseover=\"return overlib('" . addslashes( str_replace( array( "\n", "\r" ), ' ', stripslashes( $tooltip ) ) ) . "'" . $title . $width . $olparams . ");\" onmouseout=\"return nd();\"";
 	}
 	if ( !$htmltext ) {
 		if ($image == 'tooltip.png') {
@@ -1899,10 +1929,10 @@ function cbFieldTip($ui, $fieldTip, $tipTitle='', $width='', $image='images/mini
 	$altText	=	' alt="' . strip_tags( sprintf( _UE_INFORMATION_FOR_FIELD, htmlspecialchars( $tipTitle ), htmlspecialchars( $fieldTip ) ) ) . '" title=""';
 	// overlib_mini does not support newlines:
 	if (strpos($fieldTip, "&lt;") === false) {
-		$fieldTip = str_replace("\r\n", "&lt;br /&gt;", $fieldTip);	
+		$fieldTip = str_replace("\r\n", "&lt;br /&gt;", $fieldTip);
 		$fieldTip = str_replace("\n", "&lt;br /&gt;", $fieldTip);
 	} else {
-		$fieldTip = str_replace("\r\n", " ", $fieldTip);	
+		$fieldTip = str_replace("\r\n", " ", $fieldTip);
 		$fieldTip = str_replace("\n", " ", $fieldTip);
 	}
 	$fieldTip = str_replace(array('"','<','>',"\\"), array("&quot;","&lt;","&gt;","\\\\"), $fieldTip);
@@ -1939,7 +1969,7 @@ function getFieldIcons($ui, $oReq, $oProfile, $oDescription="", $oTitle="", $sho
 	}
 	if ( $display & 2 ) {
 		if ( $oProfile !== null ) {
-			if ($oProfile)		$oReturn .= " <img src='".$templatePath."images/mini-icons/icon-16-profile-yes.png' width='16' height='16' alt='"._UE_FIELDONPROFILE."' title='"._UE_FIELDONPROFILE."' />";		
+			if ($oProfile)		$oReturn .= " <img src='".$templatePath."images/mini-icons/icon-16-profile-yes.png' width='16' height='16' alt='"._UE_FIELDONPROFILE."' title='"._UE_FIELDONPROFILE."' />";
 			if ($showLabels)	$oReturn .= " " . _UE_FIELDONPROFILE_SHORT . " | ";
 			if ((!$oProfile) || $showLabels) {
 								$oReturn .= " <img src='".$templatePath."images/mini-icons/icon-16-profile-no.png' width='16' height='16' alt='"._UE_FIELDNOPROFILE."' title='"._UE_FIELDNOPROFILE."' />";
@@ -1980,7 +2010,7 @@ function cbReplaceVars( $msg, &$row, $htmlspecialchars = true, $menuStats = true
 
 /**
 * Random string of a-z,A-Z,0-9 generator
-* 
+*
 * @param  int       $stringLength  number of chars
 * @return password
 */
@@ -2125,7 +2155,7 @@ function cbRegAntiSpamCheck( $mode = 1 ) {
  */
 function cbGetAntiSpams( $salt0 = null, $salt1 = null ) {
 	global $_CB_framework, $_CB_database;
-	
+
 	if ( ( $salt0 === null ) || ( $salt1 === null ) ) {
 		$salt0					=	cbMakeRandomString( 32 );
 		$salt1					=	$salt0;
@@ -2133,7 +2163,7 @@ function cbGetAntiSpams( $salt0 = null, $salt1 = null ) {
 	$query						=	"SELECT message_number_sent, message_last_sent FROM #__comprofiler WHERE id = " . (int) $_CB_framework->myId();
 	$_CB_database->setQuery( $query );
 	$users						=	$_CB_database->loadObjectList();
-	if ( ( strlen( $salt0 ) == 32 ) && ( strlen( $salt1 ) == 32 ) && is_array( $users ) && ( count( $users ) == 1 ) ) {
+	if ( ( ! $_CB_database->getErrorNum() ) && ( strlen( $salt0 ) == 32 ) && ( strlen( $salt1 ) == 32 ) && ( count( $users ) == 1 ) ) {
 		$message_number_sent	=	$users[0]->message_number_sent;
 		$message_last_sent		=	$users[0]->message_last_sent;
 		$validate				=	array();
@@ -2173,19 +2203,19 @@ function cbAntiSpamCheck( $autoBack = true ) {
 }
 function cbSpamProtect( $userid, $count ) {
 	global $_CB_database;
-	
+
 	$maxmails		= 10;		// mails per
 	$maxinterval	= 24*3600;	// hours (expressed in seconds) limit
-	
+
 	$time = time();
-	
+
 	$query = "SELECT message_number_sent, message_last_sent FROM #__comprofiler WHERE id = " . (int) $userid;
 	$_CB_database->setQuery($query);
 	$users = $_CB_database->loadObjectList();
-	if ( is_array($users) && ( count($users) == 1 ) ) {
+	if ( ( ! $_CB_database->getErrorNum() ) && ( count($users) == 1 ) ) {
 		$message_number_sent	= $users[0]->message_number_sent;
 		$message_last_sent		= $users[0]->message_last_sent;
-		if ( $message_last_sent != '0000-00-00 00:00:00' ) { 
+		if ( $message_last_sent != '0000-00-00 00:00:00' ) {
 			list( $y, $c, $d, $h, $m, $s ) = sscanf( $message_last_sent, "%4d-%2d-%2d\t%2d:%2d:%2d" );
 			$expiryTime = mktime($h, $m, $s, $c, $d, $y) + $maxinterval;
 			if ( $time < $expiryTime ) {
@@ -2220,7 +2250,7 @@ function cbSpamProtect( $userid, $count ) {
 }
 
 	// here for backwards compatibility only:
-	
+
 	function getFieldEntry($ui,$oldCalendars,$oType,$oName,$oDescription,$oTitle,$oValue,$oReq,$oLabel,$oID,$oSize, $oMaxLen, $oCols, $oRows,$oProfile, $rowFieldValues=null,$oReadOnly=0,$field=null) {
 		global $_CB_framework, $_PLUGINS;
 
@@ -2230,24 +2260,24 @@ function cbSpamProtect( $userid, $count ) {
 			$pSize		=	"";
 		}
 		if ( $oMaxLen > 0 ) {
-			$pMax		=	" maxlength='".$oMaxLen."' ";	
+			$pMax		=	" maxlength='".$oMaxLen."' ";
 		} else {
 			$pMax		=	"";
 		}
 		if ( $oCols > 0 ) {
-			$pCols		=	" cols='".$oCols."' ";	
+			$pCols		=	" cols='".$oCols."' ";
 		} else {
 			$pCols		=	"";
 		}
 		if ( $oRows > 0 ) {
-			$pRows		=	" rows='".$oRows."' ";	
+			$pRows		=	" rows='".$oRows."' ";
 		} else {
 			$pRows		=	"";
 		}
-		if ( $oReadOnly > 0 ) { 
+		if ( $oReadOnly > 0 ) {
 			$pReadOnly	=	" disabled=\"disabled\" ";
 			$oReq		=	0;
-		} else { 
+		} else {
 			$pReadOnly	=	"";
 		}
 		$mosReq			=	"mosReq=\"".$oReq."\"";
@@ -2276,7 +2306,7 @@ function cbSpamProtect( $userid, $count ) {
 			CASE 'checkbox':
 				$checked='';
 				if($oValue!='' && $oValue != null && $oValue==1) $checked=" checked=\"checked\"";
-				$oReturn = "<input $pReadOnly $mosReq mosLabel=\"". htmlspecialchars( getLangDefinition($oLabel) ) ."\" type=\"checkbox\" $checked name=\"".$oName."\" id=\"".$oName."\" value=\"1\" />";		
+				$oReturn = "<input $pReadOnly $mosReq mosLabel=\"". htmlspecialchars( getLangDefinition($oLabel) ) ."\" type=\"checkbox\" $checked name=\"".$oName."\" id=\"".$oName."\" value=\"1\" />";
 			break;
 			CASE 'hidden':
 				$oReturn = "<input $pReadOnly mosLabel=\"". htmlspecialchars( getLangDefinition($oLabel) ) ."\" type=\"hidden\" name=\"".$oName."\" id=\"".$oName."\" value=\"".htmlspecialchars($oValue)."\" />";
@@ -2303,12 +2333,12 @@ function cbSpamProtect( $userid, $count ) {
 					$oReturn .= "<span class=\"subFieldSpan\"><input class=\"inputbox\" $pReadOnly $pMax $pSize $mosReq mosLabel=\"". htmlspecialchars( getLangDefinition($oLabel) ) ."\" type=\"text\" name=\"".$oName."\" id=\"".$oName."\" value=\"".htmlspecialchars($oValuesArr[0])."\" />";
 					$oReturn .= getFieldIcons($ui, $oReq, $oProfile, $oDescription, $oTitle)."</span>";
 					$displayFieldIcons = false;
-					
+
 					$oReturn .= "</span><span class=\"webTextSpan\">";
 					$oReturn .= "<span class=\"subTitleSpan\">"._UE_WEBTEXT.":</span>";
 					$oReturn .= "<span class=\"subFieldSpan\"><input class=\"inputbox\" $pReadOnly $pMax $pSize $mosReq mosLabel=\"". htmlspecialchars( getLangDefinition($oLabel) ) ."\" type=\"text\" name=\"".$oName."Text\" id=\"".$oName."Text\" value=\"".htmlspecialchars($oValuesArr[1])."\" /></span>";
 					$oReturn .= "</span>";
-				}			
+				}
 				break;
 			CASE 'delimiter':
 				$oReturn = '';
@@ -2350,14 +2380,14 @@ function cbSpamProtect( $userid, $count ) {
 		$_CB_database->setQuery($query);
 		$user = $_CB_database->loadObjectList();
 
-		if ( ( ! is_array( $user ) ) || ( count( $user ) == 0 ) ) {
+		if ( ( $_CB_database->getErrorNum() ) || ( count( $user ) == 0 ) ) {
 			$query = "SELECT * FROM #__users u LEFT JOIN #__comprofiler c ON c.id = u.id WHERE u.id = " . (int) $id;
 			$_CB_database->setQuery($query);
 			$user = $_CB_database->loadObjectList();
 		}
-		if ( is_array( $user ) && ( count( $user ) > 0 ) ) {
+		if ( ( ! $_CB_database->getErrorNum() ) && ( count( $user ) > 0 ) ) {
 			$user = $user[0];
-			
+
 			if ( ( $condition == null ) || eval( $condition ) ) {
 				$_PLUGINS->loadPluginGroup( 'user' );
 				$_PLUGINS->trigger( 'onBeforeDeleteUser', array( $user ) );
@@ -2375,7 +2405,7 @@ function cbSpamProtect( $userid, $count ) {
 					}
 					$obj2->delete( $id );
 					$msg .= $obj2->getError();
-					
+
 					// delete user acounts active sessions
 					$query = "DELETE FROM #__session"
 				 	. "\n WHERE userid = " . (int) $id
@@ -2433,25 +2463,34 @@ function cbSpamProtect( $userid, $count ) {
 		cbRedirect( cbSef( $redirectURL, false ), $message );
 	}
 
+	function teamCreditsReplacer( $input ) {
+		static $index = 0;
+		$l = array( '/community-builder', '/social-networking', '/joomla', '/membership-management',
+					'/cb-solutions/directory', 'http://extensions.joomla.org/extensions/clients-a-communities/communities/210',
+					'/joomla-templates',
+					'/cb-solutions/add-ons', '/cb-solutions/cbsubs', '/cb-solutions/cbsubs', '/cb-solutions/incubator',
+					'/online-social-network', '/hosting' );
+		return '<a href="' . ( isset( $l[$index] ) && $l[$index][0] == '/' ? 'http://www.joomlapolis.com' : '' ) . ( isset( $l[$index] ) ? $l[$index++] : '/' ) . '">';
+	}
 	/**	Gives credits display for frontend and backend
 	*	@param int	1=frontend, 2=backend
 	*/
 	function teamCredits( $ui ) {
 		global $_CB_framework, $ueConfig;
-	
+
 		outputCbTemplate( $ui );
 		outputCbJs( $ui );
 
 ?>
-		<table style="width=:100%;border0;align:center;padding:8px;" cellpadding="0" cellspacing="0">
+		<table style="width=:100%;border0;align:center;padding:8px;" cellpadding="0" cellspacing="0" class="cbborderlesstable">
 		<tr>
-			<td> 
+			<td>
 				<table width="100%" border="0" align="center" cellpadding="2" cellspacing="0">
 				<tr>
 					<td style="text-align:center" colspan="2">
 					<?php
 					if ($ui == 2) {
-						echo '<a href="http://www.joomlapolis.com" target="_blank" style="border:0px;display:block;width:304px;margin:auto;background:white solid;"><img src="' . $_CB_framework->getCfg( 'live_site' ) . '/components/com_comprofiler/images/smcblogo.gif" /></a><br />';
+						echo '<a href="http://www.joomlapolis.com" target="_blank" style="border:0px;display:block;width:304px;margin:auto;background:white solid;"><img src="' . $_CB_framework->getCfg( 'live_site' ) . '/components/com_comprofiler/images/smcblogo.gif" border="0" /></a><br />';
 ?><div style="width:95%;text-align:center;margin-bottom:15px;">
 	<div style="width:auto;margin:0px;text-align:left;">
 <?php update_checker(); ?>
@@ -2460,19 +2499,32 @@ function cbSpamProtect( $userid, $count ) {
 <?php
 					} else {
 						echo "<b>"._UE_SITE_POWEREDBY."</b><br />";
-						echo '<a href="http://www.joomlapolis.com" target="_blank" style="border:0px;display:block;width:304px;margin:auto;background-color:#fff;"><img src="' . $_CB_framework->getCfg( 'live_site' ) . '/components/com_comprofiler/images/smcblogo.gif" /></a><br />';
+						echo '<a href="http://www.joomlapolis.com" target="_blank" style="border:0px;display:block;width:304px;margin:auto;background-color:#fff;"><img src="' . $_CB_framework->getCfg( 'live_site' ) . '/components/com_comprofiler/images/smcblogo.gif" border="0"/></a><br />';
 					}
 					?>
 					</td>
 				</tr>
 				<tr>
 					<td style="text-align:center" colspan="2">
-					<b>
-					Software: Copyright 2004-2010 MamboJoe/JoomlaJoe, Beat and CB team. This component is released under the GNU/GPL version 2 License and parts under Community Builder Free License. All copyright statements must be kept. Derivate work must prominently duly acknowledge original work and include visible online links. Official site:<br /><a href="http://www.joomlapolis.com">www.joomlapolis.com</a> .
+						<?php
+						$w = "<p><strong>Community Builder</strong>&trade; (CB) is the complete <strong>Social Networking software</strong> solution for <strong>Joomla</strong>&trade; that is used by this website to support its <strong>membership management</strong>.</p>
+						<p>This <strong>Joomla extension</strong> is the <strong>most popular Joomla component on the Joomla Extensions Directory</strong>.</p> 
+						<p>It comes with 6 built-in free CB templates, but more cool and fast <strong>Joomla templates</strong> are available.</p>
+						<p>Community Builder has <strong>over 200 CB solutions add-ons</strong>, both free and commercial that can extend the functionality of any Joomla website. One of these is the <strong>paid memberships software</strong> solution, CBSubs&trade;, that can manage <strong>paid subscriptions</strong> to access your website content. Many more exciting CB plugins are in our <strong>CB incubator</strong>.</p> 
+						<p>Finally, for those wanting a turnkey <strong>Online Social Network</strong>, Joomlapolis.com offers business-class <strong>Joomla hosting</strong>, including a one-click social networking website installer.</p>";
+						$w = preg_replace_callback( '/<strong>/', 'teamCreditsReplacer', $w );
+						$w = str_replace( '</strong>', '</a>', $w );
+						?>
+						<div style="text-align:left;">
+							<?php echo $w; ?>
+							<br/>
+							<p><b>Software: Copyright 2004-2011 joomlapolis.com, MamboJoe/JoomlaJoe, Beat and CB team. This component is released under the GNU/GPL version 2 License. All copyright statements must be kept. Derivate work must prominently duly acknowledge original work and include visible online links. Official site:</b></p>
+						</div>
+					<b><a href="http://www.joomlapolis.com">www.joomlapolis.com</a></b>
 <?php
 		if ( $ui == 1 ) {
 ?>
-					<br /><br />Please note that the authors and distributors of this software are not affiliated in any way with the site owners using this free software, and declines any warranty regarding the content and functions of this site.
+					<br /><br /><b>Please note that the authors and distributors of this software are not affiliated nor related in any way with the site owners using this free software here, and declines any warranty regarding the content and functions of this site.
 <?php
 		}
 ?>
@@ -2498,30 +2550,31 @@ function cbSpamProtect( $userid, $count ) {
 					fcontent[1]="<h3>DJTrail<br /></h3>Co-Founder &amp; Lead Tester";
 					fcontent[2]="<h3>Nick A.<br /></h3>Documentation and Public Relations";
 					fcontent[3]="<h3>Beat B.<br /></h3>Lead Developer";
-					fcontent[4]="<h3>Lou Griffith<br />Spottsfield Entertainment<br /></h3>Logo Design";
+					fcontent[4]="<h3>Kyle L.<br /></h3>Developer and Support";
+					fcontent[5]="<h3>Lou Griffith<br />Spottsfield Entertainment<br /></h3>Logo Design";
 					closetag='';
-					
+
 					var fwidth='100%';	//'250px' //set scroller width
 					var fheight='80px'; //set scroller height
-					
+
 					var fadescheme=<?php echo ( ( $ui == 2 ) || ($ueConfig['templatedir'] != 'dark') ? 0 : 1 ); ?>; //set 0 to fade text color from (white to black), 1 for (black to white)
 					var fadelinks=1; //should links inside scroller content also fade like text? 0 for no, 1 for yes.
-					
+
 					///No need to edit below this line/////////////////
-					
+
 					var hex=(fadescheme==0)? 255 : 0;
 					var startcolor=(fadescheme==0)? "rgb(255,255,255)" : "rgb(0,0,0)";
 					var endcolor=(fadescheme==0)? "rgb(0,0,0)" : "rgb(255,255,255)";
-					
+
 					var ie4=document.all&&!document.getElementById;
 					var ns4=document.layers;
 					var DOM2=document.getElementById;
 					var faderdelay=0;
 					var index=0;
-					
+
 					if (DOM2)
 					faderdelay=2000;
-					
+
 					//function to change content
 					function changecontent(){
 						if (index>=fcontent.length)
@@ -2542,19 +2595,19 @@ function cbSpamProtect( $userid, $count ) {
 						index++;
 						setTimeout("changecontent()",delay+faderdelay);
 					}
-					
+
 					// colorfade() partially by Marcio Galli for Netscape Communications.  ////////////
 					// Modified by Dynamicdrive.com
-					
+
 					frame=20;
-					
+
 					function linkcolorchange(obj){
 						if (obj.length>0){
 							for (i=0;i<obj.length;i++)
 								obj[i].style.color="rgb("+hex+","+hex+","+hex+")";
 							}
 						}
-					
+
 					function colorfade() {
 					// 20 frames fading process
 					if(frame>0) {
@@ -2570,7 +2623,7 @@ function cbSpamProtect( $userid, $count ) {
 							hex=(fadescheme==0)? 255 : 0;
 						}
 					}
-					
+
 					if (ie4||DOM2)
 						document.write('<div id="fscroller" style="border:0px solid black;width:'+fwidth+';height:'+fheight+';padding:2px"></div>');
 						window.onload=changecontent;
@@ -2781,7 +2834,7 @@ function cbSpamProtect( $userid, $count ) {
 			}
 			?><td>
 			<a href="http://www.joomlapolis.com/" target="_blank">
-			Limited Community Builder JoomlaPolis License
+			Open Source GPL (GNU General Public License) v2
 			</a>
 			</td>
 		</tr>
@@ -2792,7 +2845,7 @@ function cbSpamProtect( $userid, $count ) {
 			<?php
 			if ($ui==2) {
 			?><td>
-			1.3.1
+			<?php echo _CB_JQUERY_VERSION; ?>
 			</td>
 			<?php
 			}
@@ -2812,12 +2865,12 @@ function cbSpamProtect( $userid, $count ) {
 /**
  * Gets an array of IP addresses taking in account the proxys on the way.
  * An array is needed because FORWARDED_FOR can be facked as well.
- * 
+ *
  * @return array of IP addresses, first one being host, and last one last proxy (except fackings)
  */
 function cbGetIParray() {
 	global $_SERVER;
-	
+
 	if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 		$ip_adr_array		=	explode(',',$_SERVER['HTTP_X_FORWARDED_FOR']);
 	} else {
@@ -2829,7 +2882,7 @@ function cbGetIParray() {
 /**
  * Gets a comma-separated list of IP addresses taking in account the proxys on the way.
  * An array is needed because FORWARDED_FOR can be facked as well.
- * 
+ *
  * @return string of IP addresses, first one being host, and last one last proxy (except fackings)
  */
 function cbGetIPlist() {
@@ -2866,7 +2919,7 @@ function recordViewHit( $viewerId, $profileId, $currip ) {
 	$_CB_database->setQuery( $query );
 	$views					=	$_CB_database->loadObjectList();
 
-	if ( ! $views ) {
+	if ( count( $views ) == 0 ) {
 		// no views yet: insert the view record:
 		$query				=	'INSERT INTO ' . $_CB_database->NameQuote( '#__comprofiler_views' )
 							.	"\n ( " . $_CB_database->NameQuote( 'viewer_id' )
@@ -2951,7 +3004,7 @@ class cbCalendars {
 	*/
 	function cbCalendars($ui, $calendarType = null ) {
 		global $ueConfig;
-		
+
 		$this->ui				=	$ui;
 		if ( $calendarType === null ) {
 			if ( isset( $ueConfig['calendar_type'] ) ) {
@@ -2967,7 +3020,7 @@ class cbCalendars {
 			$dFind				=	array("d","m","y","Y");
 			$dReplace			=	array("%d","%m","%Y","%Y");				// array("%d","%m","%y","%Y"); keep always 4 digits for year
 			$this->dateFormat	=	str_replace($dFind, $dReplace, $ueConfig['date_format']);
-	
+
 		} else {
 
 			$dFind				=	array("d","m","Y","y");
@@ -3059,6 +3112,8 @@ class cbCalendars {
 			$UElanguagePath			=	$_CB_framework->getCfg( 'absolute_path' ).'/components/com_comprofiler/plugin/language';
 			if ( file_exists( $UElanguagePath.'/'.$_CB_framework->getCfg( 'lang' ).'/calendar-locals.js' ) ) {
 				$calendarLangFile	=	'/components/com_comprofiler/plugin/language/'.$_CB_framework->getCfg( 'lang' ).'/calendar-locals.js';
+			} elseif ( file_exists( $UElanguagePath.'/'.$_CB_framework->getCfg( 'lang_tag' ).'/calendar-locals.js' ) ) {
+				$calendarLangFile	=	'/components/com_comprofiler/plugin/language/'.$_CB_framework->getCfg( 'lang_tag' ).'/calendar-locals.js';
 			} else {
 				$calendarLangFile	=	'/components/com_comprofiler/plugin/language/default_language/calendar-locals.js';
 			}
@@ -3198,7 +3253,7 @@ class cbTabs extends cbTabHandler {
 	* @param object cb user object to display
 	* @param string name of position if only one position to display (default: null)
 	* @return array of object tabs from comprofiler tabs database (ordered by position, ordering)
-	*/	
+	*/
 	function _loadTabsList( &$user, $position = '' ) {
 		global $_CB_database, $_CB_framework;
 
@@ -3221,16 +3276,20 @@ class cbTabs extends cbTabHandler {
 	* @param moscomprofilerUser  $user  object to display
 	* @param string              $position  name of position if only one position to display (default: null)
 	* @param int                 $tabid   Only a specific tab
-	*/	
-	function generateViewTabsContent( $user, $position = '', $tabid = null ) {
-		global $_CB_OneTwoRowsStyleToggle, $_PLUGINS;
+	*/
+	function generateViewTabsContent( $user, $position = '', $tabid = null, $output = 'html', $formatting = null /* 'table' or 'divs' */, $reason = 'profile' ) {
+		global $_CB_OneTwoRowsStyleToggle, $ueConfig, $_PLUGINS;
+
+		if ( $formatting === null ) {
+			$formatting								=	( isset( $ueConfig['use_divs'] ) && $ueConfig['use_divs'] ? 'divs' : 'table' );
+		}
 
 		$tabOneTwoRowsStyleToggle					=	array();
 		$this->action								=	1;
 
 		$this->_loadTabsList( $user );
 
-		static $menusPrepared						=	false;	
+		static $menusPrepared						=	false;
 		if ( ! $menusPrepared ) {
 			$_PLUGINS->trigger( 'onPrepareMenus', array( &$user ) );
 			$menusPrepared							=	true;
@@ -3240,7 +3299,7 @@ class cbTabs extends cbTabHandler {
 		if ( $tabid && ! $position ) {
 			if ( isset( $this->tabsToDisplay[''][$tabid] ) ) {
 				$position	=	( $this->tabsToDisplay[''][$tabid]->position == '' ? 'cb_tabmain' : $this->tabsToDisplay[''][$tabid]->position );
-				
+
 			}
 		}
 
@@ -3274,11 +3333,16 @@ class cbTabs extends cbTabHandler {
 			if ( ! isset( $tabOneTwoRowsStyleToggle[$pos] ) ) {
 				$tabOneTwoRowsStyleToggle[$pos]	=	1;
 			}
-			
+
 			$this->tabsContents[$k]				=	'';
 			if( $oTab->pluginclass != null ) {
 				$_CB_OneTwoRowsStyleToggle			=	$tabOneTwoRowsStyleToggle[$pos];
-				$this->tabsContents[$k]			.=	$this->_callTabPlugin($oTab, $user, $oTab->pluginclass, 'getDisplayTab', $oTab->pluginid);
+				$pluginTabContent					=	$this->_callTabPlugin($oTab, $user, $oTab->pluginclass, 'getDisplayTab', $oTab->pluginid);
+				if ( is_array( $pluginTabContent ) ) {
+					$this->tabsContents[$k]			.=	$this->_renderFields( $pluginTabContent, $user, $output, $formatting, $reason, array() );
+				} else {
+					$this->tabsContents[$k]			.=	$pluginTabContent;
+				}
 				$tabOneTwoRowsStyleToggle[$pos]	=	$_CB_OneTwoRowsStyleToggle;
 			}
 		}
@@ -3287,24 +3351,24 @@ class cbTabs extends cbTabHandler {
 			if ( $oTab->fields ) {
 				$_CB_OneTwoRowsStyleToggle			=	$tabOneTwoRowsStyleToggle[$pos];
 				$this->tabsToDisplay[$position][$k]->_fieldsCount				=	0;
-				$this->tabsContents[$k]			.=	$this->_getTabContents( $oTab->tabid, $user, $this->tabsToDisplay[$position][$k]->_fieldsCount );
+				$this->tabsContents[$k]			.=	$this->_getTabContents( $oTab->tabid, $user, $this->tabsToDisplay[$position][$k]->_fieldsCount, $output, $formatting, $reason );
 				$tabOneTwoRowsStyleToggle[$pos]	=	$_CB_OneTwoRowsStyleToggle;
 			}
 		}
 		$_PLUGINS->trigger( 'onAfterPrepareViewTabs', array( &$this->tabsContents, &$this->tabsToDisplay[$position], &$user, $position, $tabid ) );
 	}
-	function getProfileTabHtml( $tabid ) {
+	function getProfileTabHtml( $tabid, $default = null ) {
 		if ( isset( $this->tabsContents[$tabid] ) ) {
 			return $this->tabsContents[$tabid];
 		}
-		return null;
+		return $default;
 	}
 	/**
 	* Gets html code for all cb tabs, sorted by position (default: all, no position name in db means "cb_tabmain")
 	* @param object cb user object to display
 	* @param string name of position if only one position to display (default: null)
 	* @return array of string with html to display at each position, key = position name, or NULL if position is empty.
-	*/	
+	*/
 	function getViewTabs( $user, $position = '' ) {
 		global $ueConfig;
 
@@ -3370,13 +3434,13 @@ class cbTabs extends cbTabHandler {
 									.  "\n\t\t\t</div>\n";
 						break;
 					case "div":
-						$html[$pos] .= "\n\t\t\t<div class=\"cb_tab_container cb_tab_content\" id=\"cb_tabid_" . $oTab->tabid . "\">"
-									.  "\n\t\t\t\t<div style=\"width:95%\" class=\"contentheading\">" . $tabTitle . "</div>"
-									.  "\n\t\t\t\t<div class=\"contentpaneopen\" style=\"width:95%\">".$tabContent."</div>"
+						$html[$pos] .= "\n\t\t\t<div class=\"cb_tab_container cb_tab_content cb_tab_div\" id=\"cb_tabid_" . $oTab->tabid . "\">"
+									.  "\n\t\t\t\t<div class=\"contentheading\">" . $tabTitle . "</div>"
+									.  "\n\t\t\t\t<div class=\"contentpaneopen\">".$tabContent."</div>"
 									.  "\n\t\t\t</div>\n";
 						break;
 					case "rounddiv":
-						$html[$pos] .=	'<div class="cbtmpldialog"><div class="cbtmplhd"><div class="cbtmplc"></div></div><div class="cbtmplbd"><div class="cbtmplc"><div class="cbtmpls">'
+						$html[$pos] .=	'<div class="cbtmpldialog cb_tab_rounddiv"><div class="cbtmplhd"><div class="cbtmplc"></div></div><div class="cbtmplbd"><div class="cbtmplc"><div class="cbtmpls">'
 									. '<div class="cb_tab_container cb_tab_content" id="cb_tabid_' . $oTab->tabid . '">'
 									.  '<div class="contentheading">' . $tabTitle . '</div>'
 									.  '<div class="contentpaneopen">' . $tabContent . '</div>'
@@ -3510,13 +3574,21 @@ class cbTabs extends cbTabHandler {
 		}
 		$oContent							=	'';
 		foreach( $oTabs AS $oTab ) {
+			// get Content from super-tabs:	// experimental event:
+			$_PLUGINS->trigger( 'onBeforeEditATab', array( &$oContent, &$oTab, &$user, &$postdata, $output, $formatting, $reason, $tabbed ) );
+
 			// get Content from plugin tabs:
 			if ( $oTab->pluginclass != null ) {
 				if ( $reason == 'register' ) {
 					$userNull				=	null;
-					$oContent				.=	$this->_callTabPlugin( $oTab, $userNull, $oTab->pluginclass, 'getDisplayRegistration', $oTab->pluginid, $postdata );
+					$pluginTabContent		=	$this->_callTabPlugin( $oTab, $userNull, $oTab->pluginclass, 'getDisplayRegistration', $oTab->pluginid, $postdata );
 				} else {
-					$oContent				.=	$this->_callTabPlugin( $oTab, $user, $oTab->pluginclass, 'getEditTab', $oTab->pluginid );
+					$pluginTabContent		=	$this->_callTabPlugin( $oTab, $user, $oTab->pluginclass, 'getEditTab', $oTab->pluginid );
+				}
+				if ( is_array( $pluginTabContent ) ) {
+					$oContent				.=	$this->_renderFields( $pluginTabContent, $user, $output, $formatting, $reason, array() );
+				} else {
+					$oContent				.=	$pluginTabContent;
 				}
 				$this->fieldJS				.=	$this->_getVarPlugin( $oTab, $oTab->pluginclass, 'fieldJS', $oTab->pluginid );
 			}
@@ -3528,10 +3600,10 @@ class cbTabs extends cbTabHandler {
 				$oContent					.=	$this->_getEditTabContents( $oTab, $user, $output, $formatting, $reason, true );
 			}
 
-			if ( $tabbed && ( $oContent != '' ) ) {
-				// get Content from super-tabs:	// experimental event:
-				$_PLUGINS->trigger( 'onAfterEditATab', array( &$oContent, &$oTab, &$user, &$postdata, $output, $formatting, $reason, $tabbed ) );
+			// get Content from super-tabs:	// experimental event:
+			$_PLUGINS->trigger( 'onAfterEditATab', array( &$oContent, &$oTab, &$user, &$postdata, $output, $formatting, $reason, $tabbed ) );
 
+			if ( $tabbed && ( $oContent != '' ) ) {
 				$tabTitle					=	cbReplaceVars( getLangDefinition( $oTab->title ), $user );
 				$tabNavJS[$i]				=	new stdClass();
 				if ( $ueConfig['nesttabs'] && $oTab->fields && ( ( $oTab->pluginclass == null ) || ( $oTab->sys == 2 ) ) ) {
@@ -3541,17 +3613,13 @@ class cbTabs extends cbTabHandler {
 						. $this->startPane( "CBNest" . "CB" );
 					}
 					$nestResults			.=	$this->startTab( "CBNest" . "CB", $tabTitle, $oTab->tabid )
-												//	.	"\n\t<table cellpadding=\"5\" cellspacing=\"0\" border=\"0\" width=\"95%\"><tr><td>"
 											.	$oContent
-												//	.	"\n\t</td></tr></table>"
 											.	$this->endTab()
 											;
 					$tabNavJS[$i]->nested	=	true;
 				} else {
 					$results				.=	$this->startTab( "CB", $tabTitle, $oTab->tabid )
-												//	.	"\n\t<table cellpadding=\"5\" cellspacing=\"0\" border=\"0\" width=\"95%\"><tr><td>"
 											.	$oContent
-												//	.	"\n\t</td></tr></table>"
 											.	$this->endTab()
 											;
 					$tabNavJS[$i]->nested	=	false;
@@ -3608,7 +3676,7 @@ class cbTabs extends cbTabHandler {
 
 	function _getTabNavJS( $pID, &$tabs ) {
 		global $ueConfig;
-		
+
 		$i					=	0;
 		$i_nest				=	0;
 		if( ! ( count( $tabs ) > 0 ) ) {
@@ -3618,7 +3686,7 @@ class cbTabs extends cbTabHandler {
 		if ($ueConfig['nesttabs']) {
 			$js				.=	'var tabPaneCBNest'.$pID.";\n";
 		}
-		
+
 		foreach( $tabs AS $tab ) {
 			$evals			=	'tabPane'.$pID.'.setSelectedIndex( '.$i.' );';
 			if ( $tab->nested ) {
@@ -3689,17 +3757,19 @@ class cbTabs extends cbTabHandler {
 		}
 		return $tabsCache;
 	}
-	function _getTabFieldsDb( $tabid, &$user, $reason, $fieldIdOrName = null, $prefetchFields = true ) {
-		static $prefetched		=	null;
+	function _getTabFieldsDb( $tabid, &$user, $reason, $fieldIdOrName = null, $prefetchFields = true, $fullAccess = false ) {
+		static $prefetched		=	array();
 		static $fieldsByName	=	null;
 
-		if ( ( ! $prefetchFields ) || ( $prefetched === null ) ) {
+		$preIdx					=	$fullAccess ? 'full' : $reason;
+
+		if ( ( ! $prefetchFields ) || ! isset( $prefetched[$preIdx] ) ) {
 
 			global $_CB_framework, $_CB_database, $ueConfig;
-	
+
 			$where				=	array();
 			$ordering			=	array();
-	
+
 			if ( $fieldIdOrName && ! $prefetchFields ) {
 				if ( is_int( $fieldIdOrName ) ) {
 					$where[]	=	'f.fieldid = ' . (int) $fieldIdOrName;
@@ -3709,35 +3779,39 @@ class cbTabs extends cbTabHandler {
 			}
 			if ( ( $reason == 'list' ) && ( in_array( $ueConfig['name_format'], array( 1, 2, 4 ) ) ) ) {
 				$where[]		=	"( f.published = 1 OR f.name = 'name' )";
-			} else {
+			} elseif ( $reason != 'adminfulllist' ) {
 				$where[]		=	'f.published = 1';
 			}
-			switch ( $reason ) {
-				case 'profile':
-					$where[]	=	'f.profile != 0';
-					break;
-				case 'list':
-					$where[]	=	"( f.profile != 0 OR f.name = 'username'" . ( in_array( $ueConfig['name_format'], array( 1, 2, 4 ) ) ? " OR f.name = 'name'" : '' ) . ')';
-					break;
-				case 'register':
-					$where[]	=	'f.registration = 1';
-					break;
-				default:
-					break;
-			}
-			
-			if ( $tabid && ! $prefetchFields ) {
-				$where[]		=	'f.tabid = ' . (int) $tabid;
-			} else {
-				$where[]		=	't.enabled = 1';
-				if ( $reason != 'register' ) {
-					$where[]	=	't.useraccessgroupid IN (' . implode(',',getChildGIDS(userGID( $_CB_framework->myId() ))) . ')';
+			if ( ! $fullAccess ) {
+				switch ( $reason ) {
+					case 'profile':
+						$where[]	=	'f.profile != 0';
+						break;
+					case 'list':
+						$where[]	=	"( f.profile != 0 OR f.name = 'username'" . ( in_array( $ueConfig['name_format'], array( 1, 2, 4 ) ) ? " OR f.name = 'name'" : '' ) . ')';
+						break;
+					case 'register':
+						$where[]	=	'f.registration = 1';
+						break;
+					case 'adminfulllist':
+					default:
+						break;
+				}
+
+				if ( $tabid && ! $prefetchFields ) {
+					$where[]		=	'f.tabid = ' . (int) $tabid;
+				} else {
+					if ( $reason != 'adminfulllist' ) {
+						$where[]	=	't.enabled = 1';
+					}
+					if ( $reason != 'register' ) {
+						$where[]	=	't.useraccessgroupid IN (' . implode(',',getChildGIDS(userGID( $_CB_framework->myId() ))) . ')';
+					}
+				}
+				if ( ( ( $reason == 'profile' ) || ( $reason == 'list' ) ) && ( $ueConfig['allow_email_display'] == 0 ) && ( $reason != 'adminfulllist' ) ) {
+					$where[]		=	'f.type != ' . $_CB_database->Quote( 'emailaddress' );
 				}
 			}
-			if ( ( ( $reason == 'profile' ) || ( $reason == 'list' ) ) && ( $ueConfig['allow_email_display'] == 0 ) ) {
-				$where[]		=	'f.type != ' . $_CB_database->Quote( 'emailaddress' );
-			}
-	
 			if ( ( ! $tabid ) || $prefetchFields ) {
 				if ( $reason == 'register' ) {
 					$ordering[]	=	't.ordering_register';
@@ -3746,7 +3820,7 @@ class cbTabs extends cbTabHandler {
 				$ordering[]		=	't.ordering';
 			}
 			$ordering[]			=	'f.ordering';
-	
+
 			$sql				=	'SELECT f.*';
 			if ( $reason == 'register' ) {
 				$sql			.=	', t.ordering_register AS tab_ordering_register, t.position AS tab_position, t.ordering AS tab_ordering';
@@ -3761,46 +3835,46 @@ class cbTabs extends cbTabHandler {
 								;
 			$_CB_database->setQuery( $sql );
 			if ( $prefetchFields ) {
-				$fieldsByName	=	$_CB_database->loadObjectList( 'name', 'moscomprofilerFields', array( &$_CB_database ) );
-				if ( is_array( $fieldsByName ) ) {
+				$fieldsByName	=	$_CB_database->loadObjectList( 'name', 'moscomprofilerFields', array( &$_CB_database ), true );		// true means strtolower array indexes of name
+				if ( ! $_CB_database->getErrorNum() ) {
 					foreach ( array_keys( $fieldsByName ) as $i ) {
 						$fieldsByName[$i]->params								=	new cbParamsBase( $fieldsByName[$i]->params );
-						$prefetched[(int) $fieldsByName[$i]->tabid][$fieldsByName[$i]->fieldid]	=	$fieldsByName[$i];
+						$prefetched[$preIdx][(int) $fieldsByName[$i]->tabid][$fieldsByName[$i]->fieldid]	=	$fieldsByName[$i];
 					}
 				}
 			} else {
 				$fields			=	$_CB_database->loadObjectList( null, 'moscomprofilerFields', array( &$_CB_database ) );
-				if ( is_array( $fields ) ) {
+				if ( ! $_CB_database->getErrorNum() ) {
 					for ( $i = 0, $n = count( $fields ); $i < $n; $i++ ) {
 						$fields[$i]->params										=	new cbParamsBase( $fields[$i]->params );
 					}
 				}
 			}
 		}
-		if ( $prefetched !== null ) {
+		if ( isset( $prefetched[$preIdx] ) ) {
 			if ( $tabid ) {
-				if (isset( $prefetched[(int) $tabid] ) ) {
-					$fields		=	$prefetched[(int) $tabid];
+				if (isset( $prefetched[$preIdx][(int) $tabid] ) ) {
+					$fields		=	$prefetched[$preIdx][(int) $tabid];
 				} else {
 					$fields		=	array();
 				}
 			} elseif ( $fieldIdOrName ) {
 				if ( is_int( $fieldIdOrName ) ) {
 					$fields		=	array();
-					foreach ( array_keys( $prefetched ) as $k ) {
-						if ( isset( $prefetched[$k][$fieldIdOrName] ) ) {
-							$fields[]	=	$prefetched[$k][$fieldIdOrName];
+					foreach ( array_keys( $prefetched[$preIdx] ) as $k ) {
+						if ( isset( $prefetched[$preIdx][$k][$fieldIdOrName] ) ) {
+							$fields[]	=	$prefetched[$preIdx][$k][$fieldIdOrName];
 							break;
 						}
 					}
-				} elseif (isset( $fieldsByName[$fieldIdOrName] ) ) {
-					$fields		=	array( $fieldsByName[$fieldIdOrName] );
+				} elseif (isset( $fieldsByName[strtolower( $fieldIdOrName )] ) ) {
+					$fields		=	array( $fieldsByName[strtolower( $fieldIdOrName )] );
 				} else {
 					$fields		=	array();
 				}
 			} else {
 				$fields			=	array();
-				foreach ( $prefetched as /* $tid => */ $flds ) {
+				foreach ( $prefetched[$preIdx] as /* $tid => */ $flds ) {
 				//	$fields		=	array_merge( $fields, $flds );
 					foreach ( $flds as $fl ) {
 						$fields[$fl->fieldid]	=	$fl;
@@ -3812,12 +3886,12 @@ class cbTabs extends cbTabHandler {
 		// THIS is VERY experimental, and not yet part of CB API !!! :
 		global $_PLUGINS;
 		$_PLUGINS->loadPluginGroup( 'user' );
-		$_PLUGINS->trigger( 'onAfterFieldsFetch', array( &$fields, &$user, $reason, $tabid, $fieldIdOrName ) );
+		$_PLUGINS->trigger( 'onAfterFieldsFetch', array( &$fields, &$user, $reason, $tabid, $fieldIdOrName, $fullAccess ) );
 
 		return $fields;
 	}
 
-	// old version for backwards compatibilty in case a plugin uses it: DEPRECIATED:
+	// old version for backwards compatibility in case a plugin uses it: DEPRECIATED:
 	function _getViewTabContents( $tabid, &$user ) {
 		$oFields				=	$this->_getTabFieldsDb( $tabid, $user, 'profile' );
 		return $this->_getFieldsContents( $oFields, $user, (int) $tabid );
@@ -3905,6 +3979,8 @@ class cbTabs extends cbTabHandler {
 		foreach ( $fields as $field ) {
 			if ( ( ! ( ( $field->readonly > 0 ) && $_CB_framework->getUi() == 1 ) ) || ( $reason == 'register' ) || ( $reason == 'search' ) ) {
 				$_PLUGINS->callField( $field->type, 'prepareFieldDataSave', array( &$field, &$user, &$postdata, $reason ), $field );
+			} else {
+				$_PLUGINS->callField( $field->type, 'prepareFieldDataNotSaved', array( &$field, &$user, &$postdata, $reason ), $field );
 			}
 		}
 		return $result;
@@ -3920,7 +3996,7 @@ class cbTabs extends cbTabHandler {
 				if ( $_PLUGINS->is_errors() ) {
 					break;
 				}
-			} 
+			}
 		}
 		return 1;
 	}
@@ -3936,7 +4012,7 @@ class cbTabs extends cbTabHandler {
 				}
 				$results[(int) $oTab->ordering_register][$oTab->position][(int) $oTab->ordering]		.=	$this->_callTabPlugin( $oTab, $userNull, $oTab->pluginclass, 'getDisplayRegistration', $oTab->pluginid, $postdata );
 				$this->fieldJS	.=	$this->_getVarPlugin($oTab, $oTab->pluginclass, 'fieldJS', $oTab->pluginid);
-			} 
+			}
 		}
 		return $results;
 	}
@@ -3973,22 +4049,22 @@ class cbTabs extends cbTabHandler {
 							// only displayed at Profile Edit: $return .= $this->_writeTabDescription( $tab, $user );
 							return "\n\t\t\t" . '<table class="cbFieldsContentsTab cbFields" id="cbtf_' . $tabid . '">' . $results . "\n\t\t\t</table>";
 							break;
-		
+
 						case 'tr':
 							$class 						=	'sectiontableentry' . $_CB_OneTwoRowsStyleToggle;
 							$_CB_OneTwoRowsStyleToggle	=	( $_CB_OneTwoRowsStyleToggle == 1 ? 2 : 1 );
 							return "\n\t\t\t\t<tr class=\"cbFieldsContentsTab " . $class . '" id="cbtf_' . $tabid . '">' . $results . "\n\t\t\t\t</tr>";
-		
+
 						case 'td':
 							return "\n\t\t\t\t\t" . '<td class="cbFieldsContentsTab" id="cbtf_' . $tabid . '">' . $results . "\n\t\t\t\t\t</td>";
-		
+
 						case 'div':
 						case 'divs':
 							return '<div class="cbFieldsContentsTab" id="cbtf_' . $tabid . '">' . $results . '</div>';
 
 						case 'span':
 							return '<span class="cbFieldsContentsTab" id="cbtf_' . $tabid . '">' . $results . '</span>';
-		
+
 						case 'ul':
 							return '<ul class="cbFieldsContentsList" id="cbtf_' . $tabid . '">' . $results . '</ul>';
 
@@ -4001,7 +4077,7 @@ class cbTabs extends cbTabHandler {
 						case 'tabletrs':
 						case 'none':
 							return $results;
-		
+
 						default:
 							return '*' . $results . '*';
 							break;
@@ -4041,6 +4117,50 @@ class cbTabs extends cbTabHandler {
         }
 	    return $results;
 	}
+	function _renderFields( $pluginTabContent, $user, $output, $formatting, $reason, $rowClasses ) {
+		global $_PLUGINS, $_CB_OneTwoRowsStyleToggle;
+
+		$rendered				=	null;
+		$formattingFields		=	$this->_stepDownFormatting[$formatting];
+		foreach ($pluginTabContent as $field ) {
+			$saveToggle			=	$_CB_OneTwoRowsStyleToggle;
+			$rendered			.=	$_PLUGINS->callField( $field->type, 'renderFieldHtml', array( &$field, &$user, $field->_value, $output, $formattingFields, $reason, $rowClasses ), $field );
+			if ( isset( $field->_rowNoToggle ) ) {
+				$_CB_OneTwoRowsStyleToggle	=	$saveToggle;
+			}
+		}
+		return $rendered;
+	}
+	/**
+	 * builds a pseudo-moscomprofilerFields to return in array in getDisplayRegistration and getEditTab methods (in $output == 'htmledit' mode)
+	 * @static
+	 * @param  moscomprofilerTabs  $tab
+	 * @param  string              $value
+	 * @param  string              $title
+	 * @param  string              $description
+	 * @param  string              $uniqueId           unique id system-wide ( a-z,A-Z, _ )
+	 * @param  boolean             $displayOnTwoLines
+	 * @param  string              $name               if the $title refers to an input then this should be the name of the input for focus and tooltips to work properly
+	 * @param  boolean             $rowstyletoggle     change row style toggle
+	 * @return moscomprofilerFields
+	 */
+	function _createPseudoField( $tab, $title, $value, $description, $uniqueId, $displayOnTwoLines = false  , $name = null, $rowstyletoggle = true ) {
+		global $_CB_database;
+
+		$pseudoField					=	new moscomprofilerFields( $_CB_database );
+		$pseudoField->_value			=	$value;
+		if ( ! $rowstyletoggle ) {
+			$pseudoField->_rowNoToggle	=	true;
+		}
+		$pseudoField->name				=	$name;
+		$pseudoField->type				=	'delimiter';
+		$pseudoField->title				=	$title;
+		$pseudoField->description		=	$description;
+		$pseudoField->fieldid			=	preg_replace( '/^W/', '_' , $uniqueId );
+		$pseudoField->profile			=	( $displayOnTwoLines ? 2 : 1 );
+		$pseudoField->displaytitle		=	1;
+		return $pseudoField;
+	}
 	/**
 	 * Returns Javascript code for the plugin
 	 *
@@ -4063,7 +4183,7 @@ class cbTabs extends cbTabHandler {
 	* @param string name of class to search for and to call
 	* @param string name of method to call
 	* @return mixed returned result of call (null if call not performed)
-	*/	
+	*/
 	function tabClassPluginTabs( &$user, &$postdata, $pluginName, $tabClassName, $method ) {
 		global $_CB_database, $_PLUGINS;
 
@@ -4102,7 +4222,7 @@ class cbTabs extends cbTabHandler {
 		}
 		return $result;
 	}
-	
+
 	function fieldCall( $fieldIdOrName, &$user, &$postdata, $reason ) {
 		global $_PLUGINS;
 
@@ -4152,12 +4272,13 @@ class cbPMS extends cbPMSHandler {
 			. "\n AND p.element LIKE '%" . cbEscapeSQLsearch( trim( strtolower( $_CB_database->getEscaped($type) ) ) ) . ".%' "
 			. "\n ORDER BY p.ordering" );
 			$this->PMSpluginsList = $_CB_database->loadObjectList();
-		}
-		if ( is_array( $this->PMSpluginsList ) ) {
-			foreach($this->PMSpluginsList AS $plug) {
-				$className = 'get'.substr($plug->element, strlen($type)+1).'Tab';
-				$results[] = $this->_callPlugin($plug, $args, $className, $methodName);
+			if ( $_CB_database->getErrorNum() ) {
+				return $results;
 			}
+		}
+		foreach($this->PMSpluginsList AS $plug) {
+			$className = 'get'.substr($plug->element, strlen($type)+1).'Tab';
+			$results[] = $this->_callPlugin($plug, $args, $className, $methodName);
 		}
 		return $results;
 	}
@@ -4226,7 +4347,7 @@ class cbConnection {
 	var $degreeOfSep;
 	/**	@var userMSG should be used to store the message that needs to be returned to the user*/
 	var $userMSG;
-	
+
 	function cbConnection($referenceid) {
 		$this->referenceid=$referenceid;
 		return;
@@ -4243,8 +4364,8 @@ class cbConnection {
 				$this->_setUserMSG($_PLUGINS->getErrorMSG());
 				return false;
 			}
-	
-			if(!$this->_insertConnection($this->referenceid,$connectionid,$umsg)) {	
+
+			if(!$this->_insertConnection($this->referenceid,$connectionid,$umsg)) {
 				$this->_setUserMSG($this->getErrorMSG());
 				return false;
 			}
@@ -4258,7 +4379,7 @@ class cbConnection {
 				$messageHTML = _UE_CONNECTIONMADEMSG;
 			}
 			$messageText = $messageHTML;
-		
+
 			$result = $this->_notifyConnectionChange($this->referenceid,$connectionid,$msg,$subject,$messageHTML,$messageText,$umsg);
 			$_PLUGINS->trigger( 'onAfterAddConnection', array($this->referenceid,$connectionid,$ueConfig['useMutualConnections'],$ueConfig['autoAddConnections']));
 
@@ -4269,10 +4390,10 @@ class cbConnection {
 	}
 	function _notifyConnectionChange($userid,$connectionid,$msg,$subject,$messageHTML,$messageText,$userMessage=null) {
 		global $_CB_framework, $_CB_database, $ueConfig;
-	
+
 		$rowFrom = new moscomprofilerUser( $_CB_database );
 		$rowFrom->load( (int) $userid );
-	
+
 		$fromname=getNameFormat($rowFrom->name,$rowFrom->username,$ueConfig['name_format']);
 		$fromURL="index.php?option=com_comprofiler&amp;task=userProfile&amp;user=".$userid."&amp;tab=1".getCBprofileItemid(true);
 		$fromURL = cbSef( $fromURL );
@@ -4300,10 +4421,10 @@ class cbConnection {
 
 		$cbNotification= new cbNotification();
 		$cbNotification->sendFromUser($connectionid,$userid,$subject,$nmsgHTML,$nmsgText);
-		
+
 		$this->_setUserMSG($msg);
 		return true;
-	
+
 	}
 	function _insertConnection($refid, $connid, $userMessage) {
 		global $_CB_database,$ueConfig;
@@ -4312,7 +4433,7 @@ class cbConnection {
 		if($ueConfig['useMutualConnections']) {
 			$accepted=1;
 			$pending=1;
-		} 
+		}
 		$sql="INSERT INTO #__comprofiler_members (referenceid,memberid,accepted,pending,membersince,reason) VALUES (" . (int) $refid . "," . (int) $connid . "," . (int) $accepted . "," . (int) $pending.",CURDATE(),'" . $_CB_database->getEscaped($userMessage) . "')";
 		$_CB_database->SetQuery($sql);
 		if (!$_CB_database->query()) {
@@ -4350,7 +4471,7 @@ class cbConnection {
 		}
 
 		$result		=	$this->_deleteConnection($userid,$connectionid);
-		
+
 		$msg = _UE_CONNECTIONREMOVESUCCESSFULL;
 		/* You can uncomment this and comment the _setUserMSG line after this comment if you really want bad news to flow...:
 			$subject = _UE_CONNECTIONREMOVED_SUB;
@@ -4359,7 +4480,7 @@ class cbConnection {
 			$result = $this->_notifyConnectionChange($userid,$connectionid,$msg,$subject,$messageHTML,$messageText);
 		*/
 		$this->_setUserMSG($msg);
-		
+
 		$_PLUGINS->trigger( 'onAfterRemoveConnection', array($userid,$connectionid,$ueConfig['useMutualConnections'],$ueConfig['autoAddConnections']));
 		return $result;
 	}
@@ -4379,7 +4500,7 @@ class cbConnection {
 		}
 
 		$result		=	$this->_deleteConnection( $connectionid, $userid );
-		
+
 		$msg = _UE_CONNECTIONDENYSUCCESSFULL;
 		/* You can uncomment this and comment the _setUserMSG line after this comment if you really want bad news to flow...:
 			$subject = _UE_CONNECTIONDENIED_SUB;
@@ -4399,7 +4520,7 @@ class cbConnection {
 			$this->_setErrorMSG("SQL error" . $_CB_database->stderr(true));
 			return false;
 		}
-		
+
 		if($ueConfig['autoAddConnections']) {
 			$sql="DELETE FROM #__comprofiler_members WHERE referenceid=".(int) $connid." AND memberid=".(int) $refid;
 			$_CB_database->SetQuery($sql);
@@ -4424,9 +4545,9 @@ class cbConnection {
 			$this->_setUserMSG($_PLUGINS->getErrorMSG());
 			return false;
 		}
-	
+
 		$this->_activateConnection($userid,$connectionid);
-		
+
 		$msg = _UE_CONNECTIONACCEPTSUCCESSFULL;
 		$subject = _UE_CONNECTIONACCEPTED_SUB;
 		$messageHTML = _UE_CONNECTIONACCEPTED_MSG;
@@ -4444,7 +4565,7 @@ class cbConnection {
 			$this->_setErrorMSG("SQL error" . $_CB_database->stderr(true));
 			return 0;
 		}
-		
+
 		if($ueConfig['autoAddConnections']) {
 			$sql="UPDATE #__comprofiler_members SET accepted=1, pending=0, membersince=CURDATE() WHERE referenceid=".(int) $userid." AND memberid=".(int) $connectionid;
 			$_CB_database->SetQuery($sql);
@@ -4455,7 +4576,7 @@ class cbConnection {
 			}
 		}
 		return 1;
-	
+
 	}
 	function getConnectionsCount( $userid, $countPendingsToo = false )  {
 		global $_CB_database;
@@ -4484,13 +4605,13 @@ class cbConnection {
 		. "\n FROM #__comprofiler_members AS m"
 		. "\n LEFT JOIN #__comprofiler AS c ON m.referenceid=c.id"
 		. "\n LEFT JOIN #__users AS u ON m.referenceid=u.id"
-		. "\n LEFT JOIN #__session AS s ON s.userid=u.id"	
+		. "\n LEFT JOIN #__session AS s ON s.userid=u.id"
 		. "\n WHERE m.memberid=". (int) $userid ." AND m.pending=1"
 		. "\n AND c.approved=1 AND c.confirmed=1 AND c.banned=0 AND u.block=0"
 		;
 		$_CB_database->setQuery( $query, $offset, $limit );
-		$objects = $_CB_database->loadObjectList();	
-		return $objects;	
+		$objects = $_CB_database->loadObjectList();
+		return $objects;
 	}
 	function getActiveConnections( $userid, $offset = 0, $limit = 200 ) {
 		global $_CB_database;
@@ -4498,14 +4619,14 @@ class cbConnection {
 		. "\n FROM #__comprofiler_members AS m"
 		. "\n LEFT JOIN #__comprofiler AS c ON m.memberid=c.id"
 		. "\n LEFT JOIN #__users AS u ON m.memberid=u.id"
-		. "\n LEFT JOIN #__session AS s ON s.userid=u.id"	
+		. "\n LEFT JOIN #__session AS s ON s.userid=u.id"
 		. "\n WHERE m.referenceid=". (int) $userid .""
 		. "\n AND c.approved=1 AND c.confirmed=1 AND c.banned=0 AND u.block=0 AND m.accepted=1"
 		. "\n ORDER BY m.accepted "
 		;
 		$_CB_database->setQuery( $query, $offset, $limit );
-		$objects = $_CB_database->loadObjectList();	
-		return $objects;	
+		$objects = $_CB_database->loadObjectList();
+		return $objects;
 	}
 	function getConnectedToMe( $userid, $offset = 0, $limit = 200 ) {
 		global $_CB_database;
@@ -4513,13 +4634,13 @@ class cbConnection {
 		. "\n FROM #__comprofiler_members AS m"
 		. "\n LEFT JOIN #__comprofiler AS c ON m.referenceid=c.id"
 		. "\n LEFT JOIN #__users AS u ON m.referenceid=u.id"
-		. "\n LEFT JOIN #__session AS s ON s.userid=u.id"	
+		. "\n LEFT JOIN #__session AS s ON s.userid=u.id"
 		. "\n WHERE m.memberid=". (int) $userid ." AND m.pending=0"
 		. "\n AND c.approved=1 AND c.confirmed=1 AND c.banned=0 AND u.block=0"
 		;
 		$_CB_database->setQuery( $query, $offset, $limit );
-		$objects = $_CB_database->loadObjectList();	
-		return $objects;	
+		$objects = $_CB_database->loadObjectList();
+		return $objects;
 	}
 
 	function saveConnection($connectionid,$desc=null,$contype=null) {
@@ -4536,11 +4657,11 @@ class cbConnection {
 
 	function getDegreeOfSepPathArray( $fromid, $toid, $limit = 10, $degree = 6 ) {
 		global $_CB_database;
-				
+
 		$fromid	= (int) $fromid;
 		$toid	= (int) $toid;
 		$limit	= (int) $limit;
-		
+
 		if ( $degree >= 1 ) {
 $sql="SELECT a.referenceid, a.memberid AS d1 "
 ."\n FROM `#__comprofiler_members` AS a FORCE INDEX (aprm)"
@@ -4555,8 +4676,8 @@ $sql="SELECT a.referenceid, a.memberid AS d1,  b.memberid AS d2 "
 ."\n WHERE a.referenceid = " . $fromid . " AND a.accepted=1 AND a.pending=0 AND b.memberid = " . $toid
 ."\n AND b.memberid NOT IN ( " . $fromid . ",a.memberid ) "
 // ."\n ORDER BY a.memberid,b.memberid "
-."\n LIMIT " . $limit;
-		$_CB_database->setQuery( $sql );
+;
+		$_CB_database->setQuery( $sql, 0, $limit );
 		$congroups = $_CB_database->loadRowList();
 		}
 		if ( empty( $congroups ) && $degree >= 3 ) {
@@ -4568,8 +4689,8 @@ $sql="SELECT a.referenceid, a.memberid AS d1,  b.memberid AS d2,  c.memberid AS 
 ."\n AND b.memberid NOT IN ( " . $fromid . ",a.memberid) "
 ."\n AND c.memberid NOT IN ( " . $fromid . ",a.memberid,b.memberid) "
 // ."\n ORDER BY a.memberid,b.memberid,c.memberid "
-."\n LIMIT " . $limit;
-		$_CB_database->setQuery( $sql );
+;
+		$_CB_database->setQuery( $sql, 0, $limit );
 		$congroups = $_CB_database->loadRowList();
 		}
 		if ( empty( $congroups ) && $degree >= 4 ) {
@@ -4583,8 +4704,8 @@ $sql="SELECT a.referenceid, a.memberid AS d1,  b.memberid AS d2,  c.memberid AS 
 ."\n AND c.memberid NOT IN ( " . $fromid . ",a.memberid,b.memberid) "
 ."\n AND d.memberid NOT IN ( " . $fromid . ",a.memberid,b.memberid,c.memberid) "
 // ."\n ORDER BY a.memberid,b.memberid,c.memberid,d.memberid "
-."\n LIMIT " . $limit;
-		$_CB_database->setQuery( $sql );
+;
+		$_CB_database->setQuery( $sql, 0 ,$limit );
 		$congroups = $_CB_database->loadRowList();
 		}
 		if ( empty( $congroups ) && $degree >= 5 ) {
@@ -4600,8 +4721,8 @@ $sql="SELECT a.referenceid, a.memberid AS d1,  b.memberid AS d2,  c.memberid AS 
 ."\n AND d.memberid NOT IN ( " . $fromid . ",a.memberid,b.memberid,c.memberid) "
 ."\n AND e.memberid NOT IN ( " . $fromid . ",a.memberid,b.memberid,c.memberid,d.memberid) "
 // ."\n ORDER BY a.memberid,b.memberid,c.memberid,d.memberid,e.memberid "
-."\n LIMIT " . $limit;
-		$_CB_database->setQuery( $sql );
+;
+		$_CB_database->setQuery( $sql, 0, $limit );
 		$congroups = $_CB_database->loadRowList();
 		}
 		if ( empty( $congroups ) && $degree >= 6 ) {
@@ -4619,8 +4740,8 @@ $sql="SELECT a.referenceid, a.memberid AS d1,  b.memberid AS d2,  c.memberid AS 
 ."\n AND e.memberid NOT IN ( " . $fromid . ",a.memberid,b.memberid,c.memberid,d.memberid) "
 ."\n AND f.memberid NOT IN ( " . $fromid . ",a.memberid,b.memberid,c.memberid,d.memberid,e.memberid) "
 // ."\n ORDER BY a.memberid,b.memberid,c.memberid,d.memberid,e.memberid,f.memberid "
-."\n LIMIT " . $limit;
-		$_CB_database->setQuery( $sql );
+;
+		$_CB_database->setQuery( $sql, 0 , $limit );
 		$congroups = $_CB_database->loadRowList();
 		}
 		return $congroups;
@@ -4647,10 +4768,10 @@ $sql="SELECT a.referenceid, a.memberid AS d1,  b.memberid AS d2,  c.memberid AS 
 						.	"\n FROM #__comprofiler_members AS m"
 						.	"\n WHERE m.referenceid=".(int) $fromid." AND m.memberid=".(int) $toid
 						;
-		
+
 		$_CB_database->setQuery( $query );
 		$connections	=	$_CB_database->loadObjectList( null, 'moscomprofilerMember', array( &$_CB_database ) );
-		if ( $connections && ( count( $connections ) > 0 ) ) {
+		if ( ( ! $_CB_database->getErrorNum() ) && ( count( $connections ) > 0 ) ) {
 			return $connections[0];
 		} else {
 			return false;
@@ -4692,7 +4813,7 @@ function getConnectionTypes( $types ) {
 		if( $typelist == null ) {
 			$typelist	=	getLangDefinition( $type );
 		} else {
-			$typelist	.=	", " . getLangDefinition( $type );	
+			$typelist	.=	", " . getLangDefinition( $type );
 		}
 	}
 	return $typelist;
@@ -4708,7 +4829,7 @@ class cbNotification {
 	var $errorMSG;
 	/**	@var errorNum should be used to store the error number when an error is encountered*/
 	var $errorNum;
-	
+
 	function cbNotification() {
 	}
 	function sendFromUser($toid,$fromid,$subject,$message, $messageEmail=null) {		//BB: add html email notifications processing later
@@ -4729,7 +4850,7 @@ class cbNotification {
 			break;
 			default:
 				return false;
-			break;		
+			break;
 		}
 	}
 	function sendUserPMSmsg($toid,$fromid,$subject,$message, $systemGenerated=false) {
@@ -4769,7 +4890,7 @@ class cbNotification {
 		}
 		return $this->_sendEmailMSG( $rowTo, $rowFrom, $subject, $message, $revealEmail );
 	}
-	function sendFromSystem( $toid, $sub, $message, $replaceVariables = true, $mode = 0, $cc = null, $bcc = null, $attachment = null, $extraStrings = null ) {
+	function sendFromSystem( $toid, $sub, $message, $replaceVariables = true, $mode = 0, $cc = null, $bcc = null, $attachment = null, $extraStrings = null, $footer = true ) {
 		global $_CB_framework, $_CB_database, $ueConfig;
 
 		if ( ( ! $sub ) && ( ! $message ) ) {
@@ -4783,12 +4904,9 @@ class cbNotification {
 		$rowFrom->name			=	stripslashes( $ueConfig['reg_email_name'] );
 		$rowFrom->replytoEmail	=	$ueConfig['reg_email_replyto'];
 		$rowFrom->replytoName	=	stripslashes( $ueConfig['reg_email_name'] );
-		
+
 		if ( ! is_object( $toid ) ) {
-			$query				=	"SELECT * FROM #__comprofiler c, #__users u WHERE c.id=u.id AND c.id =" . (int) $toid;
-			$_CB_database->setQuery($query);
-			$rowTo				=	$_CB_database->loadObjectList();
-			$rowTo				=	$rowTo[0];
+			$rowTo				=	CBuser::getUserDataInstance( $toid );
 		} else {
 			$rowTo = $toid;
 		}
@@ -4797,28 +4915,48 @@ class cbNotification {
 			$sub				=	$this->_replaceVariables( $sub, $rowTo, $mode, $extraStrings );
 			$message			=	$this->_replaceVariables( $message, $rowTo, $mode, $extraStrings );
 		}
-		$message.="\n\n".sprintf(_UE_EMAILFOOTER,cb_html_entity_decode_all($_CB_framework->getCfg( 'sitename' )),$_CB_framework->getCfg( 'live_site' ));
+		if ( $footer ) {
+			$message			.=	( $mode ? "\n<br />\n<br />" : "\n\n" )
+								.	sprintf(_UE_EMAILFOOTER,cb_html_entity_decode_all($_CB_framework->getCfg( 'sitename' )),$_CB_framework->getCfg( 'live_site' ));
+		}
 		// $message = str_replace(array("\\","\"","\$"), array("\\\\","\\\"","\\\$"), $message);
-		// eval ("\$message = \"$message\";");	
+		// eval ("\$message = \"$message\";");
 		$message = str_replace( array( '\n' ), array( "\n" ), $message ); // compensate for wrong language definitions (using '\n' instaed of "\n")
-			
+
 		return $this->_sendEmailMSG( $rowTo, $rowFrom, cb_html_entity_decode_all($_CB_framework->getCfg( 'sitename' )).' - '.$sub, $message, false, $mode, $cc, $bcc, $attachment );
-	
+
 	}
 	function sendToModerators( $sub, $message, $replaceVariables = false, $mode = 0, $cc = null, $bcc = null, $attachment = null  ) {
 		global $_CB_database, $ueConfig;
 
 		$moderators				=	implode( ',', getParentGIDS( $ueConfig['imageApproverGid'] ) );
 		if ( $moderators ) {
-			$_CB_database->setQuery( "SELECT u.id FROM #__users u INNER JOIN #__comprofiler c ON u.id=c.id"
-			."\n WHERE u.gid IN (". $moderators .") AND u.block=0 AND c.confirmed=1 AND c.approved=1 AND u.sendEmail=1" );
+			$query				=	'SELECT u.id'
+								.	"\n FROM #__users u"
+								.	"\n INNER JOIN #__comprofiler c"
+								.	' ON u.id = c.id';
+
+			if ( checkJversion() == 2 ) {
+				$query			.=	"\n INNER JOIN #__user_usergroup_map g"
+								.	' ON c.id = g.user_id'
+								.	"\n WHERE g.group_id IN ( $moderators )";
+			} else {
+				$query			.=	"\n WHERE u.gid IN ( $moderators )";
+			}
+
+			$query				.=	"\n AND u.block = 0"
+								.	"\n AND c.confirmed = 1"
+								.	"\n AND c.approved = 1"
+								.	"\n AND u.sendEmail = 1";
+
+			$_CB_database->setQuery( $query );
 			$mods				=	$_CB_database->loadObjectList();
 			foreach ( $mods AS $mod ) {
 				$this->sendFromSystem( $mod->id, $sub, $message, $replaceVariables, $mode, $cc, $bcc, $attachment );
 			}
 		}
 	}
-	
+
 	function _sendEmailMSG( $to, $from, $sub, $msg, $addPrefix = false, $mode = 0, $cc = null, $bcc = null, $attachment = null ) {			//BB: add html
 		global $_CB_framework, $ueConfig, $_SERVER;
 
@@ -4883,7 +5021,8 @@ class cbNotification {
 					$confirmCode = '';
 				}
 				// no sef here !  space added after link for dumb emailers (Ms Entourage)
-				$confirmLink = " \n".$_CB_framework->getCfg( 'live_site' )."/index.php?option=com_comprofiler&task=confirm&confirmcode=".$confirmCode." \n";
+				$confirmLink = " \n".$_CB_framework->getCfg( 'live_site' )."/index.php?option=com_comprofiler&task=confirm&confirmcode=" . $confirmCode . getCBprofileItemid( false, 'confirm' ) . " \n";
+				// not implemented in viewUrl yet: $confirmLink = " \n". $_CB_framework->viewUrl( 'confirm', array( 'confirmcode' => $confirmCode ) ) ." \n";
 			}
 		} else {
 			$confirmLink = ' ';
@@ -4907,7 +5046,7 @@ class cbFields {
 
 	function cbFields() {
 	}
-	
+
 	/**
 	 * Returns a reference to an input filter object
 	 *
@@ -4944,7 +5083,7 @@ class cbFields {
 	}
 	/**
 	 * Processes for XSS and specified bad code.
-	 * 
+	 *
 	 * @access private
 	 * @param  CBInputFilter  $filter
 	 * @param  mixed	      $source   Input string/array-of-string to be 'cleaned'
@@ -5009,7 +5148,7 @@ class cbFields {
 		}
 		return $result;
 	}
-	
+
 	function prepareFieldDataView() {
 
 	}
@@ -5019,9 +5158,9 @@ class cbFields {
 	 */
 	function prepareFieldDataSave( $fieldId, $fieldType, $fieldName, $value=null, $registration=0,$field=null ) {
 		global $ueConfig, $_POST, $_CB_database, $_PLUGINS;
-		
+
 		switch($fieldType) {
-		CASE 'date': 
+		CASE 'date':
 			$sqlFormat	=	"Y-m-d";
 			$fieldForm	=	str_replace( 'y', 'Y', $ueConfig['date_format'] );
 			$value		=	dateConverter( cbGetUnEscaped( $value ), $fieldForm, $sqlFormat );
@@ -5038,16 +5177,16 @@ class cbFields {
 				$value= str_replace(array('mailto:','http://','https://'),'',cbGetUnEscaped($value));
 			}
 		break;
-		CASE 'emailaddress': 
+		CASE 'emailaddress':
 			$value=str_replace(array('mailto:','http://','https://'),'',cbGetUnEscaped($value));
 		break;
-		CASE 'editorta': 
+		CASE 'editorta':
 			$value = cbGetUnEscaped( $value );
 			$badHtmlFilter = & $this->getInputFilter( array (), array (), 1, 1 );
 			if ( isset( $ueConfig['html_filter_allowed_tags'] ) && $ueConfig['html_filter_allowed_tags'] ) {
 				$badHtmlFilter->tagBlacklist = array_diff( $badHtmlFilter->tagBlacklist, explode(" ", $ueConfig['html_filter_allowed_tags']) );
 			}
-			$value = $this->clean( $badHtmlFilter, $value );	
+			$value = $this->clean( $badHtmlFilter, $value );
 		break;
 		case 'radio':
 			$value = array( $value );
@@ -5072,7 +5211,7 @@ class cbFields {
 			}
 
 			$value=cbGetUnEscaped(implode("|*|",$value));
-			
+
 		break;
 		case 'checkbox':
 			if ( ( $value === null ) || ( ! in_array( $value, array( "0", "1" ) ) ) ) $value = "";
@@ -5099,7 +5238,7 @@ class cbFields {
 		}
 		return $value;
 	}
-	
+
 	function getErrorMSG() {
 		return $this->errorMSG;
 	}

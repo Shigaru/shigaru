@@ -8,7 +8,7 @@
 	<authorEmail>beat@joomlapolis.com</authorEmail>
 	<authorUrl>www.joomlapolis.com</authorUrl>
 	<version>1.2</version>
-	<description>Provides the myPMS, PMS Pro, PMS Enhanced, JIM and uddeIM 0.4/1.0 integration for Community Builder.</description>
+	<description>Provides the myPMS, PMS Pro, PMS Enhanced, JIM and uddeIM 0.4/1.0/2.0+ integration for Community Builder.</description>
 	<files>
 		<filename plugin="pms.mypmspro">pms.mypmspro.php</filename>
 		<filename>index.html</filename>
@@ -19,7 +19,7 @@
 			<option value="2">PMS Pro</option>
 			<option value="5">PMS Enhanced 2.x</option>
 			<option value="3">uddeIM 0.4</option>
-			<option value="4">uddeIM 1.0</option>
+			<option value="4">uddeIM 1.0 and 2.0+ or better</option>
 			<option value="6">JIM 1.0.1</option>
 		</param>
 	    <param name="@spacer" type="spacer" default="" label="" description="" />

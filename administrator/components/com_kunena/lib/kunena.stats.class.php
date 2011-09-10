@@ -1,26 +1,27 @@
 <?php
 /**
-* @version $Id:kunena.stats.class.php 96 2009-01-23 21:55:09Z fxstein $
+* @version $Id:kunena.stats.class.php 96 2010-01-23 21:55:09Z fxstein $
 * Kunena Component
 * @package Kunena
 *
-* @Copyright (C) 2008 - 2009 Kunena Team All rights reserved
+* @Copyright (C) 2008 - 2011 Kunena Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-* @link http://www.kunena.com
+* @link http://www.kunena.org
 *
 * Based on FireBoard Component
-* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved
+* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * @link http://www.bestofjoomla.com
 *
 * Based on joomlaboard Component
-* @copyright (C) 2000 - 2004 TSMF / Jan de Graaff / All Rights Reserved
+* @copyright (C) 2000 - 2004 TSMF / Jan de Graaff / All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * @author TSMF & Jan de Graaff
 **/
 
 // Dont allow direct linking
-defined( '_JEXEC' ) or die('Restricted access');
+defined( '_JEXEC' ) or die();
+
 
 /**
 * Kunena stats support class
@@ -41,7 +42,7 @@ class jbStats {
 			$where[]='time > UNIX_TIMESTAMP(\'' . $start. '\')';
 		if (!empty($end))
 			$where[]='time < UNIX_TIMESTAMP(\'' . $end . '\')';
-		$query='SELECT COUNT(*) FROM #__fb_messages WHERE moved=0 AND hold=0';
+		$query='SELECT COUNT(*) FROM #__kunena_messages WHERE moved=0 AND hold=0';
 		if (count($where)>0)
 			$query.=' AND '.implode(' AND ',$where);
 		$kunena_db->setQuery($query);
@@ -61,7 +62,7 @@ class jbStats {
 			$where[]='time > UNIX_TIMESTAMP(\'' . $start. '\')';
 		if (!empty($end))
 			$where[]='time < UNIX_TIMESTAMP(\'' . $end . '\')';
-		$query='SELECT COUNT(*) FROM #__fb_messages WHERE moved=0 AND hold=0 AND parent=0';
+		$query='SELECT COUNT(*) FROM #__kunena_messages WHERE moved=0 AND hold=0 AND parent=0';
 		if (count($where)>0)
 			$query.=' AND '.implode(' AND ',$where);
 		$kunena_db->setQuery($query);
@@ -74,21 +75,21 @@ class jbStats {
 	 */
 	function get_top_topics() {
 		$kunena_db = &JFactory::getDBO();
-		$kunena_db->setQuery('SELECT * FROM #__fb_messages WHERE parent = 0 ' .
+		$kunena_db->setQuery('SELECT * FROM #__kunena_messages WHERE parent = 0 ' .
 				'AND hits > 0  ORDER BY hits DESC LIMIT 5');
 		$results=$kunena_db->loadObjectList();
-		        check_dberror("Unable to load messages.");
+		KunenaError::checkDatabaseError();
 
 		return count($results) > 0 ? $results : array();
 	}
 
 	/**
-	 * Total categories in Kunena
+	 * Total sections in Kunena
 	 * @return int
 	 */
-	function get_total_categories() {
+	function get_total_sections() {
 		$kunena_db = &JFactory::getDBO();
-		$kunena_db->setQuery('SELECT COUNT(*) FROM #__fb_categories WHERE parent=0');
+		$kunena_db->setQuery('SELECT COUNT(*) FROM #__kunena_categories WHERE parent=0');
 		return intval($kunena_db->loadResult());
 	}
 	/**
@@ -97,14 +98,14 @@ class jbStats {
 	 */
 	function get_top_categories() {
 		$kunena_db = &JFactory::getDBO();
-		$kunena_db->setQuery('SELECT catid,COUNT(id) as totalmsg FROM #__fb_messages' .
+		$kunena_db->setQuery('SELECT catid,COUNT(id) as totalmsg FROM #__kunena_messages' .
 				' GROUP BY c.id ORDER BY catid LIMIT 5');
 		$results=$kunena_db->loadObjectList();
-		        check_dberror("Unable to load messages.");
+		KunenaError::checkDatabaseError();
 
 		if (count($results)>0) {
 				$ids=implode(',',$results);
-				$kunena_db->setQuery('SELECT name FROM #__fb_categories WHERE id IN ('.$ids.') ORDER BY catid');
+				$kunena_db->setQuery('SELECT name FROM #__kunena_categories WHERE id IN ('.$ids.') ORDER BY catid');
 				$names=$kunena_db->loadResultArray();
 				$i=0;
 				foreach ($results as $result)
@@ -115,12 +116,12 @@ class jbStats {
 		return $results;
 	}
 	/**
-	 * Total sections in Kunena
+	 * Total categories in Kunena
 	 * @return int
 	 */
-	function get_total_sections() {
+	function get_total_categories() {
 		$kunena_db = &JFactory::getDBO();
-		$kunena_db->setQuery('SELECT COUNT(*) FROM #__fb_categories WHERE parent>0');
+		$kunena_db->setQuery('SELECT COUNT(*) FROM #__kunena_categories WHERE parent>0');
 		return intval($kunena_db->loadResult());
 	}
 
@@ -150,7 +151,7 @@ class jbStats {
 	 */
 	function get_top_posters() {
 		$kunena_db = &JFactory::getDBO();
-		$kunena_db->setQuery('SELECT s.userid,s.posts,u.username FROM #__fb_users as s ' .
+		$kunena_db->setQuery('SELECT s.userid,s.posts,u.username FROM #__kunena_users as s ' .
 				"\n INNER JOIN  #__users as u ON s.userid=u.id" .
 				"\n WHERE s.posts > 0 ORDER BY s.posts DESC LIMIT 10");
 		return count($kunena_db->loadObjectList()) > 0 ? $kunena_db->loadObjectList() : array();
@@ -162,7 +163,7 @@ class jbStats {
 	 */
 	function get_top_profiles() {
 		$kunena_db = &JFactory::getDBO();
-		$kunena_db->setQuery('SELECT s.userid,s.uhits,u.username FROM #__fb_users as s ' .
+		$kunena_db->setQuery('SELECT s.userid,s.uhits,u.username FROM #__kunena_users as s ' .
 				"\n INNER JOIN  #__users as u ON s.userid=u.id" .
 				"\n WHERE s.uhits > 0 ORDER BY s.uhits DESC LIMIT 10");
 		return count($kunena_db->loadObjectList()) > 0 ? $kunena_db->loadObjectList() : array();

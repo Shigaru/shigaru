@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla Community Builder : Plugin Handler
-* @version $Id: cb.installer.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: cb.installer.php 1517 2011-07-17 02:09:48Z beat $
 * @package Community Builder
 * @subpackage cb.params.php
 * @author various, JoomlaJoe and Beat
@@ -222,14 +222,16 @@ class cbInstaller {
 	/**
 	* Abstract uninstall method
 	*/
-	function uninstall() {
+	function uninstall( $id, $option, $client = 0 ) {
 		die( 'Method "uninstall" cannot be called by class ' . strtolower(get_class( $this )) );
 	}
 	/**
 	* return to method
 	*/
 	function returnTo( $option, $task ) {
-		return "index2.php?option=$option&task=$task";
+		global $_CB_framework;
+
+		return $_CB_framework->backendUrl( "index.php?option=$option&task=$task" );
 	}
 	/**
 	* @param string Install from directory
@@ -250,14 +252,14 @@ class cbInstaller {
 			$this->setError( 1, 'Installation file not found:<br />' . $this->installDir() );
 			return false;
 		}
-		
+
 		//echo "<br />type=".$type." this->installType()=".$this->installType();
 		if (trim($this->installType()) != trim($type)) {
 			//echo "<br />failing here<br />";
 			$this->setError( 1, 'XML setup file is not for a "'.$type.'".' );
 			return false;
 		}
-		
+
 
 		// In case there where an error doring reading or extracting the archive
 		if ($this->errno()) {
@@ -514,7 +516,7 @@ class cbInstaller {
 	}
 	/**
 	* Warning: needs cbAdminFileSystem  File-system loaded to use
-	* 
+	*
 	* @param  string  $base  An existing base path
 	* @param  string  $path  A path to create from the base path
 	* @param  int     $mode  Directory permissions
@@ -605,7 +607,7 @@ class cbInstallerPlugin extends cbInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $_CB_framework, $_CB_database, $ueConfig, $_PLUGINS;
-        
+
 		if (!$this->preInstallCheck( $p_fromdir,$this->elementType )) {
 			return false;
 		}
@@ -638,7 +640,7 @@ class cbInstallerPlugin extends cbInstaller {
 		// check version
 		$v						=	&$cbInstallXML->getElementByPath( 'version' );
 		$version				=	$v->data();
-		if (($version == $ueConfig['version']) || ( $version=="1.2.1" || $version=="1.2" || $version=="1.2 RC 4" || $version=="1.2 RC 3" || $version=="1.2 RC 2" || $version=="1.2 RC" || $version=="1.0 RC 2" || $version=="1.0" || $version=="1.0.1" || $version=="1.0.2" || $version=="1.1")) {
+		if (($version == $ueConfig['version']) || ( $version=="1.7 RC" || $version=="1.4" || $version=="1.4 RC" || $version=="1.3.1" || $version=="1.3" || $version=="1.2.3" || $version=="1.2.2" || $version=="1.2.1" || $version=="1.2" || $version=="1.2 RC 4" || $version=="1.2 RC 3" || $version=="1.2 RC 2" || $version=="1.2 RC" || $version=="1.0 RC 2" || $version=="1.0" || $version=="1.0.1" || $version=="1.0.2" || $version=="1.1")) {
 			;
 		} else {
       		$this->setError( 1, 'Plugin version ('.$version.') different from Community Builder version ('.$ueConfig['version'].')' );
@@ -670,9 +672,6 @@ class cbInstallerPlugin extends cbInstaller {
 		}
 
 		$upgradeMethod			=	$this->installMethod( $cbInstallXML->attributes( 'method' ) );
-		if ( $upgradeMethod ) {
-			$this->doCleanup( false );
-		}
 
 		if (file_exists($this->elementDir()) && ! $upgradeMethod ) {
       		$this->setError( 1, 'Another plugin is already using directory: "' . $this->elementDir() . '"' );
@@ -791,7 +790,7 @@ exit;
 										$fieldid	=	$this->installField($pluginid,$tabid,$field);
 										//get all fieldvalues for the field
 										//cycle through each fieldValue
-										foreach( $field->children() AS $fieldValue) {	
+										foreach( $field->children() AS $fieldValue) {
 											if ( $fieldValue->name() == "fieldvalue" ) {
 												$this->installFieldValue($fieldid,$fieldValue);
 											}
@@ -844,7 +843,7 @@ exit;
 				}
 			}
 		}
-		
+
 		// Is there an installfile
 		$installfile_elemet						=&	$cbInstallXML->getElementByPath( 'installfile' );
 
@@ -885,7 +884,7 @@ exit;
 				}
 			}
 		}
-		
+
 		if ( $this->hasInstallfile() ) {
 			if ( is_file( $this->elementDir() . '/' . $this->installFile() ) ) {
 				require_once( $this->elementDir() . '/' . $this->installFile() );
@@ -901,7 +900,7 @@ exit;
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Installs a tab into database, finding already existing one if needed.
 	 *
@@ -927,21 +926,24 @@ exit;
 				return false;
 			}
 		} else {
-			$row			=	new moscomprofilerTabs( $_CB_database );
-			if ( ! $tabid ) {
+			$row									=	new moscomprofilerTabs( $_CB_database );
+			if ( $tabid ) {
+				$row->load( (int) $tabid );
+			}
+			if ( ! $row->tabid ) {
 				$row->title							=	$tab->attributes('name');
 				$row->description					=	trim( $tab->attributes('description') );
 				$row->ordering						=	99;
 				$row->position						=	$tab->attributes('position');
 				$row->displaytype					=	$tab->attributes('displaytype');
-				$row->ordering_register			=	$tab->attributes('ordering_register');
+				$row->ordering_register				=	$tab->attributes('ordering_register');
 			}
 			$row->width								=	$tab->attributes('width');
 			$row->pluginclass						=	$tab->attributes('class');
 			$row->pluginid							=	$pluginid;
 			$row->fields							=	$tab->attributes('fields');
 			$row->sys								=	$tab->attributes('sys');
-	
+
 			$userGroupName							=	$tab->attributes( 'useraccessgroup' );
 			switch ( $userGroupName ) {
 				case 'All Registered Users':
@@ -959,19 +961,16 @@ exit;
 					break;
 					}
 			}
-	
-			if ( ! $row->store( $tabid ) ) {
+
+			if ( ! $row->store() ) {
 				$this->setError( 1, 'SQL error' .': ' . $row->getError() );
 				return false;
 			}
-	
-			if ( ! $tabid ) {
-				$tabid								=	$_CB_database->insertid();
-			}
+			$tabid									=	(int) $row->tabid;
 		}
 		return $tabid;
 	}
-	
+
 	/**
 	* installs a field for plugin
 	*
@@ -1024,7 +1023,7 @@ exit;
 			$this->setError( 1, 'SQL error on field store2' .': ' . $row->getError() );
 			return false;
 		}
-		
+
 		if (!$fieldid) {
 			$fieldid			=	$_CB_database->insertid();
 		}
@@ -1032,21 +1031,21 @@ exit;
 	}
 
 	function installFieldValue($fieldid,$fieldvalue) {
-		global $_CB_database;		
+		global $_CB_database;
 		$row = new moscomprofilerFieldValues($_CB_database);
 		$row->fieldid = $fieldid;
 		$row->fieldtitle = $fieldvalue->attributes('title');
 		$row->ordering = $fieldvalue->attributes('ordering');
 		$row->sys = $fieldvalue->attributes('sys');
-		
+
 		$_CB_database->setQuery("SELECT fieldvalueid FROM #__comprofiler_field_values WHERE fieldid = ". (int) $fieldid . " AND fieldtitle = '".$row->fieldtitle."'");
 		$fieldvalueid = $_CB_database->loadResult();
-		
+
 		if (!$row->store($fieldvalueid)) {
 			$this->setError( 1, 'SQL error on field store' .': ' . $row->getError() );
 			return false;
 		}
-		
+
 		return true;
 	}
 	/**
@@ -1120,7 +1119,7 @@ exit;
 				$e									=&	$cbInstallXML->getElementByPath( 'name' );
 				$this->elementName( $e->data() );
 				$cleanedElementName					=	strtolower(str_replace(array(" ","."),array("","_"),$this->elementName()));
-	
+
 				cbimport( 'cb.sql.upgrader' );
 				$sqlUpgrader						=	new CBSQLupgrader( $_CB_database, false );
 				$sqlUpgrader->setDryRun( $dryRun );
@@ -1179,7 +1178,7 @@ exit;
 			$this->returnTo( $option, 'showPlugins') );
 			return false;
 		}
-		
+
 		if ($row->iscore) {
 			HTML_comprofiler::showInstallMessage( $row->name .' '. "is a core element, and cannot be uninstalled.<br />You need to unpublish it if you don't want to use it" ,
 			'Uninstall -  error', $this->returnTo( $option, 'showPlugins') );
@@ -1226,12 +1225,12 @@ exit;
 		if ( $this->checkPluginGetXml( $id, $option, $client ) ) {
 			if ( ( $this->i_xmldocument !== null ) && count( $this->i_xmldocument->children() ) > 0 ) {
 				$cbInstallXML	=&	$this->i_xmldocument;
-				
+
 				// get the element name:
 				$e =& $cbInstallXML->getElementByPath( 'name' );
 				$this->elementName( $e->data() );
 				// $cleanedElementName = strtolower(str_replace(array(" ","."),array("","_"),$this->elementName()));
-				
+
 				// get the files element
 				$files_element =& $cbInstallXML->getElementByPath( 'files' );
 				if ( $files_element ) {
@@ -1278,7 +1277,7 @@ exit;
 							//echo intval( $result );
 						}
 					}
-					
+
 					// Are there any SQL queries??
 					$query_element = &$cbInstallXML->getElementByPath( 'uninstall/queries' );
 					if ( $query_element !== false ) {
@@ -1374,7 +1373,7 @@ exit;
 				$_CB_database->setQuery( "SELECT `fieldid`, `name` FROM #__comprofiler_fields WHERE `tabid`=" . (int) $tab->tabid . " AND `pluginid`=" . (int) $id );
 				$fields		=	$_CB_database->loadObjectList();
 				$rowField	=	new moscomprofilerFields( $_CB_database );
-				
+
 				//Delete fields and fieldValues, but not data content itself in the comprofilier table so they stay on reinstall
 				if ( count( $fields ) > 0 ) {
 					//delete each field related to a tab and all field value related to a field, but not the content
@@ -1399,7 +1398,7 @@ exit;
 					//delete each tab
 					$rowTab->delete( $tab->tabid );
 				}
-			}	
+			}
 		}
 		//Find all fields related to this plugin which are in other tabs, are calculated and delete them as they are of no use anymore:
 		$_CB_database->setQuery( "SELECT `fieldid`, `name` FROM #__comprofiler_fields WHERE `calculated`=1 AND `sys`=0 AND `pluginid`=" . (int) $id );

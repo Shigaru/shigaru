@@ -16,7 +16,7 @@ $show_location= $params->get( 'showlocation', '0');
 $mw = $module_width . 'px';
 $mh = $module_height . 'px';
 
-echo	"<div style=\"width:$mw;height:$mh; \" >";
+echo	"<div >";
 foreach ( $zncbmembers as $row ) {
 	// Check if user has an avatar	
 	if ($row->avatar != NULL) {

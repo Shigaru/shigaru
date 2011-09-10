@@ -1220,12 +1220,12 @@ class CBPHPMailer {		//BB: Line changed for CB library structure.
       $this->SetError($this->Lang('file_open') . $path);
       return '';
     }
-    $magic_quotes = get_magic_quotes_runtime();
-    set_magic_quotes_runtime(0);
+    //obsolete in php 5.3 :  $magic_quotes = get_magic_quotes_runtime();
+    //obsolete in php 5.3 :  set_magic_quotes_runtime(0);
     $file_buffer = fread($fd, filesize($path));
     $file_buffer = $this->EncodeString($file_buffer, $encoding);
     fclose($fd);
-    set_magic_quotes_runtime($magic_quotes);
+    //obsolete in php 5.3 : set_magic_quotes_runtime($magic_quotes);
 
     return $file_buffer;
   }

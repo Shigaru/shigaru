@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: imgToolbox.class.php 907 2010-03-01 15:25:34Z beat $
+ * $Id: imgToolbox.class.php 1074 2010-06-10 15:48:10Z beat $
 -----------------------------------------------------------------------
 |                                                                     |
 | Date: March, 2005						      |
@@ -318,7 +318,7 @@ class imgToolbox{
 	function resizeImageIM($src_file, $dest_file, $destWidth,$destHeight){
 		//$cmd = $this->_IM_path."convert -resize $new_size \"$src_file\" \"$dest_file\"";
    		//$cmd = "'".$this->_IM_path."convert' -geometry $destWidth x $destHeight '$src_file' '$dest_file'"; 
-   		$cmd = $this->_escapeshellcmd( $this->_IM_path . 'convert' ) . ' -geometry ' . escapeshellarg( $destWidth ) . ' x ' . escapeshellarg( $destHeight ) . ' ' . escapeshellarg( $src_file ) . ' ' . escapeshellarg( $dest_file ); 
+   		$cmd = $this->_escapeshellcmd( $this->_IM_path . 'convert' ) . ' -coalesce -geometry ' . escapeshellarg( $destWidth ) . ' x ' . escapeshellarg( $destHeight ) . ' ' . escapeshellarg( $src_file ) . ' ' . escapeshellarg( $dest_file ); 
 		$output=array(); $retval = null;
 		exec($cmd, $output, $retval);
 		if($this->debug()) {

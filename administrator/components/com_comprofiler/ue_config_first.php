@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: ue_config_first.php 916 2010-03-02 00:10:48Z beat $
+* @version $Id: ue_config_first.php 1441 2011-02-13 01:39:53Z beat $
 */
 $ueConfig['this_is_default_config']='1';
 $ueConfig['name_style']='1';
@@ -69,6 +69,7 @@ $ueConfig['emptyFieldsText']='-';
 $ueConfig['nesttabs']='0';
 $ueConfig['xhtmlComply']='1';
 $ueConfig['frontend_userparams']='1';
+$ueConfig['use_divs']='0';
 $ueConfig['html_filter_allowed_tags']='';
 $ueConfig['im_path']='auto';
 $ueConfig['netpbm_path']='auto';
@@ -97,6 +98,8 @@ $ueConfig['conNotifyType']='0';
 $ueConfig['autoAddConnections']='1';
 $ueConfig['connection_categories']='Friend
 Co Worker';
+$ueConfig['translations_debug']='0';
+$ueConfig['enableSpoofCheck']='1';
 $ueConfig['noVersionCheck']='0';
-$ueConfig['version']='1.2.1';
+$ueConfig['version']='1.4';
 ?>

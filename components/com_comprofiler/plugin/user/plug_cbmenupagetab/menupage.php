@@ -78,6 +78,8 @@ class getMenuPageTab extends cbTabHandler {
 		$params = $this->params; // get parameters (plugin and related tab
 		$menuitem_id = $params->get('menu_id');
 		
+		
+		
 		// Use ItemID to retrieve full url for menu item	
 		
 		$db =& JFactory::getDBO();
@@ -89,6 +91,7 @@ class getMenuPageTab extends cbTabHandler {
 		
 		//$link = JRoute::_($rows[0]->link);
 		$link = $rows[0]->link;
+		$link = $link.'&userId='.$user->user_id;
 		$link = $link.'&Itemid='.$menuitem_id;
 		$link = $link.'&tmpl=component&print=1';
 		//echo "<br />link: ".$link;

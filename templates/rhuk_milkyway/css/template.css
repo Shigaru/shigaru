@@ -227,12 +227,40 @@ form#searchForm td {
 	width: auto;
 }
 
+
 #whitebox .whiteboxHeader{
     border-radius: 9px 9px 0 0;
     margin: 0 10px;
     padding: 4px 4px 4px 50px;
     background: url(../images/mail_envelope.png) 3% 0 no-repeat Lavender;
+    border:1px solid #ccc;
+    border-bottom:none;
 }
+
+
+#whitebox .facefans{
+background:url("../images/small_facebook_icon.png") no-repeat scroll 4% 52% Lavender;
+}
+
+#whitebox .beingwatched{
+background:url("../images/face-glasses.png") no-repeat scroll 4% 52% Lavender;
+}
+
+#whitebox .adverts{
+background:url("../images/megaphone.png") no-repeat scroll 4% 52% Lavender;
+}
+
+#whitebox .tweeter{
+background:url("../images/tweeter-icon.png") no-repeat scroll 4% 52% Lavender;
+}
+
+#whitebox .donate{
+background:url("../images/donate.png") no-repeat scroll 4% 52% Lavender;
+}
+
+
+
+
 
 #whitebox .whiteboxHeader div{
 	padding:5px 5px 0 5px;
@@ -271,7 +299,7 @@ form#searchForm td {
 	border-right: 1px solid #ccc;
 	border-top: 1px solid #ccc;
 	width: auto;
-	padding: 1px 8px;
+	padding: 12px 8px 1px 8px;
 }
 
 #whitebox_b {
@@ -1091,7 +1119,13 @@ z-index:9999;}
 
 
 #loginWrapper, #logoutWrapper,#mod_login_noaccount,#mainlevel,#signup{float: left;}
-#mainlevel{margin:9px 17px 0 120px; padding:0 25px 0 20px;border-right:1px solid gray;border-left:1px solid gray; font-weight:bold;}
+#mainlevel{
+  border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    font-weight: bold;
+    margin: 9px 0 0 84px;
+    padding: 0 12px 0 6px;
+}
 #mainlevel ul li a.mainlevel:link, a.mainlevel:visited{font-weight:bold !important;}
 #mainlevel li{list-style:none;}
 #mod_login_noaccount{ margin-top:10px;padding:0 25px 0 20px;border-left:1px solid gray;}
@@ -1275,9 +1309,9 @@ a.basic {
 }
 
 a.basic:hover { text-decoration: none !important	; color: #000 !important; }
-#signup{width:73px; }
-#topNavBar{margin:0 10% 0 0;
-min-width:200px; float:right;}
+#signup{width:59px; }
+#topNavBar{margin:0;
+min-width:200px; float:left;}
 
 
 /*  withoutMUsic */
@@ -1336,6 +1370,12 @@ margin:-0 auto 0;}
 #tagsCloud{height:192px;text-align:center !important;margin-top:20px;}
 .h150{height:150px !important;}
 .mtop12{margin-top:12px;}
-
+.fleft{float:left;}
+#mod_login_greeting{float: left;
+    margin: 9px 12px 0;}
+#logout form div{
+text-align: center; float: left; margin: 0 0 2px;
+}    
+#logout{float:left;}
 
 

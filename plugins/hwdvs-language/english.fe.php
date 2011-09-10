@@ -485,7 +485,7 @@ DEFINE("_HWDVIDS_FEATVIDEOPLAYLISTS","Featured Video Playlists");
 
 DEFINE("_HWDVIDS_SELECT_ME","Only Me");
 DEFINE("_HWDVIDS_SELECT_PASSWORD","Password Protected");
-DEFINE("_HWDVIDS_HOMEPROMO","Sign up. Upload videos or submit video links of music tutorials. Comment. Rate. Discover. Learn. Share. Create a profile page. Make friends. Promote your music.  Join the Shigaru online music community now and meet music lovers from all over the world! 10 reasons to join!");
+DEFINE("_HWDVIDS_HOMEPROMO","Sign up. Upload videos or submit video links of music tutorials. Comment. Rate. Discover. Learn. Share. Create a profile page. Make friends. Promote your music.  Join the Shigaru online music community now and meet music lovers from all over the world!");
 DEFINE("_HWDVIDS_WATCHMORE","Watch more videos like these");
 DEFINE("_HWDVIDS_LATESTCOMM","Latest Comments");
 DEFINE("_HWDVIDS_POPUCOMM","Popular Comments");
@@ -499,5 +499,9 @@ DEFINE("_HWDVIDS_SHIGARU_FOLLOW","Follow us on ...");
 
 DEFINE("_HWDVIDS_SHIGARU_FACEFAN","This is how our fans look like ...");
 DEFINE("_HWDVIDS_SHIGARU_TWITTER","What are we tweeting ...");
+
+
+DEFINE("_HWDVIDS_SHIGARU_OURFACES","Shigaru Community (and growing!)");
+DEFINE("_HWDVIDS_SHIGARU_TOTALCATEGORIZED"," (categorized by the Shigaru)");
 
 

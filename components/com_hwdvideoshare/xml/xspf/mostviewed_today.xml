@@ -3,5 +3,38 @@
 <info>http:/xspf.org/xspf-v1.html</info>
 <trackList>
 
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=yP4crzUVhH0]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/yP4crzUVhH0/default.jpg]]></image>
+    <title><![CDATA[How To Play Iron Man By Black Sabbath On Guitar]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=5Iqbkjx3zk8]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/5Iqbkjx3zk8/default.jpg]]></image>
+    <title><![CDATA[Beginner's Old Time Banjo Lesson - As Easy As 123]]></title>
+    <annotation><![CDATA[Here Tony Thomas teaches a simple method of...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=-ooik5IuI1I]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/-ooik5IuI1I/default.jpg]]></image>
+    <title><![CDATA[ming Home by Diddy-Dirty Money on Guitar
+      -...]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=stK47MWu6Jo]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/stK47MWu6Jo/default.jpg]]></image>
+    <title><![CDATA[How to Play Love The Way You Lie by Eminem and...]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
 </trackList>
 </playlist>

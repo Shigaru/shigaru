@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla/Mambo Community Builder
-* @version $Id: plugin.foundation.php 937 2010-03-04 12:46:54Z beat $
+* @version $Id: plugin.foundation.php 1549 2011-07-30 15:31:34Z beat $
 * @package Community Builder
 * @subpackage plugin.foundation.php
 * @author JoomlaJoe and Beat
@@ -14,9 +14,10 @@ if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' 
 
 global $ueConfig;
 include_once( dirname( __FILE__ ) . '/ue_config.php' );
-$ueConfig['version']		=	'1.2.2';
-define( '_CB_JQUERY_VERSION', '1.4.2' );		// IMPORTANT: when changing version here also change in the 2 XML installation files
-define( '_CB_SPOOFCHECKS', 1 );
+$ueConfig['version']		=	'1.7';
+define( '_CB_JQUERY_VERSION', '1.5.2' );		// IMPORTANT: when changing version here also change in the 2 XML installation files
+define( '_CB_SPOOFCHECKS', ( isset( $ueConfig['enableSpoofCheck'] ) && $ueConfig['enableSpoofCheck'] ) ? 1 : 0 );
+define( '_CB_VALIDATE_NEW', 1 );		// Comment line with // at begin for old-way mosReq way
 
 /**
  * CB 1.2 Stable Release
@@ -28,44 +29,42 @@ define( '_CB_SPOOFCHECKS', 1 );
 
 /**
  * gets Itemid of CB profile, or by default of homepage
- * @param boolean TRUE if should return "&amp:Itemid...." instead of "&Itemid..." (with FALSE as default), === 0 if return only int
- * @return string "&Itemid=xxx"
+ * @deprecated  CB 1.2.3  (use $_CB_framework->userProfiler...Url and ->viewUrl from CB 1.2.3 on)
+ *
+ * @param  boolean $htmlspecialchars  TRUE if should return "&amp:Itemid...." instead of "&Itemid..." (with FALSE as default), === 0 if return only int
+ * @param  string $task               task/view  e.g. 'userslist'   (since CB 1.2.3)
+ * @return string                     "&Itemid=xxx"
  */
-function getCBprofileItemid( $htmlspecialchars = false, $defaultItemid = true ) {
-	global $_CB__Cache_ProfileItemid, $_CB_database, $_CB_framework;
-	
-	if ( $_CB__Cache_ProfileItemid === null ) {
-	//	if( ! isset( $_REQUEST['Itemid'] ) ) {
+function getCBprofileItemid( $htmlspecialchars = false, $task = 'userprofile' ) {
+	global $_CB_database, $_CB_framework;
+	static $cacheItemids		=	array();
+
+	if ( ! isset( $cacheItemids[$task] ) ) {
+		if ( $task !== 'userprofile' && is_string( $task ) ) {
+			$_CB_database->setQuery( 'SELECT id FROM #__menu WHERE link LIKE '
+									. $_CB_database->Quote( 'index.php?option=com_comprofiler&task=' . $_CB_database->getEscaped( $task, true ) . '%', false )
+									. ' AND published=1 AND access ' . ( $_CB_framework->myCmsGid() == 0 ? '= ' : '<= ' ) . (int) $_CB_framework->myCmsGid() );
+			$Itemid				=	(int) $_CB_database->loadResult();
+		} else {
+			$Itemid				=	null;
+		}
+		if ( ( $task === 'userprofile' ) || ( ( ! $Itemid ) && ! in_array( $task, array( 'login', 'logout', 'registers', 'lostpassword' ) ) ) ) {
+			// $task used to be a boolean before CB 1.2.3 but with no effect:
+			$task				=	'userprofile';
 			$_CB_database->setQuery("SELECT id FROM #__menu WHERE link = 'index.php?option=com_comprofiler' AND published=1 AND access " . ( $_CB_framework->myCmsGid() == 0 ? "= " : "<= " ) . (int) $_CB_framework->myCmsGid() );
 			$Itemid = (int) $_CB_database->loadResult();
-	//	} else {
-	//		$Itemid = (int) cbGetParam( $_REQUEST, 'Itemid', 0 );
-	//	}
-		if ( ! $Itemid ) {		// if no user profile, try getting itemid of the default list:
-			$_CB_database->setQuery("SELECT id FROM #__menu WHERE link = 'index.php?option=com_comprofiler&task=usersList' AND published=1 AND access " . ( $_CB_framework->myCmsGid() == 0 ? "= " : "<= " ) . (int) $_CB_framework->myCmsGid() );
-			$Itemid = (int) $_CB_database->loadResult();
+			if ( ! $Itemid ) {		// if no user profile, try getting itemid of the default list:
+				$_CB_database->setQuery("SELECT id FROM #__menu WHERE link = 'index.php?option=com_comprofiler&task=usersList' AND published=1 AND access " . ( $_CB_framework->myCmsGid() == 0 ? "= " : "<= " ) . (int) $_CB_framework->myCmsGid() );
+				$Itemid = (int) $_CB_database->loadResult();
+			}
 		}
-		if ( ( ! $Itemid ) && $defaultItemid && ( checkJversion() != 1 ) ) {
-			/** Nope, just use the homepage then. * NO: USE NONE: Homepage itemid isn't appropriate at all ! better use none !
-			$query = "SELECT id"
-			. "\n FROM #__menu"
-			. "\n WHERE menutype = 'mainmenu'"
-			. "\n AND published = 1"
-			. "\n ORDER BY parent, ordering"
-			. "\n LIMIT 1"
-			;
-			$_CB_database->setQuery( $query );
-			$Itemid = (int) $_CB_database->loadResult();
-			*/
-			$Itemid					=	0;
-		}
-		$_CB__Cache_ProfileItemid	=	$Itemid;
+		$cacheItemids[$task]	=	$Itemid;
 	}
-	if ( $_CB__Cache_ProfileItemid ) {
+	if ( $cacheItemids[$task] ) {
 		if ( is_bool( $htmlspecialchars ) ) {
-			return ( $htmlspecialchars ? "&amp;" : "&") . "Itemid=" . $_CB__Cache_ProfileItemid;
+			return ( $htmlspecialchars ? "&amp;" : "&") . "Itemid=" . $cacheItemids[$task];
 		} else {
-			return $_CB__Cache_ProfileItemid;
+			return $cacheItemids[$task];
 		}
 	} else {
 		return null;
@@ -97,12 +96,20 @@ function cbimport( $lib ) {
 				$filename		=	$pathAr[1] . '_language.php';
 			}
 			if ( ! file_exists( $langPath . '/' . $lang . '/' . $filename ) ) {
+				$lang			=	strtolower( $_CB_framework->getCfg( 'lang_tag' ) );
+				if ( in_array( $pathAr[1], array( 'front', 'all' ) ) ) {
+					$filename	=	'language.php';
+				}
+			}
+			if ( ! file_exists( $langPath . '/' . $lang . '/' . $filename ) ) {
 				$lang			=	'default_language';
 				if ( in_array( $pathAr[1], array( 'front', 'all' ) ) ) {
 					$filename	=	$lang . '.php';
 				}
 			}
-			@include_once( $langPath . '/' . $lang . '/' . $filename );
+			if ( file_exists( $langPath . '/' . $lang . '/' . $filename ) ) {
+				include_once( $langPath . '/' . $lang . '/' . $filename );
+			}
 		} elseif ( $lib == 'cb.plugins' ) {
 			// this part is temporary until we refactor those 2 files into the corresponding CB libraries:
 			require_once( $_CB_framework->getCfg('absolute_path') . '/administrator/components/com_comprofiler/plugin.class.php' );
@@ -124,12 +131,23 @@ function cbimport( $lib ) {
 		} else {
 			array_pop( $pathAr );
 			$filepath		=	implode( '/', $pathAr ) . (count( $pathAr ) ? '/' : '' ) . $liblow . '.php';
-	
+
 			require_once( $_CB_framework->getCfg('absolute_path') . '/administrator/components/com_comprofiler/library/' . $filepath );
 		}
 	}
 }
-
+/**
+ * Sanitizes an array of (int)
+ * 
+ * @param  array $array  in/out
+ * @return array
+ */
+function & cbArrayToInts( &$array ) {
+	foreach ( $array as $k => $v ) {
+		$array[$k]	=	(int) $v;
+	}
+	return $array;
+}
 /**
  * Does the opposite of htmlspecialchars()
  *
@@ -173,7 +191,7 @@ function cbstr_ireplace( $search, $replace, $subject ) {
 function getLangDefinition($text) {
 	// check for '::' as a workaround of bug #42770 in PHP 5.2.4 with optimizers:
 	if ( ( strpos( $text, '::' ) === false ) && defined( $text ) ) {
-		$returnText		=	constant( $text ); 
+		$returnText		=	constant( $text );
 	} else {
 		$returnText		=	$text;			// not yet: CBTxt::T( $text );
 	}
@@ -190,7 +208,7 @@ function getLangDefinition($text) {
  */
 function checkJversion( $info = 'api' ) {
 	static $version						=	array();
-	
+
 	if ( isset( $version[$info] ) ) {
 		return $version[$info];
 	}
@@ -199,6 +217,7 @@ function checkJversion( $info = 'api' ) {
 		$VO								=	new JVersion();
 	} else {
 		global $_VERSION;
+
 		if ( $_VERSION ) {
 			$VO							=	$_VERSION;
 		} else {
@@ -209,18 +228,22 @@ function checkJversion( $info = 'api' ) {
 
 	switch ( $info ) {
 		case 'api':
-			if ( $VO->PRODUCT == "Mambo" ) {
-				if ( strncasecmp( $VO->RELEASE, "4.6", 3 ) < 0 ) {
+			$cms_version				=	substr( $VO->RELEASE, 0, 3 );
+
+			if ( $VO->PRODUCT == 'Mambo' ) {
+				if ( strcasecmp( $cms_version, '4.6' ) < 0 ) {
 					$version[$info]		=	0;
 				} else {
 					$version[$info]		=	-1;
 				}
-			} elseif ( $VO->PRODUCT == "Elxis" ) {
+			} elseif ( $VO->PRODUCT == 'Elxis' ) {
 				$version[$info]			=	0;
-			} elseif ( $VO->PRODUCT == "MiaCMS" ) {
+			} elseif ( $VO->PRODUCT == 'MiaCMS' ) {
 				$version[$info]			=	-1;
-			} elseif ( ($VO->PRODUCT == "Joomla!") || ($VO->PRODUCT == "Accessible Joomla!") ) {
-				if (strncasecmp($VO->RELEASE, "1.0", 3)) {
+			} elseif ( ( $VO->PRODUCT == 'Joomla!' ) || ( $VO->PRODUCT == 'Accessible Joomla!' ) ) {
+				if ( strcasecmp( $cms_version, '1.6' ) >= 0 ) {
+					$version[$info]		=	2;
+				} elseif ( strcasecmp( $cms_version, '1.5' ) == 0 ) {
 					$version[$info]		=	1;
 				} else {
 					$version[$info]		=	0;
@@ -228,9 +251,7 @@ function checkJversion( $info = 'api' ) {
 			} else {
 				$version[$info]			=	0;
 			}
-			
 			break;
-
 		case 'product':
 			$version[$info]				=	$VO->PRODUCT;
 			break;
@@ -261,7 +282,7 @@ function checkJversion( $info = 'api' ) {
 define( "_CB_NOTRIM", 0x0001 );
 //define( "_MOS_ALLOWHTML", 0x0002 );
 define( "_CB_ALLOWRAW", 0x0004 );
-function cbGetParam( &$arr, $name, $def=null, $mask=0 ) {	
+function cbGetParam( &$arr, $name, $def=null, $mask=0 ) {
 	static $noHtmlFilter	=	null;
 
 	if ( isset( $arr[$name] ) ) {
@@ -336,6 +357,8 @@ function cbRedirect( $url, $message = '', $messageType = 'message' ) {
 
 	if ( ( $_CB_framework->getCfg( 'debug' ) > 0 ) && ( ob_get_length() || ( $_CB_framework->getCfg( 'debug' ) > 1 ) ) ) {
 		$outputBufferLength		=	ob_get_length();
+		$ticker					=	( checkJversion() == 2 ? $_CB_database->_db->getTicker() : $_CB_database->_db->_ticker );
+		$log					=	( checkJversion() == 2 ? $_CB_database->_db->getLog() : $_CB_database->_db->_log );
 		echo '<br /><br /><strong>Site Debug mode: CB redirection';
 		if ( $message ) {
 			echo ' with ' . $messageType . ' "' . $message . '"';
@@ -349,9 +372,9 @@ function cbRedirect( $url, $message = '', $messageType = 'message' ) {
 			. '</strong>Click this link to proceed with the next page (in non-debug mode this is automatic): ';
 		echo '<a href="' . $url . '">' . htmlspecialchars( $url ) . '</a><br /><br /><hr />';
 
-		echo $_CB_database->_db->_ticker . ' queries executed'
+		echo $ticker . ' queries executed'
 			. '<pre>';
- 		foreach ( $_CB_database->_db->_log as $k => $sql ) {
+ 		foreach ( $log as $k => $sql ) {
  			echo $k + 1 . "\n" . htmlspecialchars( $sql ) . '<hr />';
 		}
 		echo '</hr>'
@@ -538,7 +561,32 @@ function _cbExpiredSessionJSterminate( $code = 403 ) {
 /**
  * CB Classes
  */
-
+class cbObject {
+	/**
+	* Gets a param value
+	*
+	* @param  string  $key      The name of the param
+	* @param  mixed   $default  The default value if not found (if array(), the return will be an array too)
+	* @return string|array
+	*/
+	function get( $key, $default = null ) {
+		if ( isset( $this->$key ) ) {
+			return $this->$key;
+		}
+		return $default;
+	}
+	/**
+	* Sets a value to a param
+	*
+	* @param  string  $key    The name of the param
+	* @param  string  $value  The value of the parameter
+	* @return cbObject        For chaining
+	*/
+	function set( $key, $value='' ) {
+		$this->$key		=	$value;
+		return $this;
+	}
+}
 /**
 * Parameters handler
 * @package Joomla/Mambo Community Builder
@@ -565,7 +613,7 @@ class cbParamsBase {
 	*/
 	function loadFromDB( $element ) {
 		global $_CB_database;
-		
+
 	    $_CB_database->setQuery("SELECT params FROM `#__comprofiler_plugin` WHERE element = '" . $_CB_database->getEscaped( $element ) . "'" );
 	    $text = $_CB_database->loadResult();
 	    $this->_params = $this->parse( $text );
@@ -630,37 +678,74 @@ class cbParamsBase {
 	* Gets a param value
 	*
 	* @param  string  $key      The name of the param
-	* @param  mixed   $default  The default value if not found
-	* @return string
+	* @param  mixed   $default  The default value if not found (if array(), the return will be an array too)
+	* @return string|array
 	*/
-	function get( $key, $default=null ) {
+	function get( $key, $default = null ) {
 	    if ( isset( $this->_params->$key ) ) {
-	    	if (is_array( $default ) ) {
-	    		return explode( '|*|', $this->_params->$key );
+	    	if ( is_array( $default ) ) {
+	    		if ( strpos( $this->_params->$key, '|**|' ) === 0 ) {
+	    			// indexed array:
+		    		$parts				=	explode( '|**|', substr( $this->_params->$key, 4 ) );
+		    		$r					=	array();
+					foreach ( $parts as $v ) {
+						$p				=	explode( '=', $v, 2 );
+						if ( isset( $p[1] ) ) {
+							$r[$p[0]]	=	$p[1];
+						}
+					}
+					return $r;
+	    		} else {
+	    			// non-indexed array:
+		    		return explode( '|*|', $this->_params->$key );
+	    		}
 	    	} else {
 		        return $this->_params->$key;
 	    	}
 		} else {
-		    return $default;
+			$isArray		=	strpos( $key, '[' );
+			if ( $isArray ) {
+				// case of indexed arrays:
+				$value		=	$default;
+				$arrayString =	$this->get( substr( $key, 0, $isArray ) );
+				if ( $arrayString && ( strpos( $arrayString, '|**|' ) === 0 ) ) {
+					$index	=	substr( $key, $isArray + 1, strpos( $key, ']' ) - $isArray -1 );
+					$parts	=	explode( '|**|', substr( $arrayString, 4 ) );
+					foreach ( $parts as $v ) {
+						$p	=	explode( '=', $v, 2 );
+						if ( $p[0] == $index ) {
+							if ( isset( $p[1] ) ) {
+								return $p[1];
+							}
+						}
+					}
+				}
+			}
+			return $default;
 		}
 	}
 	/**
-	* Parse an .ini string, based on phpDocumentor phpDocumentor_parse_ini_file function
+	* Parse an JSON (PHP >=5.2) string or an .ini string, based on phpDocumentor phpDocumentor_parse_ini_file function
 	*
-	* @param  mixed    $txt               The ini string or array of lines
+	* @param  mixed    $txt               The ini string (or, deprecated as works only for ini: array of lines)
 	* @param  boolean  $process_sections  Add an associative index for each section [in brackets]
 	* @param  boolean  $asArray           Returns an array instead of an object
 	* @return object|array
 	*/
 	function parse( $txt, $process_sections = false, $asArray = false ) {
 		if (is_string( $txt )) {
+			if ( isset( $txt[0] ) && ( $txt[0] === '{' ) ) {
+				// JSON encoding: requires PHP 5.2, and used in Joomla 1.6+:
+				return json_decode( $txt, $asArray );
+			}
+			// ini string: rest of function is for INI string processing:
 			$lines = explode( "\n", $txt );
 		} else if (is_array( $txt )) {
 			$lines = $txt;
 		} else {
 			$lines = array();
 		}
-		$obj = $asArray ? array() : new stdClass();
+		$obj = $asArray ? array() : new cbObject();
 
 		$sec_name = '';
 		$unparsed = 0;
@@ -683,7 +768,7 @@ class cbParamsBase {
 					if ($asArray) {
 						$obj[$sec_name] = array();
 					} else {
-						$obj->$sec_name = new stdClass();
+						$obj->$sec_name = new cbObject();
 					}
 				}
 			} else {
@@ -705,7 +790,7 @@ class cbParamsBase {
 					}
 
 					if ($process_sections) {
-						$value = str_replace( array( '\n', '\r' ), array( "\n", "\r" ), $value );
+						$value = str_replace( array( '\n', '\r', '\\\\' ), array( "\n", "\r", '\\' ), $value );
 						if ($sec_name != '') {
 							if ($asArray) {
 								$obj[$sec_name][$property] = $value;
@@ -720,7 +805,7 @@ class cbParamsBase {
 							}
 						}
 					} else {
-						$value = str_replace( array( '\n', '\r' ), array( "\n", "\r" ), $value );
+						$value = str_replace( array( '\n', '\r', '\\\\' ), array( "\n", "\r", '\\' ), $value );
 						if ($asArray) {
 							$obj[$property] = $value;
 						} else {
@@ -764,7 +849,7 @@ class cbParamsBase {
 
 /**
  * Lightweight CB user class read-only for use outside CB
- * 
+ *
  * @author Beat
  * @license GPL v2
  */
@@ -782,6 +867,11 @@ class CBuser {
 	/** Db
 	 * @var CBdatabase */
 	var $_db;
+	/**
+	 * For function advanceNoticeOfUsersNeeded( $usersIds )
+	 * @var array of int  id to load at next needed SQL query
+	 */
+	private static $idsToLoad						=	array();
 	/**
 	 * Constructor
 	 */
@@ -827,15 +917,33 @@ class CBuser {
 	/**
 	 * Gets The reference instance of CBuser for user id, or a new instance if $userId == 0
 	 * @static
-	 * 	 *
+	 *
 	 * @param  int|null     $userId
 	 * @return CBuser | null  Returns NULL if Id is specified, but not loaded.
 	 */
-	function & getInstance( $userId ) {
+	static function & getInstance( $userId ) {
 		if ( $userId !== null ) {
 			$userId				=	(int) $userId;
 		}
 		$user	=& CBuser::_getOrSetInstance( $userId );
+		return $user;
+	}
+	/**
+	 * Gets The reference instance of moscomprofilerUser for user id, or a new instance if $userId == 0
+	 * @since CB 1.2.3
+	 * @static
+	 *
+	 * @param  int|null     $userId
+	 * @return moscomprofilerUser  Check $user->id if Id is specified, but not loaded.
+	 */
+	static function & getUserDataInstance( $userId ) {
+		$cbUser		=	CBuser::getInstance( (int) $userId );
+		if ( $cbUser ) {
+			$user	=&	$cbUser->getUserData();
+		} else {
+			global $_CB_database;
+			$user	=	new moscomprofilerUser( $_CB_database );
+		}
 		return $user;
 	}
 	/**
@@ -862,16 +970,25 @@ class CBuser {
 	 * @param  int|moscomprofilerUser|null   $userOrValidId
 	 * @return CBUser|null
 	 */
-	function & _getOrSetInstance( & $userOrValidId ) {
+	static function & _getOrSetInstance( & $userOrValidId ) {
 		static $instances							=	array();
 
 		if ( is_int( $userOrValidId ) && ( $userOrValidId !== 0 ) ) {
 			if ( ! isset( $instances[$userOrValidId] ) ) {
-				$instances[$userOrValidId]			=	new CBuser();
-				if ( ! $instances[$userOrValidId]->load( $userOrValidId ) ) {
-					unset( $instances[$userOrValidId] );
-					$null							=	null;
-					return $null;
+				if ( count( self::$idsToLoad ) == 0 ) {
+					$instances[$userOrValidId]		=	new CBuser();
+					if ( ! $instances[$userOrValidId]->load( $userOrValidId ) ) {
+						unset( $instances[$userOrValidId] );
+						$null						=	null;
+						return $null;
+					}
+				} else {
+					self::loadUsersMatchingIdIntoList( self::$idsToLoad, $instances );
+					self::$idsToLoad				=	array();
+					if ( ! isset( $instances[$userOrValidId] ) ) {
+						$null						=	null;
+						return $null;
+					}
 				}
 			}
 			return $instances[$userOrValidId];
@@ -891,6 +1008,44 @@ class CBuser {
 
 		$this->_cbuser		=	new moscomprofilerUser( $this->_db );
 		return  $this->_cbuser->load( $cbUserId );
+	}
+	/**
+	 * Loads a list of moscomprofilerUser into an existing array if they are not already in it
+	 * (indexed by key of this table)
+	 * @since 1.4 (experimental)
+	 *
+	 * @param  array    $usersIds      array of id to load
+	 * @param  array    $objectsArray  IN/OUT   (int) id => moscomprofilerUser users
+	 */
+	private static function loadUsersMatchingIdIntoList( $usersIds, &$objectsArray ) {
+		$cbUser									=	new CBuser();
+		$cbUser->_cbuser						=	new moscomprofilerUser( $cbUser->_db );
+		$cbUser->_cbuser->loadUsersMatchingIdIntoList( $usersIds, $objectsArray, 'CBuser' );
+	}
+	/**
+	* Copy the named array or object content into this object as vars
+	* All $arr values are filled in vars of $this->_cbuser
+	* @access private this is just for moscomprofilerUser::loadUsersMatchingIdIntoList()'s use
+	* @param  array               $arr    The input array
+	*/
+	function bindThisUserFromDbArray( $arr ) {
+		$this->_cbuser							=	new moscomprofilerUser( $this->_db );
+		$this->_cbuser->bindThisUserFromDbArray( $arr );
+	}
+	/**
+	 * Sets an additional list of user records to also load and cache with next SQL query
+	 * e.g.:
+	 * CBuser::advanceNoticeOfUsersNeeded( array( 66, 67, 65 ) );		// just remembers
+	 * CBuser::advanceNoticeOfUsersNeeded( array( 64, 65 ) );			// just remembers
+	 * echo CBuser::getUserDataInstance( 64 )->id;		// echo's 64	// and loads 64-67
+	 * CBuser::advanceNoticeOfUsersNeeded( array( 68, 67, 69, 71 ) );	// just remembers
+	 * echo CBuser::getUserDataInstance( 67 )->id;		// echos 67		// and doesn't load
+	 * echo CBuser::getUserDataInstance( 69 )->username;	// echos	// and loads 68,69,71
+	 *
+	 * @param  array of int   $usersIds
+	 */
+	public static function advanceNoticeOfUsersNeeded( $usersIds ) {
+		self::$idsToLoad	=	array_unique( array_merge( self::$idsToLoad, $usersIds ) );
 	}
 	function loadCmsUser( $cmsUserId ) {
 		return $this->load( $cmsUserId );	// for now it's the same but use right one please
@@ -917,6 +1072,7 @@ class CBuser {
 		if ( $this->_cbtabs === null ) {
 			global $_CB_framework;
 
+			cbimport('cb.tabs');
 			$this->_cbtabs	=	new cbTabs( 0, $_CB_framework->getUi(), null, $outputTabpaneScript );
 		}
 		return $this->_cbtabs;
@@ -931,20 +1087,21 @@ class CBuser {
 	 * @param  string                $formatting    'tr', 'td', 'div', 'span', 'none',   'table'??
 	 * @param  string                $reason        'profile' for user profile view and edit, 'register' for registration, 'search' for searches
 	 * @param  int                   $list_compare_types   IF reason == 'search' : 0 : simple 'is' search, 1 : advanced search with modes, 2 : simple 'any' search
-	 * @return mixed                
+	 * @param  boolean               $fullAccess    IF true do not take in account current user's viewing rights
+	 * @return mixed
 	 */
-	function getField( $fieldName, $defaultValue = null, $output = 'html', $formatting = 'none', $reason = 'profile', $list_compare_types = 0 ) {
+	function getField( $fieldName, $defaultValue = null, $output = 'html', $formatting = 'none', $reason = 'profile', $list_compare_types = 0, $fullAccess = false ) {
 		global $_CB_framework, $_PLUGINS;
 
 		$tabs			=&	$this->_getCbTabs();
-		$fields			=	$tabs->_getTabFieldsDb( null, $this->getInstance( $_CB_framework->myId() ), $reason, $fieldName );
+		$fields			=	$tabs->_getTabFieldsDb( null, $this->getInstance( $_CB_framework->myId() ), $reason, $fieldName, true, $fullAccess );
 		if ( isset( $fields[0] ) ) {
 			$field		=	$fields[0];
 			$value		=	$_PLUGINS->callField( $field->type, 'getFieldRow', array( &$field, &$this->_cbuser, $output, $formatting, $reason, $list_compare_types ), $field );
 		} else {
 			$value		=	$defaultValue;
 		}
-		return $value;		
+		return $value;
 	}
 	function getPosition( $position ) {
 		$userViewTabs	=	$this->getProfileView( $position );
@@ -954,10 +1111,10 @@ class CBuser {
 			return null;
 		}
 	}
-	function getTab( $tab ) {
+	function getTab( $tab, $defaultValue = null, $output = 'html', $formatting = null, $reason = 'profile' ) {
 		$tabs			=&	$this->_getCbTabs();
-		$tabs->generateViewTabsContent( $this->_cbuser, '', $tab );
-		return $tabs->getProfileTabHtml( $tab );
+		$tabs->generateViewTabsContent( $this->_cbuser, '', $tab, $output, $formatting, $reason );
+		return $tabs->getProfileTabHtml( $tab, $defaultValue );
 	}
 	function getProfileView( $position = '' ) {
 		$tabs			=&	$this->_getCbTabs();
@@ -980,10 +1137,10 @@ class CBuser {
 			if ( $this->_cbuser->id ) {
 				$avatar			=	$this->_cbuser->avatar;
 				$avatarapproved	=	$this->_cbuser->avatarapproved;
-				
+
 				$absolute_path	=	$_CB_framework->getCfg( 'absolute_path' );
 				$live_site		=	$_CB_framework->getCfg( 'live_site' );
-				
+
 				if ( $avatarapproved == 0 ) {
 					return selectTemplate() . 'images/avatar/tnpending_n.png';
 				} elseif ( ( $avatar == '' ) && $avatarapproved == 1 ) {
@@ -1021,46 +1178,21 @@ class CBuser {
 			$extraStrings	=	array();
 		}
 		if ( $translateLanguage ) {
-			$msg	=	getLangDefinition( $msg );
+			$msg			=	getLangDefinition( $msg );
 		}
 		if ( strpos( $msg, '[' ) === false ) {
 			return $msg;
 		}
-		$row		=&	$this->_cbuser;
+		$row				=&	$this->_cbuser;
 
-		$msg		=	$this->_evaluateIfs( $msg );
-		$msg		=	$this->_evaluateCbTags( $msg );
-
+		$msg				=	$this->_evaluateIfs( $msg );
+		$msg				=	$this->_evaluateCbTags( $msg );
 		if ( is_object( $row ) ) {
-		// old legacy modes:
-			$array		=	get_object_vars( $row );
-			foreach( $array AS $k => $v ) {
-				if( ( ! is_object( $v ) ) && ( ! is_array( $v ) ) ) {
-					if ( ! ( ( strtolower( $k ) == "password" ) && ( strlen($v) >= 32 ) ) ) {
-						/* do not translate content ! :
-						$vTranslated		=	( $translateLanguage ? getLangDefinition( $v ) : $v );
-						if ( is_array( $htmlspecialchars ) ) {
-							$vTranslated	=	call_user_func_array( $htmlspecialchars, array( $vTranslated ) );
-						}
-						$msg = cbstr_ireplace("[".$k."]", $htmlspecialchars === true ? htmlspecialchars( $vTranslated ) : $vTranslated, $msg );
-						*/
-						if ( is_array( $htmlspecialchars ) ) {
-							$v	=	call_user_func_array( $htmlspecialchars, array( $v ) );
-						}
-						$msg	=	cbstr_ireplace("[".$k."]", $htmlspecialchars === true ? htmlspecialchars( $v ) : $v, $msg );
-					}
-				}
-			}
+			$msg			=	$this->_evaluateCbFields( $msg, $htmlspecialchars );
 		}
-		foreach( $extraStrings AS $k => $v) {
+
+		foreach( $extraStrings AS $k => $v ) {
 			if( ( ! is_object( $v ) ) && ( ! is_array( $v ) ) ) {
-				/* do not translate content ! :
-				$vTranslated			=	( $translateLanguage ? getLangDefinition( $v ) : $v );
-				if ( is_array( $htmlspecialchars ) ) {
-					$vTranslated		=	call_user_func_array( $htmlspecialchars, array( $vTranslated ) );
-				}
-				$msg = cbstr_ireplace("[".$k."]", $htmlspecialchars === true ? htmlspecialchars( $vTranslated ) : $vTranslated, $msg );
-				*/
 				if ( is_array( $htmlspecialchars ) ) {
 					$v		=	call_user_func_array( $htmlspecialchars, array( $v ) );
 				}
@@ -1071,7 +1203,7 @@ class CBuser {
 			// find [menu .... : path1:path2:path3 /] and replace with HTML code if menu active, otherwise remove it all
 			$msg = $this->_replacePragma( $msg, $row, 'menu', 'menuBar' );
 			// no more [status ] as they are standard fields !		$msg = $this->_replacePragma( $msg, $row, 'status', 'menuList' );
-		}	
+		}
 		$msg = str_replace( array( "&91;", "&93;" ), array( "[", "]" ), $msg );
 		return $msg;
 	}
@@ -1154,7 +1286,7 @@ class CBuser {
 	 */
 	function _replacePragma( $msg, $row, $pragma, $position, $htmlspecialcharsEncoded = true ) {
 		global $_PLUGINS;
-	
+
 		$msgResult = "";
 		$pragmaLen = strlen( $pragma );
 	    while ( ( $foundPosBegin = strpos( $msg, "[" . $pragma ) ) !== false ) {
@@ -1209,7 +1341,7 @@ class CBuser {
 						$replaceString .= $this->_placeTags( $cbMenuTagsArray, 'img', $pm[$i], 'img', '$1' );
 						$replaceString .= $this->_placeTags( $cbMenuTagsArray, 'caption', $pm[$i], 'caption', '$1' );
 						$replaceString .= $this->_placeTags( $cbMenuTagsArray, 'href', $pm[$i], 'url', '</a>' );
-						
+
 								/*	$this->menuBar->addObjectItem( $pm[$i]['arrayPos'], $pm[$i]['caption'],
 									isset($pm[$i]['url'])	?$pm[$i]['url']		:"",
 									isset($pm[$i]['target'])?$pm[$i]['target']	:"",
@@ -1222,8 +1354,8 @@ class CBuser {
 					$msgResult .= substr( $msg, 0, $foundPosBegin );
 					$msgResult .= $replaceString;
 					$msg		= substr( $msg, $foundPosEnd + $pragmaLen + 3 );
-			//        $srchtxt = "[menu:".$cbMenuTreePath."]";    // get new search text  
-			//        $msg = str_replace($srchtxt,$replaceString,$msg);    // replace founded case insensitive search text with $replace 
+			//        $srchtxt = "[menu:".$cbMenuTreePath."]";    // get new search text
+			//        $msg = str_replace($srchtxt,$replaceString,$msg);    // replace founded case insensitive search text with $replace
 				} else {
 					break;
 				}
@@ -1257,7 +1389,7 @@ class CBuser {
 			} else {
 				$user		=	null;
 			}
-			
+
 		} else {
 			$user			=&	$this;
 		}
@@ -1269,7 +1401,7 @@ class CBuser {
 //		$regex = '#\[indent]((?:[^[]|\[(?!/?indent])|(?R))+)\[/indent]#s';
 		$regex = '#\[cb:if(?: +user="([^"/\[\] ]+)")?( +[^\]]+)\]((?:[^\[]|\[(?!/?cb:if[^\]]*])|(?R))+)\[/cb:if]#';
 		if ( is_array( $input ) ) {
-			$regex2					=	'# +(?:(&&|and|\|\||or|) +)?([^=<!> ]+) *(=|<|>|>=|<=|<>|!=) *"([^"]*)"#';
+			$regex2					=	'# +(?:(&&|and|\|\||or|) +)?([^=<!>~ ]+) *(=|<|>|>=|<=|<>|!=|=~|!~) *"([^"]*)"#';
 			$conditions				=	null;
 			if (preg_match_all( $regex2, $input[2], $conditions ) ) {
 				$user				=&	$this->_evaluateUserAttrib( $input[1] );
@@ -1283,8 +1415,22 @@ class CBuser {
 						$value		=	$conditions[4][$i];
 						if ( $user === null ) {
 							$var	=	'0';
-						} elseif ( $field && isset( $user->_cbuser->$field ) ) {
-							$var	=	$user->_cbuser->$field;
+						} elseif ( $field && isset( $user->_cbuser ) ) {
+							$var	=	$user->getField( $field, null, 'php', 'none', 'profile', 0, true );		// allow accessing all fields in the if
+							if ( is_array( $var ) ) {
+								$var =	array_shift( $var );
+							} elseif ( isset( $user->_cbuser->$field ) ) {
+								// fall-back to the record if it exists:
+								$var =	$user->_cbuser->$field;
+							} else {
+								$fieldLower	=	strtolower( $field );
+								if ( isset( $user->_cbuser->$fieldLower ) ) {
+								// second fall-back to the record if it exists:
+									$var	=	$user->_cbuser->$fieldLower;
+								} else {
+									$var	=	null;
+								}
+							}
 						} else {
 							$var	=	null;
 						}
@@ -1312,6 +1458,18 @@ class CBuser {
 							case '!=':
 								$r	=	( $var != $value );
 								break;
+							case '=~':
+							case '!~':
+								$ma	=	@preg_match( $value, $var );
+								$r	=	( $compare == '=~' ? ( $ma === 1 ) : ( $ma == 0 ) );
+								if ( $ma === false ) {
+									// error in regexp itself:
+									global $_CB_framework;
+									if ( $_CB_framework->getCfg( 'debug' ) > 0 ) {
+										echo sprintf( CBTxt::T("CB Regexp Error %s in expression %s"), ( ( ! is_callable( 'preg_last_error' ) ) ? '' : preg_last_error() ), htmlspecialchars( $value ) );
+									}
+								}
+								break;
 						}
 						if ( in_array( $operator, array( 'or', '||' ) ) ) {
 							$resultsIdx++;
@@ -1335,28 +1493,144 @@ class CBuser {
 		}
 		return preg_replace_callback( $regex, array( $this, '_evaluateIfs' ), $input );
 	}
+	/**
+	 * 
+	 * 
+	 * @param  string|array   $input
+	 * @param  boolean|array  $htmlspecialcharsParam  on replaced values only: FALSE : no htmlspecialchars, TRUE: do htmlspecialchars, ARRAY: callback method
+	 * @return string
+	 */
+	function _evaluateCbFields( $input, $htmlspecialcharsParam = null ) {
+		static $htmlspecialchars		=	null;
+
+		$regex							=	'/\[([\w-]+)\]/';
+
+		if ( is_array( $input ) ) {
+			if ( ( $this !== null ) && is_object( $this->_cbuser ) && isset( $this->_cbuser->id ) ) {
+				$val					=	$this->getField( $input[1], null, 'php', 'none', 'profile', 0, true );		// allow accessing all fields in the data
+
+				if ( is_array( $val ) ) {
+					$val				=	array_shift( $val );
+				} elseif ( isset( $this->_cbuser->$input[1] ) ) {
+					$val				=	$this->_cbuser->get( $input[1] );
+				} else {
+					$lowercaseVarName	=	strtolower( $input[1] );
+					if ( isset( $this->_cbuser->$lowercaseVarName ) ) {
+						$val			=	$this->_cbuser->get( $lowercaseVarName );
+					} else {
+						$val			=	array();		// avoid substitution
+					}
+				}
+				if( ( ! is_object( $val ) ) && ( ! is_array( $val ) ) ) {
+					if ( ! ( ( strtolower( $input[1] ) == 'password' ) && ( strlen( $val ) >= 32 ) ) ) {
+						if ( is_array( $htmlspecialchars ) ) {
+							$val	=	call_user_func_array( $htmlspecialchars, array( $val ) );
+						} elseif ( $htmlspecialchars ) {
+							$val	=	htmlspecialchars( $val );
+						}
+						return $val;
+					}
+				}
+			}
+			return '[' . $input[1] . ']';
+		}
+		$htmlspecialchars				=	$htmlspecialcharsParam;
+		return preg_replace_callback( $regex, array( $this, '_evaluateCbFields' ), $input );
+	}
 
 	function _evaluateCbTags( $input ) {
-		$regex			=	'#\[cb:user(data +field|field +field|tab +tab|position +position)="([a-zA-Z0-9_]+)"(?: +user="([^"/\] ]+)")? */\]#';
+		global $_CB_framework;
+
+		$regex				=	'#\[cb:(userdata +field|userfield +field|usertab +tab|userposition +position|date +format|url +location|config +param)="((?:[^"]|\\\\")+)"(?: +user="([^"/\] ]+)")?(?: +default="((?:[^"]|\\\\")+)")?(?: +output="([a-zA-Z]+)")?(?: +formatting="([a-zA-Z]+)")?(?: +reason="([a-zA-Z]+)")?(?: +list="([0-9]+)")? */\]#';
 		if ( is_array( $input ) ) {
 			if ( isset( $input[3] ) ) {
-				$user	=&	$this->_evaluateUserAttrib( $input[3] );
+				$user		=&	$this->_evaluateUserAttrib( $input[3] );
 			} else {
-				$user	=&	$this;
+				$user		=&	$this;
 			}
 			if ( ( $user !== null ) && is_object( $user->_cbuser ) && isset( $user->_cbuser->id ) ) {
-				switch ( substr( $input[1], 0, 3 ) ) {
-					case 'dat':
-						return $user->_cbuser->get( $input[2] );
+				$type		=	array_shift( explode( ' ', $input[1] ) );
+
+				switch ( $type ) {
+					case 'userdata':
+						$field			=	$input[2];
+						$var			=	$user->getField( $field, null, 'php', 'none', 'profile', 0, true );		// allow accessing all fields in the data
+						if ( is_array( $var ) ) {
+							$var		=	array_shift( $var );
+						} elseif ( isset( $user->_cbuser->$field ) ) {
+							// fall-back to the record if it exists:
+							$var		=	$user->_cbuser->get( $field );
+						} else {
+							$fieldLower	=	strtolower( $field );
+							if ( isset( $user->_cbuser->$fieldLower ) ) {
+							// second fall-back to the record if it exists:
+								$var	=	$user->_cbuser->get( $fieldLower );
+							} else {
+								$var	=	null;
+							}
+						}
+						return $var;
 						break;
-					case 'fie':
-						return $user->getField( $input[2] );
+					case 'userfield':
+					case 'usertab':
+						$default		=	( isset( $input[4] ) ? CBTxt::T( str_replace( '\"', '"', $input[4] ) ) : null );
+						$output			=	( isset( $input[5] ) ? ( $input[5] !== '' ? $input[5] : 'html' ) : 'html' );
+						$formatting		=	( isset( $input[6] ) ? ( $input[6] !== '' ? $input[6] : 'none' ) : 'none' );
+						$reason			=	( isset( $input[7] ) ? ( $input[7] !== '' ? $input[7] : 'profile' ) : 'profile' );
+						if ( $type == 'userfield' ) {
+							$field		=	$user->getField( $input[2], $default, $output, $formatting, $reason, 0, false );		// do not allow accessing all fields in the fields
+							if ( ( $output == 'php' ) && ( is_array( $field ) ) ) {
+								$field	=	array_shift( $field );
+							}
+							return $field;
+						} else {
+							return $user->getTab( $input[2], $default, ( $output == 'none' ? null : $output ), $formatting, $reason );
+						}
 						break;
-					case 'tab':
-						return $user->getTab( $input[2] );
-						break;
-					case 'pos':
+					case 'userposition':
 						return $user->getPosition( $input[2] );
+						break;
+					case 'date':
+						return date( $input[2], $_CB_framework->now() );
+						break;
+					case 'url':
+						switch ( $input[2] ) {
+							case 'login':
+							case 'logout':
+							case 'registers':
+							case 'lostpassword':
+							case 'manageconnections':
+								return $_CB_framework->viewUrl( $input[2], false );
+								break;
+							case 'profile_view':
+								return $_CB_framework->userProfileUrl( $user->_cbuser->id, false );
+								break;
+							case 'profile_edit':
+								return $_CB_framework->userProfileEditUrl( $user->_cbuser->id, false );
+								break;
+							case 'list':
+								$list		=	( isset( $input[8] ) ? ( $input[8] !== '' ? $input[8] : null ) : null );
+								return $_CB_framework->userProfilesListUrl( $list, false );
+								break;
+							case 'itemid':
+								return getCBprofileItemid( false );
+								break;
+							default:
+								return '';
+						}
+						break;
+					case 'config':
+						switch ( $input[2] ) {
+							case 'live_site':
+							case 'sitename':
+							case 'lang':
+							case 'lang_name':
+							case 'lang_tag':
+								return $_CB_framework->getCfg( $input[2] );
+								break;
+							default:
+								return '';
+						}
 						break;
 					default:
 						return '';
@@ -1394,6 +1668,14 @@ class CBdocumentHtml {
 		$this->_renderingInit();
 	}
 	/**
+	 * Sets a cms doc object for headers
+	 *
+	 * @param  object  $cmsDoc
+	 */
+	function setCmsDoc( $cmsDoc = null ) {
+		$this->_cmsDoc				=	$cmsDoc;
+	}
+	/**
 	 * Sets or alters a meta tag.
 	 *
 	 * @param  string  $name        MUST BE LOWERCASE: Name or http-equiv tag: 'generator', 'description', ...
@@ -1407,7 +1689,7 @@ class CBdocumentHtml {
 			} else {
 				$metaTag	=	array( 'name' => $name, 'content' => $content );
 			}
-			
+
 			$this->_head['metaTags'][$http_equiv][$name]	=	$metaTag;
 			$this->_renderCheckOutput();
 		}
@@ -1450,6 +1732,12 @@ class CBdocumentHtml {
 			$attribs	=	array();
 		}
 		if ( $url[0] == '/' ) {
+			if ( substr( $url, -4 ) == '.css' ) {
+				$file		=	$_CB_framework->getCfg( 'absolute_path' ) . $url;
+				if ( file_exists( $file ) ) {
+					$url	=	$this->addVersionFileUrl( $url, $file );
+				}
+			}
 			if ( $_CB_framework->getUi() == 2 ) {
 				$url	=	'..' . $url;		// relative paths in backend
 			} else {
@@ -1480,6 +1768,11 @@ class CBdocumentHtml {
 			$this->_renderCheckOutput();
 		}
 	}
+	function addVersionFileUrl( $url, $file ) {
+		global $_CB_framework, $ueConfig;
+
+		return $url . '?v=' . substr( md5( $ueConfig['version'] . filemtime( $file ) . filemtime( __FILE__ ) . $_CB_framework->getCfg( 'live_site' ) ), 0, 16 );
+	}
 	 /**
 	 * Adds <script type="$type" src="$url"></script>
 	 *
@@ -1498,6 +1791,12 @@ class CBdocumentHtml {
 			$url		=	str_replace( '.js', '.min.js', $url );
 		}
 		if ( $url[0] == '/' ) {
+			if ( substr( $url, -3 ) == '.js' ) {
+				$file		=	$_CB_framework->getCfg( 'absolute_path' ) . $url;
+				if ( file_exists( $file ) ) {
+					$url	=	$this->addVersionFileUrl( $url, $file );
+				}
+			}
 			if ( $_CB_framework->getUi() == 2 ) {
 				$url	=	'..' . $url;		// relative paths in backend
 			} else {
@@ -1699,7 +1998,7 @@ class CBdocumentHtml {
 			$type['src']	=	$url;
 			return $this->_renderTag( 'script', $type, '>' ) . '</script>';
 		}
-		
+
 	}
 	/**
 	 * Internal utility to render <$tag type="$type"><!-- implode($attributes) --></$tag>
@@ -1726,7 +2025,7 @@ class CBdocumentHtml {
 	 * Internal utility to render an inline head portion (<style> or <script>)
 	 * @access private
 	 *
-	 * @param  string  $tag  <$tag 
+	 * @param  string  $tag  <$tag
 	 * @param  string $head  index in $this->_head[$head] as array( $type => array( $contents ) )
 	 * @return string        HTML
 	 */
@@ -1758,8 +2057,9 @@ class CBframework {
 	var $_myUserType;
 	var $_myCmsGid;
 	var $_myLanguage				=	null;
-	/** php gacl instance:
-	 * @var gacl_api $acl */
+	var $_myLanguageTag				=	null;
+	/** php gacl compatible instance:
+	 * @var CBACL $acl */
 	var $acl;
 	var $_aclParams					=	array();
 	var $_cmsSefFunction;
@@ -1779,10 +2079,10 @@ class CBframework {
 	 * @var CBdocumentHtml */
 	var $document;
 
-	function CBframework( &$baseFramework, &$cmsDatabase, &$acl, &$aclParams, $cmsSefFunction, $sefFuncHtmlEnt, $cmsUserClassName, $cmsUserNeedsDb, $cmsRedirectFunction, $myId, $myUsername, $myUserType, $myCmsGid, $myLanguage, $cbUrlRouting, $getVarFunction, &$getDocFunction, $outputCharset, $editorDisplay ) {
+	function CBframework( &$baseFramework, &$cmsDatabase, &$acl, &$aclParams, $cmsSefFunction, $sefFuncHtmlEnt, $cmsUserClassName, $cmsUserNeedsDb, $cmsRedirectFunction, $myId, $myUsername, $myUserType, $myCmsGid, $myLanguage, $myLanguageTag, $cbUrlRouting, $getVarFunction, &$getDocFunction, $outputCharset, $editorDisplay ) {
 		$this->_baseFramework		=&	$baseFramework;
 		$this->_cmsDatabase			=&	$cmsDatabase;
-		$this->acl					=&	$acl;
+		// $this->acl					=&	$acl;
 		$this->_aclParams			=&	$aclParams;
 		$this->_cmsSefFunction		=	$cmsSefFunction;
 		$this->_cmsUserClassName	=	$cmsUserClassName;
@@ -1793,12 +2093,43 @@ class CBframework {
 		$this->_myUserType			=	$myUserType;
 		$this->_myCmsGid			=	$myCmsGid;
 		$this->_myLanguage			=	$myLanguage;
+		$this->_myLanguageTag		=	$myLanguageTag;
 		$this->_cbUrlRouting		=	$cbUrlRouting;
 		$this->_getVarFunction		=	$getVarFunction;
 		$this->_outputCharset		=	$outputCharset;
 		$this->_editorDisplay		=	$editorDisplay;
 		$this->_now					=	time();
 		$this->document				=	new CBdocumentHtml( $getDocFunction );
+	}
+	/**
+	 * Returns the global $_CB_framework object
+	 * @since 1.7
+	 *
+	 * @return CBframework
+	 */
+	public static function & framework( ) {
+		global $_CB_framework;
+		return $_CB_framework;
+	}
+	/**
+	 * Returns the global $_CB_database object
+	 * @since 1.7
+	 *
+	 * @return CBdatabase
+	 */
+	public static function & database( ) {
+		global $_CB_database;
+		return $_CB_database;
+	}
+	/**
+	 * Returns a config from gloabal CB Configuration
+	 * 
+	 * @param  string  $name
+	 * @return string
+	 */
+	public function cbConfig( $name ) {
+		global $ueConfig;
+		return $ueConfig[$name];
 	}
 	/**
 	 * User login into CMS framework
@@ -1812,7 +2143,7 @@ class CBframework {
 	function login( $username, $password, $rememberme = 0, $userId = null ) {
 		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');              // needed for IE6 to accept this anti-spam cookie in higher security setting.
 
-		if ( checkJversion() == 1 ) {		// Joomla 1.5 RC and above:
+		if ( checkJversion() >= 1 ) {		// Joomla 1.5 RC and above:
 			if ( $password !== false ) {
 				$result				=	$this->_baseFramework->login( array( 'username' => $username, 'password' => $password ), array( 'remember' => $rememberme ) );
 			} else {
@@ -1832,10 +2163,12 @@ class CBframework {
 				$response->username	=	$username;
 				$response->fullname	=	$row->name;
 				// now we attempt user login and check results:
-				$login				=	$dispatcher->trigger( 'onLoginUser', array( (array) $response, array() ) );
-				if ( ! in_array( false, $login, true ) ) {
-					$result			=	true;
+				if ( checkJversion() == 2 ) {
+					$login			=	$dispatcher->trigger( 'onUserLogin', array( (array) $response, array( 'action' => 'core.login.site' ) ) );
+				} else {
+					$login			=	$dispatcher->trigger( 'onLoginUser', array( (array) $response, array() ) );
 				}
+				$result				=	! in_array( false, $login, true );
 			}
 			if ( $result ) {
 				$user				=&	JFactory::getUser();
@@ -1844,7 +2177,12 @@ class CBframework {
 				$this->_myUserType	=	$user->usertype;
 				$this->_myCmsGid	=	$user->get('aid', 0);
 				$lang				=&	JFactory::getLanguage();
-				$this->_myLanguage	=	$lang->getBackwardLang();
+
+				if ( checkJversion() == 2 ) {
+					$this->_myLanguage	=	strtolower( preg_replace( '/^(\w+).*$/i', '\1', $lang->getName() ) );
+				} else {
+					$this->_myLanguage	=	$lang->getBackwardLang();
+				}
 			}
 		} else {
 			// Mambo 4.5.x and Joomla before 1.0.13+ (in fact RC3+) do need hashed password for login() method:
@@ -1856,6 +2194,7 @@ class CBframework {
 				} else {
 					$this->_baseFramework->login( $username, $password, $rememberme, $userId );
 				}
+
 				// Joomla 1.0 redirects bluntly if login fails! so we need to check by ourselves below:
 				$result				=	true;
 			} else {
@@ -1864,7 +2203,7 @@ class CBframework {
 
 				$row				=	new moscomprofilerUser( $_CB_database );
 				$row->loadByUsername( stripslashes( $username ) );
-				
+
 				// prepare login session with user data:
 				$session			=&	$mainframe->_session;
 				$session->guest		=	0;
@@ -1930,14 +2269,16 @@ class CBframework {
 	function getCfg( $config ) {
 		switch ( $config ) {
 			case 'absolute_path':
-				if ( checkJversion() == 1 ) {
+				if ( checkJversion() >= 1 ) {
 					return JPATH_SITE;
 				}
 				break;
 			case 'live_site':
-				if ( checkJversion() == 1 ) {
+				if ( checkJversion() >= 1 ) {
 					if ( $this->getUi() == 1 ) {
 						$live_site	=	JURI::base();
+					} elseif ( checkJversion() == 2 ) {
+						$live_site	=	preg_replace( '%administrator/%', '', JURI::base() );
 					} else {
 						$live_site	=	$this->_baseFramework->getSiteURL();
 					}
@@ -1952,8 +2293,11 @@ class CBframework {
 			case 'lang':
 				return $this->_myLanguage;
 				break;
+			case 'lang_tag':
+				return $this->_myLanguageTag;
+				break;
 			case 'uniquemail':
-				if ( checkJversion() == 1 ) {
+				if ( checkJversion() >= 1 ) {
 					return '1';
 				}
 				break;
@@ -1965,9 +2309,16 @@ class CBframework {
 			case 'allowUserRegistration':
 			case 'useractivation':
 			case 'new_usertype':
-				if ( checkJversion() == 1 ) {
+				if ( checkJversion() >= 1 ) {
 					$usersConfig	=	&JComponentHelper::getParams( 'com_users' );
 					$setting		=	$usersConfig->get( $config );
+					if ( ( $config == 'new_usertype' ) && ( checkJversion() == 2 ) ) {
+						$query		=	'SELECT ' . $this->_cmsDatabase->NameQuote( 'title' )
+									.	"\n FROM " . $this->_cmsDatabase->NameQuote( '#__usergroups' )
+									.	"\n WHERE " . $this->_cmsDatabase->NameQuote( 'id' ) . " = " . (int) $setting;
+						$this->_cmsDatabase->setQuery( $query );
+						$setting	=	$this->_cmsDatabase->loadResult();
+					}
 					if ( ( $config == 'new_usertype' ) && ! $setting ) {
 						$setting	=	'Registered';
 					}
@@ -1980,20 +2331,24 @@ class CBframework {
 				break;
 			case 'hits':
 			case 'vote':
-				if ( checkJversion() == 1 ) {
+				if ( checkJversion() >= 1 ) {
 					$contentConfig	=	&JComponentHelper::getParams( 'com_content' );
 					return $contentConfig->get( 'show_' . $config );
 				}
 				break;
 			case 'dirperms':
 			case 'fileperms':
-				if ( checkJversion() == 1 ) {
+				if ( checkJversion() >= 1 ) {
 					return '';		//TBD: these two missing configs should one day go to CB
 				}
 				break;
 			// CB-Specific config params:
 			case 'tmp_path':
 				$abs_path			=	$this->getCfg('absolute_path');
+				$tmpDir				=	$abs_path . '/tmp';
+				if ( @is_dir( $tmpDir ) && @is_writable( $tmpDir ) ) {
+					return $tmpDir;
+				}
 				$tmpDir				=	$abs_path . '/media';
 				if ( @is_dir( $tmpDir ) && @is_writable( $tmpDir ) ) {
 					return $tmpDir;
@@ -2023,6 +2378,19 @@ class CBframework {
 					}
 				}
 				return null;
+				break;
+			case 'offset':
+				if ( checkJversion() == 2 ) {
+					static $jOffset			=	null;
+					if ( $jOffset === null ) {
+						$dateTimeZoneUTC		=	new DateTimeZone( 'UTC' );
+						$dateTimeZoneCurrent	=	new DateTimeZone( $this->_baseFramework->getCfg( 'offset' ) );
+						$dateTimeUTC			=	new DateTime( 'now', $dateTimeZoneUTC );
+						$timeOffset				=	$dateTimeZoneCurrent->getOffset( $dateTimeUTC );
+						$jOffset				=	$timeOffset / 3600;
+					}
+					return $jOffset;
+				}
 				break;
 			default:
 				break;
@@ -2104,38 +2472,104 @@ class CBframework {
 		call_user_func_array( $this->_cmsRedirectFunction, array( $this->_redirectUrl, $this->_redirectMessage, $this->_redirectMessageType ) );
 	}
 	/**
-	 * Converts an URL to an absolute URI with SEF format
-	 * @param  string  $string  The relative URL
-	 * @param  string  $htmlSpecials  TRUE (default): apply htmlspecialchars to sefed URL, FALSE: don't.
-	 * @return string           The absolute URL
+	 * changes "index.php?....." into what's needed for the CMS
+	 * @since CB 1.2.3
+	 *
+	 * @param  string   $link       This URL should be htmlspecialchared already IF $htmlSpecials = TRUE, but NOT if = FALSE
+	 * @param  boolean  $htmlSpecials
+	 * @param  string   $format         'html', 'component', 'raw', 'rawrel' (same as 'raw' in backend for now)
+	 * @return string
 	 */
-	function cbSef( $string, $htmlSpecials = true ) {
-		if ( ( $string == 'index.php' ) || ( $string == '' ) ) {
-			$uri					=	$this->getCfg( 'live_site' ) . '/';
-		} else {
-			if ( ( $this->getUi() == 1 )
-				 && ( ( substr( $string, 0, 9 ) == 'index.php' ) || ( $string[0] == '?' ) )
-				 && is_callable( $this->_cmsSefFunction )
-				 && ( ! ( ( checkJversion() == 0 ) && ( strpos( $string, '[' ) !== false ) ) ) )			// this is due to a bug in joomla 1.0 includes/sef.php line 426 and 501 not handling arrays at all.
-			{
-				$uri				=	call_user_func_array( $this->_cmsSefFunction, array( $this->_sefFuncHtmlEnt ? $string : cbUnHtmlspecialchars( $string ) ) );
-			} else {
-				$uri				=	$string;
+	function backendUrl( $link, $htmlSpecials = true, $format = 'html' ) {
+		if ( checkJversion() >= 1 ) {
+			// Joomla 1.5, 1.6:
+			if ( $format == 'component' ) {
+				$link					.=	( $htmlSpecials ? '&amp;' : '&' ) . 'tmpl=' . $format;
 			}
-			if ( ! in_array( substr( $uri, 0, 4 ), array( 'http', 'java' ) ) ) {
-				if ( ( strlen( $uri ) > 1 ) && ( $uri[0] == '/' ) ) {
-					// we got special case of an absolute link without live_site, but an eventual subdirectory of live_site is included...need to strip live_site:
-					$matches		=	array();
-					if (	( preg_match( '!^([^:]+://)([^/]+)(/.*)$!', $this->getCfg( 'live_site' ), $matches ) )
-						&&	( $matches[3] == substr( $uri, 0, strlen( $matches[3] ) ) ) )
-					{
-						$uri		=	$matches[1] . $matches[2] . $uri;		// 'http://' . 'site.com' . '/......
+			if ( $format == 'rawrel' ) {
+				$format			=	'raw';
+			}
+			if ( $format == 'raw' ) {
+				$link					.=	( $htmlSpecials ? '&amp;' : '&' ) . 'format=' . $format;
+			}
+		} else {
+			// Mambo 4.5, 4.6, Joomla 1.0:
+			if ( substr( $link, 0, 9 ) == 'index.php' ) {
+				if ( $format == 'raw' ) {
+					$link					=	'index3.php' . substr( $link, 9 )
+											.	( $htmlSpecials ? '&amp;' : '&' ) . 'no_html=1'
+											.	( $htmlSpecials ? '&amp;' : '&' ) . 'format=' . $format;
+				} else {
+					$link					=	'index2.php' . substr( $link, 9 );
+				}
+			}
+		}
+		return $link;
+	}
+	/**
+	 * Converts an URL to an absolute URI with SEF format
+	 *
+	 * @param  string  $string        The relative URL
+	 * @param  string  $htmlSpecials  TRUE (default): apply htmlspecialchars to sefed URL, FALSE: don't.
+	 * @param  string  $format        'html', 'component', 'raw', 'rawrel'		(added in CB 1.2.3)
+	 * @return string                 The absolute URL (relative if rawrel)
+	 */
+	function cbSef( $string, $htmlSpecials = true, $format = 'html' ) {
+		if ( $format == 'html' ) {
+			if ( ( $string == 'index.php' ) || ( $string == '' ) ) {
+				$uri				=	$this->getCfg( 'live_site' ) . '/';
+			} else {
+				if ( ( $this->getUi() == 1 )
+					 && ( ( substr( $string, 0, 9 ) == 'index.php' ) || ( $string[0] == '?' ) )
+					 && is_callable( $this->_cmsSefFunction )
+					 && ( ! ( ( checkJversion() == 0 ) && ( strpos( $string, '[' ) !== false ) ) ) )			// this is due to a bug in joomla 1.0 includes/sef.php line 426 and 501 not handling arrays at all.
+				{
+					$uri			=	call_user_func_array( $this->_cmsSefFunction, array( $this->_sefFuncHtmlEnt ? $string : cbUnHtmlspecialchars( $string ) ) );
+				} else {
+					$uri			=	$string;
+				}
+				if ( ! in_array( substr( $uri, 0, 4 ), array( 'http', 'java' ) ) ) {
+					if ( ( strlen( $uri ) > 1 ) && ( $uri[0] == '/' ) ) {
+						// we got special case of an absolute link without live_site, but an eventual subdirectory of live_site is included...need to strip live_site:
+						$matches	=	array();
+						if (	( preg_match( '!^([^:]+://)([^/]+)(/.*)$!', $this->getCfg( 'live_site' ), $matches ) )
+							&&	( $matches[3] == substr( $uri, 0, strlen( $matches[3] ) ) ) )
+						{
+							$uri	=	$matches[1] . $matches[2] . $uri;		// 'http://' . 'site.com' . '/......
+						} else {
+							$uri	=	$this->getCfg( 'live_site' ) . $uri;
+						}
 					} else {
-						$uri		=	$this->getCfg( 'live_site' ) . $uri;
+						$uri		=	$this->getCfg( 'live_site' ) . '/' . $uri;
+					}
+				}
+			}
+		} else /* if ( $format == 'raw' || $format == 'rawrel' || $format == 'component' ) */ {
+			if ( substr( $string, 0, 9 ) == 'index.php' ) {
+				if ( $format == 'rawrel' ) {
+					$format			=	'raw';
+					$uri			=	'';
+				} else {
+					$uri			=	$this->getCfg( 'live_site' ) . '/';
+				}
+				if ( checkJversion() >= 1 ) {
+					// Joomla 1.5, 1.6:
+					if ( $format == 'component' ) {
+						$uri		.=	$string . '&amp;tmpl=' . $format;
+					} else {
+						$uri		.=	$string . '&amp;format=' . $format;
 					}
 				} else {
-					$uri			=	$this->getCfg( 'live_site' ) . '/' . $uri;
+					// Mambo 4.5, 4.6, Joomla 1.0:
+					$uri			.=	'index2.php' . substr( $string, 9 );
+					if ( $format == 'component' ) {
+						$uri		.=	'&amp;tmpl=' . $format;
+					} else {
+						$uri		.=	'&amp;no_html=1&amp;format=' . $format;
+					}
 				}
+			} else {
+				$uri				=	$string;
 			}
 		}
 		if ( ! $htmlSpecials ) {
@@ -2145,36 +2579,108 @@ class CBframework {
 		}
 		return $uri;
 	}
-	function userProfileUrl( $userId, $htmlSpecials = true, $tabid = null ) {
-		if ( $userId == $this->myId() ) {
-			$uid		=	null;
-		} else {
-			$uid		=	'&amp;task=userProfile&amp;user=' . (int) $userId;
+	/**
+	 * Returns the called page's Itemid (or int 0)
+	 * @since 1.7
+	 *
+	 * @return int   Always returns int
+	 */
+	public function itemid( ) {
+		static $idCache				=	null;
+		if ( $idCache === null ) {
+			if ( checkJversion() >= 2 ) {
+				$idCache			=	(int) JFactory::getURI()->getVar( 'Itemid' );
+			}  else {
+				global $Itemid;
+				$idCache			=	(int) $Itemid;
+			}
 		}
-		if ( $tabid !== null ) {
-			$uid		.=	'&amp;tab=' . (int) $tabid;
+		return $idCache;
+	}
+	/**
+	 * gets URL to view a profie
+	 * @static
+	 *
+	 * @param  int     $userId        The user's id (if null, my profile)
+	 * @param  string  $htmlSpecials  TRUE (default): apply htmlspecialchars to sefed URL, FALSE: don't.
+	 * @param  string  $tab           The tab to open directly
+	 * @param  string  $format        'html', 'component', 'raw', 'rawrel'   (since CB 1.2.3)
+	 * @return string                 The absolute URL (relative if rawrel)
+	 */
+	function userProfileUrl( $userId = null, $htmlSpecials = true, $tab = null, $format = 'html' ) {
+		if ( $userId && ( $userId == $this->myId() ) ) {
+			$userId		=	null;
 		}
-		return cbSef( 'index.php?option=com_comprofiler' . $uid . getCBprofileItemid(true), $htmlSpecials );
+		return $this->cbSef( 'index.php?option=com_comprofiler' . ( $userId ? '&task=userprofile&user=' . (int) $userId : '' ) . ( $tab ? '&tab=' . urlencode( $tab ) : '' ) . getCBprofileItemid( false ), $htmlSpecials, $format );
+	}
+	/**
+	 * gets URL to edit a profie
+	 * @static
+	 * @since CB 1.2.3
+	 *
+	 * @param  int     $userId        The user's id (if null, my profile)
+	 * @param  string  $htmlSpecials  TRUE (default): apply htmlspecialchars to sefed URL, FALSE: don't.
+	 * @param  string  $tab           The tab to open directly
+	 * @param  string  $format        'html', 'component', 'raw', 'rawrel'
+	 * @return string                 The absolute URL (relative if rawrel)
+	 */
+	function userProfileEditUrl( $userId = null, $htmlSpecials = true, $tab = null, $format = 'html' ) {
+		if ( $userId && ( $userId == $this->myId() ) ) {
+			$userId		=	null;
+		}
+		return $this->cbSef( 'index.php?option=com_comprofiler&task=userdetails' . ( $userId ? '&uid=' . (int) $userId : '' ) . ( $tab ? '&tab=' . urlencode( $tab ) : '' ) . getCBprofileItemid( false ), $htmlSpecials, $format );
+	}
+	/**
+	 * gets URL to view list of profies
+	 * @static
+	 * @since CB 1.2.3
+	 *
+	 * @param  int     $listId        The list id (if null, default list)
+	 * @param  string  $htmlSpecials  TRUE (default): apply htmlspecialchars to sefed URL, FALSE: don't.
+	 * @param  int     $searchMode    1 for search only, 0 for list (default)
+	 * @param  string  $format        'html', 'component', 'raw', 'rawrel'
+	 * @return string                 The absolute URL (relative if rawrel)
+	 */
+	function userProfilesListUrl( $listId = null, $htmlSpecials = true, $searchMode = null, $format = 'html' ) {
+		return $this->cbSef( 'index.php?option=com_comprofiler&task=userslist' . ( $listId ? '&listid=' . (int) $listId : '' ) . ( $searchMode ? '&searchmode=' . urlencode( $searchMode ) : '' ) . getCBprofileItemid( false, 'userslist' ), $htmlSpecials, $format );
+	}
+	/**
+	 * gets URL to render a CB view
+	 * @static
+	 * @since CB 1.2.3
+	 *
+	 * @param  string  $task          task/view  e.g. 'manageconnections', 'registers', 'lostpassword', 'login', 'logout', 'moderateimages', 'moderatereports', 'moderatebans', 'viewreports', 'processreports', 'pendingapprovaluser'
+	 * @param  string  $htmlSpecials  TRUE (default): apply htmlspecialchars to sefed URL, FALSE: don't.
+	 * @param  string  $formId        Reserved for future use: If applicable: form id
+	 * @param  string  $format        'html', 'component', 'raw', 'rawrel'
+	 * @return string                 The absolute URL (relative if rawrel)
+	 */
+	function viewUrl( $task, $htmlSpecials = true, $formId = null, $format = 'html' ) {
+		return $this->cbSef( 'index.php?option=com_comprofiler&task=' . urlencode( $task ) . ( $formId ? '&formid=' . urlencode( $formId ) : '' ) . getCBprofileItemid( false, 'registers' ), $htmlSpecials, $format );
 	}
 	function & _getCmsUserObject( $cmsUserId = null ) {
 		if ( $this->_cmsUserNeedsDb ) {
 			global $_CB_database;
-			$obj		=	new $this->_cmsUserClassName( $_CB_database );
+			$obj				=	new $this->_cmsUserClassName( $_CB_database );
 		} else {
-			$obj		=	new $this->_cmsUserClassName();
+			$obj				=	new $this->_cmsUserClassName();
 		}
 		if ( $cmsUserId !== null ) {
 			if ( ! $obj->load( (int) $cmsUserId ) ) {
-				$obj	=	null;
+				$obj			=	null;
+			} else {
+				if ( checkJversion() == 2 ) {
+					global $_CB_framework;
+					$obj->gid	=	(int) $_CB_framework->acl->getBackwardsCompatibleGid( array_values( (array) $obj->groups ) );
 			}
+		}
 		}
 		return $obj;
 	}
 	function getUserIdFrom( $field, $value ) {
 		global $_CB_database;
 
-		$_CB_database->setQuery( 'SELECT id FROM #__users u WHERE u.' . $_CB_database->NameQuote( $field ) . ' = ' . $_CB_database->Quote( $value )
-								 . "\n LIMIT 2");
+		$_CB_database->setQuery( 'SELECT id FROM #__users u WHERE u.' . $_CB_database->NameQuote( $field ) . ' = ' . $_CB_database->Quote( $value ), 0, 1 );
 		$results		=	$_CB_database->loadResultArray();
 		if ( $results && ( count( $results ) == 1 ) ) {
 			return $results[0];
@@ -2212,7 +2718,7 @@ class CBframework {
 		}
 		return $return;
 	}
-	function saveCmsEditorJS( $hiddenField, $outputId = 0 ) {
+	function saveCmsEditorJS( $hiddenField, $outputId = 0, $outputOnce = true ) {
 		static $outputsDone		=	array();
 
 		if ( ! $this->_editorDisplay['returns'] ) {
@@ -2229,11 +2735,13 @@ class CBframework {
 			ob_end_clean();
 		}
 
-		if ( isset( $outputsDone[$outputId] ) && ( $return == $outputsDone[$outputId] ) ) {
-			// in case the save function is identical for all HTML editor fields:
-			$return				=	null;
-		} else {
-			$outputsDone[$outputId]	=	$return;
+		if ( $outputOnce ) {
+			if ( isset( $outputsDone[$outputId] ) && ( $return == $outputsDone[$outputId] ) ) {
+				// in case the save function is identical for all HTML editor fields:
+				$return				=	null;
+			} else {
+				$outputsDone[$outputId]	=	$return;
+			}
 		}
 		return $return;
 	}
@@ -2246,9 +2754,19 @@ class CBframework {
 	function now( ) {
 		return $this->_now;
 	}
+	/**
+	 * Returns date( 'Y-m-d H:i:s' ) but taking in account system offset for database's NOW()
+	 *
+	 * @return string 'YYYY-MM-DD HH:mm:ss'
+	 */
+	function dateDbOfNow( ) {
+		return date( 'Y-m-d H:i:s', $this->now() - ( 3600 * $this->getCfg( 'offset' ) ) );
+	}
 	function setPageTitle( $title ) {
-		if ( method_exists( $this->_baseFramework, 'setPageTitle' ) ) {
-			return $this->_baseFramework->setPageTitle( $title );
+		if ( method_exists( $this->document->_cmsDoc, 'setTitle' ) ) {
+			return $this->document->_cmsDoc->setTitle( $title );	// J1.6 (and 1.5?)
+		} elseif ( method_exists( $this->_baseFramework, 'setPageTitle' ) ) {
+			return $this->_baseFramework->setPageTitle( $title );	// J1.0 and Mambo (and 1.5?)
 		} else {
 			return null;
 		}
@@ -2324,11 +2842,11 @@ class CBframework {
 											'ui-all'	=>	array( 'jqueryui/ui.all.css' => array( false, null ) ) );
 
 	function _coreJQueryFilePath( $jQueryPlugin, $pathType = 'live_site' ) {
-		if ( ( $pathType == 'live_site' ) && ( $this->getUi() == 2 ) ) {
-			$base				=	'..';			// relative paths in backend
+		if ( $pathType == 'live_site' ) {
+			$base				=	'';			// paths are calculated at output in $this->document->addHeadScriptUrl()
 		} else {
 			$base				=	$this->getCfg( $pathType );
-		}	
+		}
 		return $base . '/components/com_comprofiler/js/jquery-' . _CB_JQUERY_VERSION . '/jquery.' . $jQueryPlugin . '.js';
 	}
 	/**
@@ -2354,7 +2872,7 @@ class CBframework {
 					$this->_jqueryCssFiles					=	array_merge( $this->_jqueryCssFiles, array( $jQueryPlugin => $cssfiles ) );
 				}
 			}
-	
+
 			if ( ! isset( $this->_jQueryPlugins[$jQueryPlugin] ) ) {
 				// not yet configured for loading: check dependencies: -1: before:
 				if ( isset( $this->_jqueryDependencies[$jQueryPlugin][-1] ) ) {
@@ -2421,7 +2939,7 @@ class CBframework {
 			}
 			foreach ( $this->_jQueryPlugins as $plugin => $pluginPath ) {
 				if ( ! isset( $this->_jQueryPluginsSent[$plugin] ) ) {
-					$this->document->addHeadScriptUrl( $pluginPath, true, null, null, ( $plugin == 'excanvas' ? '<!--[if IE]>' : '' ), ( $plugin == 'excanvas' ? '<![endif]-->' : '' ) );
+					$this->document->addHeadScriptUrl( $pluginPath, true, null, null, ( $plugin == 'excanvas' ? '<!--[if lte IE 8]>' : '' ), ( $plugin == 'excanvas' ? '<![endif]-->' : '' ) );
 					$this->_jQueryPluginsSent[$plugin]		=	true;
 				}
 			}
@@ -2459,14 +2977,16 @@ class CBframework {
 }
 
 /**
- * Converts an absolute URL to SEF format
- * @param  string  $string  The relative URL
+ * Converts an URL to an absolute URI with SEF format
+ *
+ * @param  string  $string        The relative URL
  * @param  string  $htmlSpecials  TRUE (default): apply htmlspecialchars to sefed URL, FALSE: don't.
- * @return string           The absolute URL
+ * @param  string  $format        'html', 'component', 'raw', 'rawrel'		(added in CB 1.2.3)
+ * @return string                 The absolute URL (relative if rawrel)
  */
-function cbSef( $string, $htmlSpecials = true ) {
+function cbSef( $string, $htmlSpecials = true, $format = 'html' ) {
 	global $_CB_framework;
-	return $_CB_framework->cbSef( $string, $htmlSpecials );
+	return $_CB_framework->cbSef( $string, $htmlSpecials, $format );
 }
 /**
  * Displays "Not authorized", and if not logged-in "you need to login"
@@ -2493,15 +3013,66 @@ class CBTxtStorage {
 	var $_lang					=	'en-GB';
 	var $_langOld				=	'english';
 	var $_strings				=	array();
+	var $_usedStrings			=	array();
 
 	function CBTxtStorage( $iso, $mode ) {
 		$this->_iso				=	$iso;
 		$this->_mode			=	$mode;
+		if ( ( $mode > 2 ) && defined( 'JPATH_ADMINISTRATOR' ) ) {
+			jimport( 'joomla.plugin.plugin' );
+			$app		=&	JFactory::getApplication();
+			$app->registerEvent( 'onAfterRender', '_onAfterRender_CB_Txt_display_translations_table' );
+		}
+	}
+	function recordUsedString( $english ) {
+		if ( $this->_mode == 3 ) {
+			if ( ! isset( $this->_strings[$english] ) ) {
+				$this->_usedStrings[$english]	=	null;
+			}
+		} elseif ( $this->_mode == 4 ) {
+			$this->_usedStrings[$english]	=	( isset( $this->_strings[$english] ) ? $this->_strings[$english] : null );
+		}
+	}
+	function listUsedStrings() {
+		$r		=	null;
+		if ( $this->_usedStrings ) {
+			cbimport( 'language.cbteamplugins' );
+			$r	= '<table class="adminlist" id="cbtranslatedstrings"><tr class="sectiontableheader"><th>'
+			.	( $this->_mode == 3 ? CBTxt::Th('Untranslated strings on this page')
+				: CBTxt::Th('Translations on this page') )
+			.	': '
+			.	CBTxt::Th('English string')
+			.	'</th><th>'
+			.	CBTxt::Th('Translated string')
+			.	'</th></tr>'
+			;
+			$s	=	0;
+			foreach ( $this->_usedStrings as $k => $v ) {
+				$r .= '<tr class="sectiontableentry' . ( ( $s & 1 ) + 1 ) . ' row' . ( $s++ & 1 ) . '"><td>'
+				.	htmlspecialchars( $k )
+				.	'</td><td>'
+				.	( $v === null ? '-' : htmlspecialchars( $v ) )
+				.	'</td></tr>'
+				;
+			}
+			$r	.=	'</table>';
+		}
+		return $r;
 	}
 }
+/**
+ * Translations debug: can not be a method because of joomla restriction to functions
+ */
+function _onAfterRender_CB_Txt_display_translations_table() {
+	global $_CB_TxtIntStore;
 
+	$html	=	$_CB_TxtIntStore->listUsedStrings();
+	if ( $html ) {
+		JResponse::setBody( str_replace( '</body>', $html . '</body>', JResponse::getBody() ) );
+	}
+}
 class CBTxt {
-	function T( $english ) {
+	static function T( $english ) {
 		global $_CB_TxtIntStore;
 
 		if ( $_CB_TxtIntStore->_mode == 0 ) {
@@ -2511,6 +3082,7 @@ class CBTxt {
 				return $english;
 			}
 		} else {
+			$_CB_TxtIntStore->recordUsedString( $english );
 			if ( isset( $_CB_TxtIntStore->_strings[$english] ) ) {
 				return CBTxt::utf8ToISO( '*' . $_CB_TxtIntStore->_strings[$english] . '*' );
 			} else {
@@ -2518,7 +3090,7 @@ class CBTxt {
 			}
 		}
 	}
-	function Th( $english ) {
+	static function Th( $english ) {
 		global $_CB_TxtIntStore;
 
 		if ( $_CB_TxtIntStore->_mode == 0 ) {
@@ -2529,19 +3101,20 @@ class CBTxt {
 			}
 		} elseif ( $_CB_TxtIntStore->_mode == 1 ) {
 			if ( isset( $_CB_TxtIntStore->_strings[$english] ) ) {
-				return '<span style="color:#CCC;font-style:italic">' . CBTxt::utf8ToISO( $_CB_TxtIntStore->_strings[$english] ) . '</span>';
-			} else {
-				return '<span style="color:#FF0000;font-weight:bold">' . '===>' . $english . '<===' . '</span>';
-			}
-		} else {
-			if ( isset( $_CB_TxtIntStore->_strings[$english] ) ) {
 				return CBTxt::utf8ToISO( '*' . $_CB_TxtIntStore->_strings[$english] . '*' );
 			} else {
 				return '===&gt;' . str_replace( '%s', '[%s]', $english ) . '&lt;===';
 			}
+		} else {
+			$_CB_TxtIntStore->recordUsedString( $english );
+			if ( isset( $_CB_TxtIntStore->_strings[$english] ) ) {
+				return '<span style="color:#CCC;font-style:italic">' . CBTxt::utf8ToISO( $_CB_TxtIntStore->_strings[$english] ) . '</span>';
+			} else {
+				return '<span style="color:#FF0000;font-weight:bold">' . '===>' . $english . '<===' . '</span>';
+			}
 		}
 	}
-	function Tutf8( $english ) {
+	static function Tutf8( $english ) {
 		global $_CB_TxtIntStore;
 
 		if ( $_CB_TxtIntStore->_mode == 0 ) {
@@ -2551,6 +3124,7 @@ class CBTxt {
 				return $english;
 			}
 		} else {
+			$_CB_TxtIntStore->recordUsedString( $english );
 			if ( isset( $_CB_TxtIntStore->_strings[$english] ) ) {
 				return '*' . $_CB_TxtIntStore->_strings[$english] . '*';
 			} else {
@@ -2558,11 +3132,77 @@ class CBTxt {
 			}
 		}
 	}
-	function addStrings( $array ) {
+	/**
+	 * Parse the string through CBTxt::T.
+	 * That is, for a particular string find the corresponding translation.
+	 * Variable subsitution is performed for the $args parameter.
+	 * @since 1.3
+	 *
+	 * @param string   $english  the string to translate
+	 * @param array    $args     a strtr-formatted array of string substitutions
+	 * @return string
+	*/
+	static function P( $english, $args = null ) {
+		return CBTxt::_parseReplaceString( CBTxt::T( $english ), $args );
+	}
+	/**
+	 * Parse the string through CBTxt::Th.
+	 * That is, for a particular string find the corresponding translation.
+	 * Variable subsitution is performed for the $args parameter.
+	 * @since 1.3
+	 *
+	 * @param string   $english  the string to translate
+	 * @param array    $args     a strtr-formatted array of string substitutions
+	 * @return string
+	*/
+	static function Ph( $english, $args = null ) {
+		return CBTxt::_parseReplaceString( CBTxt::Th( $english ), $args );
+	}
+	/**
+	 * Parse the string through CBTxt::Tutf8.
+	 * That is, for a particular string find the corresponding translation.
+	 * Variable subsitution is performed for the $args parameter.
+	 * @since 1.3
+	 *
+	 * @param string   $english  the string to translate
+	 * @param array    $args     a strtr-formatted array of string substitutions
+	 * @return string
+	*/
+	static function Putf8( $english, $args = null ) {
+		return CBTxt::_parseReplaceString( CBTxt::Tutf8( $english ), $args );
+	}
+	/**
+	 * Parse the translated string with strtr
+	 * That is, for a particular string find the corresponding translation.
+	 * Variable subsitution is performed for the $args parameter.
+	 * @since 1.3
+	 *
+	 * @param string   $string   the string to substitute
+	 * @param array    $args     a strtr-formatted array of string substitutions
+	 * @return string
+	*/
+	private static function _parseReplaceString( $string, $args ) {
+		if ( $args === null ) {
+			$args		=	array();
+		}
+		return strtr( $string, $args );
+	}
+	/**
+	 * Adds strings to the translations. Used by language plugins
+	 *
+	 * @param  array  $array
+	 */
+	static function addStrings( $array ) {
 		global $_CB_TxtIntStore;
 		$_CB_TxtIntStore->_strings			=	array_merge( $_CB_TxtIntStore->_strings, $array );
 	}
-	function utf8ToISO( $string ) {
+	/**
+	 * Converts UTF-8 string to CMS charset
+	 *
+	 * @param  string  $string
+	 * @return string
+	 */
+	static function utf8ToISO( $string ) {
 		global $_CB_TxtIntStore;
 
 		if ( $_CB_TxtIntStore->_iso == 'UTF-8' ) {
@@ -2579,7 +3219,7 @@ class CBTxt {
 	 * @param $from
 	 * @param $to
 	 */
-	function charsetConv( $string, $from, $to ) {
+	static function charsetConv( $string, $from, $to ) {
 		if ( ( $from == 'UTF-8' ) && ( strncmp( $to, 'ISO-8859-1', 9 ) == 0 ) ) {
 			return utf8_decode( $string );
 		} elseif ( ( $to == 'UTF-8' ) && ( strncmp( $from, 'ISO-8859-1', 9 ) == 0 ) ) {
@@ -2595,7 +3235,7 @@ class CBTxt {
 	 * @param  string  $string
 	 * @return string
 	 */
-	function html_entity_decode( $string ) {
+	static function html_entity_decode( $string ) {
 		global $_CB_TxtIntStore;
 		return CBTxt::_unhtmlentities( $string, ENT_COMPAT, $_CB_TxtIntStore->_iso );
 	}
@@ -2607,7 +3247,7 @@ class CBTxt {
 		if ( version_compare( $phpv, '4.4.3', '<' )
 			 || ( version_compare( $phpv, '5.0.0', '>=' ) && version_compare( $phpv, '5.1.3', '<' ) )
 		     || ( version_compare( $phpv, '5.0.0', '<'  ) && ( ! in_array( $charset, array( "ISO-8859-1", "ISO-8859-15", "cp866", "cp1251", "cp1252" ) ) ) )
-		     || ( version_compare( $phpv, '5.1.3', '>=' ) && ( ! in_array( $charset, array( "ISO-8859-1", "ISO-8859-15", "cp866", "cp1251", "cp1252", 
+		     || ( version_compare( $phpv, '5.1.3', '>=' ) && ( ! in_array( $charset, array( "ISO-8859-1", "ISO-8859-15", "cp866", "cp1251", "cp1252",
 		     								   "KOI8-R", "BIG5", "GB2312", "UTF-8", "BIG5-HKSCS", "Shift_JIS", "EUC-JP" ) ) ) )
 		   ) {
 			// For 4.1.0 =< PHP < 4.3.0 use this function instead of html_entity_decode: also php < 5.0 does not support UTF-8 outputs !
@@ -2638,6 +3278,38 @@ class CBTxt {
 // before they are defined
 
 switch ( checkJversion() ) {
+	case 2:
+		global $mainframe;
+
+		$mainframe			=&	JFactory::getApplication();
+		$tmpDatabase		=&	JFactory::getDBO();
+		$my					=&	JFactory::getUser();
+		$acl				=&	JFactory::getACL();
+		$myAid				=	null;
+		$sefFunc			=	array( 'JRoute', '_' );
+		$sefFuncHtmlEnt		=	false;
+		$cmsUser			=	'JUser';
+		$cmsUserNeedsDb		=	false;
+		$cmsRedirectFunc	=	array( $mainframe, 'redirect' );
+		$lang				=&	JFactory::getLanguage();
+		$myLanguage			=	strtolower( preg_replace( '/^(\w+).*$/i', '\1', $lang->getName() ) );
+		$myLanguageTag		=	$lang->getTag();
+		$outputCharst		=	'UTF-8';
+		$getVarFunction		=	array( 'JRequest', 'getVar' );
+		$Jdocument			=&	JFactory::getDocument();
+
+		if ( $Jdocument->getType() == 'html' ) {
+			$getDocFunction	=	array( 'JFactory', 'getDocument' );
+		} else {
+			$getDocFunction	=	false;
+		}
+
+		$editor				=&	JFactory::getEditor();
+		$editorDisplay		=	array(	'display' => array( 'call' => array( $editor , 'display' ), 'args' => 'noid' ),
+								  		'save' => array( 'call' => array( $editor , 'save' ), 'args' => 'noid' ),
+								  		'returns' => true
+										);
+		break;
 	case 1:
 		global $mainframe;		// 		$mainframe		=&	JFactory::getApplication();
 		$tmpDatabase	=&	JFactory::getDBO();
@@ -2651,6 +3323,7 @@ switch ( checkJversion() ) {
 		$cmsRedirectFunc =	array( $mainframe, 'redirect' );
 		$lang			=&	JFactory::getLanguage();
 		$myLanguage		=	$lang->getBackwardLang();
+		$myLanguageTag	=	$lang->getTag();
 		$outputCharst	=	'UTF-8';
 		$getVarFunction	=	array( 'JRequest', 'getVar' );
 		$Jdocument		=&	JFactory::getDocument();
@@ -2659,7 +3332,7 @@ switch ( checkJversion() ) {
 		} else {
 			$getDocFunction	=	false;
 		}
-		
+
 		$editor			=&	JFactory::getEditor();
 		//$editor->initialise();
 		$editorDisplay	=	array( 'display' => array( 'call' => array( $editor , 'display' ),	'args' => 'noid' ),
@@ -2677,6 +3350,7 @@ switch ( checkJversion() ) {
 		$cmsUserNeedsDb	=	true;
 		$cmsRedirectFunc =	'mosRedirect';
 		$myLanguage		=	$mainframe->getCfg( 'lang' );
+		$myLanguageTag	=	null;
 		$outputCharst	=	( defined( '_ISO' ) ? strtoupper( str_replace( "charset=", "", _ISO ) ) : 'ISO-8859-1' );
 		$getVarFunction	=	null;
 		$getDocFunction	=	null;
@@ -2695,6 +3369,7 @@ switch ( checkJversion() ) {
 		$cmsUserNeedsDb	=	true;
 		$cmsRedirectFunc =	'mosRedirect';
 		$myLanguage		=	$mainframe->getCfg( 'locale' );
+		$myLanguageTag	=	null;
 		$outputCharst	=	( defined( '_ISO' ) ? strtoupper( str_replace( "charset=", "", _ISO ) ) : 'UTF-8' );
 		$getVarFunction	=	null;
 		$getDocFunction	=	null;
@@ -2703,18 +3378,20 @@ switch ( checkJversion() ) {
 								   'returns' => false );
 		break;
 }
-if ( checkJversion() < 1 ) {
-	$aclParams			=	array(	'canEditUsers'			=>	array( 'administration', 'manage', 'users', null, 'components', 'com_users' ),
-									'canBlockUsers'			=>	array( 'administration', 'edit', 'users', null, 'user properties', 'block_user' ),
-									'canReceiveAdminEmails'	=>	array( 'workflow', 'email_events', 'users', null ),
-									'canEditOwnContent'		=>	array( 'action', 'edit', 'users', null, 'content', 'own' ),
-									'canAddAllContent' 		=>	array( 'action', 'add', 'users', null, 'content', 'all' ),
-									'canEditAllContent' 	=>	array( 'action', 'edit', 'users', null, 'content', 'all' ),
-									'canPublishContent'		=>	array( 'action', 'publish', 'users', null, 'content', 'all' ),
-									'canInstallPlugins'		=>	array( 'administration', 'install', 'users', null, 'components', 'all' ),
-									'canManageUsers'		=>	array( 'administration', 'manage', 'users', null, 'components', 'com_users' )
+switch ( checkJversion() ) {
+	case 2:
+	$aclParams			=	array(	'canEditUsers'			=>	array( 'com_user', 'core.edit', 'users', null ),
+									'canBlockUsers'			=>	array( 'com_users', 'core.edit.state', 'users', null ),
+									'canReceiveAdminEmails'	=>	array( 'com_users', 'core.admin', 'users', null ),
+									'canEditOwnContent'		=>	array( 'com_content', 'core.edit', 'users', null, 'content', 'own' ),
+									'canAddAllContent'	 	=>	array( 'com_content', 'core.create', 'users', null, 'content', 'all' ),
+									'canEditAllContent' 	=>	array( 'com_content', 'core.edit', 'users', null, 'content', 'all' ),
+									'canPublishContent'		=>	array( 'com_content', 'core.edit.state', 'users', null, 'content', 'all' ),
+									'canInstallPlugins'		=>	array( 'com_installer', 'core.manage', 'users', null ),
+									'canManageUsers'		=>	array( 'com_users', 'core.manage', 'users', null )
 							);
-} else {
+	break;
+	case 1:
 	$aclParams			=	array(	'canEditUsers'			=>	array( 'com_user', 'edit', 'users', null ),
 									'canBlockUsers'			=>	array( 'com_users', 'block user', 'users', null ),
 									'canReceiveAdminEmails'	=>	array( 'com_users', 'email_events', 'users', null ),
@@ -2725,6 +3402,19 @@ if ( checkJversion() < 1 ) {
 									'canInstallPlugins'		=>	array( 'com_installer', 'installer', 'users', null ),
 									'canManageUsers'		=>	array( 'com_users', 'manage', 'users', null )
 							);
+	break;
+	default:
+	$aclParams			=	array(	'canEditUsers'			=>	array( 'administration', 'manage', 'users', null, 'components', 'com_users' ),
+									'canBlockUsers'			=>	array( 'administration', 'edit', 'users', null, 'user properties', 'block_user' ),
+									'canReceiveAdminEmails'	=>	array( 'workflow', 'email_events', 'users', null ),
+									'canEditOwnContent'		=>	array( 'action', 'edit', 'users', null, 'content', 'own' ),
+									'canAddAllContent' 		=>	array( 'action', 'add', 'users', null, 'content', 'all' ),
+									'canEditAllContent' 	=>	array( 'action', 'edit', 'users', null, 'content', 'all' ),
+									'canPublishContent'		=>	array( 'action', 'publish', 'users', null, 'content', 'all' ),
+									'canInstallPlugins'		=>	array( 'administration', 'install', 'users', null, 'components', 'all' ),
+									'canManageUsers'		=>	array( 'administration', 'manage', 'users', null, 'components', 'com_users' )
+							);
+	break;
 }
 
 /**
@@ -2733,14 +3423,20 @@ if ( checkJversion() < 1 ) {
  */
 global $_CB_framework;
 $optionOfCb				=	'com_comprofiler';		// cbGetParam( $_REQUEST, 'option', 'com_comprofiler' )
-$_CB_framework			=	new CBframework( $mainframe, $tmpDatabase, $acl, $aclParams, $sefFunc, $sefFuncHtmlEnt, $cmsUser, $cmsUserNeedsDb, $cmsRedirectFunc, $my->id, $my->username, $my->usertype, $myAid, $myLanguage, array( 'option' => $optionOfCb ), $getVarFunction, $getDocFunction, $outputCharst, $editorDisplay );
+$_CB_framework			=	new CBframework( $mainframe, $tmpDatabase, $acl, $aclParams, $sefFunc, $sefFuncHtmlEnt, $cmsUser, $cmsUserNeedsDb, $cmsRedirectFunc, $my->id, $my->username, $my->usertype, $myAid, $myLanguage, $myLanguageTag, array( 'option' => $optionOfCb ), $getVarFunction, $getDocFunction, $outputCharst, $editorDisplay );
 
+cbimport( 'cb.acl' );
+
+$_CB_framework->acl		=	new CBACL( $acl );
+
+if ( checkJversion() == 2 ) {
+	$_CB_framework->_myCmsGid	=	(int) $_CB_framework->acl->getBackwardsCompatibleGid( array_values( (array) $my->groups ) );
+}
 /**
  * CB text languages EXPERIMENTAL
  * @access private
  * @global CBText $_CB_framework
  */
 global $_CB_TxtIntStore;
-$_CB_TxtIntStore	=	new CBTxtStorage( $_CB_framework->outputCharset(), 0 );
-
+$_CB_TxtIntStore	=	new CBTxtStorage( $_CB_framework->outputCharset(), ( isset( $ueConfig['translations_debug'] ) ? (int) $ueConfig['translations_debug'] : 0 ) );
 ?>

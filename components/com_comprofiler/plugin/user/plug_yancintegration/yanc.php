@@ -1,7 +1,7 @@
 <?php
 /**
 * Newsletter Tab Class for handling the CB tab api
-* @version $Id: yanc.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: yanc.php 1186 2010-10-03 16:52:26Z beat $
 * @package Community Builder
 * @subpackage yanc.php
 * @author Beat
@@ -181,17 +181,8 @@ class getNewslettersTab extends cbTabHandler {
 					$lists[$i]->confirmed = $lists[$i]->subscribed;	// avoid display "not confirmed" on registration server-validation error.
 				}
 
-				global $_CB_OneTwoRowsStyleToggle;
-				$class 						=	'sectiontableentry' . $_CB_OneTwoRowsStyleToggle;
-				$_CB_OneTwoRowsStyleToggle	=	( $_CB_OneTwoRowsStyleToggle == 1 ? 2 : 1 );
-				$return .= "\t<tr class=\"" . $class. "\">\n";
-
-				$return .= "\t\t<td class='titleCell'>" . _UE_NEWSLETTER_SUBSCRIBE . "</td>\n";
-				$return .= "\t\t<td class='fieldCell'>";
-				$return .= $this->_getFormattedNewsletters($lists, true, _UE_NEWSLETTER_NAME_REG, _UE_NEWSLETTER_DESCRIPTION_REG);
-				$return .= "</td>";
-				$return .= "\t</tr>\n";
-				$return .= "\t<tr><td class='titleCell'>&nbsp;</td><td class='fieldCell' id='newslettersSpacer'>&nbsp;</td></tr>\n";
+				$htmlValue	=	$this->_getFormattedNewsletters($lists, true, _UE_NEWSLETTER_NAME_REG, _UE_NEWSLETTER_DESCRIPTION_REG);
+				$return		=	array( cbTabs::_createPseudoField( $tab, rtrim( _UE_NEWSLETTER_SUBSCRIBE, ':' ), $htmlValue, _UE_NEWSLETTER_DESCRIPTION_REG, 'cbregNewsletter', false ) );
 			}
 		}
 		return $return;

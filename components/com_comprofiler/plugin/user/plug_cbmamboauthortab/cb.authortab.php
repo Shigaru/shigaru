@@ -1,7 +1,7 @@
 <?php
 /**
 * Author Tab Class for handling the CB tab api
-* @version $Id: cb.authortab.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: cb.authortab.php 1493 2011-07-16 15:38:31Z beat $
 * @package Community Builder
 * @subpackage cb.authortab.php
 * @author JoomlaJoe
@@ -31,15 +31,16 @@ class getAuthorTab extends cbTabHandler {
 		
 		$now		=	date( 'Y-m-d H:i:s', $_CB_framework->now() + $_CB_framework->getCfg( 'offset' ) * 60 * 60 );
 		$query		=	"SELECT a.id, a.catid, a.title, a.hits,a.created, ROUND( r.rating_sum / r.rating_count ) AS rating,r.rating_count";
-		if ( $jVer == 1 ) {
+		if ( $jVer >= 1 ) {
 			$query	.=	', CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'
 					.	' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug';
 		}
 		$query		.=	"\n FROM #__content AS a"
-					.	"\n LEFT JOIN #__content_rating AS r ON r.content_id=a.id"
-					.	"\n INNER JOIN #__sections AS s ON s.id=a.sectionid AND s.title != 'Mamblog'"
-					;
-		if ( $jVer == 1 ) {
+					.	"\n LEFT JOIN #__content_rating AS r ON r.content_id=a.id";
+		if ( $jVer < 2 ) {
+			$query	.=	"\n INNER JOIN #__sections AS s ON s.id=a.sectionid AND s.title != 'Mamblog'";
+		}
+		if ( $jVer >= 1 ) {
 			$query	.=	"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid";
 		}
 		$query		.=	"\n WHERE a.created_by=". (int) $user->id .""
@@ -53,7 +54,7 @@ class getAuthorTab extends cbTabHandler {
 		//print $_CB_database->getQuery();
 		$items = $_CB_database->loadObjectList();
 		if(!count($items)>0) {
-			$return .= "<br /><br /><div class=\"cbNoArticles\" style=\"text-align:left;width:95%;\">";
+			$return .= "<br /><br /><div class=\"cbNoArticles\" style=\"width:95%;\">";
 			$return .= _UE_NOARTICLES;
 			$return .= "</div>";
 			return $return;
@@ -105,8 +106,11 @@ class getAuthorTab extends cbTabHandler {
 			if ( $showHits ) {
 				$hits = "<td>".$item->hits."</td>";
 			}
-			if ( $jVer == 1 ) {
-				$url	=	cbSef( 'index.php?option=com_content&amp;view=article&amp;id=' . $item->slug . '&amp;catid=' . $item->catslug . $itemidtxt );				
+			if ( $jVer == 2 ) {
+				require_once( $_CB_framework->getCfg( 'absolute_path' ) . '/components/com_content/helpers/route.php' );
+				$url	=	cbSef( ContentHelperRoute::getArticleRoute( $item->slug, $item->catid ) );
+			} elseif ( $jVer == 1 ) {
+				$url	=	cbSef( 'index.php?option=com_content&amp;view=article&amp;id=' . $item->slug . '&amp;catid=' . $item->catslug . $itemidtxt );
 			} else {
 				$url	=	cbSef( 'index.php?option=com_content&amp;task=view&amp;id=' . (int) $item->id . $itemidtxt );
 			}

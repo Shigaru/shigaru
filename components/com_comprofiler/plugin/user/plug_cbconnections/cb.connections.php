@@ -1,7 +1,7 @@
 <?php
 /**
 * Connections CB core plugin with tab classes for handling display of shortest connection path and connections tab on user profile.
-* @version $Id: cb.connections.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: cb.connections.php 1106 2010-06-17 00:34:05Z beat $
 * @package Community Builder
 * @subpackage cb.connections.php
 * @author JoomlaJoe and Beat. Thanks to Nant for proposing paging
@@ -229,9 +229,9 @@ class getConnectionTab extends cbTabHandler {
 		}
 		
 		$query				=	"SELECT m.*,u.name,u.email,u.username,c.avatar,c.avatarapproved, u.id " . "\n FROM #__comprofiler_members AS m" . "\n LEFT JOIN #__comprofiler AS c ON m.memberid=c.id" . "\n LEFT JOIN #__users AS u ON m.memberid=u.id" . // removed  . "\n LEFT JOIN #__session AS s ON s.userid=u.id"	and in SELECT: IF((s.session_id<=>null) OR (s.guest<=>1),0,1) AS 'isOnline' to avoid blocking site in case members table get locked
-		"\n WHERE m.referenceid=" . (int) $user->id . "" . "\n AND c.approved=1 AND c.confirmed=1 AND c.banned=0 AND u.block=0" . $isVisitor . "\n ORDER BY m.membersince DESC, m.memberid ASC" . "\n LIMIT " . (int) ( $pagingParams["connshow_limitstart"] ? $pagingParams["connshow_limitstart"] : 0 ) . "," . (int) $con_entriesperpage;
+		"\n WHERE m.referenceid=" . (int) $user->id . "" . "\n AND c.approved=1 AND c.confirmed=1 AND c.banned=0 AND u.block=0" . $isVisitor . "\n ORDER BY m.membersince DESC, m.memberid ASC";
 		
-		$_CB_database->setQuery( $query );
+		$_CB_database->setQuery( $query, (int) ( $pagingParams["connshow_limitstart"] ? $pagingParams["connshow_limitstart"] : 0 ), (int) $con_entriesperpage );
 		$connections		=	$_CB_database->loadObjectList();
 		
 		if ( ! count( $connections ) > 0 ) {

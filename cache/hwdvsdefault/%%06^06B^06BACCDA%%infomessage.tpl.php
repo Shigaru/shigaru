@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-09-06 21:46:44
+<?php /* Smarty version 2.6.26, created on 2011-09-10 19:21:33
          compiled from infomessage.tpl */ ?>
 
 <?php if ($this->_tpl_vars['full']): ?><?php $_smarty_tpl_vars = $this->_tpl_vars;

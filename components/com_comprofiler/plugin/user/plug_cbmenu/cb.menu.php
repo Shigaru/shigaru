@@ -1,7 +1,7 @@
 <?php
 /**
 * Menu and Status functions handling the CB tab api
-* @version $Id: cb.menu.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: cb.menu.php 1412 2011-02-01 23:39:01Z beat $
 * @package Community Builder
 * @subpackage cb.menu.php
 * @author Beat
@@ -232,7 +232,7 @@ class cbMenuHandler {		//BB extends cbPluginHandler  {
 				break;
 			case "down":
 				$htmlRes = &$this->htmlDown[$params['level']-1];
-				$ret .= sprintf( $htmlRes, $this->languageTranslate($key), $params['idCounter']++);
+				$ret .= sprintf( $htmlRes, $this->languageTranslate($key), $params['idCounter']++, $key );
 				$params['level'] +=1;
 				break;
 			case "up":
@@ -252,7 +252,7 @@ class cbMenuHandler {		//BB extends cbPluginHandler  {
 					if (is_object($val)) {
 						if (method_exists($val,$this->oVarDisplayMethodName)) {
 							$displayMethodName = $this->oVarDisplayMethodName;
-							$ret .= $val->$displayMethodName($params['level'], $params['idCounter']);
+							$ret .= $val->$displayMethodName($params['level'], $params['idCounter'], $key);
 						} else {
 							$l = $this->oVarLink;
 							$n = $this->oVarName;
@@ -298,7 +298,7 @@ class cbMenuBest extends cbMenu {			// later: extends mosMenu
 	function cbMenuBest ( &$db ) {
 		$this->cbMenu($db);
 	}
-	function displayMenuItem($level, $idCounter) {
+	function displayMenuItem($level, $idCounter, $key) {
 		$ret = '';
 		switch ($level) {
 			case 0:
@@ -320,7 +320,7 @@ class cbMenuBest extends cbMenu {			// later: extends mosMenu
 				$ret .= "</li>";
 				break;
 			case 2:
-				$ret .= "<li>";
+				$ret .= "<li class=\"cbMenuLeaf2 cbMenu" . $key . "\">";
 				if (substr(ltrim($this->link),0,1) == '<') {
 					$ret .= $this->link;
 				} else {
@@ -357,22 +357,22 @@ window.onload = function() { if (cbOldwindowOnLoad) cbOldwindowOnLoad(); Chargem
 	/** @var string text to output at each level of menu
 	* 		/ enleve:  class=\"mainlevel\"
 	*/
-	var $htmlDown = array(	"<li id=\"menu%2\$d\" class=\"cbMenu\" onmouseover=\"MontrerMenu('ssmenu%2\$d');\" onmouseout=\"CacherDelai();\">
+	var $htmlDown = array(	"<li id=\"menu%2\$d\" class=\"cbMenu cbMenu%3\$s\" onmouseover=\"MontrerMenu('ssmenu%2\$d');\" onmouseout=\"CacherDelai();\">
 	<a href=\"javascript:void(0)\">%1\$s<span>&nbsp;:</span></a>\n\t  <ul id=\"ssmenu%2\$d\" class=\"cbSSmenu\">",
-							"\t<li><a href=\"javascript:void(0)\">%1\$s<span>&nbsp;:</span></a>\n\t\t  <ul>",
-							"\t\t<li><a href=\"javascript:void(0)\">%1\$s<span>&nbsp;:</span></a>\n\t\t\t  <ul>" );
+							"\t<li class=\"cbMenuL2 cbMenu%3\$s\"><a href=\"javascript:void(0)\">%1\$s<span>&nbsp;:</span></a>\n\t\t  <ul>",
+							"\t\t<li class=\"cbMenuL3 cbMenu%3\$s\"><a href=\"javascript:void(0)\">%1\$s<span>&nbsp;:</span></a>\n\t\t\t  <ul>" );
 	/** @var string text to output at end of menu */
 	var $htmlUp = array(	"  </ul>\n\t</li>","\t  </ul>\n\t\t</li>","\t\t  </ul>\n\t\t\t</li>" );
 	/** @var string text to output at leaves with URL of menu */
 	var $htmlLeaf = array(	"<div class=\"cbMenuSingleText\">%s</div>",	// when only a text to diplay as whole menu!
 							"<p id=\"menu%3\$d\" class=\"cbMenu\" onmouseover=\"MontrerMenu('ssmenu%3\$d');\" onmouseout=\"CacherDelai();\"><a href=\"%1\$s\">%2\$s<span>&nbsp;;</span></a></p>",	// empty menu
-							"<li><a href=\"%s\">%s<span>&nbsp;;</span></a></li>",
+							"<li class=\"cbMenuLeaf2 cbMenu%3\$s\"><a href=\"%s\">%s<span>&nbsp;;</span></a></li>",
 							"<div class=\"cbMenuLeaf3\"><a href=\"%s\">%s</a></div>",
 							"<div class=\"cbMenuLeaf4\"><a href=\"%s\">%s</a></div>" );
 	/** @var string text to output at leaves without URL of menu */
 	var $htmlText = array(	"", 										// returned value for empty string "" entry
 							"<div class=\"cbMenuLeaf1\">%s</div>",
-							"<li><a href=\"javascript:void()\">%s<span>&nbsp;;</span></a></li>",
+							"<li class=\"cbMenuLeaf2 cbMenu_%3\$s\"><a href=\"javascript:void()\">%s<span>&nbsp;;</span></a></li>",
 							"<div class=\"cbMenuLeaf3\">%s</div>",
 							"<div class=\"cbMenuLeaf4\">%s</div>" );
 	/** @var string text to output as separator text at leaves of menu */

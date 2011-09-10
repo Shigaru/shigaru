@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: cb.sql.upgrader.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: cb.sql.upgrader.php 1313 2010-11-28 17:38:54Z beat $
 * @package Community Builder
 * @subpackage cb.sql.upgrader.php
 * @author Beat
@@ -32,6 +32,7 @@ class CBSQLupgrader {
 	var $_errors			=	array();
 	var $_logsIndex			=	0;
 	var $_dryRun			=	false;
+	var $_batchProcess		=	false;
 	/**
 	 * Constructor
 	 *
@@ -147,7 +148,7 @@ class CBSQLupgrader {
 	 * @access private
 	 *
 	 * @param  string  $tableName  Name of table
-	 * @return array|boolean       Array of SHOW COLUMNS FROM ... in SQL or boolean FALSE
+	 * @return array|boolean       Array of SHOW (FULL) COLUMNS FROM ... in SQL or boolean FALSE
 	 */
 	function getAllTableColumns( $tableName ) {
 		if ( $this->checkTableExists( $tableName ) ) {
@@ -497,24 +498,6 @@ class CBSQLupgrader {
 		$colNamePrefixed							=	$this->_prefixedName( $column, $colNamePrefix );
 		$fullColumnType								=	$this->_fullColumnType( $column );
 		if ( $fullColumnType !== false ) {
-			$version								=	$this->_db->getVersion();
-			$version								=	substr( $version, 0, strpos( $version, '-' ) );
-
-			switch ( $columnNameAfter ) {
-				case null:
-					$firstAfterSQL					=	'';
-					break;
-	
-				case 1:
-					$firstAfterSQL					=	' FIRST';
-					break;
-	
-				default:
-					$colNameAfterPrefixed			=	$this->_prefixedName( $columnNameAfter, $colNamePrefix );
-					$firstAfterSQL					=	' AFTER ' . $this->_db->NameQuote( $colNameAfterPrefixed );
-					break;
-			}
-
 			$sqlUpdate								=	'';
 			$updateResult							=	true;
 	
@@ -536,15 +519,31 @@ class CBSQLupgrader {
 				}
 	
 				$alteration							=	'CHANGE ' . $this->_db->NameQuote( $oldColName );
+				$firstAfterSQL						=	'';
 			} else {
 				// column doesn't exist, create it:
 				$alteration							=	'ADD';
+
+				switch ( $columnNameAfter ) {
+					case null:
+						$firstAfterSQL				=	'';
+						break;
+		
+					case 1:
+						$firstAfterSQL				=	' FIRST';
+						break;
+		
+					default:
+						$colNameAfterPrefixed		=	$this->_prefixedName( $columnNameAfter, $colNamePrefix );
+						$firstAfterSQL				=	' AFTER ' . $this->_db->NameQuote( $colNameAfterPrefixed );
+						break;
+				}
 			}
 			$sql									=	'ALTER TABLE ' . $this->_db->NameQuote( $tableName )
 													.	"\n " . $alteration
 													.	' ' . $this->_db->NameQuote( $colNamePrefixed )
 													.	' ' . $fullColumnType
-													.	( ! cbStartOfStringMatch( $version, '3.23' ) ? $firstAfterSQL : '' )
+													.	( $this->_db->versionCompare( '4.0' ) ? $firstAfterSQL : '' )
 													;
 			$alterationResult						=	$this->_doQuery( $sql );
 	
@@ -631,14 +630,19 @@ class CBSQLupgrader {
 	 * @param  array               $allColumns       From $this->getAllTableColumns( $table ) : columns which were existing before upgrading columns called before this function
 	 * @param  string              $colNamePrefix    Prefix to add to all column names
 	 * @param  boolean             $change           TRUE: changes row, FALSE: checks row
+	 * @param  boolean             $directlyInsert   TRUE: does not test if row exists first, FALSE: checks first if row exists
 	 * @return boolean             TRUE: identical, FALSE: errors are in $this->getErrors()
 	 */
-	function checkOrChangeRow( $tableName, &$rows, &$row, &$allColumns, $colNamePrefix, $change = true ) {
+	function checkOrChangeRow( $tableName, &$rows, &$row, &$allColumns, $colNamePrefix, $change = true, $directlyInsert = false ) {
 		$indexName								=	$this->_prefixedName( $row, $colNamePrefix, 'index', 'indextype' );
 		$indexValue								=	$row->attributes( 'value' );
 		$indexValueType							=	$row->attributes( 'valuetype' );
 
-		$rowsArray								=	$this->loadRows( $tableName, $indexName, $indexValue, $indexValueType );
+		if ( $change && $directlyInsert ) {
+			$rowsArray							=	array();
+		} else {
+			$rowsArray							=	$this->loadRows( $tableName, $indexName, $indexValue, $indexValueType );
+		}
 
 		$mismatchingFields						=	array();
 
@@ -862,32 +866,55 @@ class CBSQLupgrader {
 
 			if ( count( $sqlFieldNames ) > 0 ) {
 				$sqlColumnsText					=	'(' . implode( ',', $sqlFieldNames ) . ')';
-				$sqlColumnsValues				=	array();
-				$sqlColumnsValues[]				=	'(' . implode( ',', $sqlFieldValues ) . ')';
+				$sqlColumnsValues				=	'(' . implode( ',', $sqlFieldValues ) . ')';
 			} elseif ( $indexName ) {
 				$sqlColumnsText					=	'(' . $this->_db->NameQuote( $indexName ) . ')';
-				$sqlColumnsValues				=	'(' . $this->_sqlCleanQuote( $indexValue, $indexValueType );
+				$sqlColumnsValues				=	'(' . $this->_sqlCleanQuote( $indexValue, $indexValueType ) . ')';
 			} else {
 				$sqlColumnsText					=	null;
 			}
 			if ( $sqlColumnsText != null ) {
 				$sql							=	'INSERT INTO ' . $this->_db->NameQuote( $tableName )
 												.	"\n " . $sqlColumnsText
-												.	"\n VALUES " . implode( ",\n        ", $sqlColumnsValues )
-												;
-				if ( ! $this->_doQuery( $sql ) ) {
-					$this->_setError( sprintf( '%s::insertRow of Table %s Row %s = %s Fields %s = %s failed with SQL error: %s', get_class( $this ), $tableName, $indexName, $indexValue, $sqlColumnsText, $sqlColumnsValues, $this->_db->getErrorMsg() ), $sql );
-					return false;
+												.	"\n VALUES ";
+				if ( $this->_batchProcess !== false ) {
+					$this->_batchProcess[$tableName][$sqlColumnsText][]	=	$sqlColumnsValues;
 				} else {
-					$this->_setLog( sprintf( 'Table %s Row %s = %s successfully updated', $tableName, $indexName, $indexValue ), $sql, 'change' );
-					return true;
+					// $sql						.=	implode( ",\n        ", $sqlColumnsValues );
+					$sql						.=	$sqlColumnsValues;
+					if ( ! $this->_doQuery( $sql ) ) {
+						$this->_setError( sprintf( '%s::insertRow of Table %s Row %s = %s Fields %s = %s failed with SQL error: %s', get_class( $this ), $tableName, $indexName, $indexValue, $sqlColumnsText, $sqlColumnsValues, $this->_db->getErrorMsg() ), $sql );
+						return false;
+					} else {
+						$this->_setLog( sprintf( 'Table %s Row %s = %s successfully updated', $tableName, $indexName, $indexValue ), $sql, 'change' );
+						return true;
+					}
 				}
-
 			}
 		}
 		$this->_setError( sprintf( '%s::insertRow : Error in SQL: No values to insert Row %s = %s (type %s)', $tableName, $indexName, $indexValue, $indexValueType ), $sql );
 		return true;
-		
+	}
+	function _processBatchInserts( ) {
+		$result									=	true;
+		if ( $this->_batchProcess !== false ) {
+			foreach ($this->_batchProcess as $tableName => $cv ) {
+				foreach ($cv as $sqlColumnsText => $arrayOfSqlColumnsValues ) {
+					$sql						=	'INSERT INTO ' . $this->_db->NameQuote( $tableName )
+												.	"\n " . $sqlColumnsText
+												.	"\n VALUES "
+												.	implode( ",\n        ", $arrayOfSqlColumnsValues );
+					if ( ! $this->_doQuery( $sql ) ) {
+						$this->_setError( sprintf( '%s::_processBatchInserts of Table insert of Columns %s failed with SQL error: %s', get_class( $this ), $tableName, $sqlColumnsText, $this->_db->getErrorMsg() ), $sql );
+						$result					=	false;
+					} else {
+						$this->_setLog( sprintf( 'Table %s Columns %s successfully updated', $tableName, $sqlColumnsText ), $sql, 'change' );
+					}
+				}
+			}
+			$this->_batchProcess				=	false;
+		}
+		return $result;
 	}
 	/**
 	 * Builds SQL WHERE statement (without WHERE) based on array $selection
@@ -993,12 +1020,9 @@ class CBSQLupgrader {
 			$tableName							=	$this->_prefixedName( $table, $colNamePrefix );
 			$columns							=&	$table->getElementByPath( 'columns' );
 			if ( $tableName && ( $columns !== false ) ) {
-				$version						=	$this->_db->getVersion();
-				$version						=	substr( $version, 0, strpos($version, '-' ) );
-
 				$sqlColumns						=	array();
-				$auto_increment_initial_value	=	'';
-	
+				$tableOptions					=	array();
+					
 				foreach ( $columns->children() as $column ) {
 					if ( $column->name() == 'column' ) {
 						$colNamePrefixed		=	$this->_prefixedName( $column, $colNamePrefix );
@@ -1006,7 +1030,7 @@ class CBSQLupgrader {
 												.	' ' . $this->_fullColumnType( $column )
 												;
 						if ( (int) $column->attributes( 'auto_increment' ) ) {
-							$auto_increment_initial_value	=	' AUTO_INCREMENT=' . (int) $column->attributes( 'auto_increment' );
+							$tableOptions[]		=	'AUTO_INCREMENT=' . (int) $column->attributes( 'auto_increment' );
 						}
 					}
 				}
@@ -1022,12 +1046,23 @@ class CBSQLupgrader {
 						}
 					}
 				}
+
+				if ( $this->_db->versionCompare( '4.0' ) ) {
+					$tableOptions[]				=	'ENGINE=MyISAM';
+				}
+				$collation						=	$table->attributes( 'collation' );
+				if ( $collation && $this->_db->versionCompare( '4.1' ) ) {
+					$charSet					=	substr( $collation, 0, strpos( $collation, '_' ) );
+					if ( $charSet ) {
+						$tableOptions[]			=	'CHARACTER SET = ' . preg_replace( '/[^a-z0-9_]/', '' , $charSet );
+						$tableOptions[]			=	'COLLATE = ' . preg_replace( '/[^a-z0-9_]/', '' , $collation );
+					}
+				}
 				$sql							=	'CREATE TABLE ' . $this->_db->NameQuote( $tableName )
 												.	' ('
 												.	implode( ',', $sqlColumns )
 												.	"\n )"
-												.	( ! cbStartOfStringMatch( $version, '3.23' ) ? ' ENGINE=MyISAM' : '' )
-												.	$auto_increment_initial_value
+												.	implode( ', ', $tableOptions )
 												;
 				if ( ! $this->_doQuery( $sql ) ) {
 					$this->_setError( sprintf( '%s::createTableof Table %s failed with SQL error: %s', get_class( $this ), $tableName, $this->_db->getErrorMsg() ), $sql );
@@ -1507,6 +1542,7 @@ class CBSQLupgrader {
 	 */
 	function checkXmlTableDescription( &$table, $colNamePrefix = '', $change = false, $strictlyColumns = false ) {
 		$isMatching								=	false;
+		$directlyInsert							=	false;
 		if ( $table->name() == 'table' ) {
 			$tableName							=	$this->_prefixedName( $table, $colNamePrefix );
 			$columns							=&	$table->getElementByPath( 'columns' );
@@ -1521,6 +1557,7 @@ class CBSQLupgrader {
 					if ( $change ) {
 						if ( $this->createTable( $table, $colNamePrefix ) ) {
 							$allColumns			=	$this->getAllTableColumns( $tableName );
+							$directlyInsert		=	true;		// as we just created table, we can directly insert rows now
 						} else {
 							$isMatching			=	false;
 						}
@@ -1572,13 +1609,18 @@ class CBSQLupgrader {
 				if ( $allColumns !== false ) {
 					$rows						=&	$table->getElementByPath( 'rows' );
 					if ( $rows !== false ) {
+						// enable batch inserts to gain speed:
+						$this->_batchProcess	=	array();
 						foreach ( $rows->children() as $row ) {
 							if ( $row->name() == 'row' ) {
-								if ( ! $this->checkOrChangeRow( $tableName, $rows, $row, $allColumns, $colNamePrefix, $change ) ) {
+								// build the insert statements:
+								if ( ! $this->checkOrChangeRow( $tableName, $rows, $row, $allColumns, $colNamePrefix, $change, $directlyInsert ) ) {
 									$isMatching	=	false;
 								}
 							}
 						}
+						// now process the INSERTS:
+						$this->_processBatchInserts();
 						if ( $strictlyColumns && ( $rows->attributes( 'strict' ) !== 'false' ) && ! $this->checkOtherRowsExist( $tableName, $rows, $colNamePrefix, $change ) ) {
 							$isMatching			=	false;
 						}

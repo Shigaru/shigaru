@@ -1,7 +1,18 @@
-<?php /* Smarty version 2.6.26, created on 2011-09-06 23:26:04
+<?php /* Smarty version 2.6.26, created on 2011-09-10 22:06:20
          compiled from index.tpl */ ?>
 
 <div id="homepromo"><?php echo @_HWDVIDS_HOMEPROMO; ?>
+ <a href="<?php echo $this->_tpl_vars['tenreasonsurl']; ?>
+" title="<?php echo $this->_tpl_vars['tenreasonstext']; ?>
+ Shigaru"><?php echo $this->_tpl_vars['tenreasonstext']; ?>
+</a>
+<br /> </div>
+
+<div id="totalvideos">
+	<?php echo @_HWDVIDS_INFO_TOTVID; ?>
+: <b><?php echo $this->_tpl_vars['totalvideos']; ?>
+</b> <?php echo @_HWDVIDS_SHIGARU_TOTALCATEGORIZED; ?>
+
 </div>
 
 <?php $_smarty_tpl_vars = $this->_tpl_vars;
@@ -15,13 +26,13 @@ unset($_smarty_tpl_vars);
   <div class="sic-left">
 <div id="tabs">
 	<ul>
-		<li><a href="#tabs-1"><?php echo $this->_tpl_vars['title_mostpopular']; ?>
+		<li><a href="#tabs-1"><?php echo $this->_tpl_vars['title_mostviewed']; ?>
 </a></li>
 		<li><a href="#tabs-2"><?php echo @_HWDVIDS_MOST_RECENT; ?>
 </a></li>
-		<li><a href="#tabs-3"><?php echo $this->_tpl_vars['title_mostviewed']; ?>
+		<li><a href="#tabs-3"><?php echo @_HWDVIDS_MOST_RATED; ?>
 </a></li>
-		<li><a href="#tabs-4"><?php echo @_HWDVIDS_MOST_RATED; ?>
+		<li><a href="#tabs-4"><?php echo @_HWDVIDS_MOST_COMMENTED; ?>
 </a></li>
 		<li><a href="#tabs-5"><?php echo @_HWDVIDS_MOST_COMMENTED; ?>
 </a></li>
@@ -29,6 +40,75 @@ unset($_smarty_tpl_vars);
 
 	<?php if ($this->_tpl_vars['print_mostpopular']): ?>
     <div id="tabs-1" class="standard">
+      <div class="scoller">
+      <div class="list">
+        <div class="box">
+			<?php $_from = $this->_tpl_vars['mostviewedlist']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['outer'] = array('total' => count($_from), 'iteration' => 0);
+if ($this->_foreach['outer']['total'] > 0):
+    foreach ($_from as $this->_tpl_vars['data']):
+        $this->_foreach['outer']['iteration']++;
+?>
+	  <?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "video_list_small_viewed.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+	  <div style="clear:both;"></div>
+          <?php endforeach; endif; unset($_from); ?>
+          
+        </div>
+      </div>  
+      </div>
+      <div class="viewmore"><a href="<?php echo $this->_tpl_vars['viewed_link']; ?>
+dsadasdas" title="<?php echo @_HWDVIDS_WATCHMORE; ?>
+"><?php echo @_HWDVIDS_WATCHMORE; ?>
+</a></div>
+    </div>
+    
+    <?php endif; ?>
+    
+    <div id="tabs-2" class="standard">
+      <div class="scoller">
+      <div class="list">
+        <div class="box">
+		<?php if ($this->_tpl_vars['print_videolist']): ?>
+
+          <?php $_from = $this->_tpl_vars['list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['outer'] = array('total' => count($_from), 'iteration' => 0);
+if ($this->_foreach['outer']['total'] > 0):
+    foreach ($_from as $this->_tpl_vars['data']):
+        $this->_foreach['outer']['iteration']++;
+?>
+			  <div class="videoBox">
+			  <?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "video_list_full_small_recent.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+			  </div>
+			  <?php if (($this->_foreach['outer']['iteration'] == $this->_foreach['outer']['total'])): ?>
+				 <div style="clear:both;"></div>
+			  <?php elseif (($this->_foreach['outer']['iteration']-1) % $this->_tpl_vars['vpr']- ( $this->_tpl_vars['vpr']-1 ) == 0): ?>
+				 <div style="clear:both;"></div>
+			  <?php endif; ?>
+          <?php endforeach; endif; unset($_from); ?>
+      
+		  <?php else: ?>
+			<div class="padding"><?php echo @_HWDVIDS_INFO_NRV; ?>
+</div>
+		  <?php endif; ?>
+	<!--<?php echo $this->_tpl_vars['pageNavigation']; ?>
+-->  
+        </div>
+      </div>  
+      </div>
+      <div class="viewmore"><a href="<?php echo $this->_tpl_vars['recent_link']; ?>
+" title="<?php echo @_HWDVIDS_WATCHMORE; ?>
+"><?php echo @_HWDVIDS_WATCHMORE; ?>
+</a></div>
+    </div>
+ 
+
+    <div id="tabs-3" class="standard">
       <div class="scoller">
       <div class="list">
         <div class="box">
@@ -47,67 +127,12 @@ unset($_smarty_tpl_vars);
         </div>
       </div>  
       </div>
-      <div class="viewmore"><a href="<?php echo $this->_tpl_vars['featured_link']; ?>
+      <div class="viewmore"><a href="<?php echo $this->_tpl_vars['popular_link']; ?>
 " title="<?php echo @_HWDVIDS_WATCHMORE; ?>
 "><?php echo @_HWDVIDS_WATCHMORE; ?>
 </a></div>
     </div>
-    
-    <?php endif; ?>
-    
-    <?php if ($this->_tpl_vars['print_mostviewed']): ?>
-    <div id="tabs-2" class="standard">
-      <div class="scoller">
-      <div class="list">
-        <div class="box">
-          <?php $_from = $this->_tpl_vars['mostviewedlist']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['outer'] = array('total' => count($_from), 'iteration' => 0);
-if ($this->_foreach['outer']['total'] > 0):
-    foreach ($_from as $this->_tpl_vars['data']):
-        $this->_foreach['outer']['iteration']++;
-?>
-	  <?php $_smarty_tpl_vars = $this->_tpl_vars;
-$this->_smarty_include(array('smarty_include_tpl_file' => "video_list_small_viewed.tpl", 'smarty_include_vars' => array()));
-$this->_tpl_vars = $_smarty_tpl_vars;
-unset($_smarty_tpl_vars);
- ?>
-	  <div style="clear:both;"></div>
-          <?php endforeach; endif; unset($_from); ?>
-        </div>
-      </div>  
-      </div>
-      <div class="viewmore"><a href="<?php echo $this->_tpl_vars['featured_link']; ?>
-" title="<?php echo @_HWDVIDS_WATCHMORE; ?>
-"><?php echo @_HWDVIDS_WATCHMORE; ?>
-</a></div>
-    </div>
-    <?php endif; ?>
 
-    <?php if ($this->_tpl_vars['print_mostviewed']): ?>
-    <div id="tabs-3" class="standard">
-      <div class="scoller">
-      <div class="list">
-        <div class="box">
-          <?php $_from = $this->_tpl_vars['mostviewedlist']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['outer'] = array('total' => count($_from), 'iteration' => 0);
-if ($this->_foreach['outer']['total'] > 0):
-    foreach ($_from as $this->_tpl_vars['data']):
-        $this->_foreach['outer']['iteration']++;
-?>
-	  <?php $_smarty_tpl_vars = $this->_tpl_vars;
-$this->_smarty_include(array('smarty_include_tpl_file' => "video_list_small_viewed.tpl", 'smarty_include_vars' => array()));
-$this->_tpl_vars = $_smarty_tpl_vars;
-unset($_smarty_tpl_vars);
- ?>
-	  <div style="clear:both;"></div>
-          <?php endforeach; endif; unset($_from); ?>
-        </div>
-      </div>  
-      </div>
-      <div class="viewmore"><a href="<?php echo $this->_tpl_vars['featured_link']; ?>
-" title="<?php echo @_HWDVIDS_WATCHMORE; ?>
-"><?php echo @_HWDVIDS_WATCHMORE; ?>
-</a></div>
-    </div>
-    <?php endif; ?>
 
     <?php if ($this->_tpl_vars['print_ads']): ?><?php if ($this->_tpl_vars['advert4']): ?><div class="standard"><div class="padding"><div id="hwdadverts-nopadding"><?php echo $this->_tpl_vars['advert4']; ?>
 </div></div></div><?php endif; ?><?php endif; ?>
@@ -144,17 +169,17 @@ unset($_smarty_tpl_vars);
       <div class="scoller">
       <div class="list">
         <div class="box">
-          <?php $_from = $this->_tpl_vars['mostfavouredlist']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['outer'] = array('total' => count($_from), 'iteration' => 0);
+          <?php $_from = $this->_tpl_vars['mostcommented']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['outer'] = array('total' => count($_from), 'iteration' => 0);
 if ($this->_foreach['outer']['total'] > 0):
     foreach ($_from as $this->_tpl_vars['data']):
         $this->_foreach['outer']['iteration']++;
 ?>
-	  <?php $_smarty_tpl_vars = $this->_tpl_vars;
+		  <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "video_list_small_favoured.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
-	  <div style="clear:both;"></div>
+		  <div style="clear:both;"></div>
           <?php endforeach; endif; unset($_from); ?>
         </div>
       </div>  
@@ -249,7 +274,7 @@ unset($_smarty_tpl_vars);
 		
 		
 		 <div id="whitebox">
-				<div class="whiteboxHeader">
+				<div class="whiteboxHeader adverts">
 						<div>
 							<h6>
 							<?php echo @_HWDVIDS_SHIGARU_ADS; ?>
@@ -277,7 +302,7 @@ unset($_smarty_tpl_vars);
  
 		
 		<div id="whitebox" class="mtop12">
-				<div class="whiteboxHeader">
+				<div class="whiteboxHeader tweeter">
 					<div>
 							<h6>
 							<?php echo @_HWDVIDS_SHIGARU_TWITTER; ?>
@@ -286,7 +311,7 @@ unset($_smarty_tpl_vars);
 						</div>
 				</div>			
 				
-				<div id="whitebox_m">
+				<div id="whitebox_m" class="scoller h150">
 					<?php echo $this->_tpl_vars['tweetdisplay']; ?>
 
 				</div>
@@ -327,6 +352,32 @@ unset($_smarty_tpl_vars);
 				
 		</div>
 		
+		<br />
+		
+			<div id="whitebox">
+				<div class="whiteboxHeader">
+						<div>
+							<h6>
+							<?php echo @_HWDVIDS_SHIGARU_OURFACES; ?>
+
+							</h6>
+						</div>
+				</div>
+				
+
+				<div id="whitebox_m">
+  
+					<?php echo $this->_tpl_vars['zncbmembers']; ?>
+
+  
+				</div>
+
+				<div id="whitebox_b">
+					<div id="whitebox_bl">
+						<div id="whitebox_br"></div>
+					</div>
+				</div>
+		</div>
 		
 		
 		
@@ -371,7 +422,7 @@ unset($_smarty_tpl_vars);
  
  
  <div id="whitebox">
-				<div class="whiteboxHeader">
+				<div class="whiteboxHeader adverts">
 						<div>
 							<h6>
 							<?php echo @_HWDVIDS_SHIGARU_ADS; ?>
@@ -458,7 +509,7 @@ unset($_smarty_tpl_vars);
     
     <div id="whitebox">
 				
-					<div class="whiteboxHeader">
+					<div class="whiteboxHeader facefans">
 						<div>
 							<h6>
 							<?php echo @_HWDVIDS_SHIGARU_FACEFAN; ?>
@@ -467,9 +518,11 @@ unset($_smarty_tpl_vars);
 						</div>
 					</div>
 				<div id="whitebox_m">
-					<?php echo $this->_tpl_vars['facefan']; ?>
-
-  
+					<center>
+						<div id="fb-root"></div>
+						<div class="fb-like-box" data-href="http://www.facebook.com/pages/Shigarucom/203892893007914" data-width="400" data-show-faces="true" data-stream="false" data-header="true">
+						</div>
+					</center>	  
 				</div>
 
 				<div id="whitebox_b">
@@ -517,7 +570,7 @@ unset($_smarty_tpl_vars);
     
     
     <div id="whitebox">
-				<div class="whiteboxHeader">
+				<div class="whiteboxHeader donate">
 						<div>
 							<h6>
 							<?php echo @_HWDVIDS_DONATETO; ?>
@@ -543,50 +596,16 @@ unset($_smarty_tpl_vars);
 		
 		
 		
+	
 		
 		
-		
-		
     
     
     
     
     
     
-    
-    <!--
-    <div class="standard">
-      <h2><?php echo @_HWDVIDS_RECENT; ?>
-</h2>
-      <?php if ($this->_tpl_vars['print_videolist']): ?>
-
-          <?php $_from = $this->_tpl_vars['list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['outer'] = array('total' => count($_from), 'iteration' => 0);
-if ($this->_foreach['outer']['total'] > 0):
-    foreach ($_from as $this->_tpl_vars['data']):
-        $this->_foreach['outer']['iteration']++;
-?>
-          <div class="videoBox">
-	  <?php $_smarty_tpl_vars = $this->_tpl_vars;
-$this->_smarty_include(array('smarty_include_tpl_file' => "video_list_full.tpl", 'smarty_include_vars' => array()));
-$this->_tpl_vars = $_smarty_tpl_vars;
-unset($_smarty_tpl_vars);
- ?>
-	  </div>
-	  <?php if (($this->_foreach['outer']['iteration'] == $this->_foreach['outer']['total'])): ?>
-	     <div style="clear:both;"></div>
-	  <?php elseif (($this->_foreach['outer']['iteration']-1) % $this->_tpl_vars['vpr']- ( $this->_tpl_vars['vpr']-1 ) == 0): ?>
-	     <div style="clear:both;"></div>
-	  <?php endif; ?>
-          <?php endforeach; endif; unset($_from); ?>
-      
-      <?php else: ?>
-        <div class="padding"><?php echo @_HWDVIDS_INFO_NRV; ?>
-</div>
-      <?php endif; ?>
-      <?php echo $this->_tpl_vars['pageNavigation']; ?>
-
-    </div>
-	-->
+   
 <?php if ($this->_tpl_vars['print_mostviewed'] || $this->_tpl_vars['print_mostviewed'] || $this->_tpl_vars['print_mostpopular']): ?>
   </div>
 </div>

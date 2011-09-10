@@ -2,7 +2,7 @@
 // WARNING: No blank line or spaces before the "< ? p h p" above this.
 /**
 * Joomla/Mambo Community Builder
-* @version $Id: default_language.php 874 2010-02-19 20:09:14Z beat $
+* @version $Id: default_language.php 1450 2011-02-13 18:38:33Z beat $
 * @package Community Builder
 * @subpackage Default Language file (English)
 * @author JoomlaJoe and Beat
@@ -14,8 +14,7 @@
 if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' ) ) ) { die( 'Direct Access to this location is not allowed.' ); }
 
 //Field Labels
-DEFINE('_UE_HITS','Profile views');
-DEFINE('_UE_SECONDCOL','SECOND COLUMN');
+DEFINE('_UE_HITS','Hits');
 DEFINE('_UE_USERNAME','Username');
 DEFINE('_UE_Address','Address');
 DEFINE('_UE_City','City');
@@ -61,12 +60,10 @@ DEFINE('_UE_PROFILE_TITLE',' Profile Page');
 DEFINE('_UE_UPDATEPROFILE','Update Your Profile');
 DEFINE('_UE_UPDATEAVATAR','Update Your Image');
 DEFINE('_UE_CONTACT_INFO_HEADER','Contact Info');
-DEFINE('_UE_ADDITIONAL_INFO_HEADER','About Me');
+DEFINE('_UE_ADDITIONAL_INFO_HEADER','Additional Information');
 DEFINE('_UE_REQUIRED_ERROR','This field is required!');
 DEFINE('_UE_FIELD_REQUIRED',' Required!');
 DEFINE('_UE_DELETE_AVATAR','Remove Image');
-DEFINE('_UE_MORE','More ...');
-DEFINE('_UE_LATESTCOMM','My latest comments');
 
 //Administrator Tab Names
 DEFINE('_UE_USERPROFILE','User Profile');
@@ -83,7 +80,7 @@ DEFINE('_UE_FIELD_EXPLAINATION','Decide if you want this field to be required an
 DEFINE('_UE_CONFIG','Configuration');
 DEFINE('_UE_CONFIG_DESC','Change the configuration');
 DEFINE('_UE_VERSION','Your version is ');
-DEFINE('_UE_BY','A Joomla 1.0 and 1.5, Mambo 4.5.2-4.5.5 and 4.6.3 and compatible systems custom component by');
+DEFINE('_UE_BY','A Joomla 1.0, 1.5 and 1.6, Mambo 4.5.2-4.5.5 and 4.6.3 and compatible systems custom component by');
 DEFINE('_UE_CURRENT_SETTINGS','Current Setting');
 DEFINE('_UE_A_EXPLANATION','Explanation');
 DEFINE('_UE_DISPLAY','Display?');
@@ -424,7 +421,7 @@ DEFINE('_UE_REG_COMPLETE_NOPASS_NOAPPR_CONF','<div class="componentheading">Regi
 .'<p>Your registration requires email confirmation and approval. Please follow the confirmation steps sent to you in email.</p>'
 .'<p>When you receive approval a password will be emailed to you and you will then be able to log in.</p>');
 DEFINE('_UE_NAME_STYLE','Name Style');
-DEFINE('_UE_NAME_STYLE_DESC','The name style details how you what to capture the name field in Joomla/Mambo.');
+DEFINE('_UE_NAME_STYLE_DESC','The name style details how you want to capture the name field in Joomla/Mambo.');
 DEFINE('_UE_USER_CONFIRMED_NEEDAPPR','Thank you for confirming your Email Address.  Your account requires approval by a moderator.  You will receive an email with the outcome of the review.');
 DEFINE('_UE_YOUR_FNAME','First Name');   
 DEFINE('_UE_YOUR_MNAME','Middle Name');
@@ -504,7 +501,7 @@ DEFINE('_UE_USER_NOT_CONFIRMED','This user has not yet confirmed his email addre
 //Connections
 DEFINE('_UE_ADDCONNECTION','Add Connection');
 DEFINE('_UE_REMOVECONNECTION','Remove Connection');
-DEFINE('_UE_CONNECTION','Shigaru Friends');
+DEFINE('_UE_CONNECTION','Connections');
 DEFINE('_UE_CONNECTIONACCEPTSUCCESSFULL','Connection Successfully Accepted!');
 DEFINE('_UE_CONNECTIONREMOVESUCCESSFULL','Connection Successfully Removed!');
 DEFINE('_UE_CONNECTIONADDSUCCESSFULL','Connection Successfully Added!');
@@ -1165,6 +1162,12 @@ DEFINE('_UE_FEMALE','Female');
 // 1.2.2 backend:
 DEFINE('_UE_DISPLAY_ROUNDED_DIV','Rounded div with title');
 DEFINE('_UE_WRONG_CONFIRMATION_CODE','Wrong confirmation code. Please check your Email and spambox.');
+// 1.2.3:
+DEFINE('_UE_LOST_YOUR_PASSWORD','Lost your Password ?');
+DEFINE('_UE_LOST_PASSWORD_EMAIL_ONLY_DESC','If you <strong>lost your password</strong>, please enter your E-mail Address, then click the Send Password button, and you will receive a new password shortly. Use this new password to access the site.');
+// 1.4 Stable:
+DEFINE('_UE_ENABLESPOOFCHECK','Enable anti-spoofing sessions checks');
+DEFINE('_UE_ENABLESPOOFCHECK_DESC','Choose if you want spoof checking enabled on sessions (highly recommended unless you have difficulty with session expired and cookie errors when enabled). Disabled by default for best stability and usability.');
 
 // IMPORTANT WARNING: The closing tag, "?" and ">" has been intentionally omitted - CB works fine without it.
 // This was done to avoid errors caused by custom strings being added after the closing tag. ]

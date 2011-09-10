@@ -1,25 +1,26 @@
 <?PHP
 /**
-* @version $Id: kunena.parser.base.php 653 2009-04-27 02:28:22Z mahagr $
+* @version $Id$
 * Kunena Component
 * @package Kunena
 *
-* @Copyright (C) 2008 - 2009 Kunena Team All rights reserved
+* @Copyright (C) 2008 - 2011 Kunena Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-* @link http://www.kunena.com
+* @link http://www.kunena.org
 *
 * Based on FireBoard Component
-* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved
+* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * @link http://www.bestofjoomla.com
 **/
+/*
 ############################################################################
 # CATEGORY: Parser.TagParser                 DEVELOPMENT DATUM: 13.11.2007 #
 # VERSION:  00.08.00                         LAST EDIT   DATUM: 12.12.2007 #
 # FILENAME: kunena.parser.base.php                                                 #
-# AUTOR:    Miro Dietiker, MD Systems, All rights reserved                 #
+# AUTOR:    Miro Dietiker, MD Systems, All rights reserved.                 #
 # LICENSE:  http://www.gnu.org/copyleft/gpl.html GNU/GPL                   #
-# CONTACT: m.dietiker@md-systems.ch        © 2007 Miro Dietiker 13.11.2007 #
+# CONTACT: m.dietiker@md-systems.ch        ï¿½ 2007 Miro Dietiker 13.11.2007 #
 ############################################################################
 # This parser is based on an earlier CMS parser implementation.
 # It has been completely rewritten and generalized for Kunena and
@@ -41,7 +42,9 @@
 #  parser reduce parse steps
 #    change ParseNext, UnEscape, ParseTag, CheckTag
 #  separate run instead task passing
-defined( '_JEXEC' ) or die('Restricted access');
+*/
+defined( '_JEXEC' ) or die();
+
 
 define('TAGPARSER_RET_OK', 0);
 define('TAGPARSER_RET_ERR', 1);
@@ -50,6 +53,7 @@ define('TAGPARSER_RET_NOTHING', 0);
 define('TAGPARSER_RET_REPLACED', 1);
 define('TAGPARSER_RET_RECURSIVE', 2);
 
+/*
 # NO SUPPORT FOR RECURSIVE Standard & Extended REPARSING IMPLEMENTED
 # IF NEEDED, CALL RECURSION INSIDE PARSER, HANDLE DOUBLE ENCODE YOURSELF
 
@@ -62,32 +66,18 @@ define('TAGPARSER_RET_RECURSIVE', 2);
 # [img name="bla" x="10" y="20"]
 
 # is_a >PHP4.2.0
-
-$GLOBALS['microtime_total'] = 0;
-$GLOBALS['microtime_prev'] = 0;
-function microtime_float() {
-    list($usec, $sec) = explode(" ", microtime());
-    $newtime = ((float)$usec + (float)$sec);
-    if($GLOBALS['microtime_prev']) {
-        $GLOBALS['microtime_total'] += ($newtime-$GLOBALS['microtime_prev']);
-        //echo 'T:'.$GLOBALS['microtime_total'].',d:'.($newtime-$GLOBALS['microtime_prev']);
-        //echo ":<br>\n";
-    }
-    $GLOBALS['microtime_prev'] = $newtime;
-}
-
+*/
 
 class TagParser {
-    # main parser class
+    // main parser class
 
     function TagParser() {
-        # Constructor
+        // Constructor
     }
 
     function Parse(&$task) {
-        # Parses Text for tag-based transformation of task text
-        # remove=1 -> Remove Tags with illegal Content
-        microtime_float();
+        // Parses Text for tag-based transformation of task text
+        // remove=1 -> Remove Tags with illegal Content
         // fast access
         $interpreter =& $task->interpreter;
         $skip = $task->dry;
@@ -105,7 +95,6 @@ class TagParser {
         $textlen = strlen($text);
 	$pos = 0;
         while($pos<$textlen) {
-            microtime_float();
             // next tag candidate
             if($interpreter->ParseNext($task)!==TAGPARSER_RET_OK) {
                 break; // terminate event
@@ -123,7 +112,7 @@ class TagParser {
             $tag = NULL;
             if($interpreter->ParseTag($tag, $task)
             !==TAGPARSER_RET_OK) {
-                # ERROR SEPARATE FROM UNSUPPORTED REMOVES
+                // ERROR SEPARATE FROM UNSUPPORTED REMOVES
                 $offset = 0;
                 $this->RemoveOrEncode($offset, $task, $tag_start, $tag->tag_end, 'parsetag');
                 $pos_act += $offset;
@@ -131,17 +120,17 @@ class TagParser {
                 continue; // continue (if needed) after tag
             }
             $tag_end = $tag->tag_end;
-            #echo 'TAG:'.$tag_start.":".$tag_end.":".$tag->name;
-            #echo "\n";
-            #var_dump($tag);
-            #echo "\n";
+            //echo 'TAG:'.$tag_start.":".$tag_end.":".$tag->name;
+            //echo "\n";
+            //var_dump($tag);
+            //echo "\n";
 
             // verify tag validity content
             if($interpreter->CheckTag($task, $tag)
             !==TAGPARSER_RET_OK) {
-                # ERROR SEPARATE FROM UNSUPPORTED REMOVES
-                # we have found a syntactically correct tag, check semantics or remove
-                # ERROR ENCODE WOULD BE WRONG!! (DOUBLE ENCODE LATER ON)
+                // ERROR SEPARATE FROM UNSUPPORTED REMOVES
+                // we have found a syntactically correct tag, check semantics or remove
+                // ERROR ENCODE WOULD BE WRONG!! (DOUBLE ENCODE LATER ON)
                 $offset = 0;
                 $this->RemoveOrEncode($offset, $task, $tag_start, $tag_end, 'checktag');
                 $pos_act += $offset;
@@ -166,8 +155,8 @@ class TagParser {
                 $tag_end += $encode_diff;
                 $pos_act += $encode_diff;
                 unset($encode_diff); //opt
-                #echo 'ENCODE:'.$pos_encode_last.":".$tag_start.":";
-                #echo "\n";
+                //echo 'ENCODE:'.$pos_encode_last.":".$tag_start.":";
+                //echo "\n";
             }
             unset($textnew); // opt
             $pos_encode_last = $tag_start;
@@ -176,10 +165,10 @@ class TagParser {
             // tag length
             $tag_len = $tag_end-$tag_start+1; // [<5x<6]<7   7-5=2
             // go tag events
-            #echo 'CLASS:'.get_class($tag);
-            #echo "\n";
-            #if(get_class($tag)=='ParserEventTagEnd') {
-            #if(strget_class($tag)=='ParserEventTagEnd') {
+            //echo 'CLASS:'.get_class($tag);
+            //echo "\n";
+            //if(get_class($tag)=='ParserEventTagEnd') {
+            //if(strget_class($tag)=='ParserEventTagEnd') {
             if(is_a($tag, 'ParserEventTagEnd')) {
                 // ENDTAG found
                 $i=$sti-1;
@@ -348,7 +337,7 @@ class TagParser {
             --$sti;
             $starttag =& $st[$sti];
             $starttag_len = $starttag->tag_end-$starttag->tag_start+1;
-            #var_dump($starttag);
+            //var_dump($starttag);
 
             // late event
             $tag_new = NULL;
@@ -374,7 +363,6 @@ class TagParser {
             }
             unset($starttag, $starttag_len); //opt
         }
-        microtime_float();
 
         $task->interpreter->PostProcessing($task);
 
@@ -386,10 +374,10 @@ class TagParser {
     }
 
     function RemoveOrEncode(&$offset, &$task, $tag_start, $tag_end, $context) {
-        # Remove or encode tag range
-        #echo "ROE:".$tag_start.":".$tag_end.":".$task->text;
-        #echo "\n";
-        # SKIP handling on request
+        // Remove or encode tag range
+        //echo "ROE:".$tag_start.":".$tag_end.":".$task->text;
+        //echo "\n";
+        // SKIP handling on request
         if($task->dry) {
             return TAGPARSER_RET_OK;
         }
@@ -398,8 +386,8 @@ class TagParser {
         $tag_len = $tag_end-$tag_start+1;
         if($task->drop_errtag) {
             // Remove
-            #echo 'DROP';
-            #echo "\n";
+            //echo 'DROP';
+            //echo "\n";
             $text = substr($text, 0, $tag_start)
             .substr($text, $tag_end+1);
             $offset = -$tag_len;
@@ -416,136 +404,137 @@ class TagParser {
                 $offset = strlen($textnew)-$tag_len;
             }
         }
-        #echo "ROEE:".$task->text;
-        #echo "\n";
+        //echo "ROEE:".$task->text;
+        //echo "\n";
         return TAGPARSER_RET_OK;
     }
 }
 
 
 class TagInterpreter {
-    # class to define interface and describe event types
+    // class to define interface and describe event types
 
     var $parser = NULL;
 
-    function TagInterpreter(&$parser) {
-        # Interpreter constructor
+    function TagInterpreter(&$parser, $parent) {
+        // Interpreter constructor
         $this->parser =& $parser;
+        $this->parent = $parent;
     }
 
     function &NewTask() {
-        # Builds new Task
-        # RET
-        # object: the task object
-        # TAGPARSER_RET_ERR: error creating
+        // Builds new Task
+        // RET
+        // object: the task object
+        // TAGPARSER_RET_ERR: error creating
         $task = new ParserTask($this);
         return $task;
     }
 
     // All Parse functions need no parent call
     function ParseNext(&$task) {
-        # Parse next candidate for execution
-        # Candidate could be cancelled later on!
-        # $text:     the full text
-        # &$pos_act: position to begin parsing
-        # RET:
-        # TAGPARSER_RET_OK: found candidate
-        # TAGPARSER_RET_ERR: end of parsing, latest occurence
+        // Parse next candidate for execution
+        // Candidate could be cancelled later on!
+        // $text:     the full text
+        // &$pos_act: position to begin parsing
+        // RET:
+        // TAGPARSER_RET_OK: found candidate
+        // TAGPARSER_RET_ERR: end of parsing, latest occurence
         return TAGPARSER_RET_ERR;
     }
 
     function UnEscape(&$task) {
-        # Check if current tag is escaped, unescape
-        # Linear encoding is done later on!
-        # This escape only prevents tag parser from early tag identification abort
-        # RET:
-        # TAGPARSER_RET_NOTHING: No Escaping done, continue
-        # TAGPARSER_RET_REPLACED: Escaping done
+        // Check if current tag is escaped, unescape
+        // Linear encoding is done later on!
+        // This escape only prevents tag parser from early tag identification abort
+        // RET:
+        // TAGPARSER_RET_NOTHING: No Escaping done, continue
+        // TAGPARSER_RET_REPLACED: Escaping done
         // Default: Say there are no escaped value - treat it as tag
         return TAGPARSER_RET_NOTHING;
     }
 
     function ParseTag(&$tag, &$task) {
-        # Parse Tag content and create construct
-        # Tag is getting omitted if TAGPARSER_RET_ERR (later encoded as text)
-        # $pos_end MUST be >$task->tag_start on exit
-        # RET:
-        # TAGPARSER_RET_OK continue
-        # TAGPARSER_RET_ERR tag parse error, skip
+        // Parse Tag content and create construct
+        // Tag is getting omitted if TAGPARSER_RET_ERR (later encoded as text)
+        // $pos_end MUST be >$task->tag_start on exit
+        // RET:
+        // TAGPARSER_RET_OK continue
+        // TAGPARSER_RET_ERR tag parse error, skip
         return TAGPARSER_RET_ERR;
     }
 
     function CheckTag(&$task, $tag) {
-        # Check tag content for conformity to drop wrong
-        # RET:
-        # TAGPARSER_RET_OK OK
-        # TAGPARSER_RET_ERR with $err
+        // Check tag content for conformity to drop wrong
+        // RET:
+        // TAGPARSER_RET_OK OK
+        // TAGPARSER_RET_ERR with $err
         return TAGPARSER_RET_ERR;
     }
 
     // All String functions need consideration for parent calls!
     function Encode(&$text_new, &$task, $text_old, $context) {
-        # Encode strings for output
-        # Regard interpreter mode if needed
-        # IN:  $text_old, $context
-        #   As simple strings
-        # OUT: $tag_new
-        #   As full replacement
-        # context: 'text'
-        # context: 'tagremove.parsetag', 'tagremove.checktag', 'tagremove.unsupported'
-        # RET:
-        # TAGPARSER_RET_NOTHING: No Encoding done
-        # TAGPARSER_RET_REPLACED: Encoding done
+        // Encode strings for output
+        // Regard interpreter mode if needed
+        // IN:  $text_old, $context
+        //   As simple strings
+        // OUT: $tag_new
+        //   As full replacement
+        // context: 'text'
+        // context: 'tagremove.parsetag', 'tagremove.checktag', 'tagremove.unsupported'
+        // RET:
+        // TAGPARSER_RET_NOTHING: No Encoding done
+        // TAGPARSER_RET_REPLACED: Encoding done
         return TAGPARSER_RET_NOTHING;
     }
 
     // All Tag functions need no parent calls!
     function TagSingle(&$tag_new, &$task, $tag) {
-        # Funktion replaces TAGs with corresponding
-        # IN:  $tag      As object
-        # OUT: $tag_new  As full replacement
-        # RET:
-        # TAGPARSER_RET_NOTHING: None done
-        # TAGPARSER_RET_REPLACED: done recursive
-        # TAGPARSER_RET_RECURSIVE: done nonrecursive
-        # NOTE: return 0 means later TagStandard on close event or TagSingleLate
+        // Funktion replaces TAGs with corresponding
+        // IN:  $tag      As object
+        // OUT: $tag_new  As full replacement
+        // RET:
+        // TAGPARSER_RET_NOTHING: None done
+        // TAGPARSER_RET_REPLACED: done recursive
+        // TAGPARSER_RET_RECURSIVE: done nonrecursive
+        // NOTE: return 0 means later TagStandard on close event or TagSingleLate
         return TAGPARSER_RET_NOTHING;
     }
 
     function TagStandard(&$tag_new_start, &$tag_new_end, &$task, $tag) {
-        # Function replaces TAGs with corresponding
-        # IN:  $tag As object
-        # OUT: $tag_new_start, $tag_new_end
-        #   As tag replacement
-        # RET:
-        # TAGPARSER_RET_NOTHING: None done
-        # TAGPARSER_RET_REPLACED: done recursive
-        # TAGPARSER_RET_RECURSIVE: done nonrecursive (UNIMPLEMENTED)
-        # NOTE: return 0 means TagExtended is checked
+        // Function replaces TAGs with corresponding
+        // IN:  $tag As object
+        // OUT: $tag_new_start, $tag_new_end
+        //   As tag replacement
+        // RET:
+        // TAGPARSER_RET_NOTHING: None done
+        // TAGPARSER_RET_REPLACED: done recursive
+        // TAGPARSER_RET_RECURSIVE: done nonrecursive (UNIMPLEMENTED)
+        // NOTE: return 0 means TagExtended is checked
         return TAGPARSER_RET_NOTHING;
     }
 
     function TagExtended(&$tag_new, &$task, $tag, $between) {
-        # Funktion replaces TAGs with corresponding
-        # IN:  $tag, between   As object, between text
-        # OUT: $tag_new        As full replacement
-        # RET:
-        # TAGPARSER_RET_NOTHING: None done
-        # TAGPARSER_RET_REPLACED: done recursive
-        # TAGPARSER_RET_RECURSIVE: done nonrecursive (UNIMPLEMENTED)
-        # NOTE: TAGPARSER_RET_NOTHING means finally unsupported tag
+        // Funktion replaces TAGs with corresponding
+        // IN:  $tag, between   As object, between text
+        // OUT: $tag_new        As full replacement
+        // RET:
+        // TAGPARSER_RET_NOTHING: None done
+        // TAGPARSER_RET_REPLACED: done recursive
+        // TAGPARSER_RET_RECURSIVE: done nonrecursive (UNIMPLEMENTED)
+        // NOTE: TAGPARSER_RET_NOTHING means finally unsupported tag
         return TAGPARSER_RET_NOTHING;
     }
 
     function TagSingleLate(&$tag_new, &$task, $tag) {
-        # Funktion replaces TAGs with corresponding
-        # IN:  $tag      As object
-        # OUT: $tag_new  As full replacement
-        # RET:
-        # TAGPARSER_RET_NOTHING: None done
-        # TAGPARSER_RET_REPLACED: done recursive
-        # TAGPARSER_RET_RECURSIVE: done nonrecursive
-        # NOTE: return TAGPARSER_RET_NOTHING means unsupported
+        // Funktion replaces TAGs with corresponding
+        // IN:  $tag      As object
+        // OUT: $tag_new  As full replacement
+        // RET:
+        // TAGPARSER_RET_NOTHING: None done
+        // TAGPARSER_RET_REPLACED: done recursive
+        // TAGPARSER_RET_RECURSIVE: done nonrecursive
+        // NOTE: return TAGPARSER_RET_NOTHING means unsupported
         return TAGPARSER_RET_NOTHING;
     }
 
@@ -557,7 +546,7 @@ class TagInterpreter {
 }
 
 class ParserTask {
-    # A specific Task to get parsed continuing parser states
+    // A specific Task to get parsed continuing parser states
     // object assoc
     var $interpreter = NULL;
     // persistent process data
@@ -577,25 +566,25 @@ class ParserTask {
     var $pos_encode_last = 0;
 
     function ParserTask($interpreter) {
-        # DO NOT CALL DIRECTLY:
-        # use $interpreter->NewTask()
+        // DO NOT CALL DIRECTLY:
+        // use $interpreter->NewTask()
         $this->interpreter =& $interpreter;
     }
 
     function setText($text) {
-        # define new text to parse
+        // define new text to parse
         $this->text = $text;
         return TAGPARSER_RET_OK;
     }
 
     function Reset() {
-        # Reset this tasks' error state
+        // Reset this tasks' error state
         $this->errarr = array();
         return TAGPARSER_RET_OK;
     }
 
     function Parse($text=NULL) {
-        # Parse this task
+        // Parse this task
         if($text!==NULL) {
             $this->text = $text;
         }
@@ -605,62 +594,34 @@ class ParserTask {
     }
 
     function ErrorPush($err) {
-        # Push err to tasks ErrorArray
+        // Push err to tasks ErrorArray
         $this->errarr[] = $err;
-    }
-
-    function ErrorShow() {
-        # Show all errors of this task
-        reset($this->errarr);
-        while(list($tempkey, $tempval) = each($this->errarr)) {
-            // check interface
-            echo $tempval->Show();
-            echo '<br />';
-            echo "\n";
-        }
-    }
-}
-
-class ParserRun {
-    # UNUSED, should be inside Parse() instead of $task
-    # A single run of the parser function
-    # encapsulating the run information instead of the resulting persistent object
-    var $task = null;
-    // stack ERROR REALLY?
-    var $st = array();
-    // scan states
-    var $pos_act = 0;
-    // encode as soon as a matching tag is executed
-    var $pos_encode_last = 0;
-
-    function ParserRun($task) {
-        $this->task = $task;
     }
 }
 
 class ParserEvent {
-    # A ParserEvent happens on TagInterpreter::ParseTag
+    // A ParserEvent happens on TagInterpreter::ParseTag
     var $tag_start = NULL;
     var $tag_end = NULL;
     var $name = '';
 
     function ParserEvent($tag_start, $tag_end, $name) {
-        # Constructor
+        // Constructor
         $this->tag_start = $tag_start;
         $this->tag_end = $tag_end;
         $this->name = $name;
     }
 
     function Offset($offset) {
-        # Move tag by offset (case replace prev tags)
+        // Move tag by offset (case replace prev tags)
         $this->tag_start += $offset;
         $this->tag_end += $offset;
     }
 }
 
 class ParserEventTag extends ParserEvent {
-    # Representing a starttag with options
-    # Derive from to put tags with special infos on stack
+    // Representing a starttag with options
+    // Derive from to put tags with special infos on stack
     var $options = array();
 
     function setOptions($opt) {
@@ -670,23 +631,23 @@ class ParserEventTag extends ParserEvent {
 }
 
 class ParserEventTagEnd extends ParserEvent {
-    # Representing an endtag
+    // Representing an endtag
 }
 
 class ParserErrorContext {
-    # A dump of a present TagParser::Parse error state with context
+    // A dump of a present TagParser::Parse error state with context
     var $error;
     var $pos = NULL;
     var $text = NULL;
     var $tag = NULL;
 
     function ParserErrorContext($error) {
-        # Constructor
+        // Constructor
         $this->error = $error;
     }
 
     function GrabContext($task, $tag=NULL) {
-        # Grab Context state of this error via COPY. This is a dump
+        // Grab Context state of this error via COPY. This is a dump
         // keep in mind, pos is after encoding, not input related!
         $this->pos = $task->pos_act;
         // pos -errtext_neg +errtext_pos
@@ -705,7 +666,7 @@ class ParserErrorContext {
     }
 
     function Show() {
-        # Show this error
+        // Show this error
         echo 'ERROR:'.$this->error.' @'.$this->pos.' near "'.$this->text.'"';
     }
 }

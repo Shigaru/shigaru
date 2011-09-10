@@ -36,10 +36,13 @@
 	padding:0px 0px 8px 0px;
 }
 /* NewG Validations for CB 2.0: */
-.cbValidationError input {
+.cbValidationErrortext, .cbValidationErrorpassword, .cbValidationErrorfile, .cbValidationErrorimage, .cbValidationErrortextarea, .cbValidationErrorselect {
 	border-color: red !important;
 }
-.cbValidationError .titleCell {
+.cbValidationErrorradio, .cbValidationErrorcheckbox {
+	color: red !important;
+}
+.cbValidationError .titleCell, .cbValidationError label, h2.cbValidationErrorTabTip a {
 	color: red !important;
 }
 
@@ -100,23 +103,23 @@ div.cbSideSetting { text-align: right; margin: 6px 2%; }
 */
 
 /* For tableless forms */
-form.cb_form							{	width: 100%;	margin: 0px;	padding: 0px;	border-width: 0px;	}
-form.cb_form .cb_form_instructions		{	width: 98%;	text-align: left;	clear: both;	padding:8px 3px 8px 6px;	}
-form.cb_form .cb_form_line				{	width: 98%;	text-align: left;	clear: both;	padding:3px 3px 4px 6px;	}
-form.cb_form .cb_form_line label		{	display: block;	float: left;	width: 30%;		font-weight:bold;	vertical-align: top;	}
-form.cb_form .cb_form_line div label	{	display: inline;float: none;	width: auto;	font-weight:normal;	}
-form.cb_form .cb_form_line .cb_field	{	display: block;	float: left;	width: 70%;		font-weight:normal;	vertical-align: top;	}
-form.cb_form .cb_form_line .cb_field input, form.cb_form .cb_form_line .cb_field select {
+form.cb_form							, .cb_tab_content								{	width: 100%;	margin: 0px;	padding: 0px;	border-width: 0px;	}
+form.cb_form .cb_form_instructions		, .cb_tab_content .cb_form_instructions			{	width: 98%;	text-align: left;	clear: both;	padding:8px 3px 8px 6px;	}
+form.cb_form .cb_form_line				, .cb_tab_content .cb_form_line					{	width: 98%;	text-align: left;	clear: both;	padding:3px 3px 4px 6px;	}
+form.cb_form .cb_form_line label		, .cb_tab_content .cb_form_line label			{	display: block;	float: left;	width: 28%;		font-weight:bold;	vertical-align: top;	}
+form.cb_form .cb_form_line div label	, .cb_tab_content .cb_form_line div label		{	display: inline;float: none;	width: auto;	font-weight:normal;	}
+form.cb_form .cb_form_line .cb_field	, .cb_tab_content .cb_form_line .cb_field		{	display: block;	float: left;	width: 70%;		font-weight:normal;	vertical-align: top;	}
+form.cb_form .cb_form_buttons_line	, .cb_tab_content .cb_form_buttons_line				{	width: 100%;	text-align: center;		padding-top: 8px;	padding-bottom: 12px;	}
+form.cb_form .cb_form_line .cb_field input, form.cb_form .cb_form_line .cb_field select		, .cb_tab_content .cb_form_line .cb_field input, .cb_tab_content .cb_form_line .cb_field select {
 	margin-top:0px;
 	margin-left:0px;
 	vertical-align: top;
 }
-form.cb_form .cb_form_buttons_line		{	width: 100%;	text-align: center;		padding-top: 8px;	padding-bottom: 12px;	}
 
 /* For table-based forms */
 table#registrationTable	{	width:98%;	border-width: 0px;	border-collapse: collapse;	margin: 0px;	padding: 0px;	}
 
-/* For rounded corners, it's CSS3, but still displays correctly in square on CSS2 browsers */
+/* For CSS3 rounded-corners */
 .cbtmpldialog {
 	padding: 5px 16px 3px;
 	-webkit-border-radius: 16px;
@@ -126,6 +129,7 @@ table#registrationTable	{	width:98%;	border-width: 0px;	border-collapse: collaps
 	margin: 1em 0 2em;
 	position: relative;
 
+	background-color: #c6c6c6;
 	background-color: rgba(198, 198, 198, 0.8);
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(180, 180, 180, 0.8)), to(rgba(255, 255, 255, .9)));
 	background-image: -moz-linear-gradient(rgba(180, 180, 180, 0.8) 0%, rgba(255, 255, 255, .9) 90%);
@@ -234,6 +238,7 @@ div.cbUserListChanger div.cbUserListChangeItem	{	margin-bottom: 6px;		text-align
 }
 .dynamic-tab-pane-control .tab-page .tab-content {
 	margin: 10px;
+	width: auto;
 }
 
 /* For tool-tips: */
@@ -527,30 +532,32 @@ div.cbclearboth {display: block;}
 	padding: 0px;
 	border-width: 0px;
 }
-.cb_result {
+.cb_result_ok, .cb_result_info, .cb_result_warning, .cb_result_error {
+	clear: both;
+	padding: 5px 5px 5px 30px;
+	background-position: 7px 3px;
 }
 .cb_result_ok {
-	padding: 5px 5px 5px 30px;
 	border: 1px transparent;
 	color: green;
 	background: transparent url("images/mini-icons/icon-16-tick.png") no-repeat;
-	background-position: 7px 3px;
+}
+.cb_result_info {
+	border: 1px transparent;
+	color: blue;
+	background: transparent url("images/mini-icons/icon-16-info.png") no-repeat;
 }
 .cb_result_warning {
-	padding: 5px 5px 5px 30px;
 	border: 1px solid #883300;
 	color: #dd7700;
 	font-weight: bold;
 	background: #ffffcc url("images/mini-icons/icon-16-warning.png") no-repeat;
-	background-position: 7px 3px;
 }
 .cb_result_error {
-	padding: 5px 5px 5px 30px;
 	border: 1px solid #cc0000;
 	color: red;
 	font-weight: bold;
 	background: #ffffcc url("images/mini-icons/icon-16-error.png") no-repeat;
-	background-position: 7px 3px;
 }
 
 .cb_online {
@@ -679,3 +686,111 @@ span.cbDateinputJs input.calendarDateInput {letter-spacing:.06em;font-family:Ver
   height: 11px;
   width: 22px;
 }
+.cbborderlesstable, .cbborderlesstable tr, .cbborderlesstable td {
+	border:0px;
+}
+.cbborderlesstable p {
+	padding-bottom: 6px;
+}
+/* CB module Menu */
+
+ul.cbMenuULlist {margin:0px; padding:0px; list-style:none; margin:0px 1px;}
+ul.cbMenuULlist li a  {padding:0px 15px 3px 23px; }
+ul.cbMenuULlist li { background:none; margin-bottom:5px; }
+ul.cbMenuULlist li.cbMenu_UE_MENU_VIEWMYPROFILE a {background:url(images/mini-icons/cbicons.png) repeat-y 0px 0px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_MENU_VIEWMYPROFILE a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -100px;}
+
+ul.cbMenuULlist li.cbMenu_UE_MENU_CB a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -200px;display:block;}
+ul.cbMenuULlist li.cbMenu_UE_MENU_CB a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -300px;}
+
+ul.cbMenuULlist li.cbMenu_UE_MENU_ABOUT_CB a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -400px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_MENU_ABOUT_CB a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -500px;}
+
+ul.cbMenuULlist li.cbMenu_UE_TEAMCREDITS_CB a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -400px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_TEAMCREDITS_CB a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -500px;}
+/*
+ul.cbpMenu.cbMenuULlist li a  {padding-left:23px; }
+ul.cbpMenu li.cbMenu_UE_MENU_EDIT a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -600px; display:block;}
+ul.cbpMenu li.cbMenu_UE_MENU_EDIT a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -700px;}
+ul.cbpMenu li.cbMenu_UE_MENU_EDIT a img {display:none;}
+*/
+ul.cbMenuULlist li.cbMenu_UE_UPDATEPROFILE a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -600px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_UPDATEPROFILE a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -700px;}
+
+ul.cbMenuULlist li.cbMenu_UE_UPDATEAVATAR a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -800px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_UPDATEAVATAR a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -900px;}
+
+ul.cbMenuULlist li.cbMenu_UE_DELETE_AVATAR a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -1000px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_DELETE_AVATAR a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -1100px;}
+
+ul.cbMenuULlist li.cbMenu_UE_HOME a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -1200px;display:block;}
+ul.cbMenuULlist li.cbMenu_UE_HOME a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -1300px;}
+
+ul.cbMenuULlist li.cbMenu_UE_MENU_MESSAGES a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -1400px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_MENU_MESSAGES a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -1500px;}
+
+ul.cbMenuULlist li.cbMenu_UE_PM_USER a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -1600px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_PM_USER a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -1700px;}
+
+ul.cbMenuULlist li.cbMenu_UE_PM_INBOX a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -1800px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_PM_INBOX a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y -0px -1900px;}
+
+ul.cbMenuULlist li.cbMenu_UE_PM_OUTBOX a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -2000px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_PM_OUTBOX a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -2100px;}
+
+ul.cbMenuULlist li.cbMenu_UE_PM_TRASHBOX a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -2200px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_PM_TRASHBOX a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -2300px;}
+
+ul.cbMenuULlist li.cbMenu_UE_PM_OPTIONS a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -2400px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_PM_OPTIONS a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -2500px;}
+
+ul.cbMenuULlist li.cbMenu_UE_PM_SENDMESSAGE a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -2600px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_PM_SENDMESSAGE a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -2700px;}
+
+ul.cbMenuULlist li.cbMenu_UE_MENU_SENDUSEREMAIL a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -2800px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_MENU_SENDUSEREMAIL a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -2900px;}
+
+ul.cbMenuULlist li.cbMenu_UE_MENU_MANAGEMYCONNECTIONS a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -3000px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_MENU_MANAGEMYCONNECTIONS a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -3100px;}
+
+ul.cbMenuULlist li.cbMenu_UE_ADDCONNECTIONREQUEST a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -3200px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_ADDCONNECTIONREQUEST a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -3300px;}
+
+ul.cbMenuULlist li.cbMenu_UE_ADDCONNECTION a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -3200px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_ADDCONNECTION a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -3300px;}
+
+ul.cbMenuULlist li.cbMenu_UE_REMOVECONNECTION a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -3400px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_REMOVECONNECTION a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -3500px;}
+
+ul.cbMenuULlist li.cbMenu_UE_REVOKECONNECTIONREQUEST a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -3400px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_REVOKECONNECTIONREQUEST a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -3500px;}
+
+ul.cbMenuULlist li.cbMenu_UE_MENU_MODERATE a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -3600px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_MENU_MODERATE a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -3700px;}
+
+ul.cbMenuULlist li.cbMenu_UE_REPORTUSER a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -3800px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_REPORTUSER a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -3900px;}
+
+ul.cbMenuULlist li.cbMenu_UE_REQUESTUNBANPROFILE a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -4000px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_REQUESTUNBANPROFILE a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -4100px;}
+
+ul.cbMenuULlist li.cbMenu_UE_APPROVE_IMAGE a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -4200px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_APPROVE_IMAGE a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -4300px;}
+
+ul.cbMenuULlist li.cbMenu_UE_REJECT_IMAGE a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -4400px;display:block;}
+ul.cbMenuULlist li.cbMenu_UE_REJECT_IMAGE a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -4500px;}
+
+ul.cbMenuULlist li.cbMenu_UE_BANPROFILE a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -4600px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_BANPROFILE a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -4699px;}
+
+ul.cbMenuULlist li.cbMenu_UE_UNBANPROFILE a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -4800px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_UNBANPROFILE a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -4900px;}
+
+ul.cbMenuULlist li.cbMenu_UE_MENU_BANPROFILE_HISTORY a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -5000px;display:block;}
+ul.cbMenuULlist li.cbMenu_UE_MENU_BANPROFILE_HISTORY a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -5100px;}
+
+ul.cbMenuULlist li.cbMenu_UE_VIEWUSERREPORTS a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -5200px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_VIEWUSERREPORTS a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -5300px;}
+
+ul.cbMenuULlist li.cbMenu_UE_STATISTICS a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -5400px; display:block;}
+ul.cbMenuULlist li.cbMenu_UE_STATISTICS a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -5500px;}

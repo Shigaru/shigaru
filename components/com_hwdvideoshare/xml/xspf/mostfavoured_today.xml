@@ -3,5 +3,30 @@
 <info>http:/xspf.org/xspf-v1.html</info>
 <trackList>
 
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=KMQEwg-Xwos]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/KMQEwg-Xwos/default.jpg]]></image>
+    <title><![CDATA[How to Play Just a Dream by Nelly on Guitar]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=-ooik5IuI1I]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/-ooik5IuI1I/default.jpg]]></image>
+    <title><![CDATA[ming Home by Diddy-Dirty Money on Guitar
+      -...]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=yP4crzUVhH0]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/yP4crzUVhH0/default.jpg]]></image>
+    <title><![CDATA[How To Play Iron Man By Black Sabbath On Guitar]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
 </trackList>
 </playlist>

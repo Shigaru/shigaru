@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla/Mambo Community Builder : Plugin Handler
-* @version $Id: cb.params.php 895 2010-02-27 03:18:44Z beat $
+* @version $Id: cb.params.php 1317 2010-11-29 00:28:30Z beat $
 * @package Community Builder
 * @subpackage cb.params.php
 * @author various, JoomlaJoe and Beat
@@ -95,29 +95,62 @@ class cbParamsEditorController extends cbParamsBase {
 	function setExtendedViewParser( &$extendedViewParser ) {
 		$this->_extendViewParser =&	$extendedViewParser;
 	}
-/**
-* Converts the parameters received as POST array into the raw parms text
-* @param mixed POST array or string
-* @return string The raw parms text
-* @var string The type of setup file
-*/
-	function getRawParams ( $params ) {
-		if(is_array($params)) {
-			foreach ($params as $k=>$v) {
-				if (is_array($v)) {
-					$v = implode("|*|", $v);
-				}
-				if (get_magic_quotes_gpc()) {
-					$v = stripslashes( $v );
-				}
-				$txt[] = "$k=$v";
-			}
-			$ret = cbEditRowView::textareaHandling( $txt );
-			if (get_magic_quotes_gpc()) {
-				$ret = addslashes( $ret );
-			}
+	/**
+	* Converts the parameters received as POST array into the raw parms text ALWAYS ESCAPED
+	*
+	* @param  mixed   $params   $_POST array or string escaped only if MAGIC_QUOTES are ON
+	* @return string            The raw parms text always addslash-ESCAPED
+	*/
+	function getRawParams( $params ) {
+		return addslashes( self::getRawParamsUnescaped( $params, true ) );
+	}
+	/**
+	* Converts the parameters received as POST array into the raw parms text ALWAYS ESCAPED
+	*
+	* @param  mixed   $params   $_POST array or string escaped only if MAGIC_QUOTES are ON
+	* @return string            The raw parms text always addslash-ESCAPED
+	*/
+	function getRawParamsMagicgpcEscaped( $params ) {
+		$ret					=	self::getRawParamsUnescaped( $params, true );
+		if ( get_magic_quotes_gpc() ) {
+			return addslashes( $ret );
 		} else {
-			$ret = $params;
+			return $ret;
+		} 
+	}
+	/**
+	* Converts the parameters received as request array into the raw parms text NEVER ESCAPED
+	*
+	* @param  mixed    $params             Request array or string escaped only if MAGIC_QUOTES are ON
+	* @param  boolean  $checkMagicSlashes  TRUE: if magic_quotes are ON, remove slashes, FALSE: never remove slashes
+	* @return string                       The raw parms text NEVER addslash-ESCAPED
+	*/
+	function getRawParamsUnescaped( $params, $checkMagicSlashes ) {
+		if( is_array( $params ) ) {
+			foreach ( $params as $k => $v ) {
+				if ( is_array( $v ) ) {
+					if ( isset( $v[0] ) ) {
+						$v		=	implode("|*|", $v);
+					} else {
+						$r		=	'';
+						foreach ( $v as $kk => $vv ) {
+							$r	.=	'|**|' . $kk . '=' . $vv;
+						}
+						$v		=	$r;
+					}
+				}
+				if ( $checkMagicSlashes && get_magic_quotes_gpc() ) {
+					$v			=	stripslashes( $v );
+				}
+				$txt[]			=	"$k=$v";
+			}
+			$ret				=	cbEditRowView::textareaHandling( $txt );
+		} else {
+			if ( $checkMagicSlashes && get_magic_quotes_gpc() ) {
+				$ret			=	stripslashes( $params );
+			} else {
+				$ret			=	$params;
+			}
 		}
 		return $ret;
 	}
@@ -126,14 +159,14 @@ class cbParamsEditorController extends cbParamsBase {
 * Converts the parameters received as POST array into the |*| and CBparams formats
 * @param  array  $params  MODIFIED BY THIS CALL: POST array
 */
-	function fixMultiSelects ( &$params ) {
+	function fixMultiSelects( &$params ) {
 		if ( is_array( $params ) ) {
 			foreach ( $params as $k => $v ) {
 				if ( is_array( $v ) ) {
 					if ( isset( $v[0] ) ) {
 						$params[$k]		=	implode( "|*|", $v );
 					} else {
-						$params[$k]		=	cbParamsEditorController::getRawParams( $v );
+						$params[$k]		=	cbParamsEditorController::getRawParamsMagicgpcEscaped( $v );
 					}
 				}
 			}
@@ -186,10 +219,10 @@ class cbParamsEditorController extends cbParamsBase {
 		}
 
 	    if ( $this->_xmlElem ) {
-	    	
+
 	    	$controllerView = new cbDrawController( $this->_xmlElem, $this->_actions, $this->_options );
 	    	$controllerView->setControl_name( $control_name );
-	    	
+
 	    	$editRowView	=	new cbEditRowView( $this->_pluginParams, $this->_types, $this->_actions, $this->_views, $this->_pluginObject, $this->_tabid );
 	    	$editRowView->setModelOfDataRows( $this->_params );
 	    	if ( $this->_extendViewParser ) {
@@ -268,7 +301,7 @@ class cbEditRowView {
 		$this->_pluginObject		=&	$pluginObject;
 		$this->_tabid				=	$tabId;
 	}
-	
+
 	function setParentView( &$modelView ) {
 		$this->_parentModelOfView	=&	$modelView;
 		if ( isset( $this->_extendViewParser ) && ( $this->_extendViewParser->_parentModelOfView === null ) ) {
@@ -280,6 +313,9 @@ class cbEditRowView {
 	}
 	function popModelOfData( ) {
 		array_shift( $this->_modelOfData );
+	}
+	function getModelOfData( ) {
+		return $this->_modelOfData[0];
 	}
 	function setModelOfDataRows( &$modelOfDataRows ) {
 		$this->_modelOfDataRows		=&	$modelOfDataRows;
@@ -326,7 +362,7 @@ class cbEditRowView {
 	 * @param array               $options
 	 * @param atring              $viewType   ( 'view', 'param', 'depends': means: <param> tag => param, <field> tag => view )
 	 * @param atring              $htmlFormatting   ( 'table', 'td', 'none' )
-	 * 
+	 *
 	 */
 	function renderEditRowView( &$modelOfView, &$modelOfData, &$controllerView, $options, $viewType = 'depends', $htmlFormatting = 'table' ) {
 		global $_CB_framework;
@@ -359,6 +395,23 @@ class cbEditRowView {
 			    // add the params description to the display
 			    $html[] = '<tr><td colspan="3">' . CBTxt::Th( getLangDefinition( $description ) ) . '</td></tr>';
 			}
+		} elseif ( $htmlFormatting == 'div' ) {
+			$html[]			=	'<div class="cbformdiv">';
+
+			$label			=	$modelOfView->attributes( 'label' );
+			$description	=	$modelOfView->attributes( 'description' );
+			if ( $label || $description ) {
+			    $html[]		=	'<div class="cb_form_line cbclearboth cb_form_header">';
+				if ( $label ) {
+				    // add the params description to the display
+				    $html[]	=	'<h2 class="cb_form_header_label">' . CBTxt::Th( getLangDefinition( $label ) ) . '</h2>';
+				}
+				if ( $description ) {
+				    // add the params description to the display
+				    $html[]	=	'<p class="cb_form_header_description">' . CBTxt::Th( getLangDefinition( $description ) ) . '</p>';
+				}
+				$html[]		=	'</div>';
+			}
 		}
 		$this->_methods = get_class_methods( get_class( $this ) );
 
@@ -367,13 +420,17 @@ class cbEditRowView {
 		$html[]		= $this->renderAllParams( $modelOfView, $controllerView->control_name(), $tabs, $viewType, $htmlFormatting );
 		if ( $htmlFormatting == 'table' ) {
 			$html[]		= '</table>';
+		} elseif ( $htmlFormatting == 'div' ) {
+			$html[]		= '</div>';
 		}
-		
-		$jsCode		=	$this->_compileJsCode();
-		if ( $jsCode && ( $htmlFormatting != 'fieldsListArray' ) ) {
-			$_CB_framework->document->addHeadScriptDeclaration( $jsCode );
+
+		if ( $htmlFormatting != 'fieldsListArray' ) {
+			$jsCode		=	$this->_compileJsCode();
+			if ( $jsCode ) {
+				$_CB_framework->document->addHeadScriptDeclaration( $jsCode );
+			}
 		}
-		
+
 		return ( $htmlFormatting == 'fieldsListArray' ? $html : implode( "\n", $html ) );
 	}
 
@@ -383,14 +440,60 @@ class cbEditRowView {
 	* @return string
 	*/
 	function get( $key, $default=null ) {
-	    if ( isset( $this->_modelOfData[0]->$key ) ) {
-	    	if (is_array( $default ) ) {
-	    		return explode( '|*|', $this->_modelOfData[0]->$key );
-	    	} else {
-		        return $this->_modelOfData[0]->$key;
-	    	}
+		if ( isset( $this->_modelOfData[0] ) ) {
+			if ( is_callable( array( $this->_modelOfData[0], 'get' ) ) ) {
+				$data					=	@$this->_modelOfData[0]->get( $key );			//TODO: added @ here for backwards compatibility for now: REMOVE in CB 2.0.
+			} else {
+				//TODO LATER:	trigger_error( 'Fatal loading error: missing get function in class!', E_USER_ERROR );
+				if ( isset( $this->_modelOfData[0]->$key ) ) {
+					$data				=	$this->_modelOfData[0]->$key;
+				} else {
+					$data				=	null;
+				}
+			}
 		} else {
-		    return $default;
+			$data						=	null;
+		}
+	    if ( $data !== null ) {
+	    	if (is_array( $default ) ) {
+	    		if ( strpos( $data, '|**|' ) === 0 ) {
+	    			// indexed array:
+		    		$parts				=	explode( '|**|', substr( $data, 4 ) );
+		    		$r					=	array();
+					foreach ( $parts as $v ) {
+						$p				=	explode( '=', $v, 2 );
+						if ( isset( $p[1] ) ) {
+							$r[$p[0]]	=	$p[1];
+						}
+					}
+					return $r;
+	    		} else {
+	    			// non-indexed array:
+		    		return explode( '|*|', $data );
+	    		}
+	    	} else {
+		        return $data;
+	    	}
+	    } else {
+			$isArray		=	strpos( $key, '[' );
+			if ( $isArray ) {
+				// case of indexed arrays:
+				$value		=	$default;
+				$arrayString =	$this->get( substr( $key, 0, $isArray ) );
+				if ( $arrayString && ( strpos( $arrayString, '|**|' ) === 0 ) ) {
+					$index	=	substr( $key, $isArray + 1, strpos( $key, ']' ) - $isArray -1 );
+					$parts	=	explode( '|**|', substr( $arrayString, 4 ) );
+					foreach ( $parts as $v ) {
+						$p	=	explode( '=', $v, 2 );
+						if ( $p[0] == $index ) {
+							if ( isset( $p[1] ) ) {
+								return $p[1];
+							}
+						}
+					}
+				}
+			}
+			return $default;
 		}
 	}
 
@@ -405,13 +508,12 @@ class cbEditRowView {
 			$ifName					=	$ifVal['ifname'];
 			$element				=	$ifVal['element'];
 			$name					=	$this->control_id( $ifVal['control_name'], $element->attributes( 'name' ) );
-			
 			$operator				=	$element->attributes( 'operator' );
 			$value					=	$element->attributes( 'value' );
-			// $valuetype			=	$element->attributes( 'valuetype' );
+			$valuetype				=	$element->attributes( 'valuetype' );
 
 			if ( $operator ) {
-				$operatorNegation	=	array( '=' => '!=', '==' => '!=', '!=' => '==', '<>' => '==', '<' => '>=', '>' => '<=', '<=' => '>', '>=' => '<', 'regexp' => 'regexp' );
+				$operatorNegation	=	array( '=' => '!=', '==' => '!=', '!=' => '==', '<>' => '==', '<' => '>=', '>' => '<=', '<=' => '>', '>=' => '<', 'regexp' => 'regexp', '!regexp' => '!regexp' );
 				$revertedOp			=	$operatorNegation[$operator];
 			} elseif ( isset( $ifVal['onchange'] ) && ( $ifVal['onchange'] == 'evaluate' ) ) {
 				$revertedOp			=	'evaluate';
@@ -435,7 +537,7 @@ class cbEditRowView {
 			$js	.=	"cbHideFields[" . $i . "][0] = '" . $ifName		. "';\n";
 			$js	.=	"cbHideFields[" . $i . "][1] = '" . $name		. "';\n";
 			$js	.=	"cbHideFields[" . $i . "][2] = '" . $revertedOp	. "';\n";
-			$js	.=	"cbHideFields[" . $i . "][3] = '" . str_replace( '\\', '\\\\', $value ) . "';\n";
+			$js	.=	"cbHideFields[" . $i . "][3] = "  . $this->jsCleanQuote( $value, $valuetype ) . ";\n";
 			$js	.=	"cbHideFields[" . $i . "][4] = "  . $show		. ";\n";
 			$js	.=	"cbHideFields[" . $i . "][5] = "  . $set		. ";\n";
 			$i++;
@@ -443,14 +545,157 @@ class cbEditRowView {
 		return $js;
 	}
 
+	function jsQuote( $text ) {
+		return "'" . addslashes( $text ) . "'";
+	}
+
+	function jsCleanQuote( $fieldValue, $type ) {
+		$typeArray		=	explode( ':', $type, 3 );
+		if ( count( $typeArray ) < 2 ) {
+			$typeArray	=	array( 'const' , $type );
+		}
+		if ( $typeArray[0] == 'param' ) {
+			$fieldValue	=	$this->getModelOfData()->get( $fieldValue );
+		}
+			switch ( $typeArray[1] ) {
+			case 'int':
+				$value		=	(int) $fieldValue;
+				break;
+			case 'float':
+				$value		=	(float) $fieldValue;
+				break;
+			case 'formula':
+				$value		=	$fieldValue;
+				break;
+			case 'datetime':
+				if ( preg_match( '/[0-9]{4}-[01][0-9]-[0-3][0-9] [0-2][0-9](:[0-5][0-9]){2}/', $fieldValue ) ) {
+					$value	=	$this->jsQuote( $fieldValue );
+				} else {
+					$value	=	"''";
+				}
+				break;
+			case 'date':
+				if ( preg_match( '/[0-9]{4}-[01][0-9]-[0-3][0-9]/', $fieldValue ) ) {
+					$value	=	$this->jsQuote( $fieldValue );
+				} else {
+					$value	=	"''";
+				}
+				break;
+			case 'time':
+				if ( preg_match( '/-?[0-9]{1,3}(:[0-5][0-9]){2}/', $fieldValue ) ) {
+					$value	=	$this->jsQuote( $fieldValue );
+				} else {
+					$value	=	"''";
+				}
+				break;
+			case 'string':
+				$value		=	$this->jsQuote( $fieldValue );
+				break;
+			case 'null':
+				$value		=	'null';
+				break;
+
+			default:
+				//CB2.0: uncomment: trigger_error( 'XMLJSif::jsCleanQuote: ERROR_UNKNOWN_TYPE: ' . htmlspecialchars( $type ), E_USER_NOTICE );
+				$value		=	$this->jsQuote( $fieldValue );
+				break;
+		}
+		return $value;
+	}
+
+	function phpCleanType( $fieldValue, $type ) {
+		$typeArray		=	explode( ':', $type, 3 );
+		if ( count( $typeArray ) < 2 ) {
+			$typeArray	=	array( 'const' , $type );
+		}
+		switch ( $typeArray[0] ) {
+			case 'const':
+				break;
+			case 'param':
+				$fieldValue	=	$this->getModelOfData()->get( $fieldValue );
+				break;
+			case 'pluginparams':
+				$fieldValue	=	$this->_pluginParams->get( $fieldValue );
+				break;
+			case 'cmsversion':
+				$fieldValue	=	checkJversion( $fieldValue ? $fieldValue : 'api' );
+				break;
+			case 'cbconfig':
+				global $ueConfig;
+				$fieldValue	=	( array_key_exists( $fieldValue, $ueConfig ) ? $ueConfig[$fieldValue] : '' );
+				break;
+			case 'datavalue':
+				$fieldValue	=	$this->get( $fieldValue );					//TBD: missing default value, but not easy to find, as it's in the view param for now: $param->attributes( 'default' ) );
+				break;
+			default:
+				trigger_error( 'XMLifCondition::phpCleanQuote:name: ERROR_UNKNOWN_TYPE: ' . htmlspecialchars( $type ), E_USER_NOTICE );
+				break;
+		}
+		switch ( $typeArray[1] ) {
+			case 'int':
+				$value		=	(int) $fieldValue;
+				break;
+			case 'float':
+				$value		=	(float) $fieldValue;
+				break;
+			case 'formula':
+				$value		=	$fieldValue;
+				break;
+			case 'datetime':
+				if ( preg_match( '/[0-9]{4}-[01][0-9]-[0-3][0-9] [0-2][0-9](:[0-5][0-9]){2}/', $fieldValue ) ) {
+					$value	=	$fieldValue;
+				} else {
+					$value	=	'';
+				}
+				break;
+			case 'date':
+				if ( preg_match( '/[0-9]{4}-[01][0-9]-[0-3][0-9]/', $fieldValue ) ) {
+					$value	=	$fieldValue;
+				} else {
+					$value	=	'';
+				}
+				break;
+			case 'time':
+				if ( preg_match( '/-?[0-9]{1,3}(:[0-5][0-9]){2}/', $fieldValue ) ) {
+					$value	=	$fieldValue;
+				} else {
+					$value	=	'';
+				}
+				break;
+			case 'string':
+				$value		=	$fieldValue;
+				break;
+			case 'null':
+				$value		=	null;
+				break;
+
+			default:
+				//CB2.0: uncomment: trigger_error( 'XMLifCondition::phpCleanQuote:value: ERROR_UNKNOWN_TYPE: ' . htmlspecialchars( $type ), E_USER_NOTICE );
+				$value		=	$fieldValue;
+				break;
+		}
+		return $value;
+	}
+	/**
+	 * Evaluate an <if type="condition"> in PHP
+	 *
+	 * @param CBSimpleXMLElement  $element
+	 * @return boolean
+	 */
 	function _evalIf( &$element ) {
 		$name				=	$element->attributes( 'name' );
+		$nametype			=	$element->attributes( 'nametype' );
 		$operator			=	$element->attributes( 'operator' );
 		$value				=	$element->attributes( 'value' );
-		// $valuetype		=	$element->attributes( 'valuetype' );
-		
-		$paramValue			=	$this->get( $name );					//TBD: missing default value, but not easy to find, as it's in the view param for now: $param->attributes( 'default' ) );
-		
+		$valuetype			=	$element->attributes( 'valuetype' );
+
+		if ( $nametype == '' ) {
+			$nametype		=	'datavalue:string';
+		}
+		$paramValue			=	$this->phpCleanType( $name, $nametype );
+
+		$value				=	$this->phpCleanType( $value, $valuetype );
+
 		if ( $element->attributes( 'translate' ) == '_UE' ) {
 			$value			=	getLangDefinition( $value );
 		} elseif ( $element->attributes( 'translate' ) == 'yes' ) {
@@ -481,8 +726,19 @@ class cbEditRowView {
 			case 'regexp':
 				$result		=	( preg_match( '/' . $value . '/', $paramValue ) == 1 );
 				break;
-		
+			case '!regexp':
+				$result		=	( preg_match( '/' . $value . '/', $paramValue ) != 1 );
+				break;
+			case 'version_compare:=':
+			case 'version_compare:!=':
+			case 'version_compare:<':
+			case 'version_compare:>=':
+				$operator	=	substr( $operator, strpos( $operator, ':' ) + 1 );		// The possible operators are: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne respectively
+				$result		=	version_compare( $paramValue, $value, $operator );
+				break;
 			default:
+				trigger_error( sprintf('XML IF: UNKNOWN OPERATOR "%" in xml: "%s"', $operator, htmlspecialchars( $element->asXML() ) ), E_USER_WARNING );
+				$result		=	false;
 				break;
 		}
 		return $result;
@@ -517,18 +773,18 @@ class cbEditRowView {
 						. ( ( $param->attributes( 'class' ) ) ? ' class="' . htmlspecialchars( $param->attributes( 'class' ) ) . '"' : '' )
 						. '>';
 			if ( $param->attributes( 'label' ) === '' ) {
-				$html[] = '<td colspan="2" width="95%"'
+				$html[] = '<td class="fieldCell" colspan="2" width="95%"'
 						. ( ( $param->attributes( 'valuedescription' ) ) ? ' onmouseover="return overlib(\''. str_replace( array( "\n", "\r" ), array( "&lt;br /&gt;", "\\r" ), htmlspecialchars( addslashes( $param->attributes( 'valuedescription' ) ) ) ) .'\', CAPTION, \''
 											  . htmlspecialchars( addslashes( $param->attributes( 'valuedescriptiontitle' ) ) ) . '\', BELOW, RIGHT);" onmouseout="return nd();"' : '' )
 						. '>' . $result[1] . '</td>';
 			} else {
-				$html[] = '<td width="35%" align="right" valign="top">' . $result[0] . '</td>';
-				$html[] = '<td width="60%"'
+				$html[] = '<td class="titleCell" width="35%" align="right" valign="top">' . $result[0] . '</td>';
+				$html[] = '<td class="fieldCell" width="60%"'
 						. ( ( $param->attributes( 'valuedescription' ) ) ? ' onmouseover="return overlib(\''. str_replace( array( "\n", "\r" ), array( "&lt;br /&gt;", "\\r" ), htmlspecialchars( addslashes( $param->attributes( 'valuedescription' ) ) ) ) .'\', CAPTION, \''
 							  . htmlspecialchars( addslashes( $param->attributes( 'valuedescriptiontitle' ) ) ) . '\', BELOW, RIGHT);" onmouseout="return nd();"' : '' )
 						. '>' . $result[1] . '</td>';
 			}
-			$html[]		= '<td width="5%" align="left" valign="top">' . $result[2] . "</td>";
+			$html[]		= '<td class="descrCell" width="5%" align="left" valign="top">' . $result[2] . "</td>";
 			$html[]		= '</tr>';
 		} elseif ( $htmlFormatting == 'td' ) {
 			$type		=	$param->attributes( 'type' );
@@ -548,6 +804,20 @@ class cbEditRowView {
 			} else {
 				$html[]	=	'';
 			}
+		} elseif ( $htmlFormatting == 'div' ) {
+			$html[]		=	'<div class="cb_form_line cbclearboth'
+						.	( ( $param->attributes( 'class' ) ) ? ' ' . htmlspecialchars( $param->attributes( 'class' ) ) : '' )
+						.	'"' . $htid . '>';
+			if ( $param->attributes( 'label' ) !== '' ) {
+				$html[] = '<label for="' . $this->control_name( $control_name, $param->attributes( 'name' ) ) . '">' . $result[0] . '</label>';
+			}
+			$html[] 	= '<div class="cb_field">'
+						.	'<div id="cbfv_' . $this->_htmlId( $control_name, $param ) . '"'
+						. ( ( $param->attributes( 'valuedescription' ) ) ? ' onmouseover="return overlib(\''. str_replace( array( "\n", "\r" ), array( "&lt;br /&gt;", "\\r" ), htmlspecialchars( addslashes( $param->attributes( 'valuedescription' ) ) ) ) .'\', CAPTION, \''
+							  . htmlspecialchars( addslashes( $param->attributes( 'valuedescriptiontitle' ) ) ) . '\', BELOW, RIGHT);" onmouseout="return nd();"' : '' )
+						. '>' . $result[1]
+						. ( $result[2] ? '<span class="cb_form_line_descr">' . $result[2] . '</span>' : '' )
+						. '</div></div></div>';
 		} elseif ( $htmlFormatting == 'span' ) {
 			if (substr( $result[0], -1 ) == ":" ) {
 				$result[0]	=	substr( $result[0], 0, -1 );
@@ -639,7 +909,7 @@ class cbEditRowView {
 					}
 				}
 			}
-	
+
 			foreach ( $element->children() as $param ) {
 				$idkeyMatched							=	$this->_getKeyOfTagMatch( $identicalMatches, $param );
 				if ( $idkeyMatched !== null ) {
@@ -683,14 +953,16 @@ class cbEditRowView {
 		//			unset( $this->_extenders[$k] );
 		//		}
 			}
-	
+
 		//	$this->_extenders							=	$saveExt;
-	
+
 			if ( ( count( $element->children() ) < 1 ) && ( count( $extenders ) == 0 ) ) {
 				if ( $htmlFormatting == 'table' ) {
 					$html[] = "<tr><td colspan=\"2\"><i>" . _UE_NO_PARAMS . /* ": " . $element->name() . '(' . implode( ',', $element->attributes() ) . ')' . */ "</i></td></tr>";
 				} elseif ( $htmlFormatting == 'td' ) {
 					$html[] = "<td><i>" . _UE_NO_PARAMS . "</i></td>";
+				} elseif ( $htmlFormatting == 'div' ) {
+					$html[] = '<div  class="cb_form_line cbclearboth"><em>' . _UE_NO_PARAMS . /* ": " . $element->name() . '(' . implode( ',', $element->attributes() ) . ')' . */ "</em></div>";
 				} elseif ( $htmlFormatting == 'fieldsListArray' ) {
 					// nothing
 				} else {
@@ -751,7 +1023,7 @@ class cbEditRowView {
 	 * @param string             $control_name
 	 * @param cbTabs             $tabs
 	 * @param atring             $viewType   ( 'view', 'param', 'depends': means: <param> tag => param, <field> tag => view )
-	 * @param atring             $htmlFormatting   ( 'table', 'td', 'span', 'none' )
+	 * @param atring             $htmlFormatting   ( 'table', 'td', 'span', 'none', 'fieldsListArray' )
 	 * @return string HTML
 	 */
 	var $_inverted		=	false;
@@ -777,6 +1049,9 @@ class cbEditRowView {
 				break;
 		}
 
+		// treat any <attributes> below the tag to add attributes to the tag as needed:
+		$this->extendParamAttributes( $param, $control_name, ( $viewType == 'view' ) );
+
 		switch ( $param->name() ) {
 			case 'inherit':
 				$from				=	$param->attributes( 'from' );
@@ -792,21 +1067,31 @@ class cbEditRowView {
 				break;
 			case 'param':
 				$result				=	$this->renderParam( $param, $control_name, ( $viewType == 'view' ), $htmlFormatting );
-				$html[]				=	$this->_renderLine( $param, $result, $control_name, $htmlFormatting );
-				if ( ( ! ( $viewType == 'view' ) ) && ( $param->attributes( 'onchange' ) == 'evaluate' ) ) {
-					$ifName			=	$this->_htmlId( $control_name, $param );
-					$this->_jsif[$ifName]['element']					=	$param;
-					$this->_jsif[$ifName]['control_name']				=	$control_name;
-					$this->_jsif[$ifName]['ifname']						=	$ifName;
-					$this->_jsif[$ifName]['onchange']					=	$param->attributes( 'onchange' );
+				$dynamic			=	( ( ! ( $viewType == 'view' ) ) && ( $param->attributes( 'onchange' ) == 'evaluate' ) );
+				if ( $dynamic && ( $viewType == 'param' ) && ( $htmlFormatting != 'fieldsListArray' ) ) {
+					$result[1]		.=	'<noscript><button type="submit" name="cbdoevalpostagain" value="" class="button cbregOnChange">' . CBTxt::Th("Change") . '</button></noscript>';
+				}
+				if ( $result[1] || ( $viewType != 'view' ) || ( $param->attributes( 'hideblanktext' ) != 'true' ) ) {
+					$html[]			=	$this->_renderLine( $param, $result, $control_name, $htmlFormatting );
+					if ( $dynamic ) {
+						$ifName		=	$this->_htmlId( $control_name, $param );
+						$this->_jsif[$ifName]['element']					=	$param;
+						$this->_jsif[$ifName]['control_name']				=	$control_name;
+						$this->_jsif[$ifName]['ifname']						=	$ifName;
+						$this->_jsif[$ifName]['onchange']					=	$param->attributes( 'onchange' );
+					}
 				}
 				break;
 
 			case 'params':
 				$paramsName			=	$param->attributes( 'name' );
 				$paramsType			=	$param->attributes( 'type' );
-				if ( ( $paramsType == 'params' ) && $paramsName ) {
-					$valueObj		=&	$this->_parseParamsColumn( $paramsName );
+				if ( ( ( $paramsType == 'params' ) && $paramsName ) || ( $paramsType == 'pluginparams' ) ) {
+					if ( $paramsType == 'params' ) {
+						$valueObj	=&	$this->_parseParamsColumn( $paramsName );
+					} else {
+						$valueObj	=&	$this->_pluginParams;
+					}
 					$this->pushModelOfData( $valueObj );
 					if ( $control_name ) {
 						$child_cnam	=	$control_name . '[' . $paramsName . ']';
@@ -820,11 +1105,11 @@ class cbEditRowView {
 				break;
 			case 'field':
 				$result				=	$this->renderParam( $param, $control_name, ( $viewType != 'param' ) );
-				
+
 				$link				=	$param->attributes( 'link' );
-				$title				=	htmlspecialchars( $param->attributes( 'title' ) );
+				$title				=	$param->attributes( 'title' );
 				if ( $title ) {
-					$title			= ' title="' . $title . '"';
+					$title			= ' title="' . htmlspecialchars( CBPTXT::T( $title ) ) . '"';
 				} else {
 					$title			= '';
 				}
@@ -848,7 +1133,7 @@ class cbEditRowView {
 				}
 				$html[]	= $this->_renderLine( $param, $result, $control_name, $htmlFormatting, false );
 				break;
-		
+
 			case 'fieldset':
 				$htid				=	$this->_outputIdEqualHtmlId( $control_name, $param );
 
@@ -856,7 +1141,7 @@ class cbEditRowView {
 				$description		=	$param->attributes( 'description' );
 				$name				=	$param->attributes( 'name' );
 				$class				=	$param->attributes( 'class' );
-				
+
 				$fieldsethtml		=	'<fieldset' . ( $class ? ' class="' . $class . '"' : ( $name ? ( ' class="cbfieldset_' . $name . '"' ) : '' ) ) . '>';
 				if ( $htmlFormatting == 'table' ) {
 					$html[] 		=	'<tr' . $htid . '><td colspan="3" width="100%">' . $fieldsethtml;
@@ -894,7 +1179,7 @@ class cbEditRowView {
 					}
 				}
 				$html[]				=	$this->renderAllParams( $param, $control_name, $tabs, $viewType, $htmlFormatting );
-				
+
 				if ( $htmlFormatting == 'table' ) {
 					$html[]			=	"\n\t</table>";
 					$html[]			=	'</fieldset></td></tr>';
@@ -908,12 +1193,12 @@ class cbEditRowView {
 					$html[]			=	'</fieldset>';
 				}
 				break;
-				
+
 			case 'fields':
 			case 'status':
 				$html[]				=	$this->renderAllParams( $param, $control_name, $tabs, $viewType, $htmlFormatting );
 				break;
-				
+
 			case 'if':
 				$showInside							=	true;
 				$ifType								=	$param->attributes( 'type' );
@@ -1034,7 +1319,7 @@ class cbEditRowView {
 					$idtab					=	$this->tabpaneNames[$tabpaneCounter] . $this->_i;
 					$html[]					=	$tabs->startTab( $this->tabpaneNames[$tabpaneCounter], CBTxt::T( getLangDefinition( $param->attributes( 'label' ) ) ), $idtab );
 					$html[]					=	'<table class="paramlist" cellspacing="0" cellpadding="0" width="100%">';
-	
+
 					$tabName				=	$param->attributes( 'name' );
 					$tabTitle				=	$param->attributes( 'title' );
 					$description			=	$param->attributes( 'description' );
@@ -1070,8 +1355,103 @@ class cbEditRowView {
 		}
 		return ( $htmlFormatting == 'fieldsListArray' ? $html : implode( "\n", $html ) );
 	}
-
-
+	/**
+	 * checks if there is an <attributes> extension in a <param> and sets attributes depending on any other param type
+	 *
+	 * @param  CBSimpleXMLElement  $param         (modified by adding attributes from <attributes>)
+	 * @param  string              $control_name
+	 * @param  boolean            $view            true if view only, false if editable
+	 */
+	function extendParamAttributes( &$param, $control_name = 'params', $view = true ) {
+		$attributes											=	$param->getElementByPath( 'attributes' );
+		if ( $attributes ) {
+			foreach ( $attributes->children() as $attr ) {
+				if ( $attr->name() == 'attribute' ) {
+					$attName								=	$attr->attributes( 'name' );
+					$attSeparator							=	$attr->attributes( 'separator' );
+					$attTransform							=	$attr->attributes( 'transform' );
+					$attMode								=	$attr->attributes( 'mode' );
+					$replacements							=	false;
+					if ( ( $attMode == null ) || ( ( $attMode == 'edit' ) && ! $view ) || ( ( $attMode == 'show' ) && $view ) ) {
+						$attrArray							=	array();
+						if ( $attName ) {
+							foreach ( $attr->children() as $dataAttr ) {
+								if ( $dataAttr->name() == 'param' ) {
+									$this->extendParamAttributes( $dataAttr, $control_name );
+									$result					=	$this->renderParam( $dataAttr, $control_name, true, 'table' );
+									$attrArray[$attName][]	=	$result[1];
+								} elseif ( $dataAttr->name() == 'replaces' ) {
+									self::_substituteChildTexts( $dataAttr, null, null, $this );
+									$replacements			=	true;
+								} elseif ( $dataAttr->name() == 'data' ) {
+									// keep silent here for now here as it was used only for decoration		//TODO CB 2.0: remove this
+								} else {
+									trigger_error( sprintf( 'attributes/attribute child tag "%s" name="%s" of param with name="%s" is not supported, only param is.', $dataAttr->name(), $dataAttr->attributes('name'), $param->attributes('name') ), E_USER_WARNING );
+								}
+							}
+							if ( $replacements ) {
+								$attrArray					=	self::_substituteChildTexts( $attrArray );
+							}
+							foreach ( $attrArray as $attK => $attV ) {
+								if ( $attTransform == 'raw' ) {
+									$param->addAttribute( $attK, implode( $attSeparator, $attV ) );
+								} else {
+									$param->addAttribute( $attK, htmlspecialchars( implode( $attSeparator, $attV ) ) );
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	/**
+	 * Auxiliary function for replacing texts when extending XML
+	 * <replaces translate="yes"><replace attribute="label OR [DATA]" from="{source}" to="target" />
+	 *
+	 * @param  CBSimpleXMLElement|string|array $sourceData
+	 * @param  CBSimpleXMLElement              $sourceNode
+	 * @param  CBSimpleXMLElement              $destinationParentNode
+	 * @param  CBObject                        $paramsView
+	 */
+	static function _substituteChildTexts( $sourceData, $sourceNode = null, $destinationParentNode = null, $paramsView = null ) {
+		static $substitutions	=	array();
+		if ( is_array( $sourceData ) ) {
+			// that is $source->attributes():
+			$return				=	array();
+			foreach ($sourceData as $k => $v ) {
+				if ( isset( $substitutions[$k] ) ) {
+					$v			=	str_replace( $substitutions[$k]['from'], $substitutions[$k]['to'], $v );
+					if ( $substitutions[$k]['translate'] ) {
+						$v		=	CBPTXT::T( $v );
+					}
+				}
+				$return[$k]		=	$v;
+			}
+		} elseif ( is_string( $sourceData ) ) {
+			// that is $source->data():
+			if ( isset( $substitutions['[DATA]'] ) ) {
+				$k				=	'[DATA]';
+				$return			=	str_replace( $substitutions[$k]['from'], $substitutions[$k]['to'], $sourceData );
+				if ( $substitutions[$k]['translate'] ) {
+					$return		=	CBPTXT::T( $return );
+				}
+			} else {
+				$return			=	$sourceData;
+			}
+		} elseif ( is_object( $sourceData ) ) {
+			// initialize replacements:
+			$substitutions		=	array();
+			foreach ($sourceData->children() as $replaceRule ) {
+				$substitutions[$replaceRule->attributes( 'attribute' )]['from'][]			=	$replaceRule->attributes( 'from' );
+				$substitutions[$replaceRule->attributes( 'attribute' )]['to'][]				=	( $replaceRule->attributes( 'type' ) == 'datavalue:string' ? $paramsView->get( $replaceRule->attributes( 'to' ) ) : $replaceRule->attributes( 'to' ) );
+				$substitutions[$replaceRule->attributes( 'attribute' )]['translate']		=	$replaceRule->attributes( 'translate' ) === 'yes';
+			}
+			$return				=	null;
+		}
+		return $return;
+	}
 	/**
 	* @param  CBSimpleXMLElement $param           object A param tag node
 	* @param  string             $control_name    The control name
@@ -1085,28 +1465,45 @@ class cbEditRowView {
 		}
 	    $result = array();
 
-		$name			=	$param->attributes( 'name' );
+		$type			=	$param->attributes( 'type' );
+	    $name			=	$param->attributes( 'name' );
 		$label			=	CBTxt::T( getLangDefinition($param->attributes( 'label' )));
-		$description	=	CBTxt::T( getLangDefinition(htmlspecialchars($param->attributes( 'description' ))));
+		$description	=	$param->attributes( 'description' );
+		if ( $description !== null && $description !== '' ) {
+			$description =	CBTxt::T( getLangDefinition(htmlspecialchars( $description )));
+		}
+		if ( $name ) {
+			if ( $type == 'spacer' ) {
+				$value	=	$param->attributes( 'default' );
+			} elseif ( ( $type == 'private' ) && ( ! ( get_class( $this->getModelOfData() ) == 'cbParamsBase' ) ) && ! isset( $this->getModelOfData()->$name ) ) {
+				$value	=	$param->attributes( 'value' );		//TBD: we will need to improve this: this case is a workaround to avoid accessing with get() an unexistant variable
+			} else {
+				$value	=	$this->get( $name, $param->attributes( 'default' ) );
+			}
+		} else {
+			$value		=	$param->attributes( 'default' );
+		}
 
-		$value = $this->get( $name, $param->attributes( 'default' ) );
-		
 		if ( $param->attributes( 'translate' ) == '_UE' ) {
 			$value		=	getLangDefinition( $value );
 		} elseif ( $param->attributes( 'translate' ) == 'yes' ) {
 			$value		=	CBTxt::T( $value );
 		}
 
-		$result[0] = $label ? $label : $name;
+		$result[0]		=	$label ? $label : $name;
 		if ( $result[0] == '@spacer' ) {
-			$result[0] = '<hr/>';
+			$result[0]	=	'<hr/>';
 		} else if ( $result[0] ) {
-			if ($name == '@spacer')	$result[0] = '<strong>'.$result[0].'</strong>';
-			else $result[0] .= ':';
+			if ($name == '@spacer')	{
+				$result[0]	=	'<strong>'.$result[0].'</strong>';
+			} else {
+				if ( trim( $result[0] ) ) {
+					$result[0]	.=	':';
+				}
+			}
 		}
 
 		$result[1]	=	null;
-		$type = $param->attributes( 'type' );
 /* up to proof of contrary, not needed, as type="private" does it...				//TBD remove this once sure
 		if ( $type == 'privateparam' ) {
 			$className		= $param->attributes( 'class' );
@@ -1150,7 +1547,7 @@ class cbEditRowView {
 						}
 					}
 					if ( $i >= 99 ) {
-						echo 'Error: recursion loop in XML type definition of ' . $o->name() . ' ' . $o->attributes( 'name' ) . ' type: ' . $o->attributes( 'type' );
+						echo 'Error: recursion loop in XML type definition of ' . $typeModel->name() . ' ' . $typeModel->attributes( 'name' ) . ' type: ' . $typeModel->attributes( 'type' );
 						exit;
 					}
 					$levelModel		=	$typeModel;
@@ -1164,7 +1561,7 @@ class cbEditRowView {
 								if ( $view ) {
 									$valueNode	=	$levelModel->getAnyChildByNameAttr( 'option', 'value', $value );	// recurse in children over optgroups if needed.
 									if ( $valueNode ) {
-										$result[1]	=	$valueNode->data();
+										$result[1]	=	CBTxt::T( $valueNode->data() );
 									}
 								} else {
 									if ( $levelModel->attributes( 'insertbase' ) != 'before' ) {
@@ -1182,7 +1579,7 @@ class cbEditRowView {
 											}
 										}
 									} else {
-										$insertAfter[]	=	$levelModel;	
+										$insertAfter[]	=	$levelModel;
 									}
 								}
 								break;
@@ -1239,9 +1636,15 @@ class cbEditRowView {
 			$this->_view					=	$view;
 			$result[1] = call_user_func( array( &$this, '_form_' . $type ), $name, $value, $param, $control_name );
 		} else {
-		    $result[1] = _HANDLER . ' = ' . $type;
+		    $result[1] = sprintf( CBTxt::T("Parameter Handler for type=%s is not implemented or not loaded."), $type );
 		}
 
+		if ( $result[1] && ( $htmlFormatting != 'fieldsListArray' ) ) {
+			$validate		=	$param->attributes( 'validate' );
+			if ( ( ! $view ) && in_array( 'required', explode( ' ', $validate ) ) ) {
+				$result[1]	.=	' <span class="cbform_required_star" title="' . htmlspecialchars( _UE_FIELDREQUIRED ) . '">*</span> ';
+			}
+		}
 		if ( $description ) {
 			$result[2]	=	cbFieldTip( null, $description, $name );
 		} else {
@@ -1253,7 +1656,7 @@ class cbEditRowView {
 		}
 		return $result;
 	}
-	
+
 	function control_name( $control_name, $name ) {
 		if ( $control_name ) {
 			return $control_name .'['. $name .']';
@@ -1288,7 +1691,7 @@ class cbEditRowView {
 	}
 	/**
 	* Calls method or function of plugin/tab
-	* 
+	*
 	* @param string The name of the form element
 	* @param string The value of the element
 	* @param CBSimpleXMLElement  $node The xml element for the parameter
@@ -1297,10 +1700,10 @@ class cbEditRowView {
 	*/
 	function _form_custom( $name, $value, &$node, $control_name ) {
 		global $_CB_database, $_PLUGINS;
-		
+
 		$pluginId	=	$this->_pluginObject->id;
 		$tabId		=	$this->_tabid;
-		
+
 		$class	=	$node->attributes( 'class' );
 		$method	=	$node->attributes( 'method' );
 		if(!is_null($class) && strlen(trim($class)) > 0) {
@@ -1320,12 +1723,12 @@ class cbEditRowView {
 				if(method_exists($udc,$method)) {
 					return call_user_func_array(array($udc,$method),array($name,$value,$control_name));
 				}
-			}		
+			}
 		} elseif (function_exists( $method )) {
 			return call_user_func_array( $method, array($name,$value,$control_name) );
 		}
 		return "";
-			
+
 	}
 
 
@@ -1338,7 +1741,7 @@ class cbEditRowView {
 	*/
 	function _form_list( $name, $value, &$node, $control_name ) {
 		$options = array();
-		
+
 		if ( ( $node->attributes( 'blanktext' ) ) && ( ( $node->attributes( 'hideblanktext' ) != 'true' ) || ( $value == $node->attributes( 'default' ) ) ) ) {
 			$options[] = moscomprofilerHTML::makeOption( $node->attributes( 'default' ), $node->attributes( 'blanktext' ) );
 		}
@@ -1468,7 +1871,7 @@ class cbEditRowView {
 	*/
 	function _form_mos_menu( $name, $value, &$node, $control_name ) {
 		$menuTypes		=	$this->_form_mos_menu__menutypes();
-	
+
 		foreach( $menuTypes as $menutype ) {
 			$options[]	=	moscomprofilerHTML::makeOption( $menutype, $menutype );
 		}
@@ -1556,9 +1959,6 @@ class cbEditRowView {
 	function _form_textarea( $name, $value, &$node, $control_name ) {
  		$rows 	= $node->attributes( 'rows' );
  		$cols 	= $node->attributes( 'cols' );
- 		// convert <br /> tags so they are not visible when editing
- 		$value 	= str_replace( array( "\\\\", '\n', '\r' ), array( "\\", "\n", "\r" ), $value );
-
  		return '<textarea name="'. $this->control_name( $control_name, $name ) . '" cols="'. $cols .'" rows="'. $rows .'" class="text_area" id="' . $this->control_id( $control_name, $name ) . '">'. htmlspecialchars($value) .'</textarea>';
 	}
 
@@ -1606,6 +2006,8 @@ class cbEditRowView {
 		for( $i=0; $i < $total; $i++ ) {
 			if ( strstr( $txt[$i], "\n" ) ) {
 				$txt[$i] = str_replace( array( "\\", "\n", "\r" ), array( "\\\\", '\n', '\r'  ) , $txt[$i] );
+			} else {
+				$txt[$i] = str_replace( "\\", "\\\\" , $txt[$i] );
 			}
 		}
 		$ret = implode( "\n", $txt );
@@ -1636,12 +2038,12 @@ class cbDrawController {
 	var $_filters;
 	var $_statistics;
 	var $_control_name;
-	
+
 	function cbDrawController( $tableBrowserModel, $actions, $options ) {
 		$this->_tableBrowserModel	=& $tableBrowserModel;
 		$this->_actions				=& $actions;
 		$this->_options				=  $options;
-		
+
 		$this->_tableName			= $tableBrowserModel->attributes( 'name' );			// TBD: does this really belong here ???!
 	}
 	function fieldName( $fieldName ) {
@@ -1654,7 +2056,7 @@ class cbDrawController {
 		return $this->_tableName . '[' . $fieldName . ']' . $arrayBrackets;
 	}
 	function fieldId( $fieldId, $number=null, $htmlspecs=true ) {		//TBD: htmlspecialchars....
-		// id 
+		// id
 		return 'cb' . $this->_tableName . $fieldId . $number;
 	}
 	function taskName( $subTask, $htmlspecs=true ) {
@@ -1713,7 +2115,7 @@ class cbDrawController {
 				$onchangeJs			=	'cbParentForm(this).submit();';
 			}
 			*/
-			$valueObj				=	new stdClass();
+			$valueObj				=	new cbObject();
 			$saveName				=	array();
 			foreach ( $this->_filters as $k => $v ) {
 				$valname			=	'filter_' . $v['name'];
@@ -1725,14 +2127,14 @@ class cbDrawController {
 
 				$editRowView->setSelectValues( $v['xml'], $v['selectValues'] );
 			}
-			
+
 			$renderedViews			=	array();
-			
+
 			foreach ( $this->_filters as $k => $v ) {
 				// <filter> tag: $v['xml']
 
 				$viewName				=	$v['xml']->attributes( 'view' );
-				
+
 				if ( $viewName ) {
 					$view			=	$this->_filters[$k]['xmlparent']->getChildByNameAttr( 'view', 'name', $viewName );
 					if ( ! $view ) {
@@ -1741,7 +2143,7 @@ class cbDrawController {
 				} else {
 					$view			=	$this->_filters[$k]['xml']->getElementByPath( 'view' );
 				}
-				
+
 				if ( $view ) {
 					if ( ( ! $viewName ) || ! in_array( $viewName, $renderedViews ) ) {
 						$lists[$k]		=	$editRowView->renderEditRowView( $view, $valueObj, $this, $this->_options, 'param', $htmlFormatting );
@@ -1751,6 +2153,7 @@ class cbDrawController {
 					}
 				} else {
 					$editRowView->pushModelOfData( $valueObj );
+					$editRowView->extendParamAttributes( $this->_filters[$k]['xml'], $this->control_name() );
 					$result			=	$editRowView->renderParam( $this->_filters[$k]['xml'], $this->control_name(), false );
 					$editRowView->popModelOfData();
 					$lists[$k]		=	'<div class="cbFilter">'
@@ -1796,7 +2199,7 @@ class cbDrawController {
 					$id	=	0;
 					// fallthrough: no break on purpose.
 				case 'rowedit':				//TBD this is duplicate of below
-					$baseUrl	=	( ( $ui != 2 ) ? ( $inPage ? 'index.php' : 'index2.php' ) : ( $inPage ? 'index2.php' : 'index3.php' ) );
+					$baseUrl	=	'index.php';
 					$baseUrl	.=		'?option=' . $this->_options['option'] . '&task=' . $this->_options['task'] . '&cid=' . $this->_options['pluginid'];
 					$url	= $baseUrl . '&table=' . $this->_tableBrowserModel->attributes( 'name' ) . '&action=editrow';		// below: . '&tid=' . $id;
 					break;
@@ -1827,8 +2230,8 @@ class cbDrawController {
 				$requestNames		=	explode( ' ', $action->attributes( 'request' ) );
 				$requestValues		=	explode( ' ', $action->attributes( 'action' ) );
 				$parametersValues	=	explode( ' ', $action->attributes( 'parameters' ) );
-				
-				$baseUrl			=	( ( $ui != 2 ) ? ( $inPage ? 'index.php' : 'index2.php' ) : ( $inPage ? 'index2.php' : 'index3.php' ) );
+
+				$baseUrl			=	'index.php';
 				$baseUrl			.=	'?';
 				$baseRequests		=	array( 'option' => 'option', 'task' => 'task', 'cid' => 'pluginid' );
 				$urlParams			=	array();
@@ -1858,7 +2261,7 @@ class cbDrawController {
 			$parametersNames				=	explode( ' ', $sourceElem->attributes( 'parameters' ) );
 			$parametersValues				=	explode( ' ', $sourceElem->attributes( 'paramvalues' ) );
 			$parametersValuesTypes			=	explode( ' ', $sourceElem->attributes( 'paramvaluestypes' ) );
-	
+
 			// add currently activated filters to the parameters:
 			if ( count( $this->_filters ) > 0 ) {
 				foreach ( $this->_filters as $k => $v ) {
@@ -1869,7 +2272,7 @@ class cbDrawController {
 					}
 				}
 			}
-	
+
 			// add current search string, if any:
 			$searchName						=	$this->fieldName( 'search' );
 			$searchValue					=	$this->fieldValue( 'search' );
@@ -1877,7 +2280,7 @@ class cbDrawController {
 				$parametersNames[]			=	$searchName;
 				$parametersValues[]			=	"'" . $searchValue . "'";
 			}
-	
+
 			// generate current action (and parameters ?) as cbprevstate
 			$cbprevstate					=	array();
 			foreach ( $this->_options as $req => $act ) {
@@ -1887,7 +2290,7 @@ class cbDrawController {
 			}
 			$parametersNames[]				=	'cbprevstate';
 			$parametersValues[]				=	"'" . base64_encode( implode( '&', $cbprevstate ) ) . "'";
-			
+
 			// finally generate URL:
 			for ( $i = 0, $n = count( $parametersNames ); $i < $n; $i++ ) {
 				$nameOfVariable				=	$parametersValues[$i];
@@ -1907,16 +2310,20 @@ class cbDrawController {
 					$url					.=	'&' . $parametersNames[$i] . '=' . urlencode( $nameOfVariable );
 				}
 			}
-		}
 
-		if ( $htmlspecialchars ) {
+			if ( $ui == 2 ) {
+				$url						=	$_CB_framework->backendUrl( $url, $htmlspecialchars, ( $inPage ? 'html' : 'component' ) );
+			} else {
+				$url						=	cbSef( $url, $htmlspecialchars, ( $inPage ? 'html' : 'component' ) );
+			}
+		} elseif ( $htmlspecialchars ) {
 			$url							=	htmlspecialchars( $url );
 		}
 		return $url;
 	}
 
 	function drawPageNvigator( $positionType /* , $viewModelElement ??? */ ) {
-		
+
 	}
 	function createPageNvigator( $total, $limitstart, $limit ) {
 		cbimport( 'cb.pagination' );

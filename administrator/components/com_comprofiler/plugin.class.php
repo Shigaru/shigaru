@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla/Mambo Community Builder : Plugin Handler
-* @version $Id: plugin.class.php 948 2010-03-05 11:17:54Z beat $
+* @version $Id: plugin.class.php 1552 2011-07-30 23:07:15Z beat $
 * @package Community Builder
 * @subpackage plugin.class.php
 * @author various, JoomlaJoe and Beat
@@ -33,7 +33,7 @@ function addVarsToClass( &$obj, $src, $excludeArray ) {
 		if ( ! in_array( $key, $excludeArray ) ) {
 			$obj->$key	=	$val;
 		}
-	}	
+	}
 }
 
 class cbPluginHandler {
@@ -55,13 +55,17 @@ class cbPluginHandler {
 	var $_pluginGroups	=	array();
 	/** @var int Index of the plugin being loaded */
 	var $_loading		=	null;
+	/** @var int Index of the plugin instance */
+	var $_cbpluginid	=	null;
 	/** @var array collection of debug data */
 	var $debugMSG		=	array();
 	/** @var string Error Message*/
 	var $errorMSG		=	array();
 	var $_iserror		=	false;
-	var $params			=	null;	
-	
+	/**
+	 * @var cbParamsBase */
+	var $params			=	null;
+
 	/**
 	* Constructor
 	*/
@@ -71,7 +75,7 @@ class cbPluginHandler {
 	/**
 	* Loads all the bot files for a particular group (if group not already loaded)
 	* @param  string   $group             The group name, relates to the sub-directory in the plugins directory
-	* @param  mixed    $ids               array of int : ids of plugins to load. OR: string : name of class 
+	* @param  mixed    $ids               array of int : ids of plugins to load. OR: string : name of element (OR new in CB 1.2.2: string if ends with a ".": elements starting with "string.")
 	* @param  int      $publishedStatus   if 1 (DEFAULT): load only published plugins, if 0: load all plugins including unpublished ones
 	* @return boolean                     TRUE: load done, FALSE: no plugin loaded
 	*/
@@ -100,7 +104,7 @@ class cbPluginHandler {
 				if ( $group ) {
 					$where[]	=	'type = ' . $_CB_database->Quote( trim ( $group ) );
 				}
-/*	
+/*
 				if ( ( $ids !== null ) && ( count( $ids ) > 0 ) ) {
 					cbArrayToInts( $ids );
 					if ( count( $ids ) == 1 ) {
@@ -116,7 +120,8 @@ class cbPluginHandler {
 				. "\n ORDER BY ordering"
 				);
 				$dbCache[$publishedStatus][$cmsAccess][$group]		=	$_CB_database->loadObjectList();
-				if ( $dbCache[$publishedStatus][$cmsAccess][$group] === null ) {
+				if ( $_CB_database->getErrorNum() ) {
+					$dbCache[$publishedStatus][$cmsAccess][$group]	=	null;
 					return false;
 				}
 			}
@@ -124,7 +129,11 @@ class cbPluginHandler {
 				$ids			=	null;
 			}
 			foreach ( $dbCache[$publishedStatus][$cmsAccess][$group] AS $plugin ) {
-				if ( ( $ids === null ) || ( ( is_array( $ids ) ? in_array( $plugin->id, $ids ) : ( $plugin->element == $ids ) ) ) ) {
+				if ( ( $ids === null ) 
+					|| ( is_array( $ids ) ? in_array( $plugin->id, $ids )
+											: ( ( substr( $ids, strlen( $ids )-1, 1 ) == '.' ) ? ( substr( $plugin->element, 0, strlen( $ids ) ) == $ids )
+									   														   : ( $plugin->element == $ids ) ) ) )
+				{
 					if ( ( ! isset( $this->_plugins[$plugin->id] ) ) && $this->_loadPluginFile( $plugin ) ) {
 						$this->_plugins[$plugin->id]							=	$plugin;
 						if ( ! isset( $this->_pluginGroups[$plugin->type][$plugin->id] ) ) {
@@ -150,6 +159,22 @@ class cbPluginHandler {
 			$array	=	array();
 			return $array;
 		}
+	}
+	/**
+	 * Returns plugin of group $group and element $element
+	 * @since 1.3
+	 *
+	 * @param  string  $group
+	 * @param  string  $element
+	 * @return moscomprofilerPlugin  or FALSE if not loaded
+	 */
+	function getLoadedPlugin( $group, $element ) {
+		foreach ($this->getLoadedPluginGroup( $group ) as $id => $plug ) {
+			if ( $plug->element == $element ) {
+				return $this->_pluginGroups[$group][$id];
+			}
+		}
+		return false;
 	}
 	/** utility: checks if all elements of array needles are in array haystack */
 	function all_in_array($needles,$haystack) {
@@ -186,7 +211,7 @@ class cbPluginHandler {
 	}
 	function _loadPluginFile($plugin) {
 		global $_CB_framework, $_PLUGINS;	// $_PLUGINS is needed for the include below.
-		
+
 		$path	=	$_CB_framework->getCfg('absolute_path') . '/'. $this->getPluginRelPath( $plugin ) . '/' . $plugin->element . '.php';
 		if ( file_exists( $path ) && is_readable( $path ) ) {
 			$savePreviousPluginId			=	$this->_setLoading( $plugin, true );
@@ -204,7 +229,10 @@ class cbPluginHandler {
 	function & getPluginObject( $pluginId = null ) {
 		global $_PLUGINS;
 		if ( $pluginId === null ) {
-			$pluginId	=	$_PLUGINS->_loading;
+			$pluginId		=	$this->_cbpluginid;
+			if ( ! $pluginId ) {
+				$pluginId	=	$_PLUGINS->_loading;
+			}
 		}
 		return $_PLUGINS->_plugins[$pluginId];
 	}
@@ -236,7 +264,7 @@ class cbPluginHandler {
 			if ($this->_plugins[$pluginId]->published) {
 				if (isset( $this->_plugins[$pluginId]->classInstance[$class]->$variable )) {
 					return $this->_plugins[$pluginId]->classInstance[$class]->$variable;
-				} 
+				}
 			}
 		}
 		return false;
@@ -268,7 +296,10 @@ class cbPluginHandler {
 	}
 	function _loadParams($pluginId, $extraParams=null) {
 		global $_PLUGINS;
-		$this->params	=	new cbParamsBase($_PLUGINS->_plugins[$pluginId]->params . "\n" . $extraParams);	
+
+		if ( ( ! $this->params ) || ( $this->params->_raw != $_PLUGINS->_plugins[$pluginId]->params . "\n" . $extraParams ) ) {
+			$this->params	=	new cbParamsBase($_PLUGINS->_plugins[$pluginId]->params . "\n" . $extraParams);
+		}
 	}
 	function & getParams() {
 		return $this->params;
@@ -355,7 +386,7 @@ class cbPluginHandler {
 	}
 	/**
 	* Registers field params for fields
-	* 
+	*
 	* @param  $class  name of class if overriding core class cbFieldParamsHandler which then needs to be extended.
 	*/
 	function registerUserFieldParams( $class = null ) {
@@ -376,7 +407,7 @@ class cbPluginHandler {
 
 	/**
 	* Registers tab params for fields
-	* 
+	*
 	* @param  $class  name of class if overriding core class cbFieldParamsHandler which then needs to be extended.
 	*/
 	function registerUserTabParams( $class = null ) {
@@ -422,7 +453,7 @@ class cbPluginHandler {
 	/**
 	 * Adds a menu
 	 * @access private
-	 * 
+	 *
 	 * @param unknown_type $menuItem
 	 */
 	function _internalPLUGINSaddMenu( $menuItem ) {
@@ -430,7 +461,7 @@ class cbPluginHandler {
 	}
 	/**
 	* Registers a menu or status item to a particular menu position
-	* 
+	*
 	* @param array a menu item like:
 		// Test example:
 		$mi = array(); $mi["_UE_MENU_CONNECTIONS"]["duplique"]=null;
@@ -485,7 +516,7 @@ class cbPluginHandler {
 	/**
 	 * Checks if at least one event listener exists for a trigger $event
 	 * (this is a fast function, avoiding building args array for trigger method)
-	 * 
+	 *
 	 * @param  string   $event  trigger event name
 	 * @return boolean          True: yes, False: no
 	 */
@@ -562,7 +593,7 @@ class cbPluginHandler {
 				$ret								=	call_user_func_array( $method, $args );
 				$this->_loading						=	$savePreviousPluginId;
 				return $ret;
-			} 
+			}
 		}
 		return false;
 	}
@@ -601,12 +632,12 @@ class cbPluginHandler {
 	* PRIVATE method: sets the error condition and priority (for now 0)
 	* @param error priority
 	* @return boolean true
-	*/	
+	*/
 	function raiseError($priority) {
 		$this->_iserror		=	true;
 		return true;
 	}
-	
+
 	/**
 	* Gets the debug text
 	* @returns string text for debug
@@ -654,7 +685,7 @@ class cbPluginHandler {
 			$unsecureChars					=	array( '/', '\\', ':', ';', '{', '}', '(', ')', "\"", "'", '.', ',', "\0", ' ', "\t", "\n", "\r", "\x0B" );
 			$classname						=	'CBplug_' . strtolower( substr( str_replace( $unsecureChars, '', $row->element ), 0, 32 ) );
 			$action_cleaned					=				strtolower( substr( str_replace( $unsecureChars, '', $action ),		  0, 32 ) );
-			
+
 			if ( isset( $cache[$classname][$actionType][$action_cleaned] ) ) {
 				return $cache[$classname][$actionType][$action_cleaned];
 			}
@@ -774,10 +805,10 @@ class cbFieldHandler extends cbPluginHandler  {
 	 * @param  string                $formatting  'tr', 'td', 'div', 'span', 'none',   'table'??
 	 * @param  string                $reason      'profile' for user profile view, 'edit' for profile edit, 'register' for registration, 'search' for searches
 	 * @param  int                   $list_compare_types   IF reason == 'search' : 0 : simple 'is' search, 1 : advanced search with modes, 2 : simple 'any' search
-	 * @return mixed                
+	 * @return mixed
 	 */
 	function getFieldRow( &$field, &$user, $output, $formatting, $reason, $list_compare_types ) {
-		global $ueConfig, $_CB_OneTwoRowsStyleToggle;
+		global $ueConfig;
 
 		$results									=	null;
 		$oValue										=	$this->getField( $field, $user, $output, $reason, $list_compare_types );
@@ -794,127 +825,177 @@ class cbFieldHandler extends cbPluginHandler  {
 
 		if ( $oValue != null || trim($oValue) != '' ) {
 			if ( cbStartOfStringMatch( $output, 'html' ) ) {
-				if ( $output == 'htmledit' ) {
-					$htmlDescription				=	$this->getFieldDescription( $field, $user, 'htmledit', $reason );
-					$labelTitle						=	( trim( strip_tags( $htmlDescription ) ) ? ' title="' . htmlspecialchars( $this->getFieldTitle( $field, $user, 'html', $reason ) ) . ':' . htmlspecialchars( $htmlDescription ) . '"' : '' );
-					// removed in fieldEditToHtml
-				} else {
-					$labelTitle						=	'';
-				}
-
-				if ( $field->displaytitle != -1 ) {
-					$label						=	'<label for="' . ( $output == 'htmledit' ? htmlspecialchars( $field->name ) : 'cbfv_' . $field->fieldid ) . '"' . $labelTitle . '>';
-					$labelEnd					=	'</label>';
-				} else {
-					$label						=	'';
-					$labelEnd					=	'';
-				}
-
-				switch ( $formatting ) {
-					case 'table':
-						// ?
-						break;
-		
-					case 'tr':
-						if ( ( $field->name == 'avatar' ) && ( $reason == 'profile' ) ) {
-							$class						=	'cbavatar_tr';			// ugly temporary fix
-						} else {
-							$class 						=	'sectiontableentry' . $_CB_OneTwoRowsStyleToggle;
-							$_CB_OneTwoRowsStyleToggle	=	( $_CB_OneTwoRowsStyleToggle == 1 ? 2 : 1 );
-						}
-						$class						.=	' cbft_' . $field->type;
-						$results					.=	"\n\t\t\t\t<tr class=\"" . $class. '" id="cbfr_' . $field->fieldid . '">';
-						$colspan					=	( ( $field->profile == 2 ) ? ' colspan="2"' : '' );
-						if ( ( $field->displaytitle === null ) || ( $field->displaytitle == 1 ) || ( $output == 'htmledit' ) ) {
-							$translatedTitle		=	$this->getFieldTitle( $field, $user, $output, $reason );
-							if ( trim( $translatedTitle ) == '' ) {
-								$colspan			=	' colspan="2"';		// CB 1.0-1.1 backwards compatibility
-							}
-						} else {
-							$translatedTitle		=	'';
-						}
-						if( trim( $translatedTitle ) != '' ) {
-							$results				.=	"\n\t\t\t\t\t<td class=\"titleCell\"" . $colspan .'>'
-													.	$label
-													.	$translatedTitle
-													.	':'
-													.	$labelEnd
-													.	'</td>';
-							if ( $field->profile == 2 ) {
-								$results			.=	"\n\t\t\t\t</tr>"
-													.	"\n\t\t\t\t<tr class=\"" . $class . '">';
-							}
-						}
-						$results					.=	"\n\t\t\t\t\t<td" . $colspan . ' class="fieldCell" id="cbfv_' . $field->fieldid . '">' . $oValue . '</td>';
-						$results					.=	"\n\t\t\t\t</tr>";
-						break;
-	
-					case 'td':
-						$class						=	' cbft_' . $field->type;
-						$results					.=	"\n\t\t\t\t\t" . '<td class="fieldCell' . $class . '" id="cbfv_' . $field->fieldid . '">' . $oValue . '</td>';
-						break;
-	
-					case 'div':
-						$class 						=	'sectiontableentry' . $_CB_OneTwoRowsStyleToggle;
-						$_CB_OneTwoRowsStyleToggle	=	( $_CB_OneTwoRowsStyleToggle == 1 ? 2 : 1 );
-						$class						.=	' cbft_' . $field->type;
-						$translatedTitle			=	$this->getFieldTitle( $field, $user, $output, $reason );
-						$results					.=	"\n\t\t\t\t"
-													.	'<div class="' . $class . ' cb_form_line cbclearboth" id="cbfr_' . $field->fieldid . '">';
-						if ( trim( $translatedTitle ) != '' ) {
-							$results				.=	$label
-													.	$translatedTitle
-													.	':'
-													.	$labelEnd
-													;
-						}
-						$results					.=	'<div class="cb_field"><div id="cbfv_' . $field->fieldid . '">'
-													.	$oValue
-													.	'</div>'
-													//	<div class="cb_result_container"><div id="checkemail__Response">&nbsp;</div></div>	// space for AJAX reply
-													.	'</div></div>'
-													;
-						break;
-		
-					case 'span':
-						$class						=	' cbft_' . $field->type;
-						$results					.=	'<span class="cb_field' . $class . '"><span id="cbfv_' . $field->fieldid . '">'
-													.	$oValue
-													.	'</span></span>';
-						break;
-		
-					case 'ul':
-					case 'ol':
-						break;
-
-					case 'li':
-						$translatedTitle			=	$this->getFieldTitle( $field, $user, $output, $reason );
-						if ( trim( $translatedTitle ) != '' ) {
-							$translatedTitle		=	'<span class="cb_title">' . $translatedTitle . ':' . '</span> ';
-						}
-						$class						=	' cbft_' . $field->type;
-						$results					.=	'<li class="cb_field' . $class . '">'
-													.	$translatedTitle
-													.	'<span id="cbfv_' . $field->fieldid . '">'
-													.	$oValue
-													.	'</span></li>';
-						break;
-
-					case 'none':
-						$results					=	$oValue;
-						break;
-		
-					default:
-						$results					=	'*' . $oValue . '*';
-						break;
-				}
+				$results							=	$this->renderFieldHtml( $field, $user, $oValue, $output, $formatting, $reason, array() );
 			} else {
 				$results							=	$oValue;
 			}
 		}
 		return $results;
 	}
+	/**
+	 * Renders a field row with title and description into $output html formating
+	 *
+	 * @param  moscomprofilerFields  $field       Using: name, type, title, description, fieldid, profile, displaytitle
+	 * @param  moscomprofilerUser    $user
+	 * @param  string                $oValue
+	 * @param  string                $output      'html', 'htmledit', NOT SUPPORTED IN THIS FUNCTION: 'xml', 'json', 'php', 'csvheader', 'csv', 'rss', 'fieldslist'
+	 * @param  string                $formatting  'tr', 'td', 'div', 'span', 'none',   'table'??
+	 * @param  string                $reason      'profile' for user profile view, 'edit' for profile edit, 'register' for registration, 'search' for searches
+	 * @param  array                 $rowClasses
+	 */
+	function renderFieldHtml( $field, &$user, $oValue, $output, $formatting, $reason, $rowClasses ) {
+		global $_CB_OneTwoRowsStyleToggle;
 
+		$results							=	null;
+
+		$translatedTitle					=	$this->getFieldTitle( $field, $user, $output, $reason );
+		if ( $output == 'htmledit' ) {
+			$htmlDescription				=	$this->getFieldDescription( $field, $user, 'htmledit', $reason );
+			$labelTitle						=	$this->_renderFieldInputTitleAttribute( $field, $user, 'htmledit', $reason, $translatedTitle, $htmlDescription );
+			// removed in fieldEditToHtml
+		} else {
+			$labelTitle						=	'';
+		}
+
+		if ( $field->displaytitle != -1 ) {
+			$labelForId						=	( ( ( $output == 'htmledit' ) && $field->name ) ? htmlspecialchars( $field->name ) : 'cbfv_' . $field->fieldid );
+			$label							=	'<label for="' . $labelForId . '" id="cblab' . $labelForId . '"' . $labelTitle . '>';
+			$labelEnd						=	'</label>';
+		} else {
+			$label							=	'';
+			$labelEnd						=	'';
+		}
+
+		switch ( $formatting ) {
+			case 'table':
+				// ?
+				break;
+
+			case 'tr':
+				if ( ( $field->name == 'avatar' ) && ( $reason == 'profile' ) ) {
+					$rowClasses[]				=	'cbavatar_tr';			// ugly temporary fix
+				} else {
+					$rowClasses[] 				=	'sectiontableentry' . $_CB_OneTwoRowsStyleToggle;
+					$_CB_OneTwoRowsStyleToggle	=	( $_CB_OneTwoRowsStyleToggle == 1 ? 2 : 1 );
+				}
+				$rowClasses[]				=	'cbft_' . $field->type;
+				$results					.=	"\n\t\t\t\t<tr class=\"" . implode( ' ', $rowClasses ) . '" id="cbfr_' . $field->fieldid . '">';
+				$colspan					=	( ( $field->profile == 2 ) ? ' colspan="2"' : '' );
+				if ( ( $field->displaytitle === null ) || ( $field->displaytitle == 1 ) || ( $output == 'htmledit' ) ) {
+					if ( trim( $translatedTitle ) == '' ) {
+						$colspan			=	' colspan="2"';		// CB 1.0-1.1 backwards compatibility
+					}
+				} else {
+					$translatedTitle		=	'';
+				}
+				if( trim( $translatedTitle ) != '' ) {
+					$results				.=	"\n\t\t\t\t\t<td class=\"titleCell\"" . $colspan .'>'
+											.	$label
+											.	$translatedTitle
+											.	':'
+											.	$labelEnd
+											.	'</td>';
+					if ( $field->profile == 2 ) {
+						$results			.=	"\n\t\t\t\t</tr>"
+											.	"\n\t\t\t\t<tr class=\"" . implode( ' ', $rowClasses ) . '" id="cbfrd_' . $field->fieldid . '">';
+					}
+				}
+				$results					.=	"\n\t\t\t\t\t<td" . $colspan . ' class="fieldCell" id="cbfv_' . $field->fieldid . '">' . $oValue . '</td>';
+				$results					.=	"\n\t\t\t\t</tr>";
+				break;
+
+			case 'td':
+				$rowClasses[]				=	'fieldCell';
+				$rowClasses[]				=	'cbft_' . $field->type;
+				$results					.=	"\n\t\t\t\t\t" . '<td class="' . implode( ' ', $rowClasses ) . '" id="cbfv_' . $field->fieldid . '">' . $oValue . '</td>';
+				break;
+
+			case 'div':
+				$rowClasses[]				=	'sectiontableentry' . $_CB_OneTwoRowsStyleToggle;
+				$_CB_OneTwoRowsStyleToggle	=	( $_CB_OneTwoRowsStyleToggle == 1 ? 2 : 1 );
+				$rowClasses[]				=	'cbft_' . $field->type;
+				$rowClasses[]				=	'cb_form_line';
+				$rowClasses[]				=	'cbclearboth';
+				if ( $field->profile == 2 ) {
+					$rowClasses[]			=	'cbtwolinesfield';
+				}
+				$results					.=	"\n\t\t\t\t"
+											.	'<div class="' . implode( ' ', $rowClasses ) . '" id="cbfr_' . $field->fieldid . '">';
+				if ( ( $field->displaytitle !== null ) && ( $field->displaytitle != 1 ) && ( $output != 'htmledit' ) ) {
+					$translatedTitle		=	'';
+				}
+				if ( trim( $translatedTitle ) != '' ) {
+					$results				.=	$label
+											.	$translatedTitle
+											.	( $field->displaytitle != -1 ? ':' : '' )
+											.	$labelEnd
+											;
+				}
+				$results					.=	'<div class="cb_field"><div id="cbfv_' . $field->fieldid . '">'
+											.	$oValue
+											.	'</div>'
+											//	<div class="cb_result_container"><div id="checkemail__Response">&nbsp;</div></div>	// space for AJAX reply
+											.	'</div></div>'
+											;
+				break;
+
+			case 'span':
+				$rowClasses[]				=	'cb_field';
+				$rowClasses[]				=	'cbft_' . $field->type;
+				$results					.=	'<span class="' . implode( ' ', $rowClasses ) . '" id="cbfr_' . $field->fieldid . '><span id="cbfv_' . $field->fieldid . '">'
+											.	$oValue
+											.	'</span></span>';
+				break;
+
+			case 'ul':
+			case 'ol':
+				break;
+
+			case 'li':
+				if ( ( $field->displaytitle !== null ) && ( $field->displaytitle != 1 ) && ( $output != 'htmledit' ) ) {
+					$translatedTitle		=	'';
+				}
+				if ( trim( $translatedTitle ) != '' ) {
+					$translatedTitle		=	'<span class="cb_title">' . $translatedTitle . ':' . '</span> ';
+				}
+				$rowClasses[]				=	'cb_field';
+				$rowClasses[]				=	'cbft_' . $field->type;
+				$results					.=	'<li class="' . implode( ' ', $rowClasses ) . '" id="cbfr_' . $field->fieldid . '>'
+											.	$translatedTitle
+											.	'<span id="cbfv_' . $field->fieldid . '">'
+											.	$oValue
+											.	'</span></li>';
+				break;
+
+			case 'none':
+				$results					=	$oValue;
+				break;
+
+			default:
+				$results					=	'*' . $oValue . '*';
+				break;
+		}
+		return $results;
+	}
+	/**
+	 * Render Labeller for description as ' title="$translatedTitle:$htmlDescription"' or '' if no $htmlDescription
+	 * If _CB_INPUTS_TITLES_HTML is not defined, strips html tags
+	 *
+	 * @param  moscomprofilerFields  $field
+	 * @param  moscomprofilerUser    $user
+	 * @param  string                $output  'text' or: 'html', 'xml', 'json', 'php', 'csvheader', 'csv', 'rss', 'fieldslist', 'htmledit'
+	 * @param  string                $reason      'profile' for user profile view, 'edit' for profile edit, 'register' for registration, 'search' for searches
+	 * @param  string                $translatedTitle  (without htmlspecialchars, as will be htmlspecialchared in this function)
+	 * @param  string                $htmlDescription  (without htmlspecialchars, as will be htmlspecialchared in this function)
+	 * @return string
+	 */
+	function _renderFieldInputTitleAttribute( &$field, &$user, $output, $reason, $translatedTitle, $htmlDescription ) {
+		$trimmedDescription					=	trim( strip_tags( $htmlDescription ) );
+		if ( ! defined('_CB_INPUTS_TITLES_HTML') ) {
+			$htmlDescription				=	$trimmedDescription;
+		}
+		return ( $trimmedDescription ? ' title="' . htmlspecialchars( $translatedTitle ) . ':' . htmlspecialchars( $htmlDescription ) . '"' : '' );
+	}
 	/**
 	 * Accessor:
 	 * Returns a field in specified format
@@ -1012,6 +1093,18 @@ class cbFieldHandler extends cbPluginHandler  {
 		}
 	}
 	/**
+	 * Non-Mutator:
+	 * Prepares field data for saving to database (safe transfer from $postdata to $user) when a field does not save e.g. to read-only setting in front-end
+	 * Override
+	 *
+	 * @param  moscomprofilerFields  $field
+	 * @param  moscomprofilerUser    $user      RETURNED populated: touch only variables related to saving this field (also when not validating for showing re-edit)
+	 * @param  array                 $postdata  Typically $_POST (but not necessarily), filtering required.
+	 * @param  string                $reason    'edit' for save user edit, 'register' for save registration
+	 */
+	function prepareFieldDataNotSaved( &$field, &$user, &$postdata, $reason ) {
+	}
+	/**
 	 * Validator:
 	 * Validates $value for $field->required and other rules
 	 * Override
@@ -1038,14 +1131,7 @@ class cbFieldHandler extends cbPluginHandler  {
 			$len						=	cbIsoUtf_strlen( $value );
 
 			// Minimum field length:
-			if ( $field->name == 'password' ) {
-				$defaultMin				=	6;
-			} elseif ( $field->name == 'username' ) {
-				$defaultMin				=	3;
-			} else {
-				$defaultMin				=	0;
-			}
-			$fieldMinLength				=	$field->params->get( 'fieldMinLength', $defaultMin );
+			$fieldMinLength				=	$this->getMinLength( $field );
 
 			if ( ( $len > 0 ) && ( $len < $fieldMinLength ) ) {
 				$this->_setValidationError( $field, $user, $reason, sprintf( _UE_VALID_MIN_LENGTH, $this->getFieldTitle( $field, $user, 'text', $reason ), $fieldMinLength, $len ) );
@@ -1053,7 +1139,7 @@ class cbFieldHandler extends cbPluginHandler  {
 			}
 
 			// Maximum field length:
-			$fieldMaxLength				=	$field->maxlength;
+			$fieldMaxLength				=	$this->getMaxLength( $field );
 			if ( $fieldMaxLength && ( $len > $fieldMaxLength ) ) {
 				$this->_setValidationError( $field, $user, $reason, sprintf( _UE_VALID_MAX_LENGTH, $this->getFieldTitle( $field, $user, 'text', $reason ), $fieldMaxLength, $len ) );
 				return false;
@@ -1072,7 +1158,10 @@ class cbFieldHandler extends cbPluginHandler  {
 					// treats case of ',,' or ',,,' to also forbid ',' if in string.
 					$forbiddenContent[] =	',';
 				}
-				$replaced				=	str_replace( $forbiddenContent, '', $value );
+				for ( $i = 0, $n = count( $forbiddenContent ); $i < $n; $i++ ) {
+					$forbiddenContent[$i]	=	preg_quote( $forbiddenContent[$i], '/' );
+				}
+				$replaced				=	preg_replace( '/' . implode( '|', $forbiddenContent ) . '/i', '', $value );
 				if ( $replaced != $value ) {
 					$this->_setValidationError( $field, $user, $reason, _UE_INPUT_VALUE_NOT_ALLOWED );
 					return false;
@@ -1099,7 +1188,7 @@ class cbFieldHandler extends cbPluginHandler  {
 		if ( $searchMode ) {
 			foreach ( $field->getTableColumns() as $col ) {
 				$value					=	cbGetParam( $postdata, $col );
-				if ( ( $value !== null ) && ( $value !== '' ) && ! is_array( $value ) ) {
+				if ( ( ( ( $value !== null ) && ( $value !== '' ) ) || ( ( $list_compare_types == 1 ) && in_array( $searchMode, array( 'is', 'isnot' ) ) ) ) && ! is_array( $value ) ) {
 					$value				=	stripslashes( $value );
 					$searchVals->$col	=	$value;
 					// $this->validate( $field, $user, $col, $value, $postdata, $reason );
@@ -1183,14 +1272,14 @@ class cbFieldHandler extends cbPluginHandler  {
 	 * @param  moscomprofilerField  $field
 	 * @param  moscomprofilerUser   $user
 	 * @param  string               $output  NO 'htmledit' BUT: 'html', 'xml', 'json', 'php', 'csvheader', 'csv', 'rss', 'fieldslist', 'htmledit'
-	 * @return mixed                
+	 * @return mixed
 	 */
 	function _formatFieldOutputIntBoolFloat( $name, $value, $output ) {
 
 		switch ( $output ) {
 			case 'html':
 			case 'rss':
-				return $value; 
+				return $value;
 				break;
 
 			case 'htmledit':
@@ -1249,7 +1338,7 @@ class cbFieldHandler extends cbPluginHandler  {
 							return null;
 						}
 						break;
-				
+
 					case ', ':
 					default:
 						return implode( $listType, $vals );
@@ -1406,7 +1495,7 @@ class cbFieldHandler extends cbPluginHandler  {
 	 * @param  string                $type        type="$type"
 	 * @param  string                $value       value="$value"
 	 * @param  string                $additional  'xxxx="xxx" yy="y"'  WARNING: No classes in here, use $classes
-	 * @param  string                $allValues   
+	 * @param  string                $allValues
 	 * @param  boolean               $displayFieldIcons
 	 * @param  array                 $classes     CSS classes
 	 * @return string                            HTML: <tag type="$type" value="$value" xxxx="xxx" yy="y" />
@@ -1417,23 +1506,26 @@ class cbFieldHandler extends cbPluginHandler  {
 		$readOnly				=	$this->_isReadOnly( $field, $user, $reason );
 		$oReq					=	$this->_isRequired( $field, $user, $reason );
 
-		if ( $readOnly ) { 
+		if ( $readOnly ) {
 			$additional			.=	' disabled="disabled"';
 			$oReq				=	0;
 		}
 		if ( $oReq ) {
 			$classes[]			=	'required';
-			$additional			.=	' mosReq="1"'						//TBD: replace by class
+			if ( ! defined( '_CB_VALIDATE_NEW' ) ) {
+				$additional		.=	' mosReq="1"'
 								.	' mosLabel="' . htmlspecialchars( $this->getFieldTitle( $field, $user, 'text', $reason ) ) . '"';
+			}
 		}
 		if ( $field->size > 0 ) {
 			$additional			.=	' size="' . $field->size . '" ';
 		}
 		$inputName				=	$field->name;
 
+		$translatedTitle		=	$this->getFieldTitle( $field, $user, 'html', $reason );
 		$htmlDescription		=	$this->getFieldDescription( $field, $user, 'htmledit', $reason );
-		$titleAttr				=	( trim( strip_tags( $htmlDescription ) ) ? ' title="' . htmlspecialchars( $this->getFieldTitle( $field, $user, 'html', $reason ) ) . ': ' . htmlspecialchars( $htmlDescription ) . '"' : '' );
-		
+		$titleAttr				=	$this->_renderFieldInputTitleAttribute( $field, $user, 'htmledit', $reason, $translatedTitle, $htmlDescription );
+
 		$htmlInput				=	null;
 		switch ( $type ) {
 			case 'radio':
@@ -1475,8 +1567,9 @@ class cbFieldHandler extends cbPluginHandler  {
 				if ( $field->size == 0 ) {
 					$additional			.=	' size="25"';
 				}
-				if ( $field->maxlength > 0 ) {
-					$additional	.=	' maxlength="' . $field->maxlength . '"';	
+				$fieldMaxLength	=	$this->getMaxLength( $field );
+				if ( $fieldMaxLength > 0 ) {
+					$additional	.=	' maxlength="' . $fieldMaxLength . '"';
 				}
 				$classes[]		=	'inputbox';
 				break;
@@ -1485,10 +1578,10 @@ class cbFieldHandler extends cbPluginHandler  {
 				$tag			=	'textarea';
 				$type			=	null;
 				if ( $field->cols > 0 ) {
-					$additional	.=	' cols="' . $field->cols . '"';	
+					$additional	.=	' cols="' . $field->cols . '"';
 				}
 				if ( $field->rows > 0 ) {
-					$additional	.=	' rows="' . $field->rows . '"';	
+					$additional	.=	' rows="' . $field->rows . '"';
 				}
 				$classes[]		=	'inputbox';
 				break;
@@ -1563,12 +1656,16 @@ class cbFieldHandler extends cbPluginHandler  {
 	function _isRequired( &$field, &$user, $reason ) {
 		global $_CB_framework, $ueConfig;
 
-		$adminReq				=	$field->required;
-		if (	( $_CB_framework->getUi() == 2 )
-			&&	( $ueConfig['adminrequiredfields']==0 )
-			&&	! in_array( $field->name, array( 'username', 'email', 'name', 'firstname', 'lastname' ) ) )
-		{
+		if ( $reason == 'search' ) {
 			$adminReq			=	0;
+		} else {
+			$adminReq				=	$field->required;
+			if (	( $_CB_framework->getUi() == 2 )
+				&&	( $ueConfig['adminrequiredfields']==0 )
+				&&	! in_array( $field->name, array( 'username', 'email', 'name', 'firstname', 'lastname' ) ) )
+			{
+				$adminReq			=	0;
+			}
 		}
 		return $adminReq;
 	}
@@ -1703,7 +1800,7 @@ class cbFieldHandler extends cbPluginHandler  {
 													'isnot'			=>	_UE_MATCH_IS_NOT
 												);
 						break;
-		
+
 					case 'none':
 					default:
 						$choices		=	null;
@@ -1736,7 +1833,7 @@ class cbFieldHandler extends cbPluginHandler  {
 										;
 				;
 				break;
-			
+
 			case 2:		// Simple "contains" and ranges:
 			case 0:
 			default:
@@ -1754,11 +1851,11 @@ class cbFieldHandler extends cbPluginHandler  {
 			case 1:
 				$fieldNam					=	$field->name . '__srmch';
 				$value						=	cbGetParam( $postdata, $fieldNam );
-				if ( $value !== null ) {
+				if ( ( $value !== null ) && ( $value !== '' ) ) {
 					$searchVals->$fieldNam	=	stripslashes( $value );
 				}
 				break;
-			
+
 			case 2:
 				if ( cbGetParam( $postdata, $field->name ) != null ) {
 					switch ( $type ) {
@@ -1771,7 +1868,7 @@ class cbFieldHandler extends cbPluginHandler  {
 						case 'none':
 							$value			=	'is';
 							break;
-			
+
 						default:
 							$value			=	null;
 							break;
@@ -1797,7 +1894,7 @@ class cbFieldHandler extends cbPluginHandler  {
 			case 1:
 				$value						=	$this->_bindSearchMode( $field, $searchVals, $postdata, 'isisnot', $list_compare_types );
 				break;
-			
+
 			case 2:
 			case 0:
 			default:
@@ -1840,27 +1937,30 @@ class cbFieldHandler extends cbPluginHandler  {
 		$live_site				=	$_CB_framework->getCfg( 'live_site' );
 		$regAntiSpZ				=	$regAntiSpamValues[0];
 
+		$url					=	"index.php?option=com_comprofiler&task=fieldclass&function=checkvalue&user=$userid&reason=$reason";
+
 		if ( $_CB_framework->getUi() == 2 ) {
-			$ajaxUrl			=	$live_site . '/administrator/index3.php';
+			$ajaxUrl			=	$live_site . '/administrator/' . $_CB_framework->backendUrl( $url, false, 'raw' );
 		} else {
-			$ajaxUrl			=	$live_site . '/index2.php';
+			$ajaxUrl			=	cbSef( $url, false, 'raw' );
 		}
 
 		if ( ( $validateParams !== null ) && defined( '_CB_VALIDATE_NEW' ) ) {
 			if ( $_CB_fieldajax_validator_outputed !== true ) {
-			
-				$_CB_framework->outputCbJQuery( <<<EOT
+
+				cbimport( 'cb.validator' );
+				cbValidator::addMethod( 'remotejhtml', <<<EOT
 jQuery.validator.addMethod("remotejhtml", function(value, element, param) {
 			if ( this.optional(element) )
 				return "dependency-mismatch";
-			
+
 			var previous = this.previousValue(element);
-			
+
 			if (!this.settings.messages[element.name] )
 				this.settings.messages[element.name] = {};
 			this.settings.messages[element.name].remote = typeof previous.message == "function" ? previous.message(value) : previous.message;
-			
-			param = typeof param == "string" && {url:param} || param; 
+
+			param = typeof param == "string" && {url:param} || param;
 
 			var respField = $('#'+$(element).attr('id')+'__Response');
 			if ( respField.html() != '&nbsp;' ) {
@@ -1888,12 +1988,12 @@ jQuery.validator.addMethod("remotejhtml", function(value, element, param) {
 
 				previous.old = value;
 				var validator = this;
-				this.startRequest(element);
+				// this.startRequest(element);
 				var data = {};
 				data[element.name] = value;
 				$.ajax($.extend(true, {
 					type: 'POST',
-					url:  '$ajaxUrl?option=com_comprofiler&task=fieldclass&reason=$reason&field='+encodeURIComponent(inputid)+'&function=checkvalue&user=$userid&no_html=1&format=raw',
+					url:  '$ajaxUrl&field='+encodeURIComponent(inputid),
 					mode: "abort",
 					port: "validate" + element.name,
 					dataType: "html",	/* """json", */
@@ -1908,20 +2008,27 @@ jQuery.validator.addMethod("remotejhtml", function(value, element, param) {
 						validator.showErrors();
 
 						previous.valid = response;
-						validator.stopRequest(element, response);
+						// validator.stopRequest(element, response);
 
 						var respField = $('#'+$(element).attr('id')+'__Response');
 						respField.fadeOut('fast', function() {
 							respField.html(response).fadeIn('fast');
 						} );
+					},
+					error: function(jqXHR, textStatus) {
+						// validator.stopRequest(element, textStatus);
+						var respField = $('#'+$(element).attr('id')+'__Response');
+						respField.fadeOut('fast', function() {
+							respField.html(textStatus).fadeIn('fast');
+						} );
 					}
 				}, param));
 				$('#'+inputid+'__Response').html('<img alt=\\"\\" src=\\"$live_site/components/com_comprofiler/images/wait.gif\\" /> $checking').fadeIn('fast');
-				return "pending";
+				return true;		// "pending";
 			} else if( this.pending[element.name] ) {
 				return "pending";
 			}
-			return previous.valid;
+			return true; // previous.valid;
 }, 'Ajax Reply Error');
 EOT
 				);
@@ -1929,15 +2036,15 @@ EOT
 jQuery.validator.addMethod("remotejhtml", function(value, element, param) {
 			if ( this.optional(element) )
 				return "dependency-mismatch";
-			
+
 			var previous = this.previousValue(element);
-			
+
 			if (!this.settings.messages[element.name] )
 				this.settings.messages[element.name] = {};
 			this.settings.messages[element.name].remote = typeof previous.message == "function" ? previous.message(value) : previous.message;
-			
-			param = typeof param == "string" && {url:param} || param; 
-			
+
+			param = typeof param == "string" && {url:param} || param;
+
 			if ( previous.old !== value && ! this.cbIsOnKeyUp ) {
 				previous.old = value;
 				var validator = this;
@@ -1946,7 +2053,7 @@ jQuery.validator.addMethod("remotejhtml", function(value, element, param) {
 				data[element.name] = value;
 				$.ajax($.extend(true, {
 					type: 'POST',
-					url:  '$ajaxUrl?option=com_comprofiler&task=fieldclass&reason=$reason&field='+encodeURIComponent(element.id)+'&function=checkvalue&user=$userid&no_html=1&format=raw',
+					url:  '$ajaxUrl&field='+encodeURIComponent(element.id),
 					mode: "abort",
 					port: "validate" + element.name,
 					dataType: "html",
@@ -1999,7 +2106,7 @@ $.fn.cb_field_ajaxCheck = function() {
 			var lastVal = $(this).val();
 			$(this).data('cblastvalsent', lastVal );
 			$.ajax( {	type: 'POST',
-						url:  '$ajaxUrl?option=com_comprofiler&task=fieldclass&reason=$reason&field='+encodeURIComponent(inputid)+'&function=checkvalue&user=$userid&no_html=1&format=raw',
+						url:  '$ajaxUrl&field='+encodeURIComponent(inputid),
 						data: 'value=' + encodeURIComponent( lastVal ) + '&$cbSpoofField=' + encodeURIComponent('$cbSpoofString') + '&$regAntiSpamFieldName=' + encodeURIComponent('$regAntiSpZ'),
 						success: function(response) {
 							var respField = $('#'+$(cbInputField).attr('id')+'__Response');
@@ -2030,7 +2137,7 @@ EOT
 		}
 		if ( ( $validateParams !== null ) && defined( '_CB_VALIDATE_NEW' ) ) {
 			$validateParams[]			=	'remotejhtml:true';
-			return $this->_jsValidateClass( $validateParams );
+			return $this->getMetaClass( $field, $validateParams );
 		} else {
 			$_CB_framework->outputCbJQuery(
 				// change is broken in FF 2.0.13 when a auto-filled value is chosen
@@ -2040,13 +2147,59 @@ EOT
 		}
 	}
 
+	/**
+	 * Returns the minimum field length as set
+	 * 
+	 * @param  moscomprofilerFields  $field
+	 * @return int
+	 */
+	function getMinLength( $field ) {
+		return (int) $field->params->get( 'fieldMinLength', 0 );
+	}
+	/**
+	 * Returns the maximum field length as set
+	 * 
+	 * @param  moscomprofilerFields  $field
+	 * @return int
+	 */
+	function getMaxLength( $field ) {
+		return (int) $field->maxlength;
+	}
+	/**
+	 * Returns string of extra classes (without spaces around) 
+	 * 
+	 * @param  moscomprofilerFields  $field
+	 * @return string
+	 */
+	function getMetaClass( $field, $metaJson = null ) {
+		if ( ! is_array( $metaJson ) ) {
+			$metaJson					=	array();
+		}
+		$fieldMinLength					=	$this->getMinLength( $field );
+		if ( $fieldMinLength > 0 ) {
+			$metaJson[]					=	'minlength:' . (int) $fieldMinLength;
+		}
+		$fieldMaxLength					=	$this->getMaxLength( $field );
+		if ( $fieldMaxLength > 0 ) {
+			$metaJson[]					=	'maxlength:' . (int) $fieldMaxLength;
+		}
+		if ( isset( $field->_identicalTo ) ) {
+			$metaJson[]					=	"equalTo:'#" . addslashes( htmlspecialchars( $field->_identicalTo ) ) . "'";
+		}
+		if ( count( $metaJson ) > 0 ) {
+			$classesMeta				=	$this->_jsValidateClass( $metaJson );
+		} else {
+			$classesMeta				=	null;
+		}
+		return $classesMeta;
+	}
 	function _jsValidateClass( $validateRules ) {
 		if ( count( $validateRules ) > 0 ) {
 			return '{' . implode( ',', $validateRules ) . '}';
 		} else {
 			return null;
 		}
-		
+
 	}
 	/**
 	 * Direct access to field for custom operations, like for Ajax
@@ -2162,7 +2315,7 @@ EOT
 	 * @return string               for the param column of the field
 	 */
 	function getRawParamsRaw( &$field, &$post_Params ) {
-		return stripslashes( cbParamsEditorController::getRawParams( $post_Params ) );
+		return cbParamsEditorController::getRawParamsUnescaped( $post_Params, true );
 	}
 	/**
 	 * Returns full label of the type of the field (backend use only!)
@@ -2427,20 +2580,20 @@ class cbSqlQueryPart /* extends CBSimpleXMLElement */ {
 							$condition		=	'(' . implode( ') ' . $this->attributes( 'operator' ) . ' (', $subFormulas ) . ')';
 						}
 						break;
-					
+
 					case 'sql:function':
 						if ( count( $subFormulas ) > 0 ) {
 							$condition		=	$this->attributes( 'operator' ) . '( ' . implode( ', ', $subFormulas ) . ' )';
 						}
 						break;
-	
+
 					case 'sql:field':
 						if ( isset( $tableReferences[$this->attributes( 'table' )] ) ) {
 							$operator		=	$this->attributes( 'operator' );
 							$value			=	$this->attributes( 'value' );
 							$valuetype		=	$this->attributes( 'valuetype' );
 							$searchmode		=	$this->attributes( 'searchmode' );
-		
+
 							if ( in_array( $operator, array( '=', '<>', '!=' ) ) && ( $valuetype == 'const:string' ) ) {
 								switch ( $searchmode ) {
 									case 'all':
@@ -2463,7 +2616,11 @@ class cbSqlQueryPart /* extends CBSimpleXMLElement */ {
 											} else {
 												global $_CB_framework;
 												if ( $_CB_framework->outputCharset() == 'UTF-8' ) {
-													$eachValues	=	preg_split( '/\p{Z}+/u', $value );
+													$eachValues	=	@preg_split( '/\p{Z}+/u', $value );
+													if ( preg_last_error() == PREG_INTERNAL_ERROR ) {
+														// PCRE has not been compiled with utf-8 support, do our best:
+														$eachValues	=	preg_split( '/\W+/', $value );
+													}
 												} else {
 													$eachValues	=	preg_split( '/\W+/', $value );
 												}
@@ -2490,17 +2647,17 @@ class cbSqlQueryPart /* extends CBSimpleXMLElement */ {
 											$condition			=	'NOT(' . $condition . ')';
 										}
 										break;
-		
+
 									case 'isnot':
 										$operator				=	( $operator == '=' ? '<>' : '=' );
 										$condition				=	$this->_buildop( $operator, $value, $valuetype, $tableReferences );
 										break;
-		
+
 									case 'is':
 									default:
 										$condition				=	$this->_buildop( $operator, $value, $valuetype, $tableReferences );
 										break;
-		
+
 								}
 							} else {
 								$condition						=	$this->_buildop( $operator, $value, $valuetype, $tableReferences );
@@ -2555,7 +2712,7 @@ class cbSqlQueryPart /* extends CBSimpleXMLElement */ {
 				$operator	=	'LIKE';
 				break;
 		}
-		return $operator;		
+		return $operator;
 	}
 	function _buildop( $operator, $value, $valuetype, &$tableReferences ) {
 		global $_CB_database;
@@ -2773,7 +2930,7 @@ class cbFieldParamsHandler {
 	 * @return string               for the param column of the field
 	 */
 	function getRawParamsRaw( &$post_Params ) {
-		return stripslashes( cbParamsEditorController::getRawParams( $post_Params ) );
+		return stripslashes( cbParamsEditorController::getRawParamsUnescaped( $post_Params, true ) );
 	}
 	/**
 	 * Returns full label of the type of the field (backend use only!)
@@ -3007,9 +3164,10 @@ class cbTabHandler extends cbPluginHandler  {
 	* @param  string   $task              cb task to link to (default: userProfile)
 	* @param  boolean  $sefed             TRUE to call cbSef (default), FALSE to leave URL unsefed
 	* @param  array    $excludeParamList  of string with keys of parameters to not include
-	* @return string                      value of the parameter
+	* @param  string   $format            'html', 'raw'		(added in CB 1.2.3)
+	* @return string                      value of the parameter (htmlspecialchared)
 	*/
-	function _getAbsURLwithParam( $paramArray, $task = 'userProfile', $sefed = true, $excludeParamList = null )
+	function _getAbsURLwithParam( $paramArray, $task = 'userProfile', $sefed = true, $excludeParamList = null, $format = 'html' )
 	{
 		global $_POST, $_GET;
 
@@ -3069,7 +3227,7 @@ class cbTabHandler extends cbPluginHandler  {
 			}
 		}
 		if ( $sefed ) {
-			return cbSef( $uri );
+			return cbSef( $uri, true, $format );
 		} else {
 			return $uri;
 		}
@@ -3191,7 +3349,7 @@ class cbTabHandler extends cbPluginHandler  {
 				$postfixArray = array("");
 			}
 		}
-		foreach ($postfixArray as $postfix) {	
+		foreach ($postfixArray as $postfix) {
 			$limitstart						=	$this->_getReqParam("limitstart", null, $postfix);
 			$return[$postfix."limitstart"]	=	( $limitstart === null ? null : (int) $limitstart );
 			$return[$postfix."search"]		=	$this->_getReqParam("search", null, $postfix);
@@ -3318,24 +3476,26 @@ class cbRegistrationView extends cbTemplateHandler {
 	var $topIcons;
 	var $bottomIcons;
 	var $conclusionMessage;
+	var $formatting;
 /**
 	 * Draws the registration page
 	 *
 	 * @return string                              Rendered registration page
 	 */
-	function drawProfile( &$user, $tabcontent, $regFormTag, $introMessage, $loginOrRegisterTitle, $registerTitle, $registerButton, $moduleContent, $topIcons, $bottomIcons, $conclusionMessage ) {
+	function drawProfile( &$user, $tabcontent, $regFormTag, $introMessage, $loginOrRegisterTitle, $registerTitle, $registerButton, $moduleContent, $topIcons, $bottomIcons, $conclusionMessage, $formatting = 'tabletrs' ) {
 		$this->user						=&	$user;
 		$this->tabcontent				=	$tabcontent;
 		$this->regFormTag				=	$regFormTag;
 		$this->introMessage				=	$introMessage;
-		$this->loginOrRegisterTitle	=	$loginOrRegisterTitle;
+		$this->loginOrRegisterTitle		=	$loginOrRegisterTitle;
 		$this->registerTitle			=	$registerTitle;
 		$this->registerButton			=	$registerButton;
 		$this->moduleContent			=	$moduleContent;
 		$this->topIcons					=	$topIcons;
 		$this->bottomIcons				=	$bottomIcons;
 		$this->conclusionMessage		=	$conclusionMessage;
-		return $this->draw();
+		$this->formatting				=	$formatting;
+		return $this->draw( $formatting != 'tabletrs' ? $formatting : '' );
 	}
 }
 /**

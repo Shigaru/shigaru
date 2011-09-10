@@ -1,7 +1,7 @@
 <?php
 /**
 * Forum Tab Class for handling the CB tab api
-* @version $Id: cb.simpleboardtab.tab.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: cb.simpleboardtab.tab.php 1498 2011-07-16 20:34:08Z beat $
 * @package Community Builder
 * @subpackage plug_cbsimpleboardtab.php
 * @author JoomlaJoe and Beat (Nick A. fixed Fireboard support)
@@ -87,10 +87,16 @@ class getForumTabTemplate {
 								.	'<tbody>';
 								
 			foreach ( $template->posts AS $item ) {
-				$postURL		=	cbSef( 'index.php?option=' . $forum->component . $forum->itemid . '&amp;func=view&amp;catid=' . $item->catid . '&amp;id=' . $item->id ) . '#' . $item->id;
-				$catURL			=	cbSef( 'index.php?option=' . $forum->component . $forum->itemid . '&amp;func=' . ( $forum->component == 'com_kunena' ? 'showcat' : 'view' ) . '&amp;catid=' . $item->catid );
+				$version		=	substr( $forum->version, 0, 3 );
 				
-				$html			.=	'<tr class="sectiontableentry' . $oneOrTwo . '">'
+				if ( ( $forum->component == 'com_kunena' ) && strcasecmp( $version, '1.6' ) >= 0 ) {
+					$postURL	=	KunenaRoute::_( 'index.php?option=' . $forum->component . '&func=view&catid=' . $item->catid . '&id=' . $item->id ) . '#' . $item->id;
+					$catURL		=	KunenaRoute::_( 'index.php?option=' . $forum->component . '&func=showcat&catid=' . $item->catid );
+				} else {
+					$postURL	=	cbSef( 'index.php?option=' . $forum->component . $forum->itemid . '&amp;func=view&amp;catid=' . $item->catid . '&amp;id=' . $item->id ) . '#' . $item->id;
+					$catURL		=	cbSef( 'index.php?option=' . $forum->component . $forum->itemid . '&amp;func=' . ( $forum->component == 'com_kunena' ? 'showcat' : 'view' ) . '&amp;catid=' . $item->catid );
+				}
+								$html			.=	'<tr class="sectiontableentry' . $oneOrTwo . '">'
 								.		'<td>' . getFieldValue( 'date', date( 'Y-m-d, H:i:s', $item->time ) ) . '</td>'
 								.		'<td><a href="' . $postURL . '">' . htmlspecialchars( stripslashes( $item->subject ) ) . '</a></td>'
 								.		'<td><a href="' . $catURL . '">' . htmlspecialchars( stripslashes( $item->catname ) ) . '</a></td>'

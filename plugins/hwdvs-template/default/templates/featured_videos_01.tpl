@@ -25,9 +25,29 @@
 //////
 *}
 
-<div class="standard">
-<h2>{$smarty.const._HWDVIDS_RANDOM_VIDEOS}</h2>
-    <div class="padding"><center>{$featured_video_player}<p>{$featured_descr}</p></center></div>
-</div>
+<div id="whitebox" class="mtop12">
+				<div class="whiteboxHeader">
+					<div>
+							<h6>
+							{$smarty.const._HWDVIDS_RANDOM_VIDEOS}
+							</h6>
+						</div>
+					
+				</div>	
+				<div id="whitebox_m">
+					<div class="padding">
+							<center>
+								{$featured_video_player}
+								<p>{$featured_descr}</p>
+							</center>
+					</div>
+				</div>
 
+				<div id="whitebox_b">
+					<div id="whitebox_bl">
+						<div id="whitebox_br"></div>
+					</div>
+				</div>
+		</div>
+<br />
   

@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id: cb.session.php 843 2010-01-27 09:03:50Z beat $
+* @version $Id: cb.session.php 1360 2011-01-25 14:32:28Z beat $
 * @package Community Builder
 * @subpackage cb.session.php
 * @author Beat
-* @copyright (C) 2004-2010 Beat, www.joomlapolis.com
+* @copyright (C) 2004-2011 Beat, www.joomlapolis.com
 * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2
 */
 

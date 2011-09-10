@@ -7,7 +7,12 @@
 //////
 *}
 
-<div id="homepromo">{$smarty.const._HWDVIDS_HOMEPROMO}</div>
+<div id="homepromo">{$smarty.const._HWDVIDS_HOMEPROMO} <a href="{$tenreasonsurl}" title="{$tenreasonstext} Shigaru">{$tenreasonstext}</a>
+<br /> </div>
+
+<div id="totalvideos">
+	{$smarty.const._HWDVIDS_INFO_TOTVID}: <b>{$totalvideos}</b> {$smarty.const._HWDVIDS_SHIGARU_TOTALCATEGORIZED}
+</div>
 
 {include file='header.tpl'}
 {if $print_mostviewed or $print_mostviewed or $print_mostpopular}
@@ -16,15 +21,60 @@
   <div class="sic-left">
 <div id="tabs">
 	<ul>
-		<li><a href="#tabs-1">{$title_mostpopular}</a></li>
+		<li><a href="#tabs-1">{$title_mostviewed}</a></li>
 		<li><a href="#tabs-2">{$smarty.const._HWDVIDS_MOST_RECENT}</a></li>
-		<li><a href="#tabs-3">{$title_mostviewed}</a></li>
-		<li><a href="#tabs-4">{$smarty.const._HWDVIDS_MOST_RATED}</a></li>
+		<li><a href="#tabs-3">{$smarty.const._HWDVIDS_MOST_RATED}</a></li>
+		<li><a href="#tabs-4">{$smarty.const._HWDVIDS_MOST_COMMENTED}</a></li>
 		<li><a href="#tabs-5">{$smarty.const._HWDVIDS_MOST_COMMENTED}</a></li>
 	</ul>
 
 	{if $print_mostpopular}
     <div id="tabs-1" class="standard">
+      <div class="scoller">
+      <div class="list">
+        <div class="box">
+			{foreach name=outer item=data from=$mostviewedlist}
+	  {include file="video_list_small_viewed.tpl"}
+	  <div style="clear:both;"></div>
+          {/foreach}
+          
+        </div>
+      </div>  
+      </div>
+      <div class="viewmore"><a href="{$viewed_link}dsadasdas" title="{$smarty.const._HWDVIDS_WATCHMORE}">{$smarty.const._HWDVIDS_WATCHMORE}</a></div>
+    </div>
+    
+    {/if}
+    
+    <div id="tabs-2" class="standard">
+      <div class="scoller">
+      <div class="list">
+        <div class="box">
+		{if $print_videolist}
+
+          {foreach name=outer item=data from=$list}
+			  <div class="videoBox">
+			  {include file="video_list_full_small_recent.tpl"}
+			  </div>
+			  {if $smarty.foreach.outer.last}
+				 <div style="clear:both;"></div>
+			  {elseif $smarty.foreach.outer.index % $vpr-($vpr-1) == 0}
+				 <div style="clear:both;"></div>
+			  {/if}
+          {/foreach}
+      
+		  {else}
+			<div class="padding">{$smarty.const._HWDVIDS_INFO_NRV}</div>
+		  {/if}
+	<!--{$pageNavigation}-->  
+        </div>
+      </div>  
+      </div>
+      <div class="viewmore"><a href="{$recent_link}" title="{$smarty.const._HWDVIDS_WATCHMORE}">{$smarty.const._HWDVIDS_WATCHMORE}</a></div>
+    </div>
+ 
+
+    <div id="tabs-3" class="standard">
       <div class="scoller">
       <div class="list">
         <div class="box">
@@ -35,42 +85,9 @@
         </div>
       </div>  
       </div>
-      <div class="viewmore"><a href="{$featured_link}" title="{$smarty.const._HWDVIDS_WATCHMORE}">{$smarty.const._HWDVIDS_WATCHMORE}</a></div>
+      <div class="viewmore"><a href="{$popular_link}" title="{$smarty.const._HWDVIDS_WATCHMORE}">{$smarty.const._HWDVIDS_WATCHMORE}</a></div>
     </div>
-    
-    {/if}
-    
-    {if $print_mostviewed}
-    <div id="tabs-2" class="standard">
-      <div class="scoller">
-      <div class="list">
-        <div class="box">
-          {foreach name=outer item=data from=$mostviewedlist}
-	  {include file="video_list_small_viewed.tpl"}
-	  <div style="clear:both;"></div>
-          {/foreach}
-        </div>
-      </div>  
-      </div>
-      <div class="viewmore"><a href="{$featured_link}" title="{$smarty.const._HWDVIDS_WATCHMORE}">{$smarty.const._HWDVIDS_WATCHMORE}</a></div>
-    </div>
-    {/if}
 
-    {if $print_mostviewed}
-    <div id="tabs-3" class="standard">
-      <div class="scoller">
-      <div class="list">
-        <div class="box">
-          {foreach name=outer item=data from=$mostviewedlist}
-	  {include file="video_list_small_viewed.tpl"}
-	  <div style="clear:both;"></div>
-          {/foreach}
-        </div>
-      </div>  
-      </div>
-      <div class="viewmore"><a href="{$featured_link}" title="{$smarty.const._HWDVIDS_WATCHMORE}">{$smarty.const._HWDVIDS_WATCHMORE}</a></div>
-    </div>
-    {/if}
 
     {if $print_ads}{if $advert4}<div class="standard"><div class="padding"><div id="hwdadverts-nopadding">{$advert4}</div></div></div>{/if}{/if}
     
@@ -95,9 +112,9 @@
       <div class="scoller">
       <div class="list">
         <div class="box">
-          {foreach name=outer item=data from=$mostfavouredlist}
-	  {include file="video_list_small_favoured.tpl"}
-	  <div style="clear:both;"></div>
+          {foreach name=outer item=data from=$mostcommented}
+		  {include file="video_list_small_favoured.tpl"}
+		  <div style="clear:both;"></div>
           {/foreach}
         </div>
       </div>  
@@ -179,7 +196,7 @@
 		
 		
 		 <div id="whitebox">
-				<div class="whiteboxHeader">
+				<div class="whiteboxHeader adverts">
 						<div>
 							<h6>
 							{$smarty.const._HWDVIDS_SHIGARU_ADS}
@@ -205,7 +222,7 @@
  
 		
 		<div id="whitebox" class="mtop12">
-				<div class="whiteboxHeader">
+				<div class="whiteboxHeader tweeter">
 					<div>
 							<h6>
 							{$smarty.const._HWDVIDS_SHIGARU_TWITTER}
@@ -213,7 +230,7 @@
 						</div>
 				</div>			
 				
-				<div id="whitebox_m">
+				<div id="whitebox_m" class="scoller h150">
 					{$tweetdisplay}
 				</div>
 				
@@ -249,6 +266,30 @@
 				
 		</div>
 		
+		<br />
+		
+			<div id="whitebox">
+				<div class="whiteboxHeader">
+						<div>
+							<h6>
+							{$smarty.const._HWDVIDS_SHIGARU_OURFACES}
+							</h6>
+						</div>
+				</div>
+				
+
+				<div id="whitebox_m">
+  
+					{$zncbmembers}
+  
+				</div>
+
+				<div id="whitebox_b">
+					<div id="whitebox_bl">
+						<div id="whitebox_br"></div>
+					</div>
+				</div>
+		</div>
 		
 		
 		
@@ -280,7 +321,7 @@
  
  
  <div id="whitebox">
-				<div class="whiteboxHeader">
+				<div class="whiteboxHeader adverts">
 						<div>
 							<h6>
 							{$smarty.const._HWDVIDS_SHIGARU_ADS}
@@ -359,7 +400,7 @@
     
     <div id="whitebox">
 				
-					<div class="whiteboxHeader">
+					<div class="whiteboxHeader facefans">
 						<div>
 							<h6>
 							{$smarty.const._HWDVIDS_SHIGARU_FACEFAN}
@@ -367,8 +408,11 @@
 						</div>
 					</div>
 				<div id="whitebox_m">
-					{$facefan}
-  
+					<center>
+						<div id="fb-root"></div>
+						<div class="fb-like-box" data-href="http://www.facebook.com/pages/Shigarucom/203892893007914" data-width="400" data-show-faces="true" data-stream="false" data-header="true">
+						</div>
+					</center>	  
 				</div>
 
 				<div id="whitebox_b">
@@ -414,7 +458,7 @@
     
     
     <div id="whitebox">
-				<div class="whiteboxHeader">
+				<div class="whiteboxHeader donate">
 						<div>
 							<h6>
 							{$smarty.const._HWDVIDS_DONATETO}
@@ -438,39 +482,16 @@
 		
 		
 		
+	
 		
 		
-		
-		
     
     
     
     
     
     
-    
-    <!--
-    <div class="standard">
-      <h2>{$smarty.const._HWDVIDS_RECENT}</h2>
-      {if $print_videolist}
-
-          {foreach name=outer item=data from=$list}
-          <div class="videoBox">
-	  {include file="video_list_full.tpl"}
-	  </div>
-	  {if $smarty.foreach.outer.last}
-	     <div style="clear:both;"></div>
-	  {elseif $smarty.foreach.outer.index % $vpr-($vpr-1) == 0}
-	     <div style="clear:both;"></div>
-	  {/if}
-          {/foreach}
-      
-      {else}
-        <div class="padding">{$smarty.const._HWDVIDS_INFO_NRV}</div>
-      {/if}
-      {$pageNavigation}
-    </div>
-	-->
+   
 {if $print_mostviewed or $print_mostviewed or $print_mostpopular}
   </div>
 </div>

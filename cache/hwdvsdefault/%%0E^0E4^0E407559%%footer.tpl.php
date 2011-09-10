@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-09-04 00:22:30
+<?php /* Smarty version 2.6.26, created on 2011-09-10 17:44:29
          compiled from footer.tpl */ ?>
 
 <?php if ($this->_tpl_vars['print_ads']): ?><?php if ($this->_tpl_vars['advert5']): ?><div id="hwdadverts-padding"><?php echo $this->_tpl_vars['advert5']; ?>

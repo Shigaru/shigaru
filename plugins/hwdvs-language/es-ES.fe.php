@@ -498,3 +498,6 @@ DEFINE("_HWDVIDS_SHIGARU_ADS","Unos anuncios ...");
 DEFINE("_HWDVIDS_SHIGARU_FOLLOW","Siguenos en ...");
 DEFINE("_HWDVIDS_SHIGARU_FACEFAN","Estas son las caras de nuestros fans ...");
 DEFINE("_HWDVIDS_SHIGARU_TWITTER","Qué twiteamos ...");
+
+
+DEFINE("_HWDVIDS_SHIGARU_OURFACES","La comunidad Shigaru (creciendo!)");

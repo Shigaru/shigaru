@@ -1,11 +1,11 @@
 <?php
 /**
 * Joomla/Mambo Community Builder
-* @version $Id: cb.dbchecker.php 843 2010-01-27 09:03:50Z beat $
+* @version $Id: cb.dbchecker.php 1360 2011-01-25 14:32:28Z beat $
 * @package Community Builder
 * @subpackage install.comprofiler.sql.php
 * @author Beat
-* @copyright (C) 2004-2010 Lightning MultiCom SA, www.joomlapolis.com
+* @copyright (C) 2004-2011 Lightning MultiCom SA, www.joomlapolis.com
 * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2
 */
 
@@ -213,7 +213,7 @@ exit;
 		);
 	
 		$rows = $this->_db->loadObjectList( 'fieldid', 'moscomprofilerFields', array( &$this->_db ) );
-		if ($this->_db->getErrorNum()) {
+		if ( $this->_db->getErrorNum() ) {
 			echo $this->_db->stderr();
 			return false;
 		}
@@ -270,13 +270,11 @@ exit;
 		$sql			=	'SELECT * FROM `#__comprofiler_tabs` ORDER BY `tabid`';		// `tabid`, `pluginclass`
 		$this->_db->setQuery( $sql );
 		$tabs			=	$this->_db->loadObjectList( 'tabid' );
-		if ( $tabs === null ) {
+		if ( $this->_db->getErrorNum() ) {
 			$this->_sqlUpgrader->_setError( 'Tabs selection query error: ' . $this->_db->getErrorMsg() );
-		}
-	
-		// 0) check if all tabs are fine (as for new installs with CB 1.0 RC 2 included or more recent:
-		//    so we avoid checking and messing with 3pd plugins which use CB pluginclasses:
-		if ( is_array( $tabs ) ) {
+		} else {
+			// 0) check if all tabs are fine (as for new installs with CB 1.0 RC 2 included or more recent:
+			//    so we avoid checking and messing with 3pd plugins which use CB pluginclasses:
 			$success								=	true;
 			foreach ( $tabs as $t ) {
 	
@@ -310,7 +308,7 @@ exit;
 		$sql			=	'SELECT * FROM `#__comprofiler_tabs` ORDER BY `tabid`';		// `tabid`, `pluginclass`
 		$this->_db->setQuery( $sql );
 		$tabs			=	$this->_db->loadObjectList( 'tabid' );
-		if ( $tabs === null ) {
+		if ( $this->_db->getErrorNum() ) {
 			$this->_sqlUpgrader->_setError( 'Tabs selection query error: ' . $this->_db->getErrorMsg() );
 			return false;
 		}
@@ -318,7 +316,7 @@ exit;
 		$sql			=	'SELECT `fieldid`, `tabid` FROM `#__comprofiler_fields` ORDER BY `tabid`';
 		$this->_db->setQuery( $sql );
 		$fields			=	$this->_db->loadObjectList( 'fieldid' );
-		if ( $fields === null ) {
+		if ( $this->_db->getErrorNum() ) {
 			$this->_sqlUpgrader->_setError( sprintf( 'Fields selection query error: ' . $this->_db->getErrorMsg() ), $sql );
 			return false;
 		}
@@ -462,7 +460,7 @@ exit;
 		$sql			=	'SELECT * FROM `#__comprofiler_tabs` ORDER BY `tabid`';		// `tabid`, `pluginclass`
 		$this->_db->setQuery( $sql );
 		$tabs			=	$this->_db->loadObjectList( 'tabid' );
-		if ( $tabs === null ) {
+		if ( $this->_db->getErrorNum() ) {
 			$this->_sqlUpgrader->_setError( 'Tabs 2nd selection query error: ' . $this->_db->getErrorMsg(), $sql );
 			return false;
 		}
@@ -470,7 +468,7 @@ exit;
 		$sql			=	'SELECT `fieldid`, `tabid` FROM `#__comprofiler_fields` ORDER BY `tabid`';
 		$this->_db->setQuery( $sql );
 		$fields			=	$this->_db->loadObjectList( 'fieldid' );
-		if ( $fields === null ) {
+		if ( $this->_db->getErrorNum() ) {
 			$this->_sqlUpgrader->_setError( 'Fields 3nd selection query error: ' . $this->_db->getErrorMsg(), $sql );
 			return false;
 		}
@@ -536,7 +534,7 @@ exit;
 		$sql			=	'SELECT * FROM `#__comprofiler_tabs` ORDER BY `tabid`';		// `tabid`, `pluginclass`
 		$this->_db->setQuery( $sql );
 		$tabs			=	$this->_db->loadObjectList( 'tabid' );
-		if ( $tabs === null ) {
+		if ( $this->_db->getErrorNum() ) {
 			$this->_sqlUpgrader->_setError( 'Tabs 3rd selection query error: ' . $this->_db->getErrorMsg(), $sql );
 			return false;
 		}
@@ -544,7 +542,7 @@ exit;
 		$sql			=	'SELECT `fieldid`, `tabid` FROM `#__comprofiler_fields` ORDER BY `tabid`';
 		$this->_db->setQuery( $sql );
 		$fields			=	$this->_db->loadObjectList( 'fieldid' );
-		if ( $fields === null ) {
+		if ( $this->_db->getErrorNum() ) {
 			$this->_sqlUpgrader->_setError( 'Fields 3nd selection query error: ' . $this->_db->getErrorMsg(), $sql );
 			return false;
 		}

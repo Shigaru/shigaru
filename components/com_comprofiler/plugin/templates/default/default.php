@@ -1,7 +1,7 @@
 <?php
 /**
  * Core CB default template for user profiles rendering
- * @version $Id: default.php 831 2010-01-26 11:04:24Z beat $
+ * @version $Id: default.php 1323 2010-12-02 18:21:41Z beat $
  * @package Community Builder
  * @subpackage Default CB template
  * @author Beat
@@ -185,8 +185,8 @@ class CBProfileView_html_default extends cbProfileView {
 		echo $this->tabcontent;
 ?>
 
-		<input class="button cbProfileEditSubmit" type="submit" id="cbbtneditsubmit" value="<?php echo $this->submitValue; ?>" />
-		<input class="button cbProfileEditCancel" type="button" id="cbbtncancel" name="btncancel" value="<?php echo $this->cancelValue; ?>" />
+		<span class="cb_button_wrapper"><input class="button cbProfileEditSubmit" type="submit" id="cbbtneditsubmit" value="<?php echo $this->submitValue; ?>" /></span>
+		<span class="cb_button_wrapper"><input class="button cbProfileEditCancel" type="button" id="cbbtncancel" name="btncancel" value="<?php echo $this->cancelValue; ?>" /></span>
 		<div id="cbIconsBottom">
 			<?php echo $this->bottomIcons; ?>
 
@@ -204,7 +204,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 	 * Renders by ECHO the Registration form view
 	 * here typically if you prefer to include a view-type php-html file you would include it.
 	 */
-	function _render( ) {
+	function _renderRegistrationHead( ) {
 		if ( $this->moduleContent ) {
 			if ( $this->introMessage ) {
 ?>
@@ -226,6 +226,46 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 			echo '</div>';
 		}
 		echo $this->regFormTag;		// '<form...>'
+	}
+	/**
+	 * Renders by ECHO the Registration form view NEW DIVs view:
+	 * here typically if you prefer to include a view-type php-html file you would include it.
+	 */
+	function _renderdivs( ) {
+		$this->_renderRegistrationHead();
+?>
+<div class="contentpane" id="registrationTable">
+<?php
+		if ( $this->introMessage && ( ! $this->moduleContent ) ) {
+?>
+    <div class="contentpaneopen"><?php echo $this->introMessage; ?></div>
+<?php
+		}
+		// outputs all tabs, including contact tab and Terms & Conditions:
+		echo $this->tabcontent;
+		
+		// outputs conclusion text and different default values:
+?>
+    <div class="contentpaneopen"><?php
+   	  if ( $this->conclusionMessage ) {
+ 		echo $this->conclusionMessage;
+   	  } else {
+   	  	echo "&nbsp;";
+   	  }
+   	  ?></div>
+    <div class="contentpaneopen">
+		<span class="cb_button_wrapper"><input type="submit" value="<?php echo $this->registerButton; ?>" class="button" /></span>
+    </div>
+</div>
+<?php
+		$this->_renderRegistrationFooter();
+	}
+	/**
+	 * Renders by ECHO the Registration form view OLD TABLE view
+	 * here typically if you prefer to include a view-type php-html file you would include it.
+	 */
+	function _render( ) {
+		$this->_renderRegistrationHead();
 ?>
 <table class="contentpane" id="registrationTable">
 <?php
@@ -252,12 +292,19 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
     </tr>
     <tr>
       <td colspan="2">
-		<input type="submit" value="<?php echo $this->registerButton; ?>" class="button" />
+		<span class="cb_button_wrapper"><input type="submit" value="<?php echo $this->registerButton; ?>" class="button" /></span>
       </td>
     </tr>
 </table>
-</form>
 <?php
+		$this->_renderRegistrationFooter();
+	}
+	/**
+	 * Renders by ECHO the Registration form view
+	 * here typically if you prefer to include a view-type php-html file you would include it.
+	 */
+	function _renderRegistrationFooter( ) {
+		echo '</form>';
 		if ( $this->bottomIcons ) {
 			echo '<div id="cbIconsBottom">';
 			echo $this->bottomIcons;

@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla/Mambo Community Builder
-* @version $Id: pcl.pclziplib.php 871 2010-02-16 23:28:04Z beat $
+* @version $Id: pcl.pclziplib.php 1300 2010-11-25 11:20:02Z beat $
 * @package Community Builder
 * @subpackage pcl.pclziplib.php
 * @license http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html GNU/GPL version 2
@@ -38,7 +38,7 @@ define( 'PCLZIP_TEMPORARY_DIR', $_CB_framework->getCfg( 'tmp_path' ) );
 //   The use of this software is at the risk of the user.
 //
 // --------------------------------------------------------------------------------
-// $Id: pcl.pclziplib.php 871 2010-02-16 23:28:04Z beat $
+// $Id: pcl.pclziplib.php 1300 2010-11-25 11:20:02Z beat $
 // --------------------------------------------------------------------------------
 
   // ----- Constants
@@ -5115,7 +5115,7 @@ define( 'PCLZIP_TEMPORARY_DIR', $_CB_framework->getCfg( 'tmp_path' ) );
 
     // ----- Create the directory
     //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Create directory '$p_dir'");
-    if (!@mkdir($p_dir, 0777))
+    if (!@mkdir($p_dir, 0775))
     {
       // ----- Error log
       PclZip::privErrorLog(PCLZIP_ERR_DIR_CREATE_FAIL, "Unable to create directory '$p_dir'");

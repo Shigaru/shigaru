@@ -6,7 +6,7 @@
 
 /**
 * Joomla/Mambo Community Builder
-* @version $Id: cbteamplugins_language.php 904 2010-02-28 00:37:01Z beat $
+* @version $Id: cbteamplugins_language.php 1458 2011-02-13 23:47:17Z beat $
 * @package Community Builder
 * @subpackage Default CB-Team Plugins Language file (English)
 * @author Beat, Nant and JoomlaJoe
@@ -44,6 +44,11 @@ CBTxt::addStrings( array(
 'Enable visitors to your profile to make comments about you and your profile.' => 'Enable visitors to your profile to make comments about you and your profile.',
 'Enable Auto Publish if you want entries submitted to be automatically approved and displayed on your profile.' => 'Enable Auto Publish if you want entries submitted to be automatically approved and displayed on your profile.',
 'Enable Notify Me if you would like to receive an email notification each time someone submits an entry.  This is recommended if you are not using the Auto Publish feature.' => 'Enable Notify Me if you would like to receive an email notification each time someone submits an entry.  This is recommended if you are not using the Auto Publish feature.',
+'Enable Profile Blog' => 'Enable Profile Blog',
+'Enable Profile Wall' => 'Enable Profile Wall',
+'Enable your blog on your profile.' => 'Enable your blog on your profile.',
+'Enable the wall on your profile so yourself and visitors can write on it.' => 'Enable the wall on your profile so yourself and visitors can write on it.',
+'Enable Notify Me if you\'d like to receive an email notification each time someone submits an entry. This is recommended if you are not using the Auto Publish feature.' => 'Enable Notify Me if you\'d like to receive an email notification each time someone submits an entry. This is recommended if you are not using the Auto Publish feature.',
 'Bold' => 'Bold',
 'Italic' => 'Italic',
 'Underline' => 'Underline',
@@ -110,7 +115,7 @@ CBTxt::addStrings( array(
 'An entry in your %s has just been updated' => 'An entry in your %s has just been updated',
 '%s has just submitted an edited entry for %s in your %s.' => '%s has just submitted an edited entry for %s in your %s.',
 "\n\nYour current setting is that you need to review entries in your %1\$s. Please login, review the new entry and publish if you agree. Direct access to your %1\$s:\n%2\$s\n" => "\n\nYour current setting is that you need to review entries in your %1\$s. Please login, review the new entry and publish if you agree. Direct access to your %1\$s:\n%2\$s\n",
-"\n\nYour current setting is that new entries in your %1\$s are automatically publihed. To see the new entry, please login. You can then see the new entry and take appropriate action if needed. Direct access to your %1\$s:\n%2\$s\n" => "\n\nYour current setting is that new entries in your %1\$s are automatically publihed. To see the new entry, please login. You can then see the new entry and take appropriate action if needed. Direct access to your %1\$s:\n%2\$s\n",
+"\n\nYour current setting is that new entries in your %1\$s are automatically published. To see the new entry, please login. You can then see the new entry and take appropriate action if needed. Direct access to your %1\$s:\n%2\$s\n" => "\n\nYour current setting is that new entries in your %1\$s are automatically published. To see the new entry, please login. You can then see the new entry and take appropriate action if needed. Direct access to your %1\$s:\n%2\$s\n",
 'Name is Required!' => 'Name is Required!',
 'Email Address is Required!' => 'Email Address is Required!',
 'Comment is Required!' => 'Comment is Required!',
@@ -153,7 +158,31 @@ CBTxt::addStrings( array(
 '%s wrote a new blog' => '%s wrote a new blog',
 '%s added a new wall entry to %s' => '%s added a new wall entry to %s',
 '%s added a new wall entry' => '%s added a new wall entry',
-'No entries have been made!' => 'No entries have been made!'
+'No entries have been made!' => 'No entries have been made!',
+// 1.2.2:
+'Untranslated strings on this page' => 'Untranslated strings on this page',
+'Translations on this page' => 'Translations on this page',
+'English string' => 'English string',
+'Translated string' => 'Translated string',
+// CB 1.4 Validations:
+'No changes.'							=>	'No changes.',
+'This field is required.'				=>	'This field is required.',
+'Please fix this field.'				=>	'Please fix this field.',
+'Please enter a valid email address.'	=>	'Please enter a valid email address.',
+'Please enter a valid URL.'				=>	'Please enter a valid URL.',
+'Please enter a valid date.'			=>	'Please enter a valid date.',
+'Please enter a valid date (ISO).'		=>	'Please enter a valid date (ISO).',
+'Please enter a valid number.'			=>	'Please enter a valid number.',
+'Please enter only digits.'				=>	'Please enter only digits.',
+'Please enter a valid credit card number.'		=>	'Please enter a valid credit card number.',
+'Please enter the same value again.'			=>	'Please enter the same value again.',
+'Please enter a value with a valid extension.'	=>	'Please enter a value with a valid extension.',
+'Please enter no more than {0} characters.'		=>	'Please enter no more than {0} characters.',
+'Please enter at least {0} characters.'			=>	'Please enter at least {0} characters.',
+'Please enter a value between {0} and {1} characters long.'	=>	'Please enter a value between {0} and {1} characters long.',
+'Please enter a value between {0} and {1}.'					=>	'Please enter a value between {0} and {1}.',
+'Please enter a value less than or equal to {0}.'			=>	'Please enter a value less than or equal to {0}.',
+'Please enter a value greater than or equal to {0}.'		=>	'Please enter a value greater than or equal to {0}.',
 ) );
 
 // Profile Gallery plugin: (new method: UTF8 encoding here):
@@ -484,70 +513,31 @@ CBTxt::addStrings( array(
 'Female'								=>	'Female'
 ));
 
-// Facebook integration plugin:
+// Facebook integration plugin: (updated for version 1.2 of Facebook plugin)
 CBTxt::addStrings( array(
-'Facebook'									=>	'Facebook',
-'Synced from Facebook; do not change here, but at Facebook as: %s'											=>	'Synced from Facebook; do not change here, but at Facebook as: %s',
-'Profile Image'								=>	'Profile Image',
-'First, Middle, and Last Name'				=>	'First, Middle, and Last Name',
-'First Name'								=>	'First Name',
-'Last Name'									=>	'Last Name',
-'About Me'									=>	'About Me',
-'Activities'								=>	'Activities',
-'Birthday'									=>	'Birthday',
-'Favorite Books'							=>	'Favorite Books',
-'Country'									=>	'Country',
-'State'										=>	'State',
-'City'										=>	'City',
-'Zip'										=>	'Zip',
-'Interests'									=>	'Interests',
-'Looking For'								=>	'Looking For',
-'Interested In'								=>	'Interested In',
-'Favorite Movies'							=>	'Favorite Movies',
-'Favorite Music'							=>	'Favorite Music',
-'Political View'							=>	'Political View',
-'Favorite Quotes'							=>	'Favorite Quotes',
-'Relationship Status'						=>	'Relationship Status',
-'Religious Views'							=>	'Religious Views',
-'Sex'										=>	'Sex',
-'Status'									=>	'Status',
-'Favorite TV Shows'							=>	'Favorite TV Shows',
-'View Facebook Profile'						=>	'View Facebook Profile',
-'Connect this account to your Facebook account'																=>	'Connect this account to your Facebook account',
-'Link'										=>	'Link',
-'Login with your Facebook account'			=>	'Login with your Facebook account',
-'Sign in'									=>	'Sign in',
-'Are you sure you want to unlink this account from your Facebook account?'									=>	'Are you sure you want to unlink this account from your Facebook account?',
-'Unlink this account from your Facebook account'															=>	'Unlink this account from your Facebook account',
-'Unlink'									=>	'Unlink',
-'Please change your password from profile edit before unlinking to allow further login after unlinked.'	=>	'Please change your password from profile edit before unlinking to allow further login after unlinked.',
-'Please change your email from profile edit before unlinking to allow further login after unlinked.'		=>	'Please change your email from profile edit before unlinking to allow further login after unlinked.',
-'Would you like to do this now?'			=>	'Would you like to do this now?',
-'Facebook account successfully unlinked!'	=>	'Facebook account successfully unlinked!',
-'Facebook account successfully linked!'		=>	'Facebook account successfully linked!',
-'Facebook credentials failed to load.'		=>	'Facebook credentials failed to load.'
+// 8 language strings from file plug_cbfacebookconnect/cb.facebookconnect.php
+'View Facebook Profile'	=>	'View Facebook Profile',
+'Logout of your Facebook account.'	=>	'Logout of your Facebook account.',
+'Sign out'	=>	'Sign out',
+'Login with your Facebook account.'	=>	'Login with your Facebook account.',
+'Sign in'	=>	'Sign in',
+'Unjoin this site'	=>	'Unjoin this site',
+'Unauthorize this site from your Facebook account.'	=>	'Unauthorize this site from your Facebook account.',
+'Are you sure you want to unjoin %s?'	=>	'Are you sure you want to unjoin %s?'
 ));
 
-// Twitter integration plugin:
+// Twitter integration plugin: (updated for version 1.1 of Twitter plugin)
 CBTxt::addStrings( array(
-'Twitter'											=>	'Twitter',
-'Synced from Twitter; do not change here, but at Twitter as: '												=>	'Synced from Twitter; do not change here, but at Twitter as: ',
-'Picture'											=>	'Picture',
-'Name'												=>	'Name',
-'View Twitter Profile'								=>	'View Twitter Profile',
-'Connect this account to your Twitter account'		=>	'Connect this account to your Twitter account',
-'Link'												=>	'Link',
-'Login with your Twitter account'					=>	'Login with your Twitter account',
-'Sign in'											=>	'Sign in',
-'Are you sure you want to unlink this account from your Twitter account?'									=>	'Are you sure you want to unlink this account from your Twitter account?',
-'Unlink this account from your Twitter account'		=>	'Unlink this account from your Twitter account',
-'Unlink'											=>	'Unlink',
-'Please change your password from profile edit before unlinking to allow further login after unlinked.'	=>	'Please change your password from profile edit before unlinking to allow further login after unlinked.',
-'Please change your email from profile edit before unlinking to allow further login after unlinked.'		=>	'Please change your email from profile edit before unlinking to allow further login after unlinked.',
-'Would you like to do this now?'					=>	'Would you like to do this now?',
-'Twitter account successfully unlinked!'			=>	'Twitter account successfully unlinked!',
-'Twitter account successfully linked!'				=>	'Twitter account successfully linked!',
-'Twitter credentials failed to load.'				=>	'Twitter credentials failed to load.'
+// 3 language strings from file plug_cbtwitter/cb.twitter.php
+'View Twitter Profile'	=>	'View Twitter Profile',
+'Logout of your Twitter account.'	=>	'Logout of your Twitter account.',
+'Login with your Twitter account.'	=>	'Login with your Twitter account.'
+));
+
+// imagetoolbox messages needed for CB Team plugins
+CBTxt::addStrings( array(
+// 1 language string from imagetoolbox
+'The file exceeds the maximum size of %s kilobytes'	=>	'The file exceeds the maximum size of %s kilobytes'
 ));
 
 // IMPORTANT WARNING: The closing tag, "?" and ">" has been intentionally omitted - CB works fine without it.

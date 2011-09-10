@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla/Mambo Community Builder
-* @version $Id: comprofiler.html.php 950 2010-03-05 14:03:01Z beat $
+* @version $Id: comprofiler.html.php 1554 2011-07-30 23:49:06Z beat $
 * @package Community Builder
 * @subpackage comprofiler.html.php
 * @author JoomlaJoe and Beat
@@ -14,7 +14,7 @@ if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' 
 
 class HTML_comprofiler {
 
-	function outputMosFormVal( $formCssSelector ) {
+	static function outputMosFormVal( $formCssSelector ) {
 		global $_CB_framework;
 		ob_start();
 		// <script type="text/javascript">/*<!--//--><![CDATA[//><!-- */
@@ -95,7 +95,7 @@ function cbFrmChksubmitbutton() {
 	}	// end of php method HTML_comprofiler::outputMosFormVal()
 
 
-	function emailUser( $option, $rowFrom, $rowTo, $subject = '', $message = '' ) {
+	static function emailUser( $option, $rowFrom, $rowTo, $subject = '', $message = '' ) {
 	global $ueConfig, $_PLUGINS;
 	
 	if($rowFrom->id == $rowTo->id) {
@@ -163,7 +163,7 @@ function cbFrmChksubmitbutton() {
 Profile Functions
 ******************************/
 
-	function userEdit( $user, $option, $submitvalue, $regErrorMSG=null ) {
+	static function userEdit( $user, $option, $submitvalue, $regErrorMSG=null ) {
 	global $_CB_framework, $ueConfig, $_REQUEST, $_PLUGINS;
 
 	$results		=	$_PLUGINS->trigger( 'onBeforeUserProfileEditDisplay', array( &$user, 1 ) );
@@ -173,7 +173,8 @@ Profile Functions
 	}
 
 	$output			=	'htmledit';
-
+	$formatting		=	( isset( $ueConfig['use_divs'] ) && $ueConfig['use_divs'] ? 'divs' : 'table' );
+	
 	$cbTemplate		=	HTML_comprofiler::_cbTemplateLoad();
 
 	outputCbTemplate( 1 );
@@ -182,102 +183,22 @@ Profile Functions
 	$title			=	cbSetTitlePath( $user, _UE_EDIT_TITLE, _UE_EDIT_OTHER_USER_TITLE );
 
 	$tabs			=	new cbTabs( 0, 1 );
-	$tabcontent		=	$tabs->getEditTabs( $user, null, $output );
+	// $tabcontent		=	$tabs->getEditTabs( $user, null, $output );
+	$tabcontent		=	$tabs->getEditTabs( $user, null, $output, $formatting, 'edit', true );
 
 	$bottomIcons	=	getFieldIcons( 1, true, true, '', '', true );
 
 	ob_start();
 
 	if ( defined( '_CB_VALIDATE_NEW' ) ) {
+		cbimport( 'cb.validator' );
+		cbValidator::renderGenericJs();
 ?>
-$('#cbcheckedadminForm').validate( {
-		errorClass: 'cb_result_warning',
-		// debug: true,
-		cbIsOnKeyUp: false,
-		highlight: function( element, errorClass ) {
-			$( element ).parents('.fieldCell').parent().addClass( 'cbValidationError' );
-		},
-		unhighlight: function( element, errorClass ) {
-			$( element ).parents('.fieldCell').parent().removeClass( 'cbValidationError' );
-		},
-		errorElement: 'div',
-		errorPlacement: function(error, element) {
-			// element.parents('.fieldCell').append( error[0] );
-			$('#cbbtneditsubmit').before( (error.wrapAll('<div class="cb_result_container cb_profile_error"></div>').parent())[0] );
-		},
-		onkeyup: function(element) {
-			if ( element.name in this.submitted || element == this.lastElement ) {
-				// avoid remotejhtml rule onkeyup
-				this.cbIsOnKeyUp = true;
-				this.element(element);
-				this.cbIsOnKeyUp = false;
-			}
-<?php
-/*
-		},
-		showErrors: function(errorMap, errorList) {
-			var messages;
-			for ( var i = 0; errorList[i]; i++ ) {
-				messages += errorList[i].message + "\n";
-			}
-			this.defaultShowErrors();
-			alert( messages );
-		},
-        rules: { 
-            username: { 
-                required: true, 
-                minlength: 3 //, 
-                // remote: "users.php" 
-            },
-            password: { 
-                required: true, 
-                minlength: 6 
-            }, 
-            password_confirm: { 
-                required: true, 
-                minlength: 6, 
-                equalTo: "#password" 
-            }, 
-            email: { 
-                required: true, 
-                email: true //, 
-     			//remote: "emails.php" 
-            }
-        },
-*/
-/*
-        messages: { 
-        	username: { 
-                required: "Please enter a username", 
-                minlength: jQuery.format("Enter at least {0} characters"), 
-                remote: jQuery.format("{0} is already in use") 
-            },
-            password: { 
-                required: "Please provide a password", 
-                rangelength: jQuery.format("Enter at least {0} characters") 
-            }, 
-            password_confirm: { 
-                required: "Please repeat your password", 
-                minlength: jQuery.format("Enter at least {0} characters"), 
-                equalTo: "Enter the same password as above" 
-            },
-            email: { 
-                required: "Please enter a valid email address", 
-                minlength: "Please enter a valid email address" //,
-                // remote: jQuery.format("{0} is already in use") 
-            }
-*/
-?>
-        }
-} );
-$('#cbcheckedadminForm input:checkbox,#cbcheckedadminForm input:radio').click( function() {
-	$('#cbcheckedadminForm').validate().element( $(this) );
-} );
+	$('#cbbtncancel').click( function() {
+		window.location='<?php echo cbSef( 'index.php?option=' . htmlspecialchars( cbGetParam( $_REQUEST, 'option' ) ) . ( ( $user->id == $_CB_framework->myId() ) ? '' : ( '&amp;user=' . $user->id ) ) . getCBprofileItemid() . '&amp;reason=canceledit', false ); ?>';
+		return false;
+	} );
 
-$('#cbbtncancel').click( function() {
-	window.location='<?php echo cbSef( 'index.php?option=' . htmlspecialchars( cbGetParam( $_REQUEST, 'option' ) ) . ( ( $user->id == $_CB_framework->myId() ) ? '' : ( '&amp;user=' . $user->id ) ) . getCBprofileItemid(), false ); ?>';
-	return false;
-} );
 <?php
 			$cbjavascript	=	ob_get_contents();
 			ob_end_clean();
@@ -418,7 +339,7 @@ $('#cbbtncancel').click( function() {
 ?>
 <div class="componentheading"><?php echo htmlspecialchars( $title ); ?></div>
 <div class="cbEditProfile"><div id="cbEditProfileInner" class="cbHtmlEdit">
-	<form action="<?php echo cbSef("index.php?option=$option".getCBprofileItemid(true)); ?>" method="post" id="cbcheckedadminForm" name="adminForm" enctype="multipart/form-data" autocomplete="off">
+	<form action="<?php echo cbSef("index.php?option=$option".getCBprofileItemid(true)); ?>" method="post" id="cbcheckedadminForm" name="adminForm" enctype="multipart/form-data" class="cb_form" autocomplete="off">
 		<input type="hidden" name="id" value="<?php echo $user->id;?>" />
 		<input type="hidden" name="task" value="saveUserEdit" />
 		<?php	echo cbGetSpoofInputTag( 'userEdit' );
@@ -449,7 +370,7 @@ $('#cbbtncancel').click( function() {
 		$_PLUGINS->trigger( 'onAfterUserProfileEditDisplay', array( $user, $tabcontent ) );
 	}
 	
-	function userProfile($user, $option, $submitvalue) {
+	static function userProfile($user, $option, $submitvalue) {
 		global $_CB_framework, $ueConfig,$_POST,$_PLUGINS;
 		
 		$_PLUGINS->loadPluginGroup('user');
@@ -536,8 +457,6 @@ $('#cbbtncancel').click( function() {
 				echo implode( '', $results );
 			}
 			echo "\n\t<div class=\"cbProfile\"><div id=\"cbProfileInner\">";
-			
-			
 
 			echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $user, 'Profile', 'drawProfile', array( &$user, &$userViewTabs ), $output );
 
@@ -564,7 +483,7 @@ $('#cbbtncancel').click( function() {
 	 * Loads CB template rendering engine...
 	 *
 	 */
-	function _cbTemplateLoad() {
+	static function _cbTemplateLoad() {
 		global $_PLUGINS;
 
 		static $loaded			=	array();
@@ -592,7 +511,7 @@ $('#cbbtncancel').click( function() {
 	 * @param  string              $output  'html'
 	 * @return string
 	 */
-	function _cbTemplateRender( $cbTemplate, &$user, $view, $method, $paramsArray, $output = 'html' ) {
+	static function _cbTemplateRender( $cbTemplate, &$user, $view, $method, $paramsArray, $output = 'html' ) {
 		global $_PLUGINS;
 
 		$element				=	$cbTemplate;		// for now as this...
@@ -603,7 +522,7 @@ $('#cbbtncancel').click( function() {
 		}
 	}
 	
-	function userAvatar( &$row, $option, $submitvalue ) {
+	static function userAvatar( &$row, $option, $submitvalue ) {
 		global $_CB_framework, $_REQUEST, $ueConfig, $_FILES;
 
 		outputCbTemplate(1);
@@ -684,7 +603,7 @@ $('#cbbtncancel').click( function() {
 List Functions
 ******************************/
 
-	function usersList( &$row, &$users, &$columns, &$allFields, &$lists, $listid, $search, $searchmode, $option_itemid, $limitstart, $limit, $total, &$myUser, &$searchableFields, &$searchVals, &$tabs, $list_compare_types, $showPaging, $hotlink_protection, $errorMsg, $random ) {
+	static function usersList( &$row, &$users, &$columns, &$allFields, &$lists, $listid, $search, $searchmode, $option_itemid, $limitstart, $limit, $total, &$myUser, &$searchableFields, &$searchVals, &$tabs, $list_compare_types, $showPaging, $hotlink_protection, $errorMsg, $random ) {
 		global $_CB_framework, $ueConfig, $_PLUGINS, $_POST, $_GET, $_REQUEST;
 
 		$results				=	$_PLUGINS->trigger( 'onBeforeDisplayUsersList', array( &$row, &$users, &$columns, &$allFields, &$lists, $listid, &$search, &$option_itemid, 1 ) );	// $uid = 1
@@ -714,15 +633,15 @@ List Functions
 		$_CB_framework->appendPathWay( $listTitleHtml );
 
 		$cbSpoofField			=	cbSpoofField();
+		$cbSpoofString			=	cbSpoofString( null, 'usersList' );
 		if ( $hotlink_protection == 1 ) {
-			$cbSpoofString		=	cbSpoofString( null, 'usersList' );
 			$spoofAmp			=	"&amp;" . $cbSpoofField . '=' . urlencode( $cbSpoofString );
 		} else {
-			$cbSpoofString		=	null;
 			$spoofAmp			=	null;
 		}
 		// Base URL string:
-		$ue_base_url			=	$_CB_framework->getCfg( 'live_site' ) . '/index.php?option=com_comprofiler&amp;task=usersList&amp;listid=' . (int) $listid . '&amp;Itemid=' . (int) $option_itemid;
+		$ue_base_url			=	'index.php?option=com_comprofiler&amp;task=usersList&amp;listid=' . (int) $listid . '&amp;Itemid=' . (int) $option_itemid;
+		$ue_base_url_non_sef	=	$_CB_framework->getCfg( 'live_site' ) . '/' . $ue_base_url;
 
 		// $adminimagesdir			=	"components/com_comprofiler/images/";
 
@@ -762,7 +681,7 @@ List Functions
 								//	CLICK a table row:
 								.	"\n		$('#cbUserTable > tbody > tr').click( function(e) {"
 								//	If it's not a link within the row which is getting clicked:
-								.	"\n			if ( ! ( $(e.target).is('a') || ( $(e.target).is('img') && $(e.target).parent().is('a') ) || $(e.target).hasClass('cbClicksInside') || ( $(e.target).parents('.cbClicksInside').length > 0 ) ) ) {"
+								.	"\n			if ( ! ( $(e.target).is('a') || ( $(e.target).is('img') && $(e.target).parent().is('a') ) || $(e.target).hasClass('cbClicksInside') || ( $(e.target).parents('.cbClicksInside').length > 0 ) || ( $(this).attr('id') == '' ) ) ) {"
 								//	Get the href of the user profile link (if profile links are allowed):
 								.	( ( $ueConfig['allow_profilelink'] == 1 ) ? "\n				window.location = cbUserURLs[this.id.substr(3)];" : '' )
 								//	And avoid the <a> link being followed:
@@ -796,94 +715,8 @@ List Functions
 		$_CB_framework->outputCbJQuery( $jsPagination );
 */
 		if ( count( $searchableFields ) > 0 ) {
-
-			// Searchable fields appearing in the users list:
-			// Search box:
-			//TBD: display if there is a search criteria:
-			if ( $search === null ) {
-							//	Show the "Search" button:
-				$jsSearch	=	"	$('#cbUserListsSearchTrigger').show();"
-							//	Hide  the Search Criteria part and Results title:
-							.	"\n	$('#cbUserListsSearcher').hide();"
-							//	When button <a> link is clicked:
-							.	"\n	$('#cbUserListsSearchTrigger').click( function() {"
-							//	Hide the button:
-							.	"\n		$('#cbUserListsSearchTrigger').hide('medium', function() {"
-							//	Show the Search Criteria part:
-							.	"\n			$('#cbUserListsSearcher').slideDown('slow');"
-							.	"\n		} );"
-							//	And avoid the <a> link being followed:
-							.	"\n		return false;"
-							.	"\n	} );"
-							;
-				$_CB_framework->outputCbJQuery( $jsSearch );
-			} else {
-				/*
-				$ajaxCode	=	"$('#cbUserListsSearchTrigger').hide();"
-							.	"$('#cbUserListsSearcher').show();"
-							.	"} );"
-							;
-				$_CB_framework->outputCbJQuery( $ajaxCode );
-				*/
-			}
-							//	When a search kind ('is', 'is not', 'contains', etc) is clicked (change does not work correctly in some safari 2 and IE 6 versions):
-			$searchTabJs	=	"\n{"
-							.	"\n	function cbsearchkrit(thisSelect) {"
-							//	Get value of the selected option:
-							.	"\n		var kindval = $(thisSelect).val();"
-							.	"\n		if ( kindval == '' ) {"
-							//	Hide the search criteria if there is 'no preference' selected:
-							.	"\n			$(thisSelect).parent( 'div' ).next('div.cbSearchCriteria').slideUp('slow');"
-							.	"\n		} else {"
-							//	Otherwise show the search criteria:
-							.	"\n			$(thisSelect).parent( 'div' ).next('div.cbSearchCriteria').slideDown('slow');"
-							//	Check for search kind being precise search:
-							.	"\n			if ( ( kindval == 'is' ) || ( kindval == 'isnot' ) ) {"
-							//	For radio buttons, insure they are (again) radios: unfortunately, DOM doesn't allow to change type of input on the fly, so do it by regex replacing html:
-							.	"\n				$(thisSelect).parent('div').next('div.cbSearchCriteria.cb__js_radio').find('input:checkbox').parent().each( function() {"
-							.	"\n				    return $(this).html( $(this).html().replace(/(name=)(\"?)([^\"\\[ >]+)(\\[\\])(\"?)([ >])/g, '\$1\"\$3\"\$6').replace(/type=\"?checkbox\"?/g,'type=\"radio\"') );"
-							.	"\n				} );"
-							//	For single-selects, insure they are not multiple anymore:
-							.	"\n				$(thisSelect).parent('div').next('div.cbSearchCriteria.cb__js_select').each( function() {"
-							.	"\n				    return $(this).html( $(this).html().replace(/(name=)(\"?)([^\"\\[ >]+)(\\[\\])(\"?)([ >])/g, '\$1\"\$3\"\$6').replace(/multiple(=(\"?)multiple(\"?))?/gi,'') );"
-							.	"\n				} );"
-							.	"\n			} else {"
-							//	If search criteria is multiple, then make also radios into checkboxes (and below single-selects into multi-selects):
-							.	"\n				$(thisSelect).parent('div').next('div.cbSearchCriteria.cb__js_radio').find('input:radio').parent().each( function() {"
-							.	"\n				    return $(this).html( $(this).html().replace(/(name=)(\"?)([^\"\\[ >]+)(\\[\\])?(\"?)([ >])/g, '\$1\"\$3\\[\\]\"\$6').replace(/type=\"?radio\"?/g,'type=\"checkbox\"') );"
-							.	"\n				} );"
-							.	"\n				$(thisSelect).parent('div').next('div.cbSearchCriteria.cb__js_select').each( function() {"
-							.	"\n				    return $(this).html( $(this).html().replace(/(name=)(\"?)([^\"\\[ >]+)(\\[\\])?(\"?)([ >])/g, '\$1\"\$3\\[\\]\"\$6').replace(/(<select )/gi,'\$1multiple=\"multiple\" ').replace(/size=(\"?)[^\" >]*(\"?)/g,'size=\"0\"') );"
-							.	"\n				} );"
-							.	"\n			}"
-							.	"\n		}"
-							.	"\n	}"
-							.	"\n	$('div.cbSearchKind select').click( function() {"
-							.	"\n		cbsearchkrit( this );"
-							//	At page startup fires the click event, which executes the callback just defined above:
-							.	"\n	} ).click();"
-							.	"\n	$('div.cbSearchKind select').change( function() {"
-							.	"\n		cbsearchkrit( this );"
-							//	At page startup fires the click event, which executes the callback just defined above:
-							.	"\n	} );"
-							.	"\n}"
-						/*
-							=	"	$('.cbSearchCriteria').each( function() {"
-							.	"\n		if ( $(this).prev().children('select')[0].val() == '' ) {"
-							.	"\n			$(this).hide();"
-							.	"\n		}"
-							.	"\n	} );"
-							
-							.	"\n		var searchkind = $(this).prev().children('select')[0];"
-							.	"\n		var searchcrit = this;"
-							.	"\n		$(this).children('input,select').each( function() {"
-							.	"\n			if ( $(this).value() == '' ) {"
-							.	"\n				$(searchcrit).hide();"
-						*/
-							;
-			$_CB_framework->outputCbJQuery( $searchTabJs );
+			cbUsersList::outputAdvancedSearchJs( $search );
 		}
-
 
 		// list title:
 ?>
@@ -894,7 +727,7 @@ List Functions
 		}
 ?>
 
-  <form class="cb_form" name="adminForm" id="adminForm" method="get" action="<?php echo /* cbSef */ ($ue_base_url."&amp;action=search");	// on purpose without SEF, as joomla 1.0/mambo 4.5.5 core sef doesn't work with this.
+  <form class="cb_form" name="adminForm" id="adminForm" method="get" action="<?php echo /* cbSef */ ($ue_base_url_non_sef."&amp;action=search");	// on purpose without SEF, as joomla 1.0/mambo 4.5.5 core sef doesn't work with this.
   ?>" >
     <input type="hidden" name="option" value="com_comprofiler" />
     <input type="hidden" name="task" value="usersList" />
@@ -911,9 +744,7 @@ List Functions
 			</div>
 			<div class="cbClr"></div>
 */
-		if ( $cbSpoofString ) {
-			echo cbGetSpoofInputTag( null, $cbSpoofString );
-		}
+		echo cbGetSpoofInputTag( null, $cbSpoofString );
 
 		// Render search-area header:
 
@@ -928,7 +759,7 @@ List Functions
 		} else {
 			$searchResultsTitleHtml	=	null;
 		}
-		echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $myUser, 'List', 'drawListHead', array( &$lists, $listid, $total, $totalIsAllUsers, $searchTabContent, $searchResultDisplaying, $ue_base_url, $listTitleHtml, $listDescription, $searchCriteriaTitleHtml, $searchResultsTitleHtml ) );
+		echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $myUser, 'List', 'drawListHead', array( &$lists, $listid, $total, $totalIsAllUsers, $searchTabContent, $searchResultDisplaying, $ue_base_url_non_sef, $listTitleHtml, $listDescription, $searchCriteriaTitleHtml, $searchResultsTitleHtml ) );
 ?>
   </form>
 <?php
@@ -941,7 +772,7 @@ List Functions
 
 				// top page links:
 ?>
-	<div style="width:100%;text-align:center;"><?php echo writePagesLinks($limitstart, $limit, $total, $ue_base_url.$pagingSearch.$spoofAmp, $search); ?></div>
+	<div class="cbUserListPagination cbUserListPaginationTop" style="width:100%;text-align:center;"><?php echo writePagesLinks($limitstart, $limit, $total, $ue_base_url.$pagingSearch.$spoofAmp, $search); ?></div>
 <?php
 			}
 
@@ -954,7 +785,7 @@ List Functions
 			// bottom page links:
 ?>
 
-	<div style="width:100%;text-align:center;"><?php echo writePagesLinks($limitstart, $limit, $total, $ue_base_url.$pagingSearch.$spoofAmp, $search); ?></div>
+	<div class="cbUserListPagination cbUserListPaginationBottom" style="width:100%;text-align:center;"><?php echo writePagesLinks($limitstart, $limit, $total, $ue_base_url.$pagingSearch.$spoofAmp, $search); ?></div>
 <?php		}
 
 			if ( count( $pluginAdditions['footer'] ) ) {
@@ -967,7 +798,7 @@ List Functions
 <?php
 	}	// end function usersList
 
-	function & _getListTableContent( &$users, &$columns, &$fields ) {
+	static function & _getListTableContent( &$users, &$columns, &$fields ) {
 		global $_PLUGINS;
 
 		$tableContent									=	array();
@@ -998,7 +829,7 @@ List Functions
 Registration Functions
 ******************************/
 
-	function confirmation() {
+	static function confirmation() {
 		?>
 	<div class="componentheading"><?php echo _UE_SUBMIT_SUCCESS; ?></div><br />
     <table cellspacing="0" cellpadding="5" align="center" width="90%">
@@ -1009,7 +840,7 @@ Registration Functions
 <?php
 	}
 	
-	function lostPassForm($option) {
+	static function lostPassForm($option) {
 		global $_CB_framework, $ueConfig, $_PLUGINS;
 		
 		$_PLUGINS->loadPluginGroup('user');
@@ -1026,6 +857,7 @@ Registration Functions
 
 		$checkUsername			=	( ( isset( $ueConfig['reg_username_checker'] ) ) && ( $ueConfig['reg_username_checker'] ) );
 		$checkEmail				=	( ( isset( $ueConfig['reg_email_checker'] ) ) && ( $ueConfig['reg_email_checker'] > 1 ) );
+		$usernameExists			=	( ( isset( $ueConfig['login_type'] ) ) && ( $ueConfig['login_type'] != 2 ) );
 
 		outputCbTemplate( 1 );
 		ob_start();
@@ -1129,8 +961,9 @@ $('#boxLostUsername,#boxLostPassword').click( function() {
 	}
 	return true;
 } );
-
+<?php	if ( $usernameExists ) { ?>
 $('#cb_lost_username,#cb_lost_password,#cb_lost_username_password,#cb_step1_form,#cb_line_checkusername').hide();
+<?php	} ?>
 $('#boxLostUsername,#boxLostPassword').cb_uncheck();
 $('#checkusername,#checkemail').val('');
 $('#cbsendnewuspass').attr('disabled',true);
@@ -1179,10 +1012,11 @@ $('#checkusername,#checkemail').change( function() {
 
 //TODO: Add ability to change password on form.
 		?>
-<div class="componentheading"><?php echo _UE_LOST_USERNAME_OR_PASSWORD; ?></div>
+<div class="componentheading"><?php echo ( $usernameExists ? _UE_LOST_USERNAME_OR_PASSWORD : _UE_LOST_YOUR_PASSWORD ); ?></div>
 <div class="cbPageOuter" id="cbLostPasswordPage"><div class="cbPageInner">
 	<div class="contentpaneopen" id="cb_lost_username_passwd_content">
 		<form action="<?php echo cbSef('index.php'); ?>" class="cb_form" id="adminForm" name="adminForm" method="post">
+		<?php if ( $usernameExists ) { ?>
 			<div class="cb_form_line" id="cb_lost_choice">
 				<label for="cb_lost_choice"><?php echo _UE_REMINDER_NEEDED_FOR; ?>:</label>
 				<div class="cb_field">
@@ -1190,25 +1024,34 @@ $('#checkusername,#checkemail').change( function() {
 					<div><input type="checkbox" id="boxLostPassword" name="typeofloose[]" value="password" /> <label for="boxLostPassword"><?php echo _UE_LOST__PASSWORD; ?></label></div>
 				</div>
 			</div>
+		<?php } else { ?>
+			<input type="hidden" name="typeofloose[]" value="password" />
+		<?php } ?>
 			<div class="cb_form_instructions">
 				<ul>
-					<li id="cb_lost_username"><?php echo getLangDefinition(_UE_LOST_USERNAME_DESC); ?></li>
-					<li id="cb_lost_password"><?php echo getLangDefinition(_UE_LOST_PASSWORD_DESC); ?></li>
-					<li id="cb_lost_username_password"><?php echo getLangDefinition(_UE_LOST_USERNAME_PASSWORD_DESC); ?></li>
+		<?php if ( $usernameExists ) { ?>
+					<li id="cb_lost_username"><?php echo getLangDefinition('_UE_LOST_USERNAME_DESC'); ?></li>
+					<li id="cb_lost_password"><?php echo getLangDefinition('_UE_LOST_PASSWORD_DESC'); ?></li>
+					<li id="cb_lost_username_password"><?php echo getLangDefinition('_UE_LOST_USERNAME_PASSWORD_DESC'); ?></li>
+		<?php } else { ?>
+					<li id="cb_lost_password"><?php echo getLangDefinition('_UE_LOST_PASSWORD_EMAIL_ONLY_DESC'); ?></li>
+		<?php } ?>
 				</ul>
 			</div>
 			<div id="cb_step1_form">
+<?php		if ( $usernameExists ) { ?>
 				<div class="cb_form_line" id="cb_line_checkusername">
 					<label for="checkusername"><?php echo _PROMPT_UNAME; ?></label>
 					<div class="cb_field">
 						<div><input type="text" name="checkusername" id="checkusername" class="inputbox" size="30" maxlength="255" /></div>
-<?php 	if ( $checkUsername ) { ?>
+<?php 			if ( $checkUsername ) { ?>
 
 						<div class="cb_result_container"><div id="checkusernameResponse">&nbsp;</div></div>
-<?php	}	?>
+<?php			}	?>
 
 					</div>
 				</div>
+<?php 		} ?>
 
 				<div class="cb_form_line" id="cb_line_checkemail">
 					<label for="checkemail"><?php echo _PROMPT_EMAIL; ?></label>
@@ -1251,7 +1094,7 @@ $('#checkusername,#checkemail').change( function() {
 <?php
 	}
 
-	function loginForm( $option, &$postvars, $regErrorMSG = null ) {
+	static function loginForm( $option, &$postvars, $regErrorMSG = null ) {
 		global $_CB_framework, $_CB_database, $_PLUGINS;
 
 		$results = $_PLUGINS->trigger( 'onBeforeLoginFormDisplay', array( &$postvars, $regErrorMSG ) );
@@ -1268,7 +1111,7 @@ $('#checkusername,#checkemail').change( function() {
 		$login_module_file		=	$_CB_framework->getCfg( 'absolute_path' ) . '/modules/' . ( checkJversion() > 0 ? 'mod_cblogin/' : '' ) . 'mod_cblogin.php';
 		if ( file_exists( $login_module_file ) ) {
 			define('_UE_LOGIN_FROM', 'loginform' );
-			$_CB_database->setQuery( "SELECT params from #__modules WHERE module = 'mod_cblogin' ORDER BY ordering LIMIT 1" );
+			$_CB_database->setQuery( "SELECT params from #__modules WHERE module = 'mod_cblogin' ORDER BY ordering", 0, 1 );
 			$raw_params			=	$_CB_database->loadResult();
 			$params				=	new cbParamsBase( $raw_params );		// needed for login module
 			// $params of login module is needed for the include( $login_module_file ) below !!
@@ -1296,7 +1139,7 @@ $('#checkusername,#checkemail').change( function() {
 		echo "<div class=\"cbClr\"></div>";
 	}
 
-	function registerForm( $option, $emailpass, &$user, &$postvars, $regErrorMSG = null, $stillDisplayLoginModule = false ) {
+	static function registerForm( $option, $emailpass, &$user, &$postvars, $regErrorMSG = null, $stillDisplayLoginModule = false ) {
 		global $_CB_framework, $_CB_database, $ueConfig, $_PLUGINS;
 
 		$results = $_PLUGINS->trigger( 'onBeforeRegisterFormDisplay', array( &$user, $regErrorMSG ) );
@@ -1311,11 +1154,12 @@ $('#checkusername,#checkemail').change( function() {
 		initToolTip(1);
 
 		$output								=	'htmledit';
+		$formatting							=	( isset( $ueConfig['use_divs'] ) && $ueConfig['use_divs'] ? 'divs' : 'tabletrs' );
 
 		// gets registration tabs from plugins (including the contacts tab core plugin for username, password, etc:
 		$tabs								=	new cbTabs( 0, 1, null, false );	// do not output unused JS code in registration page (IE7 and Safari bugs on that)
-		$tabcontent							=	$tabs->getEditTabs( $user, $postvars, $output, 'tabletrs', 'register', false );
-		// $tabcontent						=	$tabs->getEditTabs( $user, $postvars, $output, 'table', 'register', true );
+		//$tabcontent							=	$tabs->getEditTabs( $user, $postvars, $output, 'tabletrs', 'register', false );
+		$tabcontent							=	$tabs->getEditTabs( $user, $postvars, $output, $formatting, 'register', false );
 
 		// outputs the site terms and conditions link and approval checkbox: Not yet a CB field		//TBD
 
@@ -1323,15 +1167,25 @@ $('#checkusername,#checkemail').change( function() {
 			global $_CB_OneTwoRowsStyleToggle;
 			$class 							=	'sectiontableentry' . $_CB_OneTwoRowsStyleToggle;
 			$_CB_OneTwoRowsStyleToggle		=	( $_CB_OneTwoRowsStyleToggle == 1 ? 2 : 1 );
-			$tabcontent						.=	"\t<tr class=\"" . $class. "\" id=\"cbfr_termsc\">\n"
-											.	"\t\t<td>&nbsp;</td>\n<td class='fieldCell'><div class=\"cbSnglCtrlLbl\"><input type='checkbox' name='acceptedterms' id='acceptedterms' class='required' value='1' mosReq='0' mosLabel='"
+			if ( $formatting == 'divs' ) {
+				$tabcontent					.=	"\t<div class=\"" . $class. " cb_form_line cbclearboth\" id=\"cbfr_termsc\">\n"
+											.	'<div class="cb_field"><div id="cbfv_termsc">';
+			} else {
+				$tabcontent					.=	"\t<tr class=\"" . $class. "\" id=\"cbfr_termsc\">\n"
+											.	"\t\t<td>&nbsp;</td>\n<td class='fieldCell'>";
+			}
+			$tabcontent						.=	"<div class=\"cbSnglCtrlLbl\"><input type='checkbox' name='acceptedterms' id='acceptedterms' class='required' value='1' mosReq='0' mosLabel='"
 											.	htmlspecialchars( _UE_TOC )
 											.	"' /> <label for='acceptedterms'>"
 											.	sprintf(_UE_TOC_LINK,"<a href='".cbSef(htmlspecialchars($ueConfig['reg_toc_url']))."' target='_BLANK'> ","</a>") . '</label>'
 											.	getFieldIcons( $_CB_framework->getUi(), 1, null, null, null )
-											.	"</div></td>\n"
-											.	"\t</tr>\n"
-											;
+											.	"</div>";
+			if ( $formatting == 'divs' ) {
+				$tabcontent					.=	"</div></div></div>\n";
+			} else {
+				$tabcontent					.=	"</td>\n"
+											.	"\t</tr>\n";
+			}
 		}
 		
 		$_CB_framework->setPageTitle( _UE_REGISTRATION );
@@ -1348,83 +1202,8 @@ $('#checkusername,#checkemail').change( function() {
 		ob_start();
 
 		if ( defined( '_CB_VALIDATE_NEW' ) ) {
-?>
-$('#cbcheckedadminForm').validate( {
-		errorClass: 'cb_result_warning',
-		// debug: true,
-		cbIsOnKeyUp: false,
-		highlight: function( element, errorClass ) {
-			$( element ).parents('.fieldCell').parent().addClass( 'cbValidationError' );
-		},
-		unhighlight: function( element, errorClass ) {
-			$( element ).parents('.fieldCell').parent().removeClass( 'cbValidationError' );
-		},
-		errorElement: 'div',
-		errorPlacement: function(error, element) {
-			element.parents('.fieldCell').slice(0,1).append( error[0] );
-			// element.parents('.fieldCell').append( (error.wrapAll('<div class="cb_result_container"></div>').parent())[0] );
-		},
-		onkeyup: function(element) {
-			if ( element.name in this.submitted || element == this.lastElement ) {
-				// avoid remotejhtml rule onkeyup
-				this.cbIsOnKeyUp = true;
-				this.element(element);
-				this.cbIsOnKeyUp = false;
-			}
-<?php
-/*
-		},
-        rules: { 
-            username: { 
-                required: true, 
-                minlength: 3 //, 
-                // remote: "users.php" 
-            },
-            password: { 
-                required: true, 
-                minlength: 6 
-            }, 
-            password_confirm: { 
-                required: true, 
-                minlength: 6, 
-                equalTo: "#password" 
-            }, 
-            email: { 
-                required: true, 
-                email: true //, 
-     			//remote: "emails.php" 
-            }
-        },
-*/
-/*
-        messages: { 
-        	username: { 
-                required: "Please enter a username", 
-                minlength: jQuery.format("Enter at least {0} characters"), 
-                remote: jQuery.format("{0} is already in use") 
-            },
-            password: { 
-                required: "Please provide a password", 
-                rangelength: jQuery.format("Enter at least {0} characters") 
-            }, 
-            password_confirm: { 
-                required: "Please repeat your password", 
-                minlength: jQuery.format("Enter at least {0} characters"), 
-                equalTo: "Enter the same password as above" 
-            },
-            email: { 
-                required: "Please enter a valid email address", 
-                minlength: "Please enter a valid email address" //,
-                // remote: jQuery.format("{0} is already in use") 
-			}
-*/
-?>
-        }
-} );
-$('#cbcheckedadminForm input:checkbox,#cbcheckedadminForm input:radio').click( function() {
-	$('#cbcheckedadminForm').validate().element( $(this) );
-} );
-<?php
+			cbimport( 'cb.validator' );
+			cbValidator::renderGenericJs();
 			$cbjavascript	=	ob_get_contents();
 			ob_end_clean();
 			$_CB_framework->outputCbJQuery( $cbjavascript, array( 'metadata', 'validate' ) );
@@ -1572,7 +1351,7 @@ $('#cbcheckedadminForm').submit( cbFrmSubmitButton );
 		$introMessage				=	( isset( $ueConfig['reg_intro_msg'] ) ? stripslashes( getLangDefinition( $ueConfig['reg_intro_msg'] ) ) : null );
 		$conclusionMessage			=	( isset( $ueConfig['reg_conclusion_msg'] ) ? stripslashes( getLangDefinition( $ueConfig['reg_conclusion_msg'] ) ) : null );
 		
-		$regFormTag					=	'<form action="' . cbSef("index.php?option=".$option) . '" method="post" id="cbcheckedadminForm" name="adminForm" enctype="multipart/form-data">
+		$regFormTag					=	'<form action="' . cbSef("index.php?option=".$option) . '" method="post" id="cbcheckedadminForm" name="adminForm" class="cb_form" enctype="multipart/form-data">
 		<input type="hidden" name="id" value="0" />
 		<input type="hidden" name="gid" value="0" />
 		<input type="hidden" name="emailpass" value="' .$emailpass . '" />
@@ -1599,7 +1378,7 @@ $('#cbcheckedadminForm').submit( cbFrmSubmitButton );
 			$login_module_file		=	$_CB_framework->getCfg( 'absolute_path' ) . '/modules/' . ( checkJversion() > 0 ? 'mod_cblogin/' : '' ) . 'mod_cblogin.php';
 			if ( file_exists( $login_module_file ) ) {
 				define('_UE_LOGIN_FROM', 'regform' );
-				$_CB_database->setQuery( "SELECT params from #__modules WHERE module = 'mod_cblogin' ORDER BY ordering LIMIT 1" );
+				$_CB_database->setQuery( "SELECT params from #__modules WHERE module = 'mod_cblogin' ORDER BY ordering", 0, 1 );
 				$raw_params			=	$_CB_database->loadResult();
 				$params				=	new cbParamsBase( $raw_params );		// needed for login module
 				// $params of login module is needed for the include( $login_module_file ) below !!
@@ -1612,7 +1391,7 @@ $('#cbcheckedadminForm').submit( cbFrmSubmitButton );
 
 		// renders using template viewer:
 
-		echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $user, 'RegisterForm', 'drawProfile', array( &$user, $tabcontent, $regFormTag, $introMessage, _LOGIN_REGISTER_TITLE, _REGISTER_TITLE, _UE_REGISTER, $moduleContent, $topIcons, $bottomIcons, $conclusionMessage ), $output );
+		echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $user, 'RegisterForm', 'drawProfile', array( &$user, $tabcontent, $regFormTag, $introMessage, _LOGIN_REGISTER_TITLE, _REGISTER_TITLE, _UE_REGISTER, $moduleContent, $topIcons, $bottomIcons, $conclusionMessage, $formatting ), $output );
 
 		// finally small javascript to focus on first field on registration form if there is no introduction text and it's a text field:
 
@@ -1630,13 +1409,17 @@ $('#cbcheckedadminForm').submit( cbFrmSubmitButton );
 Moderation Functions
 ******************************/
 
-	function reportUserForm($option,$uid)
+	static function reportUserForm($option,$uid)
 	{
-	global $_CB_framework, $ueConfig, $Itemid;
+	global $_CB_framework, $ueConfig;
+
 	if($ueConfig['allowUserReports']==0) {
 			echo _UE_FUNCTIONALITY_DISABLED;
 			return;
 	}
+
+	$Itemid		=	$_CB_framework->itemid();
+
 	HTML_comprofiler::outputMosFormVal( '#adminForm' );
 ?>
 <!-- TAB -->
@@ -1666,13 +1449,16 @@ Moderation Functions
 <?php
 }
 
-	function banUserForm($option,$uid,$act,$orgbannedreason)
+	static function banUserForm($option,$uid,$act,$orgbannedreason)
 	{
-	global $_CB_framework, $ueConfig, $Itemid;
+	global $_CB_framework, $ueConfig;
 	if($ueConfig['allowUserBanning']==0) {
 			echo _UE_FUNCTIONALITY_DISABLED;
 			return;
 	}
+
+	$Itemid		=	$_CB_framework->itemid();
+
 	HTML_comprofiler::outputMosFormVal( '#adminForm' );
 ?>
 <!-- TAB -->
@@ -1702,8 +1488,10 @@ Moderation Functions
 <?php
 }
 
-function pendingApprovalUsers($option,$users) {
-	global $ueConfig, $Itemid;
+static function pendingApprovalUsers($option,$users) {
+	global $ueConfig;
+
+	$Itemid		=	CBframework::framework()->itemid();
 
 ?>
 <div class="componentheading"><?php echo _UE_MODERATE_TITLE; ?></div>
@@ -1745,8 +1533,10 @@ function pendingApprovalUsers($option,$users) {
 		echo cbGetSpoofInputTag( 'pendingApprovalUsers' );
 		echo "</form>\n";
 }
-function manageConnections($connections,$actions,$total,&$connMgmtTabs,&$pagingParams,$perpage,$connecteds=null) {
-	global $_CB_framework, $ueConfig, $_REQUEST, $Itemid;
+static function manageConnections($connections,$actions,$total,&$connMgmtTabs,&$pagingParams,$perpage,$connecteds=null) {
+	global $_CB_framework, $ueConfig, $_REQUEST;
+
+	$Itemid		=	$_CB_framework->itemid();
 
 	$ui=1;
 	outputCbTemplate($ui);
@@ -2002,13 +1792,15 @@ function confirmSubmit() {
 }	// end class HTML_comprofiler
 
 	function moderateBans( $option, $act, $uid ) {
-	global $_CB_framework, $_CB_database, $ueConfig, $Itemid, $_REQUEST;
+	global $_CB_framework, $_CB_database, $ueConfig, $_REQUEST;
 	
 	$isModerator=isModerator( $_CB_framework->myId() );
 	if ( ( $isModerator == 0 ) || ( ( $act == 2 ) && ( $uid == $_CB_framework->myId() ) ) ) {
 		cbNotAuth();
 		return;
 	}
+
+	$Itemid		=	$_CB_framework->itemid();
 	$ue_base_url = "index.php?option=com_comprofiler&amp;task=moderateBans".($Itemid ? "&amp;Itemid=". (int) $Itemid : "");	// Base URL string
 
 	if ( $act == 2 ) {
@@ -2040,8 +1832,7 @@ function confirmSubmit() {
 		$query	.=	"\n WHERE c.banned = 2 AND c.id != " . (int) $uid;
 	}
 	$query	.=	" AND  c.approved = 1 AND c.confirmed = 1";
-	$query	.=	"\n LIMIT $limitstart, $limit";
-	$_CB_database->setQuery($query);
+	$_CB_database->setQuery($query, $limitstart, $limit );
 	$row = $_CB_database->loadObjectList();
 
 	outputCbTemplate(1);
@@ -2100,13 +1891,15 @@ if($total<1) {
 
 
 	function moderateReports($option) {
-	global $_CB_framework, $_CB_database, $ueConfig, $Itemid, $_REQUEST;
+	global $_CB_framework, $_CB_database, $ueConfig, $_REQUEST;
 	
 	$isModerator=isModerator( $_CB_framework->myId() );
 	if ($isModerator == 0) {
 		cbNotAuth();
 		return;
 	}
+
+	$Itemid		=	$_CB_framework->itemid();
 	$ue_base_url = "index.php?option=com_comprofiler&amp;task=moderateReports".($Itemid ? "&amp;Itemid=". (int) $Itemid : "");	// Base URL string
 
 
@@ -2129,8 +1922,7 @@ if($total<1) {
 	}
 
 	$query = "SELECT u2.name as reportedbyname, u2.username as reportedbyusername, u.name as reportedname, u.username as reportedusername, ur.* FROM #__users u, #__comprofiler_userreports ur, #__users u2 WHERE u.id=ur.reporteduser AND u2.id=ur.reportedbyuser AND  ur.reportedstatus=0 ORDER BY ur.reporteduser,ur.reportedondate";
-	$query .= " LIMIT $limitstart, $limit";
-	$_CB_database->setQuery($query);
+	$_CB_database->setQuery($query, $limitstart, $limit);
 	$row = $_CB_database->loadObjectList();
 
 	outputCbTemplate(1);
@@ -2176,13 +1968,15 @@ if($total<1) {
 
 
 	function moderateImages($option) {
-	global $_CB_framework, $_CB_database, $ueConfig, $Itemid, $_REQUEST;
+	global $_CB_framework, $_CB_database, $ueConfig, $_REQUEST;
 	
 	$isModerator=isModerator( $_CB_framework->myId() );
 	if ($isModerator == 0) {
 		cbNotAuth();
 		return;
 	}
+
+	$Itemid		=	$_CB_framework->itemid();
 	$ue_base_url = "index.php?option=com_comprofiler&amp;task=moderateImages".($Itemid ? "&amp;Itemid=". (int) $Itemid : "");	// Base URL string
 
 	$query = "SELECT count(*) FROM #__comprofiler  WHERE avatarapproved=0 AND approved=1 AND confirmed=1 AND banned=0";
@@ -2197,8 +1991,7 @@ if($total<1) {
 	}
 
 	$query = "SELECT * FROM #__comprofiler c, #__users u WHERE u.id= c.id AND c.avatarapproved=0 AND approved=1 AND confirmed=1 AND banned=0";
-	$query .= " LIMIT $limitstart, $limit";
-	$_CB_database->setQuery($query);
+	$_CB_database->setQuery($query, $limitstart, $limit);
 	$row = $_CB_database->loadObjectList();
 
 	outputCbTemplate(1);
@@ -2258,12 +2051,14 @@ if($total<1) {
 
 
 	function viewReports($option,$uid,$act) {
-		global $_CB_framework, $_CB_database, $ueConfig, $Itemid, $_REQUEST;
+		global $_CB_framework, $_CB_database, $ueConfig, $_REQUEST;
 		$isModerator	=	isModerator( $_CB_framework->myId() );
 		if ( $isModerator == 0 ) {
 			cbNotAuth();
 			return;
 		}
+
+		$Itemid		=	$_CB_framework->itemid();
 		$ue_base_url = "index.php?option=com_comprofiler&amp;task=viewReports".($Itemid ? "&amp;Itemid=". (int) $Itemid : "");	// Base URL string
 
 		$query = "SELECT count(*) FROM #__comprofiler_userreports  WHERE " . ( $act == 1 ? '' : "reportedstatus=0 AND " ) . "reporteduser=" . (int) $uid;
@@ -2278,8 +2073,7 @@ if($total<1) {
 		}
 
 		$query = "SELECT u2.name as reportedbyname, u2.username as reportedbyusername, u.name as reportedname, u.username as reportedusername, ur.* FROM #__users u, #__comprofiler_userreports ur, #__users u2 WHERE u.id=ur.reporteduser AND u2.id=ur.reportedbyuser AND " . ( $act == 1 ? '' : "ur.reportedstatus=0 AND " ) . "ur.reporteduser=".(int) $uid." ORDER BY ur.reporteduser,ur.reportedondate";
-		$query .= " LIMIT $limitstart, $limit";
-		$_CB_database->setQuery($query);
+		$_CB_database->setQuery($query, $limitstart, $limit);
 		$row = $_CB_database->loadObjectList();
 
 		outputCbTemplate(1);

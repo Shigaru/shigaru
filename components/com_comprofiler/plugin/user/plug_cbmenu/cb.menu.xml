@@ -38,7 +38,7 @@
 				<param name="firstMenuName" type="text" size="12" default="_UE_MENU_CB" label="First Menu Name" description="First menu name before &quot;Edit&quot;. Default is &quot;Community&quot; = _UE_MENU_CB. Leave empty to not appear." />
 				<param name="firstSubMenuName" type="text" size="12" default="_UE_MENU_ABOUT_CB" label="First Sub-Menu Name" description="First sub-menu name. Default is &quot;About Community Builder...&quot; = _UE_MENU_ABOUT_CB. Leave empty to not appear." />
 				<param name="firstSubMenuHref" type="text" size="20" default="index.php?option=com_comprofiler&amp;task=teamCredits" label="First Sub-Menu URL" description="First sub-menu URL. Default is index.php?option=com_comprofiler&amp;task=teamCredits" />
-				<param name="secondSubMenuName" type="text" size="12" default="" label="Second Sub-Menu Name" description="First sub-menu name. Leave empty to not appear." />
+				<param name="secondSubMenuName" type="text" size="12" default="" label="Second Sub-Menu Name" description="Second sub-menu name. Leave empty to not appear." />
 				<param name="secondSubMenuHref" type="text" size="20" default="" label="Second Sub-Menu URL" description="Second sub-menu URL." />
 			</params>
 			<fields>

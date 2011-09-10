@@ -46,6 +46,14 @@ class hwd_vs_html
      */
     function frontpage($rows, $rowsfeatured, $pageNav, $total, $rowsnow, $mostviewed, $mostfavoured, $mostpopular,$wordList)
     {
+		/*
+		echo '<pre>';
+		print_r($mostpopular);
+		echo '</pre>';
+		echo '<pre>';
+		var_dump($mostfavoured);
+		echo '</pre>';
+		* */
 		global $Itemid, $smartyvs, $mainframe, $hwdvsTemplateOverride, $limit;
 		$c = hwd_vs_Config::get_instance();
   		$db =& JFactory::getDBO();
@@ -86,8 +94,14 @@ class hwd_vs_html
 		
 		
 		
+		// link to thn reasons
 		
-		
+		jimport( 'joomla.methods' ); 
+		$tenreasonstext = JText::_('10 reasons to join!');
+		$tenreasonstemp = 'index.php?option=com_content&id=56';
+		$tenreasonsurl = JRoute::_($tenreasonstemp);
+		$smartyvs->assign("tenreasonstext", $tenreasonstext);
+		$smartyvs->assign("tenreasonsurl", $tenreasonsurl);
 		
 		
 		
@@ -124,24 +138,18 @@ class hwd_vs_html
 		$socialmedialinks = JModuleHelper::renderModule($socialmedialinks);
 		$smartyvs->assign("socialmedialinks", $socialmedialinks); 
 		
-		/* facefan box*/
-		$facefan = JModuleHelper::getModule('jv_facebook');
-		$facefan = JModuleHelper::renderModule($facefan);
-		$smartyvs->assign("facefan", $facefan);
-		
-		/* facefan box*/
+			
+		/* tweeter box*/
 		$tweetdisplay = JModuleHelper::getModule('tweetdisplay_1901');
 		$tweetdisplay = JModuleHelper::renderModule($tweetdisplay);
 		$smartyvs->assign("tweetdisplay", $tweetdisplay);
 		
-		 
+		 /* members box*/
+		$zncbmembers = JModuleHelper::getModule('zncbmembers');
+		$zncbmembers = JModuleHelper::renderModule($zncbmembers);
+		$smartyvs->assign("zncbmembers", $zncbmembers);
 		
-		//$module = & JModuleHelper::getModule('mod_acymailing');
-		//require_once(JPATH_SITE.DS.'components'.DS.'com_comprofiler'.DS.'comprofiler.html.php');
-		//$cbcomponent = JComponentHelper::getComponent( 'com_comprofiler' );
 		
-		//var_dump();
-		//echo usersList(4);
 		// set the page/meta title
 		$mainframe->setPageTitle( $metatitle );
 		$mainframe->addMetaTag( 'title' , $metatitle );
@@ -175,8 +183,9 @@ class hwd_vs_html
 		}
 		
 		
-		
-		
+		/* Most commented */
+		$mostcommented =hwd_vs_tools::getMostCommented();
+		$smartyvs->assign("mostcommented", $mostcommented);
 		
 		// VIDEO TAGS
 		$tagsList =hwd_vs_tools::concatenateWords($wordList);
@@ -383,7 +392,8 @@ class hwd_vs_html
 			$pageNavigation.= "</div>";
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
-
+		$smartyvs->assign("totalvideos", $total);
+		
 		$smartyvs->display('index.tpl');
 		return;
     }

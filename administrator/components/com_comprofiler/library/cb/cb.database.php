@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: cb.database.php 852 2010-01-29 00:12:04Z beat $
+* @version $Id: cb.database.php 1544 2011-07-29 23:53:15Z beat $
 * @package Community Builder
 * @subpackage cb.database.php
 * @author Beat and various
@@ -23,7 +23,7 @@ class comprofilerDBTable {
 	var $_tbl;
 	var $_tbl_key;
 	/** Database object:
-	 * @var CBdatabase */
+	 * @var CBDatabase */
 	var $_db;
 	var $_error = '';
 
@@ -86,8 +86,7 @@ class comprofilerDBTable {
 	*/
 	function store( $updateNulls = false ) {
 		$k					=	$this->_tbl_key;
-
-		if ( $this->$k != 0 ) {
+		if ( $this->$k != null ) {
 			$ok				=	$this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
 		} else {
 			$ok				=	$this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
@@ -110,20 +109,17 @@ class comprofilerDBTable {
 			$sql .= "\n WHERE $ordering < " . (int) $this->$ordering;
 			$sql .= ($where ? "\n	AND $where" : '');
 			$sql .= "\n ORDER BY $ordering DESC";
-			$sql .= "\n LIMIT 1";
 		} else if ($dirn > 0) {
 			$sql .= "\n WHERE $ordering > " . (int) $this->$ordering;
 			$sql .= ($where ? "\n	AND $where" : '');
 			$sql .= "\n ORDER BY $ordering";
-			$sql .= "\n LIMIT 1";
 		} else {
 			$sql .= "\nWHERE $ordering = " . (int) $this->$ordering;
 			$sql .= ($where ? "\n AND $where" : '');
 			$sql .= "\n ORDER BY $ordering";
-			$sql .= "\n LIMIT 1";
 		}
 
-		$this->_db->setQuery( $sql );
+		$this->_db->setQuery( $sql, 0, 1 );
 
 		$row = null;
 		if ($this->_db->loadObject( $row )) {
@@ -570,33 +566,43 @@ class CBdatabase {
 	* @param int      $errorNum  The error number for the most recent query
 	*/
 	function setErrorNum( $errorNum) {
-		$this->_db->_errorNum	=	$errorNum;
+		if ( checkJversion() < 2 ) {
+			// in J1.6, this is protected:
+			$this->_db->_errorNum	=	$errorNum;
+		}
 	}
 	/**
 	* @param  string  $errorMsg  The error message for the most recent query
 	*/
 	function setErrorMsg( $errorMsg ) {
-		$this->_db->_errorMsg	=	$errorMsg;
+		if ( checkJversion() < 2 ) {
+			// in J1.6, this is protected:
+			$this->_db->_errorMsg	=	$errorMsg;
+		}
 	}
 	/**
-	* Get a database escaped string
+	* Get a database escaped string. For LIKE statemends: $db->Quote( $db->getEscaped( $text, true ) . '%', false )
 	*
 	* @param  string  $text
-	* @param  boolean $escapeForLike
+	* @param  boolean $escapeForLike : escape also % and _ wildcards for LIKE statements with % or _ in search strings  (since CB 1.2.3)
 	* @return string
 	*/
 	function getEscaped( $text, $escapeForLike = false ) {
-		return $this->_db->getEscaped( $text, $escapeForLike );
+		if ( $escapeForLike ) {
+			return str_replace(array('%','_'),array("\\%","\\_"), $this->_db->getEscaped( $text ) );
+		} else {
+			return $this->_db->getEscaped( $text );
+		}
 	}
 	/**
 	* Get a quoted database escaped string
 	*
 	* @param  string  $text
-	* @param  boolean $escaped
+	* @param  boolean $escape
 	* @return string
 	*/
-	function Quote( $text, $escaped = true ) {
-		return '\'' . ( $escaped ? $this->_db->getEscaped( $text ) : $text ) . '\'';
+	function Quote( $text, $escape = true ) {
+		return '\'' . ( $escape ? $this->_db->getEscaped( $text ) : $text ) . '\'';
 	}
 	/**
 	* Quote an identifier name (field, table, etc)
@@ -626,7 +632,7 @@ class CBdatabase {
 	* Sets the SQL query string for later execution.
 	*
 	* This function replaces a string identifier $prefix with the
-	* string held is the _table_prefix class variable.
+	* string held is the $this->getPrefix() class variable.
 	*
 	* @param string $sql     The SQL query (casted to (string) )
 	* @param int    $offset  The offset to start selection
@@ -639,23 +645,37 @@ class CBdatabase {
 			if ( $offset || $limit ) {
 				$sql		.=	" LIMIT ";
 				if ( $offset ) {
-					$sql	.=	( (int) $offset ) . ', ';
+					$sql	.=	( (int) abs( $offset ) ) . ', ';
 				}
-				$sql		.=	( (int) $limit );
+				$sql		.=	( (int) abs( $limit ) );
 			}
 			$this->_db->setQuery( $sql, $prefix );
 		} else {
-			$this->_db->setQuery( $sql, $offset, $limit, $prefix );
+			$this->_db->setQuery( $sql, (int) abs( $offset ), (int) abs( $limit ), $prefix );
 		}
 	}
 	/**
-	 * Replace $prefix with $this->_table_prefix
+	 * Replace $prefix with $this->getPrefix() in $sql
 	 *
 	 * @param  string  $sql      SQL query
 	 * @param  string  $prefix   Common table prefix
 	 */
 	function replacePrefix( $sql, $prefix='#__' ) {
-		return $this->_db->replacePrefix( $sql, $prefix );
+		// Preg Pattern is: find any non-quoted (which is not including single or double quotes) string being the prefix in $sql possibly followed by a double or single quoted one:
+		// 								(
+		// not including quotes:
+		//		positive lookahead:			(?=
+		//		not including " or ':			[^"\']+
+		//									)
+		// including exactly the prefix to replace:		preg_quote( $prefix, '/' )
+		// 								)(
+		// Followed by a double-quoted:		"(?:[^\\"]|\\.)*"
+		// Or:								|
+		// single-quoted:					\'(?:[^\\\']|\\.)*\'
+		// 								)
+		// possibly:						?
+		$pattern				=	'/((?=[^"\']+)' . preg_quote( $prefix, '/' ) . ')("(?:[^\\"]|\\.)*"|\'(?:[^\\\']|\\.)*\')?/';
+		return preg_replace( $pattern, $this->getPrefix() . '\\2', $sql );
 	}
 	/**
 	* @return string The current value of the internal SQL vairable
@@ -832,12 +852,13 @@ class CBdatabase {
 	* If $key is not empty then the returned array is indexed by the value
 	* the database key.  Returns NULL if the query fails.
 	*
-	* @param  string|array  $key          The field name of a primary key
-	* @param  string|null   $className    The name of the class to instantiate, set the properties of and return. If not specified, a stdClass object is returned
-	* @param  array|null    $ctor_params  An optional array of parameters to pass to the constructor for class_name objects
-	* @return array                       If $key is empty as sequential list of returned records.
+	* @param  string|array  $key             The field name of a primary key, if array contains keys for sub-arrays: e.g. array( 'a', 'b' ) will store into $array[$row->a][$row->b] 
+	* @param  string|null   $className       The name of the class to instantiate, set the properties of and return. If not specified, a stdClass object is returned
+	* @param  array|null    $ctor_params     An optional array of parameters to pass to the constructor for class_name objects
+	* @param  boolean       $lowerCaseIndex  default: FALSE: keep case, TRUE: lowercase array indexes (only valid if $key is string and not array)
+	* @return array                          If $key is empty as sequential list of returned records.
 	*/
-	function loadObjectList( $key = null, $className = null, $ctor_params = null ) {
+	function loadObjectList( $key = null, $className = null, $ctor_params = null, $lowerCaseIndex = false ) {
 		if ( ! ( $cur = $this->query() ) ) {
 			return null;
 		}
@@ -855,8 +876,12 @@ class CBdatabase {
 			} elseif ( count( $key == 3 ) ) {
 				list( $ka, $kb, $kc )							=	$key;
 				while ( is_object( $row = $this->m_fetch_object( $cur, $className, $ctor_params ) ) ) {
-					$array[$row->$ka][$row->$kb][$row->$kc]	=	$row;
+					$array[$row->$ka][$row->$kb][$row->$kc]		=	$row;
 				}
+			}
+		} elseif ( $lowerCaseIndex ) {
+			while ( is_object( $row = $this->m_fetch_object( $cur, $className, $ctor_params ) ) ) {
+				$array[strtolower($row->$key)]					=	$row;
 			}
 		} else {
 			while ( is_object( $row = $this->m_fetch_object( $cur, $className, $ctor_params ) ) ) {
@@ -958,6 +983,23 @@ class CBdatabase {
 	function getVersion( ) {
 		return $this->_db->getVersion();
 	}
+	function versionCompare( $minimumVersionCompare ) {
+		static $version					=	null;
+		if ( $version === null ) {
+			$version					=	preg_replace( '/^([0-9\.]+).*/', '\\1', $this->getVersion() );
+		}
+		return version_compare( $version, $minimumVersionCompare, '>=' );
+	}
+	/**
+	 * Get tables prefix (so that '#__' can be replaced by this 
+	 * @since 1.7
+	 *
+	 * @return string  Database table prefix.
+	 *
+	 */
+	function getPrefix() {
+		return $this->_table_prefix;
+	}
 	/**
 	* Returns a list of tables, with the prefix changed if needed.
 	*
@@ -966,11 +1008,11 @@ class CBdatabase {
 	* @return array               A list of all the tables in the database
 	*/
 	function getTableList( $tableName = null, $prefix = '#__' ) {
-		$this->setQuery( 'SHOW TABLES' . ( $tableName ? ' LIKE ' . $this->Quote( $tableName ) : '' ) );
+		$this->setQuery( 'SHOW TABLES' . ( $tableName ? ' LIKE ' . $this->Quote( $this->replacePrefix( $tableName, $prefix ) ) : '' ) );
 		$tables							=	$this->loadResultArray();
 		if ( $prefix ) {
 			foreach ( $tables as $k => $n ) {
-				$tables[$k]				=	preg_replace( '/^(' . $this->_table_prefix . ')/', $prefix, $n );
+				$tables[$k]				=	preg_replace( '/^(' . $this->getPrefix() . ')/', $prefix, $n );
 			}
 		}
 		return $tables;
@@ -987,7 +1029,7 @@ class CBdatabase {
 		$tables							=	$this->loadObjectList();
 		if ( $prefix ) {
 			foreach ( $tables as $k => $n ) {
-				$tables[$k]->Name		=	preg_replace( '/^(' . $this->_table_prefix . ')/', $prefix, $n->Name );
+				$tables[$k]->Name		=	preg_replace( '/^(' . $this->getPrefix() . ')/', $prefix, $n->Name );
 			}
 		}
 		return $tables;
@@ -1015,8 +1057,9 @@ class CBdatabase {
 	function getTableFields( $tables, $onlyType = true ) {
 		$result							=	array();
 		$tables							=	(array) $tables;
+		
 		foreach ( $tables as $tbl ) {
-			$this->setQuery( 'SHOW COLUMNS FROM ' . $this->NameQuote( $tbl ) );
+			$this->setQuery( 'SHOW' . ( ( ! $onlyType ) && $this->versionCompare( '4.1' ) ? ' FULL' : '' ) . ' COLUMNS FROM ' . $this->NameQuote( $tbl ) );
 			$result[$tbl]				=	$this->loadObjectList( 'Field' );
 			if ( is_array( $result[$tbl] ) && $onlyType ) {
 				foreach ( $result[$tbl] as $k => $fld ) {
@@ -1037,7 +1080,7 @@ class CBdatabase {
 		$indexes						=	$this->loadObjectList();
 		if ( $prefix ) {
 			foreach ( $indexes as $k => $n ) {
-				$indexes[$k]->Table		=	preg_replace( '/^(' . $this->_table_prefix . ')/', $prefix, $n->Table );
+				$indexes[$k]->Table		=	preg_replace( '/^(' . $this->getPrefix() . ')/', $prefix, $n->Table );
 			}
 		}
 		return $indexes;
@@ -1086,6 +1129,7 @@ class CBdatabase {
 	 * @return object|boolean|null         False OR null if no more
 	 */
 	function m_fetch_object( &$cur, $className = null, $ctor_params = null ) {
+		static $phpVersion5	=	null;
 		if ( is_object( $cur ) && ( get_class( $cur ) == 'mysqli_result' ) ) {
 			// MySqli is PHP 5 only:
 			if ( $className === null ) {
@@ -1097,7 +1141,7 @@ class CBdatabase {
 			// MySql:
 			if ( $className === null ) {
 				return mysql_fetch_object( $cur );
-			} elseif ( version_compare( phpversion(), '5.0.0', '>=' ) ) {
+			} elseif ( $phpVersion5 || ( true === ( $phpVersion5 = ( 1 == version_compare( phpversion(), '5.0.0', '>=' ) ) ) ) ) {
 				return mysql_fetch_object( $cur, $className, $ctor_params );
 			} else {
 				$objArr			=	$this->m_fetch_assoc( $cur );

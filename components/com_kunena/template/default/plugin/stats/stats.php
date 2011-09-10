@@ -1,93 +1,79 @@
 <?php
 /**
-* @version $Id: stats.php 951 2009-08-15 01:45:15Z mahagr $
+* @version $Id$
 * Kunena Component
 * @package Kunena
 *
-* @Copyright (C) 2008 - 2009 Kunena Team All rights reserved
+* @Copyright (C) 2008 - 2011 Kunena Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-* @link http://www.kunena.com
+* @link http://www.kunena.org
 *
 * Based on FireBoard Component
-* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved
+* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * @link http://www.bestofjoomla.com
 *
 * Based on Joomlaboard Component
-* @copyright (C) 2000 - 2004 TSMF / Jan de Graaff / All Rights Reserved
+* @copyright (C) 2000 - 2004 TSMF / Jan de Graaff / All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * @author TSMF & Jan de Graaff
 **/
 
 // Dont allow direct linking
-defined( '_JEXEC' ) or die('Restricted access');
+defined( '_JEXEC' ) or die();
 
-$fbConfig =& CKunenaConfig::getInstance();
-$document =& JFactory::getDocument();
+$kunena_config = KunenaFactory::getConfig ();
+$document = JFactory::getDocument();
+$document->setTitle(JText::_('COM_KUNENA_STAT_FORUMSTATS') . ' - ' . $kunena_config->board_title);
 
-$document->setTitle(_STAT_FORUMSTATS . ' - ' . stripslashes($fbConfig->board_title));
+if($kunena_config->showstats):
 
-if($fbConfig->showstats):
+$this->loadGenStats();
+$this->loadUserStats();
+$this->loadTopicStats();
+$this->loadPollStats();
+$this->loadThanksStats();
 
 $forumurl = 'index.php?option=com_kunena';
 
-if ($fbConfig->fb_profile == "jomsocial")
-{
-	$userlist = JRoute::_('index.php?option=com_community&amp;view=search&amp;task=browse');
-}
-else if ($fbConfig->fb_profile == 'cb')
-{
-    $userlist = CKunenaCBProfile::getUserListURL();
-}
-else
-{
-    $userlist = JRoute::_(KUNENA_LIVEURLREL . '&amp;func=userlist');
-}
-
+$userlist1 = CKunenaLink::GetUserlistLink('', intval($this->totalmembers));
 ?>
+<!-- BEGIN: GENERAL STATS -->
+<?php if($kunena_config->showgenstats): ?>
+<div class="kblock kgenstats">
+	<div class="kheader">
+		<span class="ktoggler"><a class="ktoggler close" title="<?php echo JText::_('COM_KUNENA_TOGGLER_COLLAPSE') ?>" rel="kgenstats_tbody"></a></span>
+		<h2><span><?php echo $this->escape($kunena_config->board_title); ?> <?php echo JText::_('COM_KUNENA_STAT_FORUMSTATS'); ?></span></h2>
+	</div>
+	<div class="kcontainer" id="kgenstats_tbody">
+		<div class="kbody">
+	<table  class = "kblocktable">
+		<tbody>
+			<tr class = "ksth">
+				<th colspan="2"><?php echo JText::_('COM_KUNENA_STAT_GENERAL_STATS'); ?></th>
+			</tr>
+			<tr class = "krow1">
+				<td class = "kcol-first">
+					<div class="kstatsicon"></div>
+				</td>
+				<td class = "kcol-mid">
+					<?php echo JText::_('COM_KUNENA_STAT_TOTAL_USERS'); ?>:<b> <?php echo $userlist1;?></b> &nbsp;
+					<?php echo JText::_('COM_KUNENA_STAT_LATEST_MEMBERS'); ?>:<b> <?php echo CKunenaLink::GetProfileLink(intval($this->lastestmemberid)); ?></b>
 
-        <!-- BEGIN: GENERAL STATS -->
-<?php if($fbConfig->showgenstats): ?>
-<div class="<?php echo $boardclass; ?>_bt_cvr1">
-<div class="<?php echo $boardclass; ?>_bt_cvr2">
-<div class="<?php echo $boardclass; ?>_bt_cvr3">
-<div class="<?php echo $boardclass; ?>_bt_cvr4">
-<div class="<?php echo $boardclass; ?>_bt_cvr5">
-        <table  class = "fb_blocktable" id ="fb_morestat" border = "0" cellspacing = "0" cellpadding = "0" width="100%">
-            <thead>
-                <tr>
-                    <th>
-                        <div class = "fb_title_cover fbm">
-                            <a class="fb_title fbl" href = "<?php echo $statslink;?>"><?php echo stripslashes($fbConfig->board_title); ?> <?php echo _STAT_FORUMSTATS; ?></a>
-                        </div>
-                        <img id = "BoxSwitch__morestat_tbody" class = "hideshow" src = "<?php echo KUNENA_URLIMAGESPATH . 'shrink.gif' ; ?>" alt = ""/>
-                    </th>
-                </tr>
-            </thead>
+					<br /> <?php echo JText::_('COM_KUNENA_STAT_TOTAL_MESSAGES'); ?>: <b> <?php echo intval($this->totalmsgs); ?></b> &nbsp;
+					<?php echo JText::_('COM_KUNENA_STAT_TOTAL_SUBJECTS'); ?>: <b> <?php echo intval($this->totaltitles); ?></b> &nbsp;
+					<?php echo JText::_('COM_KUNENA_STAT_TOTAL_SECTIONS'); ?>: <b> <?php echo intval($this->totalcats); ?></b> &nbsp;
+					<?php echo JText::_('COM_KUNENA_STAT_TOTAL_CATEGORIES'); ?>: <b> <?php echo intval($this->totalsections); ?></b>
 
-            <tbody id = "morestat_tbody">
-                <tr class = "fb_sth fbs">
-                    <th class = "th-1 <?php echo $boardclass; ?>sectiontableheader" align="left" width="50%"><?php echo _STAT_GENERAL_STATS; ?>
-                    </th>
-                </tr>
+					<br /> <?php echo JText::_('COM_KUNENA_STAT_TODAY_OPEN_THREAD'); ?>: <b> <?php echo intval($this->todayopen); ?></b> &nbsp;
+					<?php echo JText::_('COM_KUNENA_STAT_YESTERDAY_OPEN_THREAD'); ?>: <b> <?php echo intval($this->yesterdayopen); ?></b> &nbsp;
+					<?php echo JText::_('COM_KUNENA_STAT_TODAY_TOTAL_ANSWER'); ?>: <b> <?php echo intval($this->todayanswer); ?></b> &nbsp;
+					<?php echo JText::_('COM_KUNENA_STAT_YESTERDAY_TOTAL_ANSWER'); ?>: <b> <?php echo intval($this->yesterdayanswer); ?></b>
 
-                <tr class = "<?php echo $boardclass ;?>sectiontableentry1">
-                    <td class = "td-1" align="left">
-<?php echo _STAT_TOTAL_USERS; ?>:<b> <a href = "<?php echo $userlist;?>"><?php echo $totalmembers; ?></a> </b>
-                    &nbsp; <?php echo _STAT_LATEST_MEMBERS; ?>:<b> <?php echo CKunenaLink::GetProfileLink($fbConfig, $lastestmemberid, $lastestmember); ?></b>
-
-                <br/> <?php echo _STAT_TOTAL_MESSAGES; ?>: <b> <?php echo $totalmsgs; ?></b> &nbsp;
-    <?php echo _STAT_TOTAL_SUBJECTS; ?>: <b> <?php echo $totaltitles; ?></b> &nbsp; <?php echo _STAT_TOTAL_SECTIONS; ?>: <b> <?php echo $totalcats; ?></b> &nbsp; <?php echo _STAT_TOTAL_CATEGORIES; ?>: <b> <?php echo $totalsections; ?></b>
-
-                <br/> <?php echo _STAT_TODAY_OPEN_THREAD; ?>: <b> <?php echo $todayopen; ?></b> &nbsp; <?php echo
-    _STAT_YESTERDAY_OPEN_THREAD; ?>: <b> <?php echo $yesterdayopen; ?></b> &nbsp; <?php echo _STAT_TODAY_TOTAL_ANSWER; ?>: <b> <?php echo $todayanswer; ?></b> &nbsp; <?php echo _STAT_YESTERDAY_TOTAL_ANSWER; ?>: <b> <?php echo $yesterdayanswer; ?></b>
-
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        </div>
-</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 </div>
 </div>
@@ -95,223 +81,240 @@ else
 <!-- FINISH: GENERAL STATS -->
 
 <?php
-$tabclass = array
-(
-"sectiontableentry1",
-"sectiontableentry2"
-);
+$tabclass = array("row1","row2");
 $k = 0;
 ?>
 
-
-
-
-
-
-
 <!-- B: Pop Subject -->
-<?php if($fbConfig->showpopsubjectstats): ?>
-<div class="<?php echo $boardclass; ?>_bt_cvr1">
-<div class="<?php echo $boardclass; ?>_bt_cvr2">
-<div class="<?php echo $boardclass; ?>_bt_cvr3">
-<div class="<?php echo $boardclass; ?>_bt_cvr4">
-<div class="<?php echo $boardclass; ?>_bt_cvr5">
-<table class = "fb_blocktable " id="fb_popsubmorestat"  cellpadding = "0" cellspacing = "0" border = "0" width = "100%">
-  <thead>
-    <tr>
-      <th colspan="3">
-      <div class = "fb_title_cover fbm"> <span class="fb_title fbl"> <?php echo _STAT_POPULAR; ?> <b><?php echo $fbConfig->popsubjectcount; ?></b> <?php echo _STAT_POPULAR_USER_KGSG; ?></span> </div>
-      <img id = "BoxSwitch__<?php echo $boardclass ;?>popsubstats_tbody" class = "hideshow" src = "<?php echo KUNENA_URLIMAGESPATH . 'shrink.gif' ; ?>" alt = ""/>
-      </th>
-    </tr>
-  </thead>
-  <tbody id = "<?php echo $boardclass ;?>popsubstats_tbody">
-   <tr  class = "fb_sth" >
-      <th class = "th-1 <?php echo $boardclass; ?>sectiontableheader" align="left" width="50%"> <?php echo _GEN_SUBJECT ;?></th>
-      <th class = "th-2 <?php echo $boardclass; ?>sectiontableheader" width="40%">&nbsp;  </th>
-      <th class = "th-3 <?php echo $boardclass; ?>sectiontableheader" align="center" width="10%"> <?php echo _KUNENA_USRL_HITS ;?> </th>
-    </tr>
- <?php foreach ($toptitles as $toptitle)
-       {
-	   $k = 1 - $k;
-		   if ($toptitle->hits == $toptitlehits) {
-		   $barwidth = 100;
-		   }
-		   else {
-		   $barwidth = round(($toptitle->hits * 100) / $toptitlehits);
-		   }
-	  $link = JRoute::_(KUNENA_LIVEURLREL . '&amp;func=view&amp;id=' . $toptitle->id . '&amp;catid=' . $toptitle->catid);
-?>
-
-    <tr class = "<?php echo ''.$boardclass.''. $tabclass[$k] . ''; ?>">
-      <td class="td-1" align="left">
-       <a href = "<?php echo $link;?>"><?php echo kunena_htmlspecialchars(stripslashes($toptitle->subject)); ?></a>
-      </td>
-      <td  class="td-2">
-       <img class = "jr-forum-stat-bar" src = "<?php echo KUNENA_TMPLTMAINIMGURL.'/images/bar.gif';?>" alt = "" height = "10" width = "<?php echo $barwidth;?>%"/>
-      </td>
-      <td  class="td-3">
-	  <?php echo $toptitle->hits; ?>
-       </td>
-    </tr>
-<?php }   ?>
-  </tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
+<?php if($this->showpopsubjectstats && !empty($this->toptitles)) : ?>
+<div class="kblock kpopsubjstats">
+	<div class="kheader">
+		<span class="ktoggler"><a class="ktoggler close" title="<?php echo JText::_('COM_KUNENA_TOGGLER_COLLAPSE') ?>" rel="kpopsubstats-tbody"></a></span>
+		<h2><span><?php echo JText::_('COM_KUNENA_STAT_TOP'); ?> <strong><?php echo $kunena_config->popsubjectcount; ?></strong> <?php echo JText::_('COM_KUNENA_STAT_POPULAR'); ?> <?php echo JText::_('COM_KUNENA_STAT_POPULAR_USER_KGSG'); ?></span></h2>
+	</div>
+	<div class="kcontainer" id="kpopsubstats-tbody">
+		<div class="kbody">
+			<table class = "kblocktable">
+				<tbody>
+					<tr class = "ksth" >
+						<th class="kname"> <?php echo JText::_('COM_KUNENA_GEN_SUBJECT') ;?></th>
+						<th class="kbar">&nbsp;</th>
+						<th class="kname"><?php echo JText::_('COM_KUNENA_USRL_HITS') ;?></th>
+					</tr>
+					<?php
+					foreach ($this->toptitles as $toptitle) :
+						$k = 1 - $k;
+						if ($toptitle->hits == $this->toptitlehits) {
+							$barwidth = 100;
+						} else {
+							$barwidth = round(($toptitle->hits * 100) / $this->toptitlehits);
+						}
+					?>
+					<tr class = "k<?php echo $this->escape($tabclass[$k]); ?>">
+						<td class="kcol-first">
+							<?php echo CKunenaLink::GetThreadLink( 'view', intval($toptitle->catid), intval($toptitle->id), KunenaParser::parseText ($toptitle->subject), '' ); ?>
+						</td>
+						<td class="kcol-mid">
+							<img class = "kstats-bar" src = "<?php echo KUNENA_TMPLTMAINIMGURL.'images/bar.png';?>" alt = "" height = "10" width = "<?php echo intval($barwidth);?>%" />
+						</td>
+						<td class="kcol-last">
+							<?php echo intval($toptitle->hits); ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 <?php endif; ?>
 <!-- F: Pop Subject -->
 
-
-
-
-
+<!-- B: Pop Poll -->
+<?php if($this->showpoppollstats && !empty($this->toppolls)): ?>
+<div class="kblock kpoppollstats">
+	<div class="kheader">
+		<span class="ktoggler"><a class="ktoggler close" title="<?php echo JText::_('COM_KUNENA_TOGGLER_COLLAPSE') ?>" rel="kpoppollstats_tbody"></a></span>
+		<h2><span><?php echo JText::_('COM_KUNENA_STAT_TOP'); ?> <strong><?php echo $kunena_config->poppollscount; ?></strong> <?php echo JText::_('COM_KUNENA_STAT_POPULAR'); ?> <?php echo JText::_('COM_KUNENA_STAT_POPULAR_POLLS_KGSG'); ?></span></h2>
+	</div>
+	<div class="kcontainer" id="kpoppollstats_tbody">
+		<div class="kbody">
+			<table class = "kblocktable">
+				<tbody>
+					<tr  class = "ksth" >
+						<th class="kname"> <?php echo JText::_('COM_KUNENA_POLL_STATS_NAME');?></th>
+						<th class="kbar">&nbsp;  </th>
+						<th class="kname"><?php echo JText::_('COM_KUNENA_USRL_VOTES') ;?></th>
+					</tr>
+					<?php
+						foreach($this->toppolls as $toppoll) :
+						$k = 1 - $k;
+						if (intval($toppoll->total) == $this->toppollvotes) {
+							$barwidth = 100;
+						} else {
+							$barwidth = round((intval($toppoll->total) * 100) / $this->toppollvotes);
+						}
+					?>
+					<tr class = "k<?php echo $this->escape($tabclass[$k]); ?>">
+						<td class="kcol-first">
+							<?php echo CKunenaLink::GetThreadLink( 'view', intval($toppoll->catid), intval($toppoll->threadid), $this->escape($toppoll->title), '' ); ?>
+						</td>
+						<td class="kcol-mid">
+							<img class = "kstats-bar" src = "<?php echo KUNENA_TMPLTMAINIMGURL.'images/bar.png';?>" alt = "" height = "10" width = "<?php echo intval($barwidth);?>%"/>
+						</td>
+						<td class="kcol-last">
+							<?php echo intval($toppoll->total); ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<?php endif; ?>
+<!-- F: Pop Polls -->
 
 <!-- B: User Messages -->
-<?php if($fbConfig->showpopuserstats): ?>
-<div class="<?php echo $boardclass; ?>_bt_cvr1">
-<div class="<?php echo $boardclass; ?>_bt_cvr2">
-<div class="<?php echo $boardclass; ?>_bt_cvr3">
-<div class="<?php echo $boardclass; ?>_bt_cvr4">
-<div class="<?php echo $boardclass; ?>_bt_cvr5">
-<table class = "fb_blocktable " id="fb_popusermsgmorestat"  cellpadding = "0" cellspacing = "0" border = "0" width = "100%">
-  <thead>
-    <tr>
-      <th colspan="3">
-      <div class = "fb_title_cover fbm"> <span class="fb_title fbl"> <?php echo _STAT_POPULAR; ?> <b><?php echo $fbConfig->popusercount; ?></b> <?php echo _STAT_POPULAR_USER_TMSG; ?></span> </div>
-      <img id = "BoxSwitch__<?php echo $boardclass ;?>popusermsgstats_tbody" class = "hideshow" src = "<?php echo KUNENA_URLIMAGESPATH . 'shrink.gif' ; ?>" alt = ""/>
-      </th>
-    </tr>
-  </thead>
-  <tbody id = "<?php echo $boardclass ;?>popusermsgstats_tbody">
-   <tr  class = "fb_sth" >
-      <th class = "th-1 <?php echo $boardclass; ?>sectiontableheader" align="left" width="50%"><?php echo _KUNENA_USRL_USERNAME ;?></th>
-      <th class = "th-2 <?php echo $boardclass; ?>sectiontableheader" width="40%">&nbsp;  </th>
-      <th class = "th-3 <?php echo $boardclass; ?>sectiontableheader" align="center" width="10%"> <?php echo _KUNENA_USRL_POSTS ;?></th>
-    </tr>
-<?php
-
-	foreach ($topposters as $poster)
-	{
-
-	$k = 1 - $k;
-
-	if ($poster->posts == $topmessage) {
-	$barwidth = 100;
-	}
-	else {
-	$barwidth = round(($poster->posts * 100) / $topmessage);
-	}
-?>
-
-    <tr class = "<?php echo ''.$boardclass.''. $tabclass[$k] . ''; ?>">
-      <td  class="td-1"  align="left">
-
-         <?php echo CKunenaLink::GetProfileLink($fbConfig, $poster->userid, $poster->username); ?>
-
-</td>
-      <td  class="td-2">
-         <img class = "jr-forum-stat-bar" src = "<?php echo KUNENA_TMPLTMAINIMGURL.'/images/bar.gif';?>" alt = "" height = "10" width = "<?php echo $barwidth;?>%"/>
-                                    </td>
-      <td  class="td-3">
-	  <?php echo $poster->posts; ?>
-       </td>
-    </tr>
-<?php }   ?>
-  </tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
+<?php if($this->showpopuserstats && !empty($this->topposters)): ?>
+<div class="kblock kpopuserstats">
+	<div class="kheader">
+		<span class="ktoggler"><a class="ktoggler close" title="<?php echo JText::_('COM_KUNENA_TOGGLER_COLLAPSE') ?>" rel="kpopusermsgstats_tbody"></a></span>
+		<h2><span><?php echo JText::_('COM_KUNENA_STAT_TOP'); ?> <strong><?php echo $kunena_config->popusercount; ?></strong> <?php echo JText::_('COM_KUNENA_STAT_POPULAR'); ?> <?php echo JText::_('COM_KUNENA_STAT_POPULAR_USER_TMSG'); ?></span></h2>
+	</div>
+	<div class="kcontainer" id="kpopusermsgstats_tbody">
+		<div class="kbody">
+			<table class = "kblocktable">
+				<tbody>
+					<tr class = "ksth" >
+						<th class="kname"><?php echo JText::_('COM_KUNENA_USRL_USERNAME') ;?></th>
+						<th class="kbar">&nbsp;</th>
+						<th class="kname"><?php echo JText::_('COM_KUNENA_USRL_POSTS') ;?></th>
+					</tr>
+					<?php
+						foreach ($this->topposters as $poster) :
+						$k = 1 - $k;
+						if ($poster->posts == $this->topmessage) {
+							$barwidth = 100;
+						} else {
+							$barwidth = round(($poster->posts * 100) / $this->topmessage);
+						}
+					?>
+					<tr class = "k<?php echo $this->escape($tabclass[$k]); ?>">
+						<td class="kcol-first">
+							<?php echo CKunenaLink::GetProfileLink(intval($poster->userid)); ?>
+						</td>
+						<td class="kcol-mid">
+							<img class = "kstats-bar" src = "<?php echo KUNENA_TMPLTMAINIMGURL.'images/bar.png';?>" alt = "" height = "10" width = "<?php echo intval($barwidth);?>%" />
+						</td>
+						<td class="kcol-last">
+							<?php echo intval($poster->posts); ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 <?php endif; ?>
 <!-- F: User Messages -->
 
-
-
-
-
-
-
 <!-- B: Pop User  -->
-<?php if($fbConfig->showpopuserstats): ?>
-<div class="<?php echo $boardclass; ?>_bt_cvr1">
-<div class="<?php echo $boardclass; ?>_bt_cvr2">
-<div class="<?php echo $boardclass; ?>_bt_cvr3">
-<div class="<?php echo $boardclass; ?>_bt_cvr4">
-<div class="<?php echo $boardclass; ?>_bt_cvr5">
-<table class = "fb_blocktable " id="fb_popuserhitmorestat"  cellpadding = "0" cellspacing = "0" border = "0" width = "100%">
-  <thead>
-    <tr>
-      <th colspan="3">
-      <div class = "fb_title_cover fbm"> <span class="fb_title fbl"> <?php echo _STAT_POPULAR; ?> <b><?php echo $fbConfig->popusercount; ?></b> <?php echo _STAT_POPULAR_USER_GSG; ?></span> </div>
-      <img id = "BoxSwitch__<?php echo $boardclass ;?>popuserhitstats_tbody" class = "hideshow" src = "<?php echo KUNENA_URLIMAGESPATH . 'shrink.gif' ; ?>" alt = ""/>
-      </th>
-    </tr>
-  </thead>
-  <tbody id = "<?php echo $boardclass ;?>popuserhitstats_tbody">
-   <tr  class = "fb_sth fbs" >
-      <th class = "th-1 <?php echo $boardclass; ?>sectiontableheader"  align="left" width="50%"> <?php echo _KUNENA_USRL_USERNAME ;?></th>
-      <th class = "th-2 <?php echo $boardclass; ?>sectiontableheader" width="40%">&nbsp;  </th>
-      <th class = "th-3 <?php echo $boardclass; ?>sectiontableheader" align="center" width="10%"><?php echo _KUNENA_USRL_HITS ;?></th>
-    </tr>
-
-<?php
-foreach ($topprofiles as $topprofile)
-{
-$k = 1 - $k;
-if ($topprofile->hits == $topprofil) {
-$barwidth = 100;
-}
-else {
-$barwidth = round(($topprofile->hits * 100) / $topprofil);
-}
-?>
-
-    <tr class = "<?php echo ''.$boardclass.''. $tabclass[$k] . ''; ?>">
-      <td  class="td-1"  align="left">
-        <?php echo CKunenaLink::GetProfileLink($fbConfig, $topprofile->user_id, $topprofile->user); ?>
-</td>
-      <td  class="td-2">
-         <img class = "jr-forum-stat-bar" src = "<?php echo KUNENA_TMPLTMAINIMGURL.'/images/bar.gif';?>" alt = "" height = "10" width = "<?php echo $barwidth;?>%"/>
-                                    </td>
-      <td  class="td-3">
-	  <?php echo $topprofile->hits; ?>
-       </td>
-    </tr>
-<?php }   ?>
-  </tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
+<?php if($this->showpopuserstats && !empty($this->topprofiles)): ?>
+<div class="kblock kpopprofilestats">
+	<div class="kheader">
+		<span class="ktoggler"><a class="ktoggler close" title="<?php echo JText::_('COM_KUNENA_TOGGLER_COLLAPSE') ?>" rel="kpopuserhitstats_tbody"></a></span>
+		<h2><span><?php echo JText::_('COM_KUNENA_STAT_TOP'); ?> <strong><?php echo $kunena_config->popusercount; ?></strong> <?php echo JText::_('COM_KUNENA_STAT_POPULAR'); ?> <?php echo JText::_('COM_KUNENA_STAT_POPULAR_USER_GSG'); ?></span></h2>
+	</div>
+	<div class="kcontainer" id="kpopuserhitstats_tbody">
+		<div class="kbody">
+			<table class = "kblocktable">
+				<tbody>
+					<tr class = "ksth ks">
+						<th class="kname"> <?php echo JText::_('COM_KUNENA_USRL_USERNAME') ;?></th>
+						<th class="kbar">&nbsp;</th>
+						<th class="kname"><?php echo JText::_('COM_KUNENA_USRL_HITS') ;?></th>
+					</tr>
+					<?php
+						foreach ($this->topprofiles as $topprofile) :
+						$k = 1 - $k;
+						if ($topprofile->hits == $this->topprofilehits) {
+							$barwidth = 100;
+						} else {
+							$barwidth = round(($topprofile->hits * 100) / $this->topprofilehits);
+						}
+					?>
+					<tr class = "k<?php echo $this->escape($tabclass[$k]); ?>">
+						<td class="kcol-first">
+							<?php echo CKunenaLink::GetProfileLink(intval($topprofile->user_id)); ?>
+						</td>
+						<td class="kcol-mid">
+							<img class = "kstats-bar" src = "<?php echo KUNENA_TMPLTMAINIMGURL.'images/bar.png';?>" alt = "" height = "10" width = "<?php echo intval($barwidth);?>%"/>
+						</td>
+						<td class="kcol-last">
+							<?php echo intval($topprofile->hits); ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 <?php endif; ?>
 <!-- F: User User -->
 
-
-
-
-
-
-
+<!-- B: Pop Thank you  -->
+<?php if($this->showpopthankyoustats && !empty($this->topuserthanks)): ?>
+<div class="kblock kpopthanksstats">
+	<div class="kheader">
+		<span class="ktoggler"><a class="ktoggler close" title="<?php echo JText::_('COM_KUNENA_TOGGLER_COLLAPSE') ?>" rel="kpopthankyou_tbody"></a></span>
+		<h2><span><?php echo JText::_('COM_KUNENA_STAT_TOP'); ?> <strong><?php echo $kunena_config->popthankscount; ?></strong> <?php echo JText::_('COM_KUNENA_STAT_POPULAR'); ?> <?php echo JText::_('COM_KUNENA_STAT_POPULAR_USER_THANKS_YOU'); ?></span></h2>
+	</div>
+	<div class="kcontainer" id="kpopthankyou_tbody">
+		<div class="kbody">
+			<table class = "kblocktable">
+				<tbody>
+					<tr class = "ksth ks" >
+						<th class="kname"> <?php echo JText::_('COM_KUNENA_USRL_USERNAME') ;?></th>
+						<th class="kbar">&nbsp;</th>
+						<th class="kname"><?php echo JText::_('COM_KUNENA_STAT_THANKS_YOU_RECEIVED') ;?></th>
+					</tr>
+					<?php
+						foreach ($this->topuserthanks as $topthanks) :
+						$k = 1 - $k;
+						if ($topthanks->receivedthanks == $this->topthanks) {
+							$barwidth = 100;
+						} else {
+							$barwidth = round(($topthanks->receivedthanks * 100) / $this->topthanks);
+						}
+					?>
+					<tr class = "k<?php echo $this->escape($tabclass[$k]); ?>">
+						<td class="kcol-first">
+							<?php echo CKunenaLink::GetProfileLink(intval($topthanks->id)); ?>
+						</td>
+						<td class="kcol-mid">
+							<img class = "kstats-bar" src = "<?php echo KUNENA_TMPLTMAINIMGURL.'images/bar.png';?>" alt = "" height = "10" width = "<?php echo intval($barwidth);?>%"/>
+						</td>
+						<td class="kcol-last">
+							<?php echo intval($topthanks->receivedthanks); ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<?php endif; ?>
+<!-- F: Thank you -->
 
 <?php
-//(FB) BEGIN: WHOISONLINE
-if (file_exists(KUNENA_ABSTMPLTPATH . '/plugin/who/whoisonline.php')) {
-    include(KUNENA_ABSTMPLTPATH . '/plugin/who/whoisonline.php');
-}
-else {
-    include(KUNENA_PATH_TEMPLATE_DEFAULT .DS. 'plugin/who/whoisonline.php');
-}
-
-//(FB) FINISH: WHOISONLINE
+// WHOISONLINE
+require_once (KUNENA_PATH_LIB . '/kunena.who.class.php');
+$online = CKunenaWhoIsOnline::getInstance();
+$online->displayWhoIsOnline();
+// /WHOISONLINE
 
 endif;
-
-?>

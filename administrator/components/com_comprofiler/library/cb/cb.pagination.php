@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: cb.pagination.php 909 2010-03-01 18:44:38Z beat $
+* @version $Id: cb.pagination.php 1482 2011-07-08 12:37:52Z beat $
 * @package Community Builder
 * @subpackage cb.pagination.php
 * @author Beat and various
@@ -91,7 +91,7 @@ class cbPageNav {
 	function getLimitBox ( $showLimitBox = true ) {
 		if ( $showLimitBox ) {
 			$limits					=	array();
-			foreach ( array(1,2,3,5,10,15,20,30,50,100,200) as $i ) {
+			foreach ( array(1,2,3,5,10,15,20,30,50,100,200,300,500,1000,2000,5000) as $i ) {
 				$limits[]			=	moscomprofilerHTML::makeOption( "$i" );
 			}
 	
@@ -290,7 +290,7 @@ class cbPageNav {
 			return "<a href=\"#reorder\" onclick=\"return cbListItemTask(this, '" . $this->_controllerView->taskName( false ). "','"
 					. $this->_controllerView->subtaskName( false ). "','" . $this->_controllerView->subtaskValue( $task, false ) . "', '" 
 					. $this->_controllerView->fieldId( 'id', null, false ) . "', " . $i . ')" title="'.$alt.'">'
-					. '<img src="images/uparrow.png" width="12" height="12" border="0" alt="'.$alt.'" />'
+					. '<img src="../components/com_comprofiler/plugin/templates/luna/images/mini-icons/icon-12-uparrow.png" width="12" height="12" border="0" alt="'.$alt.'" />'
 					. '</a>';
   		} else {
   			return '&nbsp;';
@@ -319,7 +319,7 @@ class cbPageNav {
 			return "<a href=\"#reorder\" onclick=\"return cbListItemTask(this, '" . $this->_controllerView->taskName( false ). "','" 
 					. $this->_controllerView->subtaskName( false ). "','" . $this->_controllerView->subtaskValue( $task, false ) . "', '" 
 					. $this->_controllerView->fieldId( 'id', null, false ) . "', " . $i . ')" title="'.$alt.'">'
-					 .	'<img src="images/downarrow.png" width="12" height="12" border="0" alt="'.$alt.'" />'
+					 .	'<img src="../components/com_comprofiler/plugin/templates/luna/images/mini-icons/icon-12-downarrow.png" width="12" height="12" border="0" alt="'.$alt.'" />'
 					 .	'</a>';
   		} else {
   			return '&nbsp;';
@@ -443,7 +443,7 @@ class cbPageNav {
 				$alt	=	CBTxt::T('Move Up');
 			}
 			$alt	=	htmlspecialchars( $alt );
-			$output	=	'<a href="#ordering" onclick="listItemTask(\'cb'.$id.'\',\'orderup\')" title="'. $alt .'">';
+			$output	=	'<a href="#ordering" onclick="cbListItemTask( this, \'orderup\', null, null, \'cb\', \''.$id.'\' )" title="'. $alt .'">';
 			$output	.=	'<img src="images/' . $img . '" width="12" height="12" border="0" alt="'. $alt .'" title="'. $alt .'" /></a>';
 
 			return $output;
@@ -476,8 +476,7 @@ class cbPageNav {
 				$alt	=	CBTxt::T('Move Down');
 			}
 			$alt	=	htmlspecialchars( $alt );
-			$output	=	'<a href="#ordering" onclick="listItemTask(\'cb'.$id.'\',\'orderdown\')" title="'. $alt .'">'
-					.	'<img src="images/' . $img . '" width="12" height="12" border="0" alt="'. $alt .'" title="'. $alt .'" /></a>';
+			$output	=	'<a href="#ordering" onclick="cbListItemTask( this, \'orderdown\', null, null, \'cb\', \''.$id.'\' )" title="'. $alt .'">'					.	'<img src="images/' . $img . '" width="12" height="12" border="0" alt="'. $alt .'" title="'. $alt .'" /></a>';
 
 			return $output;
   		} else {

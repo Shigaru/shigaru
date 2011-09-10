@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla/Mambo Community Builder
-* @version $Id: pcl.tar.php 831 2010-01-26 11:04:24Z beat $
+* @version $Id: pcl.tar.php 1300 2010-11-25 11:20:02Z beat $
 * @package Community Builder
 * @subpackage pcl.pclziplib.php
 * @license http://www.php.net/license/3_0.txt PHP version 3
@@ -9,8 +9,8 @@
 
 // ensure this file is being included by a parent file
 if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' ) ) ) { die( 'Direct Access to this location is not allowed.' ); }
-global $_CB_framework;
-require_once $_CB_framework->getCfg( 'absolute_path' ) . '/includes/PEAR/PEAR.php';
+
+cbimport( 'pear/pear' );
 
 /* vim: set ts=4 sw=4: */
 // +----------------------------------------------------------------------+
@@ -1414,7 +1414,7 @@ class Archive_Tar extends PEAR
         if ($v_extract_file) {
           if ($v_header['typeflag'] == "5") {
             if (!@file_exists($v_header['filename'])) {
-                if (!@mkdir($v_header['filename'], 0777)) {
+                if (!@mkdir($v_header['filename'], 0775)) {
                     $this->_error('Unable to create directory {'.$v_header['filename'].'}');
                     return false;
                 }
@@ -1591,7 +1591,7 @@ class Archive_Tar extends PEAR
             (!$this->_dirCheck($p_parent_dir)))
              return false;
 
-        if (!@mkdir($p_dir, 0777)) {
+        if (!@mkdir($p_dir, 0775)) {
             $this->_error("Unable to create directory '$p_dir'");
             return false;
         }

@@ -6,7 +6,7 @@
 * @package Community Builder
 * @subpackage tranditional chinese Language file (Tra-chinese)
 * @author which
-* @copyright (C) Which, www.whichworkstation.com
+* @copyright (C) Which, www.which.tw
 * @license http://creativecommons.org/licenses/by-sa/2.5/tw/
 */
 
@@ -14,7 +14,7 @@
 if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' ) ) ) { die( 'Direct Access to this location is not allowed.' ); }
 
 //Field Labels
-DEFINE('_UE_HITS','拜訪人次');
+DEFINE('_UE_HITS','點閱');
 DEFINE('_UE_USERNAME','使用者名稱');
 DEFINE('_UE_Address','地址');
 DEFINE('_UE_City','縣/市');
@@ -46,13 +46,13 @@ DEFINE('_UE_CHECKED_IN','回存');
 DEFINE('_UE_CHECKED_IN_ITEMS',' 項目');
 DEFINE('_UE_PASS_MATCH','密碼不相符');
 DEFINE('_UE_USERNAME_DESC','設為&quot;是&quot;將允許使用者名稱被修改. 如果設為&quot;否&quot;,使用者名稱註冊後將無法被修改.');
-DEFINE('_UE_ALLOW_EMAIL_USERCONTR','使用者隱藏 Email');
+DEFINE('_UE_ALLOW_EMAIL_USERCONTR','使用者隱藏 E-mail');
 DEFINE('_UE_ALLOW_EMAIL_USERCONTR_DESC','&quot;是&quot;.將允許使用者能夠於公開的資訊中隱藏個人的E-Mail. 註: 這個設定只能夠於這個元件之中控制顯示 E-Mail!');
 DEFINE('_UE_USERAPPROVAL_SUCCESSFUL','使用者已成功地被核准!');
 
 //Front End Profile Lables
 DEFINE('_UE_MEMBERSINCE','註冊日期');
-DEFINE('_UE_LASTONLINE','最後上線日期');
+DEFINE('_UE_LASTONLINE','最後登入日期');
 DEFINE('_UE_ONLINESTATUS','上線狀態');
 DEFINE('_UE_ISONLINE','線上');
 DEFINE('_UE_ISOFFLINE','離線');
@@ -63,14 +63,14 @@ DEFINE('_UE_CONTACT_INFO_HEADER','聯絡資訊');
 DEFINE('_UE_ADDITIONAL_INFO_HEADER','額外資訊');
 DEFINE('_UE_REQUIRED_ERROR','必填欄位!');
 DEFINE('_UE_FIELD_REQUIRED',' 必填!');
-DEFINE('_UE_DELETE_AVATAR','移除影像');
+DEFINE('_UE_DELETE_AVATAR','移除圖片');
 
 //Administrator Tab Names
-DEFINE('_UE_USERPROFILE','使用者個人資料');
-DEFINE('_UE_USERLIST','使用者清單');
-DEFINE('_UE_AVATARS','影像');
+DEFINE('_UE_USERPROFILE','使用者個人資訊');
+DEFINE('_UE_USERLIST','使用者列表');
+DEFINE('_UE_AVATARS','圖片');
 DEFINE('_UE_REGISTRATION','註冊');
-DEFINE('_UE_SUBSCRIPTION','訂閱 ');
+DEFINE('_UE_SUBSCRIPTION','訂閱');
 DEFINE('_UE_INTEGRATION','整合');
 
 //Administrator Labels
@@ -89,14 +89,14 @@ DEFINE('_UE_YES','是');
 DEFINE('_UE_NO','否');
 
 //Admin Avatar Tab Labels
-DEFINE('_UE_AVATAR_DESC','設為&quot;是&quot;如果您要讓已註冊使用者可以使用影像功能 (透過他們的個人資訊來管理)');
-DEFINE('_UE_AVHEIGHT','最大影像高度');
-DEFINE('_UE_AVWIDTH','最大影像寬度');
-DEFINE('_UE_AVSIZE','最大影像大小<br/><b>單位: Kb</b>');
-DEFINE('_UE_AVATARUPLOAD','允許影像上傳');
-DEFINE('_UE_AVATARUPLOAD_DESC','設為 &quot;是&quot; 如果您要讓已註冊使用者可以自行上傳個人影像.');
-DEFINE('_UE_AVATARGALLERY','使用影像圖庫');
-DEFINE('_UE_AVATARGALLERY_DESC','設為 &quot;是&quot; 如果您要讓已註冊使用者可以由影像圖庫中選擇影像.');
+DEFINE('_UE_AVATAR_DESC','設為&quot;是&quot;如果您要讓已註冊使用者可以使用圖片功能 (透過他們的個人資訊來管理)');
+DEFINE('_UE_AVHEIGHT','最大圖片高度');
+DEFINE('_UE_AVWIDTH','最大圖片寬度');
+DEFINE('_UE_AVSIZE','最大圖片大小<br/><b>單位: Kb</b>');
+DEFINE('_UE_AVATARUPLOAD','允許圖片上傳');
+DEFINE('_UE_AVATARUPLOAD_DESC','設為 &quot;是&quot; 如果您要讓已註冊使用者可以自行上傳個人圖片.');
+DEFINE('_UE_AVATARGALLERY','使用圖片畫廊');
+DEFINE('_UE_AVATARGALLERY_DESC','設為 &quot;是&quot; 如果您要讓已註冊使用者可以由圖片畫廊中選擇圖像.');
 DEFINE('_UE_TNWIDTH','最大縮圖寬度');
 DEFINE('_UE_TNHEIGHT','最大縮圖高度');
 
@@ -104,8 +104,8 @@ DEFINE('_UE_TNHEIGHT','最大縮圖高度');
 DEFINE('_UE_USERLIST_TITLE','使用者清單標題');
 DEFINE('_UE_USERLIST_TITLE_DESC','使用者清單標題');
 DEFINE('_UE_LISTVIEW','清單');
-DEFINE('_UE_PICTLIST','影像清單');
-DEFINE('_UE_PICTDETAIL','影像詳細資料');
+DEFINE('_UE_PICTLIST','圖片清單');
+DEFINE('_UE_PICTDETAIL','圖片詳細資料');
 DEFINE('_UE_NUM_PER_PAGE','使用者每頁');
 DEFINE('_UE_NUM_PER_PAGE_DESC','每頁顯示使用者數量');
 DEFINE('_UE_VIEW_TYPE','顯示類型');
@@ -127,13 +127,13 @@ DEFINE('_UE_A_FROM_USER', '使用者地址');
 DEFINE('_UE_A_FROM_ADMIN', '管理員, "回信給": 使用者');
 
 //Admin Moderate Tab labels
-DEFINE('_UE_MODERATE','版面管理');
+DEFINE('_UE_MODERATE','社群管理');
 DEFINE('_UE_AVATARUPLOADAPPROVALGROUP','版主群組');
 DEFINE('_UE_AVATARUPLOADAPPROVALGROUP_DESC','所選擇的群組中的所有使用者及其以上都將成為版主.');
 DEFINE('_UE_ALLOWUSERREPORTS','允許使用者回報');
 DEFINE ('_UE_ALLOWUSERREPORTS_DESC','允許使用者回報有不當行為的使用者給版主.');
-DEFINE ('_UE_AVATARUPLOADAPPROVAL','需要上傳影像審核');
-DEFINE ('_UE_AVATARUPLOADAPPROVAL_DESC','所有經由使用者上傳的影像皆必須審核通過後才會被顯示.');
+DEFINE ('_UE_AVATARUPLOADAPPROVAL','需要上傳圖片審核');
+DEFINE ('_UE_AVATARUPLOADAPPROVAL_DESC','所有經由使用者上傳的圖片皆必須審核通過後才會被顯示.');
 DEFINE ('_UE_ALLOWUSERPROFILEBANNING_DESC','讓板主去預防使用者個人資料被公開顯示.');
 DEFINE ('_UE_ALLOWUSERPROFILEBANNING','允許個人資料禁用');
 
@@ -143,24 +143,24 @@ DEFINE('_UE_DATE_FORMAT','日期格式');
 DEFINE('_UE_NAME_FORMAT_DESC','選擇您想要顯示的 姓名/使用者名稱 欄位格式.');
 DEFINE('_UE_DATE_FORMAT_DESC','選擇您想要顯示的 日期 欄位格式.');
 DEFINE ('_UE_REG_CONFIRMATION_DESC','設為 &quot;是&quot; 系統將在使用者註冊完成以後發送內附確認連結的 E-Mail 給會員.');
-DEFINE ('_UE_REG_CONFIRMATION','需要 Email 確認');
+DEFINE ('_UE_REG_CONFIRMATION','需要 E-Mail 確認');
 DEFINE ('_UE_REG_ADMIN_APPROVAL','需要管理員核准');
 DEFINE ('_UE_REG_ADMIN_APPROVAL_DESC','所有的使用者註冊都須經由管理員核准');
-DEFINE ('_UE_REG_EMAIL_NAME','註冊 Email 名稱');
+DEFINE ('_UE_REG_EMAIL_NAME','註冊 E-Mail 名稱');
 DEFINE ('_UE_REG_EMAIL_NAME_DESC','請輸入您在發送 Email 時所要顯示的名稱');
-DEFINE ('_UE_REG_EMAIL_FROM','註冊 Email 地址');
-DEFINE ('_UE_REG_EMAIL_FROM_DESC','當寄信給註冊者時您想要顯示的 Email 地址');
+DEFINE ('_UE_REG_EMAIL_FROM','註冊 E-Mail 地址');
+DEFINE ('_UE_REG_EMAIL_FROM_DESC','當寄信給註冊者時您想要顯示的 E-Mail 地址');
 DEFINE ('_UE_REG_EMAIL_REPLYTO','註冊回信的 E-Mail');
-DEFINE ('_UE_REG_EMAIL_REPLYTO_DESC','您所要使用的回信 Email 地址');
+DEFINE ('_UE_REG_EMAIL_REPLYTO_DESC','您所要使用的回信 E-Mail 地址');
 DEFINE ('_UE_REG_PEND_APPR_MSG','等候核准的 Email');
 DEFINE ('_UE_REG_WELCOME_MSG','歡迎加入的 Email');
-DEFINE ('_UE_REG_REJECT_MSG','駁回的 Email');
+DEFINE ('_UE_REG_REJECT_MSG','駁回的 E-Mail');
 DEFINE ('_UE_REG_PEND_APPR_SUB','等待核准的主題');
 DEFINE ('_UE_REG_WELCOME_SUB','歡迎的主題');
 DEFINE ('_UE_REG_PEND_APPR_SUB_DESC','在等待核准時寄給使用者信件的主題 (您可以使用語言字串, 或是保持主題跟email空白以避免寄出email)');
 DEFINE ('_UE_REG_WELCOME_SUB_DESC','在使用者註冊可以登入之後寄給他歡迎的信件主題 (您可以使用語言字串, 或是保持主題跟email空白以避免寄出email)');
 DEFINE ('_UE_REG_REJECT_SUB_DESC','駁回的主題');
-DEFINE ('_UE_REG_SIGNATURE','Email 簽名');
+DEFINE ('_UE_REG_SIGNATURE','E-Mail 簽名');
 DEFINE ('_UE_REG_ADMIN_PA_SUB','動作要求! 新的註冊使用者正等待核准');
 DEFINE ('_UE_REG_ADMIN_PA_MSG','一位新的使用者已經在 [SITEURL] 註冊並且等待核准.\n'
 .'這封郵件包含了他們的詳細資料\n\n'
@@ -180,7 +180,7 @@ DEFINE('_UE_REG_EMAIL_TAGS','[NAME] - 使用者姓名<br />'
 .'[DETAILS] - 帳號詳細資訊譬如 E-Mail 地址及使用者名稱<br />'
 .'[PASSWORD] - 使用者所選的密碼 (只在按下"註冊"所寄出的第一封 email)<br />'
 .'[CONFIRM] - 如果確認功能已經啟動將會加入確認連結<br />'
-.'[FIELDNAME] - 這將會把與此使用者相關的值加入到要寄出的 Email 地址內. 只要在 [ ] 之間加入您想要的資料庫欄位名稱.<br />'
+.'[FIELDNAME] - 這將會把跟此使用者相關的值加到要寄出的 Email 地址. 只要在 [ ] 之間加入您想要的資料庫欄位名稱.<br />'
 );
 
 //Registration form
@@ -201,7 +201,7 @@ DEFINE('_UE_REG_COMPLETE_CONF','<div class="componentheading">註冊完成!</div
 .'<p>要再次寄出 email, 只要利用您註冊的使用者名稱以及密碼嚐試登入即可.</p>');
 DEFINE('_UE_REG_COMPLETE_NOPASS_CONF','<div class="componentheading">註冊完成!</div>'
 .'<p>您的密碼已經傳送到您所輸入的 E-Mail 中.</p>'
-.'<p>請檢查您的 email (包括垃圾桶). 當您收到您的密碼和遵照註冊確認指示就可以進行登入.</p>');
+.'<p>請檢查您的 email (包括垃圾箱). 當您收到您的密碼和遵照註冊確認指示就可以進行登入.</p>');
 
 // User List Labels
 DEFINE ('_UE_HAS','有');
@@ -249,20 +249,20 @@ DEFINE('_UE_USER_NOTCONFIRMED','您的帳號目前尚未啟動, 請檢查您的 
 
 //Avatar
 DEFINE('_UE_UPLOAD_UPLOAD','上傳');
-DEFINE('_UE_UPLOAD_SUBMIT','提交一張新影像來上傳');
+DEFINE('_UE_UPLOAD_SUBMIT','提交一張新圖片來上傳');
 DEFINE('_UE_UPLOAD_SELECT_FILE','選擇檔案');
-DEFINE('_UE_UPLOAD_ERROR_TYPE','請只使用 jpeg, jpg 或者 png 格式影像');
+DEFINE('_UE_UPLOAD_ERROR_TYPE','請只使用 jpeg, jpg 或者 png 格式圖片');
 DEFINE('_UE_UPLOAD_ERROR_EMPTY','上傳前請先選擇一個檔案');
-DEFINE('_UE_UPLOAD_ERROR_NAME','影像檔名僅能包含英文字母或數字且不能有空格.');
-DEFINE('_UE_UPLOAD_ERROR_SIZE','影像檔大小超出了管理員所設置的最大值.');
-DEFINE('_UE_UPLOAD_ERROR_WIDTHHEIGHT','影像的高度或寬度超出了管理員所設置的最大值.');
-DEFINE('_UE_UPLOAD_ERROR_WIDTH','影像檔的寬度超出了管理員所設置的最大值.');
-DEFINE('_UE_UPLOAD_ERROR_HEIGHT','影像檔的高度超出了管理員所設置的最大值.');
-DEFINE('_UE_UPLOAD_ERROR_CHOOSE','您尚未由圖庫中選擇一個圖片...');
-DEFINE('_UE_UPLOAD_UPLOADED','您的影像已經上傳.');
-DEFINE('_UE_UPLOAD_GALLERY','由影像圖庫中選擇一個');
+DEFINE('_UE_UPLOAD_ERROR_NAME','圖片檔名僅能包含英文字母或數字且不能有空格.');
+DEFINE('_UE_UPLOAD_ERROR_SIZE','圖檔大小超出了管理員所設置的最大值.');
+DEFINE('_UE_UPLOAD_ERROR_WIDTHHEIGHT','圖片的高度或寬度超出了管理員所設置的最大值.');
+DEFINE('_UE_UPLOAD_ERROR_WIDTH','圖檔的寬度超出了管理員所設置的最大值.');
+DEFINE('_UE_UPLOAD_ERROR_HEIGHT','圖檔的高度超出了管理員所設置的最大值.');
+DEFINE('_UE_UPLOAD_ERROR_CHOOSE','您尚未由藝廊中選擇一個圖片...');
+DEFINE('_UE_UPLOAD_UPLOADED','您的圖片已經上傳.');
+DEFINE('_UE_UPLOAD_GALLERY','由圖片藝廊中選擇一個');
 DEFINE('_UE_UPLOAD_CHOOSE','確認選擇');
-DEFINE('_UE_UPLOAD_UPDATED','您的影像已設置.');
+DEFINE('_UE_UPLOAD_UPDATED','您的圖片已被設置.');
 DEFINE('_UE_USER_PROFILE_NOT','您的個人資料無法被更新.');
 DEFINE('_UE_USER_PROFILE_UPDATED','您的個人資料已經更新.');
 DEFINE('_UE_USER_RETURN_A','如果您在幾秒內未被帶回個人資料頁面');
@@ -280,11 +280,11 @@ DEFINE('_UE_USERREASON','回報使用者的原因');
 DEFINE('_UE_BANREASON','禁用的原因');
 DEFINE('_UE_SUBMITFORM','提交');
 DEFINE('_UE_NOUNBANREQUESTS','沒有解除禁用的請求需要處理');
-DEFINE('_UE_IMAGE_MODERATE','管理影像');
-DEFINE('_UE_APPROVE_IMAGE','核准影像');
-DEFINE('_UE_REJECT_IMAGE','駁回影像');
+DEFINE('_UE_IMAGE_MODERATE','管理圖片');
+DEFINE('_UE_APPROVE_IMAGE','核准圖片');
+DEFINE('_UE_REJECT_IMAGE','駁回圖片');
 DEFINE('_UE_MODERATE_TITLE','版主');
-DEFINE('_UE_NOIMAGESTOAPPROVE','沒有影像需要處理');
+DEFINE('_UE_NOIMAGESTOAPPROVE','沒有圖片需要處理');
 DEFINE('_UE_USERREPORT_MODERATE','管理使用者回報');
 DEFINE('_UE_REPORT','回報');
 DEFINE('_UE_REPORTEDONDATE','回報日期');
@@ -297,8 +297,8 @@ DEFINE('_UE_REPORTUSERSACTIVITY','描述使用者活動');
 DEFINE('_UE_USERREPORT_SUCCESSFUL','使用者回報成功地提交了.');
 DEFINE('_UE_USERBAN_SUCCESSFUL','使用者個人資料成功地被禁用.');
 DEFINE('_UE_FUNCTIONALITY_DISABLED','此項功能目前停用中.');
-DEFINE('_UE_UPLOAD_PEND_APPROVAL','您的影像目前等待版主核准中.');
-DEFINE('_UE_UPLOAD_SUCCESSFUL','您的影像已成功上傳.');
+DEFINE('_UE_UPLOAD_PEND_APPROVAL','您的圖片目前等待版主核准中.');
+DEFINE('_UE_UPLOAD_SUCCESSFUL','您的圖片已成功上傳.');
 DEFINE('_UE_UNBANREQUEST','解除禁用個人資料請求');
 DEFINE('_UE_USERUNBANREQUEST_SUCCESSFUL','您解除禁用的要求已經成功地提交.');
 DEFINE('_UE_USERREPORT','使用者回報');
@@ -310,7 +310,7 @@ DEFINE('_UE_REPORTUNBAN_TITLE','禁用報告');
 
 DEFINE('_UE_UNBANREQUIREACTION',' 解除禁用請求');
 DEFINE('_UE_USERREPORTSREQUIREACTION','使用者回報');
-DEFINE('_UE_IMAGESREQUIREACTION','影像');
+DEFINE('_UE_IMAGESREQUIREACTION','圖片');
 DEFINE('_UE_NOACTIONREQUIRED','沒有等待處理的事件');
 
 DEFINE('_UE_UNBAN_MODERATE','解除禁用個人資料請求');
@@ -322,14 +322,14 @@ DEFINE('_UE_BANNEDBY','禁用由');
 DEFINE('_UE_MODERATORBANRESPONSE','版主回應');
 DEFINE('_UE_USERBANRESPONSE','使用者回應');
 
-DEFINE('_UE_IMAGE_ADMIN_SUB','影像等待核准中');
-DEFINE('_UE_IMAGE_ADMIN_MSG','一位使用者已提交影像等待核准. 請登入進行適當的處理.');
+DEFINE('_UE_IMAGE_ADMIN_SUB','圖片等待核准中');
+DEFINE('_UE_IMAGE_ADMIN_MSG','一位使用者已提交圖片等待核准. 請登入進行適當的處理.');
 DEFINE('_UE_USERREPORT_SUB','使用者回報等待檢閱中');
 DEFINE('_UE_USERREPORT_MSG','有一位使用者提交了關於另一位使用者的回報且需要您的檢閱. 請登入進行適當的處裡.');
-DEFINE('_UE_IMAGEAPPROVED_SUB','影像已核准');
-DEFINE('_UE_IMAGEAPPROVED_MSG','您的影像已經被版主核准了');
-DEFINE('_UE_IMAGEREJECTED_SUB','影像駁回');
-DEFINE('_UE_IMAGEREJECTED_MSG','您的影像已經被版主給駁回了. 請登入並提交一個新的影像.');
+DEFINE('_UE_IMAGEAPPROVED_SUB','圖片已核准');
+DEFINE('_UE_IMAGEAPPROVED_MSG','您的圖片已經被版主核准了');
+DEFINE('_UE_IMAGEREJECTED_SUB','圖片駁回');
+DEFINE('_UE_IMAGEREJECTED_MSG','您的圖片已經被版主給駁回了. 請登入並提交一個新的圖片.');
 DEFINE('_UE_BANUSER_SUB','使用者個人資料已禁用.');
 DEFINE('_UE_BANUSER_MSG','您的使用者個人資料已遭到管理員禁用,請登入並檢閱遭禁用的原因.');
 DEFINE('_UE_UNBANUSER_SUB','個人資料已解除禁用');
@@ -339,12 +339,12 @@ DEFINE('_UE_UNBANUSERREQUEST_MSG','一位使用者提出解除禁用個人資料
 
 
 //Alpha 3 Build
-DEFINE('_UE_IMAGE','個人資料影像');
+DEFINE('_UE_IMAGE','縮圖');
 DEFINE('_UE_FORMATNAME','名稱格式');
 
 //Alpha 4 Build
-DEFINE('_UE_ADMINREQUIREDFIELDS','管理員的確認欄位');
-DEFINE('_UE_ADMINREQUIREDFIELDS_DESC','設為"是"可以讓管理員在管理使用者時遵守確認欄位的設定.設為"否"將使管理員的使用者管理忽略必須確認的狀態.');
+DEFINE('_UE_ADMINREQUIREDFIELDS','管理員必須的欄位');
+DEFINE('_UE_ADMINREQUIREDFIELDS_DESC','設為"是"可以讓管理員遵守使用者管理欄位的必要設定.設為否將在管理員的使用者管理忽略必須的狀態.');
 DEFINE('_UE_CANCEL','取消');
 DEFINE('_UE_NA','N/A');
 DEFINE('_UE_MODERATOREMAIL','發送 E-Mail 給版主');
@@ -369,7 +369,7 @@ DEFINE('_UE_ALLOW_PROFILELINK','允許連結至使用者個人資料');
 DEFINE('_UE_ALLOW_PROFILELINK_DESC','設為是可允許清單中使用者資料連結至該使用者個人資料頁面,設為否, 則可防止連結到個人資料.');
 DEFINE('_UE_REGISTERFORPROFILE','請登入或註冊來檢視或修改您的個人資料.');
 DEFINE('_UE_UPLOAD_ERROR_GDNOTINSTALLED','GD2 Image Library 並非安裝或是架構在 PHP 系統之中!  請連絡您的系統管理員來關閉圖片自動尺寸的功能.');
-DEFINE('_UE_UPLOAD_ERROR_UPLOADFAILED','上傳/處理影像時發生錯誤!');
+DEFINE('_UE_UPLOAD_ERROR_UPLOADFAILED','上傳/處理圖片時發生錯誤!');
 DEFINE('_UE_TOC','同意服務條款與聲明');
 DEFINE('_UE_TOC_REQUIRED','您進行註冊前必須同意服務條款與聲明!');
 DEFINE('_UE_REG_TOC_MSG','啟用註冊服務條款與聲明');
@@ -405,12 +405,12 @@ DEFINE('_UE_USERPENDAPPRACTION','使用者');
 DEFINE('_UE_APPROVEUSER','處理使用者');
 DEFINE('_UE_REG_REJECT_SUB','您的註冊申請已經被駁回!');
 DEFINE('_UE_USERREJECT_MSG',"您的註冊申請在 %s 已經被駁回, 以下為原因: \n%s");
-DEFINE('_UE_COMMENT','駁回註解');
+DEFINE('_UE_COMMENT','拒絕註解');
 DEFINE('_UE_APPROVE','核准');
-DEFINE('_UE_REJECT','駁回');
-DEFINE('_UE_USERREJECT_SUCCESSFUL','使用者已成功地被駁回!');
+DEFINE('_UE_REJECT','拒絕');
+DEFINE('_UE_USERREJECT_SUCCESSFUL','使用者已成功被拒絕!');
 DEFINE('_UE_USERAPPROVE_SUCCESSFUL','使用者已成功被核准!');
-DEFINE('_LOGIN_REJECTED','您的註冊要求已經被駁回!');
+DEFINE('_LOGIN_REJECTED','您的註冊要求已經被拒絕!');
 DEFINE('_UE_EMAILFOOTER','註: 這是來自於 %s (%s) 自動地產生的訊息.');
 DEFINE('_UE_MODERATORUSERAPPOVAL','版主核准使用者');
 DEFINE('_UE_MODERATORUSERAPPOVAL_DESC','此設定允許版主於網站前台核准等待中的使用者.');
@@ -432,11 +432,11 @@ DEFINE('_UE_NOSELFEMAIL','不允許您發送 E-Mail 給自己!');
 DEFINE('_UE_PROFILETAB','個人資料');
 DEFINE('_UE_AUTHORTAB','文章');
 DEFINE('_UE_FORUMTAB','論壇');
-DEFINE('_UE_BLOGTAB','部落格');
+DEFINE('_UE_BLOGTAB','網誌');
 DEFINE('_UE_ARTICLEDATE','日期');
 DEFINE('_UE_ARTICLETITLE','標題');
 DEFINE('_UE_ARTICLERATING','評分');
-DEFINE('_UE_ARTICLEHITS','拜訪人次');
+DEFINE('_UE_ARTICLEHITS','點閱');
 DEFINE('_UE_NESTTABS','巢狀表格');
 DEFINE('_UE_NESTTABS_DESC','所有的表格資料都置入同一個個人資料面板中, 當有大量的表格時這將很有用.');
 DEFINE('_UE_MENUFORMATBAR','功能表列');
@@ -456,24 +456,24 @@ DEFINE('_UE_XHTMLCOMPLY_DESC','在某些 Joomla/Mambo 的模板中並不包含�
 DEFINE('_UE_MAMBLOGNOTINSTALLED','Mamblog blogger 元件尚未安裝.  請連絡您的網站管理員.');
 DEFINE('_UE_BLOGDATE','日期');
 DEFINE('_UE_BLOGTITLE','標題');
-DEFINE('_UE_BLOGHITS','點閱 ');
+DEFINE('_UE_BLOGHITS','點閱');
 DEFINE('_UE_NOBLOGS','此使用者沒有已發佈的網誌項目.');
-DEFINE('_UE_NOARTICLES','此使用者沒有已發佈的文章.');
-DEFINE('_UE_IMPATH','ImageMagick 的路徑');
+DEFINE('_UE_NOARTICLES','此使用者沒有已發布的文章.');
+DEFINE('_UE_IMPATH','ImageMagick 路徑');
 DEFINE('_UE_IMPATH_DESC','ImageMagick 路徑最後用 / 結束. 或是選擇"自動"在大部分的 Linux 安裝目錄自動偵測.');
-DEFINE('_UE_NETPBMPATH','NetPBM 的路徑');
+DEFINE('_UE_NETPBMPATH','NetPBM 路徑');
 DEFINE('_UE_NETPBMPATH_DESC','NetPBM 路徑最後用 / 結束. 或是選擇"自動"在大部分的 Linux 安裝目錄自動偵測.');
 DEFINE('_UE_AUTODET','自動偵測');
 DEFINE('_UE_ERROR_NOTINSTALLED','尚未安裝');
-DEFINE('_UE_CONVERSIONTYPE','影像軟體');
+DEFINE('_UE_CONVERSIONTYPE','圖片軟體');
 DEFINE('_UE_NEWPASS_FAILED','密碼重設失敗!');
-DEFINE('_UE_USER_SUBSCRIPTIONS','您的訂閱 ');
+DEFINE('_UE_USER_SUBSCRIPTIONS','您的訂閱');
 DEFINE('_UE_THREAD_UNSUBSCRIBE',':: 取消訂閱 ::');
-DEFINE('_UE_USER_NOSUBSCRIPTIONS','沒有找到您的訂閱 ');
+DEFINE('_UE_USER_NOSUBSCRIPTIONS','沒有找到您的訂閱');
 DEFINE('_UE_GEN_BY','由');
-DEFINE('_UE_USER_UNSUBSCRIBE_ALL','取消所有訂閱 ');
+DEFINE('_UE_USER_UNSUBSCRIBE_ALL','取消所有訂閱');
 DEFINE('_UE_USERREPORTMODERATED_SUCCESSFUL','使用者回報管理成功!');
-DEFINE('_UE_USERIMAGEMODERATED_SUCCESSFUL','使用者影像管理成功!');
+DEFINE('_UE_USERIMAGEMODERATED_SUCCESSFUL','使用者圖片管理成功!');
 DEFINE('_UE_NOREPORTSTOPROCESS','沒有需處理的使用者回報');
 DEFINE('_UE_NOUSERSPENDING','沒有使用者等待核准');
 DEFINE('_UE_BLANK','');
@@ -496,8 +496,8 @@ DEFINE('_UE_REG_CONCLUSION_DESC','輸入 文字/html 顯示於註冊頁面底下
 .'或所屬的語言檔像是在 _UE_WELCOME_DESC 的文字設定. '
 .'這個欄位可以包含一個感謝或是特別的簡介. '
 .'空白時將不會顯示任何內容.');
-DEFINE('_UE_USER_NOT_APPROVED','這位使用者尚未由版主核准!');
-DEFINE('_UE_USER_NOT_CONFIRMED','這位使用者尚未確認他的email和帳號!');
+DEFINE('_UE_USER_NOT_APPROVED','這個使用者尚未由版主核准!');
+DEFINE('_UE_USER_NOT_CONFIRMED','這個使用者尚未確認他的 E-Mail 地址和帳號!');
 //Connections
 DEFINE('_UE_ADDCONNECTION','新增連線');
 DEFINE('_UE_REMOVECONNECTION','移除連線');
@@ -505,14 +505,14 @@ DEFINE('_UE_CONNECTION','連線');
 DEFINE('_UE_CONNECTIONACCEPTSUCCESSFULL','接受連線成功!');
 DEFINE('_UE_CONNECTIONREMOVESUCCESSFULL','移除連線成功!');
 DEFINE('_UE_CONNECTIONADDSUCCESSFULL','新增連線成功!');
-DEFINE('_UE_CONNECTIONPENDINGACCEPTANCE','連線等待接受中!');
+DEFINE('_UE_CONNECTIONPENDINGACCEPTANCE','連線等待接收中!');
 DEFINE('_UE_DIRECTCONNECTIONPENDINGACCEPTANCE','與 %s 的直接連線等待接受中!');
 DEFINE('_UE_NOCONNECTIONS','此使用者目前尚無連線.');
 DEFINE('_UE_NODIRECTCONNECTION','沒有直接連線.');
 DEFINE('_UE_ACCEPTCONNECTION','接受連線');
 DEFINE('_UE_CONNECTIONPENDING','連線等待中');
 DEFINE('_UE_CONNECTEDSINCE','已連線自從');
-DEFINE('_UE_CONNECTEDCOMMENT','評論');
+DEFINE('_UE_CONNECTEDCOMMENT','註解');
 DEFINE('_UE_CONNECTEDDETAIL','連線詳細資料');
 DEFINE('_UE_CONNECTIONREQUESTDETAIL','連線請求詳細資料');
 DEFINE('_UE_CONNECTIONREQUIREDON','要求連線於');
@@ -521,13 +521,13 @@ DEFINE('_UE_FIELDDESCRIPTION','欄位敘述: 當滑鼠滑過圖示');
 DEFINE('_UE_WEBURL','網站網址');
 DEFINE('_UE_WEBTEXT','網站名稱');
 DEFINE('_UE_CONNECTIONTYPE','類型');
-DEFINE('_UE_CONNECTIONCOMMENT','評論');
+DEFINE('_UE_CONNECTIONCOMMENT','註解');
 DEFINE('_UE_CONNECTIONSUPDATEDSUCCESSFULL','您的連線已成功更新!');
 DEFINE('_UE_MANAGECONNECTIONS','管理連線');
 DEFINE('_UE_MANAGEACTIONS','管理動作');
 DEFINE('_UE_CONNECTIONACTIONSSUCCESSFULL','連線動作成功!');
 DEFINE('_UE_ALLOWCONNECTIONS','啟用連線');
-DEFINE('_UE_ALLOWCONNECTIONS_DESC','啟用這個功能將允許您的使用者跟其他人連線. 類似建立好友名單系統.');
+DEFINE('_UE_ALLOWCONNECTIONS_DESC','啟用這個功能將允許您的使用者跟其他人連線. 就類似是建立好友名單系統.');
 DEFINE('_UE_USEMUTUALCONNECTIONACCEPTANCE','互相同意');
 DEFINE('_UE_USEMUTUALCONNECTIONACCEPTANCE_DESC','啟用這個功能將使兩照雙方同意連線之後才能建立正式連線.');
 DEFINE('_UE_CONNECTOINNOTIFYTYPE','告知方式');
@@ -555,8 +555,8 @@ DEFINE('_UE_CONNECTIONDENYSUCCESSFULL','連線成功駁回!');
 DEFINE('_UE_TOC_LINK','同意 %s 服務條款及聲明 %s');	// to link only the "Terms and Conditions", first %s will be replaced by <a.. and second %s by </a>.
 // RC2 Newsletters Support
 DEFINE('_UE_NEWSLETTER_HEADER','電子報');
-DEFINE('_UE_NEWSLETTER','電子報訂閱 ');
-DEFINE('_UE_NEWSLETTER_USER_EDIT_TITLE','編輯您的電子報訂閱 ');
+DEFINE('_UE_NEWSLETTER','電子報訂閱');
+DEFINE('_UE_NEWSLETTER_USER_EDIT_TITLE','編輯您的電子報訂閱');
 DEFINE('_UE_NEWSLETTER_USER_EDIT_DESC','在檢視清單中可以查看您可以訂閱的所有電子報. '
 .'每種電子報前面的核取方塊可以讓您知道您是否訂閱了該電子報. '
 .'您可以更改並按下更新來修改訂閱的電子報. ');
@@ -597,10 +597,10 @@ DEFINE('_UE_SENDCONNECTIONREQUEST','提交');
 DEFINE('_UE_CANCELCONNECTIONREQUEST','取消');
 DEFINE('_UE_CONFIRMREMOVECONNECTION','您確定您要移除這個連線?');
 DEFINE('_UE_CONNECTIONREQUIREACTION','連線要求');
-DEFINE('_UE_NOZOOMIMGS','這位使用者沒有影像!');
+DEFINE('_UE_NOZOOMIMGS','這位使用者沒有圖片!');
 DEFINE('_UE_ZOOMNOTINSTALLED','Zoom image 元件沒有安裝,請連絡您的網站管理員.');
-DEFINE('_UE_ZOOMGALLERY','觀看圖庫');
-DEFINE('_UE_ZOOMTABTITLE','影像圖庫');
+DEFINE('_UE_ZOOMGALLERY','觀看藝廊');
+DEFINE('_UE_ZOOMTABTITLE','圖片藝廊');
 DEFINE('_UE_FORUM_FORUMRANKING','論壇評分');
 DEFINE('_UE_FORUM_TOTALPOSTS','總發表數');
 DEFINE('_UE_FORUM_KARMA','因果');
@@ -619,7 +619,7 @@ DEFINE('_UE_CONNECT_MANAGECONNECTIONS','以下您可以看到您所直接連線�
 
 // PMS:
 //Administrator Integration Tab
-DEFINE('_UE_PMSTAB','快速傳訊');
+DEFINE('_UE_PMSTAB','快速訊息');
 DEFINE('_UE_PMS_NOTINSTALLED','所選擇的 PMS 系統沒有安裝.');
 // PMS integration definitions
 DEFINE('_UE_PM_SENTSUCCESS','您的私人訊息已經傳送成功!');
@@ -666,8 +666,8 @@ DEFINE('_UE_MENU_DELETE_AVATAR_DESC', '從您的個人資料中移除圖片');
 DEFINE('_UE_MENU_VIEWMYPROFILE', '檢視您的個人資料');
 DEFINE('_UE_MENU_VIEWMYPROFILE_DESC', '檢視您個人的資料');
 
-DEFINE('_UE_MENU_SENDUSEREMAIL','發送 Email 給使用者');
-DEFINE('_UE_MENU_SENDUSEREMAIL_DESC','發送 Email 給這位使用者');
+DEFINE('_UE_MENU_SENDUSEREMAIL','發送 email 給使用者');
+DEFINE('_UE_MENU_SENDUSEREMAIL_DESC','發送 email 給這位使用者');
 DEFINE('_UE_MENU_USEREMAIL_DESC','此使用者的 EMail 地址');
 DEFINE('_UE_ADDCONNECTION_DESC','增加連線到這位使用者');
 DEFINE('_UE_ADDCONNECTIONREQUEST','連線請求');
@@ -691,8 +691,8 @@ DEFINE('_UE_MENU_REPORTUSER_DESC', '回報此名使用者讓網站版主來作�
 DEFINE('_UE_MENU_VIEWUSERREPORTS_DESC','網站版主: 檢視關於此使用者的回報');
 DEFINE('_UE_UNBAN_MODERATE_DESC','點擊遭禁用的使用者名稱來檢視此使用者個人資料. '
 .'然後從使用者個人資料選單選擇 管理/解除禁用 如果您要解除禁用此名使用者.');
-DEFINE('_UE_MENU_APPROVE_IMAGE_DESC', '網站版主: 核准此使用者所提交的個人資料影像,讓它可以給所有使用者看見');
-DEFINE('_UE_MENU_REJECT_IMAGE_DESC', '網站版主: 駁回此使用者的個人資料影像');
+DEFINE('_UE_MENU_APPROVE_IMAGE_DESC', '網站版主: 核准此使用者所提交的個人資料圖片,讓它可以給所有使用者看見');
+DEFINE('_UE_MENU_REJECT_IMAGE_DESC', '網站版主: 駁回此使用者的個人資料圖片');
 DEFINE('_UE_HITS_DESC','此使用者個人資料的檢視次數');
 DEFINE('_UE_ONLINESTATUS_DESC','此使用者目前的上線狀態');
 DEFINE('_UE_MEMBERSINCE_DESC','這名使用者註冊於');
@@ -743,20 +743,20 @@ DEFINE('_UE_SB_CONFIRMUNSUBSCRIBEALL','您確定您要取消訂閱您所有論�
 DEFINE('_UE_FORUMDATE','日期');
 DEFINE('_UE_FORUMCATEGORY','分類');
 DEFINE('_UE_FORUMSUBJECT','主題');
-DEFINE('_UE_FORUMHITS','拜訪人次');
+DEFINE('_UE_FORUMHITS','點閱');
 DEFINE('_UE_FORUM_POSTS','論壇文章');
-DEFINE('_UE_FORUM_LASTPOSTS','最新 %s 篇論壇文章');
-DEFINE('_UE_FORUM_FOUNDPOSTS','找到 %s 篇論壇文章');
+DEFINE('_UE_FORUM_LASTPOSTS','最新 %s 論壇文章');
+DEFINE('_UE_FORUM_FOUNDPOSTS','找到 %s 論壇文章');
 DEFINE('_UE_FORUM_STATS','論壇統計');
-if (!defined('_RANK_MODERATOR')) DEFINE('_RANK_MODERATOR','版主');
-if (!defined('_RANK_ADMINISTRATOR')) DEFINE('_RANK_ADMINISTRATOR','網站管理員');
+if (!defined('_RANK_MODERATOR')) DEFINE('_RANK_MODERATOR','Moderator');
+if (!defined('_RANK_ADMINISTRATOR')) DEFINE('_RANK_ADMINISTRATOR','Administrator');
 DEFINE('_UE_SBNOTINSTALLED','Simpleboard 論壇元件沒有安裝. 請連繫您的網站管理員.');
 DEFINE('_UE_NOFORUMPOSTS','這個會員沒有發表過文章.');
 DEFINE("_UE_USERPARAMS","使用者選項");
 //Mamblog search:
-DEFINE('_UE_BLOG_LASTENTRIES','最新的 %d 個部落格項目');
-DEFINE('_UE_BLOG_FOUNDENTRIES','找到 %d 個部落格項目');
-DEFINE('_UE_BLOG_ENTRIES','部落格項目');
+DEFINE('_UE_BLOG_LASTENTRIES','最新的 %d 個網誌項目');
+DEFINE('_UE_BLOG_FOUNDENTRIES','找到 %d 個網誌項目');
+DEFINE('_UE_BLOG_ENTRIES','網誌項目');
 
 // 1.0 stable:
 DEFINE('_UE_NO_USERS_IN_LIST','此清單沒有使用者');
@@ -770,12 +770,12 @@ DEFINE('_UE_NOVERSIONCHECK_DESC','選取當您想要每次進入 Community Build
 DEFINE('_UE_SHOW_POFILE_OF','顯示個人資料 ');
 
 //Not yet used within application but are needed to translate default images for profile.
-DEFINE('_UE_IMG_NOIMG','無影像');
+DEFINE('_UE_IMG_NOIMG','沒有圖片');
 DEFINE('_UE_IMG_PENDIMG','核准等待中');
 
 // CB 1.0.2 optional string:
 DEFINE('_UE_MAXEMAILSLIMIT','您已達到最大限制的 %d 的emails 每 %d 個小時. 請稍後再試.');
-DEFINE('_UE_INPUT_VALUE_NOT_ALLOWED','輸入的值並不正確.');
+DEFINE('_UE_INPUT_VALUE_NOT_ALLOWED','輸入的值並不合法.');
 
 //Needed for Joomla 1.5 and Mambo 4.6 language independance: Translators: please take strings from joomla 1.0.11's language file
 /** registration.php */
@@ -833,9 +833,9 @@ DEFINE('_UE_EDIT_OTHER_USER_TITLE','編輯 %s的詳細資料');
 DEFINE('_UE_MOD_MENU_UPDATEPROFILE', '更新使用者個人資料');
 DEFINE('_UE_MOD_MENU_UPDATEPROFILE_DESC', '更改此使用者的個人資訊設定');
 DEFINE('_UE_MOD_MENU_UPDATEAVATAR', '更新使用者圖像');
-DEFINE('_UE_MOD_MENU_UPDATEAVATAR_DESC', '選擇此使用者的個人資訊影像');
-DEFINE('_UE_MOD_MENU_DELETE_AVATAR', '移除使用者影像');
-DEFINE('_UE_MOD_MENU_DELETE_AVATAR_DESC', '移除此使用者個人資訊的影像');
+DEFINE('_UE_MOD_MENU_UPDATEAVATAR_DESC', '選擇此使用者的個人資訊圖像');
+DEFINE('_UE_MOD_MENU_DELETE_AVATAR', '移除使用者圖像');
+DEFINE('_UE_MOD_MENU_DELETE_AVATAR_DESC', '移除此使用者個人資訊的圖像');
 DEFINE('_UE_MOD_MENU_VIEWOLDUSERREPORTS','瀏覽已處理的使用者報告');
 DEFINE('_UE_MOD_MENU_VIEWOLDUSERREPORTS_DESC','網站管理員: 瀏覽此使用者的已處理使用者報告');
 DEFINE('_UE_REPORTSTATUS','報告狀態');
@@ -919,14 +919,14 @@ DEFINE('_UE_BANNED_CHANGE_PROFILE','您的個人資訊已被禁用. 只有您以
 DEFINE('_UE_WARNING_EDIT_OTHER_USER_PROFILE','警告: 這不是您的個人資訊. 作為一位版主, 您正在編輯 使用者: %s的個人資訊.');
 DEFINE('_UE_BACK_TO_YOUR_PROFILE','回到您的個人資訊');
 // CB captcha plugin strings in core cb 1.1:
-DEFINE('_UE_CAPTCHA_Label','認證碼');
-DEFINE('_UE_CAPTCHA_Enter_Label','輸入認證碼');
-DEFINE('_UE_CAPTCHA_Desc','看影像輸入認證碼. 如果影像沒有出現請試著終止您的廣告攔劫器並重新載入. 再不行請跟網站管理員聯絡.');
-DEFINE('_UE_CAPTCHA_NOT_VALID','認證碼不正確');
-DEFINE('_UE_CAPTCHA_ALT_IMAGE','影像內嵌認證碼');
+DEFINE('_UE_CAPTCHA_Label','保全碼');
+DEFINE('_UE_CAPTCHA_Enter_Label','輸入保全碼');
+DEFINE('_UE_CAPTCHA_Desc','從圖像輸入保全碼. 如果圖像沒有出現請試著終止您的廣告攔劫器並重新載入. 再不行請跟網站管理員聯絡.');
+DEFINE('_UE_CAPTCHA_NOT_VALID','保全碼不正確');
+DEFINE('_UE_CAPTCHA_ALT_IMAGE','圖像內嵌保全碼');
 DEFINE('_UE_CAPTCHA_AUDIO','點擊此處聆聽字母');
 DEFINE('_UE_CAPTCHA_AUDIO_POPUP_TITLE','CB Captcha 音頻播放');
-DEFINE('_UE_CAPTCHA_AUDIO_POPUP_DESCRIPTION','聆聽 captcha 影像的音頻播放');
+DEFINE('_UE_CAPTCHA_AUDIO_POPUP_DESCRIPTION','聆聽 captcha 圖像的音頻播放');
 DEFINE('_UE_CAPTCHA_AUDIO_DOWNLOAD','點擊來外部播放或下載音頻檔案');
 DEFINE('_UE_CAPTCHA_AUDIO_CLICK2DOWNLOAD','(右鍵-點擊 或 control-點擊)');
 DEFINE('_UE_CAPTCHA_AUDIO_POPUP_CLOSEWINDOW','點擊關閉視窗');
@@ -935,7 +935,7 @@ DEFINE('_UE_CAPTCHA_AUDIO_POPUP_CLOSEWINDOW','點擊關閉視窗');
 DEFINE('_UE_ERROR_USER_NOT_SYNCHRONIZED','使用者不存在或是未跟CB同步');
 DEFINE('_LOGIN_TITLE','登入');
 DEFINE('_LOGIN_REGISTER_TITLE','歡迎. 請登入或註冊:');
-DEFINE('_UE_UPLOAD_DIMENSIONS_AVATAR','您的影像如有需要將自動變更大小至最大像素 %s 寬 x %s 高, 但是您的檔案大小不能超過 %s KB.');
+DEFINE('_UE_UPLOAD_DIMENSIONS_AVATAR','您的圖像如有需要將自動變更大小至最大像素 %s 寬 x %s 高, 但是您的檔案大小不能超過 %s KB.');
 DEFINE('_UE_LOGIN_BLOCKED','您的登入已被封鎖.');
 DEFINE('_UE_REMEMBER_ME', '勿忘我');
 DEFINE('_UE_PASSWORD_REMINDER','密碼提醒');
@@ -970,8 +970,8 @@ DEFINE('_UE_FIELDONPROFILE_SHORT','欄位在您的個人資料可見');
 DEFINE('_UE_FIELDNOPROFILE_SHORT','欄位在個人資料 <strong>不可</strong> 見');
 DEFINE('_UE_FIELDREQUIRED_SHORT','必填欄位');
 DEFINE('_UE_FIELDDESCRIPTION_SHORT','資訊: 滑鼠指向圖示');
-DEFINE('_UE_AVATAR_UPLOAD_DISCLAIMER','當點擊 "上傳", 您保證您有權力可以散播此相片.');
-DEFINE('_UE_AVATAR_UPLOAD_DISCLAIMER_TERMS','當點擊 "上傳", 您保證您有權力可以散播此相片並且未違反 %s.');
+DEFINE('_UE_AVATAR_UPLOAD_DISCLAIMER','當點擊 "上傳", 您保證您有權力可以散播此圖像.');
+DEFINE('_UE_AVATAR_UPLOAD_DISCLAIMER_TERMS','當點擊 "上傳", 您保證您有權力可以散播此圖像並且未違反 %s.');
 DEFINE('_UE_AVATAR_TOC_LINK','規則與使用規範');
 DEFINE('_UE_USER_EMAIL_CONFIRMED','Email地址已被確認');
 DEFINE('_UE_LOST_USERNAME_PASSWORD','忘了登入?');
@@ -1035,13 +1035,13 @@ DEFINE ('_UE_MATCH_INCLUDE_ALL_OF_NOT','不包括所有的');
 DEFINE ('_UE_MATCH_INCLUDE_ANY_OF','包括任何的');
 DEFINE ('_UE_MATCH_INCLUDE_ANY_OF_NOT','不包括任何的');
 DEFINE ('_UE_MATCH_EXCLUSIONS','排除');
-DEFINE ('_UE_AVATAR_NONE','無個人資料影像');
-DEFINE ('_UE_AVATAR_NO_CHANGE','影像沒有更改');
-DEFINE ('_UE_AVATAR_UPLOAD','上傳個人資料影像');
-DEFINE ('_UE_AVATAR_UPLOAD_NEW','上傳新的個人資料影像');
-DEFINE ('_UE_AVATAR_SELECT','從圖庫選擇影像');
-DEFINE ('_UE_HAS_PROFILE_IMAGE','有個人資料影像');
-DEFINE ('_UE_HAS_NO_PROFILE_IMAGE','沒有個人資料影像');
+DEFINE ('_UE_AVATAR_NONE','無個人資料圖像');
+DEFINE ('_UE_AVATAR_NO_CHANGE','圖像沒有更改');
+DEFINE ('_UE_AVATAR_UPLOAD','上傳個人資料圖像');
+DEFINE ('_UE_AVATAR_UPLOAD_NEW','上傳新的個人資料圖像');
+DEFINE ('_UE_AVATAR_SELECT','從藝廊選擇圖像');
+DEFINE ('_UE_HAS_PROFILE_IMAGE','有個人資料圖像');
+DEFINE ('_UE_HAS_NO_PROFILE_IMAGE','沒有個人資料圖像');
 DEFINE ('_UE_AGE_YEARS','%s 年');
 DEFINE ('_UE_YEARS','年');
 DEFINE ('_UE_HI_NAME','嗨, %s');
@@ -1086,23 +1086,23 @@ DEFINE('_UE_FB_VIEWTYPE_THREADED', '串狀瀏覽' );
 DEFINE('_UE_FB_VIEWTYPE_TITLE', '瀏覽類型偏好' );
 DEFINE('_UE_FB_TABDESC', '一般個人資料選項' );
 // 1.2 Extended forum strings for FIREBOARD favorites support in CB plugin (this is why they have _FB_ instead of _FORUM)
-DEFINE('_UE_FB_FAVORITES','您的 我的最愛 討論串');
+DEFINE('_UE_FB_FAVORITES','您我的最愛討論串');
 DEFINE('_UE_FB_REMOVE_FAVORITE_THREAD',':: 移除我的最愛 ::');
-DEFINE('_UE_FB_NO_FAVORITES_FOUND','找不到您的 我的最愛');
-DEFINE('_UE_FB_REMOVE_FAVORITES_ALL','移除您全部的 我的最愛');
-DEFINE('_UE_FB_CONFIRMUNFAVORITEALL','您確定要移除您全部 我的最愛 的討論串 ?');
+DEFINE('_UE_FB_NO_FAVORITES_FOUND','找不到您的我的最愛');
+DEFINE('_UE_FB_REMOVE_FAVORITES_ALL','移除您全部的我的最愛');
+DEFINE('_UE_FB_CONFIRMUNFAVORITEALL','您確定要移除您全部我的最愛的討論串 ?');
 
 // 1.2 CB Team extensions
-DEFINE('_UE_PROFILE_GALLERY','個人資料圖庫');
-DEFINE('_UE_PROFILE_GALLERY_DESC','此標籤包含一個基本的簡單圖像圖庫供 CB 個人資料使用');
-DEFINE('_UE_PROFILE_GALLERY_MODERATION','圖庫版面管理');
-DEFINE('_UE_PROFILE_GALLERY_MODERATION_DESC','此標籤包含所有尚待核准的圖庫項目');
-DEFINE('_UE_PROFILE_BOOK','個人資料通訊錄');
-DEFINE('_UE_PROFILE_BOOK_DESC','個人資料通訊錄描述');
+DEFINE('_UE_PROFILE_GALLERY','個人資料藝廊');
+DEFINE('_UE_PROFILE_GALLERY_DESC','此標籤包含一個基本的簡單圖像藝廊供 CB 個人資料使用');
+DEFINE('_UE_PROFILE_GALLERY_MODERATION','藝廊管理');
+DEFINE('_UE_PROFILE_GALLERY_MODERATION_DESC','此標籤包含所有尚待核准的藝廊項目');
+DEFINE('_UE_PROFILE_BOOK','個人資料簿');
+DEFINE('_UE_PROFILE_BOOK_DESC','個人資料簿描述');
 
 // 1.2 CB beta 8+9+10:
-DEFINE('_UE_AVATAR_DISCLAIMER','點擊 "%s", 您確認您有權利散播此相片.');
-DEFINE('_UE_AVATAR_DISCLAIMER_TERMS','點擊 "%s", 您確認您有權力散播此相片並且沒有違反 %s.');
+DEFINE('_UE_AVATAR_DISCLAIMER','點擊 "%s", 您確認您有權利散播此照片.');
+DEFINE('_UE_AVATAR_DISCLAIMER_TERMS','點擊 "%s", 您確認您有權力散播此照片並且沒有違反 %s.');
 DEFINE('_UE_AGE','年齡');
 DEFINE('_UE_CLOAKED','此 e-mail 地址受到保護不受垃圾發信機器人影響, 您必須在您的瀏覽器啟用 JavaScript來檢視它');
 DEFINE ('_UE_YEAR','年');
@@ -1119,7 +1119,7 @@ DEFINE ('_UE_SECOND','秒');
 DEFINE ('_UE_ANYTHING_AGO','%s 之前');
 DEFINE ('_UE_NOW','現在');
 DEFINE ('_UE_YEAR_NOT_IN_RANGE',' %s 年不在 %s 跟 %s 之間');
-DEFINE ('_UE_ADD_IMAGE','新增影像');
+DEFINE ('_UE_ADD_IMAGE','新增圖像');
 DEFINE ('_UE_LINE','行');
 DEFINE ('_UE_COLUMN','列');
 DEFINE ('_UE_MONTHS_1','一月');
@@ -1155,8 +1155,8 @@ DEFINE('_UE_INCORRECT_EMAIL_OR_PASSWORD','不正確的 email 或 密碼. 請再�
 DEFINE('_UE_ERROR_IN_QUERY_TURN_SITE_DEBUG_ON_TO_VIEW','資料庫查詢有錯誤. 網站管理員可以打開網站除錯來檢視並修復此查詢.');
 // 1.2 CB RC 4 backend:
 DEFINE('_UE_USERNAME_OR_AUTH','使用者名稱, email 或 啟用驗證插件');
-// 1.2 Stable:
 
 // ATTENTION: The closing tag, "?" and ">" has been intentionally omitted - CB works fine without it.
 // This was done to avoid errors caused by custom strings being added after the closing tag. ]
 // With such tags, always watchout to NOT add any line or space or anything after the "?" and the ">".
+

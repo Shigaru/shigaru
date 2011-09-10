@@ -1,7 +1,7 @@
 <?php
 /**
 * Core plugin with tab classes for: Portrait and Contact Tabs for handling the core CB tab api
-* @version $Id: cb.core.php 951 2010-03-05 14:04:43Z beat $
+* @version $Id: cb.core.php 1552 2011-07-30 23:07:15Z beat $
 * @package Community Builder
 * @subpackage Page Title, Portrait, Contact tabs CB core plugin
 * @author Beat and JoomlaJoe
@@ -13,6 +13,7 @@
 if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' ) ) ) { die( 'Direct Access to this location is not allowed.' ); }
 
 global $_PLUGINS;
+$_PLUGINS->registerFunction( 'onBeforeDeleteUser', 'onBeforeDeleteUser', 'CBfield_image' );
 $_PLUGINS->registerUserFieldTypes( array( 	'checkbox'		=> 'CBfield_checkbox',
 											'multicheckbox'	=> 'CBfield_select_multi_radio',
 											'date'			=> 'CBfield_date',
@@ -43,6 +44,36 @@ $_PLUGINS->registerUserFieldParams();
 
 class CBfield_text extends cbFieldHandler {
 	/**
+	 * Returns a field in specified format
+	 *
+	 * @param  moscomprofilerFields  $field
+	 * @param  moscomprofilerUser    $user
+	 * @param  string                $output  'html', 'xml', 'json', 'php', 'csvheader', 'csv', 'rss', 'fieldslist', 'htmledit'
+	 * @param  string                $reason  'profile' for user profile view, 'edit' for profile edit, 'register' for registration, 'list' for user-lists
+	 * @param  int                   $list_compare_types   IF reason == 'search' : 0 : simple 'is' search, 1 : advanced search with modes, 2 : simple 'any' search
+	 * @return mixed                
+	 */
+	function getField( &$field, &$user, $output, $reason, $list_compare_types ) {
+		global $_CB_framework;
+
+		if ( ( $output == 'htmledit' ) && ( $reason != 'search' ) && defined( '_CB_VALIDATE_NEW' ) ) {
+			if ( $field->params->get( 'fieldValidateInBrowser', 1 ) == 1 ) {
+				$pregExp				=	$this->_getRegexp( $field );
+				if ( $pregExp ) {
+					$validationId		=	'cbvalidatefield_' . $field->name;
+					$pregExpError		=	CBTxt::P( $field->params->get( 'pregexperror', 'Not a valid input' ), array( '[FIELDNAME]' => $field->title ) );				// CBTxt::T('Not a valid input')
+					$_CB_framework->outputCbJQuery( 'jQuery.validator.addMethod("' . addslashes( $validationId ) . '", function(value, element) {'
+					.	'	return this.optional(element) || ' . $pregExp . '.test(value);'
+					.	'}, "' . addslashes( $pregExpError ) . '"); ');
+	
+					$value				=	$user->get( $field->name );
+					return $this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( $this->getMetaClass( $field, array( $validationId . ':true' ) ) ) );
+				}
+			}
+		}
+		return parent::getField( $field, $user, $output, $reason, $list_compare_types );
+	}
+	/**
 	 * Validator:
 	 * Validates $value for $field->required and other rules
 	 * Override
@@ -56,21 +87,10 @@ class CBfield_text extends cbFieldHandler {
 	 * @return boolean                            True if validate, $this->_setErrorMSG if False
 	 */
 	function validate( &$field, &$user, $columnName, &$value, &$postdata, $reason ) {
-		$validated					=	parent::validate( $field, $user, $columnName, $value, $postdata, $reason );
+		$validated						=	parent::validate( $field, $user, $columnName, $value, $postdata, $reason );
 		if ( $validated && ( $value !== '' ) && ( $value !== null ) ) {		// empty values (e.g. non-mandatory) are treated in the parent validation.
-			$fieldValidateExpression	=	$field->params->get( 'fieldValidateExpression', '' );
-			if ( $fieldValidateExpression != '' ) {
-				$possibilities		=	array(	'singleword'		=>	'/^[a-z]*$/i',
-												'multiplewords'		=>	'/^([a-z]+ *)*$/i',
-												'singleaznum'		=>	'/^[a-z]+[a-z0-9_]*$/i',
-												'atleastoneofeach'	=>	'/^(?=.*\d)(?=.*(\W|_))(?=.*[a-z])(?=.*[A-Z]).{6,255}$/'
-											 );
-				if ( isset( $possibilities[$fieldValidateExpression] ) ) {
-					$pregExp		=	$possibilities[$fieldValidateExpression];
-				} elseif ( $fieldValidateExpression == 'customregex' ) {
-					$pregExp		=	$field->params->get( 'pregexp', '/^.*$/' );
-				}
-
+			$pregExp					=	$this->_getRegexp( $field );
+			if ( $pregExp ) {
 				$validated				=	preg_match( $pregExp, $value );
 				if ( ! $validated ) {
 					$pregExpError		=	$field->params->get( 'pregexperror', CBTxt::T('Not a valid input') );
@@ -79,6 +99,28 @@ class CBfield_text extends cbFieldHandler {
 			}
 		}
 		return $validated;
+	}
+	function _getRegexp( $field ) {
+		$fieldValidateExpression		=	$field->params->get( 'fieldValidateExpression', '' );
+		if ( $fieldValidateExpression != '' ) {
+			$possibilities				=	array(	'singleword'		=>	'/^[a-z]*$/i',
+											'multiplewords'		=>	'/^([a-z]+ *)*$/i',
+											'singleaznum'		=>	'/^[a-z]+[a-z0-9_]*$/i',
+											'atleastoneofeach'	=>	'/^(?=.*\d)(?=.*(\W|_))(?=.*[a-z])(?=.*[A-Z]).{6,255}$/'
+										 );
+			if ( isset( $possibilities[$fieldValidateExpression] ) ) {
+				$pregExp				=	$possibilities[$fieldValidateExpression];
+			} elseif ( $fieldValidateExpression == 'customregex' ) {
+				$pregExp				=	$field->params->get( 'pregexp', '/^.*$/' );
+			}
+			if ( ! preg_match( "#^/(?:\\\\/|[^/\\n\\r])+/[a-z]*\$#", $pregExp ) ) {
+				// it's not a valid regexp: do not use it!: 
+				$pregExp				=	null;
+			}
+		} else {
+			$pregExp					=	null;
+		}
+		return $pregExp;
 	}
 }
 class CBfield_textarea extends CBfield_text {
@@ -163,8 +205,8 @@ class CBfield_predefined extends CBfield_text {
 
 						if ( defined( '_CB_VALIDATE_NEW' ) && ( $reason != 'search' ) ) {
 							$version = checkJversion();
-							if ($version == 1) {
-								// Joomla 1.5:
+							if ($version >= 1) {
+								// Joomla 1.5 and 1.6:
 								$regexp		=	'[\\<|\\>|\\"|\\\'|\\%|\\;|\\(|\\)|\\&]';
 							} elseif ( $version == -1 ) {
 								// Mambo 4.6+:
@@ -178,9 +220,9 @@ class CBfield_predefined extends CBfield_text {
 							.	'}, "' . addslashes( sprintf( CBTxt::html_entity_decode(_VALID_AZ09), CBTxt::html_entity_decode(_PROMPT_UNAME), 2 ) ) . '"); ');
 	
 							if ( ( $ueConfig['reg_username_checker'] == 1 ) || ( $_CB_framework->getUi() == 2 ) ) {
-								$html		=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( 'cbusername', $this->ajaxCheckField( $field, $user, $reason, array( 'minlength:3', 'maxlength:100', 'cbusername:true' ) ) ) );
+								$html		=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( 'cbusername', $this->ajaxCheckField( $field, $user, $reason, array( 'cbusername:true' ) ) ) );
 							} else {
-								$html		=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( 'cbusername', $this->_jsValidateClass( array( 'minlength:3', 'maxlength:100', 'cbusername:true' ) ) ) );
+								$html		=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( 'cbusername', $this->getMetaClass( $field, array( 'cbusername:true' ) ) ) );
 							}
 						} else {
 							$html			=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '' );
@@ -230,7 +272,7 @@ class CBfield_predefined extends CBfield_text {
 		$function				=	cbGetParam( $_GET, 'function', '' );
 		if ( $function == 'checkvalue' ) {
 			$username			=	stripslashes( cbGetParam( $postdata, 'value', '' ) );
-			$usernameISO		=	utf8ToISO( $username );			// ajax sends in utf8, we need to convert back to the site's encoding.
+			$usernameISO		=	CBTxt::utf8ToISO( $username );			// ajax sends in utf8, we need to convert back to the site's encoding.
 	
 			$function			=	'testnotexists';
 			if ( ( ( $ueConfig['reg_username_checker'] == 1 ) || ( $_CB_framework->getUi() == 2 ) )
@@ -303,7 +345,7 @@ class CBfield_predefined extends CBfield_text {
 			case 'username':
 				if ( ! ( ( $ueConfig['usernameedit'] == 0 ) && ( $reason == 'edit' ) && ( $_CB_framework->getUi() == 1 ) ) ) {
 					$username				=	stripslashes( cbGetParam( $postdata, 'username', null ) );
-					$fieldMinLength			=	$field->params->get( 'fieldMinLength', 3 );
+					$fieldMinLength			=	$this->getMinLength( $field );
 					if ( cbIsoUtf_strlen( $username ) < $fieldMinLength ) {
 						$this->_setValidationError( $field, $user, $reason, sprintf( _UE_VALID_UNAME, _UE_UNAME, $fieldMinLength ) );
 					} else {
@@ -393,7 +435,7 @@ class CBfield_predefined extends CBfield_text {
 		if ( $validated ) {
 			if ( $field->name == 'username' ) {
 				$version = checkJversion();
-				if ($version == 1) {
+				if ($version >= 1) {
 					// "^[a-zA-Z](([\.\-a-zA-Z0-9@])?[a-zA-Z0-9]*)*$", "i");
 					// $regex		=	'/^[\\<|\\>|"|\'|\\%|\\;|\\(|\\)|\\&|\\+|\\-]*$/i';
 					$regex		=	'/^[\\<|\\>|"|\\\'|\\%|\\;|\\(|\\)|\\&]*$/i';
@@ -409,6 +451,36 @@ class CBfield_predefined extends CBfield_text {
 			}
 		}
 		return $validated;
+	}
+	/**
+	 * Returns the minimum field length as set
+	 * 
+	 * @param  moscomprofilerFields  $field
+	 * @return int
+	 */
+	function getMinLength( $field ) {
+		$min						=	parent::getMinLength( $field );
+		if ( ( ! $min ) && ( $field->name == 'username' ) ) {
+			$min					=	3;
+		}
+		return $min;
+	}
+	/**
+	 * Returns the maximum field length as set
+	 * 
+	 * @param  moscomprofilerFields  $field
+	 * @return int
+	 */
+	function getMaxLength( $field ) {
+		$maxLen						=	parent::getMaxLength( $field );
+		if ( $maxLen ) {
+			return $maxLen;
+		}
+		if ( $field->name == 'username' ) {
+			return 150;
+		} else {
+			return 100;
+		}
 	}
 }
 class CBfield_password extends CBfield_text {
@@ -485,24 +557,11 @@ class CBfield_password extends CBfield_text {
 			if ( ( $field->name != 'password' ) || ( $reason != 'register' ) || ! ( isset( $ueConfig['emailpass'] ) && ( $ueConfig['emailpass'] == "1" ) ) ) {
 
 					$req							=	$field->required;
-					$fieldMinLength					=	$field->params->get( 'fieldMinLength', 6 );
 					if ( ( $reason == 'edit' ) && in_array( $field->name, array( 'password', 'password__verify' ) ) ) {
 						$field->required			=	0;
 					}
 
-					$metaJson						=	array();
-					if ( $fieldMinLength > 0 ) {
-						$metaJson[]					=	'minlength:' . (int) $fieldMinLength;
-					}
-					if ( isset( $field->_identicalTo ) ) {
-						$metaJson[]					=	"equalTo:'#" . addslashes( htmlspecialchars( $field->_identicalTo ) ) . "'";
-					}
-					if ( count( $metaJson ) > 0 ) {
-						$classesMeta				=	array( '{' . implode( ',', $metaJson ) . '}' );
-					} else {
-						$classesMeta				=	null;
-					}
-					$html							=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', $field->type, $value, '', null, true, $classesMeta );
+					$html							=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', $field->type, $value, '', null, true, array( $this->getMetaClass( $field ) ) );
 					$field->required				=	$req;
 
 				} else {
@@ -530,7 +589,7 @@ class CBfield_password extends CBfield_text {
 	 * @param  string                $reason    'edit' for save profile edit, 'register' for registration, 'search' for searches
 	 */
 	function prepareFieldDataSave( &$field, &$user, &$postdata, $reason ) {
-		global $ueConfig;
+		global $_CB_framework, $ueConfig;
 
 		$this->_prepareFieldMetaSave( $field, $user, $postdata, $reason );
 
@@ -545,19 +604,19 @@ class CBfield_password extends CBfield_text {
 			$value					=	stripslashes( cbGetParam( $postdata, $col,				'', _CB_ALLOWRAW ) );
 			$valueVerify			=	stripslashes( cbGetParam( $postdata, $col . '__verify',	'', _CB_ALLOWRAW ) );
 
-			if ( ( $reason == 'edit' ) && ( $user->id != 0 ) && ( $user->$col || ( $field->name == 'password' ) ) ) {
+			if ( ( ( $reason == 'edit' ) && ( $user->id != 0 ) && ( $user->$col || ( $field->name == 'password' ) ) ) || ( $_CB_framework->getUi() == 2 ) ) {
 				$fieldRequired		=	$field->required;
 				$field->required	=	0;
 			}
 			$this->validate( $field, $user, $col, $value, $postdata, $reason );
 
-			if ( ( $reason == 'edit' ) && ( $user->id != 0 ) && ( $user->$col || ( $field->name == 'password' ) ) ) {
+			if ( ( ( $reason == 'edit' ) && ( $user->id != 0 ) && ( $user->$col || ( $field->name == 'password' ) ) ) || ( $_CB_framework->getUi() == 2 ) ) {
 				$field->required	=	$fieldRequired;
 			}
 
-			$fieldMinLength			=	$field->params->get( 'fieldMinLength', 6 );
+			$fieldMinLength			=	$this->getMinLength( $field );
 
-			$user->col				=	null;		// don't update unchanged (hashed) passwords unless typed-in and all validates:
+			$user->$col				=	null;		// don't update unchanged (hashed) passwords unless typed-in and all validates:
 			if ( $value ) {
 				if ( cbIsoUtf_strlen( $value ) < $fieldMinLength ) {
 					$this->_setValidationError( $field, $user, $reason, sprintf( _UE_VALID_PASS_CHARS, _UE_PASS, $fieldMinLength ) );
@@ -583,6 +642,16 @@ class CBfield_password extends CBfield_text {
 	 */
 	function bindSearchCriteria( &$field, &$user, &$postdata, $list_compare_types, $reason ) {
 		return array();
+	}
+	/**
+	 * Returns the minimum field length as set
+	 * 
+	 * @param  moscomprofilerFields  $field
+	 * @return int
+	 */
+	function getMinLength( $field ) {
+		$defaultMin					=	6;
+		return $field->params->get( 'fieldMinLength', $defaultMin );
 	}
 }
 class CBfield_select_multi_radio extends cbFieldHandler {
@@ -699,7 +768,7 @@ class CBfield_select_multi_radio extends cbFieldHandler {
 		$this->_prepareFieldMetaSave( $field, $user, $postdata, $reason );
 
 		foreach ( $field->getTableColumns() as $col ) {
-			$value						=	cbGetParam( $postdata, $col );
+			$value						=	cbGetParam( $postdata, $col, null, _CB_ALLOWRAW );
 //			if ( $value === null ) {
 //				$value				=	array();
 //			} elseif ( $field->type == 'radio' ) {
@@ -719,7 +788,7 @@ class CBfield_select_multi_radio extends cbFieldHandler {
 						// revert escaping of cbGetParam:
 						$v				=	stripslashes( $v );
 						// check authorized values:
-						if ( in_array( $v, $authorizedValues ) && ! in_array( $v, $okVals ) ) {		// in case a value appears multiple times in a multi-field !
+						if ( in_array( $v, $authorizedValues, true ) && ! in_array( $v, $okVals, true ) ) {		// in case a value appears multiple times in a multi-field !
 							$okVals[$k]	=	$v;
 						}
 					}
@@ -735,7 +804,7 @@ class CBfield_select_multi_radio extends cbFieldHandler {
 											. "\n WHERE fieldid = " . (int) $field->fieldid
 											. "\n AND fieldtitle = " . $_CB_database->Quote( $value ) );
 				$authorizedValues	=	$_CB_database->loadResultArray();
-				if ( ! in_array( $value, $authorizedValues ) ) {
+				if ( ! in_array( $value, $authorizedValues, true ) ) {
 					$value			=	null;
 				}
 			}
@@ -815,11 +884,12 @@ class CBfield_select_multi_radio extends cbFieldHandler {
 							$value			=	null;
 						}
 					} else {
+						if ( ( $list_compare_types == 1 ) && in_array( $searchMode, array( 'is', 'isnot' ) ) ) {
+							$value			=	'';
+						} else {
 	//					if ( ( $field->type == 'multicheckbox' ) && ( $value === null ) ) {
 							$value			=	null;				// 'none' is not checked and no other is checked: search for DON'T CARE
-	//					} else {
-	//						$value			=	null;
-	//					}
+						}
 					}
 				}
 				if ( $value !== null ) {
@@ -874,7 +944,7 @@ class CBfield_checkbox extends cbFieldHandler {
 					$choices[]	=	moscomprofilerHTML::makeOption( '1', _UE_YES );
 					$choices[]	=	moscomprofilerHTML::makeOption( '0', _UE_NO );
 					$html		=	'<div class="cbSingleCntrl">' . $this->_fieldEditToHtml( $field, $user, $reason, 'input', 'select', $value, '', $choices ) . '</div>';
-					$html		=	$this->_fieldSearchModeHtml( $field, $user, $html, 'none', $list_compare_types );
+					$html		=	$this->_fieldSearchModeHtml( $field, $user, $html, 'singlechoice', $list_compare_types );
 					return $html;
 				} else {
 					$checked		=	'';
@@ -1280,6 +1350,13 @@ class CBfield_date extends cbFieldHandler {
 						$minHtml	=	moscomprofilerHTML::selectList( $choices, $minNam, $additional, 'text', 'value', $minVal, 2 );
 						$maxHtml	=	moscomprofilerHTML::selectList( $choices, $maxNam, $additional, 'text', 'value', $maxVal, 2 );
 					} else {
+						if ( $minVal !== null ) {
+							$minVal	=	date( 'Y-m-d', strtotime( $minVal ) );
+						}
+						if ( $maxVal !== null ) {
+							$maxVal	=	date( 'Y-m-d', strtotime( $maxVal ) );
+						}
+
 						// Search by date range:
 						$minHtml	=	$calendars->cbAddCalendar( $minNam, _UE_SEARCH_FROM . ' ' . $this->getFieldTitle( $field, $user, 'text', $reason ), false, $minVal, false, false, $yMin, $yMax );
 						$maxHtml	=	$calendars->cbAddCalendar( $maxNam, _UE_SEARCH_TO . ' ' . $this->getFieldTitle( $field, $user, 'text', $reason ), false, $maxVal, false, false, $yMin, $yMax );
@@ -1552,68 +1629,108 @@ class CBfield_date extends cbFieldHandler {
 	 * @return array of cbSqlQueryPart
 	 */
 	function bindSearchCriteria( &$field, &$searchVals, &$postdata, $list_compare_types, $reason ) {
-		$search_by						=	$field->params->get( 'field_search_by', 0 );
-		list( $yMinMin, $yMaxMax )		=	$this->_yearsRange( $field, $search_by );
-		$query							=	array();
+		$search_by								=	$field->params->get( 'field_search_by', 0 );
+
+		list( $yMinMin, $yMaxMax )				=	$this->_yearsRange( $field, $search_by );
+
+		$query									=	array();
+
 		foreach ( $field->getTableColumns() as $col ) {
-			$minNam						=	$col . '__minval';
-			$maxNam						=	$col . '__maxval';
-			$searchMode					=	$this->_bindSearchRangeMode( $field, $searchVals, $postdata, $minNam, $maxNam, $list_compare_types );
+			$minNam								=	$col . '__minval';
+			$maxNam								=	$col . '__maxval';
+			$searchMode							=	$this->_bindSearchRangeMode( $field, $searchVals, $postdata, $minNam, $maxNam, $list_compare_types );
+
 			if ( $searchMode ) {
 				if ( $search_by == 1 ) {
 					// search by years:
 					// list( $y, $c, $d, $h, $m, $s )	=	sscanf( date( 'Y-m-d H:i:s' ), '%d-%d-%d %d:%d:%d' );
-					list( $y, $c, $d )	=	sscanf( date( 'Y-m-d' ), '%d-%d-%d' );
-					$minValIn			=	(int) cbGetParam( $postdata, $minNam, 0 );
-					$maxValIn			=	(int) cbGetParam( $postdata, $maxNam, 0 );
-					if ( $maxValIn && ( $maxValIn < $yMaxMax ) ) {
-						$yMin			=	$y - $maxValIn -1;	// yes, crossed: the more years back, the smaller the date...	add 1 year for searches from 24 to 24 (INCLUDED)
-						$minVal			=	sprintf( '%04d-%02d-%02d', $yMin, $c, $d );
+					list( $y, $c, $d )			=	sscanf( date( 'Y-m-d' ), '%d-%d-%d' );
+
+					$minValIn					=	(int) cbGetParam( $postdata, $minNam, 0 );
+					$maxValIn					=	(int) cbGetParam( $postdata, $maxNam, 0 );
+
+					if ( ( $maxValIn && ( $maxValIn <= $yMaxMax ) ) && ( $minValIn && ( $minValIn > $yMinMin ) ) ) {
+						$yMax					=	$y - $minValIn;
+						$maxVal					=	sprintf( '%04d-%02d-%02d', $yMax, $c, $d );
 					} else {
-						$minVal			=	null;
+						$maxVal					=	null;
 					}
-					if ( $minValIn && ( $minValIn > $yMinMin ) ) {
-						$yMax			=	$y - $minValIn;
-						$maxVal			=	sprintf( '%04d-%02d-%02d', $yMax, $c, $d );
+
+					if ( ( $minValIn && ( $minValIn >= $yMinMin ) ) && ( $maxValIn && ( $maxValIn < $yMaxMax ) ) ) {
+						$yMin					=	$y - $maxValIn -1;	// yes, crossed: the more years back, the smaller the date...	add 1 year for searches from 24 to 24 (INCLUDED)
+						$minVal					=	sprintf( '%04d-%02d-%02d', $yMin, $c, $d );
 					} else {
-						$maxVal			=	null;
+						$minVal					=	null;
 					}
 				} else {
-					$minValIn			=	$this->_displayDateToSql( stripslashes( cbGetParam( $postdata, $minNam ) ) );
-					$maxValIn			=	$this->_displayDateToSql( stripslashes( cbGetParam( $postdata, $maxNam ) ) );
-					$minVal				=	$minValIn;
-					$maxVal				=	$maxValIn;
+					$minVal						=	$this->_displayDateToSql( stripslashes( cbGetParam( $postdata, $minNam ) ) );
+					$maxVal						=	$this->_displayDateToSql( stripslashes( cbGetParam( $postdata, $maxNam ) ) );
+					$minValIn					=	cbFormatDate( $minVal );
+					$maxValIn					=	cbFormatDate( $maxVal );
 				}
 
-				if ( $minVal && ( $minVal !== '0000-00-00' ) ) {
-					$query[]			=	$this->_dateToSql( $field, $col, $minVal, '>=', $searchMode );
-				}
-				if ( $maxVal && ( $maxVal !== '0000-00-00' ) ) {
-					$query[]			=	$this->_dateToSql( $field, $col, $maxVal, '<=', $searchMode );
-					if ( ( ! ( $minVal && ( $minVal !== '0000-00-00' ) ) ) && ( ! in_array( $field->name, array( 'lastupdatedate', 'lastvisitDate' ) ) ) ) {
-						$query[]		=	$this->_dateToSql( $field, $col, '0000-00-00', '>', $searchMode );
+				$min_search						=	( $minVal && ( $minVal !== '0000-00-00' ) );
+				$max_search						=	( $maxVal && ( $maxVal !== '0000-00-00' ) );
+				$force_min						=	( ( ! $min_search ) && $max_search && ( ! in_array( $field->name, array( 'lastupdatedate', 'lastvisitDate' ) ) ) );
+
+				if ( $min_search || $force_min ) {
+					$min						=	new cbSqlQueryPart();
+					$min->tag					=	'column';
+					$min->name					=	$col;
+					$min->table					=	$field->table;
+					$min->type					=	'sql:field';
+					$min->operator				=	( ! $force_min ? ( $searchMode == 'isnot' ? '<=' : '>=' ) : '>' );
+					$min->value					=	( ! $force_min ? $minVal : '0000-00-00' );
+					$min->valuetype				=	'const:date';
+					$min->searchmode			=	$searchMode;
+
+					if ( ! $force_min ) {
+						if ( ( ! $maxVal ) && $maxValIn ) {
+							$searchVals->$maxNam=	$maxValIn;
+						}
+
+						$searchVals->$minNam	=	$minValIn;
 					}
 				}
-				// Finally store the selected drop-down values so they can be pre-selected on display:
-				$searchVals->$minNam =	$minValIn;
-				$searchVals->$maxNam =	$maxValIn;
+
+				if ( $max_search ) {
+					$max						=	new cbSqlQueryPart();
+					$max->tag					=	'column';
+					$max->name					=	$col;
+					$max->table					=	$field->table;
+					$max->type					=	'sql:field';
+					$max->operator				=	( $searchMode == 'isnot' ? '>=' : '<=' );
+					$max->value					=	$maxVal;
+					$max->valuetype				=	'const:date';
+					$max->searchmode			=	$searchMode;
+
+					if ( ( ! $minVal ) && $minValIn ) {
+						$searchVals->$minNam	=	$minValIn;
+					}
+
+					$searchVals->$maxNam		=	$maxValIn;
+				}
+
+				if ( isset( $min ) && isset( $max ) ) {
+					$sql						=	new cbSqlQueryPart();
+					$sql->tag					=	'column';
+					$sql->name					=	$col;
+					$sql->table					=	$field->table;
+					$sql->type					=	'sql:operator';
+					$sql->operator				=	( $searchMode == 'isnot' ? 'OR' : 'AND' );
+					$sql->searchmode			=	$searchMode;
+
+					$sql->addChildren( array( $min, $max ) );
+
+					$query[]					=	$sql;
+				} elseif ( isset( $min ) ) {
+					$query[]					=	$min;
+				} elseif ( isset( $max ) ) {
+					$query[]					=	$max;
+				}
 			}
 		}
 		return $query;
-	}
-	function _dateToSql( &$field, $col, $value, $operator, $searchMode ) {
-		$value							=	stripslashes( $value );
-		// $this->validate( $field, $user, $col, $value, $postdata, $reason );
-		$sql							=	new cbSqlQueryPart();
-		$sql->tag						=	'column';
-		$sql->name						=	$col;
-		$sql->table						=	$field->table;
-		$sql->type						=	'sql:field';
-		$sql->operator					=	$operator;
-		$sql->value						=	$value;
-		$sql->valuetype					=	'const:date';
-		$sql->searchmode				=	$searchMode;
-		return $sql;
 	}
 }
 class CBfield_editorta extends cbFieldHandler {
@@ -1661,17 +1778,9 @@ class CBfield_editorta extends cbFieldHandler {
 					$value				=	$cbFields->clean( $badHtmlFilter, $value );
 					unset( $cbFields );
 
-					$html				=	$_CB_framework->displayCmsEditor( $field->name, $value, 600, 350, $field->cols, $field->rows );
-					$jsSaveCode			=	$_CB_framework->saveCmsEditorJS( $field->name );
-					if ( $jsSaveCode ) {
-						$_CB_framework->outputCbJQuery( "$('#adminForm').submit( function() { " . $jsSaveCode . " return true; } );" );
-					}
-					if ( $this->_isRequired( $field, $user, $reason ) ) {
-						// jQuery handles the onReady aspects very well... :
-						$_CB_framework->outputCbJQuery( 'document.adminForm.' . $field->name . ".setAttribute('mosReq','1');"
-									.	' document.adminForm.' . $field->name . ".setAttribute('mosLabel','" . addslashes( $this->getFieldTitle( $field, $user, 'text', $reason ) ) . "');"
-									);
-					}
+					$html				=	$_CB_framework->displayCmsEditor( $field->name, $value, 600, 350, $field->cols, $field->rows )
+										.	$this->_fieldIconsHtml( $field, $user, $output, $reason, null, $field->type, $value, 'input', null, true, ( $this->_isRequired( $field, $user, $reason ) && ( ! $this->_isReadOnly( $field, $user, $reason ) ) ) );
+					$this->_addSaveAndValidateCode( $field, $user, $reason );
 				} else {
 					$html				=	null;
 				}
@@ -1688,6 +1797,32 @@ class CBfield_editorta extends cbFieldHandler {
 				break;
 		}
 		return $html;
+	}
+	function _addSaveAndValidateCode( $field, $user, $reason ) {
+		global $_CB_framework;
+		$jsSaveCode			=	$_CB_framework->saveCmsEditorJS( $field->name );
+		if ( $jsSaveCode ) {
+			$_CB_framework->outputCbJQuery( "$('#adminForm').submit( function() { " . $jsSaveCode . " return true; } );" );
+		}
+		if ( $this->_isRequired( $field, $user, $reason ) ) {
+			// jQuery handles the onReady aspects very well... :
+			if ( defined( '_CB_VALIDATE_NEW' ) ) {
+				$jsSaveCode			=	$_CB_framework->saveCmsEditorJS( $field->name, 0, false );
+				cbimport( 'cb.validator' );
+				cbValidator::addMethod( 'cbeditorareaRequired' . $field->name, '
+jQuery.validator.addMethod("cbeditorareaRequired' . $field->name . '", function(value, element, param) {
+			' . $jsSaveCode . ';
+			return $(element).hasClass(\'requiredDisabled\') || $(element).closest(\'.fieldCell,.cb_field\').hasClass(\'requiredDisabled\') || $.trim($(element).val()).length > 0;
+});
+$(\'form[name="adminForm"] textarea[name="' . $field->name . '"]\').addClass("required").rules( "add", { cbeditorareaRequired' . $field->name . ': true } );' );
+			} else {
+				$_CB_framework->outputCbJQuery(
+								'$(\'form[name="adminForm"] textarea[name="' . $field->name . '"]\').addClass("required");'
+							.		'document.adminForm.' . $field->name . ".setAttribute('mosReq','1');"
+							.		'document.adminForm.' . $field->name . ".setAttribute('mosLabel','" . addslashes( $this->getFieldTitle( $field, $user, 'text', $reason ) ) . "');" );
+			}
+		}
+
 	}
 	/**
 	 * Prepares field data for saving to database (safe transfer from $postdata to $user)
@@ -1828,19 +1963,21 @@ class CBfield_email extends CBfield_text {
 													||  ( $_CB_framework->getUi() == 2 ) )
 												&& ( $reason != 'search' ) );
 				if ( defined( '_CB_VALIDATE_NEW' ) ) {
-					if ( $ajaxCheck ) {
+					if ( $ajaxCheck && ( $reason != 'search' ) ) {
 						$oReturn			=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( 'email', $this->ajaxCheckField( $field, $user, $reason, array( 'email:true' ) ) ) );
 						// $this->ajaxCheckField( $field, $user, $reason );
 					} else {
-						$oReturn			=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( 'email' ) );
+						$oReturn			=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, ( ( $reason != 'search' ) ? array( 'email' ) : array() ) );
+						if ( $reason == 'search' ) {
+							$oReturn		=	$this->_fieldSearchModeHtml( $field, $user, $oReturn, 'text', $list_compare_types );
+						}
 					}
 				} else {
-					$oReturn				=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( 'email' ) );
-					if ( $ajaxCheck ) {
-						$this->ajaxCheckField( $field, $user, $reason );
-					}
+					$oReturn				=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, ( ( $reason != 'search' ) ? array( 'email' ) : array() ) );
 					if ( $reason == 'search' ) {
 						$oReturn			=	$this->_fieldSearchModeHtml( $field, $user, $oReturn, 'text', $list_compare_types );
+					} elseif ( $ajaxCheck ) {
+						$this->ajaxCheckField( $field, $user, $reason );
 					}
 				}
 				break;
@@ -1882,11 +2019,11 @@ class CBfield_email extends CBfield_text {
 			$function			=	cbGetParam( $_GET, 'function', '' );
 			if ( $function == 'checkvalue' ) {
 				$email			=	stripslashes( cbGetParam( $postdata, 'value', '' ) );
-				$emailISO 		=	utf8ToISO( $email );			// ajax sends in utf8, we need to convert back to the site's encoding.
+				$emailISO 		=	CBTxt::utf8ToISO( $email );			// ajax sends in utf8, we need to convert back to the site's encoding.
 			
-				if ( 	(	( isset( $ueConfig['reg_email_checker'] ) ? ( $ueConfig['reg_email_checker'] > 1 ) : false ) 
-							&& ( ( $reason == 'register' ) || ( ( $reason == 'edit') && $user && ( $emailISO != $user->email ) ) ) )
-						|| ( $_CB_framework->getUi() == 2 ) )
+				if ( ( $field->type == 'primaryemailaddress' )
+				&& ( ( isset( $ueConfig['reg_email_checker'] ) ? ( $ueConfig['reg_email_checker'] > 1 ) : false )  ||  ( $_CB_framework->getUi() == 2 ) )
+				&& ( ( $reason == 'register' ) || ( ( $reason == 'edit') && $user && ( $emailISO != $user->email ) ) ) )
 				{
 					if ( $_CB_database->isDbCollationCaseInsensitive() ) {
 						$query	=	"SELECT COUNT(*) AS result FROM #__users WHERE email = " . $_CB_database->Quote( ( trim( $emailISO ) ) );
@@ -1912,7 +2049,11 @@ class CBfield_email extends CBfield_text {
 				if ( $function == 'testexists' ) {
 					return ISOtoUtf8( _UE_NOT_AUTHORIZED );
 				} else {
-					$checkResult	=	cbCheckMail( $_CB_framework->getCfg( 'mailfrom' ), $email );
+					if ( ( $reason == 'register' ) || ( ( $reason == 'edit') && $user && ( $emailISO != $user->email ) ) || ( $_CB_framework->getUi() == 2 ) ) {
+						$checkResult	=	cbCheckMail( $_CB_framework->getCfg( 'mailfrom' ), $emailISO );
+					} else {
+						return '<span class="cb_result_info">' . sprintf( ISOtoUtf8( CBTxt::T("No changes.") ), htmlspecialchars( $email ) ) . "</span>";
+					}
 				}
 				switch ( $checkResult ) {
 					case -2:
@@ -1967,6 +2108,29 @@ class CBfield_email extends CBfield_text {
 				$user->$col			=	$value;
 			}
 		}
+	}
+	/**
+	 * Validator:
+	 * Validates $value for $field->required and other rules
+	 * Override
+	 *
+	 * @param  moscomprofilerFields  $field
+	 * @param  moscomprofilerUser    $user        RETURNED populated: touch only variables related to saving this field (also when not validating for showing re-edit)
+	 * @param  string                $columnName  Column to validate
+	 * @param  string                $value       (RETURNED:) Value to validate, Returned Modified if needed !
+	 * @param  array                 $postdata    Typically $_POST (but not necessarily), filtering required.
+	 * @param  string                $reason      'edit' for save profile edit, 'register' for registration, 'search' for searches
+	 * @return boolean                            True if validate, $this->_setErrorMSG if False
+	 */
+	function validate( &$field, &$user, $columnName, &$value, &$postdata, $reason ) {
+		$validate	=	parent::validate( $field, $user, $columnName, $value, $postdata, $reason );
+		if ( $validate && ( $value != null ) ) {
+			if ( ! cbIsValidEmail( $value ) ) {
+				$this->_setValidationError( $field, $user, $reason, sprintf( _UE_EMAIL_NOVALID, htmlspecialchars( $value ) ) );
+				$validate				=	false;
+			}
+		}
+		return $validate;
 	}
 }
 class CBfield_webaddress extends CBfield_text {
@@ -2201,7 +2365,7 @@ class CBfield_image extends cbFieldHandler {
 	 * @return mixed                
 	 */
 	function getField( &$field, &$user, $output, $reason, $list_compare_types ) {
-		global $ueConfig;
+		global $_CB_framework, $ueConfig;
 
 		$oReturn						=	'';
 		if ( ( $ueConfig['allowAvatar'] == '1' ) || ( $field->name != 'avatar' ) ) {
@@ -2210,6 +2374,12 @@ class CBfield_image extends cbFieldHandler {
 				case 'rss':
 					$thumbnail			=	( $reason != 'profile' );
 					$oReturn			=	$this->_avatarHtml( $field, $user, $reason, $thumbnail, 2 );
+
+					$name				=	$field->name;
+					$nameapproved		=	$field->name . 'approved';
+					if ( ( $reason == 'profile' ) && ( $user->$name != '' ) && ( $user->$nameapproved == 0 ) && ( isModerator( $_CB_framework->myId() ) ) ) {
+						$oReturn		.=	' ' . $this->_avatarHtml( $field, $user, $reason, false, 10 );
+					}
 					break;
 
 				case 'htmledit':
@@ -2221,7 +2391,7 @@ class CBfield_image extends cbFieldHandler {
 						$col			=	$field->name;
 						$value			=	$user->$col;
 						$html			=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'select', $value, '', $choices );
-						$html			=	$this->_fieldSearchModeHtml( $field, $user, $html, 'none', $list_compare_types );		//TBD: Has avatarapproved...
+						$html			=	$this->_fieldSearchModeHtml( $field, $user, $html, 'singlechoice', $list_compare_types );		//TBD: Has avatarapproved...
 					} else {
 						$html			=	$this->_htmlEditForm( $field, $user, $reason );
 					}
@@ -2302,7 +2472,7 @@ class CBfield_image extends cbFieldHandler {
 						$this->_logFieldUpdate( $field, $user, $reason, $user->$col, $newFileName );
 					}
 	
-					if ( $user->$col != '' ) {
+					if ( isset( $user->$col ) && ( $user->$col != '' ) ) {
 						deleteAvatar( $user->$col );
 					}
 	
@@ -2352,7 +2522,7 @@ class CBfield_image extends cbFieldHandler {
 					$query							=	'UPDATE ' . $_CB_database->NameQuote( $field->table )
 													.	"\n SET " . $_CB_database->NameQuote( $col )			  . ' = NULL'
 													.	', '	  . $_CB_database->NameQuote( $col . 'approved' ) . ' = 1'
-													.	', '	  . $_CB_database->NameQuote( 'lastupdatedate' )  . ' = ' . $_CB_database->Quote( date( 'Y-m-d H:i:s', $_CB_framework->now() ) )
+													.	', '	  . $_CB_database->NameQuote( 'lastupdatedate' )  . ' = ' . $_CB_database->Quote( $_CB_framework->dateDbOfNow() )
 													.	"\n WHERE " . $_CB_database->NameQuote( 'id' )			  . ' = ' . (int) $user->id;
 					$_CB_database->setQuery( $query );
 					$_CB_database->query();
@@ -2363,7 +2533,7 @@ class CBfield_image extends cbFieldHandler {
 					$this->_logFieldUpdate( $field, $user, $reason, '', $user->$col );	// here we are missing the old value, so can't give it...
 
 					$user->$colapproved				=	1;
-					$user->lastupdatedate			=	date( 'Y-m-d H:i:s', $_CB_framework->now() );
+					$user->lastupdatedate			=	$_CB_framework->dateDbOfNow();
 
 					$cbNotification					=	new cbNotification();
 					$cbNotification->sendFromSystem( $user, _UE_IMAGEAPPROVED_SUB, _UE_IMAGEAPPROVED_MSG );
@@ -2559,7 +2729,7 @@ class CBfield_image extends cbFieldHandler {
 			$tn							=	$thumbnail ? 'tn' : '';
 
 			$oValue						=	null;
-			if ( ( $avatar != '' ) && ( $avatarapproved > 0 ) ) {
+			if ( ( $avatar != '' ) && ( ( $avatarapproved > 0 ) || ( $show_avatar == 10 ) ) ) {
 				if ( strpos( $avatar, 'gallery/' ) === false ) {
 					$oValue				=	'images/comprofiler/' . $tn . $avatar;
 				} else {
@@ -2675,7 +2845,7 @@ class CBfield_image extends cbFieldHandler {
 		if ( ( $name == 'avatar' ) && $ueConfig['allowAvatarGallery'] ) {
 			$choices[]					=	moscomprofilerHTML::makeOption( 'gallery', _UE_AVATAR_SELECT );
 		}
-		if ( ( $_CB_framework->getUi() == 2 ) && $existingAvatar && $user->$nameapproved == 0 ) {
+		if ( ( $_CB_framework->getUi() == 2 ) && $existingAvatar && ( $user->$nameapproved == 0 ) ) {
 			$choices[]					=	moscomprofilerHTML::makeOption( 'approve', _UE_APPROVE_IMAGE );
 		}
 		if ( $existingAvatar && ( $required == 0 ) ) {
@@ -2684,6 +2854,9 @@ class CBfield_image extends cbFieldHandler {
 		$html							.=	'<div>';
 		if ( ( $reason != 'register' ) && ( $user->id != 0 ) && $existingAvatar ) {
 			$html						.=	$this->_avatarHtml( $field, $user, $reason ) . ' ';
+		}
+		if ( ( $reason == 'edit' ) && $existingAvatar && ( $user->$nameapproved == 0 ) && ( isModerator( $_CB_framework->myId() ) ) ) {
+			$html						.=	$this->_avatarHtml( $field, $user, $reason, false, 10 ) . ' ';
 		}
 		if ( count( $choices ) > 1 ) {
 			$additional					=	' class="inputbox"';
@@ -2713,7 +2886,7 @@ class CBfield_image extends cbFieldHandler {
 			static $functOut			=	false;
 			if ( ! $functOut ) {
 				$js						=	"function cbslideImage(choice,uplodid,galleryid) {"
-										.	"\n	if ( ( choice == '' ) || ( choice == 'delete' ) ) {"
+										.	"\n	if ( ( choice == '' ) || ( choice == 'approve' ) || ( choice == 'delete' ) ) {"
 										.	"\n		$(uplodid).slideUp('slow');"
 										.	"\n		$(galleryid).slideUp('slow');"
 										.	"\n	} else if ( choice == 'upload' ) {"
@@ -2752,7 +2925,7 @@ class CBfield_image extends cbFieldHandler {
 			$saveFieldName				=	$field->name;
 			$saveFieldRequired			=	$field->required;
 			$field->name				.=	'__file';
-			if ( $field->required && $user && $user->$saveFieldName ) {
+			if ( $field->required && $user && isset( $user->$saveFieldName ) && $user->$saveFieldName ) {
 				$field->required		=	0;
 			}
 			
@@ -2807,6 +2980,37 @@ class CBfield_image extends cbFieldHandler {
 		}
 		$html		.=	'</div>';
 		return $html;
+	}
+	/**
+	 * This event-driven method is temporary until we get another API for deleting each field:
+	 * 
+	 * @param $user
+	 */
+	function onBeforeDeleteUser( $user ) {
+		global $_CB_framework, $_CB_database;
+	
+		$query				=	'SELECT ' . $_CB_database->NameQuote( 'name' )
+							.	"\n FROM " . $_CB_database->NameQuote( '#__comprofiler_fields' )
+							.	"\n WHERE " . $_CB_database->NameQuote( 'type' ). " = " . $_CB_database->Quote( 'image' )
+							.	"\n AND " . $_CB_database->NameQuote( 'name' ). " != " . $_CB_database->Quote( 'avatar' );
+		$_CB_database->setQuery( $query );
+		$image_fields		=	$_CB_database->loadResultArray();
+	
+		if ( $image_fields ) {
+			$image_path		=	$_CB_framework->getCfg( 'absolute_path' ) . '/images/comprofiler/';
+	
+			foreach ( $image_fields as $image_field ) {
+				if ( isset( $user->$image_field ) && ( $user->$image_field != '' ) ) {
+					if ( file_exists( $image_path . $user->$image_field ) ) {
+						@unlink( $image_path . $user->$image_field );
+	
+						if ( file_exists( $image_path . 'tn' . $user->$image_field ) ) {
+							@unlink( $image_path . 'tn' . $user->$image_field );
+						}
+					}
+				}
+			}
+		}
 	}
 }
 class CBfield_status extends cbFieldHandler {
@@ -3296,60 +3500,6 @@ class CBfield_delimiter extends cbFieldHandler {
 	 *
 	 * @param  moscomprofilerFields  $field
 	 * @param  moscomprofilerUser    $user
-	 * @param  string                $output      'html', 'xml', 'json', 'php', 'csvheader', 'csv', 'rss', 'fieldslist', 'htmledit'
-	 * @param  string                $formatting  'table', 'td', 'span', 'div', 'none'
-	 * @param  string                $reason      'profile' for user profile view, 'edit' for profile edit, 'register' for registration, 'list' for user-lists
-	 * @param  int                   $list_compare_types   IF reason == 'search' : 0 : simple 'is' search, 1 : advanced search with modes, 2 : simple 'any' search
-	 * @return mixed                
-	 */
-	function getFieldRow( &$field, &$user, $output, $formatting, $reason, $list_compare_types ) {
-		global $_CB_OneTwoRowsStyleToggle;
-
-		$results								=	null;
-		$oValue									=	$this->getField( $field, $user, $output, $reason, $list_compare_types );
-		if( $oValue != null || trim($oValue) != '' ) {
-			switch ( $formatting ) {
-				case 'td':
-					$class 						=	'sectiontableentry' . $_CB_OneTwoRowsStyleToggle;
-					$_CB_OneTwoRowsStyleToggle	=	( $_CB_OneTwoRowsStyleToggle == 1 ? 2 : 1 );
-					$colspan					=	2;
-					$results					.=	"\n\t\t\t\t<tr class=\"" . $class. '" id="cbfr_' . $field->fieldid . '">'
-												.	"\n\t\t\t\t\t<td colspan=\"" . $colspan . '" class="delimiterCell" id="cbfl_' . $field->fieldid . '">'
-												.	$this->getFieldTitle( $field, $user, $output, $reason )
-												.	'</td>'
-												.	"\n\t\t\t\t</tr>";
-					if ( $field->description ) {
-						$results				.=	"\n\t\t\t\t<tr class=\"" . $class . "\">\n\t\t\t\t\t"
-												.	'<td colspan="' . $colspan . '" class="descriptionCell" id="cbfv_' . $field->fieldid . '">' . $oValue . "</td>\n"
-												.	"\n\t\t\t\t</tr>";
-					}
-					break;
-
-				case 'div':
-					$results					.=	"\n\t\t\t\t"
-												.	'<div class="cb_form_instructions cb_form_title" id="cbfl_' . $field->fieldid . '">'
-												.	$this->getFieldTitle( $field, $user, $output, $reason )
-												.	'</div>';
-					if ( $field->description ) {
-						$results				.=	"\n\t\t\t\t"
-												.	'<div class="cb_form_instructions cb_form_descr" id="cbfv_' . $field->fieldid . '">'
-												.	$oValue
-												.	'</div>';
-					}
-					break;
-
-				default:
-					$results					=	parent::getFieldRow( $field, $user, $output, $formatting, $reason, $list_compare_types );
-					break;
-			}
-		}
-		return $results;
-	}
-	/**
-	 * Returns a DELIMITER field in specified format
-	 *
-	 * @param  moscomprofilerFields  $field
-	 * @param  moscomprofilerUser    $user
 	 * @param  string                $output  'html', 'xml', 'json', 'php', 'csvheader', 'csv', 'rss', 'fieldslist', 'htmledit'
 	 * @param  string                $reason  'profile' for user profile view, 'edit' for profile edit, 'register' for registration, 'list' for user-lists
 	 * @param  int                   $list_compare_types   IF reason == 'search' : 0 : simple 'is' search, 1 : advanced search with modes, 2 : simple 'any' search
@@ -3433,12 +3583,12 @@ class CBfield_userparams extends cbFieldHandler {
 			//Loop through each parameter and prepare rendering appropriately.
 			foreach ( $userParams AS $k => $userParam ) {
 				$paramField					=	new moscomprofilerFields( $_CB_database );
-				$paramField->title			=	preg_replace( '!:</label>$!', '</label>', $userParam[0] );		// remove last ':' as CB adds it.
+				$paramField->title			=	$userParam[0];
 				$paramField->_html			=	$userParam[1];
 				$paramField->description	=	( isset( $userParam[2] ) && class_exists("JText") ? JText::_( $userParam[2] ) : null );
 				$paramField->name			=	( isset( $userParam[3] ) && class_exists("JText") ? JText::_( $userParam[3] ) : null );		// very probably wrong!
 				$paramField->fieldid		=	'userparam_' . $k;
-				$paramField->displaytitle	=	-1;		// don't redisplay <label for> markup
+				$paramField->displaytitle	=	substr( $userParam[0], 0, 6 ) == '<label' ? -1 : 1;		// don't redisplay <label for> markup
 				$paramField->type			=	'param';		// this is for cb_ftparam class to be correct.
 				$pseudoFields[]				=	$paramField;
 			}
@@ -3446,16 +3596,23 @@ class CBfield_userparams extends cbFieldHandler {
 
 		if( $_CB_framework->getUi() == 2 ) {
 			$myGid							=	userGID( $_CB_framework->myId() );
+			$cms_mod						=	$_CB_framework->acl->mapGroupNamesToValues( 'Administrator' );
+			$cms_admin						=	$_CB_framework->acl->mapGroupNamesToValues( 'Superadministrator' );
+			if ( checkJversion() == 2 ) {
+				$cms_admin_title			=	'Super Users';
+			} else {
+				$cms_admin_title			=	'Super Administrator';
+			}
 			$canBlockUser					=	$_CB_framework->check_acl( 'canBlockUsers', $_CB_framework->myUserType() );
-			$canEmailEvents					=	   ( ( $user->id == 0 ) && ( in_array( $myGid, array( 24, 25 ) ) ) )
+			$canEmailEvents					=	   ( ( $user->id == 0 ) && ( in_array( $myGid, array( $cms_mod, $cms_admin ) ) ) )
 												|| $_CB_framework->check_acl( 'canReceiveAdminEmails', $_CB_framework->acl->get_group_name( $user->gid, 'ARO' ) )
 												|| in_array( $user->gid, getParentGIDS( $ueConfig['imageApproverGid'] ) );	// allow also CB isModerator
 			$lists							=	array();
 			$user_group						=	strtolower( $_CB_framework->acl->get_group_name( $user->gid, 'ARO' ) );
-			if (( $user_group == 'super administrator' && $myGid != 25) || ( $user->id == $_CB_framework->myId() && $myGid == 25)) {
-				$lists['gid']				=	"<input type=\"hidden\" mosReq=\"0\" name=\"gid\" value=\"$user->gid\" /><strong>Super Administrator</strong>";
-			} else if ( $myGid == 24 && $user->gid == 24 ) {
-				$lists['gid']				=	"<input type=\"hidden\" mosReq=\"0\" name=\"gid\" value=\"$user->gid\" /><strong>Administrator</strong>";
+			if (( $user_group == strtolower( $cms_admin_title ) && $myGid != $cms_admin) || ( $user->id == $_CB_framework->myId() && $myGid == $cms_admin)) {
+				$lists['gid']				=	"<input type=\"hidden\" name=\"gid\" value=\"$user->gid\" /><strong>$cms_admin_title</strong>";
+			} else if ( $myGid == $cms_mod && $user->gid == $cms_mod ) {
+				$lists['gid']				=	"<input type=\"hidden\" name=\"gid\" value=\"$user->gid\" /><strong>Administrator</strong>";
 			} else {
 				// ensure user can't add group higher than themselves
 				if ( checkJversion() <= 0 ) {
@@ -3486,12 +3643,22 @@ class CBfield_userparams extends cbFieldHandler {
 					}
 				}
 
-				$lists['gid']				=	moscomprofilerHTML::selectList( $gtree, 'gid', 'class="inputbox" size="11" mosReq="0"', 'value', 'text', $user->gid, 2, false );
+				if ( checkJversion() == 2 ) {
+					$lists['gid']			=	moscomprofilerHTML::selectList( $gtree, 'gid[]', 'class="inputbox" size="11" multiple="multiple"', 'value', 'text', $user->gids, 2, false );
+				} else {
+					$lists['gid']			=	moscomprofilerHTML::selectList( $gtree, 'gid', 'class="inputbox" size="11"', 'value', 'text', $user->gid, 2, false );
+				}
 			}
 	
 			// build the html select list
 			$lists['block']					=	moscomprofilerHTML::yesnoSelectList( 'block', 'class="inputbox" size="1"', $user->block );
-			$lists['approved']				=	moscomprofilerHTML::yesnoSelectList( 'approved', 'class="inputbox" size="1"', $user->approved );
+
+			$list_approved					=	array();
+			$list_approved[]				=	moscomprofilerHTML::makeOption( '0', CBTxt::T( 'Unapproved' ) );
+			$list_approved[]				=	moscomprofilerHTML::makeOption( '1', CBTxt::T( 'Approved' ) );
+			$list_approved[]				=	moscomprofilerHTML::makeOption( '2', CBTxt::T( 'Disapproved' ) );
+			$lists['approved']				=	moscomprofilerHTML::selectList( $list_approved, 'approved', 'class="inputbox" size="1"', 'value', 'text', $user->approved, 2, false );
+
 			$lists['confirmed']				=	moscomprofilerHTML::yesnoSelectList( 'confirmed', 'class="inputbox" size="1"', $user->confirmed );
 			// build the html select list
 			$lists['sendEmail']				=	moscomprofilerHTML::yesnoSelectList( 'sendEmail', 'class="inputbox" size="1"', $user->sendEmail );
@@ -3615,16 +3782,18 @@ class CBfield_userparams extends cbFieldHandler {
 		// this is (for now) handled in the core of CB... except params and block/email/approved/confirmed:
 
 		if ( $_CB_framework->getUi() == 2 ) {
-			$user->gid						=	cbGetParam( $postdata, 'gid', 0 );
+			if ( checkJversion() == 2 ) {
+				$user->gids					=	cbGetParam( $postdata, 'gid', array( 0 ) );
+				$user->gid					=	(int) $_CB_framework->acl->getBackwardsCompatibleGid( $user->gids );
+			} else {
+				$user->gid					=	cbGetParam( $postdata, 'gid', 0 );
+				$user->gids					=	array( $user->gid );
+			}
 			$user->block					=	cbGetParam( $postdata, 'block', 0 );
 			$user->sendEmail				=	cbGetParam( $postdata, 'sendEmail', 0 );
 			$user->approved					=	cbGetParam( $postdata, 'approved', 0 );
 			$user->confirmed				=	cbGetParam( $postdata, 'confirmed', 0 );
 		}
-
-		//	if ( checkJversion() == 1 ) {
-		// but overriden again later, so do it here:	return true;		// params is done in the bind()
-		//	}
 
 		if (	( $_CB_framework->getUi() == 2 )
 			||	( ( isset( $ueConfig['frontend_userparams'] ) ) ? ( $ueConfig['frontend_userparams'] == 1 ) : in_array( $_CB_framework->getCfg( "frontend_userparams" ), array( '1', null) ) ) )
@@ -3633,11 +3802,16 @@ class CBfield_userparams extends cbFieldHandler {
 			$params							=	cbGetParam( $_POST, 'params', null );			//TBD: verify if stripslashes is needed here: it might be needed...leaving as is for now.
 			if ( $params != null ) {
 				if ( is_array( $params ) ) {
-					$txt					=	array();
-					foreach ( $params as $k => $v) {
-						$txt[]				=	$k . '=' . $v;
+					if ( checkJversion() == 2 ) {
+						$registry			=	new JRegistry( $params );
+						$value				=	$registry->toArray();
+					} else {
+						$txt				=	array();
+						foreach ( $params as $k => $v) {
+								$txt[]			=	$k . '=' . $v;
+						}
+						$value				=	implode( "\n", $txt );
 					}
-					$value					=	implode( "\n", $txt );
 					if ( ( (string) $user->params ) !== (string) $value ) {
 						$this->_logFieldUpdate( $field, $user, $reason, $user->params, $value );
 					}
@@ -3658,22 +3832,48 @@ class CBfield_userparams extends cbFieldHandler {
 
 		$result = array();	// in case not Joomla
 
-		if (class_exists("JUser")) {						// Joomla 1.5 :
+		if (class_exists("JUser")) {						// Joomla 1.5 and 1.6:
 			if ( $user->id ) {
 				$juser		=&	JUser::getInstance( $user->id );
 			} else {
 				$juser		=&	JUser::getInstance();
 			}
-			$params =& $juser->getParameters( true );
-			// $result = $params->render( 'params' );
-			if (is_callable(array("JParameter","getParams"))) {
-				$result = $params->getParams( $name );	//BBB new API submited to Jinx 17.4.2006.
+			if ( checkJversion() == 2 ) {
+				// Joomla 1.6:
+				$result				=	array();
+
+				jimport( 'joomla.form.form' );
+
+				JForm::addFormPath( JPATH_ADMINISTRATOR . '/components/com_users/models/forms' );
+
+				$form				=	JForm::getInstance( 'com_users.params', 'user', array( 'load_data' => true ) );
+				$params				=	$juser->getParameters( true )->toArray();
+
+				if ( $params ) foreach ( $params as $k => $v ) {
+					$form->setValue( $k, 'params', $v );
+				}
+
+				$fields				=	$form->getFieldset( 'settings' );
+
+				if ( $fields ) foreach ( $fields as $field ) {
+					$admin_field	=	( strpos( $field->name, 'admin' ) || strpos( $field->name, 'help' ) );
+
+					if ( ( $admin_field && ( $juser->authorise( 'canManageUsers' ) || ( ! $user->id ) ) ) || ( ! $admin_field ) ) {
+						$result[]	=	array( $field->label, $field->input, $field->description, $field->name );
+					}
+				}
 			} else {
-				foreach ($params->_xml->param as $param) {	//BBB still needs core help... accessing private variable _xml .
-					$result[] = $params->renderParam( $param, $name );
+				// Joomla 1.5:
+				$params =& $juser->getParameters( true );
+				// $result = $params->render( 'params' );
+				if (is_callable(array($params,"getParams"))) {
+					$result = $params->getParams( $name );	//BBB new API submited to Jinx 17.4.2006.
+				} else {
+					foreach ($params->_xml->param as $param) {	//BBB still needs core help... accessing private variable _xml .
+						$result[] = $params->renderParam( $param, $name );
+					}
 				}
 			}
-
 		} else {							
 			if(file_exists($_CB_framework->getCfg('absolute_path') .'/administrator/components/com_users/users.class.php')){
 				require_once( $_CB_framework->getCfg('absolute_path') .'/administrator/components/com_users/users.class.php' );		

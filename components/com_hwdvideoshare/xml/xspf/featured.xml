@@ -4,11 +4,114 @@
 <trackList>
 
   <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=6LLLsbLSG8o]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/6LLLsbLSG8o/default.jpg]]></image>
+    <title><![CDATA[TV3 - Pol]]></title>
+    <annotation><![CDATA[Un nou cap]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=bYJV32oCbNA]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/bYJV32oCbNA/default.jpg]]></image>
+    <title><![CDATA[TV3 - Pol]]></title>
+    <annotation><![CDATA[El rei Joan Carles estudia el nou protocol de...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=4z06GY_JYkE]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/4z06GY_JYkE/default.jpg]]></image>
+    <title><![CDATA[Mexicali Earthquake 4-4-10]]></title>
+    <annotation><![CDATA[This was taped about 5 minutes after the 4-4-10...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=a3Pj4Dzjf0k]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/a3Pj4Dzjf0k/default.jpg]]></image>
+    <title><![CDATA[Mexicali Earthquake Pool Tsunami]]></title>
+    <annotation><![CDATA[Mexicali Earthquake Pool Sploshing in West Los...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
     <location><![CDATA[http://localhost/shigaru/hwdvideos/uploads/itgymbc5x0goy3.flv]]></location>
     <image><![CDATA[http://localhost/shigaru/hwdvideos/thumbs/itgymbc5x0goy3.jpg]]></image>
     <title><![CDATA[dsfsdfs]]></title>
     <annotation><![CDATA[fsdfdsfsdf]]></annotation>
 	<meta rel='type'>video</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=Lszfe7nIC8Y]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/Lszfe7nIC8Y/default.jpg]]></image>
+    <title><![CDATA[01 - Intro - Picolo y Marcha]]></title>
+    <annotation><![CDATA[TRACKLIST
+
+01.Intro
+02.Dime quien me...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=b6kb6SvTeLw]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/b6kb6SvTeLw/default.jpg]]></image>
+    <title><![CDATA[10 - Mi leyenda - Picolo y Marcha]]></title>
+    <annotation><![CDATA[TRACKLIST
+
+01.Intro
+02.Dime quien me...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=wt1urHqeoqg]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/wt1urHqeoqg/default.jpg]]></image>
+    <title><![CDATA[With a Little Help from My Friends - Easy Guitar...]]></title>
+    <annotation><![CDATA[http://www.rhythmstrummer.com/lesson-preview.php?p...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=BWL_qCKW86I]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/BWL_qCKW86I/default.jpg]]></image>
+    <title><![CDATA[How To Play Breakaway By Kelly Clarkson On Guitar]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=-ooik5IuI1I]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/-ooik5IuI1I/default.jpg]]></image>
+    <title><![CDATA[ming Home by Diddy-Dirty Money on Guitar
+      -...]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=L3QrP1kiRko]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/L3QrP1kiRko/default.jpg]]></image>
+    <title><![CDATA[How to Two-Step in Hip Hop Dance]]></title>
+    <annotation><![CDATA[There are multiple different types of two step in...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=yP4crzUVhH0]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/yP4crzUVhH0/default.jpg]]></image>
+    <title><![CDATA[How To Play Iron Man By Black Sabbath On Guitar]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=XZwE5vXCChQ]]></location>
+    <image><![CDATA[http://img.youtube.com/vi/XZwE5vXCChQ/default.jpg]]></image>
+    <title><![CDATA[How To Play Viva La Vida By Coldplay On Guitar]]></title>
+    <annotation><![CDATA[How to do the Steve Martin dance:...]]></annotation>
+	<meta rel='type'>youtube</meta>
   </track>
 
 </trackList>

@@ -1,11 +1,11 @@
 <?php
 /**
 * Joomla/Mambo Community Builder
-* @version $Id: cb.tables.php 941 2010-03-04 23:50:13Z beat $
+* @version $Id: cb.tables.php 1551 2011-07-30 22:26:30Z beat $
 * @package Community Builder
 * @subpackage cb.tables.php
 * @author Beat
-* @copyright (C) 2004-2010 www.joomlapolis.com
+* @copyright (C) 2004-2011 www.joomlapolis.com
 * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2
 */
 
@@ -93,14 +93,14 @@ class moscomprofilerLists extends comprofilerDBTable {
     * @param  CBdatabase  $db   A database connector object
     */
 	function moscomprofilerLists( &$db ) {
-	
+
 		$this->comprofilerDBTable( '#__comprofiler_lists', 'listid', $db );
-	
+
 	} //end func
 
 	function store( $listid=0, $updateNulls=false) {
 			global $_CB_database, $_POST;
-	
+
 		if ( ( ! isset( $_POST['listid'] ) ) || $_POST['listid'] == null || $_POST['listid'] == '' ) {
 			$this->listid = (int) $listid;
 		} else {
@@ -117,7 +117,7 @@ class moscomprofilerLists extends comprofilerDBTable {
 		if ( $total > 0 ) {
 			// existing record
 			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
-			
+
 		} else {
 			// new record
 			$sql="SELECT MAX(ordering) FROM #__comprofiler_lists";
@@ -177,7 +177,7 @@ class moscomprofilerFields extends comprofilerDBTable {
 	function moscomprofilerFields( &$db ) {
 		$this->comprofilerDBTable( '#__comprofiler_fields', 'fieldid', $db );
 	}
-	
+
 	function store( $fieldid = 0, $updateNulls = false ) {
 			global $_CB_database;
 
@@ -203,7 +203,7 @@ class moscomprofilerFields extends comprofilerDBTable {
 				if ( $_CB_database->LoadResult() > 0 ) {
 					$this->_error	=	"The field name ".$this->name." is already in use!";
 					return false;
-				}				
+				}
 				$sql				=	'SELECT MAX(ordering) FROM #__comprofiler_fields WHERE tabid = ' . (int) $this->tabid;
 				$_CB_database->SetQuery( $sql );
 				$max				=	$_CB_database->LoadResult();
@@ -254,7 +254,7 @@ class moscomprofilerFields extends comprofilerDBTable {
 		}
 
 		$result					=	true;
-		
+
 		//Find all fieldValues related to the field
 		$this->_db->setQuery( "SELECT `fieldvalueid` FROM #__comprofiler_field_values WHERE `fieldid`=" . (int) $this->$k );
 		$fieldvalues				=	$this->_db->loadObjectList();
@@ -296,8 +296,8 @@ class moscomprofilerFields extends comprofilerDBTable {
 		if ( ( $table == '' ) || ( $type == '' ) ) {
 			return true;
 		}
-		$sql = "SELECT * FROM " . $_CB_database->NameQuote( $table ) . " LIMIT 1";
-		$_CB_database->setQuery($sql);
+		$sql = "SELECT * FROM " . $_CB_database->NameQuote( $table );
+		$_CB_database->setQuery( $sql, 0, 1 );
 		$obj = null;
 		if ( ! ( $_CB_database->loadObject( $obj ) && array_key_exists( $column, $obj ) ) ) {
 			$sql = "ALTER TABLE " . $_CB_database->NameQuote( $table )
@@ -384,26 +384,21 @@ class moscomprofilerTabs extends comprofilerDBTable {
     * @param  CBdatabase  $db   A database connector object
     */
 	function moscomprofilerTabs( &$db ) {
-	
+
 		$this->comprofilerDBTable( '#__comprofiler_tabs', 'tabid', $db );
-	
+
 	} //end func
 
-	function store( $tabid, $updateNulls=false) {
+	function store( $updateNulls=false) {
 		global $_CB_database, $_POST;
-	
-		if ( ( ! isset( $_POST['tabid'] ) ) || $_POST['tabid'] == null || $_POST['tabid'] == '' ) {
-			$this->tabid = (int) $tabid;
-		} else {
-			$this->tabid = (int) cbGetParam( $_POST, 'tabid', 0 );
-		}
+
 		$sql = "SELECT COUNT(*) FROM #__comprofiler_tabs WHERE tabid = ". (int) $this->tabid;
 		$_CB_database->SetQuery($sql);
 		$total = $_CB_database->LoadResult();
 		if ( $total > 0 ) {
 			// existing record
 			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );	// escapes values!
-			
+
 		} else {
 			$sql = "SELECT MAX(ordering) FROM #__comprofiler_tabs";
 			$_CB_database->SetQuery($sql);
@@ -412,7 +407,7 @@ class moscomprofilerTabs extends comprofilerDBTable {
 			// new record
 			$this->tabid = null;
 			$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
-			
+
 		}
 		if ( !$ret ) {
 			$this->_error = get_class( $this )."::store failed <br />" . $this->_db->getErrorMsg();
@@ -436,14 +431,14 @@ class moscomprofilerFieldValues extends comprofilerDBTable {
     */
 
 	function moscomprofilerFieldValues( &$db ) {
-	
+
 		$this->comprofilerDBTable( '#__comprofiler_field_values', 'fieldvalueid', $db );
-	
+
 	} //end func
 
 	function store( $fieldvalueid=0, $updateNulls=false) {
 			global $_CB_database, $_POST;
-	
+
 		if ( ( ! isset( $_POST['fieldvalueid'] ) ) || $_POST['fieldvalueid'] == null || $_POST['fieldvalueid'] == '' ) {
 			$this->fieldvalueid = (int) $fieldvalueid;
 		} else {
@@ -455,7 +450,7 @@ class moscomprofilerFieldValues extends comprofilerDBTable {
 		if ( $total > 0 ) {
 			// existing record
 			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
-			
+
 		} else {
 			// new record
 			$this->fieldvalueid = null;
@@ -465,7 +460,7 @@ class moscomprofilerFieldValues extends comprofilerDBTable {
 			$this->_error = get_class( $this )."::store failed <br />" . $this->_db->getErrorMsg();
 			return false;
 		} else {
-			
+
 			return true;
 		}
 	}
@@ -525,7 +520,7 @@ class moscomprofiler extends comprofilerDBTable {
 	 */
 	function storeExtras( $id=0, $updateNulls=false) {
 		global $_CB_database, $_POST;
-	
+
 		if ( ( ! isset( $_POST['id'] ) ) || $_POST['id'] == null || $_POST['id'] == '' ) {
 			$this->id = (int) $id;
 		} else {
@@ -537,7 +532,7 @@ class moscomprofiler extends comprofilerDBTable {
 		if ( $total > 0 ) {
 			// existing record
 			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );	// escapes values
-			
+
 		} else {
 			// new record
 			$sql = "SELECT MAX(id) FROM #__users";
@@ -546,7 +541,7 @@ class moscomprofiler extends comprofilerDBTable {
 			$this->id		= $last_id;
 			$this->user_id	= $last_id;
 			$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );					// escapes values
-			
+
 		}
 		if ( !$ret ) {
 			$this->_error = get_class( $this )."::store failed <br />" . $this->_db->getErrorMsg();
@@ -567,7 +562,7 @@ class moscomprofiler extends comprofilerDBTable {
 	*/
 	function & dbObjectsMerge( &$o1, &$o2 ) {
 		$r = new stdClass();
-		
+
 		$class_vars = get_object_vars($o1);
 		foreach ($class_vars as $name => $value) {
 			if (($name != "_db") and ($name != "_tbl") and ($name != "_tbl_key")) {
@@ -608,6 +603,8 @@ class moscomprofilerUser extends moscomprofiler  {
 	var $sendEmail				=	null;
 	/** @var int */
 	var $gid					=	null;
+	/** @var array */
+	var $gids					=	null;
 	/** @var datetime */
 	var $registerDate			=	null;
 	/** @var datetime */
@@ -622,7 +619,7 @@ class moscomprofilerUser extends moscomprofiler  {
 	var $_cmsUserTableUsername	=	'username';
 	var $_cmsUserTableEmail	=	'email';
 	var $_cmsUserTableGid		=	'gid';
-	
+
 	/** CMS User object
 	 *  @var mosUser */
 	var $_cmsUser				=	null;
@@ -633,7 +630,7 @@ class moscomprofilerUser extends moscomprofiler  {
 	 *  @var cbTabs */
 	var $_cbTabs				=	null;
 
-	var $_nonComprofilerVars		 =	array( 'name', 'username', 'email', 'password', 'params'	, 	'usertype', 'block', 'sendEmail', 'gid', 'registerDate', 'activation', 'lastvisitDate' );
+	var $_nonComprofilerVars		 =	array( 'name', 'username', 'email', 'password', 'params'	, 	'usertype', 'block', 'sendEmail', 'gid', 'gids', 'registerDate', 'activation', 'lastvisitDate' );
 	var $_frontendNonComprofilerVars =	array( 'name', 'username', 'email', 'password', 'params' );
 	/**
 	 * Constructor
@@ -643,6 +640,9 @@ class moscomprofilerUser extends moscomprofiler  {
 	 */
 	function moscomprofilerUser( &$db ) {
 		parent::moscomprofiler( $db );
+		if ( checkJversion() == 2 ) {
+			$this->_cmsUserTableGid					=	'usertype';
+		}
 	}
 	/**
 	*	Loads user from database
@@ -652,13 +652,13 @@ class moscomprofilerUser extends moscomprofiler  {
 	*/
 	function load( $oid = null ) {
 		$k						=	$this->_tbl_key;
-		
+
 		if ($oid !== null) {
 			$this->$k			=	(int) $oid;
 		}
-		
+
 		$oid					=	$this->$k;
-		
+
 		if ( $oid === null ) {
 			return false;
 		}
@@ -679,43 +679,97 @@ class moscomprofilerUser extends moscomprofiler  {
 		. " AND c." . $this->_tbl_key . " = " . (int) $oid
 		;
 		$this->_db->setQuery( $query );
-		
+
 		// the following is needed for being able to edit a backend user in CB from CMS which is not yet synchronized with CB:
 	*/
-		$query					=	'SELECT *'
+		$query					=	'SELECT c.*, u.*'			// don't use * as in case the left join is null, the second loaded id would overwrite the first id with null 
 		. "\n FROM " . $this->_cmsUserTable . ' AS u'
 		. "\n LEFT JOIN " . $this->_tbl . ' AS c ON c.' . $this->_tbl_key . ' = u.' . $this->_cmsUserTableKey
 		. " WHERE u." . $this->_cmsUserTableKey . ' = ' . (int) $oid
 		;
 		$this->_db->setQuery( $query );
-		
+
 		$arr					=	$this->_db->loadAssoc( );
 
 		if ( $arr === null ) {
-			$query				=	'SELECT *'
+			$query				=	'SELECT u.*, c.*'			// don't use * as in case the left join is null, the second loaded id would overwrite the first id with null
 			. "\n FROM " . $this->_tbl . ' AS c'
 			. "\n LEFT JOIN " . $this->_cmsUserTable . ' AS u ON c.' . $this->_tbl_key . ' = u.' . $this->_cmsUserTableKey
 			. " WHERE c." . $this->_tbl_key . ' = ' . (int) $oid
 			;
 			$this->_db->setQuery( $query );
-			
+
 			$arr				=	$this->_db->loadAssoc( );
 		}
 		if ( $arr !== null ) {
-			foreach ( $arr as $kk => $v ) {
-				$this->$kk		=	$v;
-			}
-			// in case the left join is null, the second loaded id will be NULL and override id:
-			$this->$k			=	(int) $oid;
-			if ( checkJversion() == 0 ) {
-				if ( checkJversion( 'dev_level' ) < 11 ) {
-					// revert effect of _cbMakeHtmlSafe on user save in older joomla/mambo versions:
-					$this->name		=	cbUnHtmlspecialchars( $this->name );
-				}
-			}
+			$this->bindThisUserFromDbArray( $arr, $oid );
 			return true;
 		} else {
 			return false;
+		}
+	}
+	/**
+	* Copy the named array or object content into this object as vars
+	* All $arr values are filled in vars of object
+	* @access private
+	*
+	* @param  array               $arr    The input array
+	* @param  moscomprofilerUser  $obj    The object to fill
+	* @param  int                 $oid    id
+	*/
+	function bindThisUserFromDbArray( $arr, $oid = null  ) {
+		foreach ( $arr as $kk => $v ) {
+			$this->$kk		=	$v;
+		}
+		if ( $oid ) {
+			// in case the left join is null, the second loaded id will be NULL and override id:
+			$k					=	$this->_tbl_key;
+			$this->$k			=	(int) $oid;
+		}
+		$this->gids			=	array( $this->gid );
+		if ( checkJversion() == 2 ) {
+			global $_CB_framework;
+
+			$this->gids		=	array_values( (array) JFactory::getUser( $this->id )->groups );
+			$this->gid		=	(int) $_CB_framework->acl->getBackwardsCompatibleGid( $this->gids );
+		} elseif ( checkJversion() == 0 ) {
+			if ( checkJversion( 'dev_level' ) < 11 ) {
+				// revert effect of _cbMakeHtmlSafe on user save in older joomla/mambo versions:
+				$this->name	=	cbUnHtmlspecialchars( $this->name );
+			}
+		}
+	}
+	/**
+	 * Loads a list of moscomprofilerUser into an existing array if they are not already in it
+	 * (indexed by key of this table)
+	 * @since 1.4 (experimental)
+	 *
+	 * @param  array    $usersIds      array of id to load
+	 * @param  array    $objectsArray  IN/OUT   (int) id => $class  (e.g. moscomprofilerUser) with method bindThisUserFromDbArray
+	 * @param  string   $class
+	 */
+	function loadUsersMatchingIdIntoList( $usersIds, &$objectsArray, $class ) {
+		// avoids re-loading already loaded ids:
+		$usersIds			=	array_diff( $usersIds, array_keys( $objectsArray ) );
+
+		$idsCount			=	count( $usersIds );
+		if ( $idsCount > 0 ) {
+
+			// in case the left join is null, the second loaded u.id will be NULL and override id:
+			$query			=	'SELECT *, u.' . $this->_cmsUserTableKey
+			. "\n FROM " . $this->_cmsUserTable . ' AS u'
+			. "\n LEFT JOIN " . $this->_tbl . ' AS c ON c.' . $this->_tbl_key . ' = u.' . $this->_cmsUserTableKey
+			. " WHERE u." . $this->_cmsUserTableKey . ( $idsCount == 1 ? ' = ' . (int) end( $usersIds ) : ' IN (' . implode( ',', cbArrayToInts( $usersIds ) ) . ')' );
+			$this->_db->setQuery( $query );
+
+			$resultsArray = $this->_db->loadAssocList( $this->_cmsUserTableKey );
+
+			if ( is_array($resultsArray) ) {
+				foreach ( $resultsArray as $k => $value ) {
+					$objectsArray[(int) $k]	=	new $class( $this->_db );			// self (CBUser has method below too)
+					$objectsArray[(int) $k]->bindThisUserFromDbArray( $value );
+				}
+			}
 		}
 	}
 	/**
@@ -758,19 +812,26 @@ class moscomprofilerUser extends moscomprofiler  {
 		}
 		$this->reset();
 		//end of BB fix.
-		$query					=	'SELECT *'
+		$query					=	'SELECT c.*, u.*'			// let u.id override c.id in case comprofiler entry is missing
 		. "\n FROM " . $this->_cmsUserTable . ' AS u'
 		. "\n LEFT JOIN " . $this->_tbl . ' AS c ON c.' . $this->_tbl_key . ' = u.' . $this->_cmsUserTableKey
 		. " WHERE u." . $this->_db->NameQuote( $fieldName ) . ' = ' . $this->_db->Quote( $fieldValue )
-		. " LIMIT 1"
 		;
-		$this->_db->setQuery( $query );
-		
+		$this->_db->setQuery( $query, 0, 1 );
+
 		$arr					=	$this->_db->loadAssoc( );
 
 		if ( $arr ) {
 			foreach ( $arr as $k => $v ) {
 				$this->$k		=	$v;
+			}
+			if ( checkJversion() == 2 ) {
+				global $_CB_framework;
+
+				$this->gids		=	array_values( (array) JFactory::getUser( $this->id )->groups );
+				$this->gid		=	(int) $_CB_framework->acl->getBackwardsCompatibleGid( $this->gids );
+			} else {
+				$this->gids		=	array( $this->gid );
 			}
 			return true;
 		} else {
@@ -783,7 +844,14 @@ class moscomprofilerUser extends moscomprofiler  {
 		// Some basic sanitizations and securitizations: usertype will be re-computed based on gid in store()
 
 		$this->id						=	(int) $this->id;
-		$this->gid						=	(int) $this->gid;
+
+		if ( checkJversion() == 2 ) {
+			$this->gids					=	( is_array( $this->gids ) ? $this->gids : array( $this->gid ) );
+			$this->gid					=	(int) $_CB_framework->acl->getBackwardsCompatibleGid( $this->gids );
+		} else {
+			$this->gid					=	(int) $this->gid;
+			$this->gids					=	array( $this->gid );
+		}
 
 		if ( ! $this->gid ) {
 			$this->gid					=	null;
@@ -792,6 +860,7 @@ class moscomprofilerUser extends moscomprofiler  {
 			if ( $this->id ) {
 				// Front-end edit user: no changes in gid/usertype and confirmed/approved states
 				$this->gid				=	(int) $oldUserComplete->gid;
+				$this->gids				=	$oldUserComplete->gids;
 				$this->usertype			=	$oldUserComplete->usertype;
 				$this->block			=	(int) $oldUserComplete->block;
 				$this->sendEmail		=	(int) $oldUserComplete->sendEmail;
@@ -800,14 +869,15 @@ class moscomprofilerUser extends moscomprofiler  {
 			} else {
 				// Front-end user registration: handle this here, so it is available to all plugins:
 				$this->usertype			=	$_CB_framework->getCfg( 'new_usertype' );
-				$this->gid				=	$_CB_framework->acl->get_group_id( $this->usertype, 'ARO' );
+				$this->gid				=	(int) $_CB_framework->acl->get_group_id( $this->usertype, 'ARO' );
+				$this->gids				=	array( $this->gid );
 
 				if ( $ueConfig['reg_admin_approval'] == 0) {
 					$this->approved		=	1;
 				} else {
 					$this->approved		=	0;
 					$this->block		=	1;
-				} 
+				}
 				if ( $ueConfig['reg_confirmation'] == 0 ) {
 					$this->confirmed	=	1;
 				} else {
@@ -831,9 +901,9 @@ class moscomprofilerUser extends moscomprofiler  {
 		$this->_original_email			=	$this->email;						// needed for checkSafely()
 
 		// Process the fields in form by CB field plugins:
-	
+
 		$_PLUGINS->loadPluginGroup('user');
-	
+
 		$this->_cbTabs					=	new cbTabs( 0, $ui, null, false );
 		$this->_cbTabs->saveTabsContents( $this, $array, $reason );
 		$errors							=	$_PLUGINS->getErrorMSG( false );
@@ -843,7 +913,7 @@ class moscomprofilerUser extends moscomprofiler  {
 		}
 
 		// Now do CMS-specific stuff, specially bugs-workarounds:
-	
+
 		$postCopy						=	array();
 		if ( $ui == 1 ) {
 			$vars						=	$this->_frontendNonComprofilerVars;
@@ -935,11 +1005,26 @@ class moscomprofilerUser extends moscomprofiler  {
 	function store( $updateNulls = false ) {
 		global $_CB_framework, $_CB_database, $ueConfig;
 
+		$this->id									=	(int) $this->id;
+
+		if ( checkJversion() == 2 ) {
+			$this->gids								=	( is_array( $this->gids ) ? $this->gids : array( $this->gid ) );
+			$this->gid								=	(int) $_CB_framework->acl->getBackwardsCompatibleGid( $this->gids );
+		} else {
+			$this->gid								=	(int) $this->gid;
+			$this->gids								=	array( $this->gid );
+		}
+
 		$isNew										=	( $this->id == 0 );
 
 		$oldUsername								=	null;
 		$oldGid										=	null;
 		$oldBlock									=	null;
+
+		//TOOD	//FIXME	Somehow the constructor does not get called in j1.6, so need to redo this here:
+		if ( checkJversion() == 2 ) {
+			$this->_cmsUserTableGid					=	'usertype';
+		}
 
 		if ( ! $isNew ) {
 			// get actual username to update sessions in case:
@@ -951,7 +1036,13 @@ class moscomprofilerUser extends moscomprofiler  {
 			$oldEntry								=	null;
 			if ( $_CB_database->loadObject( $oldEntry ) ) {
 				$oldUsername						=	$oldEntry->username;
-				$oldGid								=	$oldEntry->gid;
+				if ( checkJversion() == 2 ) {
+					$oldGids						=	array_values( (array) JFactory::getUser( $this->id )->groups );
+					$oldGid							=	(int) $_CB_framework->acl->getBackwardsCompatibleGid( $oldGids );
+				} else {
+					$oldGid							=	(int) $oldEntry->gid;
+					$oldGids						=	array( $oldEntry->gid );
+				}
 				$oldBlock							=	$oldEntry->block;
 			}
 		}
@@ -971,7 +1062,12 @@ class moscomprofilerUser extends moscomprofiler  {
 			$this->usertype							=	$_CB_framework->acl->get_group_name( (int) $gid, 'ARO' );
 		}
 */
-		if ( checkJversion() == 1 ) {
+		if ( checkJversion() == 2 ) {
+			$query									= 'SELECT title AS name'
+													. "\n FROM #__usergroups"
+													. "\n WHERE id = " . (int) $this->gid
+													;
+		} elseif ( checkJversion() == 1 ) {
 			$query									= 'SELECT name'
 													. "\n FROM #__core_acl_aro_groups"
 													. "\n WHERE id = " . (int) $this->gid
@@ -998,6 +1094,9 @@ class moscomprofilerUser extends moscomprofiler  {
 				$this->_error						=	$this->_cmsUser->getError();
 			}
 		} else {
+			if ( checkJversion() == 2 ) {
+				$this->_cmsUser->groups				=	$this->gids;
+				}
 			$result									=	$this->_cmsUser->save();	// Joomla 1.5 native
 			if ( ! $result ) {
 				$this->_error						=	$this->_cmsUser->getError();
@@ -1037,15 +1136,20 @@ class moscomprofilerUser extends moscomprofiler  {
 		}
 		if ( $result ) {
 			// update the ACL:
-			if ( checkJversion() == 1 ) {
+			if ( checkJversion() == 2 ) {
+				$query							=	'SELECT m.id AS aro_id, a.group_id FROM #__user_usergroup_map AS a'
+												.	"\n INNER JOIN #__usergroups AS m ON m.id= a.group_id"
+												.	"\n WHERE a.user_id = " . (int) $this->id
+												;
+			} elseif ( checkJversion() == 1 ) {
 				$query							=	'SELECT a.id AS aro_id, m.group_id FROM #__core_acl_aro AS a'
 												.	"\n INNER JOIN #__core_acl_groups_aro_map AS m ON m.aro_id = a.id"
-												.	"\n WHERE a.value = " . (int) $this->id
+												.	"\n WHERE a.value = " . $_CB_database->Quote( (int) $this->id )
 												;
 			} else {
 				$query							=	'SELECT a.aro_id, m.group_id FROM #__core_acl_aro AS a'
 												.	"\n INNER JOIN #__core_acl_groups_aro_map AS m ON m.aro_id = a.aro_id"
-												.	"\n WHERE a.value = " . (int) $this->id
+												.	"\n WHERE a.value = " . $_CB_database->Quote( (int) $this->id )
 												;
 			}
 			$_CB_database->setQuery( $query );
@@ -1053,12 +1157,22 @@ class moscomprofilerUser extends moscomprofiler  {
 			$result								=	$_CB_database->loadObject( $aro_group );
 
 			if ( $result && ( $aro_group->group_id != $this->gid ) ) {
-				$query							=	'UPDATE #__core_acl_groups_aro_map'
-												.	"\n SET group_id = " . (int) $this->gid
-												.	"\n WHERE aro_id = " . (int) $aro_group->aro_id
-												;
-				$_CB_database->setQuery( $query );
-				$result							=	$_CB_database->query();
+				if ( checkJversion() == 2 ) {
+//					$query							=	'UPDATE #__user_usergroup_map'
+//													.	"\n SET group_id = " . (int) $this->gid
+//													.	"\n WHERE user_id = " . (int) $this->id
+//													.	( $oldGid ? "\n AND group_id = " . (int) $oldGid : null )
+//													;
+//					$_CB_database->setQuery( $query );
+//					$result							=	$_CB_database->query();
+				} else {
+					$query							=	'UPDATE #__core_acl_groups_aro_map'
+													.	"\n SET group_id = " . (int) $this->gid
+													.	"\n WHERE aro_id = " . (int) $aro_group->aro_id
+													;
+					$_CB_database->setQuery( $query );
+					$result							=	$_CB_database->query();
+				}
 			}
 			if ( $result && ( ! $isNew ) && ( ( $oldUsername != $this->username ) || ( $aro_group->group_id != $this->gid ) || ( $oldGid != $this->gid ) || ( ( $oldBlock == 0 ) && ( $this->block == 1 ) ) ) ) {
 				// Update current sessions state if there is a change in gid or in username:
@@ -1069,9 +1183,13 @@ class moscomprofilerUser extends moscomprofiler  {
 						$sessionGid		=	2;
 					}
 					$query				=	'UPDATE #__session '
-										.	"\n SET usertype = " . $_CB_database->Quote( $this->usertype )
-										.	', gid = ' . (int) $sessionGid
-										.	', username = ' . $_CB_database->Quote( $this->username )
+										.	"\n SET usertype = " . $_CB_database->Quote( $this->usertype );
+
+					if ( checkJversion() <= 1 ) {
+						$query			.=	', gid = ' . (int) $sessionGid;
+					}
+
+					$query				.=	', username = ' . $_CB_database->Quote( $this->username )
 										.	"\n WHERE userid = " . (int) $this->id
 										;
 					//TBD: here maybe jaclplus fields update if JACLplus installed....
@@ -1144,7 +1262,7 @@ class moscomprofilerUser extends moscomprofiler  {
 		global $_CB_framework, $_CB_database, $ueConfig, $_PLUGINS;
 
 		// Get current user state and store it into $oldUserComplete:
-	
+
 		$oldUserComplete						=	new moscomprofilerUser( $this->_db );
 		foreach ( array_keys( get_object_vars( $this ) ) as $k ) {
 			if( substr( $k, 0, 1 ) != '_' ) {		// ignore internal vars
@@ -1176,12 +1294,12 @@ class moscomprofilerUser extends moscomprofiler  {
 			if ( ! $this->checkSafely() ) {
 				$bindResults					=	false;
 			}
-		}	
+		}
 
 		// For new registrations or backend user creations, set registration date and password if neeeded:
 		$isNew									=	( ! $this->id );
 		$newCBuser								=	( $oldUserComplete->user_id == null );
-	
+
 		if ( $isNew ) {
 			if ( checkJversion() != 1 ) {
 				// J1.5 works better with null here... has bug that it offsets the time by server date, others need this:
@@ -1200,15 +1318,27 @@ class moscomprofilerUser extends moscomprofiler  {
 			// In backend only: if group has been changed and where original group was a Super Admin: check if there is at least a super-admin left:
 			if ( $ui == 2 ) {
 				$myGid							=	userGID( $_CB_framework->myId() );
+				$cms_admin						=	$_CB_framework->acl->mapGroupNamesToValues( 'Administrator' );
+				$cms_super_admin				=	$_CB_framework->acl->mapGroupNamesToValues( 'Superadministrator' );
 				if ( ! $isNew ) {
 					if ( $this->gid != $oldUserComplete->gid ) {
-						if ( $oldUserComplete->gid == 25 ) {						
+						if ( $oldUserComplete->gid == $cms_super_admin ) {
 							// count number of active super admins
-							$query				=	'SELECT COUNT( id )'
+							if ( checkJversion() == 2 ) {
+								$query			=	'SELECT COUNT( a.id )'
+												.	"\n FROM #__users AS a"
+												.	"\n INNER JOIN #__user_usergroup_map AS b"
+												.	' ON b.user_id = a.id'
+												.	"\n WHERE b.group_id = " . (int) $cms_super_admin
+												.	"\n AND a.block = 0"
+												;
+							} else {
+								$query			=	'SELECT COUNT( id )'
 												.	"\n FROM #__users"
-												.	"\n WHERE gid = 25"
+												.	"\n WHERE gid = " . (int) $cms_super_admin
 												.	"\n AND block = 0"
 												;
+							}
 							$_CB_database->setQuery( $query );
 							$count				=	$_CB_database->loadResult();
 
@@ -1221,28 +1351,32 @@ class moscomprofilerUser extends moscomprofiler  {
 
 						$user_group				=	strtolower( $_CB_framework->acl->get_group_name( $oldUserComplete->gid, 'ARO' ) );
 
-						if ( ( $user_group == 'super administrator' && $myGid != 25 ) ) {
+						if ( ( $user_group == 'super administrator' && $myGid != $cms_super_admin ) ) {
 							// disallow change of super-Admin by non-super admin
 							$this->_error		=	'You cannot change this users Group as you are not a Super Administrator for your site';
-								return false;
-						} elseif ( $this->id == $_CB_framework->myId() && $myGid == 25 ) {
+							return false;
+						} elseif ( $this->id == $_CB_framework->myId() && $myGid == $cms_super_admin ) {
 							// CB-specific: disallow change of own Super Admin group:
 							$this->_error		=	'You cannot change your own Super Administrator status for your site';
-								return false;
-						} else if ( $myGid == 24 && $oldUserComplete->gid == 24 ) {
+							return false;
+						} else if ( $myGid == $cms_admin && $oldUserComplete->gid == $cms_admin ) {
 							// disallow change of super-Admin by non-super admin
 							$this->_error		=	'You cannot change the Group of another Administrator as you are not a Super Administrator for your site';
-								return false;
-						}	// ensure user can't add group higher than themselves done below
+							return false;
+						} elseif ( in_array( $oldUserComplete->gid, getChildGIDS( $myGid ) ) && ! in_array( $this->gid, getChildGIDS( $myGid ) ) ) {
+							// disallow change of group of user into a group that is not child of admin/superadmin:
+							$this->_error		=	'You cannot change the Group of this user to a group that is not child of Registered or Manager as otherwise that user cannot login. If you really need to do that, you can do it in Joomla User Manager.';
+							return false;
+						}
+						// ensure user can't add group higher than themselves done below
 					}
 
 				}
 				// Security check to avoid creating/editing user to higher level than himself: CB response to artf4529.
-				if ( ! in_array( $this->gid, getChildGIDS( $myGid ) ) ) {
+				if ( ( $myGid != $cms_super_admin ) && ! in_array( $this->gid, getChildGIDS( $myGid ) ) ) {
 					$this->_error				=	'illegal attempt to set user at higher level than allowed !';
 					return false;
 				}
-
 			}
 
 		}
@@ -1266,7 +1400,7 @@ class moscomprofilerUser extends moscomprofiler  {
 		}
 
 		// Saves tab plugins:
-	
+
 		// on edits, user params and block/email/approved/confirmed are done in cb.core predefined fields.
 		// So now calls this and more (CBtabs are already created in $this->bindSafely() ).
 		$pluginTabsResult						=	true;
@@ -1298,13 +1432,14 @@ class moscomprofilerUser extends moscomprofiler  {
 			// Restores cleartext password for the saveRegistrationPluginTabs:
 
 			$this->password						=	$clearTextPassword;
-		}
 
-		if ( $reason == 'register' ) {
-			if ( $bindResults && $beforeResult && $pluginTabsResult ) {
+			if ( $isNew ) {
 				// Sets the instance of user, to avoid reload from database, and loss of the cleartext password.
 				CBuser::setUserGetCBUserInstance( $this );
 			}
+		}
+
+		if ( $reason == 'register' ) {
 			// call here since we got to have a user id:
 			$registerResults					=	array();
 			$registerResults['tabs']			=	$this->_cbTabs->saveRegistrationPluginTabs( $this, $array );
@@ -1349,13 +1484,13 @@ class moscomprofilerUser extends moscomprofiler  {
 
 		if ( $reason == 'edit' ) {
 			if ( $ui == 1 ) {
-				$_PLUGINS->trigger( 'onAfterUserUpdate', array( $this, $this, $oldUserComplete ) );
+				$_PLUGINS->trigger( 'onAfterUserUpdate', array( &$this, &$this, $oldUserComplete ) );
 			} elseif ( $ui == 2 ) {
 				if ( $isNew || $newCBuser ) {
 					if ( $isNew ) {
 						$ueConfig['emailpass']	=	1;		// set this global to 1 to force password to be sent to new users.
 					}
-					$_PLUGINS->trigger( 'onAfterNewUser', array( $this, $this, false, true ) );
+					$_PLUGINS->trigger( 'onAfterNewUser', array( &$this, &$this, false, true ) );
 					if ( $this->block == 0 && $this->approved == 1 && $this->confirmed ) {
 						activateUser( $this, 2, 'NewUser', false, $isNew );
 					}
@@ -1372,7 +1507,7 @@ class moscomprofilerUser extends moscomprofiler  {
 			    			$_CB_database->query();
 						}
 					}
-					$_PLUGINS->trigger( 'onAfterUpdateUser', array( $this, $this, $oldUserComplete ) );
+					$_PLUGINS->trigger( 'onAfterUpdateUser', array( &$this, &$this, $oldUserComplete ) );
 					if ( ( ! ( ( $oldUserComplete->approved == 1 || $oldUserComplete->approved == 2 ) && $oldUserComplete->confirmed ) )
 						 && ($this->approved == 1 && $this->confirmed ) )
 					{
@@ -1383,7 +1518,7 @@ class moscomprofilerUser extends moscomprofiler  {
 				}
 			}
 		} elseif ( $reason == 'register' ) {
-			$registerResults['after']			=	$_PLUGINS->trigger( 'onAfterUserRegistration', array( $this, $this, true ) );
+			$registerResults['after']			=	$_PLUGINS->trigger( 'onAfterUserRegistration', array( &$this, &$this, true ) );
 			$registerResults['ok']				=	true;
 			return $registerResults;
 		}
@@ -1485,7 +1620,7 @@ class moscomprofilerUser extends moscomprofiler  {
 	*/
 	function _cbHashPassword( $passwd, $check ) {
 		global $_CB_database;
-	
+
 		$version					=	checkJversion();
 		$method						=	'md5';
 		if ( $version == 0 ) {
@@ -1525,7 +1660,7 @@ class moscomprofilerUser extends moscomprofiler  {
 				$crypt				=	md5( $passwd . $salt );
 				$hashedPwd			=	$crypt. ':' . $salt;
 				break;
-		
+
 			case 'md5':
 			default:
 				if ( $check ) {
@@ -1566,13 +1701,37 @@ class moscomprofilerUser extends moscomprofiler  {
 		$scrambleSeed					=	(int) hexdec(substr( md5 ( $_CB_framework->getCfg( 'secret' ) . $_CB_framework->getCfg( 'db' ) ), 0, 7));
 		$scrambledId					=	$scrambleSeed ^ ( (int) $this->id );
 		$this->cbactivation				=	'reg' . $randomHash . sprintf( '%08x', $scrambledId );
+		// for CMS compatibility (and JFusion compatibility):
+		$this->activation				=	$randomHash;
 	}
 	function checkActivationCode( $confirmcode ) {
 		return ( $this->cbactivation === $confirmcode );
 	}
+	function removeActivationCode( ) {
+		$query	=	'UPDATE '	. $this->_db->NameQuote( '#__comprofiler' )
+				.	"\n SET "	. $this->_db->NameQuote( 'cbactivation' ) . ' = ' . $this->_db->Quote( '' )
+				.	"\n WHERE "	. $this->_db->NameQuote( 'id' ) . ' = ' . (int) $this->id;
+		$this->_db->setQuery( $query );
+		if ( $this->_db->query() ) {
+			$this->cbactivation			=	'';
+
+			$query	=	'UPDATE '	. $this->_db->NameQuote( $this->_cmsUserTable )
+					.	"\n SET "	. $this->_db->NameQuote( 'activation' ) . ' = ' . $this->_db->Quote( '' )
+					.	"\n WHERE "	. $this->_db->NameQuote( 'id' ) . ' = ' . (int) $this->id;
+			$this->_db->setQuery( $query );
+			if ( $this->_db->query() ) {
+				$this->activation		=	'';
+			}
+		} else {
+			global $_CB_framework;
+			if ( $_CB_framework->getUi() != 0 ) {
+				trigger_error( 'SQL-unblock2 error: ' . $this->_db->stderr(true), E_USER_WARNING );
+			}
+		}
+	}
 	/**
 	 * Gets user_id out of the activation code. WARNING: do not trust the user id until full activation code is checked.
-	 * 
+	 *
 	 * @static
 	 * @param  string    $confirmcode
 	 * @return int|null
@@ -1602,7 +1761,7 @@ class moscomprofilerUser extends moscomprofiler  {
 				$this->setRandomPassword();
 			}
 
-			$_PLUGINS->loadPluginGroup('user');		
+			$_PLUGINS->loadPluginGroup('user');
 			$_PLUGINS->trigger( 'onBeforeUserConfirm', array( $this ) );
 			if($_PLUGINS->is_errors()) {
 				$messagesToUser	=	$_PLUGINS->getErrorMSG( false );
@@ -1638,9 +1797,9 @@ class moscomprofilerUserReport extends comprofilerDBTable {
 	 * @param  CBdatabase  $db   A database connector object
 	 */
    function moscomprofilerUserReport( &$db ) {
-	
+
 		$this->comprofilerDBTable( '#__comprofiler_userreports', 'reportid', $db );
-	
+
 	}
 	/**
 	 * Deletes all user reports from that user and for that user (called on user delete)

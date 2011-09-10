@@ -49,3 +49,8 @@
 2011-09-03	22:03:08	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
 2011-09-03	22:03:54	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
 2011-09-03	22:12:32	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
+2011-09-10	20:39:03	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
+2011-09-10	20:41:03	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
+2011-09-10	20:44:09	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
+2011-09-10	21:40:54	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
+2011-09-10	21:41:14	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)

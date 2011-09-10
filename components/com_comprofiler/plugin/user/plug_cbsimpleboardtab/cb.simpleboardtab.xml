@@ -42,6 +42,7 @@
 	    		<option value="3">Expert (PHP file)</option>
 	    	</param>
 	    	<if name="sidebarMode" type="showhide" operator="=" value="1" valuetype="const:int">
+				<param name="sidebar_k15" type="spacer" default="Kunena 1.5.x and Later" label="Version" description="" />
 	    		<param name="sidebarBeginnerName" type="field" default="" label="Name Field" description="Field displayed in position of Username in sidebar." />
 	    		<param name="sidebarBeginnerAvatar" type="field" default="" label="Avatar Field" description="Field displayed in position of Avatar in sidebar." />
 	    		<param name="sidebarBeginner1" type="field" default="" label="Personal Text Field" description="Field displayed in position of Personal Text in sidebar." />
@@ -55,11 +56,27 @@
 	    		<param name="sidebarBeginner9" type="field" default="" label="SKYPE Field" description="Field displayed in position of SKYPE icon in sidebar." />
 	    		<param name="sidebarBeginner10" type="field" default="" label="GTALK Field" description="Field displayed in position of GTALK icon in sidebar." />
 	    		<param name="sidebarBeginner11" type="field" default="" label="Website Field" description="Field displayed in position of Website icon in sidebar." />
+				<param name="sidebar_k16" type="spacer" default="Kunena 1.6.x and Later" label="Version" description="" />
+	    		<param name="sidebarBeginner12" type="field" default="" label="Twitter Field" description="Field displayed in position of Twitter icon in sidebar." />
+	    		<param name="sidebarBeginner13" type="field" default="" label="Facebook Field" description="Field displayed in position of Facebook icon in sidebar." />
+	    		<param name="sidebarBeginner14" type="field" default="" label="MySpace Field" description="Field displayed in position of MySpace icon in sidebar." />
+	    		<param name="sidebarBeginner15" type="field" default="" label="LinkedIn Field" description="Field displayed in position of LinkedIn icon in sidebar." />
+	    		<param name="sidebarBeginner16" type="field" default="" label="Delicious Field" description="Field displayed in position of Delicious icon in sidebar." />
+				<param name="sidebarBeginner17" type="field" default="" label="FriendFeed Field" description="Field displayed in position of FriendFeed icon in sidebar." />
+	    		<param name="sidebarBeginner18" type="field" default="" label="Digg Field" description="Field displayed in position of Digg icon in sidebar." />
+	    		<param name="sidebarBeginner19" type="field" default="" label="BlogSpot Field" description="Field displayed in position of BlogSpot icon in sidebar." />
+	    		<param name="sidebarBeginner20" type="field" default="" label="Flickr Field" description="Field displayed in position of Flickr icon in sidebar." />
+	    		<param name="sidebarBeginner21" type="field" default="" label="Bebo Field" description="Field displayed in position of Bebo icon in sidebar." />
 	    	</if>
 	    	<if name="sidebarMode" type="showhide" operator="=" value="2" valuetype="const:int">
-	    		<param name="sidebar_advancedMode" type="spacer" default="&lt;div&gt;[cb:userfield field=&quot;formatname&quot;/]&lt;/div&gt;
-&lt;div&gt;[cb:userfield field=&quot;avatar&quot;/]&lt;/div&gt;
-&lt;div&gt;[cb:userfield field=&quot;forumrank&quot;/]&lt;/div&gt;" label="Example" description="" />
+	    		<param name="sidebar_advancedMode" type="spacer" default="&amp;lt;ul class=&amp;quot;kpost-profile&amp;quot;&amp;gt;
+&amp;lt;li class=&amp;quot;kpost-username&amp;quot;&amp;gt;&amp;lt;a rel=&amp;quot;nofollow&amp;quot; title=&amp;quot;&amp;quot; href=&amp;quot;index.php?option=com_comprofiler&amp;amp;task=userProfile&amp;amp;user=[user_id]&amp;amp;Itemid=47&amp;quot; class=&amp;quot;kwho-admin&amp;quot;&amp;gt;[cb:userfield field=&amp;quot;formatname&amp;quot;/]&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;li class=&amp;quot;kpost-avatar&amp;quot;&amp;gt;&amp;lt;a rel=&amp;quot;nofollow&amp;quot; title=&amp;quot;&amp;quot; href=&amp;quot;index.php?option=com_comprofiler&amp;amp;task=userProfile&amp;amp;user=[user_id]&amp;amp;Itemid=47&amp;quot; class=&amp;quot;kwho-admin&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;kavatar&amp;quot;&amp;gt;[cb:userfield field=&amp;quot;avatar&amp;quot;/]&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;[cb:userfield field=&amp;quot;onlinestatus&amp;quot;/]&amp;lt;/li&amp;gt;
+&amp;lt;li class=&amp;quot;kpost-userrank&amp;quot;&amp;gt;[cb:userfield field=&amp;quot;forumrank&amp;quot;/]&amp;lt;/li&amp;gt;
+&amp;lt;li class=&amp;quot;kpost-userposts&amp;quot;&amp;gt;Posts: [cb:userfield field=&amp;quot;forumposts&amp;quot;/]&amp;lt;/li&amp;gt;
+&amp;lt;li class=&amp;quot;kpost-karma&amp;quot;&amp;gt;Karma: [cb:userfield field=&amp;quot;forumkarma&amp;quot;/] [karmaminus] [karmaplus]&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;" label="Example" description="" />
 	    		<param name="sidebarAdvancedExists" type="textarea" cols="30" rows="10" default="" label="Existing Users Sidebar" description="Advanced sidebar supports html and substitutions to fully design display of sidebar. Will display the sidebar of existing users." /> 
 	    		<param name="sidebarAdvancedDeleted" type="textarea" cols="30" rows="10" default="" label="Deleted Users Sidebar" description="Advanced sidebar supports html and substitutions to fully design display of sidebar. Will display the sidebar of deleted users." /> 
 	    		<param name="sidebarAdvancedPublic" type="textarea" cols="30" rows="10" default="" label="Public Users Sidebar" description="Advanced sidebar supports html and substitutions to fully design display of sidebar. Will display the sidebar of public users." /> 
@@ -76,7 +93,7 @@
     		<option value="2">In Forum Tab</option>
     	</param>
     	<if name="statDisplay" type="showhide" operator="!=" value="0" valuetype="const:int">
-	    	<param name="TemplateRank" type="text" default="/template/default/images/english" label="Path Template rank" description="" />
+	    	<param name="TemplateRank" type="text" default="/template/default/images" label="Path Template rank" description="" />
 	    	<if name="statDisplay" type="showhide" operator="=" value="2" valuetype="const:int">
 		    	<param name="statRanking" type="list" default="1" label="Ranking" description="Display the forum ranking text. &lt;strong&gt;IMPORTANT: Kunena/Fireboard/Joomlaboard/Simpleboard configuration must also allow to show this!&lt;/strong&gt;">
 			        <option value="0">Hide</option>

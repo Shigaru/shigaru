@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE jomsocial>
 <jomsocial>
      <component>com_kunena</component>
      <rules>
@@ -33,6 +34,14 @@
 			  <publish>true</publish>
 			  <points>1</points>
 			  <access_level>1</access_level>
+           </rule>
+           <rule>
+               <name>Say thank you for a post</name>
+               <description>Give points when a registered user thank you a post.</description>
+               <action_string>com_kunena.thread.thankyou</action_string>
+               <publish>true</publish>
+               <points>1</points>
+               <access_level>1</access_level>
            </rule>
      </rules>
 </jomsocial>

@@ -1,7 +1,7 @@
 <?php
 /**
 * Abstraction class for PHP SimpleXMLElement for PHP 4 and 5, including < 5.1.3
-* @version $Id: cb.xml.simplexml.php 852 2010-01-29 00:12:04Z beat $
+* @version $Id: cb.xml.simplexml.php 1183 2010-09-25 23:16:33Z beat $
 * @author Beat
 * @copyright (C) 2007 Beat and Lightning MultiCom SA, 1009 Pully, Switzerland
 * @license Lightning Proprietary. See licence. Allowed for free use within CB and for CB plugins.
@@ -98,6 +98,24 @@ class CBSimpleXMLElement extends FixedSimpleXML {
 		}
 		$false					=	false;
 		return $false;
+	}
+	/**
+	 * Appends (copies) a child $source and all its descendants to $this node
+	 * @since 1.2.4
+	 *
+	 * @param CBSimpleXMLElement  $source
+	 * @param callback            $callBack to check/transform data or attributes of a node: $destinationData = function ( string|array $sourceData, CBSimpleXMLElement $sourceNode, CBSimpleXMLElement $destinationParentNode );
+	 */
+	function & addChildWithDescendants( &$source, $callBack = null ) {
+		if ( $callBack === null ) {
+			$child				=	$this->addChildWithAttr( $source->name(), $source->data(), null, $source->attributes() );
+		} else {
+			$child				=	$this->addChildWithAttr( $source->name(), call_user_func_array( $callBack, array( $source->data(), $source, $this ) ), null, call_user_func_array( $callBack, array( $source->attributes(), $source, $this ) ) );
+		}
+        foreach ( $source->children() as $sourceChild ) {
+            $child->addChildWithDescendants( $sourceChild, $callBack );
+        }
+        return $child;
 	}
 	/* THIS MOVED ONE LEVEL DOWN TO PHP-specific implementations !!!
 	 *

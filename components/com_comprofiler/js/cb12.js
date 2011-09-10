@@ -58,21 +58,35 @@ function cbParentForm(cb) {
 /**
 * Performs task/subtask on table row id
 */
+function cbIsChecked(isitchecked) {
+	if (isitchecked == true) {
+		document.adminForm.boxchecked.value++;
+	} else {
+		document.adminForm.boxchecked.value--;
+	}
+}
+/**
+* Performs task/subtask on table row id
+*/
 function cbListItemTask( cb, task, subtaskName, subtaskValue, fldName, id ) {
     var f = cbParentForm(cb);
-    if (cb) {
-        for (i = 0; true; i++) {
-            cbx = f.elements[fldName+i];
-            if (!cbx) {
-            	break;
+    if (cb && f) {
+    	var cbRegexp = new RegExp('^'+fldName+'[0-9]+$');
+
+    	for (i = 0; i < f.elements.length; i++) {
+            cbx = f.elements[i];
+            if ( ( cbx.type != 'checkbox' ) || ( ! cbRegexp.test(cbx.id) ) ) {
+            	continue;
             }
-            if ( i == id ) {
+            if ( cbx.id == fldName+id ) {
 	            cbx.checked = true;
             } else {
 	            cbx.checked = false;
         	}
         }
-		f.elements[subtaskName].value = subtaskValue;
+		if (subtaskName && subtaskValue) {
+			f.elements[subtaskName].value = subtaskValue;
+		}
         submitbutton(task);
     }
     return false;
@@ -95,12 +109,14 @@ function cbDoListTask( cb, task, subtaskName, subtaskValue, fldName ) {
         	}
         }
         if ( oneChecked ) {
-        	if ( subtaskValue == 'deleterows' ) {
-        		if ( ! confirm('Are you sure you want to delete selected items ?') ) { 
-        			return false;
-        		}
-        	}
-			f.elements[subtaskName].value = subtaskValue;
+			if (subtaskName && subtaskValue) {
+				if ( subtaskValue == 'deleterows' ) {
+					if ( ! confirm('Are you sure you want to delete selected items ?') ) { 
+						return false;
+					}
+				}
+				f.elements[subtaskName].value = subtaskValue;
+			}
     	    submitbutton(task);
         } else {
         	alert( "no items selected" );
@@ -119,13 +135,17 @@ function submitbutton(pressbutton) {
 */
 function cbsubmitform(pressbutton){
 	document.forms['adminForm'].elements['task'].value = pressbutton;
-	if ( typeof(document.forms['adminForm']) != 'undefined' ) {
-		try {
-			document.forms['adminForm'].onsubmit();
-			}
-		catch(e){}
+	if (typeof(jQuery)!='undefined') {
+		jQuery( document.forms['adminForm'] ).submit();
+	} else {
+		if ( typeof(document.forms['adminForm']) != 'undefined' ) {
+			try {
+				document.forms['adminForm'].onsubmit();
+				}
+			catch(e){}
+		}
+		document.forms['adminForm'].submit();
 	}
-	document.forms['adminForm'].submit();
 }
 
 /**
@@ -270,6 +290,10 @@ function cbParamChange() {
 				var cbRegexp = new RegExp(cbHideFields[i][3]);
 				cMatch = ( ! cbRegexp.test(value) );
 				break;
+			case '!regexp' :
+				var cbRegexp = new RegExp(cbHideFields[i][3]);
+				cMatch = cbRegexp.test(value);
+				break;
 			case 'evaluate' :
 				break;
 			default:
@@ -307,8 +331,12 @@ function cbParamChange() {
 								if (typeof(cbParamsSaveBefHide[i])=='undefined') {
 									cbParamsSaveBefHide[i] = new Array();
 								}
-								cbParamsSaveBefHide[i][j] = inputToSet.value;
-								inputToSet.value = nameValue[2];
+								if ( inputToSet ) {
+									cbParamsSaveBefHide[i][j] = inputToSet.value;
+									inputToSet.value = nameValue[2];
+								} else {
+									alert('InputToSet undefined: '+cbHideFields[i][4][0]);
+								}
 							}
 						}
 					}
@@ -335,7 +363,11 @@ function cbParamChange() {
 								nameValue  = cbHideFields[i][5][j].split('=',3);
 								if ( cbGetDisplayStyle( document.getElementById( cbHideFields[i][4][0] /* nameValue[0] */ ) ) == 'none' ) {
 									inputToSet = document.getElementById( nameValue[1] );
-									inputToSet.value = cbParamsSaveBefHide[i][j];
+									if (typeof(cbParamsSaveBefHide[i])!='undefined') {
+										inputToSet.value = cbParamsSaveBefHide[i][j];
+									} else {
+										alert('inputToSet saved param undefined for input id: '+nameValue[1]+' as following id is hidden: '+cbHideFields[i][4][0]);
+									}
 								}
 							}
 	//					}
@@ -421,7 +453,7 @@ function cbInitFields()
 					if (sels[j].type == 'text') {
 						cbAddEvent( sels[j], 'change', cbParamChange );
 					} else {
-						cbAddEvent( sels[j], 'click', cbParamChange );
+						cbAddEvent( sels[j], ( window.ActiveXObject ? 'click' : 'change' ), cbParamChange );		// IE doesn't trigger change until the drop-down is unselected...
 					}
 					cbSels[i][k++] = sels[j];
 				}

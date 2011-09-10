@@ -1,7 +1,7 @@
 <?php
 /**
 * Joomla/Mambo Community Builder
-* @version $Id: install.comprofiler.php 920 2010-03-02 00:26:24Z beat $
+* @version $Id: install.comprofiler.php 1522 2011-07-17 20:25:32Z beat $
 * @package Community Builder
 * @subpackage install.comprofiler.php
 * @author JoomlaJoe and Beat
@@ -14,6 +14,10 @@ if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' 
 
 // Try extending time, as unziping/ftping took already quite some... :
 @set_time_limit( 240 );
+
+if ( version_compare( phpversion(), '5.0.0', '<' ) ) {
+	return;
+}
 
 $memMax			=	trim( @ini_get( 'memory_limit' ) );
 if ( $memMax ) {
@@ -62,7 +66,7 @@ if ( ! file_exists( $_CB_adminpath . 'ue_config.php' ) ) {
 	if ( ! $adminFS->copy( $_CB_adminpath . 'ue_config_first.php', $_CB_adminpath . 'ue_config.php' ) ) {
 		echo sprintf( 'Error copying initial configuration file in place from %s to %s', $_CB_adminpath . 'ue_config_first.php', $_CB_adminpath . 'ue_config.php' ) . "<br /><br />\n";
 	}
-} 
+}
 include_once( $_CB_adminpath . 'plugin.foundation.php' );
 
 $_CB_framework->cbset( '_ui', 2 );	// : we're in 1: frontend, 2: admin back-end
@@ -100,7 +104,13 @@ function cbInstaller_field_exists( $table, $field ) {
 function com_install() {
   global $_CB_database, $_CB_framework;
 
-  ob_start();
+	if ( version_compare( phpversion(), '5.0.0', '<' ) ) {
+		echo '<div class="cbError error" style="font-size:120%;color:red;font-weight:bold;margin-bottom:20px;">' . htmlspecialchars( sprintf( "As stated in README and prerequisites list, PHP Version %s, which is obsolete since 2008-08-08 and insecure, is not compatible with %s: Please upgrade to PHP %s or greater (CB is also compatible with PHP 5.3.x) as soon as possible.", phpversion(), 'Community Builder', sprintf( "at least version %s, recommended version %s", '5.0.0', '5.2.6' ) ) ) . '</div>';
+		echo '<div class="cbError error" style="font-size:140%;color:red;font-weight:bold;">' . htmlspecialchars( sprintf( 'Installation failed. In all cases, please require your hoster to upgrade your PHP version as soon as possible.' ) ) . '</div>';
+		return;
+	}
+
+	ob_start();
 
   # Show installation result to user
   ?>
@@ -113,7 +123,7 @@ function com_install() {
     </tr>
     <tr>
       <td>
-    	<br />Copyright 2004-2010 MamboJoe/JoomlaJoe, Beat and CB team on joomlapolis.com . This component is released under the GNU/GPL version 2 License and parts under Community Builder Free License. All copyright statements must be kept. Derivate work must prominently duly acknowledge original work and include visible online links. Official site: <a href="http://www.joomlapolis.com">www.joomlapolis.com</a>
+    	<br />Copyright 2004-2011 MamboJoe/JoomlaJoe, Beat and CB team on joomlapolis.com . This component is released under the GNU/GPL version 2 License. All copyright statements must be kept. Derivate work must prominently duly acknowledge original work and include visible online links. Official site: <a href="http://www.joomlapolis.com">www.joomlapolis.com</a>
     	<br />
       </td>
     </tr>
@@ -122,7 +132,8 @@ function com_install() {
         <code>Installation Process:<br />
         <?php
 
-          # Set up new icons for admin menu
+      # Set up new icons for admin menu
+      if ( checkJversion() <= 1 ) {
           // echo "Start correcting icons in administration backend.<br />";
           if ( checkJversion() >= 1 ) {
 	          $_CB_database->setQuery("UPDATE #__components SET admin_menu_img='js/ThemeOffice/static.png' WHERE admin_menu_link='option=com_comprofiler&task=showLists'");
@@ -152,10 +163,12 @@ function com_install() {
 			  $_CB_database->setQuery("UPDATE #__components SET admin_menu_img='js/ThemeOffice/install.png' WHERE admin_menu_link='option=com_comprofiler&task=showPlugins'");
           }
           $iconresult[5] = $_CB_database->query();
+          $_CB_database->setQuery("UPDATE #__components SET admin_menu_img='../components/com_comprofiler/plugin/templates/luna/images/header/icon-16-cb.png' WHERE admin_menu_link='option=com_comprofiler'");
+          $iconresult[6] = $_CB_database->query();
 /* Despite numerous abstractions-level, the name of the component isn't taken from SQL but from xml <name> , same field as used to find comprofiler, so we can't display nicely:
           if ( checkJversion() >= 1 ) {
 	          $_CB_database->setQuery("UPDATE #__components SET name='Community Builder' WHERE admin_menu_link='option=com_comprofiler'");
-              $iconresult[6] = $_CB_database->query();
+              $iconresult[7] = $_CB_database->query();
           }
 */
          foreach ($iconresult as $i=>$icresult) {
@@ -165,24 +178,25 @@ function com_install() {
               echo "<font color='red'>ERROR:</font> Image of administration menu entry $i could not be corrected.<br />";
             }
           }
-	 $_CB_database->setQuery("SELECT COUNT(*) FROM #__components WHERE link = 'option=com_comprofiler'");
-         $components = $_CB_database->loadresult();
-	 IF($components >= 1) {
-		$_CB_database->setQuery("SELECT id FROM #__components WHERE link = 'option=com_comprofiler' ORDER BY id DESC LIMIT 1");
-         	$comid = (int) $_CB_database->loadresult();
-		$_CB_database->setQuery("DELETE FROM #__components WHERE link  = 'option=com_comprofiler' AND id != $comid  ");
-         	$_CB_database->query();
-		$_CB_database->setQuery("DELETE FROM #__components WHERE #__components.option = 'com_comprofiler' AND parent != $comid AND id != $comid ");
-         	$_CB_database->query();
-        // update front-end menus component id:
-    		$_CB_database->setQuery("UPDATE #__menu SET componentid=" . $comid . " WHERE type = 'component' AND link LIKE '%option=com_comprofiler%'");
-         	$_CB_database->query();
-              	echo "<font color='green'>Administrator and frontend menus corrected.</font><br />";
-	}
+		 $_CB_database->setQuery("SELECT COUNT(*) FROM #__components WHERE link = 'option=com_comprofiler'");
+	         $components = $_CB_database->loadresult();
+		 IF($components >= 1) {
+			$_CB_database->setQuery("SELECT id FROM #__components WHERE link = 'option=com_comprofiler' ORDER BY id DESC", 0, 1);
+	         	$comid = (int) $_CB_database->loadresult();
+			$_CB_database->setQuery("DELETE FROM #__components WHERE link  = 'option=com_comprofiler' AND id != $comid  ");
+	         	$_CB_database->query();
+			$_CB_database->setQuery("DELETE FROM #__components WHERE #__components.option = 'com_comprofiler' AND parent != $comid AND id != $comid ");
+	         	$_CB_database->query();
+	        // update front-end menus component id:
+	    		$_CB_database->setQuery("UPDATE #__menu SET componentid=" . $comid . " WHERE type = 'component' AND link LIKE '%option=com_comprofiler%'");
+	         	$_CB_database->query();
+	              	echo "<font color='green'>Administrator and frontend menus corrected.</font><br />";
+		}
+    }
 
 	//Manage Database Upgrades
 	$MCBUpgrades = array();
-	
+
 	//Beta 3 Upgrade
 	$MCBUpgrades[0]['test']		=	array( 'default', '#__comprofiler_lists' );
 	$MCBUpgrades[0]['updates'][0] = "ALTER TABLE `#__comprofiler_lists`"
@@ -203,7 +217,7 @@ function com_install() {
 					."\n ADD `lastname` VARCHAR( 100 ) AFTER `middlename` ";
 	$MCBUpgrades[1]['updates'][1] = "ALTER TABLE `#__comprofiler_fields` ADD `readonly` TINYINT( 1 ) DEFAULT '0' NOT NULL AFTER `profile`";
 	$MCBUpgrades[1]['updates'][3] = "ALTER TABLE `#__comprofiler_tabs` ADD `width` VARCHAR( 10 ) DEFAULT '.5' NOT NULL AFTER `ordering` ,"
-					."\n ADD `enabled` TINYINT( 1 ) DEFAULT '1' NOT NULL AFTER `width` ," 
+					."\n ADD `enabled` TINYINT( 1 ) DEFAULT '1' NOT NULL AFTER `width` ,"
 					."\n ADD `plugin` VARCHAR( 255 ) DEFAULT NULL AFTER `enabled`" ;
 
 	$MCBUpgrades[1]['message'] = "1.0 Beta 3 to 1.0 Beta 4";
@@ -212,10 +226,10 @@ function com_install() {
 	$MCBUpgrades[2]['test']		=	array( 'fields', '#__comprofiler_tabs' );
 	$MCBUpgrades[2]['updates'][0] = "ALTER TABLE #__comprofiler_tabs ADD `plugin_include` VARCHAR( 255 ) AFTER `plugin` ,"
 					."\n ADD `fields` TINYINT( 1 ) DEFAULT '1' NOT NULL AFTER `plugin_include` ";
-	$MCBUpgrades[2]['updates'][1] = "INSERT INTO `#__comprofiler_tabs` ( `title`, `description`, `ordering`, `width`, `enabled`, `plugin`, `plugin_include`, `fields`, `sys`) VALUES " 
+	$MCBUpgrades[2]['updates'][1] = "INSERT INTO `#__comprofiler_tabs` ( `title`, `description`, `ordering`, `width`, `enabled`, `plugin`, `plugin_include`, `fields`, `sys`) VALUES "
 					."\n ( '_UE_CONTACT_INFO_HEADER', '', -4, '1', 1, 'getContactTab', NULL, 1, 1),"
 					."\n ( '_UE_AUTHORTAB', '', -3, '1', 0, 'getAuthorTab', NULL, 0, 1),"
-					."\n ( '_UE_FORUMTAB', '', -2, '1', 0, 'getForumTab', NULL, 0, 1),"	
+					."\n ( '_UE_FORUMTAB', '', -2, '1', 0, 'getForumTab', NULL, 0, 1),"
 					."\n ( '_UE_BLOGTAB', '', -1, '1', 0, 'getBlogTab', NULL, 0, 1);";
 	$MCBUpgrades[2]['updates'][2] = "ALTER TABLE `#__comprofiler_lists` ADD `filterfields` VARCHAR( 255 ) AFTER `sortfields`;";
 	$MCBUpgrades[2]['message'] = "1.0 Beta 4 to 1.0 RC 1";
@@ -224,34 +238,34 @@ function com_install() {
 	$MCBUpgrades[3]['test']		=	array( 'description', '#__comprofiler_fields' );
 	$MCBUpgrades[3]['updates'][0] = "ALTER TABLE `#__comprofiler_fields` ADD `description` MEDIUMTEXT  NOT NULL default '' AFTER `title` ";
 	$MCBUpgrades[3]['updates'][1] = "ALTER TABLE `#__comprofiler_fields` CHANGE `title` `title` VARCHAR( 255 ) NOT NULL";
-	$MCBUpgrades[3]['updates'][2] = "INSERT INTO `#__comprofiler_tabs` (`title`, `description`, `ordering`, `width`, `enabled`, `plugin`, `plugin_include`, `fields`, `sys`) VALUES " 
+	$MCBUpgrades[3]['updates'][2] = "INSERT INTO `#__comprofiler_tabs` (`title`, `description`, `ordering`, `width`, `enabled`, `plugin`, `plugin_include`, `fields`, `sys`) VALUES "
 					."\n ( '_UE_CONNECTION', '',99, '1', 0, 'getConnectionTab', NULL, 0, 1);";
-	$MCBUpgrades[3]['updates'][3] = "INSERT INTO `#__comprofiler_tabs` (`title`, `description`, `ordering`, `width`, `enabled`, `plugin`, `plugin_include`, `fields`, `sys`) VALUES " 
+	$MCBUpgrades[3]['updates'][3] = "INSERT INTO `#__comprofiler_tabs` (`title`, `description`, `ordering`, `width`, `enabled`, `plugin`, `plugin_include`, `fields`, `sys`) VALUES "
 					."\n ( '_UE_NEWSLETTER_HEADER', '_UE_NEWSLETTER_INTRODCUTION', 99, '1', 0, 'getNewslettersTab', NULL, 0, 1);";
 	$MCBUpgrades[3]['updates'][4] = "UPDATE `#__comprofiler_tabs` SET sys=2, enabled=1 WHERE plugin='getContactTab' ";
 	$MCBUpgrades[3]['updates'][5] = "ALTER TABLE `#__comprofiler_lists` ADD `useraccessgroupid` INT( 9 ) DEFAULT '18' NOT NULL AFTER `usergroupids` ";
 	$MCBUpgrades[3]['message'] = "1.0 RC 1 to 1.0 RC 2 part 1";
-	
+
 	$MCBUpgrades[4]['test']		=	array( 'params', '#__comprofiler_tabs' );
 	$MCBUpgrades[4]['updates'][0] = "ALTER TABLE `#__comprofiler_tabs` CHANGE `plugin` `pluginclass` VARCHAR( 255 ) DEFAULT NULL , "
 					."\n CHANGE `plugin_include` `pluginid` INT( 11 ) DEFAULT NULL ";
 	$MCBUpgrades[4]['updates'][1] = "ALTER TABLE `#__comprofiler_tabs` ADD `params` MEDIUMTEXT AFTER `fields` ;";
 	$MCBUpgrades[4]['updates'][2] = "ALTER TABLE `#__comprofiler_fields` ADD `pluginid` INT( 11 ) , "
 					."\n ADD `params` MEDIUMTEXT; ";
-	$MCBUpgrades[4]['updates'][3] = "UPDATE `#__comprofiler_tabs` SET pluginid=1 WHERE pluginclass='getContactTab' ";	
+	$MCBUpgrades[4]['updates'][3] = "UPDATE `#__comprofiler_tabs` SET pluginid=1 WHERE pluginclass='getContactTab' ";
 	$MCBUpgrades[4]['updates'][4] = "UPDATE `#__comprofiler_tabs` SET pluginid=1 WHERE pluginclass='getConnectionTab' ";
-	$MCBUpgrades[4]['updates'][5] = "UPDATE `#__comprofiler_tabs` SET pluginid=3 WHERE pluginclass='getAuthorTab' ";	
-	$MCBUpgrades[4]['updates'][6] = "UPDATE `#__comprofiler_tabs` SET pluginid=4 WHERE pluginclass='getForumTab' ";	
+	$MCBUpgrades[4]['updates'][5] = "UPDATE `#__comprofiler_tabs` SET pluginid=3 WHERE pluginclass='getAuthorTab' ";
+	$MCBUpgrades[4]['updates'][6] = "UPDATE `#__comprofiler_tabs` SET pluginid=4 WHERE pluginclass='getForumTab' ";
 	$MCBUpgrades[4]['updates'][7] = "UPDATE `#__comprofiler_tabs` SET pluginid=5 WHERE pluginclass='getBlogTab' ";
-	$MCBUpgrades[4]['updates'][8] = "UPDATE `#__comprofiler_tabs` SET pluginid=6 WHERE pluginclass='getNewslettersTab' ";														
+	$MCBUpgrades[4]['updates'][8] = "UPDATE `#__comprofiler_tabs` SET pluginid=6 WHERE pluginclass='getNewslettersTab' ";
 	$MCBUpgrades[4]['message'] = "1.0 RC 1 to 1.0 RC 2 part 2";
 
 	$MCBUpgrades[5]['test']		=	array( 'position', '#__comprofiler_tabs' );
 	$MCBUpgrades[5]['updates'][1] = "ALTER TABLE `#__comprofiler_tabs`"
 					."\n ADD `position` VARCHAR( 255 ) DEFAULT '' NOT NULL,"
 					."\n ADD `displaytype` VARCHAR( 255 ) DEFAULT '' NOT NULL AFTER `sys`";
-	$MCBUpgrades[5]['updates'][2] = "UPDATE `#__comprofiler_tabs` SET position='cb_tabmain', displaytype='tab' ";	
-	$MCBUpgrades[5]['updates'][3] = "INSERT INTO `#__comprofiler_tabs` (`title`, `description`, `ordering`, `width`, `enabled`, `pluginclass`, `pluginid`, `fields`, `sys`, `position`, `displaytype`) VALUES " 
+	$MCBUpgrades[5]['updates'][2] = "UPDATE `#__comprofiler_tabs` SET position='cb_tabmain', displaytype='tab' ";
+	$MCBUpgrades[5]['updates'][3] = "INSERT INTO `#__comprofiler_tabs` (`title`, `description`, `ordering`, `width`, `enabled`, `pluginclass`, `pluginid`, `fields`, `sys`, `position`, `displaytype`) VALUES "
 					."\n ( '_UE_MENU', '', -10, '1', 1, 'getMenuTab', 14, 0, 1, 'cb_head', 'html'),"
 					."\n ( '_UE_CONNECTIONPATHS', '', -9, '1', 1, 'getConnectionPathsTab', 2, 0, 1, 'cb_head', 'html'),"
 					."\n ( '_UE_PROFILE_PAGE_TITLE', '', -8, '1', 1, 'getPageTitleTab', 1, 0, 1, 'cb_head', 'html'),"
@@ -330,15 +344,15 @@ function com_install() {
 				}
 			}
 			//Upgrade was successful
-			print "<font color=green>".$MCBUpgrade['message']." Upgrade Applied Successfully.</font><br />";			
-		} 
+			print "<font color=green>".$MCBUpgrade['message']." Upgrade Applied Successfully.</font><br />";
+		}
 	}
 
 	$sql="SELECT listid FROM #__comprofiler_lists ORDER BY ordering asc, published desc";
 	$_CB_database->setQuery($sql);
 	$lists = $_CB_database->loadObjectList();
 	$order=0;
-	if ( $lists ) {
+	if ( ! $_CB_database->getErrorNum() ) {
 		foreach($lists AS $list) {
 			$_CB_database->setQuery("UPDATE #__comprofiler_lists SET ordering = $order WHERE listid='".$list->listid."'");
 			$_CB_database->query();
@@ -371,18 +385,21 @@ function com_install() {
 			}
 			echo "</div>";
 		}
-		$logs			=	$dbChecker->getLogs( false );
-		if ( count( $logs ) > 0 ) {
-			echo "<div><a href='#' id='cbdetailsLinkShowOld' onclick=\"document.getElementById('cbdetailsdbcheckOld').style.display='';return false;\">Click to Show details</a></div>";
-			echo "<div id='cbdetailsdbcheckOld' style='color:green;display:none;'>";
-			foreach ( $logs as $err ) {
-				echo '<div style="font-size:100%">' . $err[0];
-				if ( $err[1] ) {
-					echo '<div style="font-size:90%">' . $err[1] . '</div>';
+		if ( ( checkJversion() < 1 ) || ( $_CB_framework->getCfg( 'session_handler' ) != 'database' ) ) {
+			// joomla 1.5 and 1.6 database session storage limited to 20kb, so do not display details in that case:
+			$logs			=	$dbChecker->getLogs( false );
+			if ( count( $logs ) > 0 ) {
+				echo "<div><a href='#' id='cbdetailsLinkShowOld' onclick=\"document.getElementById('cbdetailsdbcheckOld').style.display='';return false;\">Click to Show details</a></div>";
+				echo "<div id='cbdetailsdbcheckOld' style='color:green;display:none;'>";
+				foreach ( $logs as $err ) {
+					echo '<div>' . $err[0];
+					if ( $err[1] ) {
+						echo '<div style="font-size:90%">' . $err[1] . '</div>';
+					}
+					echo '</div>';
 				}
 				echo '</div>';
 			}
-			echo '</div>';
 		}
 	}
 	// now missing core tabs will be inserted in the new 1.2 upgrader in next step:
@@ -407,20 +424,23 @@ function com_install() {
 		}
 		echo "</div>";
 	}
-	$logs			=	$dbChecker->getLogs( false );
-	if ( count( $logs ) > 0 ) {
-		echo "<div><a href='#' id='cbdetailsLinkShow' onclick=\"document.getElementById('cbdetailsdbcheck').style.display='';return false;\">Click to Show details</a></div>";
-		echo "<div id='cbdetailsdbcheck' style='color:green;display:none;'>";
-		foreach ( $logs as $err ) {
-			echo '<div style="font-size:100%">' . $err[0];
-			if ( $err[1] ) {
-				echo '<div style="font-size:90%">' . $err[1] . '</div>';
+	if ( ( checkJversion() < 1 ) || ( $_CB_framework->getCfg( 'session_handler' ) != 'database' ) ) {
+		// joomla 1.5 and 1.6 database session storage limited to 20kb, so do not display details in that case:
+		$logs			=	$dbChecker->getLogs( false );
+		if ( count( $logs ) > 0 ) {
+			echo "<div><a href='#' id='cbdetailsLinkShow' onclick=\"document.getElementById('cbdetailsdbcheck').style.display='';return false;\">Click to Show details</a></div>";
+			echo "<div id='cbdetailsdbcheck' style='color:green;display:none;'>";
+			foreach ( $logs as $err ) {
+				if ( $err[1] ) {
+					// display only queries having effect (joomla database session storage limited to 20kb!):
+					echo '<div>' . $err[0];
+					echo '<div style="font-size:90%">' . $err[1] . '</div>';
+					echo '</div>';
+				}
 			}
 			echo '</div>';
 		}
-		echo '</div>';
 	}
-
 	echo "<p>Core CB database upgrades done. If all lines above are in green, database upgrade completed successfully. Otherwise, please report exact errors and queries to forum, and try checking database again in components : community builder : tools : check database.</p>";
 
         ?>
@@ -459,26 +479,26 @@ if ( $adminFS->isUsingStandardPHP() && ( ! $adminFS->file_exists( $cbImages ) ) 
 	}
 	if( $adminFS->file_exists( $cbImages ) ) {
 		if ( ! is_writable( $cbImages ) ) {
-			if( ! $adminFS->chmod( $cbImages, 0777 ) ) {
-				if ( ! @chmod( $cbImages, 0777 ) ) {
-					print "<font color=red>" . $cbImages . "/ Failed to be chmod'd to 777 please do so manually !</font><br />";
+			if( ! $adminFS->chmod( $cbImages, 0775 ) ) {
+				if ( ! @chmod( $cbImages, 0775 ) ) {
+					print "<font color=red>" . $cbImages . "/ Failed to be chmod'd to 775 please do so manually !</font><br />";
 				}
 			}
 		}
 		if( ! is_writable( $cbImages ) ) {
-			print "<font color=red>" . $cbImages . "/ is not writable and failed to be chmod'd to 777 please do so manually !</font><br />";
+			print "<font color=red>" . $cbImages . "/ is not writable and failed to be chmod'd to 775 please do so manually !</font><br />";
 		}
 	}
 	if ( $adminFS->file_exists( $cbImagesGallery ) ) {
 		if( ! is_writable( $cbImagesGallery ) ) {
-			if( ! $adminFS->chmod( $cbImagesGallery, 0777 ) ) {
-				if ( ! @chmod( $cbImagesGallery, 0777 ) ) {
-					print "<font color=red>" . $cbImagesGallery . "/ Failed to be chmod'd to 777 please do so manually !</font><br />";
+			if( ! $adminFS->chmod( $cbImagesGallery, 0775 ) ) {
+				if ( ! @chmod( $cbImagesGallery, 0775 ) ) {
+					print "<font color=red>" . $cbImagesGallery . "/ Failed to be chmod'd to 775 please do so manually !</font><br />";
 				}
 			}
 		}
 		if( ! is_writable( $cbImagesGallery ) ) {
-			print "<font color=red>" . $cbImagesGallery . "/ is not writable and failed to be chmod'd to 777 please do so manually !</font><br />";
+			print "<font color=red>" . $cbImagesGallery . "/ is not writable and failed to be chmod'd to 755 please do so manually !</font><br />";
 		}
 		$galleryFiles = array("airplane.gif"
 		,"ball.gif"
@@ -512,15 +532,7 @@ if ( $adminFS->isUsingStandardPHP() && ( ! $adminFS->file_exists( $cbImages ) ) 
 	}
 }
 if ( ! ( $adminFS->file_exists( $cbImages ) && is_writable( $cbImages ) && $adminFS->file_exists( $cbImagesGallery ) ) ) {
-		print "<br /><font color=red>Manually do the following:<br /> 1.) create ".$cbImages . "/ directory <br /> 2.) chmod it to 777 <br /> 3.) create ". $cbImagesGallery . "/ <br /> 4.) chmod it to 777 <br />5.) copy " . $_CB_framework->getCfg( 'absolute_path' ) . "/components/com_comprofiler/images/gallery/ and its contents to ". $cbImagesGallery . "/  </font><br />";
-}
-/*
-if (!file_exists($_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit")) {
-	print "<font color='red'>".$_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit/ does not exist! This is normal with mambo 4.5.0 and 4.6.1. Community Builder needs this library for handling plugins.<br />  You Must Manually do the following:<br /> 1.) create ".$_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit/ directory <br /> 2.) chmod it to 777 <br /> 3.) copy corresponding content of a mambo 4.5.2 directory.</font><br /><br />\n";
-}
-*/
-if ( ! ( $adminFS->file_exists( $_CB_framework->getCfg( 'absolute_path' ) . "/libraries/pcl") || $adminFS->file_exists($_CB_framework->getCfg( 'absolute_path' ) . '/administrator/includes/pcl' ) ) ) {
-	print "<font color='red'>".$_CB_framework->getCfg( 'absolute_path' ) . "/administrator/includes/pcl/ does not exist! This is normal with mambo 4.5.0. Community Builder needs this library for handling plugins.<br />  Manually do the following:<br /> 1.) create ".$_CB_framework->getCfg( 'absolute_path' ) . "/administrator/includes/pcl/ directory <br /> 2.) chmod it to 777 <br /> 3.) copy corresponding content of a mambo 4.5.2 directory.</font><br /><br />\n";
+		print "<br /><font color=red>Manually do the following:<br /> 1.) create ".$cbImages . "/ directory <br /> 2.) chmod it to 755 or if needed to 775 <br /> 3.) create ". $cbImagesGallery . "/ <br /> 4.) chmod it to 755 or if needed to 775 <br />5.) copy " . $_CB_framework->getCfg( 'absolute_path' ) . "/components/com_comprofiler/images/gallery/ and its contents to ". $cbImagesGallery . "/  </font><br />";
 }
 ?>
       </td>
@@ -530,25 +542,34 @@ if ( ! ( $adminFS->file_exists( $_CB_framework->getCfg( 'absolute_path' ) . "/li
   <?php
  		$ret					=	ob_get_contents();
 		ob_end_clean();
-		$_CB_framework->setUserState( "com_comprofiler_install", htmlspecialchars( htmlspecialchars( $ret ) ) );
+		$_CB_framework->setUserState( "com_comprofiler_install", $ret );
+		// now treat special case of CB 1.2.2- installed and a plugin/mambot/module already loaded and the new function doesn't exist:
+		if ( is_callable( array( $_CB_framework, 'backendUrl' ) ) ) {
+			$stepTwoUrl			=	$_CB_framework->backendUrl( 'index.php?option=com_comprofiler&task=finishinstallation', false );
+		} else {
+			$stepTwoUrl			=	( checkJversion() < 1 ? 'index2.php' : 'index.php' ) . '?option=com_comprofiler&task=finishinstallation';
+		}
 ?>
-<div id="cbInstallNextStep" style="font-weight:bold;font-size:120%;background:#ffffdd;border:2px orange solid;padding:5px;">WAIT PLEASE: DO NOT INTERRUPT INSTALLATION PROCESS: PERFORMING SECOND INSTALLATION STEP: UNCOMPRESSING CORE PLUGINS. If this screen stays for over 2 minutes, <a href="index2.php?option=com_comprofiler&task=finishinstallation">please click here to continue next and last installation step</a>.</div>
+<div id="cbInstallNextStep" style="font-weight:bold;font-size:120%;background:#ffffdd;border:2px orange solid;padding:5px;">WAIT PLEASE: DO NOT INTERRUPT INSTALLATION PROCESS: PERFORMING SECOND INSTALLATION STEP: UNCOMPRESSING CORE PLUGINS: THIS CAN TAKE UP TO 2 MINUTES. <span id="cbstep2manual">If this screen stays for over 2 minutes, <a href="<?php echo htmlspecialchars( $stepTwoUrl ); ?>">please click here to continue next and last installation step</a>.</span></div>
 <?php
 		echo $ret;
-// <script type="text/javascript">document.location.href='index2.php?option=com_comprofiler&task=finishinstallation'</script>
 								//	Add Javascript to go to step 2:
 		$jsStepTwo				=	"	$('form table.adminform').hide();"		// hides other uploads in j 1.5.
-								.	"	$('a[href=index2.php?option=com_installer&element=component]').hide();"		// hides Continue in j 1.0 + Mambo
+								.	"	$('#cbstep2manual').hide();"		// hides Continue in j 1.0 + Mambo
 								.	"	$('#cbInstallNextStep').hide().fadeIn('1500', function() { $(this).fadeOut('1000', function() { $(this).fadeIn('1500', function() {"
 								//	Get the href of the user profile link:
-								.	"\n			window.location = 'index2.php?option=com_comprofiler&task=finishinstallation';"
+								.	"\n			window.location = '" . addslashes( $stepTwoUrl ) . "';"
 								.	"\n		} ) } ) } );"
 								;
 
+		$_CB_framework->document->_outputToHeadCollectionStart();
+		if ( checkJversion() > 1 ) {
+			// there is a redirect in j1.6 not buffering headers, so we have to output scripts in body:
+			$_CB_framework->document->setCmsDoc( null );
+		}
 		$_CB_framework->outputCbJQuery( $jsStepTwo );
-
-		echo $_CB_framework->getAllJsPageCodes();
-
+		$_CB_framework->getAllJsPageCodes();
+		echo $_CB_framework->document->_outputToHead();
 }
 
 ?>

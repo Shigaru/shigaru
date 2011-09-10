@@ -1,12 +1,12 @@
 <?php
 /**
 * CB Moderator Module 1.2
-* $Id: mod_comprofilermoderator.php 831 2010-01-26 11:04:24Z beat $
+* $Id: mod_comprofilermoderator.php 1360 2011-01-25 14:32:28Z beat $
 * 
 * @version 1.2
 * @package Community Builder 1.2
 * @subpackage CB Moderator Module
-* @Copyright (C) MamboJoe and Beat at www.joomlapolis.com
+* @Copyright (C) 2004-2011 MamboJoe and Beat at www.joomlapolis.com
 * @ All rights reserved
 * @ Released under GNU/GPL License : http://www.gnu.org/copyleft/gpl.html
 **/
@@ -51,7 +51,6 @@ if ( is_callable( array( $params, 'get' ) ) ) {				// Mambo 4.5.0 compatibility
 }
 
 $results = null;
-$andItemid		=	getCBprofileItemid( true );
 
 $query			=	"SELECT banned FROM #__comprofiler WHERE id = " . $_CB_framework->myId();
 $_CB_database->setQuery( $query);
@@ -60,7 +59,7 @@ if ( $banStatus === null ) {
 	trigger_error( $_CB_database->getErrorMsg(), E_USER_WARNING );
 }
 if ( $banStatus > 0 ) {
-	$results .= "<div><a href='".cbSef("index.php?option=com_comprofiler".$andItemid)."' class='mod_login".$class_sfx."'>" . ( ( $banStatus == 1 ) ? _UE_PLEAE_CHECK_PROFILE : _UE_BANSTATUS_UNBAN_REQUEST_PENDING ) . "</a></div>";
+	$results .= "<div><a href='" . $_CB_framework->userProfileUrl() . "' class='mod_login".$class_sfx."'>" . ( ( $banStatus == 1 ) ? _UE_PLEAE_CHECK_PROFILE : _UE_BANSTATUS_UNBAN_REQUEST_PENDING ) . "</a></div>";
 }
 
 if ( isModerator( $_CB_framework->myId() ) ) {
@@ -86,10 +85,10 @@ if ( isModerator( $_CB_framework->myId() ) ) {
 
 	if($totalunban > 0 || $totaluserreports > 0 || $totalimages > 0 || ($totaluserpendapproval > 0 && $ueConfig['allowModUserApproval'])) {
 		
-		if($totalunban > 0) $results .= "<div><a href='".cbSef("index.php?option=com_comprofiler&amp;task=moderateBans".$andItemid)."' class='mod_login".$class_sfx."'>".$totalunban." "._UE_UNBANREQUIREACTION."</a></div>";
-		if($totaluserreports > 0) $results .= "<div><a href='".cbSef("index.php?option=com_comprofiler&amp;task=moderateReports".$andItemid)."' class='mod_login".$class_sfx."'>".$totaluserreports." "._UE_USERREPORTSREQUIREACTION."</a></div>";
-		if($totalimages > 0) $results .= "<div><a href='".cbSef("index.php?option=com_comprofiler&amp;task=moderateImages".$andItemid)."' class='mod_login".$class_sfx."'>".$totalimages." "._UE_IMAGESREQUIREACTION."</a></div>";
-		if($totaluserpendapproval > 0 && $ueConfig['allowModUserApproval']) $results .= "<div><a href='".cbSef("index.php?option=com_comprofiler&amp;task=pendingApprovalUser".$andItemid)."' class='mod_login".$class_sfx."'>".$totaluserpendapproval." "._UE_USERPENDAPPRACTION."</a></div>";
+		if($totalunban > 0) $results .= "<div><a href='" . $_CB_framework->viewUrl( 'moderatebans' ) . "' class='mod_login".$class_sfx."'>".$totalunban." "._UE_UNBANREQUIREACTION."</a></div>";
+		if($totaluserreports > 0) $results .= "<div><a href='" . $_CB_framework->viewUrl( 'moderatereports' ) . "' class='mod_login".$class_sfx."'>".$totaluserreports." "._UE_USERREPORTSREQUIREACTION."</a></div>";
+		if($totalimages > 0) $results .= "<div><a href='" . $_CB_framework->viewUrl( 'moderateimages' ) . "' class='mod_login".$class_sfx."'>".$totalimages." "._UE_IMAGESREQUIREACTION."</a></div>";
+		if($totaluserpendapproval > 0 && $ueConfig['allowModUserApproval']) $results .= "<div><a href='" . $_CB_framework->viewUrl( 'pendingapprovaluser' ) . "' class='mod_login".$class_sfx."'>".$totaluserpendapproval." "._UE_USERPENDAPPRACTION."</a></div>";
 	}
 }
 if($ueConfig['allowConnections']) {
@@ -106,7 +105,7 @@ if($ueConfig['allowConnections']) {
 	$totalpendingconnections = $_CB_database->loadResult();
 	if ( $totalpendingconnections === null ) trigger_error( $_CB_database->getErrorMsg(), E_USER_WARNING );
 	if($totalpendingconnections > 0) {
-		$results .= "<div><a href='".cbSef("index.php?option=com_comprofiler&amp;task=manageConnections".$andItemid)."' class='mod_login".$class_sfx."'>".$totalpendingconnections." "._UE_CONNECTIONREQUIREACTION."</a></div>";
+		$results .= "<div><a href='" . $_CB_framework->viewUrl( 'manageconnections' ) . "' class='mod_login".$class_sfx."'>".$totalpendingconnections." "._UE_CONNECTIONREQUIREACTION."</a></div>";
 	}	
 }
 

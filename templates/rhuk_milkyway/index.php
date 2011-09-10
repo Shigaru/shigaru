@@ -36,12 +36,22 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
 <script>
+		(function(d){
+		  var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+		  js = d.createElement('script'); js.id = id; js.async = true;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+		  d.getElementsByTagName('head')[0].appendChild(js);
+		}(document));
+</script>
+<script>
 	jQuery.noConflict();
   jQuery(document).ready(function() {
     jQuery("#tabs,#tabs-tags,#comments-tabs").tabs({ fx: { opacity: 'toggle' } });
     jQuery('.jcarousel-skin-tango').jcarousel({
-        auto: 4
+        auto: 3,
+        scroll:3
     });
+    
     	
 
     
@@ -92,14 +102,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </head>
 <body id="page_bg" class="color_<?php echo $this->params->get('colorVariation'); ?> bg_<?php echo $this->params->get('backgroundVariation'); ?> width_<?php echo $this->params->get('widthStyle'); ?>">
 <a name="up" id="up"></a>	
-<div id="topNavBar">
-<jdoc:include type="modules" name="top" />
 
-<div id="search">
-				<jdoc:include type="modules" name="user4" />
-</div>
-
-</div>
 <div id="header">
 				<div id="header_l">
 				<div id="logo"></div>
@@ -114,6 +117,28 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 					<p id="explainLink">Friedrich Nietzsche </p>
 				</div>
 			</div>
+
+<div id="topNavBar">
+<?php
+	/**
+	$user =& JFactory::getUser();
+	
+	if (!$user->guest){
+			echo '<div id="grettings">';
+			echo JText::sprintf( 'LOGIN_GREETING', $user->name );
+			echo '</div>';
+		}
+		 
+	**/ 
+?>
+<jdoc:include type="modules" name="top" />
+
+<div id="search">
+				<jdoc:include type="modules" name="user4" />
+</div>
+
+</div>			
+			
 <div class="clr"></div>
 <div class="center" align="center" id="center">
 	<div id="wrapper">

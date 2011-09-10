@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: cb.authentication.php 873 2010-02-19 20:08:07Z beat $
+* @version $Id: cb.authentication.php 1499 2011-07-16 21:09:19Z beat $
 * @package Community Builder
 * @subpackage cb.authentication.php
 * @author Beat
@@ -55,11 +55,11 @@ class CBAuthentication {
 				if ( ! $foundUser ) {
 					if ( $loginType != 2 ) {
 						// login by username:
-						$foundUser						=	$row->loadByUsername( stripslashes( $username ) ) && ( ( $password === false ) || $row->verifyPassword( $password ) );
+						$foundUser						=	$row->loadByUsername( $username ) && ( ( $password === false ) || $row->verifyPassword( $password ) );
 					}
 					if ( ( ! $foundUser ) && ( $loginType >= 1 ) ) {
 						// login by email:
-						$foundUser						=	$row->loadByEmail( stripslashes( $username ) ) && ( ( $password === false ) || $row->verifyPassword( $password ) );
+						$foundUser						=	$row->loadByEmail( $username ) && ( ( $password === false ) || $row->verifyPassword( $password ) );
 						if ( $foundUser ) {
 							$username					=	$row->username;
 						}
@@ -67,7 +67,7 @@ class CBAuthentication {
 					if ( ( ! $foundUser ) && ( $loginType > 2 ) ) {
 						// If no result, try login by CMS authentication:
 						if ( $_CB_framework->login( $username, $password, $rememberMe ) ) {
-							$foundUser					=	$row->loadByUsername( stripslashes( $username ) );
+							$foundUser					=	$row->loadByUsername( $username );
 							cbSplitSingleName( $row );
 							$row->confirmed				=	1;
 							$row->approved				=	1;
@@ -77,7 +77,11 @@ class CBAuthentication {
 					}
 				}
 				if ( $foundUser ) {
-					$pluginResults = $_PLUGINS->trigger( 'onDuringLogin', array( &$row, 1, &$return ) );
+					$returnPluginsOverrides				=	null;
+					$pluginResults = $_PLUGINS->trigger( 'onDuringLogin', array( &$row, 1, &$returnPluginsOverrides ) );
+					if ( $returnPluginsOverrides ) {
+						$return							=	$returnPluginsOverrides;
+					}
 					if ( is_array( $pluginResults ) && count( $pluginResults ) ) {
 						foreach ( $pluginResults as $res ) {
 							if ( is_array( $res ) ) {
@@ -123,7 +127,7 @@ class CBAuthentication {
 						if (isset($ueConfig['reg_first_visit_url']) and ($ueConfig['reg_first_visit_url'] != "")) {
 							$return						=	$ueConfig['reg_first_visit_url'];
 						} else {
-							$return						=	null;	// by default return to homepage on first login.
+							$return						=	$returnPluginsOverrides;	// by default return to homepage on first login (or on page overridden by plugin).
 						}
 						$_PLUGINS->trigger( 'onBeforeFirstLogin', array( &$row, $username, $password, &$return ));
 						if ($_PLUGINS->is_errors()) {

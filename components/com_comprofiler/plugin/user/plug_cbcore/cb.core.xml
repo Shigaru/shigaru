@@ -121,7 +121,7 @@
 		<field type="datetime" label="Date and time" unique="true">
 			<data name="" nametype="namesuffix" type="sql:datetime" null="false" default="0000-00-00 00:00:00" strict="true" />
 			<params>
-				<param name="year_min" type="text" default="-110" label="Minimum Year shown" description="Type +0 for this year, type-in 4-digits year, for example 1923, or just a number prefixed with + or - sign, for example +25 or -110, to set a value relative to current year, e.g. -99 for maximum age of 99 years (or 190" />
+				<param name="year_min" type="text" default="-110" label="Minimum Year shown" description="Type +0 for this year, type-in 4-digits year, for example 1923, or just a number prefixed with + or - sign, for example +25 or -110, to set a value relative to current year, e.g. -99 for maximum age of 99 years" />
 				<param name="year_max" type="text" default="+25" label="Maximum Year shown" description="Type +0 for this year, type-in 4-digits year, for example 1923, or just a number prefixed with + or - sign, for example +25 or -110, to set a value relative to current year, e.g. -12 for minimum age of 12 years" />
 				<param name="field_display_by" type="list" default="0" label="Display on profiles as" description="Whether you want users to see this date on profile as a date or as an age">
 					<option value="0">Full date</option>
@@ -232,8 +232,8 @@
 				<fieldset label="Field entry validation" description="">
 					<param name="fieldValidateExpression" type="list" default="" label="Authorized input" description="Type of input authorized.">
 								<option value="">Any string ( /.*/ ) </option>
-								<option value="singleword">Single word ( /^[a-z]*$/ )</option>
-								<option value="multiplewords">Multiple words with spaces ( /^([a-z]+ *)*$/ )</option>
+								<option value="singleword">Single word ( /^[a-z]*$/i )</option>
+								<option value="multiplewords">Multiple words with spaces ( /^([a-z]+ *)*$/i )</option>
 								<option value="singleaznum">Single a-z,A-Z,0-9,_ word ( /^[a-z]+[a-z0-9_]*$/i )</option>
 								<option value="atleastoneofeach">At least 6 chars, 1 a-z, 1 A-Z, 1 0-9, 1 special</option>
 								<option value="customregex">Custom PERL regular expression</option>
@@ -242,6 +242,10 @@
 						<param name="pregexp" type="text" default="/^.*$/" label="Perl Regular Expression" description="Any string: /^.*$/ , only digits: /^[0-9]*$/, only a-z + A-Z + digits: /^[0-9a-z]*$/i" />
 					</if>
 					<if name="fieldValidateExpression" type="showhide" operator="!=" value="" valuetype="const:text">
+						<param name="fieldValidateInBrowser" type="list" default="1" label="Also validate in browser" description="If you validate in browser too, wrong entries will display text immediately, but the regular expression will be visible in page source too.">
+							<option value="0">Validate only server-side</option>
+							<option value="1">Validate browser side too</option>
+						</param>
 						<param name="pregexperror" type="text" default="Not a valid input" label="Error in case of invalid input" description="Enter a clear and helpful error message in case of validation pattern mismatch." />
 					</if>
 				</fieldset>
@@ -256,8 +260,8 @@
 				<fieldset label="Field entry validation" description="">
 					<param name="fieldValidateExpression" type="list" default="" label="Authorized input" description="Type of input authorized.">
 								<option value="">Any string ( /.*/ ) </option>
-								<option value="singleword">Single word ( /^[a-z]*$/ )</option>
-								<option value="multiplewords">Multiple words with spaces ( /^([a-z]+ *)*$/ )</option>
+								<option value="singleword">Single word ( /^[a-z]*$/i )</option>
+								<option value="multiplewords">Multiple words with spaces ( /^([a-z]+ *)*$/i )</option>
 								<option value="singleaznum">Single a-z,A-Z,0-9,_ word ( /^[a-z]+[a-z0-9_]*$/i )</option>
 								<option value="atleastoneofeach">At least 6 chars, 1 a-z, 1 A-Z, 1 0-9, 1 special</option>
 								<option value="customregex">Custom PERL regular expression</option>
@@ -266,6 +270,10 @@
 						<param name="pregexp" type="text" default="/^.*$/" label="Perl Regular Expression" description="Any string: /^.*$/ , only digits: /^[0-9]*$/, only a-z + A-Z + digits: /^[0-9a-z]*$/i" />
 					</if>
 					<if name="fieldValidateExpression" type="showhide" operator="!=" value="" valuetype="const:text">
+						<param name="fieldValidateInBrowser" type="list" default="1" label="Also validate in browser" description="If you validate in browser too, wrong entries will display text immediately, but the regular expression will be visible in page source too.">
+							<option value="0">Validate only server-side</option>
+							<option value="1">Validate browser side too</option>
+						</param>
 						<param name="pregexperror" type="text" default="Not a valid input" label="Error in case of invalid input" description="Enter a clear and helpful error message in case of validation pattern mismatch." />
 					</if>
 				</fieldset>
@@ -318,8 +326,8 @@
 				<fieldset label="Field entry validation" description="">
 					<param name="fieldValidateExpression" type="list" default="" label="Authorized input" description="Type of input authorized.">
 								<option value="">Any string ( /.*/ ) </option>
-								<option value="singleword">Single word ( /^[a-z]*$/ )</option>
-								<option value="multiplewords">Multiple words with spaces ( /^([a-z]+ *)*$/ )</option>
+								<option value="singleword">Single word ( /^[a-z]*$/i )</option>
+								<option value="multiplewords">Multiple words with spaces ( /^([a-z]+ *)*$/i )</option>
 								<option value="singleaznum">Single a-z,A-Z,0-9,_ word ( /^[a-z]+[a-z0-9_]*$/i )</option>
 								<option value="atleastoneofeach">At least 6 chars, 1 a-z, 1 A-Z, 1 0-9, 1 special</option>
 								<option value="customregex">Custom PERL regular expression</option>
@@ -350,6 +358,10 @@
 						<param name="pregexp" type="text" default="/^.*$/" label="Perl Regular Expression" description="Any string: /^.*$/ , only digits: /^[0-9]*$/, only a-z + A-Z + digits: /^[0-9a-z]*$/i" />
 					</if>
 					<if name="fieldValidateExpression" type="showhide" operator="!=" value="" valuetype="const:text">
+						<param name="fieldValidateInBrowser" type="list" default="1" label="Also validate in browser" description="If you validate in browser too, wrong entries will display text immediately, but the regular expression will be visible in page source too.">
+							<option value="0">Validate only server-side</option>
+							<option value="1">Validate browser side too</option>
+						</param>
 						<param name="pregexperror" type="text" default="Not a valid input" label="Error in case of invalid input" description="Enter a clear and helpful error message in case of validation pattern mismatch." />
 					</if>
 				</fieldset>

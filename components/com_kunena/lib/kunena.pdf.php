@@ -1,25 +1,28 @@
 <?php
 /**
-* @version $Id: kunena.pdf.php 2059 2010-03-14 03:42:18Z mahagr $
+* @version $Id$
 * Kunena Component
 * @package Kunena
 *
-* @Copyright (C) 2008 - 2009 Kunena Team All rights reserved
+* @Copyright (C) 2008 - 2011 Kunena Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-* @link http://www.kunena.com
+* @link http://www.kunena.org
 *
 * Based on FireBoard Component
-* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved
+* @Copyright (C) 2006 - 2007 Best Of Joomla All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * @link http://www.bestofjoomla.com
 *
 * Based on Joomlaboard Component
-* @copyright (C) 2000 - 2004 TSMF / Jan de Graaff / All Rights Reserved
+* @copyright (C) 2000 - 2004 TSMF / Jan de Graaff / All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * @author TSMF & Jan de Graaff
 **/
 
-defined( '_JEXEC' ) or die('Restricted access');
+defined( '_JEXEC' ) or die();
+
+
+$kunena_db  = &JFactory::getDBO();
 
 class fbpdfwrapper {
 	// small wrapper class for J1.5 to emulate Cezpdf-class
@@ -41,7 +44,7 @@ class fbpdfwrapper {
 	function addObject($v1, $v2) {}
 	function ezSetDy($v1) {}
 	function ezText($text, $size) {
-		$this->_text .= '<font size='. ($size-11) .'>' . str_replace("\n", '<br/>', $text) . '</font><br/>';
+		$this->_text .= '<font size='. ($size-11) .'>' . str_replace("\n", '<br />', $text) . '</font><br />';
 	}
 	function ezStream() {
 		$options = array('margin-header' => 5, 'margin-footer' => 10, 'margin-top' => 20,
@@ -56,58 +59,38 @@ class fbpdfwrapper {
 	}
 }
 
-function dofreePDF($kunena_db)
+function dofreePDF()
 {
-    global $aro_group;
-
-    $app =& JFactory::getApplication();
-
+    $kunena_app =& JFactory::getApplication();
+	$kunena_db  = &JFactory::getDBO();
     $kunena_acl = &JFactory::getACL();
     $kunena_my = &JFactory::getUser();
-    $fbConfig =& CKunenaConfig::getInstance();
+    $kunena_config = KunenaFactory::getConfig ();
 
-    require_once (KUNENA_PATH_LIB .DS. 'kunena.authentication.php');
-    $is_Mod = 0;
+    $catid = JRequest::getInt('catid', 0);
+	$id = JRequest::getInt('id', 0);
+	$limit = JRequest::getInt ( 'limit', 0 );
+	$limitstart = JRequest::getInt ( 'limitstart', 0 );
+	if ($limit < 1) $limit = $kunena_config->messages_per_page-1;
 
-    $catid = JRequest::getInt('catid', 2);
+	require_once (KUNENA_PATH_LIB . '/kunena.timeformat.class.php');
+    $kunena_session = KunenaFactory::getSession(true);
+    $kunena_session->updateAllowedForums ();
+	$allow_forum = ($kunena_session->allowed <> '')?explode(',', $kunena_session->allowed):array();
 
-    if (!$is_admin)
+	if (in_array($catid, $allow_forum) && $id)
     {
-        $kunena_db->setQuery("SELECT userid FROM #__fb_moderation WHERE catid='{$catid}' AND userid='{$kunena_my->id}'");
-
-        if ($kunena_db->loadResult()) {
-            $is_Mod = 1;
-        }
-    }
-    else {
-        $is_Mod = 1;
-    } //superadmins always are
-
-    if (!$is_Mod)
-    {
-        //get all the info on this forum:
-        $kunena_db->setQuery("SELECT id, pub_access, pub_recurse, admin_access, admin_recurse FROM #__fb_categories WHERE id='{$catid}'");
-        $row = $kunena_db->loadObjectList();
-                check_dberror("Unable to load category detail.");
-
-
-        $allow_forum = explode(',', CKunenaTools::getAllowedForums($kunena_my->id, $aro_group->id, $kunena_acl));
-    }
-
-	if ($is_Mod || in_array($catid, $allow_forum))
-    {
-    	$id = JRequest::getInt('id', 1);
-        $catid = JRequest::getInt('catid', 2);
         //first get the thread id for the current post to later on determine the parent post
-        $kunena_db->setQuery("SELECT thread FROM #__fb_messages WHERE id='{$id}' AND catid='{$catid}'");
+        $kunena_db->setQuery("SELECT thread FROM #__kunena_messages WHERE id={$kunena_db->Quote($id)} AND catid={$kunena_db->Quote($catid)}");
         $threadid = $kunena_db->loadResult();
+        if (KunenaError::checkDatabaseError()) return;
         //load topic post and details
-        $kunena_db->setQuery("SELECT a.*, b.* FROM #__fb_messages AS a, #__fb_messages_text AS b WHERE a.thread='{$threadid}' AND a.catid='{$catid}' AND a.parent='0' AND a.id=b.mesid");
+        $kunena_db->setQuery("SELECT a.*, b.* FROM #__kunena_messages AS a, #__kunena_messages_text AS b WHERE a.thread={$kunena_db->Quote($threadid)} AND a.catid={$kunena_db->Quote($catid)} AND a.parent='0' AND a.id=b.mesid");
         $row = $kunena_db->loadObjectList();
-                check_dberror("Unable to load message details.");
+        if (KunenaError::checkDatabaseError()) return;
 
-       if (file_exists(KUNENA_ROOT_PATH .DS. 'includes/class.ezpdf.php')) {
-			include (KUNENA_ROOT_PATH .DS. 'includes/class.ezpdf.php');
+        if (file_exists(KUNENA_ROOT_PATH . '/includes/class.ezpdf.php')) {
+			include (KUNENA_ROOT_PATH . '/includes/class.ezpdf.php');
 			$pdf = new Cezpdf('a4', 'P'); //A4 Portrait
 		} elseif (class_exists('JDocument')) {
         	$pdf = new fbpdfwrapper();
@@ -117,11 +100,11 @@ function dofreePDF($kunena_db)
 		}
 
 		if (empty($row)) { //if the messages doesn't exist don't need to continue
-			//Doesn't work Fatal error: Call to undefined method CKunenaLink::GetKunenaURL()
-			//$app->redirect ( CKunenaLink::GetKunenaURL(true), _KUNENA_PDF_NOT_GENERATED_MESSAGE_DELETED );
-	 	} else {
-	 		$mes_text = $row[0]->message;
-	        filterHTML($mes_text);
+        	echo '<br /><br /><div align="center">' . JText::_('COM_KUNENA_PDF_NOT_GENERATED_MESSAGE_DELETED') . '</div><br /><br />';
+        	echo CKunenaLink::GetAutoRedirectHTML ( KunenaRoute::_ ( KUNENA_LIVEURLREL . '&func=showcat&catid=' . $catid ), 3500 );
+    	} else {
+        	$mes_text = $row[0]->message;
+    	    filterHTML($mes_text);
 
         	$pdf->ezSetCmMargins(2, 1.5, 1, 1);
         	$pdf->selectFont('./fonts/Helvetica.afm'); //choose font
@@ -133,13 +116,13 @@ function dofreePDF($kunena_db)
         	// footer
         	$pdf->line(10, 40, 578, 40);
         	$pdf->line(10, 822, 578, 822);
-        	$pdf->addText(30, 34, 6, $fbConfig->board_title . ' - ' . $app->getCfg('sitename'));
+        	$pdf->addText(30, 34, 6, $kunena_config->board_title . ' - ' . $kunena_app->getCfg('sitename'));
 
-        	$strtmp = _KUNENA_PDF_VERSION;
-        	$strtmp = str_replace('%version%', "NEW VERSION GOES HERE" /*$fbConfig->version*/, $strtmp); // TODO: fxstein - Need to change version handling
+        	$strtmp = JText::_('COM_KUNENA_PDF_VERSION');
+        	$strtmp = str_replace('%version%', "NEW VERSION GOES HERE" /*$kunena_config->version*/, $strtmp); // TODO: fxstein - Need to change version handling
         	$pdf->addText(250, 34, 6, $strtmp);
-        	$strtmp = _KUNENA_PDF_DATE;
-        	$strtmp = str_replace('%date%', date('j F, Y, H:i', CKunenaTools::fbGetShowTime()), $strtmp);
+        	$strtmp = JText::_('COM_KUNENA_PDF_DATE');
+        	$strtmp = str_replace('%date%', date('j F, Y, H:i', CKunenaTimeformat::internalTime()), $strtmp);
         	$pdf->addText(450, 34, 6, $strtmp);
 
         	$pdf->restoreState();
@@ -149,22 +132,23 @@ function dofreePDF($kunena_db)
 
         	$txt0 = $row[0]->subject;
         	$pdf->ezText($txt0, 14);
-        	$pdf->ezText(_VIEW_POSTED . " " . $row[0]->name . " - " . date(_DATETIME, $row[0]->time), 8);
+        	$pdf->ezText(JText::_('COM_KUNENA_VIEW_POSTED') . " " . $row[0]->name . " - " . CKunenaTimeformat::showDate($row[0]->time), 8);
         	$pdf->ezText("_____________________________________", 8);
         	//$pdf->line( 10, 780, 578, 780 );
 
         	$txt3 = "\n";
-        	$txt3 .= stripslashes($mes_text);
+        	$txt3 .= $mes_text;
         	$pdf->ezText($txt3, 10);
         	$pdf->ezText("\n============================================================================\n\n", 8);
         	//now let's try to see if there's more...
-        	$kunena_db->setQuery("SELECT a.*, b.* FROM #__fb_messages AS a, #__fb_messages_text AS b WHERE a.catid='{$catid}' AND a.thread='{$threadid}' AND a.id=b.mesid AND a.parent!='0' ORDER BY a.time ASC");
+        	$query = "SELECT a.*, b.* FROM #__kunena_messages AS a, #__kunena_messages_text AS b WHERE a.catid={$kunena_db->Quote($catid)} AND a.thread={$kunena_db->Quote($threadid)} AND a.id=b.mesid AND a.parent!='0' ORDER BY a.time ASC";
+        	$kunena_db->setQuery($query, $limitstart, $limit);
         	$replies = $kunena_db->loadObjectList();
-                check_dberror("Unable to load messages & detail.");
+            if (KunenaError::checkDatabaseError()) return;
 
         	$countReplies = count($replies);
 
-        	if ($countReplies > 0)
+       		if ($countReplies > 0)
         	{
             	foreach ($replies as $reply)
             	{
@@ -173,17 +157,17 @@ function dofreePDF($kunena_db)
 
                 	$txt0 = $reply->subject;
                 	$pdf->ezText($txt0, 14);
-                	$pdf->ezText(_VIEW_POSTED . " " . $reply->name . " - " . date(_DATETIME, $reply->time), 8);
+                	$pdf->ezText(JText::_('COM_KUNENA_VIEW_POSTED') . " " . $reply->name . " - " . CKunenaTimeformat::showDate($reply->time), 8);
                 	$pdf->ezText("_____________________________________", 8);
                 	$txt3 = "\n";
-                	$txt3 .= stripslashes($mes_text);
+                	$txt3 .= $mes_text;
                 	$pdf->ezText($txt3, 10);
                 	$pdf->ezText("\n============================================================================\n\n", 8);
-            	}
+           		}
         	}
 
         	$pdf->ezStream();
-	 	}
+    	}
     }
     else {
         echo "You don't have access to this resource.";
@@ -205,14 +189,17 @@ function filterHTML(&$string)
     $string = str_replace('{mosimage}', '', $string);
     $string = str_replace('{mospagebreak}', '', $string);
     // bbcode
-    $string = preg_replace("/\[(.*?)\]/si", "", $string);
+	$string = preg_replace ( '/\[confidential\](.*?)\[\/confidential\]/s', '', $string );
+	$string = preg_replace ( '/\[ebay\](.*?)\[\/ebay\]/s', '', $string );
+	$string = preg_replace ( '/\[map\](.*?)\[\/map\]/s', '', $string );
+    $string = preg_replace('/\[video(.*?)\](.*?)\[\/video\]/s', "", $string);
     $string = decodeHTML($string);
 }
 
 function decodeHTML($string)
 {
-    $string = strtr($string, array_flip(get_html_translation_table(HTML_ENTITIES)));
-    $string = preg_replace("/&#([0-9]+);/me", "chr('\\1')", $string);
+	require_once(JPATH_ADMINISTRATOR.'/components/com_kunena/libraries/html/parser.php');
+	$string = KunenaParser::parseBBCode($string);
     return $string;
 }
 
@@ -222,5 +209,5 @@ function get_php_setting($val)
     return $r ? 'ON' : 'OFF';
 }
 
-dofreePDF ($kunena_db);
+dofreePDF();
 ?>

@@ -5191,7 +5191,29 @@ class hwd_vs_tools {
 		return $code;
 	}
 	
-
+	
+	function getMostCommented (){		
+	global $mainframe, $limitstart, $limit, $hwdvs_selectv, $hwdvs_joinv;		
+	$hwdvs_selectv .=',count(comments.userid) AS cnt';	
+	$db = & JFactory::getDBO();
+	$where = ' WHERE video.published = 1';
+	$where .= ' AND video.approved = "yes"';
+	$hwdvs_selectv .=', comments.comment';
+	$query = 'SELECT DISTINCT'.$hwdvs_selectv
+	. ' FROM #__hwdvidsvideos AS video'
+	. ' JOIN #__jcomments AS comments ON comments.object_id = video.id'
+	. $hwdvs_joinv
+	. ' LEFT JOIN #__hwdvidscategories AS `access` ON access.id = video.category_id'
+	. $where
+	. ' ORDER BY cnt DESC'
+	. ' LIMIT 0, 10';
+	
+	
+	$db->SetQuery($query);
+	$rowscomm = $db->loadObjectList();
+	return $rowscomm;
+	
+	}
 	
 	function modJCommentsLatest( &$params, $unpublished = false, $order = 'date' ) {
 					global $mainframe, $my;

@@ -25,7 +25,7 @@ function plgSphinxSearchContent( $text, $phrase='', $ordering='', $areas=null )
     $pluginParams	= new JParameter( $plugin->params );
 
     $pServer		= $pluginParams->get( 'server', 'localhost' );
-    $pPort	 	= (int) $pluginParams->get( 'port', 3312 );
+    $pPort	 	= (int) $pluginParams->get( 'port', 9312 );
     $pIndex 		= $pluginParams->get( 'index' );
     $limit              = isset($_REQUEST['limit']) ? (int) $_REQUEST['limit'] : 50 ;
     if(0 === $limit) {

@@ -405,7 +405,7 @@ function cbcalCheckDayChange(DayList) {
       }
 //   if (this.isShowing()) this.show();
       var DayPick = cbcalFixDayList(DayList, cbcalGetDayCount(this.picked.yearValue, MonthList.options[MonthList.selectedIndex].value));
-      this.setPicked(this.picked.yearValue, this.picked.monthIndex, DayList.options[DayList.selectedIndex].value);	//DayList.selectedIndex + 1 - SpaceForBlank);
+      this.setPicked(this.picked.yearValue, MonthList.options[MonthList.selectedIndex].value, DayList.options[DayList.selectedIndex].value);	//DayList.selectedIndex + 1 - SpaceForBlank);
       if ((this.yeardropdownstop != '') && (YearList.selectedIndex == 0)) {
       	 var YearPick = cbcalFixYearList(YearList, this.picked.yearValue);
       }

@@ -1,0 +1,222 @@
+#cb_menu,
+#cb_menu ul,
+#cb_menu li {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+}
+
+#cb_menu {
+	position: relative;
+	z-index: 100;
+}
+
+#cb_menu li {
+	float: left;
+	position: relative;
+	list-style: none;
+	display: inline;
+}
+
+#cb_menu li a {
+	display: block;
+	white-space: nowrap;
+}
+
+#cb_menu li li {
+	/*width: 100%;*/
+	clear: both;
+	/*FF 1.0.7 needs this */
+}
+
+#cb_menu li ul {
+	visibility: hidden;
+	position: absolute;
+}
+
+#cb_menu li li ul {
+	top: 0;
+	left: 0;
+}
+
+#cb_menu li:hover ul {
+	visibility: visible;
+}
+
+#cb_menu li {
+	border-left: 1px solid #fff;
+	border-right: 1px solid #d8d8d8;
+}
+
+#cb_menu li li {
+	border: 0;
+}
+
+#cb_menu ul {
+	border: 0.1em solid #ccc;
+	background: #F6F6F6 url( ../../templates/khepri/images/bg-menu.gif ) repeat-y left;
+}
+
+#cb_menu a {
+	padding: 0.35em 1em 0.35em;
+	margin: 0 1px 0 1px;
+	color: #333333;
+	line-height: 1.6em;
+	vertical-align: middle;
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: none;
+	cursor: default;
+	background-repeat: no-repeat;
+	background-position: left 50%
+}
+
+#cb_menu ul a {
+	font-size: 11px;
+	font-weight: normal;
+	padding-left: 25px;
+	padding-right: 20px;
+	line-height: 1.2em;
+}
+
+#cb_menu li:hover a {
+	background-color: #E7EDDF;
+	border-left: 1px solid #6D9D2E;
+	border-right: 1px solid #6D9D2E;
+	margin: 0;
+}
+
+#cb_menu li:hover li a {
+	background-color: transparent;
+	border: 0 none;
+	margin: 2px;
+}
+
+#cb_menu li:hover li:hover a {
+	background-color: #E7EDDF;
+	border: 1px solid #6D9D2E;
+	margin: 1px;
+}
+
+#cb_menu .icon-cb-1 {
+	background-image: url( ../../templates/khepri/images/menu/icon-16-user.png );
+}
+
+#cb_menu .icon-cb-2 {
+	background-image: url( ../../templates/khepri/images/menu/icon-16-article.png );
+}
+
+#cb_menu .icon-cb-3 {
+	background-image: url( ../../templates/khepri/images/menu/icon-16-content.png );
+}
+
+#cb_menu .icon-cb-4 {
+	background-image: url( ../../templates/khepri/images/menu/icon-16-static.png );
+}
+
+#cb_menu .icon-cb-5 {
+	background-image: url( ../../templates/khepri/images/menu/icon-16-plugin.png );
+}
+
+#cb_menu .icon-cb-6 {
+	background-image: url( ../../templates/khepri/images/menu/icon-16-component.png );
+}
+
+#cb_menu .icon-cb-7 {
+	background-image: url( ../../templates/khepri/images/menu/icon-16-config.png );
+}
+
+#cb_menu .icon-cbsubs-1 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/gear_16.gif );
+}
+
+#cb_menu .icon-cbsubs-2 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/bank_transaction_16.gif );
+}
+
+#cb_menu .icon-cbsubs-3 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/time_sheet_16.gif );
+}
+
+#cb_menu .icon-cbsubs-4 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/user_id_16.gif );
+}
+
+#cb_menu .icon-cbsubs-5 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/shopping_cart_16.gif );
+}
+
+#cb_menu .icon-cbsubs-6 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/taxes_16.gif );
+}
+
+#cb_menu .icon-cbsubs-7 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/datagram_back_16.gif );
+}
+
+#cb_menu .icon-cbsubs-8 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/currency_conversion_16.gif );
+}
+
+#cb_menu .icon-cbsubs-9 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/deposit_16.gif );
+}
+
+#cb_menu .icon-cbsubs-10 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/objects_16.gif );
+}
+
+#cb_menu .icon-cbsubs-11 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/payment_16.gif );
+}
+
+#cb_menu .icon-cbsubs-12 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/user_id_add_16.gif );
+}
+
+#cb_menu .icon-cbsubs-13 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/record_a_16.gif );
+}
+
+#cb_menu .icon-cbsubs-14 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubstax/icons/normal/calculator_16.gif );
+}
+
+#cb_menu .icon-cbgj-1 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-categories.png );
+}
+
+#cb_menu .icon-cbgj-2 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-groups.png );
+}
+
+#cb_menu .icon-cbgj-3 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-users.png );
+}
+
+#cb_menu .icon-cbgj-4 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-invites.png );
+}
+
+#cb_menu .icon-cbgj-5 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-config.png );
+}
+
+#cb_menu .icon-cbgj-6 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-tools.png );
+}
+
+#cb_menu .icon-cbgj-7 {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-integrations.png );
+}
+
+#cb_menu li.disabled a {
+	color: gray;
+}
+
+#cb_menu li.disabled:hover a {
+	background-color: transparent;
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+	margin: 0;
+}

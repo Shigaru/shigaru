@@ -1,7 +1,7 @@
 <?php
 /**
 * Precise emulation of PHP SimpleXMLElement in PHP < 5.1.3
-* @version $Id: cb.xml.domit.php 879 2010-02-19 23:52:32Z beat $
+* @version $Id: cb.xml.domit.php 1170 2010-09-03 17:30:51Z beat $
 * @author Beat
 * @copyright (C) 2007 Beat and Lightning MultiCom SA, 1009 Pully, Switzerland
 * @license Lightning Proprietary. See licence. Allowed for free use within CB and for CB plugins.
@@ -16,7 +16,7 @@ if( defined('JXML_TEST_DOMIT') || ! function_exists( 'xml_parser_create' ) ) {
 	if ( file_exists( $domitPath ) ) {
 		require_once( $domitPath );
 	} else {
-		die("<font color='red'>". $_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit/ does not exist! This is normal with mambo 4.5.0 and 4.6.1 and php 4 without xml parser library binded. Community Builder needs this library for handling plugins.<br />  You Must Manually do the following:<br /> 1.) create " . $_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit/ directory <br /> 2.) chmod it to 777 <br /> 3.) copy corresponding content of a mambo 4.5.2 directory.</font><br /><br />\n");
+		die("<font color='red'>". $_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit/ does not exist! This is normal with mambo 4.5.0 and 4.6.1 and php 4 without xml parser library binded. Community Builder needs this library for handling plugins.<br />  You Must Manually do the following:<br /> 1.) create " . $_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit/ directory <br /> 2.) chmod it to 775 <br /> 3.) copy corresponding content of a mambo 4.5.2 directory.</font><br /><br />\n");
 	}
 }
 
@@ -505,7 +505,7 @@ class SimpleXML_Helper
 			if ( file_exists( $domitPath ) ) {
 				require_once( $domitPath );
 			} else {
-				die("<font color='red'>". $_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit/ does not exist! This is normal with mambo 4.5.0 and 4.6.1. Community Builder needs this library for handling plugins.<br />  You Must Manually do the following:<br /> 1.) create " . $_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit/ directory <br /> 2.) chmod it to 777 <br /> 3.) copy corresponding content of a mambo 4.5.2 directory.</font><br /><br />\n");
+				die("<font color='red'>". $_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit/ does not exist! This is normal with mambo 4.5.0 and 4.6.1. Community Builder needs this library for handling plugins.<br />  You Must Manually do the following:<br /> 1.) create " . $_CB_framework->getCfg( 'absolute_path' ) . "/includes/domit/ directory <br /> 2.) chmod it to 775 <br /> 3.) copy corresponding content of a mambo 4.5.2 directory.</font><br /><br />\n");
 			}
 			
 			$this->_parser = null;

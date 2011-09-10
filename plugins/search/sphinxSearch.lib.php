@@ -66,7 +66,10 @@ class PlgSphinxSearch
     function search($query)
     {
         $this->_query = $query;
-var_dump($this);
+        echo '<pre>';
+			print_r($this);
+        echo '</pre>';
+
         $result = $this->_sphinx->Query($query, $this->_index);
 
         if ( $result === false ) {
