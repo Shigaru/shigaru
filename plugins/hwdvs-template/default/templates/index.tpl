@@ -112,7 +112,7 @@
       <div class="scoller">
       <div class="list">
         <div class="box">
-          {foreach name=outer item=data from=$mostcommented}
+          {foreach name=outer item=data from=$mostfavouredlist}
 		  {include file="video_list_small_favoured.tpl"}
 		  <div style="clear:both;"></div>
           {/foreach}
@@ -182,7 +182,7 @@
       <div class="scoller h150">
       <div class="list">
         <div class="box">
-          {$topposters}
+          
         </div>
       </div>  
       </div>

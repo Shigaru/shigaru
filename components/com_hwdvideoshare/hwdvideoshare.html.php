@@ -75,20 +75,19 @@ class hwd_vs_html
 		
 		/* comments boxes */
 		jimport( 'joomla.application.module.helper' );
+		/*
 		$module = JModuleHelper::getModule( 'jcomments_top_posters' );
 		$topposters = JModuleHelper::renderModule($module);
 		$smartyvs->assign("topposters", $topposters);
-
+		*/
 		$latestmodule = JModuleHelper::getModule( 'jcomments' );
 		$latestcomments = JModuleHelper::renderModule($latestmodule);
 		$smartyvs->assign("latestcomments", $latestcomments);
 		
 		$componentParams = new JParameter( $latestmodule->params ); 
 		$componentParams->set('type', '3');
-		
 		$mostmodule = JModuleHelper::getModule( 'jcomments' );
 		$mostmodule->params = $componentParams->toString();
-		
 		$mostpopularcomments = JModuleHelper::renderModule($mostmodule);
 		$smartyvs->assign("mostpopularcomments", $mostpopularcomments);
 		
@@ -184,9 +183,10 @@ class hwd_vs_html
 		
 		
 		/* Most commented */
+		/*
 		$mostcommented =hwd_vs_tools::getMostCommented();
 		$smartyvs->assign("mostcommented", $mostcommented);
-		
+		*/
 		// VIDEO TAGS
 		$tagsList =hwd_vs_tools::concatenateWords($wordList);
 		$tagsList = hwd_vs_tools::filterWords($tagsList);
