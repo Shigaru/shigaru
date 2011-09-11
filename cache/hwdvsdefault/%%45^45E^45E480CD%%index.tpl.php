@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2011-09-10 22:06:20
+<?php /* Smarty version 2.6.26, created on 2011-09-11 03:07:18
          compiled from index.tpl */ ?>
 
 <div id="homepromo"><?php echo @_HWDVIDS_HOMEPROMO; ?>
@@ -169,7 +169,7 @@ unset($_smarty_tpl_vars);
       <div class="scoller">
       <div class="list">
         <div class="box">
-          <?php $_from = $this->_tpl_vars['mostcommented']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['outer'] = array('total' => count($_from), 'iteration' => 0);
+          <?php $_from = $this->_tpl_vars['mostfavouredlist']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['outer'] = array('total' => count($_from), 'iteration' => 0);
 if ($this->_foreach['outer']['total'] > 0):
     foreach ($_from as $this->_tpl_vars['data']):
         $this->_foreach['outer']['iteration']++;
@@ -259,8 +259,7 @@ unset($_smarty_tpl_vars);
       <div class="scoller h150">
       <div class="list">
         <div class="box">
-          <?php echo $this->_tpl_vars['topposters']; ?>
-
+          
         </div>
       </div>  
       </div>

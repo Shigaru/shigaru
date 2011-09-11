@@ -138,7 +138,9 @@ class hwd_vs_usrfunc
 		$limit 	= intval($c->vpp);
 		if (!$my->id && $my->paramId) {
 			$user_id = $my->paramId;
-		}
+		}else{
+			$user_id = $my->id;
+			}
 		$where = ' WHERE video.approved = "yes"';
 		$where .= ' AND video.published = 1';
 		$where .= ' AND video.user_id = '.$user_id;

@@ -22,27 +22,7 @@ function loadCssStyle($live_path)
  
 function AddmodScript($live_path)
     {
-        /*
-        $document = &JFactory::getDocument();
-        
-        $document->addScript($live_path . "modules/mod_zncbmembers/includes/jquery.tools.min.js");
-		
-		$znappscript = '
-			jQuery(document).ready(function(jQuery){	
-			jQuery(document).ready(function() {
-					jQuery("img[t]").tooltip({
-	  					tip: ".zntooltip",
-						lazy:false,
-					  	effect: "slide",
-  					})
-			  });
-
-
-		});	
-		';
-		$document->addScriptdeclaration ($znappscript);
-		*/ 
-		
+      
     }
 
 function zngetusers($params) {
