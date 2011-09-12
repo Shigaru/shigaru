@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -57,15 +57,15 @@ if ($c->requiredins == 1) {
 
 $form_upld_flash = JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=uploadconfirmflash");
 
-$hidden_inputs="<input type=\"hidden\" name=\"videotype\" value=\"".stripslashes($videotype)."\" />
-				<input type=\"hidden\" name=\"title\" value=\"".stripslashes($title)."\" />
-				<input type=\"hidden\" name=\"description\" value=\"".stripslashes($description)."\" />
-				<input type=\"hidden\" name=\"category_id\" value=\"".stripslashes($category_id)."\" />
-				<input type=\"hidden\" name=\"tags\" value=\"".stripslashes($tags)."\" />
-				<input type=\"hidden\" name=\"public_private\" value=\"".stripslashes($public_private)."\" />
-				<input type=\"hidden\" name=\"allow_comments\" value=\"".stripslashes($allow_comments)."\" />
-				<input type=\"hidden\" name=\"allow_embedding\" value=\"".stripslashes($allow_embedding)."\" />
-				<input type=\"hidden\" name=\"allow_ratings\" value=\"".stripslashes($allow_ratings)."\" />";
+$hidden_inputs="<input type=\"hidden\" name=\"videotype\" value=\"".htmlspecialchars($videotype)."\" />
+				<input type=\"hidden\" name=\"title\" value=\"".htmlspecialchars($title)."\" />
+				<input type=\"hidden\" name=\"description\" value=\"".htmlspecialchars($description)."\" />
+				<input type=\"hidden\" name=\"category_id\" value=\"".htmlspecialchars($category_id)."\" />
+				<input type=\"hidden\" name=\"tags\" value=\"".htmlspecialchars($tags)."\" />
+				<input type=\"hidden\" name=\"public_private\" value=\"".htmlspecialchars($public_private)."\" />
+				<input type=\"hidden\" name=\"allow_comments\" value=\"".htmlspecialchars($allow_comments)."\" />
+				<input type=\"hidden\" name=\"allow_embedding\" value=\"".htmlspecialchars($allow_embedding)."\" />
+				<input type=\"hidden\" name=\"allow_ratings\" value=\"".htmlspecialchars($allow_ratings)."\" />";
 
 $smartyvs->assign("allowedft", $allowedft);
 $smartyvs->assign("form_upld_flash", $form_upld_flash);

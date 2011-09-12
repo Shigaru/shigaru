@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -21,29 +21,20 @@
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 /**
- * This class is the HTML generator for hwdVideoShare frontend
+ * Description
  *
  * @package    hwdVideoShare
  * @author     Dave Horsfall <info@highwooddesign.co.uk>
  * @copyright  2008 Highwood Design
  * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @version    1.1.4 Alpha RC2.13
  */
 class HWDVS_xmlOutput
 {
     /**
-     * Outputs frontpage HTML
      *
-     * @param string $option  the joomla component name
-     * @param array  $rows  array of video data
-     * @param array  $rowsfeatured  array of featured video data
-     * @param object $pageNav  page navigation object
-     * @param int    $total  the total video count
-     * @return       Nothing
      */
     function checkCacheThenWrite()
     {
-    	// get general configuration data
 		$c = hwd_vs_Config::get_instance();
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
@@ -191,9 +182,12 @@ class HWDVS_xmlOutput
 		@clearstatcache();
 
 		// Show file from cache if still valid
-		if (time() - $cachetime < $cachefile_created) {
-			//echo "ALREADY CACHED";
-		} else {
+		if (time() - $cachetime < $cachefile_created)
+		{
+			echo "Already cached today's playlists... aborting<br />";
+		}
+		else
+		{
 			 // Now the script has run, generate a new cache file
 			$fp = fopen($cachefile, 'w');
 
@@ -201,25 +195,39 @@ class HWDVS_xmlOutput
 			@fwrite($fp, ob_get_contents());
 			@fclose($fp);
 
-			// sql search filters
-			$where = ' WHERE published = 1';
-			$where .= ' AND approved = "yes"';
-			if (!$my->id) {
-			$where .= ' AND public_private = "public"';
+			$join     = ' LEFT JOIN #__users ON #__users.id = #__hwdvidsvideos.user_id';
+			if ($c->userdisplay == 1)
+			{
+				$select   = '#__users.username,';
+				$select_f = '#__users.username,';
 			}
-
-			$join = ' LEFT JOIN #__users ON #__users.id = #__hwdvidsvideos.user_id';
-			if ($c->userdisplay == 1) {
-				$select = '#__users.username,';
-			} else {
-				$select = '#__users.name,';
+			else
+			{
+				$select   = '#__users.name,';
+				$select_f = '#__users.name,';
 			}
-			if ($c->cbint == "2") {
+			if ($c->cbint == "2")
+			{
 				$join.= ' LEFT JOIN #__community_users ON #__community_users.userid = #__hwdvidsvideos.user_id';
-				$select.= ' #__community_users.*,';
-			} else if ($c->cbint == "1") {
+				$select  .= ' #__community_users.*,';
+				$select_f.= ' #__community_users.*';
+			}
+			else if ($c->cbint == "1")
+			{
 				$join.= ' LEFT JOIN #__comprofiler ON #__comprofiler.user_id = #__hwdvidsvideos.user_id';
-				$select.= ' #__comprofiler.avatar,';
+				$select  .= ' #__comprofiler.avatar,';
+				$select_f.= ' #__comprofiler.avatar';
+			}
+			else
+			{
+				if ($c->userdisplay == 1)
+				{
+					$select_f = '#__users.username';
+				}
+				else
+				{
+					$select_f = '#__users.name';
+				}
 			}
 
 			// query SQL for today's data
@@ -244,6 +252,38 @@ class HWDVS_xmlOutput
 				hwdvsDrawFile::XMLPlaylistFile($rowsmostpopular_today, 'mostpopular_today');
 			}
 
+			if (file_exists(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order'))
+			{
+				$orderString = JFile::read(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order');
+				$featuredArray = explode(",", $orderString);
+				$total = count($featuredArray);
+				for ($i = 0; $i < $total; $i ++)
+				{
+					$featuredArray[$i] = intval($featuredArray[$i]);
+				}
+				$featuredOrder = implode(",",$featuredArray);
+				$featuredOrderString =
+
+				$order = " ORDER BY FIELD( #__hwdvidsvideos.id, $featuredOrder ) ASC";
+			}
+			else
+			{
+				$order = " ORDER BY #__hwdvidsvideos.date_uploaded DESC";
+			}
+			$db->SetQuery('SELECT #__hwdvidsvideos.*, '.$select_f.' FROM #__hwdvidsvideos '.$join.' WHERE #__hwdvidsvideos.approved = "yes" AND #__hwdvidsvideos.published = 1 AND #__hwdvidsvideos.featured = 1 '.$order.' LIMIT 0, 25');
+			$rows_featured = $db->loadObjectList();
+			hwdvsDrawFile::XMLDataFile($rows_featured, 'featured');
+			hwdvsDrawFile::XMLPlaylistFile($rows_featured, 'featured');
+
+			$db->SetQuery('SELECT DISTINCT #__hwdvidsvideos.*, '.$select_f.' FROM #__hwdvidsvideos '.$join.' LEFT JOIN #__hwdvidslogs_views ON #__hwdvidslogs_views.videoid = #__hwdvidsvideos.id WHERE #__hwdvidsvideos.approved = "yes" AND #__hwdvidsvideos.published = 1 AND #__hwdvidslogs_views.date > NOW() - INTERVAL 1440 MINUTE ORDER BY #__hwdvidslogs_views.date DESC LIMIT 0, 10');
+			$rows_bwn = $db->loadObjectList();
+			hwdvsDrawFile::XMLDataFile($rows_bwn, 'bwn');
+			hwdvsDrawFile::XMLPlaylistFile($rows_bwn, 'bwn');
+
+			$db->SetQuery('SELECT #__hwdvidsvideos.*, '.$select_f.' FROM #__hwdvidsvideos '.$join.' WHERE #__hwdvidsvideos.approved = "yes" AND #__hwdvidsvideos.published = 1 ORDER BY #__hwdvidsvideos.date_uploaded ASC LIMIT 0, 10');
+			$rows_recent = $db->loadObjectList();
+			hwdvsDrawFile::XMLDataFile($rows_recent, 'recent');
+			hwdvsDrawFile::XMLPlaylistFile($rows_recent, 'recent');
 		}
 
 		/**
@@ -256,9 +296,12 @@ class HWDVS_xmlOutput
 		@clearstatcache();
 
 		// Show file from cache if still valid
-		if (time() - $cachetime < $cachefile_created) {
-			//echo "ALREADY CACHED";
-		} else {
+		if (time() - $cachetime < $cachefile_created)
+		{
+			echo "Already cached this week's playlists... aborting<br />";
+		}
+		else
+		{
 			 // Now the script has run, generate a new cache file
 			$fp = @fopen($cachefile, 'w');
 
@@ -269,9 +312,6 @@ class HWDVS_xmlOutput
 			// sql search filters
 			$where = ' WHERE published = 1';
 			$where .= ' AND approved = "yes"';
-			if (!$my->id) {
-			$where .= ' AND public_private = "public"';
-			}
 
 			$join = ' LEFT JOIN #__users ON #__users.id = #__hwdvidsvideos.user_id';
 			if ($c->userdisplay == 1) {
@@ -289,7 +329,7 @@ class HWDVS_xmlOutput
 				$join.= ' LEFT JOIN #__comprofiler ON #__comprofiler.user_id = #__hwdvidsvideos.user_id';
 				$select  .= ' #__comprofiler.avatar,';
 				$select_f.= ' #__comprofiler.avatar';
-			} else if ($c->cbint == "0") {
+			} else {
 				if ($c->userdisplay == 1) {
 					$select_f = '#__users.username';
 				} else {
@@ -428,11 +468,6 @@ class HWDVS_xmlOutput
 				hwdvsDrawFile::XMLDataFile($rows_custom05, 'custom05');
 				hwdvsDrawFile::XMLPlaylistFile($rows_custom05, 'custom05');
 			}
-
-			$db->SetQuery('SELECT #__hwdvidsvideos.*, '.$select_f.' FROM #__hwdvidsvideos '.$join.' WHERE #__hwdvidsvideos.featured = 1');
-			$rows_featured = $db->loadObjectList();
-			hwdvsDrawFile::XMLDataFile($rows_featured, 'featured');
-			hwdvsDrawFile::XMLPlaylistFile($rows_featured, 'featured');
 		}
 
 		/**
@@ -445,9 +480,12 @@ class HWDVS_xmlOutput
 		@clearstatcache();
 
 		// Show file from cache if still valid
-		if (time() - $cachetime < $cachefile_created) {
-			//echo "ALREADY CACHED";
-		} else {
+		if (time() - $cachetime < $cachefile_created)
+		{
+			echo "Already cached this months's playlists... aborting<br />";
+		}
+		else
+		{
 			 // Now the script has run, generate a new cache file
 			$fp = @fopen($cachefile, 'w');
 
@@ -456,15 +494,21 @@ class HWDVS_xmlOutput
 			@fclose($fp);
 
 			$join = ' LEFT JOIN #__users ON #__users.id = #__hwdvidsvideos.user_id';
-			if ($c->userdisplay == 1) {
+			if ($c->userdisplay == 1)
+			{
 				$select = '#__users.username,';
-			} else {
+			}
+			else
+			{
 				$select = '#__users.name,';
 			}
-			if ($c->cbint == "2") {
+			if ($c->cbint == "2")
+			{
 				$join.= ' LEFT JOIN #__community_users ON #__community_users.userid = #__hwdvidsvideos.user_id';
 				$select.= ' #__community_users.*,';
-			} else if ($c->cbint == "1") {
+			}
+			else if ($c->cbint == "1")
+			{
 				$join.= ' LEFT JOIN #__comprofiler ON #__comprofiler.user_id = #__hwdvidsvideos.user_id';
 				$select.= ' #__comprofiler.avatar,';
 			}
@@ -472,9 +516,6 @@ class HWDVS_xmlOutput
 			// sql search filters
 			$where = ' WHERE published = 1';
 			$where .= ' AND approved = "yes"';
-			if (!$my->id) {
-			$where .= ' AND public_private = "public"';
-			}
 
 			// query SQL for this month's data
 			$db->SetQuery('SELECT #__hwdvidsvideos.*, '.$select.' COUNT(#__hwdvidslogs_views.videoid) AS counts FROM #__hwdvidsvideos LEFT JOIN #__hwdvidslogs_views ON #__hwdvidsvideos.id = #__hwdvidslogs_views.videoid '.$join.' WHERE #__hwdvidslogs_views.date >= DATE_SUB(NOW(),INTERVAL 30 DAY) AND #__hwdvidsvideos.approved = "yes" AND #__hwdvidsvideos.published = 1 GROUP BY #__hwdvidsvideos.id ORDER BY counts DESC LIMIT 0, 10');
@@ -510,9 +551,12 @@ class HWDVS_xmlOutput
 		@clearstatcache();
 
 		// Show file from cache if still valid
-		if (time() - $cachetime < $cachefile_created) {
-			//echo "ALREADY CACHED";
-		} else {
+		if (time() - $cachetime < $cachefile_created)
+		{
+			echo "Already cached full playlists... aborting<br />";
+		}
+		else
+		{
 			 // Now the script has run, generate a new cache file
 			$fp = @fopen($cachefile, 'w');
 
@@ -523,30 +567,38 @@ class HWDVS_xmlOutput
 			// sql search filters
 			$where = ' WHERE published = 1';
 			$where .= ' AND approved = "yes"';
-			if (!$my->id) {
-			$where .= ' AND public_private = "public"';
-			}
 
 			$join     = ' LEFT JOIN #__users ON #__users.id = #__hwdvidsvideos.user_id';
-			if ($c->userdisplay == 1) {
+			if ($c->userdisplay == 1)
+			{
 				$select   = '#__users.username,';
 				$select_f = '#__users.username,';
-			} else {
+			}
+			else
+			{
 				$select   = '#__users.name,';
 				$select_f = '#__users.name,';
 			}
-			if ($c->cbint == "2") {
+			if ($c->cbint == "2")
+			{
 				$join.= ' LEFT JOIN #__community_users ON #__community_users.userid = #__hwdvidsvideos.user_id';
 				$select  .= ' #__community_users.*,';
 				$select_f.= ' #__community_users.*';
-			} else if ($c->cbint == "1") {
+			}
+			else if ($c->cbint == "1")
+			{
 				$join.= ' LEFT JOIN #__comprofiler ON #__comprofiler.user_id = #__hwdvidsvideos.user_id';
 				$select  .= ' #__comprofiler.avatar,';
 				$select_f.= ' #__comprofiler.avatar';
-			} else if ($c->cbint == "0") {
-				if ($c->userdisplay == 1) {
+			}
+			else
+			{
+				if ($c->userdisplay == 1)
+				{
 					$select_f = '#__users.username';
-				} else {
+				}
+				else
+				{
 					$select_f = '#__users.name';
 				}
 			}
@@ -566,7 +618,8 @@ class HWDVS_xmlOutput
 				hwdvsDrawFile::XMLPlaylistFile($rowsmostfavoured_alltime, 'mostfavoured_alltime');
 			}
 
-			$db->SetQuery('SELECT #__hwdvidsvideos.*, '.$select_f.' FROM #__hwdvidsvideos '.$join.' WHERE #__hwdvidsvideos.approved = "yes" AND #__hwdvidsvideos.published = 1 ORDER BY #__hwdvidsvideos.updated_rating DESC LIMIT 0, 10');			$rowsmostpopular_alltime = $db->loadObjectList();
+			$db->SetQuery('SELECT #__hwdvidsvideos.*, '.$select_f.' FROM #__hwdvidsvideos '.$join.' WHERE #__hwdvidsvideos.approved = "yes" AND #__hwdvidsvideos.published = 1 ORDER BY #__hwdvidsvideos.updated_rating DESC LIMIT 0, 10');
+			$rowsmostpopular_alltime = $db->loadObjectList();
 			if (count($rowsmostpopular_alltime) > 0) {
 				hwdvsDrawFile::XMLDataFile($rowsmostpopular_alltime, 'mostpopular_alltime');
 				hwdvsDrawFile::XMLPlaylistFile($rowsmostpopular_alltime, 'mostpopular_alltime');

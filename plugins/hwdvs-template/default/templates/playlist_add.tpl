@@ -1,15 +1,15 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
 
 {include file='header.tpl'}
 
-<form name="creategroup" action="{$form_add_group}" method="post" onsubmit="return chkform()">
+<form name="createPlaylist" action="{$form_add_playlist}" method="post" onsubmit="return chkform()">
 <div class="standard">
   <h2>Create a playlist</h2>
   <table width="100%" cellpadding="0" cellspacing="4" border="0">
@@ -56,7 +56,7 @@
     {/if}
     <tr>
       <td width="150"></td>
-      <td><input type="submit" name="send" class="inputbox" value="{$smarty.const._HWDVIDS_BUTTON_SAVEGROUP}" /></td>
+      <td><input type="submit" name="send" class="inputbox" value="{$smarty.const._HWDVIDS_BUTTON_SAVEPL}" /></td>
     </tr>
   </table>
 </div>

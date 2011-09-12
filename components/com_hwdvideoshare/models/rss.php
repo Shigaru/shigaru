@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -38,21 +38,23 @@ class hwd_vs_rss
      */
     function feeds()
 	{
-	global $mainframe, $Itemid;
+		global $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 
 		$feed = JRequest::getCmd( 'feed' );
+		$limit = JRequest::getInt( 'limit', '50' );
+		$start = JRequest::getInt( 'start', '0' );
 
 		// switch for feed function
 		switch ($feed)
 		{
 			case 'recent':
-				hwd_vs_rss::recent();
+				hwd_vs_rss::recent($limit,$start);
 			break;
 
 			default:
-				hwd_vs_rss::recent();
+				hwd_vs_rss::recent($limit,$start);
 			break;
 		}
 	}
@@ -61,29 +63,34 @@ class hwd_vs_rss
      *
      * @return       Nothing
      */
-    function recent()
+    function recent($limit,$start)
 	{
-	global $Itemid;
+		global $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$jconfig = new jconfig();
 		$my = & JFactory::getUser();
 
+		//header('Content-type: application/atom+xml');
+		header('Content-type: text/xml');
+
         // sql search filters
-        $where = ' WHERE a.published = 1';
-        $where .= ' AND a.approved = "yes"';
-        if (!$my->id) {
-        $where .= ' AND a.public_private = "public"';
+        $where = ' WHERE published = 1';
+        $where .= ' AND approved = "yes"';
+        if (!$my->id)
+        {
+        $where .= ' AND public_private = "public"';
         }
 
-        // get videos
-        $query = 'SELECT a.*'
-                . ' FROM #__hwdvidsvideos AS a'
-                . $where
-                . ' ORDER BY a.date_uploaded DESC'
-                . ' LIMIT 0, 50'
-                ;
+        $query = "SELECT count(*) FROM #__hwdvidsvideos $where";
         $db->SetQuery($query);
+        $total = $db->loadResult();
+
+        jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $start, $limit );
+
+        $query = "SELECT * FROM #__hwdvidsvideos $where ORDER BY date_uploaded DESC";
+        $db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
         $rows = $db->loadObjectList();
 
 		$link_rss = JURI::root().'index.php?option=com_hwdvideoshare&task=rss&feed=recent';
@@ -109,37 +116,28 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>
 		$link_video = JURI::root()."index.php?option=com_hwdvideoshare&task=viewvideo&Itemid=".$Itemid."&video_id=".$row->id;
 		$link_video = 'http://'.$_SERVER['HTTP_HOST'].JRoute::_("index.php?option=com_hwdvideoshare&task=viewvideo&Itemid=$Itemid&video_id=$row->id");
 
-
 		$thumbnailURL = hwd_vs_tools::generateThumbnailURL( $row->id, $row->video_id, $row->video_type, $row->thumbnail );
-
-		if ($row->video_type == 'local') {
-
-		    $downloadURL = 'http://'.$_SERVER['HTTP_HOST'].$thumbnailURL;
-
+		$pos = strpos($thumbnailURL, "http");
+		if ($pos === false) {
+			$thumbnailURL = 'http://'.$_SERVER['HTTP_HOST'].$thumbnailURL;
 		} else {
+			$thumbnailURL = $thumbnailURL;
+		}
 
-			$pos = strpos($thumbnailURL, "http");
-			if ($pos === false) {
-				$downloadURL = 'http://'.$_SERVER['HTTP_HOST'].$thumbnailURL;
-			} else {
-				$downloadURL = $thumbnailURL;
-			}
+		$thumbnailURL = str_replace("&", "&amp;", $thumbnailURL);
+		$downloadURL = $thumbnailURL;
 
-	    }
-
-		$downloadURL = str_replace("&", "&amp;", $downloadURL);
-
-		$downloadSIZE = "0";
+		$downloadSIZE = "999";
 
 		date_default_timezone_set('GMT');
 
 echo '<item>
       <title><![CDATA['.stripslashes($title).']]></title>
       <link><![CDATA['.$link_video.']]></link>
-      <description><![CDATA[<img src="'.$thumbnailURL.'" style="float:right;padding:10px;" />&#160;'.stripslashes($description).']]></description>
+      <description><![CDATA[<img src="'.$thumbnailURL.'" style="float:right;padding:10px;" width="120" height="90" />&#160;'.stripslashes($description).']]></description>
       <category><![CDATA['.stripslashes($category).']]></category>
       <pubDate>'.date('D, d M Y H:i:s e', strtotime($row->date_uploaded)).'</pubDate>
-      <guid><![CDATA['.JURI::root().'index.php?'.$row->id.']]></guid>
+      <guid>'.$link_video.'</guid>
       <enclosure url="'.$downloadURL.'" length="'.$downloadSIZE.'" type="image/jpeg" />
     </item>
     ';

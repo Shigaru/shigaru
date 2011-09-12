@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -19,7 +19,7 @@
 
 {if $showconnectionbox}
 <div class="standard">
-  <h2>Get Connected!</h2>
+  <h2>{$smarty.const._HWDVIDS_LB_GC}</h2>
   <div class="padding">
 
   <table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -27,54 +27,87 @@
       <td valign="top">
         <div class="introduction">
           <ul id="featurelist">
-            <li>Share your videos and photos</li>
-            <li>Connect and expand your network</li>
-            <li>View community videos and photoss</li>
-            <li>Make and add new friends</li>
-            <li>Create your own video and photos groups</li>
+            <li>{$smarty.const._HWDVIDS_LB_1}</li>
+            <li>{$smarty.const._HWDVIDS_LB_2}</li>
+            <li>{$smarty.const._HWDVIDS_LB_3}</li>
+            <li>{$smarty.const._HWDVIDS_LB_4}</li>
           </ul>
           <div class="joinbutton">
-            <a id="joinButton" href="{$url_register}" title="Join">Join Our Website Now!</a>
+            <a id="joinButton" href="{$url_register}" title="{$smarty.const._HWDVIDS_LB_JOIN}">{$smarty.const._HWDVIDS_LB_JOIN}</a>
           </div>
         </div>
       </td>
       <td width="200">
         <div class="loginform">
-          <form action="{$mosConfig_live_site}/index.php?option=com_user&task=login" method="post" name="login" id="form-login" >
+{if $j16}
+<form action="{$JURL}/index.php" method="post" id="login-form" >
+	<fieldset class="userdata">
+	<p id="form-login-username">
+		<label for="modlgn-username">{$smarty.const._HWDVIDS_LB_U}</label>
+		<input id="modlgn-username" type="text" name="username" class="inputbox"  size="18" />
+	</p>
+	<p id="form-login-password">
+		<label for="modlgn-passwd">{$smarty.const._HWDVIDS_LB_P}</label>
+		<input id="modlgn-passwd" type="password" name="password" class="inputbox" size="18"  />
+	</p>
+	<p id="form-login-remember">
+		<label for="modlgn-remember">{$smarty.const._HWDVIDS_LB_RM}</label>
+		<input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/>
+	</p>
+	<input type="submit" name="Submit" class="button" value="{$smarty.const._HWDVIDS_LB_L}" />
+	<input type="hidden" name="option" value="com_users" />
+	<input type="hidden" name="task" value="user.login" />
+	<input type="hidden" name="return" value="{$session_return}" />
+	{$session_token}
+	</fieldset>
+	<ul>
+		<li>
+			<a href="{$url_reset}">
+			{$smarty.const._HWDVIDS_LB_FP}</a>
+		</li>
+		<li>
+			<a href="{$url_remind}">
+			{$smarty.const._HWDVIDS_LB_FU}</a>
+		</li>
+	</ul>
+</form>
+{else}
+          <form action="{$loginUrl}" method="post" name="login" id="form-login" >
       
             <label>
-              Username<br />
+              {$smarty.const._HWDVIDS_LB_U}<br />
               <input type="text" class="inputbox" name="username" id="username" />
             </label>
       
             <label>
-              Password<br />
+              {$smarty.const._HWDVIDS_LB_P}<br />
               <input type="password" class="inputbox" name="passwd" id="password" />
             </label>
             
             <br />
       
             <label for="remember">
-              <input type="checkbox" alt="Remember my details" value="yes" id="remember" name="remember"/>
-              Remember my details
+              <input type="checkbox" alt="{$smarty.const._HWDVIDS_LB_RM}" value="yes" id="remember" name="remember"/>
+              {$smarty.const._HWDVIDS_LB_RM}
             </label>
       
             <div style="text-align: left; padding: 10px 0 5px;">
-              <input type="submit" value="Login" name="submit" id="submit" class="button" />
+              <input type="submit" value="{$smarty.const._HWDVIDS_LB_L}" name="submit" id="submit" class="button" />
             </div>
     
             <a href="{$url_reset}" class="login-forgot-password">
-              <span>Forgot your password?</span>
+              <span>{$smarty.const._HWDVIDS_LB_FP}</span>
             </a>
             <br />
             <a href="{$url_remind}" class="login-forgot-username">
-              <span>Forgot your username?</span>
+              <span>{$smarty.const._HWDVIDS_LB_FU}</span>
             </a>
 
 	    <input type="hidden" name="return" value="{$session_return}" />
 	    {$session_token}
 
           </form>
+{/if}
         </div>
       </td>
     </tr>

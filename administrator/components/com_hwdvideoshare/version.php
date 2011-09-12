@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -28,31 +28,31 @@ class hwdVideoShareVersion {
 	/** @var string Product */
 	var $PRODUCT 	= 'hwdVideoShare';
 	/** @var int Main Release Level */
-	var $RELEASE 	= '2.1';
+	var $RELEASE 	= '2.2';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'Beta';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '7';
+	var $DEV_LEVEL 	= '4';
 	/** @var int build Number */
-	var $BUILD	 	= '330';
+	var $BUILD	= '800';
 	/** @var string Codename */
-	var $CODENAME 	= 'Masterton';
+	var $CODENAME 	= 'Nightly Build';
 	/** @var string Date */
-	var $RELDATE 	= '2010 04 19';
+	var $RELDATE 	= '2011-09-09';
 	/** @var string Time */
-	var $RELTIME 	= '13:05:13';
+	var $RELTIME 	= '19:05:06';
 	/** @var string Timezone */
-	var $RELTZ 		= 'GMT';
+	var $RELTZ 	= 'GMT';
 	/** @var string Copyright Text */
-	var $COPYRIGHT 	= "Copyright (C) 2007 - 2009 Highwood Design. All rights reserved.";
+	var $COPYRIGHT 	= "Copyright (C) 2007 - 2011 Highwood Design. All rights reserved.";
 	/** @var string URL */
-	var $URL 		= 'The <a href="http://hwdmediashare.co.uk">hwdVideoShare</a> component is released under the GNU/GPL License.';
+	var $URL 	= 'The <a href="http://hwdmediashare.co.uk">hwdVideoShare</a> component is released under the GNU/GPL License.';
 	/** @var string Whether site is a production = 1 or demo site = 0: 1 is default */
-	var $SITE 		= 1;
+	var $SITE 	= 1;
 	/** @var string Whether site has restricted functionality mostly used for demo sites: 0 is default */
 	var $RESTRICT	= 0;
 	/** @var string Whether site is still in development phase (disables checks for /installation folder) - should be set to 0 for package release: 0 is default */
-	var $SVN		= 0;
+	var $SVN	= 0;
 
 
 	/**

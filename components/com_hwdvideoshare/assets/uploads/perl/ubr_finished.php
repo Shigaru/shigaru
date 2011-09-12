@@ -75,10 +75,10 @@ $_FILE_DATA = getFileData($_XML_DATA);                         // Get file data 
 
 // Output XML DATA, CONFIG DATA, POST DATA, FILE DATA to screen and exit if DEBUG_ENABLED.
 if($DEBUG_FINISHED){
-	debug("<br><u>XML DATA</u>", $_XML_DATA);
-	debug("<u>CONFIG DATA</u>", $_CONFIG_DATA);
-	debug("<u>POST DATA</u>", $_POST_DATA);
-	debug("<u>FILE DATA</u><br>", $_FILE_DATA);
+	hwdvsDebug("<br><u>XML DATA</u>", $_XML_DATA);
+	hwdvsDebug("<u>CONFIG DATA</u>", $_CONFIG_DATA);
+	hwdvsDebug("<u>POST DATA</u>", $_POST_DATA);
+	hwdvsDebug("<u>FILE DATA</u><br>", $_FILE_DATA);
 	exit;
 }
 

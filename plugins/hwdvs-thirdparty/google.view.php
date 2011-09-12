@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license Creative Commons Attribution-Non-Commercial-No Derivative Works 3.0 Unported Licence
  *    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
  */
@@ -39,11 +39,8 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 			$file_ext = substr($row->thumbnail, strrpos($row->thumbnail, '.') + 1);
 
-			if (file_exists(JPATH_SITE . DS . "hwdvideos" . DS . "thumbs" . DS . "l_tp-" . $data[0] . "." . $file_ext)) {
-				$thumb_url = JURI::root(true) . DS . "hwdvideos" . DS . "thumbs" . DS . "l_tp-" . $data[0] . "." . $file_ext;
-			} else {
-				$thumb_url = (!empty($row->thumbnail) ? $row->thumbnail : $data[1]);
-			}
+			$thumb_url = hwd_vs_tools::generatePlayerThumbnail($row);
+
 			//$thumb_url = hwd_vs_tools::get_final_url( $thumb_url );
 			//$thumb_url = urlencode( $thumb_url );
 
@@ -256,7 +253,7 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 					preg_match_all('/<media:content url="([^"]+)/',$buffer,$matches, PREG_PATTERN_ORDER);
 					if (!empty($matches[1][1])) {
 
-						foreach ($matches[1] as &$url) {
+						foreach ($matches[1] as $url) {
 							if (!preg_match("/googleplayer.swf/i", $url) && !preg_match("/videofeed/i", $url)) {
 								$truepath = $url;
 								$truepath = str_replace('amp;','',$truepath);

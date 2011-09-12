@@ -1,8 +1,8 @@
-<?php
+<?php 
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -27,71 +27,97 @@ class hwdvids_BE_videos
 	*/
 	function showvideos()
 	{
-		global $mainframe, $limit, $limitstart, $option;
+		global $limit, $limitstart, $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
-		$search 		  = $mainframe->getUserStateFromRequest( $option.'search', 'search', '' );
+		jimport( 'joomla.filesystem.file' );
+
+		$search 		  = $app->getUserStateFromRequest( $option.'search', 'search', '' );
 		$search 		  = $db->getEscaped( trim( strtolower( $search ) ) );
-		$filter_order     = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'a.date_uploaded', 'cmd' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', 'desc', 'word' );
-		$category_id      = $mainframe->getUserStateFromRequest( $option.'category_id', 'category_id', '' );
+		$filter_order     = $app->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'date_uploaded', 'cmd' );
+		$filter_order_Dir = $app->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', 'desc', 'word' );
+		$category_id      = $app->getUserStateFromRequest( $option.'category_id', 'category_id', '' );
+		$featuredOnly     = $app->getUserStateFromRequest( $option.'featuredOnly', 'featuredOnly', '' );
 
-		$where = ' WHERE a.published >= 0';
-		if (!empty($search)) {
-			$where.= " AND LOWER(a.title) LIKE '%$search%'";
+		if ($filter_order !== "ordering")
+		{
+			$filter_secondary = ", ordering";
 		}
-		if ($category_id == "none") {
-			$where.= ' AND a.category_id = 0';
-		} else if (!empty($category_id)) {
-			$where.= ' AND a.category_id ='.$category_id;
+		else
+		{
+			if ($featuredOnly && file_exists(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order'))
+			{
+				$orderString = JFile::read(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order');
+				$featuredArray = explode(",", $orderString);
+				$total = count($featuredArray);
+				for ($i = 0; $i < $total; $i ++)
+				{
+					$featuredArray[$i] = intval($featuredArray[$i]);
+				}
+				$featuredOrder = implode(",",$featuredArray);
+				$featuredOrderString =
+
+				$filter_order     = "FIELD( id, $featuredOrder )";
+				$filter_order_Dir = "";
+				$filter_secondary = "";
+			}
+			else
+			{
+				$filter_order     = "category_id";
+				$filter_order_Dir = "asc";
+				$filter_secondary = ", ordering";
+			}
 		}
 
-		$db->SetQuery( "SELECT count(*)"
-					 . " FROM #__hwdvidsvideos AS a"
-					 . $where
-					 );
+		$where = ' WHERE published >= 0';
+		if (!empty($search))
+		{
+			$where.= " AND LOWER(title) LIKE '%$search%'";
+		}
+		if ($category_id == "none")
+		{
+			$where.= " AND category_id = 0";
+		}
+		else if (!empty($category_id))
+		{
+			$where.= " AND category_id = $category_id";
+		}
+
+		if ($featuredOnly == 1)
+		{
+			$where.= " AND featured = 1";
+		}
+
+		$db->SetQuery("SELECT count(*) FROM #__hwdvidsvideos $where");
 		$total = $db->loadResult();
-		echo $db->getErrorMsg();
 
+		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
-		$query = "SELECT a.*"
-				. "\nFROM #__hwdvidsvideos AS a"
-				. $where
-				. "\nORDER BY ".$filter_order." ".$filter_order_Dir
-							;
+		$query = "SELECT * FROM #__hwdvidsvideos $where ORDER BY $filter_order $filter_order_Dir $filter_secondary";
 		$db->SetQuery( $query, $pageNav->limitstart, $pageNav->limit );
 		$rows = $db->loadObjectList();
 
-		$query = "SELECT a.*"
-				. "\nFROM #__hwdvidsvideos AS a"
-				. $where
-			    . "\nAND a.featured = 1"
-				. "\nORDER BY a.ordering ASC"
-							;
-		$db->SetQuery( $query );
-		$rows_feat = $db->loadObjectList();
-
-		hwdvids_HTML::showvideos($rows, $rows_feat, $pageNav, $search, $category_id);
+		hwdvids_HTML::showvideos($rows, $pageNav, $search, $category_id, $featuredOnly);
 	}
    /**
 	* edit videos
 	*/
 	function editvideos($cid)
 	{
-		global $mosConfig_live_site, $mainframe, $option;
+		global $option;
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
+
 		$row = new hwdvids_video( $db );
 		$row->load( $cid );
 		$c = hwd_vs_Config::get_instance();
 
-		// fail if checked out not by 'me'
-		if ($row->isCheckedOut( $my->id )) {
-			//BUMP needs change for multilanguage support
-			$mainframe->enqueueMessage('This video is currently being editted by another user');
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=videos' );
-		}
+        // get view count
+        require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
+        hwd_vs_recount::recountVideoViews($row->id);
 
 		$db->SetQuery("SELECT *"
 							. "\n FROM #__hwdvidsvideos"
@@ -134,63 +160,59 @@ class hwdvids_BE_videos
 			$file_name_org   = $_FILES['thumbnail_file']['name'];
 			$file_ext        = substr($file_name_org, strrpos($file_name_org, '.') + 1);
 
-			if ($row->video_type == "local" || $row->video_type == "swf" || $row->video_type == "mp4") {
-
+			if ($row->video_type == "local" || $row->video_type == "swf" || $row->video_type == "mp4")
+			{
 				$videocode = $row->video_id;
 				$thumbnail = $file_ext;
-
-			} else if ($row->video_type == "remote") {
-
-				$videocode = "remote-".$row->id;
-				$thumbnail = JURI::root( true ).'/hwdvideos/thumbs/'.$videocode.'.'.$file_ext;
-
-			} else {
-
+			}
+			else
+			{
 				$videocode = "tp-".$row->id;
-				$thumbnail = JURI::root( true ).'/hwdvideos/thumbs/'.$videocode.'.'.$file_ext;
-
+				$thumbnail = "tp-".$row->id.".".$file_ext;
 			}
 
-			$base_Dir = JPATH_SITE.DS.'hwdvideos'.DS.'thumbs'.DS;
-			$upload_result = hwd_vs_tools::uploadFile("thumbnail_file", $videocode, $base_Dir, 2, "jpg,jpeg", 1);
+			$base_Dir = PATH_HWDVS_DIR.DS."thumbs".DS;
+			$upload_result = hwd_vs_tools::uploadFile("thumbnail_file", $videocode, $base_Dir, 2, "jpg,jpeg,png,gif", 1);
 
-			if ($upload_result[0] == "0") {
-
+			if ($upload_result[0] == "0")
+			{
 				$msg = $upload_result[1];
-				$mainframe->enqueueMessage($msg);
-				$mainframe->redirect( 'index.php?option=com_hwdvideoshare&Itemid='.$Itemid.'&task=editvidsA&hidemainmenu=1&cid='.$row->id );
-
-			} else {
-
+				$app->enqueueMessage($msg);
+				$app->redirect( 'index.php?option=com_hwdvideoshare&Itemid='.$Itemid.'&task=editvidsA&hidemainmenu=1&cid='.$row->id );
+			}
+			else
+			{
 				include_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'thumbnail.inc.php');
-				$thumb_path_s = JPATH_SITE.DS.'hwdvideos'.DS.'thumbs'.DS.$videocode.'.'.$file_ext;
-				$thumb_path_l = JPATH_SITE.DS.'hwdvideos'.DS.'thumbs'.DS.'l_'.$videocode.'.'.$file_ext;
+
+				$thumb_path_s = PATH_HWDVS_DIR.DS."thumbs".DS."$videocode.$file_ext";
+				$thumb_path_l = PATH_HWDVS_DIR.DS."thumbs".DS."l_$videocode.$file_ext";
+
 				$twidth_s = round($c->con_thumb_n);
 				$theight_s = round($c->con_thumb_n*$c->tar_fb);
 				$twidth_l = round($c->con_thumb_l);
 				$theight_l = round($c->con_thumb_l*$c->tar_fb);
 
 				list($width, $height, $type, $attr) = @getimagesize($thumb_path_s);
-				$ratio = $height/$width;
+				$ratio = $width/$height;
 
 				//echo $thumb_path_s."<br />".$ratio."<br />".$width."<br />".$height."<br />".$c->tar_fb."<br />".$twidth_s."<br />".$theight_s;
 
-				if ($ratio < $c->tar_fb) {
-
+				if ($ratio > 1)
+				{
 					$resized_l = new Thumbnail($thumb_path_s);
-					$resized_l->resize(2000, $theight_l);
+					$resized_l->resize($twidth_l,$twidth_l);
 					$resized_l->cropFromCenter($twidth_l, $theight_l);
 					$resized_l->save($thumb_path_l);
 					$resized_l->destruct();
 
 					$resized_s = new Thumbnail($thumb_path_s);
-					$resized_s->resize(1000, $theight_s);
+					$resized_s->resize($twidth_s,$twidth_s);
 					$resized_s->cropFromCenter($twidth_s, $theight_s);
 					$resized_s->save($thumb_path_s);
 					$resized_s->destruct();
-
-				} else {
-
+				}
+				else
+				{
 					$resized_l = new Thumbnail($thumb_path_s);
 					$resized_l->resize($twidth_l,2000);
 					$resized_l->cropFromCenter($twidth_l, $theight_l);
@@ -202,7 +224,6 @@ class hwdvids_BE_videos
 					$resized_s->cropFromCenter($twidth_s, $theight_s);
 					$resized_s->save($thumb_path_s);
 					$resized_s->destruct();
-
 				}
 			}
 
@@ -215,8 +236,8 @@ class hwdvids_BE_videos
 			}
 
 			$msg = "Thumbnail was successfully uploaded";
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( 'index.php?option=com_hwdvideoshare&Itemid='.$Itemid.'&task=editvidsA&hidemainmenu=1&cid='.$row->id );
+			$app->enqueueMessage($msg);
+			$app->redirect( 'index.php?option=com_hwdvideoshare&Itemid='.$Itemid.'&task=editvidsA&hidemainmenu=1&cid='.$row->id );
 		}
 
 		hwdvids_HTML::editvideos($row, $cat, $usr, $favs, $flagged);
@@ -226,50 +247,73 @@ class hwdvids_BE_videos
 	*/
 	function savevideo()
 	{
-		global $mainframe, $option;
+		global $option, $task, $j16;
+		$app = & JFactory::getApplication();
+                $c = hwd_vs_Config::get_instance();
+                
 		$db = & JFactory::getDBO();
 		$row = new hwdvids_video($db);
 
-		$title = Jrequest::getVar( 'title', _HWDVIDS_UNKNOWN );
-		$title = stripslashes($title);
-		$title = stripslashes($title);
-		$title = hwdEncoding::charset_decode_utf_8($title);
-		$title = hwdEncoding::charset_encode_utf_8($title);
-		$title = htmlspecialchars_decode($title);
-		$title = addslashes($title);
-
 		$requestarray = JRequest::get( 'default', 2 );
-		$description = trim($requestarray['description']);
-		$description = stripslashes($description);
-		$description = stripslashes($description);
-		$description = hwdEncoding::charset_decode_utf_8($description);
-		$description = hwdEncoding::charset_encode_utf_8($description);
-		$description = htmlspecialchars_decode($description);
-		$description = addslashes($description);
+		$rawDescription = trim($requestarray['description']);
 
-		$raw_tags = Jrequest::getVar( 'tags', _HWDVIDS_UNKNOWN );
-		$tags = '';
-		$tag_arr_co = explode(",", $raw_tags);
+		$id 				= Jrequest::getInt( 'id', '' );
+		$title 				= hwd_vs_tools::generatePostTitle();
+		$description 		= hwd_vs_tools::generatePostDescription($rawDescription);
+		$tags 				= hwd_vs_tools::generatePostTags();
+		$views 				= Jrequest::getInt( 'views', '' );
 
-		for ($j=0, $m=count($tag_arr_co); $j < $m; $j++) {
+                if ($c->multiple_cats == "1")
+		{
+			$categoryid = JRequest::getVar( "category_id", "0", "post" );
+			$category_id = null;
+		}
+                else
+                {
+                        $category_id = JRequest::getInt( "category_id", "0", "post" );
+                }
 
-			$row_co = $tag_arr_co[$j];
-			$tag_arr_sp = explode(" ", $row_co);
+		if (!empty($views))
+		{
+			$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_views WHERE videoid = ".$id);
+			$unarchived_count = $db->loadResult();
+			$archived_count = $views - $unarchived_count;
 
-			for ($k=0, $p=count($tag_arr_sp); $k < $p; $k++) {
+			$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_archive WHERE videoid = ".$id);
+			$total = $db->loadResult();
 
-				$row_sp = $tag_arr_sp[$k];
-				$row_sp = hwdEncoding::charset_decode_utf_8($row_sp);
-				$row_sp = preg_replace("/[^a-zA-Z0-9s_&#;-]/", "", $row_sp);
-				$row_sp = hwdEncoding::charset_encode_utf_8($row_sp);
+			if ($total > 0)
+			{
+				$db->SetQuery("UPDATE #__hwdvidslogs_archive SET views = $archived_count WHERE videoid = ".$id);
+				if ( !$db->query() )
+				{
+					echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+					exit();
+				}
+			}
+			else
+			{
+				$row_new = new hwdvidslogs_archive($db);
 
-				if (!empty($row_sp)) {
-					$tags.= $row_sp.",";
+				$_POST['id'] 			= null;
+				$_POST['videoid'] 		= $id;
+				$_POST['views'] 		= $archived_count;
+
+				if (!$row_new->bind($_POST))
+				{
+					echo "<script> alert('".$row_new->getError()."'); window.history.go(-1); </script>\n";
+					exit();
 				}
 
+				if (!$row_new->store())
+				{
+					echo "<script> alert('".$row_new -> getError()."'); window.history.go(-1); </script>\n";
+					exit();
+				}
+
+				$_POST['id'] 			= $id;
 			}
 		}
-		if (substr($tags, -2) == ", ") {$tags = substr($tags, 0, -2);}
 
 		$password = Jrequest::getVar( 'hwdvspassword', '' );
 		if (!empty($password))
@@ -278,12 +322,29 @@ class hwdvids_BE_videos
 			$_POST['password'] 		= $password;
 		}
 
+		if ($_POST['public_private'] == "group")
+		{
+			$gtree_video = Jrequest::getVar( 'gtree_video', '' );
+			if (!empty($gtree_video))
+			{
+				$_POST['password'] 		= $gtree_video;
+			}
+		}
+
+		if ($_POST['public_private'] == "level")
+		{
+			$jacl_video = Jrequest::getVar( 'jacl_video', '' );
+			if (!empty($jacl_video))
+			{
+				if (isset($jacl_video) && $jacl_video !== '') { $jacl_video = @implode(",", $jacl_video); }
+				$_POST['password'] 		= $jacl_video;
+			}
+		}
+
 		$_POST['title'] 			= $title;
 		$_POST['description'] 		= $description;
 		$_POST['tags'] 				= $tags;
 		$_POST['category_id'] 		= JRequest::getInt( 'category_id', 0 );
-
-
 
 		// bind it to the table
 		if (!$row -> bind($_POST)) {
@@ -301,37 +362,102 @@ class hwdvids_BE_videos
 			exit();
 		}
 
+		if ($c->multiple_cats == "1")
+		{
+			hwd_vs_tools::applyCategoryLinks($row->id,$categoryid);
+		}
+
 		$row->checkin();
+
+                if ($j16)
+                {
+                        if (key_exists( 'rules', $_POST['jform'] ) && is_array( $_POST['jform']['rules'] ))
+                        {
+                                $registry = new JRegistry();
+                                $registry->loadArray($_POST['jform']['rules']);
+                                $rulesString = $registry->toString();
+                                $rules = new JRules($registry->toString());
+                        }
+
+                        //
+                        // Asset Tracking
+                        //
+
+                        $updateNulls = false;
+                        $assetCheck = JTable::getInstance('Asset');
+                        $assetCheck->loadByName('com_hwdvideoshare');
+
+                        $parentId	= $assetCheck->id;
+                        $name		= 'com_hwdvideoshare.video.'.(int) $row->id;
+                        $title		= $row->title;
+
+                        $asset	= JTable::getInstance('Asset');
+                        $asset->loadByName($name);
+
+                        // Check for an error.
+                        if ($error = $asset->getError())
+                        {
+                                $this->setError($error);
+                        }
+                        else
+                        {
+                                // Prepare the asset to be stored.
+                                $asset->parent_id	= $parentId;
+                                $asset->name		= $name;
+                                $asset->title		= $title;
+
+                                if ($rules instanceof JRules) {
+                                        $asset->rules = (string) $rules;
+                                }
+
+                                if (!$asset->check() || !$asset->store($updateNulls))
+                                {
+                                        print_r($asset->getError());
+                                        exit;
+                                        //return false;
+                                }
+                        }
+                }
 
 		include(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
 		hwd_vs_recount::recountVideosInCategory($row->category_id);
 
-		$mainframe->enqueueMessage(_HWDVIDS_ALERT_VIDSAVED);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=videos' );
-
+		if ($task == "apply")
+		{
+			$app->enqueueMessage(_HWDVIDS_ALERT_VIDSAVED);
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=editvidsA&hidemainmenu=1&cid='.$row->id );
+		}
+		else
+		{
+			$app->enqueueMessage(_HWDVIDS_ALERT_VIDSAVED);
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
+		}
 	}
    /**
 	* cancel videos
 	*/
 	function cancelvideo()
 	{
-		global $mainframe, $option;
+		global $option;
 		$db = & JFactory::getDBO();
+		$app = & JFactory::getApplication();
+
 		$row = new hwdvids_video( $db );
 		$row->bind( $_POST );
 		$row->checkin();
 
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=videos' );
-
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
 	}
    /**
 	* publish/unpublish videos
 	*/
-	function publishvid($cid=null, $publish=1) {
-		global $database, $mainframe, $task, $option;
+	function publishvid($cid=null, $publish=1)
+	{
+		global $task, $option;
   		$db =& JFactory::getDBO();
 		$my = &JFactory::getUser();
+		$app = & JFactory::getApplication();
 
 		if (count( $cid ) < 1) {
 			$action = $publish == 1 ? 'publish' : ($publish == -1 ? 'archive' : 'unpublish');
@@ -367,16 +493,18 @@ class hwdvids_BE_videos
 			$row = new hwdvids_video( $db );
 			$row->checkin( $cid[0] );
 		}
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=videos' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
 	}
    /**
 	* feature/unfeature videos
 	*/
-	function featurevid($cid=null, $publish=1) {
-		global $database, $task, $mainframe, $option;
+	function featurevid($cid=null, $publish=1)
+	{
+		global $task, $option;
   		$db =& JFactory::getDBO();
 		$my = &JFactory::getUser();
+		$app = & JFactory::getApplication();
 
 		if (count( $cid ) < 1) {
 			$action = $publish == 1 ? 'feature' : ($publish == -1 ? 'archive' : 'unfeature');
@@ -452,8 +580,8 @@ class hwdvids_BE_videos
 			$row = new hwdvids_video( $db );
 			$row->checkin( $cid[0] );
 		}
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=videos' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
 
 	}
    /**
@@ -461,8 +589,9 @@ class hwdvids_BE_videos
 	*/
 	function deletevids($cid)
 	{
-		global $mainframe, $option;
+		global $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
 		$total = count( $cid );
 		$events = join(",", $cid);
@@ -476,76 +605,159 @@ class hwdvids_BE_videos
 		}
 
 		$msg = $total ._HWDVIDS_ALERT_ADMIN_VIDDEL." ";
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='. $option.'&task=videos' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
 	}
-function orderAll($uid, $inc)
-{
-    global $mainframe;
-	$db = & JFactory::getDBO();
-    $row = new hwdvids_video($db);
-    $row->load($uid);
-    $row->move($inc);
-
-	$query = 'SELECT id, ordering'
-			. ' FROM #__hwdvidsvideos'
-			. ' ORDER BY ordering ASC'
-			;
-
-	$db->SetQuery($query);
-	$rows = $db->loadObjectList();
-
-	for ($i=0, $n=count($rows); $i < $n; $i++) {
-		$cid = (int)$rows[$i]->id;
-
-		// update ordering
-		$db->SetQuery("UPDATE #__hwdvidsvideos SET ordering = $i WHERE id = $cid");
-		$db->Query();
-		if ( !$db->query() ) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-	}
-
-	$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
-}
-function orderFeatured($uid, $inc)
-{
-    global $mainframe;
-	$db = & JFactory::getDBO();
-    $row = new hwdvids_video($db);
-    $row->load($uid);
-    $row->move($inc,"featured=1");
-
-	$query = 'SELECT id, ordering'
-			. ' FROM #__hwdvidsvideos'
-			. ' ORDER BY ordering ASC'
-			;
-
-	$db->SetQuery($query);
-	$rows = $db->loadObjectList();
-
-	for ($i=0, $n=count($rows); $i < $n; $i++) {
-		$cid = (int)$rows[$i]->id;
-
-		// update ordering
-		$db->SetQuery("UPDATE #__hwdvidsvideos SET ordering = $i WHERE id = $cid");
-		$db->Query();
-		if ( !$db->query() ) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-	}
-
-	$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
-}
-
    /**
+	*/
+	function orderAll($uid, $inc)
+	{
+		$db = & JFactory::getDBO();
+		$app = & JFactory::getApplication();
+
+		$row = new hwdvids_video($db);
+		$row->load($uid);
+
+		if ( ! $row->move( $inc ) ) {
+			$this->setError( $this->_db->getErrorMsg() );
+			return false;
+		}
+
+		$msg = JText::_('New ordering saved');
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
+	}
+   /**
+	*/
+	function saveOrder()
+	{
+		$db = & JFactory::getDBO();
+		$app = & JFactory::getApplication();
+
+		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$order		= JRequest::getVar( 'order', array (0), 'post', 'array' );
+		$total		= count($cid);
+		$conditions	= array ();
+
+		JArrayHelper::toInteger($cid, array(0));
+		JArrayHelper::toInteger($order, array(0));
+
+		// Instantiate an article table object
+    	$row = new hwdvids_video($db);
+
+		// Update the ordering for items in the cid array
+		for ($i = 0; $i < $total; $i ++)
+		{
+			$row->load( (int) $cid[$i] );
+			if ($row->ordering != $order[$i]) {
+				$row->ordering = $order[$i];
+				if (!$row->store()) {
+					JError::raiseError( 500, $db->getErrorMsg() );
+					return false;
+				}
+				// remember to updateOrder this group
+				$condition = 'category_id = '.(int) $row->category_id.' AND published >= 0';
+				$found = false;
+				foreach ($conditions as $cond)
+					if ($cond[1] == $condition) {
+						$found = true;
+						break;
+					}
+				if (!$found)
+					$conditions[] = array ($row->id, $condition);
+			}
+		}
+
+		// execute updateOrder for each group
+		foreach ($conditions as $cond)
+		{
+			$row->load($cond[0]);
+			$row->reorder($cond[1]);
+		}
+
+		$msg = JText::_('New ordering saved');
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
+	}
+   /**
+	*/
+	function orderFeatured($uid, $inc)
+	{
+		$db = & JFactory::getDBO();
+		$app = & JFactory::getApplication();
+
+		jimport( 'joomla.filesystem.file' );
+
+		if (file_exists(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order'))
+		{
+			$orderString = JFile::read(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order');
+			$featuredArray = explode(",", $orderString);
+			$total = count($featuredArray);
+			for ($i = 0; $i < $total; $i ++)
+			{
+				$featuredArray[$i] = intval($featuredArray[$i]);
+			}
+		}
+		$flippedArray = array_flip($featuredArray);
+		$key1 = $flippedArray[$uid];
+		$key2 = $key1 + $inc;
+
+		$temp=$featuredArray[$key1];
+		$featuredArray[$key1]=$featuredArray[$key2];
+		$featuredArray[$key2]=$temp;
+
+		$orderString = implode(",",$featuredArray);
+
+		JFile::write(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order',$orderString);
+
+		$msg = JText::_('New ordering not saved');
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
+	}
+   /**
+	*/
+	function saveFeaturedOrder()
+	{
+		jimport( 'joomla.filesystem.file' );
+
+		$db = & JFactory::getDBO();
+		$app = & JFactory::getApplication();
+
+		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$order		= JRequest::getVar( 'order', array (0), 'post', 'array' );
+		$total		= count($cid);
+		$conditions	= array ();
+
+		JArrayHelper::toInteger($cid, array(0));
+		JArrayHelper::toInteger($order, array(0));
+
+		// Instantiate an article table object
+    	$row = new hwdvids_video($db);
+
+		// Update the ordering for items in the cid array
+		for ($i = 0; $i < $total; $i ++)
+		{
+			$featuredOrder[$cid[$i]] = $order[$i];
+		}
+
+		asort($featuredOrder);
+		$orderString=null;
+		foreach ($featuredOrder as $key => $val)
+		{
+			$orderString.="$key,";
+		}
+
+		JFile::write(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order',$orderString);
+
+		$msg = JText::_('New ordering saved');
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
+	}
+	/**
 	* edit videos
 	*/
 	function changeuserselect($cid)
 	{
-		global $mosConfig_live_site, $mainframe, $mainframe;
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
 
@@ -575,9 +787,10 @@ echo $uploader_list;exit;
 	*/
 	function updateVideoSource()
 	{
-		global $mosConfig_live_site, $mainframe, $option;
+		global $option, $j16;
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
 		$c = hwd_vs_Config::get_instance();
 
 		$video_type	= Jrequest::getVar( 'videotype', '0' );
@@ -590,8 +803,8 @@ echo $uploader_list;exit;
 		$row = new hwdvids_video($db);
 		$row->load( $video_id );
 
-		if ($video_type == 1) {
-
+		if ($video_type == 1)
+		{
 			$requestarray = JRequest::get( 'default', 2 );
 			$embeddump = $requestarray['embeddump'];
 			$remote_verified = null;
@@ -601,92 +814,65 @@ echo $uploader_list;exit;
 			preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $parsedurl['host'], $regs);
 			if (empty($regs['domain'])) { $regs['domain'] = ''; }
 
-			if ($regs['domain'] == 'youtube.com' && file_exists(JPATH_SITE.'/plugins/hwdvs-thirdparty/youtube.php')) {
-				require_once(JPATH_SITE.'/plugins/hwdvs-thirdparty/youtube.php');
-			} else if ($regs['domain'] == 'google.com' && file_exists(JPATH_SITE.'/plugins/hwdvs-thirdparty/google.php')) {
-				require_once(JPATH_SITE.'/plugins/hwdvs-thirdparty/google.php');
-			} else if (file_exists(JPATH_SITE.'/plugins/hwdvs-thirdparty/'.$regs['domain'].'.php')) {
-				require_once(JPATH_SITE.'/plugins/hwdvs-thirdparty/'.$regs['domain'].'.php');
-			} else {
-
-				$pos_flv = strpos($embeddump, ".flv");
-
-				if ($pos_flv === false) {
-					$remote_verified = 0;
-				} else {
-					$pos_flv = $pos_flv+4;
-					$datadump = substr($embeddump, 0, $pos_flv);
-					$pos_http = mb_strrpos($datadump, "http://");
-					if ($pos_http === false) {
-						$error_msg = _HWDVIDS_ERROR_UPLDERR11."<br /><br />"._HWDVIDS_INFO_SUPPTPW."<br />".hwd_vs_tools::generateSupportedWebsiteList();
-						hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, $error_msg, "exclamation.png", 1);
-						return;
-					} else {
-						$url = substr($datadump, $pos_http);
-					}
-
-					$pru = parse_url($url);
-					$remoteurl = $pru['scheme']."://".$pru['host'].$pru['path'];
-
-					if(!preg_match("/^[a-zA-Z]+[:\/\/]+[A-Za-z0-9\-_]+\\.+[A-Za-z0-9\.\/%&=\?\-_]+$/i",$remoteurl)) {
-						$remote_verified = 0;
-					} else {
-						$filegrab = @file_get_contents($remoteurl, null, null, 0, 16);
-						$filecheck = @strpos($remoteurl, "flv");
-						if (isset($remoteurl) && !empty($remoteurl) && $filecheck !== false) {
-							$remote_verified = 1;
-						} else {
-							$remote_verified = 0;
-						}
-					}
-				}
-
+		if ($j16)
+		{
+			if ($regs['domain'] == 'youtube.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube'.DS.'youtube.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube'.DS.'youtube.php');
 			}
-
-			$failures = "";
-			if (!isset($remote_verified)) {
-				$cn = 'hwd_vs_tp_'.preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']);
-				$f_processc = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processCode';
-				$f_processt = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processTitle';
-				$f_processd = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDescription';
-				$f_processk = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processKeywords';
-				$f_processl = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDuration';
-
-				$tp = new $cn();
-
-				$ext_v_code  = $tp->$f_processc($embeddump);
-				$ext_v_title = $tp->$f_processt($embeddump, @$ext_v_code[2]);
-				$ext_v_descr = $tp->$f_processd($embeddump, @$ext_v_code[2]);
-				$ext_v_keywo = $tp->$f_processk($embeddump, @$ext_v_code[2]);
-				$ext_v_durat = $tp->$f_processl($embeddump, @$ext_v_code[2]);
-
-				if ($ext_v_code[0] == "0") {
-					hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_INFO_TPPROCESSFAIL, "exclamation.png", 0);
-					return;
-				}
-
-				if ($ext_v_title[0] == 0) {$failures.=_HWDVIDS_INFO_TPTITLEFAIL."<br />";}
-				if ($ext_v_descr[0] == 0) {$failures.=_HWDVIDS_INFO_TPDESCFAIL."<br />";}
-				if ($ext_v_keywo[0] == 0) {$failures.=_HWDVIDS_INFO_TPKWFAIL."<br />";}
-				if ($ext_v_durat[0] == 0) {$failures.=_HWDVIDS_INFO_TPDRFAIL."<br />";}
-			} else if ($remote_verified == 0) {
-				$error_msg = _HWDVIDS_ERROR_UPLDERR11."<br /><br />"._HWDVIDS_INFO_SUPPTPW."<br />".hwd_vs_tools::generateSupportedWebsiteList();
-				hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, $error_msg, "exclamation.png", 1);
-				return;
-			} else if ($remote_verified == 1) {
-				$ext_v_code[1] = $remoteurl.",";
-				$ext_v_title[1] = _HWDVIDS_UNKNOWN;
-				$ext_v_descr[1] = _HWDVIDS_UNKNOWN;
-				$ext_v_keywo[1] = _HWDVIDS_UNKNOWN;
-				$ext_v_durat[1] = "0:00:00";
-				$regs['domain'] = "remote";
+			else if ($regs['domain'] == 'google.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google'.DS.'google.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google'.DS.'google.php');
 			}
+			else if (file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'thirdpartysupportpack'.DS.$regs['domain'].'.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'thirdpartysupportpack'.DS.$regs['domain'].'.php');
+			}
+			else
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote'.DS.'remote.php');
+				$regs['domain'] = 'remote';
+			}
+		}
+		else
+		{
+			if ($regs['domain'] == 'youtube.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube.php');
+			}
+			else if ($regs['domain'] == 'google.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google.php');
+			}
+			else if (file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.$regs['domain'].'.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.$regs['domain'].'.php');
+			}
+			else
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
+				$regs['domain'] = 'remote';
+			}
+		}
+
+		$failures = "";
+		if (!isset($remote_verified)) {
+
+			$cn = 'hwd_vs_tp_'.preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']);
+			$f_processc = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processCode';
+			$f_processi = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processThumbnail';
+			$f_processt = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processTitle';
+			$f_processd = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDescription';
+			$f_processk = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processKeywords';
+			$f_processl = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDuration';
+
+			$tp = new $cn();
+
+			$ext_v_code  = $tp->$f_processc($embeddump);
 
 			//check if already exists
 			$db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos WHERE video_id = "'.$ext_v_code[1].'"' );
 			$duplicatecount = $db->loadResult();
-
-			$admin_import = false;
 
 			if ($duplicatecount > 0 && $admin_import == false) {
 				hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_DUPLICATE, "exclamation.png", 0);
@@ -695,45 +881,69 @@ echo $uploader_list;exit;
 				return false;
 			}
 
-			$title = $ext_v_title[1];
-			$title = stripslashes($title);
-			$title = stripslashes($title);
-			$title = hwdEncoding::charset_decode_utf_8($title);
-			$title = hwdEncoding::charset_encode_utf_8($title);
-			$title = htmlspecialchars_decode($title);
-			$title = addslashes($title);
+			$ext_v_title = $tp->$f_processt($embeddump, @$ext_v_code[1]);
+			$ext_v_descr = $tp->$f_processd($embeddump, @$ext_v_code[1]);
+			$ext_v_keywo = $tp->$f_processk($embeddump, @$ext_v_code[1]);
+			$ext_v_durat = $tp->$f_processl($embeddump, @$ext_v_code[1]);
 
-			$description = $ext_v_descr[1];
-			$description = stripslashes($description);
-			$description = stripslashes($description);
-			$description = hwdEncoding::charset_decode_utf_8($description);
-			$description = hwdEncoding::charset_encode_utf_8($description);
-			$description = htmlspecialchars_decode($description);
-			$description = addslashes($description);
+			if ($ext_v_code[0] == "0")
+			{
+				if ($j16)
+				{
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote'.DS.'remote.php');
+					$regs['domain'] = 'remote';
+				}
+				else
+				{
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
+					$regs['domain'] = 'remote';
+				}
 
-			$raw_tags = $ext_v_keywo[1];
-			$tags = '';
-			$tag_arr_co = explode(",", $raw_tags);
+				$tp = new hwd_vs_tp_remote();
+				$ext_v_code  = $tp->remoteProcessCode($embeddump);
+				$ext_v_title = $tp->remoteProcessTitle($embeddump, @$ext_v_code[1]);
+				$ext_v_descr = $tp->remoteProcessDescription($embeddump, @$ext_v_code[1]);
+				$ext_v_keywo = $tp->remoteProcessKeywords($embeddump, @$ext_v_code[1]);
+				$ext_v_durat = $tp->remoteProcessDuration($embeddump, @$ext_v_code[1]);
 
-			for ($j=0, $m=count($tag_arr_co); $j < $m; $j++) {
+				if ($ext_v_code[0] == "0") {
+					hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_INFO_TPPROCESSFAIL, "exclamation.png", 0);
+					return;
+				}
 
-				$row_co = $tag_arr_co[$j];
-				$tag_arr_sp = explode(" ", $row_co);
+				//check if already exists
+				$db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos WHERE video_id = "'.$ext_v_code[1].'"' );
+				$duplicatecount = $db->loadResult();
 
-				for ($k=0, $p=count($tag_arr_sp); $k < $p; $k++) {
-
-					$row_sp = $tag_arr_sp[$k];
-					$row_sp = hwdEncoding::charset_decode_utf_8($row_sp);
-					$row_sp = preg_replace("/[^a-zA-Z0-9s_&#;-]/", "", $row_sp);
-					$row_sp = hwdEncoding::charset_encode_utf_8($row_sp);
-
-					if (!empty($row_sp)) {
-						$tags.= $row_sp.",";
-					}
-
+				if ($duplicatecount > 0 && $admin_import == false) {
+					hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_DUPLICATE, "exclamation.png", 0);
+					return;
+				} else if ($duplicatecount > 0 && $admin_import == true) {
+					return false;
 				}
 			}
-			if (substr($tags, -2) == ", ") {$tags = substr($tags, 0, -2);}
+
+			if ($ext_v_title[0] == 0) {$failures.=_HWDVIDS_INFO_TPTITLEFAIL."<br />";}
+			if ($ext_v_descr[0] == 0) {$failures.=_HWDVIDS_INFO_TPDESCFAIL."<br />";}
+			if ($ext_v_keywo[0] == 0) {$failures.=_HWDVIDS_INFO_TPKWFAIL."<br />";}
+			if ($ext_v_durat[0] == 0) {$failures.=_HWDVIDS_INFO_TPDRFAIL."<br />";}
+
+		} else if ($remote_verified == 0) {
+
+			$error_msg = _HWDVIDS_ERROR_UPLDERR11."<br /><br />"._HWDVIDS_INFO_SUPPTPW."<br />".hwd_vs_tools::generateSupportedWebsiteList();
+			hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, $error_msg, "exclamation.png", 1);
+			return;
+
+		}
+
+		$title 				= hwd_vs_tools::generatePostTitle($ext_v_title[1]);
+		$description 		= hwd_vs_tools::generatePostDescription($ext_v_descr[1]);
+		$tags 				= hwd_vs_tools::generatePostTags($ext_v_keywo[1]);
+		$category_id 		= JRequest::getInt( "category_id", "0", "post" );
+		$public_private 	= JRequest::getWord( "public_private", "public", "post" );
+		$allow_comments 	= JRequest::getInt( "allow_comments", $c->shareoption2, "post" );
+		$allow_embedding 	= JRequest::getInt( "allow_embedding", $c->shareoption3, "post" );
+		$allow_ratings 		= JRequest::getInt( "allow_ratings", $c->shareoption4, "post" );
 
 			if (empty($title)) { $title = _HWDVIDS_UNKNOWN;}
 			if (empty($description)) { $description = _HWDVIDS_UNKNOWN;}
@@ -743,48 +953,10 @@ echo $uploader_list;exit;
 			$_POST['video_id'] 			= $ext_v_code[1];
 
 			if ($updatedetails == "on") {
-				$_POST['title'] 			= $ext_v_title[1];
-				$_POST['description'] 		= $ext_v_descr[1];
-				$_POST['tags'] 				= $ext_v_keywo[1];
+				$_POST['title'] 			= $title;
+				$_POST['description'] 		= $description;
+				$_POST['tags'] 				= $tags;
 			}
-
-			// bind it to the table
-			if (!$row -> bind($_POST)) {
-				echo "<script> alert('"
-					.$row -> getError()
-					."'); window.history.go(-1); </script>\n";
-				exit();
-			}
-
-			// store it in the db
-			if (!$row -> store()) {
-				echo "<script> alert('"
-					.$row -> getError()
-					."'); window.history.go(-1); </script>\n";
-				exit();
-			}
-
-			$row->checkin();
-
-		} else if ($video_type == 2) {
-
-			$data = explode(",", $row->video_id);
-			$thumbnail = @$data[1];
-
-			$requestarray = JRequest::get( 'default', 2 );
-			$embeddump = $requestarray['embeddump'];
-
-			$parsedurl = parse_url($embeddump);
-			if (empty($parsedurl['host'])) {
-				hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, "The remote video URL could not be processed.", "exclamation.png", 1);
-				return;
-			}
-
-			$url = $parsedurl['scheme']."://".$parsedurl['host'].$parsedurl['path'];
-			$new_video_id = $url.",".$thumbnail;
-
-			$_POST['video_type'] 		= "remote";
-			$_POST['video_id'] 			= $new_video_id;
 
 			// bind it to the table
 			if (!$row -> bind($_POST)) {
@@ -805,21 +977,94 @@ echo $uploader_list;exit;
 			$row->checkin();
 
 		}
+		else if ($video_type == 2)
+		{
+			$data = explode(",", $row->video_id);
+			$thumbnail = @$data[1];
+
+			$requestarray = JRequest::get( 'default', 2 );
+			$videourl = $requestarray['embeddump'];
+
+			$validated_video_url = hwd_vs_tools::validateUrl($videourl);
+
+			if (empty($validated_video_url))
+			{
+				$msg = _HWDVIDS_ALERT_VURLWRONG;
+				$app->enqueueMessage($msg);
+				$app->redirect(JURI::root( true )."/administrator/index.php?option=com_hwdvideoshare&task=editvidsA&hidemainmenu=1&cid=".$row->id);
+			}
+
+			$new_video_id = $validated_video_url.",".$thumbnail;
+
+			$_POST['video_type'] 		= "remote";
+			$_POST['video_id'] 			= $new_video_id;
+			if (empty($row->thumbnail) && !empty($thumbnail))
+			{
+				$_POST['thumbnail'] 	= $thumbnail;
+			}
+
+			// bind it to the table
+			if (!$row->bind($_POST))
+			{
+				echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+				exit();
+			}
+
+			// store it in the db
+			if (!$row->store())
+			{
+				echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+				exit();
+			}
+			$row->checkin();
+		}
+		else if ($video_type == 3)
+		{
+			$data = explode(",", $row->video_id);
+			$thumbnail = @$data[1];
+
+			$requestarray = JRequest::get( 'default', 2 );
+			$rtmpurl = $requestarray['embeddump'];
+			$validated_rtmpurl = hwd_vs_tools::validateUrl($rtmpurl);
+
+			if (empty($validated_rtmpurl))
+			{
+				$msg = _HWDVIDS_ALERT_VURLWRONG;
+				$app->enqueueMessage($msg);
+				$app->redirect(JURI::root( true )."/administrator/index.php?option=com_hwdvideoshare&task=editvidsA&hidemainmenu=1&cid=".$row->id);
+			}
+
+			$new_video_id = $validated_rtmpurl;
+
+			$_POST['video_type'] 		= "rtmp";
+			$_POST['video_id'] 			= $new_video_id;
+			if (empty($row->thumbnail) && !empty($thumbnail))
+			{
+				$_POST['thumbnail'] 	= $thumbnail;
+			}
+
+			// bind it to the table
+			if (!$row->bind($_POST))
+			{
+				echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+				exit();
+			}
+
+			// store it in the db
+			if (!$row->store())
+			{
+				echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+				exit();
+			}
+			$row->checkin();
+		}
 
 		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
 		hwd_vs_recount::recountVideosInCategory($row->category_id);
 
-		$mainframe->enqueueMessage(_HWDVIDS_ALERT_VIDSAVED);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=editvidsA&hidemainmenu=1&cid='.$row->id );
-
+		$app->enqueueMessage(_HWDVIDS_ALERT_VIDSAVED);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=editvidsA&hidemainmenu=1&cid='.$row->id );
 	}
-
-
-
-
-
-
-
 
    /**
 	* Convert seconds to HOURS:MINUTES:SECONDS format

@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    Originally Joomla/Mambo Community Builder : Plugin Handler
@@ -27,10 +27,9 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 class hwdvids_BE_frontpage
 {
-
 	function frontpage()
 	{
-		global $database, $mainframe, $limitstart, $my, $Itemid, $mosConfig_live_site;
+		global $limitstart, $Itemid;
 		$db =& JFactory::getDBO();
 
 		$stats = array();

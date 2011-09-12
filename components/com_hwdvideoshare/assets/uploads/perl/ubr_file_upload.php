@@ -54,7 +54,7 @@ require $config_file;
 // 2. ?about=1
 //***************************************************************************************************************
 if($DEBUG_PHP){ phpinfo(); exit(); }
-elseif($DEBUG_CONFIG){ debug($_CONFIG['config_file_name'], $_CONFIG); exit(); }
+elseif($DEBUG_CONFIG){ hwdvsDebug($_CONFIG['config_file_name'], $_CONFIG); exit(); }
 elseif(isset($_GET['about']) && $_GET['about'] == 1){
 	kak("<u><b>UBER UPLOADER FILE UPLOAD</b></u><br>UBER UPLOADER VERSION =  " . $UBER_VERSION . "<br>UBR_FILE_UPLOAD = " . $THIS_VERSION . "<br>\n", 1, __LINE__);
 }

@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -32,13 +32,11 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 class hwd_vs_ajax
 {
     /**
-     * Outputs frontpage HTML
-     *
-     * @return       Nothing
      */
     function rate()
 	{
 		header('Content-type: text/html; charset=utf-8');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
 
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
@@ -48,26 +46,31 @@ class hwd_vs_ajax
 		$rating = JRequest::getInt( 'rating', 0, 'request' );
 		$videoid = JRequest::getInt( 'videoid', 0, 'request' );
 
-		if ($my->id == "0" || !$my->id || empty($my->id)) {
-			$where = ' WHERE a.ip = "'.$ip.'"';
-		} else {
-			$where = ' WHERE a.userid = '.$my->id;
+		if ($my->id == "0" || !$my->id || empty($my->id))
+		{
+			$where = ' WHERE ip = "'.$ip.'"';
 		}
-		$where .= ' AND a.videoid = '.$videoid;
+		else
+		{
+			$where = ' WHERE userid = '.$my->id;
+		}
+		$where .= ' AND videoid = '.$videoid;
 
 		if ($rating > 5) die(_HWDVIDS_ALERT_INVALVOTE); // kill the script because normal users will never see this.
+		if ($rating < 0) die(_HWDVIDS_ALERT_INVALVOTE); // kill the script because normal users will never see this.
 
-		//Current Video Details
-		$query = 'SELECT *'
-				. ' FROM #__hwdvidsvideos'
-				. ' WHERE id = '.$videoid
-				;
+		$query = "SELECT * FROM #__hwdvidsvideos WHERE id = $videoid";
 		$db->SetQuery( $query );
     	$row = $db->loadObject();
 
-		if ($row->rating_number_votes < 1) {
+		if (!isset($row->rating_number_votes)) die("Could not load a video to rate"); // kill the script because normal users will never see this.
+
+		if ($row->rating_number_votes < 1)
+		{
 			$count = 0;
-		} else {
+		}
+		else
+		{
 			$count = $row->rating_number_votes; //how many votes total
 		}
 		$tense = ($count==1) ? _HWDVIDS_INFO_M_VOTE : _HWDVIDS_INFO_M_VOTES; //plural form votes/vote
@@ -75,11 +78,12 @@ class hwd_vs_ajax
 		$rating0 = @number_format($row->rating_total_points/$count,0);
 		$rating1 = @number_format($row->rating_total_points/$count,1);
 
-		// check if user has voted already
-		$db->SetQuery( 'SELECT count(*)'
-					. ' FROM #__hwdvidsrating AS a'
-					. $where
-					);
+		$allowReVote = 0;
+		if ($allowReVote == 1)
+		{
+			$where .= " AND date >= DATE_SUB(NOW(),INTERVAL 1 DAY)";
+		}
+		$db->SetQuery("SELECT count(*) FROM #__hwdvidsrating $where");
 		$total = $db->loadResult();
 
 		$code='<div id="hwdvsrb"><ul id="1001" class="rating rated'.$rating0.'star">
@@ -124,6 +128,7 @@ class hwd_vs_ajax
 			$_POST['userid'] = $my->id;
 			$_POST['videoid'] = $videoid;
 			$_POST['ip'] = $ip;
+			$_POST['date'] = date('Y-m-d H:i:s');
 
 			// bind it to the table
 			if (!$row -> bind($_POST)) {
@@ -203,6 +208,7 @@ class hwd_vs_ajax
     function addToFavourites()
 	{
 		header('Content-type: text/html; charset=utf-8');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
 
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
@@ -271,6 +277,7 @@ class hwd_vs_ajax
     function removeFromFavourites()
 	{
 		header('Content-type: text/html; charset=utf-8');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
 
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
@@ -316,6 +323,7 @@ class hwd_vs_ajax
     function reportVideo()
 	{
 		header('Content-type: text/html; charset=utf-8');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
 
 		global $Itemid;
 		$c = hwd_vs_Config::get_instance();
@@ -347,7 +355,7 @@ class hwd_vs_ajax
 
 		$_POST['userid'] = $userid;
 		$_POST['videoid'] = $videoid;
-		$_POST['status'] = _HWDVIDS_UNREAD;
+		$_POST['status'] = "UNREAD";
 		$_POST['date'] = date('Y-m-d H:i:s');
 
 		// bind it to the table
@@ -393,6 +401,7 @@ class hwd_vs_ajax
     function addVideoToGroup()
 	{
 		header('Content-type: text/html; charset=utf-8');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
 
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
@@ -465,10 +474,9 @@ class hwd_vs_ajax
      */
     function grabAjaxPlayer()
 	{
-		global $Itemid, $smartyvs, $hwdvs_selectv, $hwdvs_joinv;
+		global $Itemid, $smartyvs, $hwdvs_selectv, $hwdvs_joinv, $hwdvsItemid, $hwdvsAjaxPlayer;
 
 		header('Content-type: text/html; charset=utf-8');
-		print "<html><body style=\"margin:0;padding:0;overflow:hidden;\">";
 
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
@@ -481,64 +489,29 @@ class hwd_vs_ajax
 		$showdetails = JRequest::getInt( 'showdetails', '1' );
 		$width = JRequest::getInt( 'width', null );
 		$height = JRequest::getInt( 'height', null );
-		$quality = JRequest::getWord( 'quality', 'hq' );
+		$quality = JRequest::getWord( 'quality', 'hd' );
+		$autostart = JRequest::getInt( 'autostart', null );
+		$hwdvsAjaxPlayer = true;
 
-		// check component access settings and deny those without privileges
-		if ($c->access_method == 0) {
-			if (!hwd_vs_access::allowAccess( $c->gtree_plyr, $c->gtree_plyr_child, hwd_vs_access::userGID( $my->id ))) {
-				if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-					hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORPLYR, "exclamation.png", 0, 0);
-					exit;
-				} else {
-					hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_PLYR_NOT_AUTHORIZED, "exclamation.png", 0, 0);
-					exit;
-				}
-			}
-		} else if ($c->access_method == 1) {
-			if (!hwd_vs_access::allowLevelAccess( $c->accesslevel_upld, hwd_vs_access::userGID( $my->id ))) {
-				hwd_vs_tools::infomessage(1, 0,  _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_PLYR_NOT_AUTHORIZED, "exclamation.png", 0, 0);
+		if (!hwd_vs_access::allowAccess( $c->gtree_plyr, $c->gtree_plyr_child, hwd_vs_access::userGID( $my->id ))) {
+			if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
+				hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORPLYR, "exclamation.png", 0, 0);
+				exit;
+			} else {
+				hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_PLYR_NOT_AUTHORIZED, "exclamation.png", 0, 0);
 				exit;
 			}
 		}
 
-        // check video can be viewed by user
-        $where = ' WHERE video.published = 1';
-        $where .= ' AND video.id = '.$video_id;
-        $where .= ' AND video.approved = "yes"';
-        if (!$my->id) {
-        $where .= ' AND video.public_private = "public"';
-        }
+        $where = ' WHERE video.id = '.$video_id;
 
-        $hwdvs_selectv_extended = $hwdvs_selectv.', access.access_v, access.access_v_r, access.access_lev_v';
-
-        $query = 'SELECT'.$hwdvs_selectv_extended
-                . ' FROM #__hwdvidsvideos AS video'
-                . $hwdvs_joinv
-			    . ' LEFT JOIN #__hwdvidscategories AS `access` ON access.id = video.category_id'
-                . $where
-                . ' ORDER BY video.date_uploaded DESC'
-                ;
+		$query = "SELECT".$hwdvs_selectv." FROM #__hwdvidsvideos AS video ".$hwdvs_joinv." ".$where;
         $db->SetQuery($query);
         $row = $db->loadObject();
 
-		// check component access settings and deny those without privileges
-		if ($c->bviic == 1 && $row->category_id !== "0") {
-			if ($c->access_method == 0) {
-				if (!hwd_vs_access::allowAccess( $row->access_v, $row->access_v_r, hwd_vs_access::userGID( $my->id ))) {
-					if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-						hwd_vs_tools::infomessage(2, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORVCAT, "exclamation.png", 0, 0);
-						exit;
-					} else {
-						hwd_vs_tools::infomessage(2, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_VCAT_NOT_AUTHORIZED, "exclamation.png", 0, 0);
-						exit;
-					}
-				}
-			} else if ($c->access_method == 1) {
-				if (!hwd_vs_access::allowLevelAccess( $row->access_lev_v, hwd_vs_access::userGID( $my->id ))) {
-					hwd_vs_tools::infomessage(2, 0,  _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_VCAT_NOT_AUTHORIZED, "exclamation.png", 0, 0);
-					exit;
-				}
-			}
+		if (!hwd_vs_tools::validateVideoAccess($row))
+		{
+			exit;
 		}
 
 		hwd_vs_tools::logViewing($row->id);
@@ -548,34 +521,31 @@ class hwd_vs_ajax
 			$smartyvs->assign("showdetails", 1);
 		}
 
-		$videoplayer->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, 0, null, null, null);
-		$videoplayer->title = stripslashes($row->title);
-		$videoplayer->description = hwd_vs_tools::truncateText(strip_tags(stripslashes($row->description)), $c->trunvdesc);
-		$videoplayer->duration = $row->video_length;
-		$videoplayer->player = hwd_vs_tools::generateVideoPlayer($row, $width, $height, null, $quality);
-		$videoplayer->videourl = hwd_vs_tools::generateVideoUrl($row);
-		$videoplayer->embedcode = hwd_vs_tools::generateEmbedCode($row);
-		$videoplayer->socialbmlinks = hwd_vs_tools::generateSocialBookmarks();
-		$videoplayer->comments = hwd_vs_tools::generateVideoComments($row);
-		$videoplayer->ratingsystem = hwd_vs_tools::generateRatingSystem($row);
-		$videoplayer->comments = hwd_vs_tools::generateVideoComments($row);
-		$videoplayer->deletevideo = hwd_vs_tools::generateDeleteVideoLink($row);
-		$videoplayer->editvideo = hwd_vs_tools::generateEditVideoLink($row);
-		$videoplayer->publishvideo = hwd_vs_tools::generatePublishVideoLink($row);
-		$videoplayer->id = $row->id;
+		$videoplayer = hwd_vs_tools::generateVideoDetails($row, $width, $height, null, $Itemid, null, null, $autostart);
 		$smartyvs->assign("videoplayer", $videoplayer);
 		hwd_vs_javascript::ajaxRate($row);
 
-		if (empty($template) || $template == '') {
+		if (empty($template) || $template == '')
+		{
 			$html = $smartyvs->fetch('plug_jomsocial_ajax.tpl');
-		} else if ($template == 'playeronly') {
+		}
+		else if ($template == 'playeronly')
+		{
 			$html = $videoplayer->player;
-		} else {
+		}
+		else if ($template == 'multibox')
+		{
+			$link = JRoute::_("index.php?option=com_hwdvideoshare&task=viewvideo&Itemid=$hwdvsItemid&video_id=".$row->id);
+			$html = "<style type=\"text/css\">body {overflow:hidden;background-color:black;margin:0;padding:0;}</style>";
+			$html.= "<div style=\"position:absolute;top:10px;left:20px;\"><a href=\"$link\" target=\"_top\">View Full Video Details</a></div>";
+			$html.= "$videoplayer->player";
+		}
+		else
+		{
 			$html = $smartyvs->fetch($template.'.tpl');
 		}
 
 		print $html;
-		print "</body></html>";
 		exit;
 	}
     /**
@@ -587,6 +557,7 @@ class hwd_vs_ajax
     function addVideoToPlaylist()
 	{
 		header('Content-type: text/html; charset=utf-8');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
 
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
@@ -604,7 +575,7 @@ class hwd_vs_ajax
 		$published = 1;
 
 		if ($playlistid == 0) {
-			echo _HWDVIDS_ALERTSELGROUP;
+			echo _HWDVIDS_SELPL;
 			exit;
 		}
 
@@ -637,8 +608,33 @@ class hwd_vs_ajax
 		}
 
 		// perform maintenance
-		//require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
-		//hwd_vs_recount::recountVideosInGroup($groupid);
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
+		hwd_vs_recount::recountVideosInPlaylist($playlistid);
+
+		$row = new hwdvids_playlist($db);
+		$row->load( $playlistid );
+		if (!empty($row->playlist_data))
+		{
+			$playlist = explode(",", $row->playlist_data);
+			$playlist = preg_replace("/[^0-9]/", "", $playlist);
+
+			$counter = 0;
+			$pl_videos = array();
+			for ($i=0, $n=count($playlist); $i < $n; $i++)
+			{
+				$db->SetQuery('SELECT * FROM #__hwdvidsvideos WHERE id = '.$playlist[$i]);
+				$video = $db->loadObject();
+				if (isset($video->id))
+				{
+					$pl_videos[$counter] = $video;
+					$counter++;
+				}
+			}
+		}
+
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'draw.php');
+		hwdvsDrawFile::XMLDataFile($pl_videos, "pl_$playlistid");
+		hwdvsDrawFile::XMLPlaylistFile($pl_videos, "pl_$playlistid");
 
 		echo _HWDVIDS_ALERT_SUCAV2PL;
 		exit;

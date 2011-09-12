@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license Creative Commons Attribution-Non-Commercial-No Derivative Works 3.0 Unported Licence
  *    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
  */
@@ -12,28 +12,25 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
  * @package    hwdVideoShare
  * @author     Dave Horsfall <info@highwooddesign.co.uk>
  * @copyright  2008 Highwood Design
- * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @version    1.1.4 Alpha RC3.5
  */
-class hwd_vs_tp_googleCom {
+class hwd_vs_tp_googleCom
+{
     /**
      * Extracts the appropriate third party video code used to generate
      * the player and thumbnail images
-     *
-     * @param string $option  the 'embed code' input given by user
-     * @return       $ext_v_code   the third party video code
      */
-	function googleComProcessCode($option)
+	function googleComProcessCode($raw_code)
 	{
-		$code = hwd_vs_tp_googleCom::googleComGetCode($option);
-
-		if (!empty($code)) {
+		$code = hwd_vs_tp_googleCom::googleComGetCode($raw_code);
+		if (!empty($code))
+		{
 			$thumbnail = hwd_vs_tp_googleCom::googleComGetThumbnail($code);
 			$ext_v_code[0] = true;
-			$ext_v_code[1] = $code.",".$thumbnail;
-			$ext_v_code[2] = $code;
-
-		} else {
+			$ext_v_code[1] = $code;
+			$ext_v_code[2] = $thumbnail;
+		}
+		else
+		{
 			$ext_v_code[0] = false;
 			$ext_v_code[1] = "";
 			$ext_v_code[2] = "";
@@ -43,114 +40,126 @@ class hwd_vs_tp_googleCom {
     /**
      * Extracts the appropriate third party video code used to generate
      * the player and thumbnail images
-     *
-     * @param string $option  the 'embed code' input given by user
-     * @return       $ext_v_code   the third party video code
      */
-	function googleComGetCode($option)
+	function googleComGetCode($raw_code)
 	{
-		// check for embed code format
-		$pos_e = strpos($option, "googleplayer.swf?docid=");
-		$pos_u = strpos($option, "videoplay?docid=");
+		$pos_e = strpos($raw_code, "googleplayer.swf?docid=");
+		$pos_u = strpos($raw_code, "videoplay?docid=");
 
 		$code = '';
 
-		if (($pos_e === false) && ($pos_u === false)) {
+		if (($pos_e === false) && ($pos_u === false))
+		{
 			return null;
-		} else if ($pos_e) {
+		}
+		else if ($pos_e)
+		{
 			$pos_e_start = $pos_e + 23;
-			$pos_e_end = strpos($option, '&hl');
-			if ($pos_e_end === false) {
-				$pos_u_end = strpos($option, '&q');
+			$pos_e_end = strpos($raw_code, '&hl');
+			if ($pos_e_end === false)
+			{
+				$pos_u_end = strpos($raw_code, '&q');
 				if ($pos_u_end === false) { return null; }
 			}
 			$length = $pos_e_end - $pos_e_start;
 
-			$code = substr($option, $pos_e_start, $length);
+			$code = substr($raw_code, $pos_e_start, $length);
 			$code = strip_tags($code);
 			$code = preg_replace("/[^a-zA-Z0-9s_-]/", "", $code);
-		} else if ($pos_u) {
-
+		}
+		else if ($pos_u)
+		{
 			$pos_u_start = $pos_u + 16;
-			$pos_u_end_a = strpos($option, '&', $pos_u_start);
-			$pos_u_end_h = strpos($option, '#', $pos_u_start);
+			$pos_u_end_a = strpos($raw_code, '&', $pos_u_start);
+			$pos_u_end_h = strpos($raw_code, '#', $pos_u_start);
 
-			if ($pos_u_end_a === false && $pos_u_end_h === false) {
-				$code = substr($option, $pos_u_start);
+			if ($pos_u_end_a === false && $pos_u_end_h === false)
+			{
+				$code = substr($raw_code, $pos_u_start);
 				$code = strip_tags($code);
 				$code = preg_replace("/[^a-zA-Z0-9s_-]/", "", $code);
-			} else if ($pos_u_end_a === false) {
+			}
+			else if ($pos_u_end_a === false)
+			{
 				$length = $pos_u_end_h - $pos_u_start;
-				$code = substr($option, $pos_u_start, $length);
+				$code = substr($raw_code, $pos_u_start, $length);
 				$code = strip_tags($code);
 				$code = preg_replace("/[^a-zA-Z0-9s_-]/", "", $code);
-			} else if ($pos_u_end_h === false) {
+			}
+			else if ($pos_u_end_h === false)
+			{
 				$length = $pos_u_end_a - $pos_u_start;
-				$code = substr($option, $pos_u_start, $length);
+				$code = substr($raw_code, $pos_u_start, $length);
 				$code = strip_tags($code);
 				$code = preg_replace("/[^a-zA-Z0-9s_-]/", "", $code);
-			} else {
+			}
+			else
+			{
 				$length = $pos_u_end_a - $pos_u_start;
-				$code = substr($option, $pos_u_start, $length);
+				$code = substr($raw_code, $pos_u_start, $length);
 				$code = strip_tags($code);
 				$code = preg_replace("/[^a-zA-Z0-9s_-]/", "", $code);
 			}
 		}
-
 		return $code;
 	}
     /**
      * Extracts the appropriate third party video code used to generate
      * the player and thumbnail images
-     *
-     * @param string $option  the 'embed code' input given by user
-     * @return       $ext_v_code   the third party video code
      */
-	function googleComGetThumbnail($option)
+	function googleComGetThumbnail($code)
 	{
-		if (function_exists('curl_init')) {
-
+		if (function_exists('curl_init'))
+		{
 			$curl_handle=curl_init();
-			curl_setopt($curl_handle,CURLOPT_URL,"http://video.google.com/videofeed?docid=".$option);
+			curl_setopt($curl_handle,CURLOPT_URL,"http://video.google.com/videofeed?docid=".$code);
 			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
 			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
 			$buffer = curl_exec($curl_handle);
 			curl_close($curl_handle);
 
-			if (empty($buffer))	{
+			if (empty($buffer))
+			{
 				$thumbnail = "";
-			} else {
+			}
+			else
+			{
 				preg_match('/<media:thumbnail url="([^"]+)/',$buffer,$thumbnail_array);
-				if (!empty($thumbnail_array[1])) {
+				if (!empty($thumbnail_array[1]))
+				{
 					$thumbnail = $thumbnail_array[1];
 					$thumbnail = str_replace('amp;','',$thumbnail);
-				} else {
+				}
+				else
+				{
 					$thumbnail = null;
 				}
 			}
 		}
-
 		$thumbnail = trim(strip_tags($thumbnail));
 
 		return $thumbnail;
 	}
     /**
      * Extracts the title of the third party video
-     *
-     * @param string $option  the 'embed code' input given by user
-     * @return       $ext_v_title   the third party video title
      */
-	function googleComProcessTitle($option)
+	function googleComProcessTitle($raw_code, $processed_code=null)
 	{
-		if (!defined('HWDVIDSPATH')) { define('HWDVIDSPATH', dirname(__FILE__).'/../../'); }
 		$c = hwd_vs_Config::get_instance();
 
-		$code = hwd_vs_tp_googleCom::googleComGetCode($option);
+		if (empty($processed_code))
+		{
+			$code = hwd_vs_tp_googleCom::googleComGetCode($raw_code);
+		}
+		else
+		{
+			$code = $processed_code;
+		}
 
 		$watchvideourl = "http://video.google.com/videoplay?docid=".$code;
 
-		if (function_exists('curl_init')) {
-
+		if (function_exists('curl_init'))
+		{
 			$curl_handle=curl_init();
 			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
 			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
@@ -158,8 +167,8 @@ class hwd_vs_tp_googleCom {
 			$buffer = curl_exec($curl_handle);
 			curl_close($curl_handle);
 
-			if (!empty($buffer)) {
-
+			if (!empty($buffer))
+			{
 				$tagst = strpos($buffer, '<title>');
 				$tagst = $tagst + 7;
 				$tagen = strpos($buffer, '</title>', $tagst);
@@ -179,11 +188,15 @@ class hwd_vs_tp_googleCom {
 			}
 		}
 
-		if ($ext_v_title[0] == '1') {
-			if ($ext_v_title[1] == '') {
+		if ($ext_v_title[0] == '1')
+		{
+			if ($ext_v_title[1] == '')
+			{
 				$ext_v_title[1] = _HWDVIDS_UNKNOWN;
 			}
-		} else {
+		}
+		else
+		{
 			$ext_v_title[0] = 0;
 			$ext_v_title[1] = _HWDVIDS_UNKNOWN;
 		}
@@ -193,22 +206,24 @@ class hwd_vs_tp_googleCom {
 	}
     /**
      * Extracts the description of the third party video
-     *
-     * @param string $option  the 'embed code' input given by user
-     * @return       $ext_v_title   the third party video description
      */
-	function googleComProcessDescription($option)
+	function googleComProcessDescription($raw_code, $processed_code=null)
 	{
-		if (!defined('HWDVIDSPATH')) { define('HWDVIDSPATH', dirname(__FILE__).'/../../'); }
 		$c = hwd_vs_Config::get_instance();
 
-		$code = hwd_vs_tp_googleCom::googleComGetCode($option);
+		if (empty($processed_code))
+		{
+			$code = hwd_vs_tp_googleCom::googleComGetCode($raw_code);
+		}
+		else
+		{
+			$code = $processed_code;
+		}
 
 		$watchvideourl = "http://video.google.com/videoplay?docid=".$code;
 
-		if (function_exists('curl_init')) {
-
-			// get title with CURL
+		if (function_exists('curl_init'))
+		{
 			$curl_handle=curl_init();
 			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
 			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
@@ -216,29 +231,30 @@ class hwd_vs_tp_googleCom {
 			$buffer = curl_exec($curl_handle);
 			curl_close($curl_handle);
 
-			if (!empty($buffer)) {
-
+			if (!empty($buffer))
+			{
 				$tagst = strpos($buffer, '<span id=video-description>');
 
-				if ($tagst === false) {
-
+				if ($tagst === false)
+				{
 					$ext_v_descr[0] = 0;
-
-				} else if ($tagst) {
-
+				}
+				else if ($tagst)
+				{
 					$tagst = $tagst + 27;
 					$tagen = strpos($buffer, '</span>', $tagst);
 
-					if ($tagen === false) {
-
+					if ($tagen === false)
+					{
 						$ext_v_descr[0] = 0;
-
-					} else if ($tagen) {
-
+					}
+					else if ($tagen)
+					{
 						$tagle = $tagen - $tagst;
 						$tag   = substr($buffer, $tagst, $tagle);
 
-						if (!empty($tag)) {
+						if (!empty($tag))
+						{
 							$ext_v_descr[0] = 1;
 							$ext_v_descr[1] = $tag;
 							$ext_v_descr[1] = strip_tags($ext_v_descr[1]);
@@ -253,11 +269,15 @@ class hwd_vs_tp_googleCom {
 			}
 		}
 
-		if ($ext_v_descr[0] == '1') {
-			if ($ext_v_descr[1] == '') {
+		if ($ext_v_descr[0] == '1')
+		{
+			if ($ext_v_descr[1] == '')
+			{
 				$ext_v_descr[1] = _HWDVIDS_UNKNOWN;
 			}
-		} else {
+		}
+		else
+		{
 			$ext_v_descr[0] = 0;
 			$ext_v_descr[1] = _HWDVIDS_UNKNOWN;
 		}
@@ -267,21 +287,24 @@ class hwd_vs_tp_googleCom {
 	}
     /**
      * Extracts the keywords of the third party video
-     *
-     * @param string $option  the 'embed code' input given by user
-     * @return       $ext_v_title   the third party video keywords
      */
-	function googleComProcessKeywords($option)
+	function googleComProcessKeywords($raw_code, $processed_code=null)
 	{
-		if (!defined('HWDVIDSPATH')) { define('HWDVIDSPATH', dirname(__FILE__).'/../../'); }
 		$c = hwd_vs_Config::get_instance();
 
-		$code = hwd_vs_tp_googleCom::googleComGetCode($option);
+		if (empty($processed_code))
+		{
+			$code = hwd_vs_tp_googleCom::googleComGetCode($raw_code);
+		}
+		else
+		{
+			$code = $processed_code;
+		}
 
 		$watchvideourl = "http://video.google.com/videoplay?docid=".$code;
 
-		if (function_exists('curl_init')) {
-			// get title with CURL
+		if (function_exists('curl_init'))
+		{
 			$curl_handle=curl_init();
 			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
 			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
@@ -289,29 +312,30 @@ class hwd_vs_tp_googleCom {
 			$buffer = curl_exec($curl_handle);
 			curl_close($curl_handle);
 
-			if (!empty($buffer)) {
-
+			if (!empty($buffer))
+			{
 				$tagst = strpos($buffer, '<span id=video-description>');
 
-				if ($tagst === false) {
-
+				if ($tagst === false)
+				{
 					$ext_v_keywo[0] = 0;
-
-				} else if ($tagst) {
-
+				}
+				else if ($tagst)
+				{
 					$tagst = $tagst + 27;
 					$tagen = strpos($buffer, '</span>', $tagst);
 
-					if ($tagen === false) {
-
+					if ($tagen === false)
+					{
 						$ext_v_keywo[0] = 0;
-
-					} else if ($tagen) {
-
+					}
+					else if ($tagen)
+					{
 						$tagle = $tagen - $tagst;
 						$tag   = substr($buffer, $tagst, $tagle);
 
-						if (!empty($tag)) {
+						if (!empty($tag))
+						{
 							$ext_v_keywo[0] = 1;
 							$ext_v_keywo[1] = $tag;
 							$ext_v_keywo[1] = strip_tags($ext_v_keywo[1]);
@@ -326,28 +350,35 @@ class hwd_vs_tp_googleCom {
 			}
 		}
 
-		if ($ext_v_keywo[0] == '1') {
-			if ($ext_v_keywo[1] == '') {
+		if ($ext_v_keywo[0] == '1')
+		{
+			if ($ext_v_keywo[1] == '')
+			{
 				$ext_v_keywo[1] = _HWDVIDS_UNKNOWN;
 			}
-		} else {
+		}
+		else
+		{
 			$ext_v_keywo[0] = 0;
 			$ext_v_keywo[1] = _HWDVIDS_UNKNOWN;
 		}
-
 		return $ext_v_keywo;
-
 	}
     /**
      * Extracts the duration of the third party video
-     *
-     * @param string $option  the 'embed code' input given by user
-     * @return       $ext_v_title   the third party video duration
      */
-	function googleComProcessDuration($option)
+	function googleComProcessDuration($raw_code, $processed_code=null)
 	{
-		if (!defined('HWDVIDSPATH')) { define('HWDVIDSPATH', dirname(__FILE__).'/../../'); }
 		$c = hwd_vs_Config::get_instance();
+
+		if (empty($processed_code))
+		{
+			$code = hwd_vs_tp_googleCom::googleComGetCode($raw_code);
+		}
+		else
+		{
+			$code = $processed_code;
+		}
 
 		$ext_v_durat[0] = 0;
 		$ext_v_durat[1] = "0:00:00";

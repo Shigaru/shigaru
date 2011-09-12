@@ -2,7 +2,7 @@
 /**
  *    @version 2.1.2 Build 21201 Alpha [ Linkwater ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -51,11 +51,20 @@ class hwd_vs_MoovAtom
 		include_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'serverconfig.hwdvideoshare.php');
 		$s = hwd_vs_SConfig::get_instance();
 
-		$s->qtfaststart = "/usr/local/bin/qt-faststart";
-
 		$path_mp4_temp = $path_mp4.".temp";
 
-		$cmd_input = "$s->qtfaststart $path_mp4 $path_mp4_temp";
+		if(substr(PHP_OS, 0, 3) == "WIN")
+		{
+			$path_cmd_mp4 = '"'.$path_mp4.'"';
+			$path_cmd_mp4_temp  = '"'.$path_mp4_temp.'"';
+		}
+		else
+		{
+			$path_cmd_mp4 = $path_mp4;
+			$path_cmd_mp4_temp  = $path_mp4_temp;
+		}
+
+		$cmd_input = "$s->qtfaststart $path_cmd_mp4 $path_cmd_mp4_temp";
 		@exec("$sharedlib $cmd_input 2>&1", $cmd_output);
 
 		$result = array();
@@ -76,7 +85,7 @@ class hwd_vs_MoovAtom
 
 			$check_string = implode(",", $cmd_output);
 
-			if (strpos($check_string, "writing moov atom") === false && strpos($check_string, "Success") === false) {
+			if (strpos($check_string, "writing moov atom") === false) {
 
 				$result[0] = 0;
 

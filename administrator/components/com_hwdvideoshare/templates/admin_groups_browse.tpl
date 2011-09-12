@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -36,8 +36,8 @@
         <td>{$data->date}</td>
         <td>{$data->total_members}</td>
         <td>{$data->total_videos}</td>
-        <td><a href="javascript: void(0);" onclick="return listItemTask('cb{$data->i}','{$data->featured_task}')"><img src="images/{$data->featured_img}" width="12" height="12" border="0" alt="" /></a></td>
-        <td><a href="javascript: void(0);" onclick="return listItemTask('cb{$data->i}','{$data->published_task}')"><img src="images/{$data->published_img}" width="12" height="12" border="0" alt="" /></a></td>
+        <td><a href="javascript: void(0);" onclick="return listItemTask('cb{$data->i}','{$data->featured_task}')"><img src="{$data->featured_img}" width="12" height="12" border="0" alt="" /></a></td>
+        <td><a href="javascript: void(0);" onclick="return listItemTask('cb{$data->i}','{$data->published_task}')"><img src="{$data->published_img}" width="12" height="12" border="0" alt="" /></a></td>
       </tr>
       {/foreach}
     </tbody>

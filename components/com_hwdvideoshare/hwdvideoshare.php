@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -21,12 +21,13 @@
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 // declare global variables
-global $limitstart, $limit, $mainframe, $Itemid, $task;
+global $limitstart, $limit, $task;
 
 // get general configuration data
-require_once( $mainframe->getPath( 'class' ) );
-require_once( $mainframe->getPath( 'front_html' ) );
 require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php');
+require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'directory.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'hwdvideoshare.class.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'hwdvideoshare.html.php');
 require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'js.php');
 require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'access.php');
 require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'initialise.php');
@@ -40,23 +41,25 @@ $limit       = JRequest::getInt( 'limit', 0 );
 $limitstart  = JRequest::getInt( 'limitstart', 0 );
 $task        = JRequest::getCmd( 'task', 'frontpage' );
 
+hwdvsInitialise::getJVersion();
+hwdvsInitialise::getMooVersion();
 if ($task !== "deliverThumb")
 {
+	hwdvsInitialise::isModerator();
+	hwdvsInitialise::itemid();
 	hwdvsInitialise::mobiles();
 	hwdvsInitialise::background();
 	hwdvsInitialise::language();
-	hwdvsInitialise::itemid();
 	if (!hwdvsInitialise::template()) {return;}
 	hwdvsInitialise::revenueManager();
 	hwdvsInitialise::mysqlQuery();
 	hwdvsInitialise::definitions();
-	if (!hwd_vs_access::checkAccess($c->gtree_core, $c->gtree_core_child, 1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORACCESS, _HWDVIDS_ALERT_NOT_AUTHORIZED, 'exclamation.png', 0)) {return;}
-	if ($c->loadmootools == "on") {
+	if (!hwd_vs_access::checkAccess($c->gtree_core, $c->gtree_core_child, 1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORACCESS, _HWDVIDS_ALERT_NOT_AUTHORIZED, 'exclamation.png', 0, "", 0, "core.frontend.access")) {return;}
+	if ($c->loadmootools == "on")
+	{
 		JHTML::_('behavior.mootools');
 	}
 }
-
-jimport('joomla.html.pagination');
 
 // Require the base controller
 require_once (JPATH_COMPONENT.DS.'controller.php');

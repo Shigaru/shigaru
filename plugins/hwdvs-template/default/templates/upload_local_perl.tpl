@@ -2,7 +2,7 @@
 //////
 //    @version 2.1.2 Build 21202 Alpha [ Shannon ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 //////
 //    hwdVideoShare Template System:::This template system uses the Smarty Template Engine. 

@@ -1,6 +1,6 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
 //    @copyright 2008 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/

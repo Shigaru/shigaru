@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -109,6 +109,15 @@ class Jombackup_MySQL_DB_Backup
 			$host = $this->server;
 			if ($this->port) $host .= ':' . $this->port;
 			$this->link_id = mysql_connect($host, $this->username, $this->password);
+
+// fix utf-8 encoding issue
+// dhorsfall 20100922
+$verParts = explode( '.', mysql_get_server_info( $this->link_id ) );
+if ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int)$verParts[2] >= 2))
+{
+	mysql_query( "SET NAMES 'utf8'", $this->link_id );
+}
+
 		}
 		if ($this->link_id > 0)
 		{
@@ -174,7 +183,7 @@ class Jombackup_MySQL_DB_Backup
 	function _DumpTable($table, $fp, $compress)
 	{
 		$value = '';
-		$this->_Query('LOCK TABLES ' . $table . ' WRITE');
+        $this->_Query('LOCK TABLES ' . $table . ' WRITE');
 		if ($this->create_tables)
 		{
 			if ($this->comments)

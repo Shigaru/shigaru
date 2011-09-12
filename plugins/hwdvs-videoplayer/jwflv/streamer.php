@@ -117,7 +117,7 @@
 	//------------------------------------------------------------------------------------------
 
 	define('XMOOV_GET_FILE', 'file');
-	define('XMOOV_GET_POSITION', 'position');
+	define('XMOOV_GET_POSITION', 'start');
 	define('XMOOV_GET_AUTHENTICATION', 'key');
 	define('XMOOV_GET_BANDWIDTH', 'bw');
 
@@ -141,7 +141,7 @@
 		# get seek position
 		$seekPos = intval($_GET[XMOOV_GET_POSITION]);
 		# get file name
-		$fileName = htmlspecialchars($_GET[XMOOV_GET_FILE]);
+		$fileName = htmlspecialchars(basename($_GET[XMOOV_GET_FILE]));
 		# assemble file path
 		$file = XMOOV_PATH_ROOT . XMOOV_PATH_FILES . $fileName;
 		# assemble packet interval
@@ -156,14 +156,14 @@
 			exit();
 		}
 
-		if(file_exists($file) && strrchr($fileName, '.') == '.flv' && strlen($fileName) > 2 && !eregi(basename($_SERVER['PHP_SELF']), $fileName) && ereg('^[^./][^/]*$', $fileName))
+		if(file_exists($file) && strrchr($fileName, '.') == '.flv' && strlen($fileName) > 2 && !@eregi(basename($_SERVER['PHP_SELF']), $fileName) && @ereg('^[^./][^/]*$', $fileName))
 		{
 			# stay clean
 			@ob_end_clean();
 			@set_time_limit(0);
 
 			# keep binary data safe
-			set_magic_quotes_runtime(0);
+			@set_magic_quotes_runtime(0);
 
 			$fh = fopen($file, 'rb') or die ('<b>ERROR:</b> xmoov-php could not open (' . $fileName . ')');
 

@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,10 @@
  **/
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
+/**
+ *    ** IMPORTANT ** DO NOT ADD DASHES (-) OR SPACES ( ) INTO THE SEF PHRASES
+ **/
+
 DEFINE("_HWDVS_SEF_FP","frontpage");
 DEFINE("_HWDVS_SEF_VIDEOS","videos");
 DEFINE("_HWDVS_SEF_EDITVIDEO","editvideo");
@@ -61,3 +65,10 @@ DEFINE("_HWDVS_SEF_NV","nextvideo");
 DEFINE("_HWDVS_SEF_PV","previousvideo");
 DEFINE("_HWDVS_SEF_DR","displayresults");
 DEFINE("_HWDVS_SEF_SEARCH","search");
+DEFINE("_HWDVS_SEF_VIEWCHANNEL","channel");
+
+
+DEFINE("_HWDVIDS_VYV","View Your Videos");
+DEFINE("_HWDVIDS_ALLVIDEOS","All Videos");
+DEFINE("_HWDVIDS_UPLOADVIDEOS","Upload Videos");
+DEFINE("_HWDVIDS_VIEWALL","View All");

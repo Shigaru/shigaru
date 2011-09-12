@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -30,6 +30,46 @@
       <table>
         <tr>
           <td valign="top" width="40%">
+{literal}
+<script language="javascript" type="text/javascript">
+<!--
+//Browser Support Code
+function ajaxChangeUser(){
+
+	document.getElementById('ajaxChangeUserResponse').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/images/icons/loading.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
+	
+	var ajaxRequest;  // The variable that makes Ajax possible!
+
+	try{
+		// Opera 8.0+, Firefox, Safari
+		ajaxRequest = new XMLHttpRequest();
+	} catch (e){
+		// Internet Explorer Browsers
+		try{
+			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+			try{
+				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			} catch (e){
+				// Something went wrong
+				alert("Your browser broke!");
+				return false;
+			}
+		}
+	}
+	// Create a function that will receive data sent from the server
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			document.getElementById('ajaxChangeUserResponse').innerHTML = ajaxRequest.responseText;
+		}
+	}
+	ajaxRequest.open("GET", "{/literal}{$mosConfig_live_site}{literal}/administrator/index.php?option=com_hwdvideoshare&task=changeGroupAdminSelect&cid={/literal}{$vid}{literal}", true);
+	ajaxRequest.send(null);
+}
+
+//-->
+</script>
+{/literal}
             {$startpane}
             {$starttab1}
             <table>
@@ -41,9 +81,9 @@
                 <td>{$smarty.const._HWDVIDS_FEATURED}</td>
                 <td>{$group_featured}</td>
               </tr>
-              <tr>
-                <td>{$smarty.const._HWDVIDS_ADMIN}</td>
-                <td>{$group_admin}</td>
+	      <tr>
+		<td>{$smarty.const._HWDVIDS_ADMIN}</td>
+		<td><div id="ajaxChangeUserResponse">{$group_admin} <span onclick="ajaxChangeUser();" style="cursor:pointer;">[{$smarty.const._HWDVIDS_CHANGEUSER}]</span></div></td>
               </tr>
               <tr>
                 <td>{$smarty.const._HWDVIDS_ACCESS}</td>
@@ -56,19 +96,23 @@
             </table>
             {$endtab}
             {$starttab2}
-            <table>
-              <tr>
-                <td valign="top">UNDER DEVELOPMENT</td>
-	        <td valign="top"></td>
-              </tr>
+            <table width="100%">
+		{foreach name=outer item=data from=$groupVideoList}
+			<tr>
+				<td style="text-align:left;">{$data->video}</td>
+				<td style="text-align:right;">{$data->remove}</td>
+			</tr>
+		{/foreach}
             </table>
             {$endtab}
             {$starttab3}
-            <table>
-              <tr>
-                <td valign="top">UNDER DEVELOPMENT</td>
-                <td valign="top"></td>
-              </tr>
+            <table width="100%">
+		{foreach name=outer item=data from=$groupMemberList}
+			<tr>
+				<td style="text-align:left;">{$data->member}</td>
+				<td style="text-align:right;">{$data->remove}</td>
+			</tr>
+		{/foreach}
             </table>
             {$endtab}
             {$endpane}

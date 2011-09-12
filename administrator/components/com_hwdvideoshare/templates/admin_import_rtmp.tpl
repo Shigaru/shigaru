@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -49,6 +49,21 @@ function chk_importFormRemote() {
 <div style="text-align:left;padding:5px;margin:5px;border:1px solid #ccc;">
 <form name="importFormRemote" action="index.php" method="post" onsubmit="return chk_importFormRemote()">
   <table cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td align="left" valign="top">  
+        <table width="100%" cellpadding="2" cellspacing="2" border="0">
+          <tr>
+            <td width="150">Type <font class="required">*</font></td>
+            <td>
+              <select name="type">
+                <option value="rtmp">RTMP</option>
+                <option value="smil">SMIL</option>
+              </select>    
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
     <tr><td align="left" valign="top">  
     <table width="100%" cellpadding="2" cellspacing="2" border="0">
     <tr><td width="150">{$smarty.const._HWDVIDS_RTMPURL} <font class="required">*</font></td><td><input name="rtmpurl" value="" class="inputbox" size="20" maxlength="600" style="width: 200px;" /></td></tr>

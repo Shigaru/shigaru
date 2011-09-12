@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ class hwdvids_BE_maintenance
 	*/
 	function maintenance()
 	{
-		global $database, $mainframe, $limit, $limitstart;
+		global $limit, $limitstart;
   		$db =& JFactory::getDBO();
 
 		$db->SetQuery( "SELECT count(*)"
@@ -70,7 +70,7 @@ class hwdvids_BE_maintenance
 	*/
 	function runmaintenance()
 	{
-		global $database, $mainframe, $limit, $limitstart;
+		global $limit, $limitstart;
   		$db =& JFactory::getDBO();
 
 		$run_permdel = JRequest::getInt( 'run_permdel', 0 );
@@ -215,8 +215,9 @@ class hwdvids_BE_maintenance
 	*/
 	function regenerateThumbnails()
 	{
- 		global $mainframe, $option;
+ 		global $option;
  		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
   		$db->SetQuery("UPDATE #__hwdvidsvideos SET approved = 're-generate_thumb' WHERE video_type IN ('local','mp4') AND approved = 'yes'");
 		$db->Query();
@@ -225,16 +226,17 @@ class hwdvids_BE_maintenance
 			exit();
 		}
 
-		$mainframe->enqueueMessage(_HWDVIDS_RUNCON);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=converter' );
+		$app->enqueueMessage(_HWDVIDS_RUNCON);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=converter' );
 	}
    /**
 	* system cleanup
 	*/
 	function recalculateDurations()
 	{
- 		global $mainframe, $option;
+ 		global $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
   		$db->SetQuery("UPDATE #__hwdvidsvideos SET approved = 're-calculate_duration' WHERE approved = 'yes'");
 		$db->Query();
@@ -243,8 +245,44 @@ class hwdvids_BE_maintenance
 			exit();
 		}
 
-		$mainframe->enqueueMessage(_HWDVIDS_RUNCON);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=converter' );
+		$app->enqueueMessage(_HWDVIDS_RUNCON);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=converter' );
+	}
+   /**
+	* system cleanup
+	*/
+	function cancelThumbnailRegeneration()
+	{
+ 		global $option;
+ 		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
+
+  		$db->SetQuery("UPDATE #__hwdvidsvideos SET approved = 'yes' WHERE video_type IN ('local','mp4') AND approved = 're-generate_thumb'");
+		$db->Query();
+		if ( !$db->query() ) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			exit();
+		}
+
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=converter' );
+	}
+   /**
+	* system cleanup
+	*/
+	function cancelDurationRecalculation()
+	{
+ 		global $option;
+  		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
+
+  		$db->SetQuery("UPDATE #__hwdvidsvideos SET approved = 'yes' WHERE approved = 're-calculate_duration'");
+		$db->Query();
+		if ( !$db->query() ) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			exit();
+		}
+
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=converter' );
 	}
    /**
 	* system cleanup
@@ -273,6 +311,43 @@ class hwdvids_BE_maintenance
 
 		exit;
 
+	}
+   /**
+	* system cleanup
+	*/
+	function ajax_WarpHdSync()
+	{
+		global $smartyvs;
+		$db = & JFactory::getDBO();
+		$c = hwd_vs_Config::get_instance();
+
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'warp'.DS.'infin-lib.php');
+		$accountKey = $c->warpAccountKey;
+		$secretKey = $c->warpSecretKey;
+
+		$query = 'SELECT * FROM #__hwdvidsvideos WHERE video_type = "warphd"';
+		$db->SetQuery($query);
+		$rows = $db->loadObjectList();
+
+		for ($i=0, $n=count($rows); $i < $n; $i++)
+		{
+			$row = $rows[$i];
+
+			$infinVideo = new InfinovationVideo($accountKey, $secretKey);
+			$videoInfo = $infinVideo->getVideoInfo($row->video_id);
+
+			$duration = hwd_vs_tools::sec2hms($videoInfo->duration);
+
+			$db->SetQuery("UPDATE #__hwdvidsvideos SET video_length = \"$duration\" WHERE id = $row->id");
+			if ( !$db->query() )
+			{
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				exit();
+			}
+		}
+
+		echo "Synchronised ".count($rows)." WarpHD videos";
+		exit;
 	}
 }
 ?>

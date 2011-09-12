@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -83,7 +83,7 @@
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
     <tr>
-        <td align="left" valign="top">
+        <td align="left" width="50%">
 	    <table cellpadding="0" cellspacing="0" border="1" width="100%" class="adminform">
 	        <tr>
 		    <th align="left" colspan="2" width="*">MOST POPULAR VIDEOS</th>
@@ -115,7 +115,7 @@
         </td>
     </tr>
     <tr>
-        <td align="left" valign="top">
+        <td align="left" width="50%">
             <table cellpadding="0" cellspacing="0" border="1" width="100%" class="adminform">
                 <tr>
                     <th align="left" colspan="2" width="*">MOST RECENT VIDEOS</th>

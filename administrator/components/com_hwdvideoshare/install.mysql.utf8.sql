@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidscategories` (
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `published` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=12 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsfavorites` (
   `id` int(50) NOT NULL auto_increment,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidsfavorites` (
   `videoid` int(50) default NULL,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsflagged_videos` (
   `id` int(50) NOT NULL auto_increment,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidsflagged_videos` (
   `ignore` tinyint(1) NOT NULL default '0',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsflagged_groups` (
   `id` int(50) NOT NULL auto_increment,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidsflagged_groups` (
   `ignore` tinyint(1) NOT NULL default '0',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsgroup_membership` (
   `id` int(50) NOT NULL auto_increment,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidsgroup_membership` (
   `groupid` int(50) default NULL,
   `approved` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsgroups` (
   `id` int(50) NOT NULL auto_increment,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidsgroups` (
   `published` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   FULLTEXT (`group_name`,`group_description`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsplaylists` (
   `id` int(50) NOT NULL auto_increment,
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidsplaylists` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   FULLTEXT (`playlist_name`,`playlist_description`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidschannels` (
   `id` int(50) NOT NULL auto_increment,
@@ -110,6 +110,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidschannels` (
   `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
   `date_modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `user_id` int(50) default NULL,
+  `views` int(50) NOT NULL default '0',
   `checked_out` int(11) NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `featured` tinyint(1) NOT NULL default '0',
@@ -117,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidschannels` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   FULLTEXT (`channel_name`,`channel_description`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsgroup_videos` (
   `id` int(50) NOT NULL auto_increment,
@@ -127,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidsgroup_videos` (
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `published` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsrating` (
   `id` int(50) NOT NULL auto_increment,
@@ -136,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidsrating` (
   `ip` varchar(15) NOT NULL default '192.168.100.1',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsvideos` (
   `id` int(50) NOT NULL auto_increment,
@@ -169,30 +170,34 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidsvideos` (
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `published` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`),
+  KEY `idx_category_id` (`category_id`),
+  KEY `idx_user_id` (`user_id`),
   FULLTEXT (`title`,`tags`,`description`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsgs` (
   `id` int(50) NOT NULL auto_increment,
   `setting` varchar(250) default NULL,
   `value` text,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsss` (
   `id` int(50) NOT NULL auto_increment,
   `setting` varchar(250) default NULL,
   `value` text,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidslogs_views` (
   `id` int(50) NOT NULL auto_increment,
   `videoid` int(50) NOT NULL default '0',
   `userid` int(50) NOT NULL default '0',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+  PRIMARY KEY  (`id`),
+  KEY `idx_videoid` (`videoid`),
+  KEY `idx_date` (`date`)
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidslogs_votes` (
   `id` int(50) NOT NULL auto_increment,
@@ -200,8 +205,10 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidslogs_votes` (
   `userid` int(50) NOT NULL default '0',
   `vote` int(50) NOT NULL default '0',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+  PRIMARY KEY  (`id`),
+  KEY `idx_videoid` (`videoid`),
+  KEY `idx_date` (`date`)
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidslogs_favours` (
   `id` int(50) NOT NULL auto_increment,
@@ -209,8 +216,10 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidslogs_favours` (
   `userid` int(50) NOT NULL default '0',
   `favour` tinyint( 1 ) NOT NULL default '0', 
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+  PRIMARY KEY  (`id`),
+  KEY `idx_videoid` (`videoid`),
+  KEY `idx_date` (`date`)
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidslogs_archive` (
   `id` int(50) NOT NULL auto_increment,
@@ -221,21 +230,37 @@ CREATE TABLE IF NOT EXISTS `#__hwdvidslogs_archive` (
   `rating` int(50) NOT NULL default '0',
   `favours` int(50) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__hwdvidsantileech` (
   `index` int(8) NOT NULL auto_increment,
   `expiration` varchar(32) NOT NULL default '',
   `count` int(3) NOT NULL default '0',
   PRIMARY KEY  (`index`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `#__hwdvidssubs` (
+  `id` int(50) NOT NULL auto_increment,
+  `userid` int(50) NOT NULL default '0',
+  `memberid` int(50) NOT NULL default '0',
+  `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `#__hwdvidsvideo_category` (
+  `videoid` int(50) NOT NULL default '0',
+  `categoryid` int(50) NOT NULL default '0',
+  KEY `idx_videoid` (`videoid`),
+  KEY `idx_categoryid` (`categoryid`)
+) ENGINE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
 
 INSERT IGNORE INTO `#__hwdvidsss` (`id`, `setting`, `value`) 
 VALUES (1, 'ffmpegpath', '/usr/local/bin/ffmpeg'),
 (2, 'flvtool2path', '/usr/bin/flvtool2'),
 (3, 'mencoderpath', '/usr/local/bin/mencoder'),
 (4, 'phppath', '/usr/bin/php'),
-(5, 'wgetpath', '/usr/bin/wget');
+(5, 'wgetpath', '/usr/bin/wget'),
+(6, 'qtfaststart', '/usr/local/bin/qt-faststart');
 
 INSERT IGNORE INTO `#__hwdvidsgs` (`id`, `setting`, `value`) 
 VALUES (1, 'vpp', '5'),
@@ -497,4 +522,21 @@ VALUES (1, 'vpp', '5'),
 (257, 'use_protection', '1'),
 (258, 'protection_level', '3'),
 (259, 'cnvt_keyf', '6'),
-(260, 'age_check', '0');
+(260, 'age_check', '0'),
+(261, 'gtree_edtr', '24'),
+(262, 'gtree_edtr_child', 'RECURSE'),
+(263, 'disable_nav_playlist', '0'),
+(264, 'disable_nav_channel', '0'),
+(265, 'storagetype', '0'),
+(266, 'cnvt_fsize_hd', '640x360'),
+(267, 'cnvt_hd_preset', '0'),
+(268, 'keep_ar', '0'),
+(269, 'warpAccountKey', ''),
+(270, 'warpSecretKey', ''),
+(271, 'cpp', '50'),
+(272, 'ipod320', '0'),
+(273, 'ipod640', '0'),
+(274, 'multiple_cats', '0');
+
+
+

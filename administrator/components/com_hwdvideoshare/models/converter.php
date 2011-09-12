@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ class hwdvids_BE_converter
 	*/
 	function converter()
 	{
-		global $database, $mainframe, $limit, $limitstart;
+		global $limit, $limitstart;
 		hwdvids_HTML::converter();
 	}
    /**
@@ -35,7 +35,7 @@ class hwdvids_BE_converter
 	*/
 	function startconverter()
 	{
-		global $database, $mainframe, $mosConfig_live_site, $limit, $limitstart;
+		global $limit, $limitstart;
   		$db =& JFactory::getDBO();
 
 		$db->SetQuery( "SELECT count(*)"
@@ -94,8 +94,9 @@ class hwdvids_BE_converter
 	*/
 	function resetfconv()
 	{
-		global $option, $mainframe, $limit, $limitstart;
+		global $option, $limit, $limitstart;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
 		$video_id = Jrequest::getInt( 'video_id', '' );
 		$new_status = Jrequest::getVar( 'new_status', '' );
@@ -108,7 +109,7 @@ class hwdvids_BE_converter
 				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
 			}
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
 			exit();
 
 		}
@@ -155,7 +156,7 @@ class hwdvids_BE_converter
 			exit();
 		}
 
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=startconverter' );
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=startconverter' );
 		exit();
 	}
 
@@ -164,8 +165,7 @@ class hwdvids_BE_converter
 	*/
 	function ajaxReconvertFLV()
 	{
-
-		global $database, $mainframe, $mosConfig_live_site, $limit, $limitstart;
+		global $limit, $limitstart;
   		$db =& JFactory::getDBO();
 
 		$video_id = Jrequest::getInt( 'cid', '' );
@@ -177,42 +177,41 @@ class hwdvids_BE_converter
 		include_once(JPATH_SITE."/components/com_hwdvideoshare/converters/__ConversionTools.php");
 		include_once(JPATH_SITE."/components/com_hwdvideoshare/converters/__ConvertVideo.php");
 
-		if ($handle = opendir(JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.'originals'.DS)) {
-
-			while (false !== ($file = readdir($handle))) {
-
+		if ($handle = opendir(PATH_HWDVS_DIR.DS."uploads".DS."originals"))
+		{
+			while (false !== ($file = readdir($handle)))
+			{
 				$file_ext = substr($file, strrpos($file, '.') + 1);
 				$file_video_id = substr($file, 0, -(strlen($file_ext)+1));
 
-				if ($file_video_id == $row->video_id) {
-
+				if ($file_video_id == $row->video_id)
+				{
 					$found_original = true;
-					$path_base  = JPATH_SITE.DS.'hwdvideos';
-					$path_original = JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.'originals'.DS.$row->video_id.'.'.$file_ext;
-					$path_new_flv = JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.$row->video_id.'.flv';
+					$path_base  = PATH_HWDVS_DIR;
+					$path_original = PATH_HWDVS_DIR.DS."uploads".DS."originals".DS."$row->video_id.$file_ext";
+					$path_new_flv = PATH_HWDVS_DIR.DS."uploads".DS."$row->video_id.flv";
 					$filename_ext = $file_ext;
 					$path_new_mp4 = '';
 					$gen_flv = '1';
 					$gen_mp4 = '0';
 					break;
-
 				}
-
 			}
-
 			closedir($handle);
-
 		}
 
-		if ($found_original) {
-
+		if ($found_original)
+		{
+			if (file_exists($path_new_flv))
+			{
+				unlink($path_new_flv);
+			}
 			$ConvertFLV = hwd_vs_ConvertVideo::convert($path_original, $path_new_flv, $filename_ext, $path_new_mp4, $gen_flv, $gen_mp4);
 			print $ConvertFLV[6];
-
-		} else {
-
+		}
+		else
+		{
 			print "<b>Original video file not found!</b><br />Can not re-convert without the original video file.";
-
 		}
 
 		exit;
@@ -224,7 +223,7 @@ class hwdvids_BE_converter
 	function ajaxReconvertMP4()
 	{
 
-		global $database, $mainframe, $mosConfig_live_site, $limit, $limitstart;
+		global $limit, $limitstart;
   		$db =& JFactory::getDBO();
 
 		$video_id = Jrequest::getInt( 'cid', '' );
@@ -237,7 +236,7 @@ class hwdvids_BE_converter
 		include_once(JPATH_SITE."/components/com_hwdvideoshare/converters/__ConvertVideo.php");
 		include_once(JPATH_SITE."/components/com_hwdvideoshare/converters/__MoveMoovAtom.php");
 
-		if ($handle = opendir(JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.'originals'.DS)) {
+		if ($handle = opendir(PATH_HWDVS_DIR.DS."uploads".DS."originals")) {
 
 			while (false !== ($file = readdir($handle))) {
 
@@ -247,11 +246,11 @@ class hwdvids_BE_converter
 				if ($file_video_id == $row->video_id) {
 
 					$found_original = true;
-					$path_base  = JPATH_SITE.DS.'hwdvideos';
-					$path_original = JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.'originals'.DS.$row->video_id.'.'.$file_ext;
+					$path_base  = PATH_HWDVS_DIR;
+					$path_original = PATH_HWDVS_DIR.DS."uploads".DS."originals".DS."$row->video_id.$file_ext";
 					$path_new_flv = '';
 					$filename_ext = $file_ext;
-					$path_new_mp4 = JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.$row->video_id.'.mp4';
+					$path_new_mp4 = PATH_HWDVS_DIR.DS."uploads".DS."$row->video_id.mp4";
 					$gen_flv = '0';
 					$gen_mp4 = '1';
 					break;
@@ -284,7 +283,7 @@ class hwdvids_BE_converter
 	*/
 	function ajaxMoveMoovAtom()
 	{
-		global $database, $mainframe, $mosConfig_live_site, $limit, $limitstart;
+		global $limit, $limitstart;
   		$db =& JFactory::getDBO();
 
 		$video_id = Jrequest::getInt( 'cid', '' );
@@ -310,25 +309,50 @@ class hwdvids_BE_converter
 	*/
 	function ajaxRecalculateDuration()
 	{
-		global $database, $mainframe, $mosConfig_live_site, $limit, $limitstart;
+		global $limit, $limitstart;
   		$db =& JFactory::getDBO();
 
 		$video_id = Jrequest::getInt( 'cid', '' );
 
-        $db->SetQuery( 'SELECT video_id, thumb_snap FROM #__hwdvidsvideos WHERE id = '.$video_id );
+        $db->SetQuery( 'SELECT id, video_id, thumb_snap FROM #__hwdvidsvideos WHERE id = '.$video_id );
         $row = $db->loadObject();
 
 		include_once(JPATH_SITE."/components/com_hwdvideoshare/converters/__ConversionTools.php");
 		include_once(JPATH_SITE."/components/com_hwdvideoshare/converters/__ExtractDuration.php");
 
-		$path_new_flv = JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".flv";
+		if (file_exists(PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".flv"))
+		{
+			$path = PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".flv";
+		}
+		else
+		{
+			$path = PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".mp4";
+		}
 
-		$ExtractDuration = hwd_vs_ExtractDuration::extract($path_new_flv, '');
+		$ExtractDuration = hwd_vs_ExtractDuration::extract($path, '');
 
+		if (!empty($ExtractDuration[0]))
+		{
+			$db->SetQuery("UPDATE #__hwdvidsvideos SET video_length='".$ExtractDuration[0]."' WHERE id = ".$row->id);
+			if ( !$db->query() )
+			{
+				echo $db->getErrorMsg();
+				echo "<script type=\"text/javascript\"> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				exit();
+			}
+
+			if ($row->thumb_snap == "0:00:00" || $row->thumb_snap == "0:00:01" || $row->thumb_snap == "0:00:02")
+			{
+				$db->SetQuery("UPDATE #__hwdvidsvideos SET thumb_snap='".$ExtractDuration[1]."' WHERE id = ".$row->id);
+				if ( !$db->query() )
+				{
+					echo "<script type=\"text/javascript\"> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+					exit();
+				}
+			}
+		}
 		print $ExtractDuration[3];
-
 		exit;
-
 	}
 
    /**
@@ -336,7 +360,7 @@ class hwdvids_BE_converter
 	*/
 	function ajaxRegenerateImage()
 	{
-		global $database, $mainframe, $mosConfig_live_site, $limit, $limitstart;
+		global $limit, $limitstart;
   		$db =& JFactory::getDBO();
 
 		$video_id = Jrequest::getInt( 'cid', '' );
@@ -348,11 +372,19 @@ class hwdvids_BE_converter
 		include_once(JPATH_SITE."/components/com_hwdvideoshare/converters/__GenerateThumbnail.php");
 
 		$path_base  = JPATH_SITE."/hwdvideos";
-		$path_new_flv = JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".flv";
 		$filename_noext = $row->video_id;
 		$filename_ext = '';
 
-		$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw($path_base, $path_new_flv, $filename_noext, $filename_ext, $row->thumb_snap);
+		if (file_exists(PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".mp4"))
+		{
+			$path_video = PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".mp4";
+		}
+		else
+		{
+			$path_video = PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".flv";
+		}
+
+		$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw($path_base, $path_video, $filename_noext, $filename_ext, $row->thumb_snap);
 
 		print $GenerateThumbnail[9];
 
@@ -365,7 +397,7 @@ class hwdvids_BE_converter
 	*/
 	function ajaxReinsertMetaFLV()
 	{
-		global $database, $mainframe, $mosConfig_live_site, $limit, $limitstart;
+		global $limit, $limitstart;
   		$db =& JFactory::getDBO();
 
 		$video_id = Jrequest::getInt( 'cid', '' );
@@ -384,8 +416,6 @@ class hwdvids_BE_converter
 		print $InjectMetaData[4];
 
 		exit;
-
 	}
-
 }
 ?>

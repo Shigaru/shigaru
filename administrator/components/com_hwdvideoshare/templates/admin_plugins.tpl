@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -18,6 +18,7 @@
     <p><a href="{$mosConfig_live_site}/administrator/index.php?option=com_plugins&filter_type=hwdvs-template">Click here to view the Template plugins</a></p>
     <p><a href="{$mosConfig_live_site}/administrator/index.php?option=com_plugins&filter_type=hwdvs-thirdparty">Click here to view the Third Party plugins</a></p>
     <p><a href="{$mosConfig_live_site}/administrator/index.php?option=com_plugins&filter_type=hwdvs-videoplayer">Click here to view the Video Player plugins</a></p>
+    <p><a href="{$mosConfig_live_site}/administrator/index.php?option=com_plugins&filter_type=hwdvs-storage">Click here to view the Storage plugins</a></p>
     </td>
   </tr>
 </table>

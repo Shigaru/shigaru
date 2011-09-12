@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -25,14 +25,8 @@ function submitbutton(pressbutton) {
 	if (form.title.value == ""){
 		alert( "{/literal}{$smarty.const._HWDVIDS_ALERT_NOTITLE}{literal}" );
 		return false;
-	//} if (form.description.value == ""){
-	//	alert( "{/literal}{$smarty.const._HWDVIDS_ALERT_NODESC}{literal}" );
-	//	return false;
-	//} if (form.tags.value == ""){
+	} if (form.tags.value == ""){
 		alert( "{/literal}{$smarty.const._HWDVIDS_ALERT_NOTAG}{literal}" );
-		return false;
-	} if (form.category_id.value == "-1"){
-		alert( "{/literal}{$smarty.const._HWDVIDS_ALERT_NOCAT}{literal}" );
 		return false;
 	} else {
 		submitform( pressbutton );
@@ -103,8 +97,15 @@ function submitbutton(pressbutton) {
                 <tr>
                   <td>{$smarty.const._HWDVIDS_THUMBPOS}</td>
                   <td><input name="thumb_snap" value="{$thumb_snap}" size="20" maxlength="50"></td>
-                </tr>                
-                
+                </tr>   
+                <tr>
+                  <td>{$smarty.const._HWDVIDS_VIEWS}</td>
+                  <td><input name="views" value="{$views}" size="20" maxlength="50"></td>
+                </tr> 
+                <tr>
+                  <td>Age Check</td>
+                  <td>{$age_check}</td>
+                </tr>                 
                 
 {literal}
 <script language="javascript" type="text/javascript">
@@ -112,7 +113,7 @@ function submitbutton(pressbutton) {
 //Browser Support Code
 function ajaxChangeUser(){
 
-	document.getElementById('ajaxChangeUserResponse').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/images/icons/loading.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
+	document.getElementById('ajaxChangeUserResponse').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/assets/images/processing.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 
@@ -161,6 +162,26 @@ function ShowPasswordField(){
 		document.getElementById("passwordField").style.visibility="hidden";
 		document.getElementById("passwordField").style.height="0px";
 		}
+		if (uploadstatus == 'group')
+		{
+		document.getElementById("groupField").style.visibility="visible";
+		document.getElementById("groupField").style.height="auto";
+		}
+		else
+		{
+		document.getElementById("groupField").style.visibility="hidden";
+		document.getElementById("groupField").style.height="0px";
+		}
+		if (uploadstatus == 'level')
+		{
+		document.getElementById("levelField").style.visibility="visible";
+		document.getElementById("levelField").style.height="auto";
+		}
+		else
+		{
+		document.getElementById("levelField").style.visibility="hidden";
+		document.getElementById("levelField").style.height="0px";
+		}
 }
 </script>
 {/literal}
@@ -193,9 +214,29 @@ function ShowPasswordField(){
 	      <div id="passwordField" {if $row->public_private ne "password"}style="visibility:hidden;height:0;"{/if}>
 		<table width="100%" cellpadding="0" cellspacing="0" border="0">
 		  <tr>
-		    <td width="150">Password</td>
+		    <td width="150">{$smarty.const._HWDVIDS_PASSWORD}</td>
 		    <td>
 		      <input name="hwdvspassword" value="" type="password" class="inputbox" size="20" maxlength="500" style="width: 200px;" />
+		    </td>
+		  </tr>
+		</table>
+              </div>
+	      <div id="groupField" {if $row->public_private ne "group"}style="visibility:hidden;height:0;"{/if}>
+		<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		  <tr>
+		    <td width="150" valign="top">{$smarty.const._HWDVIDS_SELECT_JACG}</td>
+		    <td>
+		      {$gtree_video}
+		    </td>
+		  </tr>
+		</table>
+              </div>
+	      <div id="levelField" {if $row->public_private ne "level"}style="visibility:hidden;height:0;"{/if}>
+		<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		  <tr>
+		    <td width="150" valign="top">{$smarty.const._HWDVIDS_SELECT_JACL}</td>
+		    <td>
+		      {$jacl_video}
 		    </td>
 		  </tr>
 		</table>
@@ -208,6 +249,10 @@ function ShowPasswordField(){
     </td>
   </tr>
 </table>
+
+{if $j16}
+	{$videoPermissions}
+{/if}
 
 {$hidden_inputs}
 </form>
@@ -225,7 +270,7 @@ function ShowPasswordField(){
 //Browser Support Code
 function ajaxReconvertFLV(){
 
-	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/images/icons/loading.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
+	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/assets/images/processing.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 
@@ -265,7 +310,7 @@ function ajaxReconvertFLV(){
 //Browser Support Code
 function ajaxReconvertMP4(){
 
-	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/images/icons/loading.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
+	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/assets/images/processing.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 
@@ -305,7 +350,7 @@ function ajaxReconvertMP4(){
 //Browser Support Code
 function ajaxMoveMoovAtom(){
 
-	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/images/icons/loading.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
+	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/assets/images/processing.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 
@@ -345,7 +390,7 @@ function ajaxMoveMoovAtom(){
 //Browser Support Code
 function ajaxRecalculateDuration(){
 
-	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/images/icons/loading.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
+	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/assets/images/processing.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 
@@ -385,7 +430,7 @@ function ajaxRecalculateDuration(){
 //Browser Support Code
 function ajaxRegenerateImage(){
 
-	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/images/icons/loading.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
+	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/assets/images/processing.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 
@@ -425,7 +470,7 @@ function ajaxRegenerateImage(){
 //Browser Support Code
 function ajaxReinsertMetaFLV(){
 
-	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/images/icons/loading.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
+	document.getElementById('conversionUutput').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/assets/images/processing.gif\" border=\"0\" alt=\"\" title=\"\"> Loading...";
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 
@@ -506,13 +551,14 @@ function ajaxReinsertMetaFLV(){
 	    <td valign="top" width="150">Video Type</td>
 	    <td valign="top">
 	      <select name="videotype">
-	        <option value="1">Remote Video (Webpage URL) from a third party video website</option>
-	        <option value="2">Remote Video (Static FLV URL)</option>
+	        <option value="1">Third Party Video (From Youtube.com, etc)</option>
+	        <option value="2">Remote Video (Static Video Url)</option>
+	        <option value="3">RTMP Video (Streaming Video)</option>
 	      </select>
 	    </td>
 	  </tr>
 	  <tr>
-	    <td valign="top">Video URL</td>
+	    <td valign="top">Video Url</td>
 	    <td valign="top"><input type="text" name="embeddump" value="" size="30"></td>
 	  </tr>
 	  <tr>
@@ -544,7 +590,9 @@ function ajaxReinsertMetaFLV(){
         <b>{$smarty.const._HWDVIDS_TAGS}:</b> {$tags}<br />
         <b>{$smarty.const._HWDVIDS_APPROVED}:</b> {$status}<br />
         <b>{$smarty.const._HWDVIDS_FLOC}:</b> {$location}<br />
-        <center><h2>{$missingfile}</h2></center>
+        {if $print_missingfile}
+        <center><h2><div style="color:#ff0000;">{$smarty.const._HWDVIDS_ALERT_MISSINGVIDFILE}</div></h2></center>
+        {/if}
 
         <h2>Video Statistics</h2>
         {$smarty.const._HWDVIDS_DATEUPLD}: <b>{$dateuploaded}</b><br />

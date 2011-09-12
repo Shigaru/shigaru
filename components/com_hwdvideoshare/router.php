@@ -11,9 +11,10 @@ function hwdVideoShareBuildRoute(&$query)
 	jimport('joomla.filter.output');
 	$escapeRouteChar	= array('.', '\\', '/', '@', '#', '?', '!', '^', '&', '<', '>', '\'' , '"', '*', ',' );
 
-	if (isset($query['task'])) {
-		switch ($query['task']) {
-
+	if (isset($query['task']))
+	{
+		switch ($query['task'])
+		{
 			case 'frontpage':
 				$segments[] = URLSafe(_HWDVS_SEF_FP);
 				unset( $query['task'] );
@@ -135,23 +136,19 @@ function hwdVideoShareBuildRoute(&$query)
 			break;
 
 			case 'search':
-				$segments[] = "search";
+				$segments[] = URLSafe(_HWDVS_SEF_SEARCH);
 				unset( $query['task'] );
 				if (empty($query['category_id'])) { $query['category_id'] = 0; }
 				$segments[] = $query['category_id'];
 				unset( $query['category_id'] );
-				if (empty($query['pattern'])) { $query['pattern'] = ''; }
-				$segments[] = $query['pattern'];
-				unset( $query['pattern'] );
 			break;
 
 			case 'displayresults':
 				$segments[] = URLSafe(_HWDVS_SEF_DR);
 				unset( $query['task'] );
+				if (empty($query['category_id'])) { $query['category_id'] = 0; }
 				$segments[] = $query['category_id'];
 				unset( $query['category_id'] );
-				$segments[] = $query['pattern'];
-				unset( $query['pattern'] );
 			break;
 
 			case 'viewvideo':
@@ -214,6 +211,23 @@ function hwdVideoShareBuildRoute(&$query)
 				$segments[] = $groupName;
 			break;
 
+			case 'viewchannel':
+				$uid = intval($query['user_id']);
+				$sqlquery = "SELECT username FROM #__users WHERE id = $uid";
+				$db->SetQuery($sqlquery);
+				$username = $db->loadResult();
+
+				$segments[] = URLSafe(_HWDVS_SEF_VIEWCHANNEL);
+				unset( $query['task'] );
+				$segments[] = $uid;
+				unset( $query['user_id'] );
+
+				if (isset($username))
+				{
+					$segments[] = URLSafe($username);
+				}
+			break;
+
 			default:
 				$segments[] = $query['task'];
 				unset( $query['task'] );
@@ -246,7 +260,6 @@ function hwdVideoShareBuildRoute(&$query)
 
 		}
 	}
-
 	return $segments;
 }
 
@@ -254,6 +267,7 @@ function hwdVideoShareParseRoute($segments)
 {
 	require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php');
 	require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'initialise.php');
+	hwdvsInitialise::getJVersion();
 	hwdvsInitialise::language('plugs');
 
 	$vars = array();
@@ -352,18 +366,14 @@ function hwdVideoShareParseRoute($segments)
 			$vars['video_id'] = $segments[2];
 		break;
 
-		case 'search':
+		case URLSafe(_HWDVS_SEF_SEARCH):
 			$vars['task'] = 'search';
 			$vars['category_id'] = $segments[1];
-			if (empty($segments[2])){ $segments[2] = ''; }
-			$vars['pattern'] = $segments[2];
 		break;
 
 		case URLSafe(_HWDVS_SEF_DR):
 			$vars['task'] = 'displayresults';
 			$vars['category_id'] = $segments[1];
-			if (empty($segments[2])){ $segments[2] = ''; }
-			$vars['pattern'] = $segments[2];
 		break;
 
 		case URLSafe(_HWDVS_SEF_VIEWVIDEO):
@@ -381,6 +391,11 @@ function hwdVideoShareParseRoute($segments)
 			$vars['group_id'] = $segments[1];
 		break;
 
+		case URLSafe(_HWDVS_SEF_VIEWCHANNEL):
+			$vars['task'] = 'viewchannel';
+			$vars['user_id'] = $segments[1];
+		break;
+
 		default:
 			$vars['task'] = $segments[0];
 		break;
@@ -388,15 +403,12 @@ function hwdVideoShareParseRoute($segments)
 	return $vars;
 }
 
-if (!function_exists('URLSafe')) {
+if (!function_exists('URLSafe'))
+{
 	function URLSafe($string)
 	{
 		jimport( 'joomla.filter.output' );
 		$string = JFilterOutput::stringURLSafe($string);
-		//UTF-8 compatible
-		//$string = trim(preg_replace(array('/s+/','/[$&+,/:;=?@'"<>#%{}|\^~[]`]/'), array('-',''), $string));
-
-		/* All your other checks */
 		return $string;
 	}
 }

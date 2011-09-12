@@ -1,15 +1,15 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
 
 {include file='header.tpl'}
 
-<form name="editGroup" action="{$form_edit_group}" method="post">
+<form name="editPlaylist" action="{$form_edit_playlist}" method="post">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
@@ -20,11 +20,11 @@
   <table width="100%" cellpadding="0" cellspacing="4" border="0">
     <tr>
       <td width="150">{$smarty.const._HWDVIDS_TITLE} <font class="required">*</font></td>
-      <td><input name="group_name" value="{$title}" class="inputbox" size="20" maxlength="500" style="width: 200px;" /></td>
+      <td><input name="playlist_name" value="{$playlist_name}" class="inputbox" size="20" maxlength="500" style="width: 200px;" /></td>
     </tr>
     <tr>
       <td valign="top">{$smarty.const._HWDVIDS_DESC} <font class="required">*</font></td>
-      <td valign="top"><textarea rows="4" cols="20" name="group_description" class="inputbox" style="width: 200px;">{$description}</textarea><br /></td></tr>
+      <td valign="top"><textarea rows="4" cols="20" name="playlist_description" class="inputbox" style="width: 200px;">{$playlist_description}</textarea><br /></td></tr>
     <tr>
       <td colspan="2"><font class="required">*</font> {$smarty.const._HWDVIDS_INFO_REQUIREDFIELDS}</td>
     </tr>
@@ -128,7 +128,7 @@ li.list1 {
 <div class="workarea">
   <ul id="hwdps_list" class="draglist">
     {foreach name=outer item=data from=$pl_video_list}
-      <li class="list1" id="hwdps{$data->counter}"><img src="{$data->thumbnail_url}" alt="" style="float:right;height:35px;width:60;padding:3px;" />{$data->title}<hwdpspid style="display:none;">{$data->vid}</hwdpspid></li>
+      <li class="list1" id="hwdps{$data->counter}"><img src="{$data->thumbnail_url}" alt="" style="float:right;height:35px;width:60;padding:3px;" /><a href="{$JURL}/index.php?option=com_hwdvideoshare&Itemid={$Itemid}&task=removeVideoFromPlaylist&video_id={$data->vid}&playlist_id={$playlist_id}"><img src="{$URL_HWDVS_IMAGES}icons/delete.png" alt="" style="float:right;height:16px;width:16px;padding:3px;" /></a>{$data->title}<hwdpspid style="display:none;">{$data->vid}</hwdpspid></li>
     {/foreach}
   </ul>
 
@@ -176,7 +176,7 @@ YAHOO.example.DDApp = {
         };
 
 	var url = '{/literal}{$mosConfig_live_site}{literal}';
-	var playlist_id = '{/literal}{$rowid}{literal}';
+	var playlist_id = '{/literal}{$playlist_id}{literal}';
         var hwdps_list=Dom.get("hwdps_list");
         var orderdata=parseList(hwdps_list);
 	var posturl = url+'/index.php?option=com_hwdvideoshare&task=reorderplaylist&playlist_id='+playlist_id+'&orderdata='+orderdata;
@@ -323,13 +323,13 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
 </div>
 
   {/if}
+  <div style="clear:both;"></div>
 </div>    
     
     </td>
   </tr>
 </table>
-<input type="hidden" name="id" value="{$rowid}" />
-<input type="hidden" name="require_approval" value="0"/>
+<input type="hidden" name="playlist_id" value="{$playlist_id}" />
 </form>
 
 {include file='footer.tpl'}

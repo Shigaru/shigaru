@@ -9,6 +9,7 @@ class hwd_vs_SConfig{
   var $mencoderpath = '';
   var $phppath = '/etc/php5';
   var $wgetpath = '/usr/bin/wget';
+  var $qtfaststart = '/usr/local/bin/qt-faststart';
 
   function get_instance(){
     $instanceConfig = new hwd_vs_SConfig;

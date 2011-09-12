@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -32,13 +32,26 @@ class hwdvsCarousel {
 
     function setup($iCID, $params)
     {
-
-		global $mainframe, $hwdvsTemplateOverride;
+        global $j15, $hwdvsTemplateOverride, $mooVersion;
+        $doc = & JFactory::getDocument();
         $c = hwd_vs_Config::get_instance();
+        //$doc->addCustomTag('<script type="text/javascript" src="'.JURI::root( true ).'/components/com_hwdvideoshare/assets/js/jquery.tools.min.js"></script> ');
+		
+		if ($j15)
+		{
+			//$doc->addCustomTag('<script type="text/javascript" src="'.JURI::root( true ).'/components/com_hwdvideoshare/assets/js/icarousel.js"></script> ');
+		}
+		else
+		{
+			//$doc->addCustomTag('<script type="text/javascript" src="'.JURI::root( true ).'/components/com_hwdvideoshare/assets/js/icarousel.1.3.js"></script> ');
+		}
 
-		if (isset($params['thumb_width']) && $params['thumb_width'] !== '') {
+		if (isset($params['thumb_width']) && $params['thumb_width'] !== '')
+		{
 			$car_thumbwidth = $params['thumb_width'];
-		} else {
+		}
+		else
+		{
 			$car_thumbwidth = $c->thumbwidth;
 		}
 
@@ -79,7 +92,7 @@ class hwdvsCarousel {
 							  direction: "left",
 							  amount: 1,
 							  transition: Fx.Transitions.Cubic.easeInOut,
-							  duration: 500,
+							  duration: 2500,
 							  rotate: {
 								type: "'.$c->scroll_au.'",
 								interval: '.$c->scroll_as.',
@@ -87,69 +100,87 @@ class hwdvsCarousel {
 							  }
 						  }
 					  });';
-		if (!empty($params['mb_id']))
+		if (!empty($params['mb_id']) && $mooVersion == "1.1")
 		{
         $js.=  'box = new MultiBox(\''.$params['mb_id'].'\');';
         }
-        $js.=  '  });
+        else if (!empty($params['mb_id']) && ($mooVersion == "1.2" || $mooVersion == "1.3"))
+        {
+        $js.=  '		var initMultiBox = new multiBox({
+							mbClass: \'.'.$params['mb_id'].'\',
+							container: $(document.body),
+							descClassName: \'multiBoxDesc\',
+							useOverlay: true,
+							addChain: true,//cycle through all images fading them out then in
+							recalcTop: true,//subtract the height of controls panel from top position
+						});';
+        }
+        $js.=  '  var iCH = document.getElementById("'.$iCID.'_content").offsetHeight;
+                  var iCHP = iCH + 5;
+					if (iCHP>5)
+					{
+					document.getElementById("'.$iCID.'").style.height = iCHP + "px";
+					}
+				  });
 
 				</script>';
 
-		$css = '<style type="text/css">
-					#'.$iCID.' {
-					  position: relative; /* important */
-					  overflow: hidden; /* important */
-					  width: '.$width.'; /* important */
-					  height: '.$height.'; /* important */
-					  margin: 0 auto;
-					}
+		//#'.$iCID.'_frame {position: relative; width:40px;}
+		//#'.$iCID.'_prev {float: right; padding: 3px 0;}
+		//#'.$iCID.'_next {float: right; padding: 3px 3px 3px 0;}
 
-					#'.$iCID.'_frame {position: relative;}
+$css = '
+#'.$iCID.' {
+  width:431px; /* important */
+  margin: 0 auto;
+}
 
-					#'.$iCID.'_prev {float: right;}
+#'.$iCID.'_frame {position: relative;}
 
-					#'.$iCID.'_next {float: right;}
+#'.$iCID.'_prev {float: right;}
 
-					#'.$iCID.'_content {
-					  position: absolute;
-					  top: 0;
-					  margin-left: '.$margin.';
-					}
+#'.$iCID.'_next {float: right;}
 
-					#'.$iCID.'_content
-					#'.$iCID.'_content li {
-					  list-style: none;
-					  margin: 0;
-					  padding: 0;
-					}
 
-					#'.$iCID.'_content {
-						  width: 32768px;
-					}
 
-					#'.$iCID.' ul {
-						  margin: 0!important;
-						  padding: 0!important;
-					}
+#'.$iCID.'_content {
+  position: absolute;
+  top: 0;
+  margin-left: '.$margin.';
+}
 
-					#'.$iCID.' ul li {
-						  display: block;
-						  float: left;
-						  margin: 0 6px!important;
-						  padding: 0!important;
-						  width: '.$width_ul.';
-						  background-image: none;
-					}
+#'.$iCID.'_content
+#'.$iCID.'_content li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
-					#'.$iCID.' ul li img {
-					  display: block;
-					}
-									</style>';
+#'.$iCID.'_content {
+	  width: 32768px;
+}
 
-		$mainframe->addCustomHeadTag($js);
-		$mainframe->addCustomHeadTag($css);
+#'.$iCID.' ul {
+	  margin: 0!important;
+	  padding: 0!important;
+}
 
+#'.$iCID.' ul li {
+	  display: block;
+	  float: left;
+	  margin: 0 6px!important;
+	  padding: 0!important;
+	  width: '.$width_ul.';
+	  background-image: none;
+}
+
+#'.$iCID.' ul li img {
+  display: block;
+}';
+
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'draw.php');
+		hwdvsDrawFile::processDynamicCSS($css);
+		//$doc->addCustomTag($js);
     }
-
 }
 ?>

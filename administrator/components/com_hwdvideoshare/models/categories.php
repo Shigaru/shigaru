@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -27,10 +27,11 @@ class hwdvids_BE_cats
 	*/
 	function showcategories()
 	{
-		global $option, $mainframe, $limit, $limitstart;
+		global $option, $limit, $limitstart;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
-		$search 		= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+		$search 		= $app->getUserStateFromRequest( "search{$option}", 'search', '' );
 		$search 		= $db->getEscaped( trim( strtolower( $search ) ) );
 
 		$db->SetQuery( "SELECT count(*)"
@@ -79,11 +80,12 @@ class hwdvids_BE_cats
 		// second pass - get an indent list of the items
 		$list = hwdvids_BE_cats::fbTreeRecurse(0, '', array (), $children, '9999');
 		$total = count($list);
-		require_once (JPATH_SITE . '/administrator/includes/pageNavigation.php');
-		$pageNav = new mosPageNav($total, $limitstart, $limit);
+
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
 		//$levellist = JHTML::_('select.integerlist',1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit);
 		// perform adjustment to pagenav
-		$pageNav = new mosPageNav( count($list), $limitstart, $limit );
+		$pageNav = new JPagination( count($list), $limitstart, $limit );
 		// slice out elements based on limits
 		$list = array_slice($list, $pageNav->limitstart, $pageNav->limit);
 
@@ -119,41 +121,6 @@ function fbTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=
     }
     return $list;
 }
-function orderForum($uid, $inc)
-{
-  	global $mainframe;
-  	$db =& JFactory::getDBO();
-
-    $row = new hwdvids_cats($db);
-    $row->load($uid);
-    $row->move($inc, "parent='$row->parent'");
-
-	for ($j=0, $m=200; $j < $m; $j++) {
-
-		$query = 'SELECT id, ordering'
-			    . ' FROM #__hwdvidscategories'
-				. ' WHERE parent='.$j
-				. ' ORDER BY ordering ASC'
-				;
-
-		$db->SetQuery($query);
-		$rows = $db->loadObjectList();
-
-		for ($i=0, $n=count($rows); $i < $n; $i++) {
-			$cid = (int)$rows[$i]->id;
-
-			// update ordering
-			$db->SetQuery("UPDATE #__hwdvidscategories SET ordering = $i WHERE id = $cid");
-			$db->Query();
-			if ( !$db->query() ) {
-				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				exit();
-			}
-		}
-	}
-
-	$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=categories' );
-}
 
 function catTreeRecurse($id, $indent = "&nbsp;&nbsp;&nbsp;", $list, &$children, $maxlevel = 9999, $level = 0, $seperator = " >> ")
 {
@@ -179,35 +146,22 @@ function catTreeRecurse($id, $indent = "&nbsp;&nbsp;&nbsp;", $list, &$children, 
 	*/
 	function editcategories($cid)
 	{
-		global $mainframe, $option;
+		global $option, $j15, $j16;
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+		$app = & JFactory::getApplication();
 
-		$row = new hwdvids_cats( $db );
+		$row = new hwdvids_cats($db);
 		$row->load( $cid );
 
-		// fail if checked out not by 'me'
-		if ($row->isCheckedOut( $my->id )) {
-			//BUMP needs change for multilanguage support
-			$mainframe->enqueueMessage('This category is being editted by another user');
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=categories' );
-		}
-
-		$db->SetQuery("SELECT * FROM #__hwdvidscategories"
-							. "\nWHERE id = $cid");
-		$db->loadObject($row);
-
-		if ($cid) {
-			$row->checkout( $my->id );
-		} else {
-			$row->published = 1;
-		}
-
 		$gtree=array();
-		$gtree[] = JHTML::_('select.option', -2 , '- ' ._HWDVIDS_SELECT_EVERYONE . ' -');	// '- Everybody -'
-		$gtree[] = JHTML::_('select.option', -1, '- ' . _HWDVIDS_SELECT_ALLREGUSER . ' -'); // '- All Registered Users -'
-		$gtree = array_merge( $gtree, $acl->get_group_children_tree( null, 'USERS', false ));
+		if ($j15)
+		{
+			$gtree[] = JHTML::_('select.option', -2 , '- ' ._HWDVIDS_SELECT_EVERYONE . ' -');	// '- Everybody -'
+			$gtree[] = JHTML::_('select.option', -1, '- ' . _HWDVIDS_SELECT_ALLREGUSER . ' -'); // '- All Registered Users -'
+			$gtree = array_merge( $gtree, $acl->get_group_children_tree( null, 'USERS', false ));
+		}
 
     	$categoryList = hwd_vs_tools::categoryList(_HWDVIDS_SELECT_NOPAR, $row->parent, _HWDVIDS_INFO_NOCATS, 0, "parent", 0);
 
@@ -218,8 +172,9 @@ function catTreeRecurse($id, $indent = "&nbsp;&nbsp;&nbsp;", $list, &$children, 
 	 */
 	function savecategories()
 	{
-		global $mainframe, $option;
+		global $option, $j16;
 		$db = & JFactory::getDBO();
+		$app = & JFactory::getApplication();
 		$c = hwd_vs_Config::get_instance();
 
 		$access_lev_u = Jrequest::getVar( 'access_lev_u', '0' );
@@ -227,48 +182,52 @@ function catTreeRecurse($id, $indent = "&nbsp;&nbsp;&nbsp;", $list, &$children, 
 
 		$row = new hwdvids_cats($db);
 
-		if (isset($_FILES['thumbnail_file']['error'])) {
+                if (isset($_FILES['thumbnail_file']['error'])) {
 
 			$file_name_org   = $_FILES['thumbnail_file']['name'];
 			$file_ext        = substr($file_name_org, strrpos($file_name_org, '.') + 1);
 
 			$thumbnail_url = JURI::root( true ).'/hwdvideos/thumbs/category'.$_POST['id'].'.'.$file_ext;
-			$base_Dir = JPATH_SITE.DS.'hwdvideos'.DS.'thumbs'.DS;
+
+			$base_Dir = PATH_HWDVS_DIR.DS."thumbs".DS;
 			$thumbnail_name = 'category'.$_POST['id'];
 
-			$upload_result = hwd_vs_tools::uploadFile("thumbnail_file", $thumbnail_name, $base_Dir, 2, "jpg,jpeg", 1);
+			$upload_result = hwd_vs_tools::uploadFile("thumbnail_file", $thumbnail_name, $base_Dir, 2, "jpg,jpeg,png,gif", 1);
 
-			if ($upload_result[0] == "0") {
-
+			if ($upload_result[0] == "0")
+			{
 				$msg = $upload_result[1];
-				$mainframe->enqueueMessage($msg);
-
-			} else {
-
+				$app->enqueueMessage($msg);
+			}
+			else
+			{
 				include_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'thumbnail.inc.php');
-				$thumb_path_s = JPATH_SITE.DS.'hwdvideos'.DS.'thumbs'.DS.$thumbnail_name.'.'.$file_ext;
+
+				$thumb_path_s = PATH_HWDVS_DIR.DS."thumbs".DS."$thumbnail_name.$file_ext";
+
 				$twidth_s = round($c->con_thumb_n);
 				$theight_s = round($c->con_thumb_n*$c->tar_fb);
 
 				list($width, $height, $type, $attr) = @getimagesize($thumb_path_s);
-				$ratio = $height/$width;
+				$ratio = $width/$height;
 
-				if ($ratio < $c->tar_fb) {
+				//echo $thumb_path_s."<br />".$ratio."<br />".$width."<br />".$height."<br />".$c->tar_fb."<br />".$twidth_s."<br />".$theight_s;
 
+				if ($ratio > 1)
+				{
 					$resized_s = new Thumbnail($thumb_path_s);
-					$resized_s->resize(1000, $theight_s);
+					$resized_s->resize($twidth_s,$twidth_s);
 					$resized_s->cropFromCenter($twidth_s, $theight_s);
 					$resized_s->save($thumb_path_s);
 					$resized_s->destruct();
-
-				} else {
-
+				}
+				else
+				{
 					$resized_s = new Thumbnail($thumb_path_s);
 					$resized_s->resize($twidth_s,1000);
 					$resized_s->cropFromCenter($twidth_s, $theight_s);
 					$resized_s->save($thumb_path_s);
 					$resized_s->destruct();
-
 				}
 			}
 
@@ -281,21 +240,20 @@ function catTreeRecurse($id, $indent = "&nbsp;&nbsp;&nbsp;", $list, &$children, 
 			}
 
 			$msg = "Thumbnail was successfully uploaded";
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( 'index.php?option=com_hwdvideoshare&Itemid='.$Itemid.'&task=editcatA&hidemainmenu=1&cid='.$_POST['id'] );
+			$app->enqueueMessage($msg);
+			$app->redirect( 'index.php?option=com_hwdvideoshare&Itemid='.$Itemid.'&task=editcatA&hidemainmenu=1&cid='.$_POST['id'] );
 
 		} else {
 
 			if (intval($_POST['id']) !== 0 && (intval($_POST['id']) == intval($_POST['parent']))) {
-				$mainframe->enqueueMessage(_HWDVIDS_ALERT_PARENTNOTSELF);
-				$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=categories' );
+				$app->enqueueMessage(_HWDVIDS_ALERT_PARENTNOTSELF);
+				$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=categories' );
 			}
 
 			$_POST['category_name'] = Jrequest::getVar( 'category_name', 'no name supplied' );
 			$_POST['category_description'] = Jrequest::getVar( 'category_description', 'no name supplied' );
-			$_POST['access_lev_u'] = @implode(",", $access_lev_u);
-			$_POST['access_lev_v'] = @implode(",", $access_lev_v);
-
+			//$_POST['access_lev_u'] = @implode(",", $access_lev_u);
+			//$_POST['access_lev_v'] = @implode(",", $access_lev_v);
 		}
 
 		// bind it to the table
@@ -307,8 +265,8 @@ function catTreeRecurse($id, $indent = "&nbsp;&nbsp;&nbsp;", $list, &$children, 
 		}
 
 		if(empty($row->category_name)) {
-			$mainframe->enqueueMessage(_HWDVIDS_NOTITLE);
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=categories' );
+			$app->enqueueMessage(_HWDVIDS_NOTITLE);
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=categories' );
 		}
 
 		// store it in the db
@@ -321,33 +279,85 @@ function catTreeRecurse($id, $indent = "&nbsp;&nbsp;&nbsp;", $list, &$children, 
 
 		$row->checkin();
 
+                if ($j16)
+                {
+                        if (key_exists( 'rules', $_POST['jform'] ) && is_array( $_POST['jform']['rules'] ))
+                        {
+                                $registry = new JRegistry();
+                                $registry->loadArray($_POST['jform']['rules']);
+                                $rulesString = $registry->toString();
+                                $rules = new JRules($registry->toString());
+                        }
+
+                        //
+                        // Asset Tracking
+                        //
+
+                        $updateNulls = false;
+                        $assetCheck = JTable::getInstance('Asset');
+                        $assetCheck->loadByName('com_hwdvideoshare');
+
+                        $parentId	= $assetCheck->id;
+                        $name		= 'com_hwdvideoshare.category.'.(int) $row->id;
+                        $title		= $row->category_name;
+
+                        $asset	= JTable::getInstance('Asset');
+                        $asset->loadByName($name);
+
+                        // Check for an error.
+                        if ($error = $asset->getError())
+                        {
+                                $this->setError($error);
+                        }
+                        else
+                        {
+                                // Prepare the asset to be stored.
+                                $asset->parent_id	= $parentId;
+                                $asset->name		= $name;
+                                $asset->title		= $title;
+
+                                if ($rules instanceof JRules) {
+                                        $asset->rules = (string) $rules;
+                                }
+
+                                if (!$asset->check() || !$asset->store($updateNulls))
+                                {
+                                        print_r($asset->getError());
+                                        exit;
+                                        //return false;
+                                }
+                        }
+                }
+
 		// perform maintenance
 		include(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
 		hwd_vs_recount::recountSubcatsInCategory();
 
-		$mainframe->enqueueMessage(_HWDVIDS_ALERT_CATSAVED);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=categories' );
+		$app->enqueueMessage(_HWDVIDS_ALERT_CATSAVED);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=categories' );
 	}
 	/**
 	 * cancel categories
 	 */
 	function cancelcat()
 	{
-		global $mainframe, $option;
+		global $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 		$row = new hwdvids_cats( $db );
 		$row->bind( $_POST );
 		$row->checkin();
 
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=categories' );
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=categories' );
 	}
 	/**
 	 * delete categories
 	 */
 	function deletecategories($cid)
 	{
-		global $mainframe, $option;
+		global $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
 		$total = count( $cid );
 		$catego = join(",", $cid);
@@ -357,8 +367,8 @@ function catTreeRecurse($id, $indent = "&nbsp;&nbsp;&nbsp;", $list, &$children, 
 		$result = $db->Query();
 		while($row = mysql_fetch_assoc($result)) {
 			if ($row['category_id'] == $catego) {
-				$mainframe->enqueueMessage(_HWDVIDS_ALERT_CATCONTAINSVIDS);
-				$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=categories' );
+				$app->enqueueMessage(_HWDVIDS_ALERT_CATCONTAINSVIDS);
+				$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=categories' );
 			}
 		}
 
@@ -372,16 +382,18 @@ function catTreeRecurse($id, $indent = "&nbsp;&nbsp;&nbsp;", $list, &$children, 
 		}
 
 		$msg = $total ._HWDVIDS_ALERT_ADMIN_CATDEL." ";
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=categories' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=categories' );
 	}
 	/**
 	 * publish/unpublish categories
 	 */
-	function publishcategory($cid=null, $publishcat=1) {
-		global $mainframe, $option;
+	function publishcategory($cid=null, $publishcat=1)
+	{
+		global $option;
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
 
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			$action = $publishcat ? 'publishcat' : 'unpublishcat';
@@ -418,8 +430,76 @@ function catTreeRecurse($id, $indent = "&nbsp;&nbsp;&nbsp;", $list, &$children, 
 			$row->checkin( $cid[0] );
 		}
 
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=categories' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=categories' );
+	}
+   /**
+	*/
+	function orderAll($uid, $inc)
+	{
+		$db = & JFactory::getDBO();
+		$app = & JFactory::getApplication();
+		$row = new hwdvids_cats($db);
+		$row->load($uid);
+
+		if ( ! $row->move( $inc ) ) {
+			$this->setError( $this->_db->getErrorMsg() );
+			return false;
+		}
+
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=categories' );
+	}
+   /**
+	*/
+	function saveOrder()
+	{
+		$db = & JFactory::getDBO();
+		$app = & JFactory::getApplication();
+
+		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$order		= JRequest::getVar( 'order', array (0), 'post', 'array' );
+		$total		= count($cid);
+		$conditions	= array ();
+
+		JArrayHelper::toInteger($cid, array(0));
+		JArrayHelper::toInteger($order, array(0));
+
+		// Instantiate an article table object
+    	$row = new hwdvids_cats($db);
+
+		// Update the ordering for items in the cid array
+		for ($i = 0; $i < $total; $i ++)
+		{
+			$row->load( (int) $cid[$i] );
+			if ($row->ordering != $order[$i]) {
+				$row->ordering = $order[$i];
+				if (!$row->store()) {
+					JError::raiseError( 500, $db->getErrorMsg() );
+					return false;
+				}
+				// remember to updateOrder this group
+				$condition = 'parent_id = '.(int) $row->parent_id.' AND published >= 0';
+				$found = false;
+				foreach ($conditions as $cond)
+					if ($cond[1] == $condition) {
+						$found = true;
+						break;
+					}
+				if (!$found)
+					$conditions[] = array ($row->id, $condition);
+			}
+		}
+
+		// execute updateOrder for each group
+		foreach ($conditions as $cond)
+		{
+			$row->load($cond[0]);
+			$row->reorder($cond[1]);
+		}
+
+		$msg = JText::_('New ordering saved');
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=categories' );
 	}
 }
 ?>

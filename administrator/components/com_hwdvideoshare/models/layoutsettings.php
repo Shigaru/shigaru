@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ class hwdvids_HTML_settings
 	*/
 	function showlayoutsettings(&$gtree)
 	{
-		global $mosConfig_live_site, $mosConfig_absolute_path, $mosConfig_mailfrom, $smartyvs, $acl, $database;
+		global $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 		$db =& JFactory::getDBO();
 

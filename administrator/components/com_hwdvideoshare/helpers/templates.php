@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ class hwd_vs_templates
      */
 	function frontend()
 	{
-		global $smartyvs, $Itemid, $print_ulink, $print_glink, $hwdvsTemplateOverride;
+		global $smartyvs, $print_ulink, $print_glink, $print_plink, $print_clink, $hwdvsTemplateOverride, $hwdvsItemid, $isModerator, $j15, $j16, $mooVersion;
 
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
@@ -50,176 +50,191 @@ class hwd_vs_templates
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 
 		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'access.php');
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'initialise.php');
 
-		$smartyvs->assign("mosConfig_live_site", JURI::root( true ));
-		$smartyvs->assign("Itemid", $Itemid );
+		$smartyvs->assign("JURL", JURI::root( true ));
+		$smartyvs->assign("HWDVSURL", JURI::root( true )."/index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid);
+		$smartyvs->assign("Itemid", $hwdvsItemid );
 
 		$searchterm = Jrequest::getVar( 'pattern', _HWDVIDS_SEARCHBAR );
-		$smartyvs->assign("form_search", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=search"));
-		$smartyvs->assign("form_tp", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=addconfirm"));
-		$smartyvs->assign("form_upload", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=upload"));
+		$smartyvs->assign("form_search", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=search"));
+		$smartyvs->assign("form_tp", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addconfirm"));
+		$smartyvs->assign("form_upload", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=upload"));
 		$smartyvs->assign("searchinput", "<input type=\"text\" name=\"pattern\" value=\"".$searchterm."\" class=\"inputbox\" onchange=\"document.adminForm.submit();\"  onblur=\"if(this.value=='') this.value='"._HWDVIDS_SEARCHBAR."';\" onfocus=\"if(this.value=='"._HWDVIDS_SEARCHBAR."') this.value='';\"/>");
 
-		// define important links
-		$smartyvs->assign("link_home", JURI::root( true ));
-		$smartyvs->assign("link_home_hwd_vs", JURI::root( true )."/index.php?option=com_hwdvideoshare&Itemid=".$Itemid);
-
 		// define config variables
-		$smartyvs->assign("thumbwidth", $c->thumbwidth);
-
-
 		if ($c->diable_nav_videos == 0 || $c->diable_nav_catego == 0 || $c->diable_nav_groups == 0 || $c->diable_nav_upload == 0) { $smartyvs->assign("print_nav", 1); }
 		if ($c->diable_nav_search == 0) { $smartyvs->assign("print_search", 1); }
 		if ($my->id && $c->diable_nav_user == 0 && ($c->diable_nav_user1 == 0 || $c->diable_nav_user2 == 0 || $c->diable_nav_user3 == 0 || $c->diable_nav_user4 == 0 || $c->diable_nav_user5 == 0)) { $smartyvs->assign("print_usernav", 1); }
-
-		if ($c->diable_nav_videos == 0) { $smartyvs->assign("print_vlink", 1); $smartyvs->assign("vlink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=frontpage")."\">"._HWDVIDS_NAV_VIDEOS."</a>"); }
-		if ($c->diable_nav_catego == 0) { $smartyvs->assign("print_clink", 1); $smartyvs->assign("clink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=categories")."\">"._HWDVIDS_NAV_CATEGORIES."</a>"); }
-		// check component access settings and deny those without privileges
-		if ($c->access_method == 0) {
-			if (hwd_vs_access::allowAccess( $c->gtree_grup, $c->gtree_grup_child, hwd_vs_access::userGID( $my->id )))
+		if ($c->diable_nav_videos == 0) { $smartyvs->assign("print_vlink", 1); $smartyvs->assign("vlink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=frontpage")."\">"._HWDVIDS_NAV_VIDEOS."</a>"); }
+		if ($c->diable_nav_catego == 0) { $smartyvs->assign("print_clink", 1); $smartyvs->assign("clink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=categories")."\">"._HWDVIDS_NAV_CATEGORIES."</a>"); }
+		if (hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 1, 0, "", "", "", "exclamation.png", 0, "", 1, "core.frontend.group"))
+		{
+			if ($c->diable_nav_groups == 0)
 			{
-				if ($c->diable_nav_groups == 0)
-				{
-					$smartyvs->assign("print_glink", 1);
-					$smartyvs->assign("glink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=groups")."\">"._HWDVIDS_NAV_GROUPS."</a>");
-					$print_glink = true;
-				}
+				$smartyvs->assign("print_glink", 1);
+				$smartyvs->assign("glink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=groups")."\">"._HWDVIDS_NAV_GROUPS."</a>");
+				$print_glink = true;
 			}
-		} else if ($c->access_method == 1) {
 		}
-		if ($c->diable_nav_upload == 0) {
-
+ 		if ($c->diable_nav_upload == 0)
+		{
 			$smartyvs->assign("print_ulink", 1);
-			$smartyvs->assign("ulink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=upload")."\">"._HWDVIDS_NAV_UPLOAD."</a>");
+			$smartyvs->assign("ulink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=upload")."\">"._HWDVIDS_NAV_UPLOAD."</a>");
 			$print_ulink = true;
 
-		} else if ($c->diable_nav_upload == 2) {
-
-			// check component access settings and deny those without privileges
-			if ($c->access_method == 0) {
-				if (hwd_vs_access::allowAccess( $c->gtree_upld, $c->gtree_upld_child, hwd_vs_access::userGID( $my->id )) || hwd_vs_access::allowAccess( $c->gtree_ultp, $c->gtree_ultp_child, hwd_vs_access::userGID( $my->id )))
-				{
-					$smartyvs->assign("print_ulink", 1);
-					$smartyvs->assign("ulink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=upload")."\">"._HWDVIDS_NAV_UPLOAD."</a>");
-					$print_ulink = true;
-				}
-			} else if ($c->access_method == 1) {
+		}
+		else if ($c->diable_nav_upload == 2)
+		{
+			if (hwd_vs_access::checkAccess($c->gtree_upld, $c->gtree_upld_child, 1, 0, "", "", "", "exclamation.png", 0, "", 1, "core.frontend.upload.tp") || hwd_vs_access::checkAccess($c->gtree_upld, $c->gtree_upld_child, 1, 0, "", "", "", "exclamation.png", 0, "", 1, "core.frontend.upload.local"))
+			{
+				$smartyvs->assign("print_ulink", 1);
+				$smartyvs->assign("ulink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=upload")."\">"._HWDVIDS_NAV_UPLOAD."</a>");
+				$print_ulink = true;
+				$smartyvs->assign("print_nav", 1);
 			}
-
 		}
 
-		if ($c->diable_nav_user1 == 0) { $smartyvs->assign("yv", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=yourvideos")."\">"._HWDVIDS_NAV_YOURVIDS."</a>"); }
-		if ($c->diable_nav_user2 == 0) { $smartyvs->assign("yf", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=yourfavourites")."\">"._HWDVIDS_NAV_YOURFAVS."</a>"); }
-		if ($c->diable_nav_user3 == 0) { $smartyvs->assign("yg", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=yourgroups")."\">"._HWDVIDS_NAV_YOURGROUPS."</a>"); }
-		if ($c->diable_nav_user4 == 0) { $smartyvs->assign("ym", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=yourmemberships")."\">"._HWDVIDS_NAV_YOURMEMBERSHIPS."</a>"); }
-		if ($c->diable_nav_user5 == 0) { $smartyvs->assign("cg", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=creategroup")."\">"._HWDVIDS_NAV_CREATEGROUP."</a> "); }
+		if ($c->diable_nav_user1 == 0) { $smartyvs->assign("yv", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=viewChannel&user_id=".$my->id."&sort=uploads")."\">"._HWDVIDS_NAV_YOURVIDS."</a>&nbsp;"); }
+		if ($c->diable_nav_user2 == 0) { $smartyvs->assign("yf", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=viewChannel&user_id=".$my->id."&sort=favourites")."\">"._HWDVIDS_NAV_YOURFAVS."</a>&nbsp;"); }
+		if ($c->diable_nav_groups == 0 && $c->diable_nav_user3 == 0) { $smartyvs->assign("yg", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=viewChannel&user_id=".$my->id."&sort=groups")."\">"._HWDVIDS_NAV_YOURGROUPS."</a>&nbsp;"); }
+		if ($c->diable_nav_groups == 0 && $c->diable_nav_user4 == 0) { $smartyvs->assign("ym", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=viewChannel&user_id=".$my->id."&sort=memberships")."\">"._HWDVIDS_NAV_YOURMEMBERSHIPS."</a>&nbsp;"); }
+		if ($c->diable_nav_groups == 0 && $c->diable_nav_user5 == 0) { $smartyvs->assign("cg", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=creategroup")."\">"._HWDVIDS_NAV_CREATEGROUP."</a>&nbsp;"); }
+
+		if ($c->disable_nav_playlist == 0)
+		{
+			$print_plink = true;
+			$smartyvs->assign("cp", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=createPlaylist")."\">"._HWDVIDS_NAV_CREATEPL."</a>&nbsp;");
+			$smartyvs->assign("yp", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=viewChannel&user_id=".$my->id."&sort=playlists")."\">"._HWDVIDS_NAV_YOURPL."</a>&nbsp;");
+		}
+		if ($c->disable_nav_channel == 0)
+		{
+			$print_clink = true;
+			$smartyvs->assign("yc", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=viewChannel&user_id=".$my->id)."\">"._HWDVIDS_NAV_YOURCHANNEL."</a>&nbsp;");
+		}
+
 		if ($c->showcredit == 1) { $smartyvs->assign("sc", "1"); $smartyvs->assign("cl", hwd_vs_templates::copyright_FE()); }
 
 		$smartyvs->assign("help_link", "<a href=\"http://documentation.hwdmediashare.co.uk/wiki/Category:HwdVideoShare_User%27s_Manual\" target=\"_blank\">Help</a>");
 		$smartyvs->assign("personalise_link", "<a href=\"http://documentation.hwdmediashare.co.uk/wiki/Category:HwdVideoShare_User%27s_Manual\">Personalise</a>");
 
-		if ($c->fporder == "recent") {
+		if ($c->fporder == "recent")
+		{
 			$smartyvs->assign("fpheader", _HWDVIDS_TITLE_RECENTUPLOADS);
 			$smartyvs->assign("fpempty", _HWDVIDS_INFO_NRV);
-		} else if ($c->fporder == "popular") {
+		}
+		else if ($c->fporder == "popular")
+		{
 			$smartyvs->assign("fpheader", _HWDVIDS_TITLE_POPULARVIDEOS);
 			$smartyvs->assign("fpempty", _HWDVIDS_INFO_NVTD);
-		} else if ($c->fporder == "viewed") {
+		}
+		else if ($c->fporder == "viewed")
+		{
 			$smartyvs->assign("fpheader", _HWDVIDS_TITLE_MOSTVIEWEDVIDS);
 			$smartyvs->assign("fpempty", _HWDVIDS_INFO_NVTD);
 		}
 
+		$smartyvs->assign("usershare1", $c->usershare1);
+		$smartyvs->assign("usershare2", $c->usershare2);
+		$smartyvs->assign("usershare3", $c->usershare3);
+		$smartyvs->assign("usershare4", $c->usershare4);
 
-						$smartyvs->assign("usershare1", $c->usershare1);
-						$smartyvs->assign("usershare2", $c->usershare2);
-						$smartyvs->assign("usershare3", $c->usershare3);
-						$smartyvs->assign("usershare4", $c->usershare4);
+		if ($c->usershare1 == 1 || $c->usershare2 == 1 || $c->usershare3 == 1 || $c->usershare4 == 1)
+		{
+			$smartyvs->assign("print_sharing", 1);
+		}
 
-						if ($c->usershare1 == 1 || $c->usershare2 == 1 || $c->usershare3 == 1 || $c->usershare4 == 1) {
-							$smartyvs->assign("print_sharing", 1);
-						}
+		if ($c->shareoption1 == 0)
+		{
+			$smartyvs->assign("so1p", "");
+			$smartyvs->assign("so1r", " selected=\"selected\"");
+			$smartyvs->assign("so1m", "");
+			$smartyvs->assign("so1w", "");
+			$smartyvs->assign("so1value", "registered");
+		}
+		else if ($c->shareoption1 == 1)
+		{
+			$smartyvs->assign("so1p", " selected=\"selected\"");
+			$smartyvs->assign("so1r", "");
+			$smartyvs->assign("so1m", "");
+			$smartyvs->assign("so1w", "");
+			$smartyvs->assign("so1value", "public");
+		}
+		else if ($c->shareoption1 == 2)
+		{
+			$smartyvs->assign("so1p", "");
+			$smartyvs->assign("so1r", "");
+			$smartyvs->assign("so1m", " selected=\"selected\"");
+			$smartyvs->assign("so1w", "");
+			$smartyvs->assign("so1value", "me");
+		}
+		else if ($c->shareoption1 == 3)
+		{
+			$smartyvs->assign("so1p", "");
+			$smartyvs->assign("so1r", "");
+			$smartyvs->assign("so1m", "");
+			$smartyvs->assign("so1w", " selected=\"selected\"");
+			$smartyvs->assign("so1value", "password");
+		}
 
-				if ($c->shareoption1 == 0)
-				{
-					$smartyvs->assign("so1p", "");
-					$smartyvs->assign("so1r", " selected=\"selected\"");
-					$smartyvs->assign("so1m", "");
-					$smartyvs->assign("so1w", "");
-					$smartyvs->assign("so1value", "registered");
-				}
-				else if ($c->shareoption1 == 1)
-				{
-					$smartyvs->assign("so1p", " selected=\"selected\"");
-					$smartyvs->assign("so1r", "");
-					$smartyvs->assign("so1m", "");
-					$smartyvs->assign("so1w", "");
-					$smartyvs->assign("so1value", "public");
-				}
-				else if ($c->shareoption1 == 2)
-				{
-					$smartyvs->assign("so1p", "");
-					$smartyvs->assign("so1r", "");
-					$smartyvs->assign("so1m", " selected=\"selected\"");
-					$smartyvs->assign("so1w", "");
-					$smartyvs->assign("so1value", "me");
-				}
-				else if ($c->shareoption1 == 3)
-				{
-					$smartyvs->assign("so1p", "");
-					$smartyvs->assign("so1r", "");
-					$smartyvs->assign("so1m", "");
-					$smartyvs->assign("so1w", " selected=\"selected\"");
-					$smartyvs->assign("so1value", "password");
-				}
+		if ($c->shareoption2 == 0)
+		{
+			$smartyvs->assign("so21", "");
+			$smartyvs->assign("so20", " selected=\"selected\"");
+			$smartyvs->assign("so2value", "0");
+		}
+		else if ($c->shareoption2 == 1)
+		{
+			$smartyvs->assign("so21", " selected=\"selected\"");
+			$smartyvs->assign("so20", "");
+			$smartyvs->assign("so2value", "1");
+		}
 
-						if ($c->shareoption2 == 0) {
-							$smartyvs->assign("so21", "");
-							$smartyvs->assign("so20", " selected=\"selected\"");
-							$smartyvs->assign("so2value", "0");
-						} else if ($c->shareoption2 == 1) {
-							$smartyvs->assign("so21", " selected=\"selected\"");
-							$smartyvs->assign("so20", "");
-							$smartyvs->assign("so2value", "1");
-						}
-						if ($c->shareoption3 == 0) {
-							$smartyvs->assign("so31", "");
-							$smartyvs->assign("so30", " selected=\"selected\"");
-							$smartyvs->assign("so3value", "0");
-						} else if ($c->shareoption3 == 1) {
-							$smartyvs->assign("so31", " selected=\"selected\"");
-							$smartyvs->assign("so30", "");
-							$smartyvs->assign("so3value", "1");
-						}
-						if ($c->shareoption4 == 0) {
-							$smartyvs->assign("so41", "");
-							$smartyvs->assign("so40", " selected=\"selected\"");
-							$smartyvs->assign("so4value", "0");
-						} else if ($c->shareoption4 == 1) {
-							$smartyvs->assign("so41", " selected=\"selected\"");
-							$smartyvs->assign("so40", "");
-							$smartyvs->assign("so4value", "1");
-						}
+		if ($c->shareoption3 == 0)
+		{
+			$smartyvs->assign("so31", "");
+			$smartyvs->assign("so30", " selected=\"selected\"");
+			$smartyvs->assign("so3value", "0");
+		}
+		else if ($c->shareoption3 == 1)
+		{
+			$smartyvs->assign("so31", " selected=\"selected\"");
+			$smartyvs->assign("so30", "");
+			$smartyvs->assign("so3value", "1");
+		}
 
-		$categoryselectlist = hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, 0, _HWDVIDS_INFO_NOCATS, 1);
-		$smartyvs->assign("categoryselect", $categoryselectlist);
+		if ($c->shareoption4 == 0)
+		{
+			$smartyvs->assign("so41", "");
+			$smartyvs->assign("so40", " selected=\"selected\"");
+			$smartyvs->assign("so4value", "0");
+		}
+		else if ($c->shareoption4 == 1)
+		{
+			$smartyvs->assign("so41", " selected=\"selected\"");
+			$smartyvs->assign("so40", "");
+			$smartyvs->assign("so4value", "1");
+		}
 
-		$smartyvs->assign("rss_recent", JRoute::_("index.php?Itemid=".$Itemid."&option=com_hwdvideoshare&task=rss&feed=recent"));
+		$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, 0, _HWDVIDS_INFO_NOCATS, 1));
 
-				// check component access settings and deny those without privileges
-				if ($c->access_method == 0) {
-					if (hwd_vs_access::allowAccess( $c->gtree_mdrt, $c->gtree_mdrt_child, hwd_vs_access::userGID( $my->id ))) {
-						$smartyvs->assign("print_moderation", 1);
-					}
-				}
+		$smartyvs->assign("rss_recent", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_hwdvideoshare&task=rss&feed=recent"));
 
+		if ($isModerator)
+		{
+			$smartyvs->assign("print_moderation", 1);
+			$smartyvs->assign("pending", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=pending")."\">"._HWDVIDS_MODPA."</a>&nbsp;");
+			$smartyvs->assign("reportedvideos", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportedvideos")."\">"._HWDVIDS_MODRV."</a>&nbsp;");
+			$smartyvs->assign("reportedgroups", "&nbsp;<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportedgroups")."\">"._HWDVIDS_MODRG."</a>&nbsp;");
+		}
 
-				jimport( 'joomla.application.menu' );
-				$menu   = &JMenu::getInstance('site');
-				$mparams = &$menu->getParams($Itemid);
+		jimport( 'joomla.application.menu' );
+		$menu   = &JMenu::getInstance('site');
+		$mparams = &$menu->getParams($hwdvsItemid);
 
-				$smartyvs->assign("pageclass_sfx", $mparams->get( 'pageclass_sfx', ''));
-				$smartyvs->assign("page_title", $mparams->get( 'page_title', ''));
-				$smartyvs->assign("show_page_title", $mparams->get( 'show_page_title', ''));
+		$smartyvs->assign("pageclass_sfx", $mparams->get( 'pageclass_sfx', ''));
+		$smartyvs->assign("page_title", $mparams->get( 'page_title', ''));
+		$smartyvs->assign("show_page_title", $mparams->get( 'show_page_title', ''));
 
         ////
         // here you can call any Joomla module positions you like and insert them into the hwdVideoShare template system
@@ -233,21 +248,68 @@ class hwd_vs_templates
 		//  // now you can use the {$modules_left} tag in any template file to display this module position in hwdVideoShare
 		//
 
+		if (!isset($hwdvsTemplateOverride['show_thumbnail'])) { $hwdvsTemplateOverride['show_thumbnail'] = 1; }
+		if (!isset($hwdvsTemplateOverride['show_title'])) { $hwdvsTemplateOverride['show_title'] = 1; }
+		if (!isset($hwdvsTemplateOverride['show_views'])) { $hwdvsTemplateOverride['show_views'] = 1; }
+		if (!isset($hwdvsTemplateOverride['show_category'])) { $hwdvsTemplateOverride['show_category'] = 1; }
+		if (!isset($hwdvsTemplateOverride['show_rating'])) { $hwdvsTemplateOverride['show_rating'] = 1; }
+		if (!isset($hwdvsTemplateOverride['show_uploader'])) { $hwdvsTemplateOverride['show_uploader'] = 1; }
+		if (!isset($hwdvsTemplateOverride['show_description'])) { $hwdvsTemplateOverride['show_description'] = 0; }
+		if (!isset($hwdvsTemplateOverride['show_duration'])) { $hwdvsTemplateOverride['show_duration'] = 0; }
+		if (!isset($hwdvsTemplateOverride['show_upload_date'])) { $hwdvsTemplateOverride['show_upload_date'] = 0; }
+		if (!isset($hwdvsTemplateOverride['show_avatar'])) { $hwdvsTemplateOverride['show_avatar'] = 1; }
+		if (!isset($hwdvsTemplateOverride['show_comments'])) { $hwdvsTemplateOverride['show_comments'] = 0; }
+		if (!isset($hwdvsTemplateOverride['show_tags'])) { $hwdvsTemplateOverride['show_tags'] = 0; }
+		if (!isset($hwdvsTemplateOverride['show_timesince'])) { $hwdvsTemplateOverride['show_timesince'] = 0; }
 
-if ($c->cbint == "1") {
+		if ($j16)
+		{
+			$smartyvs->assign("loginUrl", JRoute::_("index.php?option=com_users&task=user.login"));
+                        if ($c->cbint == "1")
+                        {
+                                $smartyvs->assign("url_register", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_comprofiler&task=registers"));
+                                $smartyvs->assign("url_reset", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_comprofiler&task=lostPassword"));
+                                $smartyvs->assign("url_remind", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_comprofiler&task=lostPassword"));
+                        }
+                        else
+                        {
+                                $smartyvs->assign("url_register", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_users&view=registration"));
+                                $smartyvs->assign("url_reset", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_users&view=reset"));
+                                $smartyvs->assign("url_remind", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_users&view=remind"));
+                        }
+                }
+		else
+		{
+			$smartyvs->assign("loginUrl", JRoute::_("index.php?option=com_user&task=login"));
+                        if ($c->cbint == "1")
+                        {
+                                $smartyvs->assign("url_register", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_comprofiler&task=registers"));
+                                $smartyvs->assign("url_reset", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_comprofiler&task=lostPassword"));
+                                $smartyvs->assign("url_remind", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_comprofiler&task=lostPassword"));
+                        }
+                        else
+                        {
+                                $smartyvs->assign("url_register", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_user&view=register"));
+                                $smartyvs->assign("url_reset", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_user&view=reset"));
+                                $smartyvs->assign("url_remind", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_user&view=remind"));
+                        }
+                }
 
-	$smartyvs->assign("url_register", JRoute::_("index.php?Itemid=".$Itemid."&option=com_comprofiler&task=registers"));
-	$smartyvs->assign("url_reset", JRoute::_("index.php?Itemid=".$Itemid."&option=com_comprofiler&task=lostPassword"));
-	$smartyvs->assign("url_remind", JRoute::_("index.php?Itemid=".$Itemid."&option=com_comprofiler&task=lostPassword"));
-
-} else {
-
-	$smartyvs->assign("url_register", JRoute::_("index.php?Itemid=".$Itemid."&option=com_user&view=register"));
-	$smartyvs->assign("url_reset", JRoute::_("index.php?Itemid=".$Itemid."&option=com_user&view=reset"));
-	$smartyvs->assign("url_remind", JRoute::_("index.php?Itemid=".$Itemid."&option=com_user&view=remind"));
-
-}
-
+		$smartyvs->assign("mooVersion", $mooVersion);
+                if ($j16)
+		{
+			$smartyvs->assign("j16", 1);
+		}
+		else
+		{
+			$smartyvs->assign("j15", 1);
+		}
+                
+		// LEGACY
+		$smartyvs->assign("mosConfig_live_site", JURI::root( true ));
+		$smartyvs->assign("link_home", JURI::root( true ));
+		$smartyvs->assign("link_home_hwd_vs", JURI::root( true )."/index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid);
+		$smartyvs->assign("thumbwidth", $c->thumbwidth);
 	}
     /**
      * Grants or prevents access based on group id
@@ -259,7 +321,7 @@ if ($c->cbint == "1") {
      */
 	function backend()
 	{
-		global $smartyvs, $Itemid, $print_ulink, $print_glink, $hwdvsTemplateOverride;
+		global $smartyvs, $print_ulink, $print_glink, $hwdvsTemplateOverride, $j15, $j16;
 
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
@@ -267,13 +329,12 @@ if ($c->cbint == "1") {
 		$acl= & JFactory::getACL();
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 
-		$pluginIntegrate =& JPluginHelper::getPlugin('system', 'plug_hwdms_integration');
-		$pluginIntegrateParams = new JParameter( @$pluginIntegrate->params );
-		$pluginIntegrateValue = $pluginIntegrateParams->get('integrate', 0);
-
-		if ($pluginIntegrateValue == 1) {
+		if (file_exists(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdphotoshare'.DS.'version.php'))
+		{
 			$smartyvs->assign("hwdIntegrate", 1);
-		} else {
+		}
+		else
+		{
 			$smartyvs->assign("hwdIntegrate", 0);
 		}
 
@@ -306,41 +367,85 @@ if ($c->cbint == "1") {
 			$smartyvs->assign("print_sharing", 1);
 		}
 
-		if ($c->shareoption1 == 0) {
+		if ($c->shareoption1 == 0)
+		{
 			$smartyvs->assign("so1p", "");
 			$smartyvs->assign("so1r", " selected=\"selected\"");
+			$smartyvs->assign("so1m", "");
+			$smartyvs->assign("so1w", "");
 			$smartyvs->assign("so1value", "registered");
-		} else if ($c->shareoption1 == 1) {
+		}
+		else if ($c->shareoption1 == 1)
+		{
 			$smartyvs->assign("so1p", " selected=\"selected\"");
 			$smartyvs->assign("so1r", "");
+			$smartyvs->assign("so1m", "");
+			$smartyvs->assign("so1w", "");
 			$smartyvs->assign("so1value", "public");
 		}
-		if ($c->shareoption2 == 0) {
+		else if ($c->shareoption1 == 2)
+		{
+			$smartyvs->assign("so1p", "");
+			$smartyvs->assign("so1r", "");
+			$smartyvs->assign("so1m", " selected=\"selected\"");
+			$smartyvs->assign("so1w", "");
+			$smartyvs->assign("so1value", "me");
+		}
+		else if ($c->shareoption1 == 3)
+		{
+			$smartyvs->assign("so1p", "");
+			$smartyvs->assign("so1r", "");
+			$smartyvs->assign("so1m", "");
+			$smartyvs->assign("so1w", " selected=\"selected\"");
+			$smartyvs->assign("so1value", "password");
+		}
+
+		if ($c->shareoption2 == 0)
+		{
 			$smartyvs->assign("so21", "");
 			$smartyvs->assign("so20", " selected=\"selected\"");
 			$smartyvs->assign("so2value", "0");
-		} else if ($c->shareoption2 == 1) {
+		}
+		else if ($c->shareoption2 == 1)
+		{
 			$smartyvs->assign("so21", " selected=\"selected\"");
 			$smartyvs->assign("so20", "");
 			$smartyvs->assign("so2value", "1");
 		}
-		if ($c->shareoption3 == 0) {
+
+		if ($c->shareoption3 == 0)
+		{
 			$smartyvs->assign("so31", "");
 			$smartyvs->assign("so30", " selected=\"selected\"");
 			$smartyvs->assign("so3value", "0");
-		} else if ($c->shareoption3 == 1) {
+		}
+		else if ($c->shareoption3 == 1)
+		{
 			$smartyvs->assign("so31", " selected=\"selected\"");
 			$smartyvs->assign("so30", "");
 			$smartyvs->assign("so3value", "1");
 		}
-		if ($c->shareoption4 == 0) {
+
+		if ($c->shareoption4 == 0)
+		{
 			$smartyvs->assign("so41", "");
 			$smartyvs->assign("so40", " selected=\"selected\"");
 			$smartyvs->assign("so4value", "0");
-		} else if ($c->shareoption4 == 1) {
+		}
+		else if ($c->shareoption4 == 1)
+		{
 			$smartyvs->assign("so41", " selected=\"selected\"");
 			$smartyvs->assign("so40", "");
 			$smartyvs->assign("so4value", "1");
+		}
+
+                if ($j16)
+		{
+			$smartyvs->assign("j16", 1);
+		}
+		else
+		{
+			$smartyvs->assign("j15", 1);
 		}
 	}
 	function copyright_BE()
@@ -354,8 +459,9 @@ if ($c->cbint == "1") {
 	{
 		$cr = array();
 		$cr[] = _HWDVIDS_DETAILS_PB." <a href=\"http://hwdmediashare.co.uk\" target=\"_blank\">hwdMediaShare</a>";
-		$cr[] = "<a href=\"http://hwdmediashare.co.uk/hwdvideoshare\" target=\"_blank\">Joomla Videos</a> by <a href=\"http://hwdmediashare.co.uk\" target=\"_blank\">hwdVideoShare</a>";
-		$cr[] = "<a href=\"http://hwdmediashare.co.uk/hwdphotoshare\" target=\"_blank\">Joomla Photos</a> by <a href=\"http://hwdmediashare.co.uk\" target=\"_blank\">hwdPhotoShare</a>";
+		$cr[] = "<a href=\"http://hwdmediashare.co.uk/hwdvideoshare\" target=\"_blank\">Joomla Video</a> by <a href=\"http://hwdmediashare.co.uk\" target=\"_blank\">hwdVideoShare</a>";
+		$cr[] = "<a href=\"http://hwdmediashare.co.uk/hwdvideoshare\" target=\"_blank\">Joomla Video Component</a> by <a href=\"http://hwdmediashare.co.uk\" target=\"_blank\">hwdVideoShare</a>";
+		$cr[] = "<a href=\"http://hwdmediashare.co.uk/hwdvideoshare\" target=\"_blank\">Joomla Video Gallery</a> by <a href=\"http://hwdmediashare.co.uk\" target=\"_blank\">hwdVideoShare</a>";
 		$selection = rand(0,count($cr)-1);
 		return $cr[$selection];
 	}

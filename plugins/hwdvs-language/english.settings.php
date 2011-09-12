@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -226,9 +226,8 @@ DEFINE("_ADMIN_HWDVIDS_SETT_FLVPLAYERSEL","Select your video player");
 DEFINE("_ADMIN_HWDVIDS_SETT_FLVPLAYERSEL_DESC","Select a video player from the list below to use on your website. This is the player that will be used to play videos users have uploaded to your website from their local computers.");
 DEFINE("_ADMIN_HWDVIDS_SETT_UPLDMETH","Upload Method");
 DEFINE("_ADMIN_HWDVIDS_SETT_UPLDMETH_DESC","Select the upload method you would like to use to process video file uploads. The Advanced (PERL) Method might require manual configuration of Perl Scripts.");
-DEFINE("_ADMIN_HWDVIDS_SETT_UPLDMETH_ADVPERL","The <b>Advanced (PERL) Method</b> uses <a href=\"http://uber-uploader.sourceforge.net/\" target=\"_blank\">Uber Uploader</a> to process the uploads via Perl Scripts. This method features a progress bar that will inform the user how much of the file is uploaded. You may need to manually configure the Perl Scripts to function correctly on your server. Please refer to the <a href=\"http://joomla.highwooddesign.co.uk/\" target=\"_blank\">free documentation</a> on our website on how to set up the Perl scripts on your server. You can also directly access the help forums of Uber Uploader project on <a href=\"http://sourceforge.net/forum/?group_id=148921\" target=\"_blank\">SourceForge here</a>.");
-DEFINE("_ADMIN_HWDVIDS_SETT_UPLDMETH_ADVFLASH","The <b>Advanced (FLASH) Method</b> uses <a href=\"http://www.pixeline.be/experiments/jqUploader/\" target=\"_blank\">jqUploader</a> to process the uploads via a flash-based file upload widget, allowing the display of a progress bar and percentage.");
-DEFINE("_ADMIN_HWDVIDS_SETT_UPLDMETH_ADVAJAX","The <b>Advanced (AJAX) Method</b> is based on the <a href=\"http://www.phpletter.com/\" target=\"_blank\">Ajax File Uploader Plugin</a> for <a href=\"http://jquery.com/\" target=\"_blank\">Jquery</a>.");
+DEFINE("_ADMIN_HWDVIDS_SETT_UPLDMETH_ADVPERL","The <a href=\"http://documentation.hwdmediashare.co.uk/wiki/Advanced_Perl_Upload_Method\" target=\"_blank\"><b>Advanced (PERL) Method</b></a> uses <a href=\"http://uber-uploader.sourceforge.net/\" target=\"_blank\">Uber Uploader</a> to process the uploads via Perl Scripts. This method features a real time progress bar, and large upload limits. You may need to manually configure the Perl Scripts to function correctly on your server.");
+DEFINE("_ADMIN_HWDVIDS_SETT_UPLDMETH_ADVFLASH","The <a href=\"http://documentation.hwdmediashare.co.uk/wiki/Advanced_Flash_Upload_Method\" target=\"_blank\"><b>Advanced (FLASH) Method</b></a> uses <a href=\"http://www.pixeline.be/experiments/jqUploader/\" target=\"_blank\">jqUploader</a> to process the uploads via a flash-based file upload widget, allowing the display of a progress bar and percentage.");
 DEFINE("_ADMIN_HWDVIDS_SETT_ADVPERL","Advanced (PERL)");
 DEFINE("_ADMIN_HWDVIDS_SETT_ADVFLASH","Advanced (FLASH)");
 DEFINE("_ADMIN_HWDVIDS_SETT_ADVAJAX","Advanced (AJAX)");
@@ -263,11 +262,11 @@ DEFINE("_ADMIN_HWDVIDS_SETT_DSCOMMS_DESC","Set the default comment setting for n
 DEFINE("_ADMIN_HWDVIDS_SETT_USCOMMS","Can user change?");
 DEFINE("_ADMIN_HWDVIDS_SETT_USCOMMS_DESC","Can the user change this default value? If no, then option will not show during uploads");
 DEFINE("_ADMIN_HWDVIDS_SETT_DSEMBED","Default Embed Setting");
-DEFINE("_ADMIN_HWDVIDS_SETT_DSEMBED_DESC","Set the default comment setting for new videos");
+DEFINE("_ADMIN_HWDVIDS_SETT_DSEMBED_DESC","Set the default embedding setting for new videos");
 DEFINE("_ADMIN_HWDVIDS_SETT_USEMBED","Can user change?");
 DEFINE("_ADMIN_HWDVIDS_SETT_USEMBED_DESC","Can the user change this default value? If no, then option will not show during uploads");
 DEFINE("_ADMIN_HWDVIDS_SETT_DSRATE","Default Rating Setting");
-DEFINE("_ADMIN_HWDVIDS_SETT_DSRATE_DESC","Set the default comment setting for new videos");
+DEFINE("_ADMIN_HWDVIDS_SETT_DSRATE_DESC","Set the default rating setting for new videos");
 DEFINE("_ADMIN_HWDVIDS_SETT_USRATE","Can user change?");
 DEFINE("_ADMIN_HWDVIDS_SETT_USRATE_DESC","Can the user change this default value? If no, then option will not show during uploads");
 DEFINE("_ADMIN_HWDVIDS_SETT_MAINACCESS","Main Group Access Details");
@@ -280,14 +279,14 @@ DEFINE("_ADMIN_HWDVIDS_SETT_CBAVAWIDTH","Avatar Image Width");
 DEFINE("_ADMIN_HWDVIDS_SETT_VIDTHUMB","Video Thumbnails");
 DEFINE("_ADMIN_HWDVIDS_SETT_THUMBW","Width of thumbnails");
 DEFINE("_ADMIN_HWDVIDS_SETT_HEAD1","Path to third party tools");
-DEFINE("_ADMIN_HWDVIDS_SETT_CNVNSET","Normal Quality Conversion Settings");
+DEFINE("_ADMIN_HWDVIDS_SETT_CNVNSET","Standard Definition Conversion Settings");
 DEFINE("_ADMIN_HWDVIDS_SETT_CNVNSET_WARNING","WARNING: Increasing the quality of the output video can put significant load on your server during the conversion. It will also increase the filesize of the output video.");
-DEFINE("_ADMIN_HWDVIDS_SETT_CNVTPROG","Convert with MENCODER or FFMPEG?");
-DEFINE("_ADMIN_HWDVIDS_SETT_CNVTPROG_DESC","Which program do you want to use to convert videos? MENCODER or FFMPEG?");
+DEFINE("_ADMIN_HWDVIDS_SETT_CNVTPROG","Preferred Converter");
+DEFINE("_ADMIN_HWDVIDS_SETT_CNVTPROG_DESC","Select your preferred video conversion utility.");
 DEFINE("_ADMIN_HWDVIDS_SETT_CUSTOMENCODEOPT","Custom Encoding Options");
 DEFINE("_ADMIN_HWDVIDS_SETT_CUSTOMENCODEOPT_DESC","Add your own custom encoding options. These values will be directly added to the end of the encoding command. (<b>ADVANCED USERS ONLY</b>)");
 DEFINE("_ADMIN_HWDVIDS_SETT_WMVFIX","Apply A/V Sync Fix");
-DEFINE("_ADMIN_HWDVIDS_SETT_WMVFIX_DESC","If you audio/visual is not syncronised apply this fix. The output files will be larger.");
+DEFINE("_ADMIN_HWDVIDS_SETT_WMVFIX_DESC","If your audio/visual is not syncronised apply this fix. The output files will be larger.");
 DEFINE("_ADMIN_HWDVIDS_SETT_THUMBFAIL","Abort Conversion if Thumb Fails?");
 DEFINE("_ADMIN_HWDVIDS_SETT_THUMBFAIL_DESC","Do you want to abort a video conversion if the creation of the thumbnail image fails so that you can retry later?");
 DEFINE("_ADMIN_HWDVIDS_SETT_DISABLESEARCHBAR","Disable Search Bar");
@@ -443,9 +442,9 @@ DEFINE("_ADMIN_HWDVIDS_SETT_SHOWA2G","Show <b>Add to Group</b> Feature");
 DEFINE("_ADMIN_HWDVIDS_SETT_SHOWA2G_DESC","Allow users to add videos to groups");
 DEFINE("_ADMIN_HWDVIDS_SETT_PLAYERACCESS","Access to Video Player");
 DEFINE("_ADMIN_HWDVIDS_SETT_PLAYERACCESS_DESC","Set the Joomla groups who can access the video player and watch videos");
-DEFINE("_ADMIN_HWDVIDS_SETT_LANGUAGE_DESC","Choose the hwdVideoShare language plugin. To add more languages, install language plugins through the plugin manager. For documentation on JoomFish support please visit our website.");
+DEFINE("_ADMIN_HWDVIDS_SETT_LANGUAGE_DESC","Choose the hwdVideoShare language plugin. To add more languages, install language plugins through the plugin manager.");
 DEFINE("_ADMIN_HWDVIDS_SETT_VPLAYER","Select Video Player");
-DEFINE("_ADMIN_HWDVIDS_SETT_VPLAYER_DESC","Choose the hwdVideoShare video player. To add more player, install player plugins through the plugin manager.");
+DEFINE("_ADMIN_HWDVIDS_SETT_VPLAYER_DESC","Choose the hwdVideoShare video player plugin. To add more player, install player plugins through the plugin manager.");
 DEFINE("_ADMIN_HWDVIDS_SETT_MAXUPLDWARN1","<h3>Warning :: Maximum Upload Filesize is generating a warning</h3><p>Your Maximum Upload Filesize is too large, hwdVideoShare will automatically reduce this setting to the maximum value allowed by your server.</p><p style=\"font-size:80%\">Your current Upload method is restricted by the <i>upload_max_filesize</i> setting in your php.ini file.</p>");
 DEFINE("_ADMIN_HWDVIDS_SETT_MAXUPLDWARN2","<h3>Warning :: Maximum Upload Filesize is generating a warning</h3><p>Your Maximum Upload Filesize is too large, hwdVideoShare will automatically reduce this setting to the maximum value allowed by your server.</p><p style=\"font-size:80%\">Your current Upload method is restricted by the <i>post_max_size</i> setting in your php.ini file.</p>");
 DEFINE("_ADMIN_HWDVIDS_SETT_UPLDWARN1","<h3>Warning :: Your upload method is generating a warning</h3><p>hwdVideoShare can not verify that the Advanced Perl Upload method is setup correctly.</p>");
@@ -485,7 +484,7 @@ DEFINE("_ADMIN_HWDVIDS_SETT_PTHL_DESC","Where possible, play the third party vid
 DEFINE("_ADMIN_HWDVIDS_SETT_AAVIDS","Auto-approve Uploaded Videos?");
 DEFINE("_ADMIN_HWDVIDS_SETT_SAUPLD","Automatically Convert Videos");
 DEFINE("_ADMIN_HWDVIDS_SETT_SAUPLD_DESC","Do you want to send uploaded video files directly to the converter for processing immediately after the upload is complete?<br />This will send the video file to be converted as a background process (<b>> /dev/null &</b>). If you select Yes and your videos do not automatically get converted, <b>your server might not support this feature</b>.");
-DEFINE("_ADMIN_HWDVIDS_SETT_UPLDMETH_BASPHP","The <b>Basic Method</b> uses only php to process the video file uploads. It will not display a progress bar however, it should not require any manual configuration to function correctly.");
+DEFINE("_ADMIN_HWDVIDS_SETT_UPLDMETH_BASPHP","The <a href=\"http://documentation.hwdmediashare.co.uk/wiki/Basic_PHP_Upload_Method\" target=\"_blank\"><b>Basic (PHP) Method</b></a> uses only php to process the video file uploads. It should not require any manual configuration to function correctly, but will generally have smaller upload limits.");
 DEFINE("_ADMIN_HWDVIDS_SETT_RESTRICTPHP","PHP Upload Restrictions");
 DEFINE("_ADMIN_HWDVIDS_SETT_MAXUPLD_PHP","Your server has the following restrictions on the maximum video filesize.");
 DEFINE("_ADMIN_HWDVIDS_SETT_NO_PARAMS","No Parameters.");
@@ -539,9 +538,8 @@ DEFINE("_ADMIN_HWDVIDS_SETT_OFORMATS","Other allowed formats");
 DEFINE("_ADMIN_HWDVIDS_SETT_OFORMATS_DESC","Add support for extra formats in hwdVideoShare");
 DEFINE("_ADMIN_HWDVIDS_SETT_NBWNO","Number of <b>being watched</b> videos");
 DEFINE("_ADMIN_HWDVIDS_SETT_NBWNO_DESC","Set the number of Now Being Watched videos to display");
-DEFINE("_ADMIN_HWDVIDS_SETT_SERVER","Does your server have MENCODER, FFMPEG & FLVTOOL2 installed?");
-DEFINE("_ADMIN_HWDVIDS_SETT_SOFTINS","Required Software Installed?");
-DEFINE("_ADMIN_HWDVIDS_SETT_SOFTINS_DESC","Does your server have MENCODER, FFMPEG & FLVTOOL2 installed? This software is required to convert video files?");
+DEFINE("_ADMIN_HWDVIDS_SETT_SOFTINS","Video Conversion Software Installed?");
+DEFINE("_ADMIN_HWDVIDS_SETT_SOFTINS_DESC","Does your server have the server requirements installed? This software is required to process uploaded video files.");
 DEFINE("_ADMIN_HWDVIDS_SETT_ORDERING","Default List Ordering");
 DEFINE("_ADMIN_HWDVIDS_SETT_CORDERING","Category Ordering");
 DEFINE("_ADMIN_HWDVIDS_SETT_CORDERING_DESC","Orders the actual category list");
@@ -554,8 +552,8 @@ DEFINE("_ADMIN_HWDVIDS_SETT_TPUPLOADACCESS","Access to Third Party Upload Featur
 DEFINE("_ADMIN_HWDVIDS_SETT_TPUPLOADACCESS_DESC","Set the groups who can upload third party videos to the hwdVideoShare component");
 DEFINE("_ADMIN_HWDVIDS_SETT_DNLDACCESS","Access to Video Downloads");
 DEFINE("_ADMIN_HWDVIDS_SETT_DNLDACCESS_DESC","Set the groups who can download videos from the hwdVideoShare component");
-DEFINE("_ADMIN_HWDVIDS_SETT_BVIIC","Block Videos in Inaccessible Categories");
-DEFINE("_ADMIN_HWDVIDS_SETT_BVIIC_DESC","Check video category and block videos in categories which the user has no permission to view");
+DEFINE("_ADMIN_HWDVIDS_SETT_BVIIC","Hide Restricted Videos in Lists");
+DEFINE("_ADMIN_HWDVIDS_SETT_BVIIC_DESC","Hide videos in lists which the user does not have permission to access.");
 DEFINE("_ADMIN_HWDVIDS_SETT_CUSTORDERING","Users Choose Ordering?");
 DEFINE("_ADMIN_HWDVIDS_SETT_LOGCONVERT_DESC","Create a log file of video conversions (Stored at JoomlaRoot/media/hwdVideoShare_VideoConversionLog.dat)");
 DEFINE("_ADMIN_HWDVIDS_VBITRATE","Video Bitrate");
@@ -565,7 +563,7 @@ DEFINE("_ADMIN_HWDVIDS_ABITRATE_DESC","Set the audio bitrate in kbit/s (Default 
 DEFINE("_ADMIN_HWDVIDS_ASR","Audio Sample Rate");
 DEFINE("_ADMIN_HWDVIDS_ASR_DESC","Set the audio samplerate in Hz (Default 22050 Hz)");
 DEFINE("_ADMIN_HWDVIDS_FSIZE","Video Frame Size");
-DEFINE("_ADMIN_HWDVIDS_FSIZE_DESC","Set frame size. The format is WxH (Default 160x128 )");
+DEFINE("_ADMIN_HWDVIDS_FSIZE_DESC","Set frame size.");
 DEFINE("_ADMIN_HWDVIDS_VBITRATE_VP","16 kbit/s - Videophone Quality");
 DEFINE("_ADMIN_HWDVIDS_VBITRATE_VC2","200 kbit/s - Video-conferencing system quality");
 DEFINE("_ADMIN_HWDVIDS_VBITRATE_VC3","300 kbit/s - Video-conferencing system quality");
@@ -626,7 +624,16 @@ DEFINE("_ADMIN_HWDVIDS_SELECT_LANGUAGE","Select Language");
 DEFINE("_ADMIN_HWDVIDS_SELECT_PLAYER","Select Player");
 DEFINE("_ADMIN_HWDVIDS_DEFAULT_TEMPLATE","Default Template");
 DEFINE("_ADMIN_HWDVIDS_LANGUAGE_ENGLISH","English Language");
-DEFINE("_ADMIN_HWDVIDS_LANGUAGE_JOOMFISH","JoomFish Support");
+DEFINE("_ADMIN_HWDVIDS_LANGUAGE_JOOMFISH","Core Joomla Language");
 DEFINE("_ADMIN_HWDVIDS_SETT_SHOWRAT","Enable <b>Rating Feature</b>");
 DEFINE("_ADMIN_HWDVIDS_HIDEUPLDNA","Use Access Settings");
 
+
+
+DEFINE("_ADMIN_HWDVIDS_SETT_DISABLEPLTAB","Disable Playlist Tab");
+DEFINE("_ADMIN_HWDVIDS_SETT_DISABLEPLTAB_DESC","Disable the playlist tab so this link does not appear at the top of the page");
+
+DEFINE("_ADMIN_HWDVIDS_SETT_DISABLECHTAB","Disable Channel Tab");
+DEFINE("_ADMIN_HWDVIDS_SETT_DISABLECHTAB_DESC","Disable the channel tab so this link does not appear at the top of the page");
+
+DEFINE("_ADMIN_HWDVIDS_SETT_UPLDMETH_REMWARP","The <a href=\"http://documentation.hwdmediashare.co.uk/wiki/Remote_(WARP_HD)_Upload_Method\" target=\"_blank\"><b>Remote (WARP HD) Method</b></a> allows you to upload, convert and deliver videos from the remote WARP HD services.");

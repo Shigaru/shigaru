@@ -1,15 +1,15 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
 
 {include file='header.tpl'}
 
-<form name="videoadd" action="{$form_tp}" method="post" onsubmit="return chkaddform()">
+<form name="videoadd" action="{$form_tp}" method="post" onsubmit="return chkform()">
 
 <div class="standard">
   <h2>{$smarty.const._HWDVIDS_TITLE_UPLDADDTP}</h2>
@@ -21,14 +21,6 @@
     <tr>
       <td>{$smarty.const._HWDVIDS_CATEGORY} <font class="required">*</font></td>
       <td>{$categoryselect}</td>
-       <td>{$smarty.const._HWDVIDS_CATEGORY} <font class="required">*</font></td>
-      <td>{$genresselect}</td>
-    </tr>
-    <tr>
-      <td>{$smarty.const._HWDVIDS_CATEGORY} <font class="required">*</font></td>
-      <td>{$instrumentsselectlist}</td>
-       <td>{$smarty.const._HWDVIDS_CATEGORY} <font class="required">*</font></td>
-      <td>{$languagesselectlist}</td>
     </tr>
     <tr>
       <td colspan="2"><font class="required">*</font> {$smarty.const._HWDVIDS_INFO_REQUIREDFIELDS}</td>
@@ -49,6 +41,16 @@
 
 <div class="standard">
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    {if $print_captcha}
+    <tr>
+      <td width="150"></td>
+      <td>{$captcha}</td>
+    </tr>
+    <tr>
+      <td>{$smarty.const._HWDVIDS_INFO_SECURECODE} <font class="required">*</font></td>
+      <td><input id="security_code" name="security_code" type="text" /></td>
+    </tr>
+    {/if}
     <tr>
       <td width="150"></td>
       <td><input type="submit" name="send" class="inputbox" value="{$smarty.const._HWDVIDS_BUTTON_ADD}" /></td>

@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ class hwdvids_BE_approvals
 	*/
 	function showapprovals()
 	{
-		global $option, $mainframe, $limit, $limitstart;
+		global $option, $limit, $limitstart;
   		$db =& JFactory::getDBO();
 
 		$db->SetQuery( "SELECT count(*)"
@@ -41,6 +41,7 @@ class hwdvids_BE_approvals
 		"a.approved = \"pending\"",
 		);
 
+		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
 		$query = "SELECT a.*"
@@ -56,10 +57,12 @@ class hwdvids_BE_approvals
    /**
 	* approve (& publish) videos
 	*/
-	function approve($cid=null, $publish=1) {
-		global $mainframe, $option;
+	function approve($cid=null, $publish=1)
+	{
+		global $option;
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
 
 		if (count( $cid ) < 1) {
 			$action = $publish == 1 ? 'approve' : ($publish == -1 ? 'unapprove' : 'unpublishg');
@@ -109,8 +112,8 @@ class hwdvids_BE_approvals
 		}
 
 		$msg = $total ._HWDVIDS_ALERT_ADMIN_VIDAPP." ";
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=approvals' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=approvals' );
 	}
    /**
 	* watch unapproved videos

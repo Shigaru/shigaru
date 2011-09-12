@@ -464,9 +464,10 @@ var MultiBox = new Class({
 			if (this.description.getFirst()) {
 				this.description.getFirst().remove();
 			}
-			this.contentToLoad.desc.injectInside(this.description).setStyles({
-				display: 'block'
-			});
+			// We don't want to insert the description ** dhorsfall 20110122
+			//this.contentToLoad.desc.injectInside(this.description).setStyles({
+			//	display: 'block'
+			//});
 		}
 		//this.removeContent.bind(this).delay(500);
 		if (this.options.showControls) {

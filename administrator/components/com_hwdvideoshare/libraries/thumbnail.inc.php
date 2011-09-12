@@ -2,7 +2,7 @@
 /**
  *    @version 2.1.1 Build 21105 Alpha [ Gerard ]
  *    @package hwdPhotoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify

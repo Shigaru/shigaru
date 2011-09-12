@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -11,8 +11,9 @@
 
 {literal}
 <script language="javascript">
-function ShowPasswordField(){
-	box = document.videoupload.public_private;
+function ShowPasswordField(f)
+{
+	box = f.public_private;
 	uploadstatus = box.options[box.selectedIndex].value;
 		if (uploadstatus == 'password')
 		{
@@ -35,7 +36,7 @@ function ShowPasswordField(){
         <tr>
             <td width="150">{$smarty.const._HWDVIDS_ACCESS}</td>
             <td>
-		<select name="public_private" onChange="ShowPasswordField()">
+		<select name="public_private" onChange="ShowPasswordField(this.form)">
 		<option value="public"{$so1p}>{$smarty.const._HWDVIDS_SELECT_PUBLIC}</option>
 		<option value="registered"{$so1r}>{$smarty.const._HWDVIDS_SELECT_REG}</option>
 		<option value="me"{$so1m}>{$smarty.const._HWDVIDS_SELECT_ME}</option>

@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -33,12 +33,7 @@ class hwdvsDrawFile {
 	function generalConfig()
 	{
 		$db =& JFactory::getDBO();
-
-		$configfile = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php';
-		@chmod ($configfile, 0777);
-		if (!is_writable($configfile)) {
-			return false;
-		}
+    	jimport('joomla.filesystem.file');
 
 		$config = "<?php\n";
 		$config .= "class hwd_vs_Config{ \n\n";
@@ -63,9 +58,9 @@ class hwdvsDrawFile {
 		$config .= "}\n";
 		$config .= "?>";
 
-		if ($fp = fopen("$configfile", "w")) {
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
+		$configFile = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php';
+		if (!JFile::write($configFile, $config)) {
+			return false;
 		}
 
 		return true;
@@ -74,12 +69,7 @@ class hwdvsDrawFile {
 	function serverConfig()
 	{
 		$db =& JFactory::getDBO();
-
-		$configfile = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'serverconfig.hwdvideoshare.php';
-		@chmod ($configfile, 0777);
-		if (!is_writable($configfile)) {
-			return false;
-		}
+    	jimport('joomla.filesystem.file');
 
 		$config = "<?php\n";
 		$config .= "class hwd_vs_SConfig{ \n\n";
@@ -102,14 +92,13 @@ class hwdvsDrawFile {
 		$config .= "}\n";
 		$config .= "?>";
 
-		if ($fp = fopen("$configfile", "w")) {
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
+		$configFile = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'serverconfig.hwdvideoshare.php';
+		if (!JFile::write($configFile, $config)) {
+			return false;
 		}
 
 		return true;
 	}
-
     /**
      * Make xml playlist datafile
      *
@@ -117,52 +106,56 @@ class hwdvsDrawFile {
      */
     function XMLDataFile($rows, $filename)
     {
-		global $limitstart, $mainframe, $Itemid;
+		$db =& JFactory::getDBO();
 		$c = hwd_vs_Config::get_instance();
-
-		$configfile = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.$filename.'.xml';
-		if (!file_exists($configfile)) {
-			$fo = @fopen($configfile, 'w');
-			@fclose($fo);
-		}
-
-		@chmod ($configfile, 0777);
-		if (!is_writable($configfile)) {
-			return false;
-		}
+    	jimport('joomla.filesystem.file');
 
 		$config = null;
 		$config .= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 		$config .= "<playlist version=\"1\">\n";
 		$config .= "<title>hwdVideoShare ".$filename." Playlist</title>\n";
 		$config .= "<info>http:/xspf.org/xspf-v1.html</info>\n";
+		$config .= "<date>".date('Y-m-d H:i:s')."</date>\n";
 		$config .= "<trackList>\n";
 		$config .= "\n";
-		// print out playlist
-		for ($i=0, $n=count($rows); $i < $n; $i++) {
-			$row = $rows[$i];
 
-			////echo $row->title."<br />";
+		for ($i=0, $n=count($rows); $i < $n; $i++)
+		{
+			$row = $rows[$i];
 
 			$row->title = hwdEncoding::charset_decode_utf_8($row->title);
 			$row->title = hwdEncoding::XMLEntities($row->title);
 
 			$row->description = hwdEncoding::charset_decode_utf_8($row->description);
 			$row->description = hwdEncoding::XMLEntities($row->description);
+			$row->description = hwd_vs_tools::truncateText($row->description, 1000);
 
 			$video_code = explode(",", $row->video_id);
-			if (empty($video_code[1])) {
+			if (empty($video_code[1]))
+			{
 				$row->video_id = hwdEncoding::XMLEntities($row->video_id);
-			} else {
+			}
+			else
+			{
 				$video_code[0] = hwdEncoding::XMLEntities($video_code[0]);
 				$video_code[1] = urlencode($video_code[1]);
 				$row->video_id = implode(",", $video_code);
 			}
 
-			if (empty($row->video_length)) {
+			if (empty($row->video_length))
+			{
 				$row->video_length = "0:00:00";
 			}
-			if ($row->user_id == 0) {
+			if (!isset($row->username) || empty($row->username))
+			{
+				$row->username = "_HWDVIDS_INFO_GUEST";
+			}
+			if (!isset($row->name) || empty($row->name))
+			{
+				$row->name = "_HWDVIDS_INFO_GUEST";
+			}
+			if ($row->user_id == 0 || !isset($row->username) || !isset($row->name))
+			{
 				$row->username = "_HWDVIDS_INFO_GUEST";
 				$row->name = "_HWDVIDS_INFO_GUEST";
 			}
@@ -177,6 +170,7 @@ class hwdvsDrawFile {
 			$config .= "    <category_id><![CDATA[".$row->category_id."]]></category_id>\n";
 			$config .= "    <description><![CDATA[".$row->description."]]></description>\n";
 			$config .= "    <views><![CDATA[".$row->number_of_views."]]></views>\n";
+			$config .= "    <date><![CDATA[".$row->date_uploaded."]]></date>\n";
 			$config .= "    <duration><![CDATA[".$row->video_length."]]></duration>\n";
 			$config .= "    <rating><![CDATA[".$row->updated_rating."]]></rating>\n";
 			if ($c->userdisplay == 1) {
@@ -191,20 +185,21 @@ class hwdvsDrawFile {
 				$avatar = "";
 			}
 			$config .= "    <avatar><![CDATA[".$avatar."]]></avatar>\n";
+			$config .= "    <comments><![CDATA[".$row->number_of_comments."]]></comments>\n";
+			$config .= "    <tags><![CDATA[".addslashes($row->tags)."]]></tags>\n";
 			$config .= "  </track>\n";
 			$config .= "\n";
 		}
 		$config .= "</trackList>\n";
 		$config .= "</playlist>\n";
 
-		if ($fp = @fopen("$configfile", "w")) {
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
+		$configFile = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.$filename.'.xml';
+		if (!JFile::write($configFile, $config)) {
+			return false;
 		}
 
 		return true;
     }
-
     /**
      * Make xml playlist file
      *
@@ -212,109 +207,214 @@ class hwdvsDrawFile {
      */
     function XMLPlaylistFile($rows, $filename)
     {
-		global $limitstart, $mainframe, $Itemid;
+		$db =& JFactory::getDBO();
 		$c = hwd_vs_Config::get_instance();
-
-		$configfile = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xspf'.DS.$filename.'.xml';
-		if (!file_exists($configfile)) {
-			$fo = @fopen($configfile, 'w');
-			@fclose($fo);
-		}
-
-		@chmod ($configfile, 0777);
-		if (!is_writable($configfile)) {
-			return false;
-		}
+    	jimport('joomla.filesystem.file');
 
 		$config = null;
-		$config .= "<playlist version=\"1\" xmlns=\"http://xspf.org/ns/0/\">\n";
+		$config .= "<playlist version=\"1\" xmlns=\"http://xspf.org/ns/0/\" xmlns:jwplayer=\"http://developer.longtailvideo.com/ns/1\">\n";
 		$config .= "<title>hwdVideoShare Playlist</title>\n";
 		$config .= "<info>http:/xspf.org/xspf-v1.html</info>\n";
+		$config .= "<date>".date('Y-m-d H:i:s')."</date>\n";
 		$config .= "<trackList>\n";
 		$config .= "\n";
 
 		// print out playlist
-		for ($i=0, $n=count($rows); $i < $n; $i++) {
+		for ($i=0, $n=count($rows); $i < $n; $i++)
+		{
 			$row = $rows[$i];
 
-			$type = "video";
+			$type       = "video";
+			$title      = strip_tags(hwdEncoding::UNXMLEntities($row->title));
+			$annotation = strip_tags(hwdEncoding::UNXMLEntities($row->description));
+			$image      = hwd_vs_tools::generatePlayerThumbnail($row);
+			$image      = urldecode($image);
 
-			if ($row->video_type == "local" || $row->video_type == "mp4") {
+			if ($row->video_type == "rtmp")
+			{
+				$parsed_url = parse_url($row->video_id);
+				$rtmp_file_temp = $parsed_url['path'];
+				$rtmp_file_temp = explode(":", $rtmp_file_temp, 2);
 
-				if (file_exists(JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.$row->video_id.'.mp4') && $c->usehq == 1)
+				if (!empty($rtmp_file_temp[1]))
 				{
-					$location = JURI::root( false )."hwdvideos/uploads/".$row->video_id.".mp4";
+					$rtmp_file = $rtmp_file_temp[1];
+					if (substr($rtmp_file, 0, 1) == "/")
+					{
+						$rtmp_file = substr($rtmp_file, 1);
+					}
+
+					$rtmp_streamer_temp = $rtmp_file_temp[0];
+					$rtmp_streamer_temp = explode("/", $rtmp_streamer_temp);;
+
+					$rtmp_path = implode("/", $rtmp_streamer_temp);
+					$rtmp_streamer = $parsed_url['scheme']."://".$parsed_url['host'].$rtmp_path;
 				}
 				else
 				{
-					$location = JURI::root( false )."hwdvideos/uploads/".$row->video_id.".flv";
+					$rtmp_file = null;
+					$rtmp_streamer = null;
 				}
 
-				$image = JURI::root( false )."hwdvideos/thumbs/".$row->video_id.".jpg";
+				$type = "rtmp";
 
-			} else if ($row->video_type == "swf") {
-
-				$location = JURI::base( true )."/hwdvideos/uploads/".$row->video_id.".swf";
-				$image = JURI::base( true )."/hwdvideos/thumbs/".$row->video_id.".jpg";
-
-			} else {
-
-				$plugin = hwd_vs_tools::getPluginDetails($row->video_type);
-				if (!$plugin) {
-					continue;
-				} else {
-
-					if ($row->video_type == "youtube.com" && $c->hwdvids_videoplayer_file == "jwflv")
-					{
-						$data = @explode(",", $row->video_id);
-
-						$location = "http://www.youtube.com/watch?v=".$data[0];
-						$image = trim(urldecode($data[1]));
-						$type = "youtube";
-					}
-					else
-					{
-						$prepareflvurl = preg_replace("/[^a-zA-Z0-9s_-]/", "", $row->video_type)."prepareflvurl";
-						$flvurl = $prepareflvurl($row->video_id, $row->id, $Itemid);
-						if (!empty($flvurl))
-						{
-							$location = trim(urldecode($flvurl));
-						}
-						else
-						{
-							continue;
-						}
-						if (@explode(",", $row->video_id))
-						{
-							$data = explode(",", $row->video_id);
-							$image = trim(urldecode(@$data[1]));
-						}
-					}
-				}
+				$config .= "  <track>\n";
+				$config .= "    <jwplayer:streamer><![CDATA[".$rtmp_streamer."]]></jwplayer:streamer>\n";
+				$config .= "    <jwplayer:file><![CDATA[".$rtmp_file."]]></jwplayer:file>\n";
+				$config .= "    <image><![CDATA[".$image."]]></image>\n";
+				$config .= "    <title><![CDATA[".$title."]]></title>\n";
+				$config .= "    <annotation><![CDATA[".$annotation."]]></annotation>\n";
+				$config .= "	<meta rel='type'>".$type."</meta>\n";
+				$config .= "  </track>\n";
 			}
+			else if (($row->video_type == "youtube.com" || ($row->video_type == "seyret" && substr($row->video_id, 0, 7) == "youtube")) && ($c->hwdvids_videoplayer_file == "jwflv" || $c->hwdvids_videoplayer_file == "jwflv_v5" || $c->hwdvids_videoplayer_file == "jwflv_html5"))
+			{
+				$data = @explode(",", $row->video_id);
+				if ($row->video_type == "seyret")
+				{
+					$YTID = $data[1];
+				}
+				else
+				{
+					$YTID = $data[0];
+				}
 
-			$title      = hwd_vs_tools::truncateText(strip_tags(hwdEncoding::UNXMLEntities($row->title)), 50);
-			$annotation = hwd_vs_tools::truncateText(strip_tags(hwdEncoding::UNXMLEntities($row->description)), 50);
+				$location = "http://www.youtube.com/watch?v=".$YTID;
+				$type = "youtube";
 
-		    $config .= "  <track>\n";
-		    $config .= "    <location><![CDATA[".$location."]]></location>\n";
-		    $config .= "    <image><![CDATA[".$image."]]></image>\n";
-		    $config .= "    <title><![CDATA[".$title."]]></title>\n";
-		    $config .= "    <annotation><![CDATA[".$annotation."]]></annotation>\n";
-			$config .= "	<meta rel='type'>".$type."</meta>\n";
-		    $config .= "  </track>\n";
+				if (empty($location)) continue;
+
+				$config .= "  <track>\n";
+		    	$config .= "    <location><![CDATA[".$location."]]></location>\n";
+				$config .= "    <image><![CDATA[".$image."]]></image>\n";
+				$config .= "    <title><![CDATA[".$title."]]></title>\n";
+				$config .= "    <annotation><![CDATA[".$annotation."]]></annotation>\n";
+				$config .= "	<meta rel='type'>".$type."</meta>\n";
+				$config .= "  </track>\n";
+			}
+			else
+			{
+				$locations = hwd_vs_tools::generateVideoLocations($row);
+				$location = $locations['url'];
+
+				if (empty($location)) continue;
+
+				jimport( 'joomla.html.parameter' );
+				$useStreamer = false;
+				$pluginPlayer =& JPluginHelper::getPlugin("hwdvs-videoplayer", "$c->hwdvids_videoplayer_file");
+				$pluginPlayerParams = new JParameter( $pluginPlayer->params );
+				$pluginPlayerStreamer = $pluginPlayerParams->get('pseudostreaming', 0);
+				if ($pluginPlayerStreamer == "1" && ($c->hwdvids_videoplayer_file == "jwflv" || $c->hwdvids_videoplayer_file == "jwflv_v5"))
+				{
+					$type = "http";
+					if ($locations['use_xMoovphp'])
+					{
+
+						if ($pluginPlayerStreamer == "1" && ($c->hwdvids_videoplayer_file == "jwflv" || $c->hwdvids_videoplayer_file == "jwflv_v5"))
+						{
+							$dlink = $row->video_id.".flv";
+							$useStreamer = true;
+							$streamer = "http://".$_SERVER['HTTP_HOST'].JURI::root( true )."/plugins/hwdvs-videoplayer/".$c->hwdvids_videoplayer_file."/streamer.php";
+						}
+					}
+
+
+				}
+
+				$config .= "  <track>\n";
+				if ($useStreamer)
+				{
+					$config .= "    <jwplayer:streamer><![CDATA[".$streamer."]]></jwplayer:streamer>\n";
+					$config .= "    <jwplayer:file><![CDATA[".$dlink."]]></jwplayer:file>\n";
+					$config .= "    <jwplayer:provider>http</jwplayer:provider>\n";
+
+				}
+				else
+				{
+					$config .= "    <location><![CDATA[".$location."]]></location>\n";
+				}
+				$config .= "    <image><![CDATA[".$image."]]></image>\n";
+				$config .= "    <title><![CDATA[".$title."]]></title>\n";
+				$config .= "    <annotation><![CDATA[".$annotation."]]></annotation>\n";
+				$config .= "	<meta rel='type'>http</meta>\n";
+				$config .= "  </track>\n";
+			}
 		    $config .= "\n";
 		}
 
 		$config .= "</trackList>\n";
 		$config .= "</playlist>\n";
 
-		if ($fp = @fopen("$configfile", "w")) {
-			fputs($fp, $config, strlen($config));
-			fclose ($fp);
+		$configFile = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xspf'.DS.$filename.'.xml';
+		if (!JFile::write($configFile, $config)) {
+			return false;
 		}
 
 		return true;
+    }
+    /**
+     * Make xml playlist file
+     *
+     * @return       True
+     */
+    function processDynamicCSS($css, $firstWrite=false)
+    {
+		global $option, $task, $Itemid;
+		$db =& JFactory::getDBO();
+		$doc = & JFactory::getDocument();
+		$app = & JFactory::getApplication();
+		$c = hwd_vs_Config::get_instance();
+    	jimport('joomla.filesystem.file');
+
+		if($doc->getType() == 'html')
+		{
+			$template_element = $app->getUserState( "com_hwdvideoshare.template_element", "default" );
+			if (!empty($template_element))
+			{
+				$c->hwdvids_template_file = $template_element;
+			}
+
+			$view = JRequest::getCmd( 'view', '' );
+			$userid  = JRequest::getInt( 'userid', '' );
+
+			$dynamicCssFile = JPATH_SITE.DS."cache".DS."hwdvs".$c->hwdvids_template_file.DS."hwdvs_".$option."_".$task."_".$view."_".$userid."_".$Itemid.".css";
+
+			if ($firstWrite)
+			{
+				/**
+				 * $dynamicCssContentWithHeaders = "<?php
+				 * header('Content-type: text/css');
+				 * header('Cache-Control: no-cache, must-revalidate');
+				 * header('Pragma: no-cache');
+				 * ?>
+				 * $css";
+				 */
+				if (!JFile::write($dynamicCssFile, $css))
+				{
+					$doc->addCustomTag("<style type=\"text/css\">$css</style>");
+				}
+				else
+				{
+					$doc->addCustomTag("<link rel=\"stylesheet\" href=\"".JURI::root( true )."/cache/hwdvs".$c->hwdvids_template_file."/hwdvs_".$option."_".$task."_".$view."_".$userid."_".$Itemid.".css\" type=\"text/css\" />");
+				}
+			}
+			else
+			{
+				if (file_exists($dynamicCssFile))
+				{
+					$dynamicCssContent = JFile::read($dynamicCssFile);
+					$dynamicCssContent.= $css;
+					if (!JFile::write($dynamicCssFile, $dynamicCssContent))
+					{
+						$doc->addCustomTag("<style type=\"text/css\">$css</style>");
+					}
+				}
+				else
+				{
+					$doc->addCustomTag("<style type=\"text/css\">$css</style>");
+				}
+			}
+		}
     }
 }
 ?>

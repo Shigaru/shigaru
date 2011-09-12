@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -36,25 +36,25 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 //Current Version
 
 DEFINE("_HWDVIDS_TOOLBARTITLE","hwdVideoShare");
-DEFINE("_HWDVIDS_HOME_01","Welcome to hwdVideoShare [ Masterton ]");
+DEFINE("_HWDVIDS_HOME_01","Welcome to hwdVideoShare");
 
 //Backend Section Headers
 
-DEFINE("_HWDVIDS_SECTIONHEAD_VIDEOS","&laquo; Videos &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_CATS","&laquo; Categories &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_GROUPS","&laquo; Groups &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_APPROVALS","&laquo; Waiting Approvals &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_FLAGGED","&laquo; Reported Media &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_COMMENTS","&laquo; Comments &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_SS","&laquo; Server Settings &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_GS","&laquo; General Settings &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_BCUP","&laquo; Backup Data &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_RSTR","&laquo; Restore Data &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_PLUGIN","&laquo; Plugin Management &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_CONVERTOR","&laquo; Video Converter &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_HOME","&laquo; Homepage &raquo;");
-DEFINE("_HWDVIDS_SECTIONHEAD_IMPORT","&laquo; Import Data &raquo; ");
-DEFINE("_HWDVIDS_SECTIONHEAD_CLUP","&laquo; Maintenance &raquo; ");
+DEFINE("_HWDVIDS_SECTIONHEAD_VIDEOS","Videos");
+DEFINE("_HWDVIDS_SECTIONHEAD_CATS","Categories");
+DEFINE("_HWDVIDS_SECTIONHEAD_GROUPS","Groups");
+DEFINE("_HWDVIDS_SECTIONHEAD_APPROVALS","Waiting Approvals");
+DEFINE("_HWDVIDS_SECTIONHEAD_FLAGGED","Reported Media");
+DEFINE("_HWDVIDS_SECTIONHEAD_COMMENTS","Comments");
+DEFINE("_HWDVIDS_SECTIONHEAD_SS","Server Settings");
+DEFINE("_HWDVIDS_SECTIONHEAD_GS","General Settings");
+DEFINE("_HWDVIDS_SECTIONHEAD_BCUP","Backup Data");
+DEFINE("_HWDVIDS_SECTIONHEAD_RSTR","Restore Data");
+DEFINE("_HWDVIDS_SECTIONHEAD_PLUGIN","Plugin Management");
+DEFINE("_HWDVIDS_SECTIONHEAD_CONVERTOR","Video Converter");
+DEFINE("_HWDVIDS_SECTIONHEAD_HOME","Homepage");
+DEFINE("_HWDVIDS_SECTIONHEAD_IMPORT","Import Data");
+DEFINE("_HWDVIDS_SECTIONHEAD_CLUP","Maintenance");
 
 //Backend Filter Text
 
@@ -145,6 +145,7 @@ DEFINE("_HWDVIDS_TOOLBAR_UNPUBLISH","Unpublish");
 DEFINE("_HWDVIDS_TOOLBAR_APPROVE","Approve");
 DEFINE("_HWDVIDS_TOOLBAR_BKUP","Send Now");
 DEFINE("_HWDVIDS_TOOLBAR_RUN","Run Tools");
+DEFINE("_HWDVIDS_TOOLBAR_RESTOREDEFAULTS","Restore Defaults");
 
 //Backend Selects
 
@@ -163,6 +164,7 @@ DEFINE("_HWDVIDS_SELECT_UPLDDATE","Upload Date");
 DEFINE("_HWDVIDS_SELECT_NAME","Name");
 DEFINE("_HWDVIDS_SELECT_HITS","Hits");
 DEFINE("_HWDVIDS_SELECT_RATING","Rating");
+DEFINE("_HWDVIDS_SELECT_RANDOM","Random");
 DEFINE("_HWDVIDS_SELECT_NOVIDS","Number of Videos");
 DEFINE("_HWDVIDS_SELECT_NOSUBS","Number of Subcategories");
 DEFINE("_HWDVIDS_SELECT_NOPAR","No Parent");
@@ -201,6 +203,7 @@ DEFINE("_HWDVIDS_TAB_VIDEO","Videos");
 DEFINE("_HWDVIDS_TAB_GROUPS","Groups");
 DEFINE("_HWDVIDS_TAB_SCAN","Scan");
 DEFINE("_HWDVIDS_TAB_RTMP","RTMP");
+DEFINE("_HWDVIDS_TAB_PERMISSIONS","Permissions");
 
 //Information Page
 
@@ -265,6 +268,8 @@ DEFINE("_HWDVIDS_PATHPHP","Path to PHP");
 DEFINE("_HWDVIDS_SETT_PATHPHP_DESC","The full server path to PHP");
 DEFINE("_HWDVIDS_PATHWGET","Path to WGET");
 DEFINE("_HWDVIDS_SETT_PATHWGET_DESC","The full server path to WGET");
+DEFINE("_HWDVIDS_PATHQTFS","Path to QT-FASTSTART");
+DEFINE("_HWDVIDS_SETT_PATHQTFS_DESC","The full server path to QT-FASTSTART");
 
 //Export
 
@@ -530,3 +535,8 @@ DEFINE("_HWDVIDS_MPTM","Most Popular This Month");
 DEFINE("_HWDVIDS_MPAT","Most Popular");
 DEFINE("_HWDVIDS_SELECT_ME","Only Me");
 DEFINE("_HWDVIDS_SELECT_PASSWORD","Password Protected");
+DEFINE("_HWDVIDS_SELECT_JACG","Access Group");
+DEFINE("_HWDVIDS_SELECT_JACL","Access Level");
+DEFINE("_HWDVIDS_PASSWORD","Password");
+DEFINE("_HWDVIDS_INFO_GUEST","Guest");
+

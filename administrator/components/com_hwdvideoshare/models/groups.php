@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -27,10 +27,11 @@ class hwdvids_BE_groups
 	*/
 	function showgroups()
 	{
-		global $option, $mainframe, $limit, $limitstart;
+		global $option, $limit, $limitstart;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
-		$search 		= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+		$search 		= $app->getUserStateFromRequest( "search{$option}", 'search', '' );
 		$search 		= $db->getEscaped( trim( strtolower( $search ) ) );
 
 		$db->SetQuery( "SELECT count(*)"
@@ -54,6 +55,7 @@ class hwdvids_BE_groups
 				echo $db->getErrorMsg();
 		}
 
+		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
 		$query = "SELECT a.*"
@@ -71,7 +73,7 @@ class hwdvids_BE_groups
 	*/
 	function editgroups($cid)
 	{
-		global $option, $acl, $my;
+		global $option;
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
 
@@ -81,36 +83,40 @@ class hwdvids_BE_groups
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $my->id )) {
 			//BUMP needs change for multilanguage support
-			mosRedirect( 'index.php?option='.$option.'&task=categories', 'The categorie $row->catname is currently being edited by another administrator.' );
+			mosRedirect( 'index.php?option=com_hwdvideoshare&task=categories', 'The categorie $row->catname is currently being edited by another administrator.' );
 		}
 
 		$db->SetQuery("SELECT * FROM #__hwdvidsgroups"
 							. "\nWHERE id = $cid");
-		$db->loadObject($row);
+		$row = $db->loadObject();
 
-		if ($cid) {
-			$row->checkout( $my->id );
-		} else {
-			$row->published = 1;
-		}
+		$query        = "SELECT m.*, u.name, u.username"
+				      . " FROM #__hwdvidsgroup_membership AS m"
+				      . " LEFT JOIN #__users AS u ON u.id = m.memberid"
+		              . " WHERE m.groupid = ".$row->id;
 
-$users = array();
-$users[] = JHTML::_('select.option', '0', 'Guest');
-$db->setQuery( "SELECT id AS value, username AS text FROM #__users" );
-$users = array_merge( $users, $db->loadObjectList() );
-$selected = $row->adminid;
-$uploader_list = JHTML::_('select.genericlist', $users, 'adminid', 'class="inputbox"', 'value', 'text', $row->adminid);
+		$db->SetQuery($query);
+		$groupMembers = $db->loadObjectList();
+
+		$query      = "SELECT v.*, video.title"
+				    . " FROM #__hwdvidsvideos AS video"
+				    . " LEFT JOIN #__hwdvidsgroup_videos AS v ON v.videoid = video.id"
+		            . " WHERE v.groupid = ".$row->id;
 
 
-		hwdvids_HTML::editgroups($row, $uploader_list);
+		$db->SetQuery($query);
+		$groupVideos = $db->loadObjectList();
+
+		hwdvids_HTML::editgroups($row, $groupMembers, $groupVideos);
 	}
 	/**
 	 * save categories
 	 */
 	function savegroup()
 	{
-		global $option, $mainframe;
+		global $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
   		$access_lev_u = Jrequest::getVar( 'access_lev_u', '0' );
 		$access_lev_v = Jrequest::getVar( 'access_lev_v', '0' );
@@ -146,30 +152,33 @@ $uploader_list = JHTML::_('select.genericlist', $users, 'adminid', 'class="input
 		hwd_vs_recount::recountSubcatsInCategory();
 
 		$msg = $total ._HWDVIDS_ALERT_GRPSAVED;
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=groups' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=groups' );
 	}
 	/**
 	 * cancel categories
 	 */
 	function cancelgrp()
 	{
-		global $option, $mainframe;
+		global $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
   		$row = new hwdvids_group( $db );
 		$row->bind( $_POST );
 		$row->checkin();
 
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=groups' );
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=groups' );
 	}
    /**
 	* publish/unpublish groups
 	*/
-	function publishg($cid=null, $publish=1) {
-		global $option, $mainframe;
+	function publishg($cid=null, $publish=1)
+	{
+		global $option;
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
 
 		if (count( $cid ) < 1) {
 			$action = $publish == 1 ? 'publishg' : ($publish == -1 ? 'archive' : 'unpublishg');
@@ -206,16 +215,18 @@ $uploader_list = JHTML::_('select.genericlist', $users, 'adminid', 'class="input
 			$row->checkin( $cid[0] );
 		}
 
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=groups' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=groups' );
 	}
    /**
 	* feature/unfeature groups
 	*/
-	function featureg($cid=null, $publish=1) {
-		global $option, $mainframe;
+	function featureg($cid=null, $publish=1)
+	{
+		global $option;
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
 
 		if (count( $cid ) < 1) {
 			$action = $publish == 1 ? 'featureg' : ($publish == -1 ? 'archive' : 'unfeatureg');
@@ -252,17 +263,18 @@ $uploader_list = JHTML::_('select.genericlist', $users, 'adminid', 'class="input
 			$row->checkin( $cid[0] );
 		}
 
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=groups' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=groups' );
 	}
    /**
 	* delete groups
 	*/
 	function deletegroups($cid)
 	{
-		global $option, $mainframe;
+		global $option;
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
 
 		$total = count( $cid );
 		$events = join(",", $cid);
@@ -289,8 +301,60 @@ $uploader_list = JHTML::_('select.genericlist', $users, 'adminid', 'class="input
 		}
 
 		$msg = $total ._HWDVIDS_ALERT_ADMIN_GDEL." ";
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=groups' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=groups' );
+	}
+   /**
+	*/
+	function removeGroupMember()
+	{
+		global $option;
+  		$db =& JFactory::getDBO();
+		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
+
+		$memberid = JRequest::getInt( 'memberid', 0 );
+		$groupid = JRequest::getInt( 'groupid', 0 );
+
+		if ($memberid > 0 && $groupid > 0)
+		{
+			$db->SetQuery("DELETE FROM #__hwdvidsgroup_membership WHERE memberid = $memberid AND groupid = $groupid");
+			$db->Query();
+			if ( !$db->query() ) {
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				exit();
+			}
+		}
+
+		$msg = "Member deleted from group";
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=editgrpA&hidemainmenu=1&cid='.$groupid );
+	}
+   /**
+	*/
+	function removeGroupVideo()
+	{
+		global $option;
+  		$db =& JFactory::getDBO();
+		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
+
+		$videoid = JRequest::getInt( 'videoid', 0 );
+		$groupid = JRequest::getInt( 'groupid', 0 );
+
+		if ($videoid > 0 && $groupid > 0)
+		{
+			$db->SetQuery("DELETE FROM #__hwdvidsgroup_videos WHERE videoid = $videoid AND groupid = $groupid");
+			$db->Query();
+			if ( !$db->query() ) {
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				exit();
+			}
+		}
+
+		$msg = "Video deleted from group";
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=editgrpA&hidemainmenu=1&cid='.$groupid );
 	}
 }
 ?>

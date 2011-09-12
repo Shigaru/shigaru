@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -33,9 +33,7 @@
   
   {foreach name=outer item=data from=$list}
 
-      <a href="{$data->link}">
-        <span style="font-size: {$data->size}%; filter:alpha(opacity={$data->transparency1}); -moz-opacity:{$data->transparency2}; -khtml-opacity: {$data->transparency2}; opacity: {$data->transparency2};\">{$data->tag}</span>
-      </a>
+      <a href="{$data->link}" style="padding:1px 3px;"><span style="font-size: {$data->size}%; filter:alpha(opacity={$data->transparency1}); -moz-opacity:{$data->transparency2}; -khtml-opacity: {$data->transparency2}; opacity: {$data->transparency2};\">{$data->tag}</span></a>
 
   {/foreach}
   

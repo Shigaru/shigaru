@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -34,19 +34,26 @@ class hwdvids_BE_settings
 	*/
 	function showgeneralsettings()
 	{
+		global $j15;
 		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'draw.php');
 		hwdvsDrawFile::generalConfig();
 
-		jimport('joomla.user.authorization');
-		$acl=& JFactory::getACL();
+		if ($j15)
+		{
+			jimport('joomla.user.authorization');
+			$acl=& JFactory::getACL();
 
-		$gtree=array();
-		$gtree[] = JHTML::_('select.option', -2 , '- ' ._HWDVIDS_SELECT_EVERYONE . ' -');
-		$gtree[] = JHTML::_('select.option', -1, '- ' . _HWDVIDS_SELECT_ALLREGUSER . ' -');
-		$gtree = array_merge( $gtree, $acl->get_group_children_tree( null, 'USERS', false  ) );
+			$gtree=array();
+			$gtree[] = JHTML::_('select.option', -2 , '- ' ._HWDVIDS_SELECT_EVERYONE . ' -');
+			$gtree[] = JHTML::_('select.option', -1, '- ' . _HWDVIDS_SELECT_ALLREGUSER . ' -');
+			$gtree = array_merge( $gtree, $acl->get_group_children_tree( null, 'USERS', false  ) );
+		}
+		else
+		{
+			$gtree = null;
+		}
 
 		hwdvids_HTML::showgeneralsettings($gtree);
-
 	}
    /**
 	*/
@@ -60,15 +67,15 @@ class hwdvids_BE_settings
 	*/
 	function saveserver($ffmpegpath, $flvtool2path, $mencoderpath, $phppath)
 	{
-		global $mainframe, $option;
 		$db = & JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
 		//register globals = off
 		if (!empty($_POST)) {
 			extract($_POST);
 		}
 
-		if (($ffmpegpath[strlen($ffmpegpath)-1]) == "\\") { echo "here"; $ffmpegpath = substr_replace($ffmpegpath ,"",-2); }
+		if (($ffmpegpath[strlen($ffmpegpath)-1]) == "\\") { $ffmpegpath = substr_replace($ffmpegpath ,"",-2); }
         if (($flvtool2path[strlen($flvtool2path)-1]) == "\\") { $flvtool2path = substr_replace($flvtool2path ,"",-2); }
 		if (($mencoderpath[strlen($mencoderpath)-1]) == "\\") { $mencoderpath = substr_replace($mencoderpath ,"",-2); }
 		if (($phppath[strlen($phppath)-1]) == "\\") { $phppath = substr_replace($phppath ,"",-2); }
@@ -80,6 +87,7 @@ class hwdvids_BE_settings
 		$HWDSS['updates'][2] = "UPDATE #__hwdvidsss SET value = '$mencoderpath' WHERE setting = 'mencoderpath'";
 		$HWDSS['updates'][3] = "UPDATE #__hwdvidsss SET value = '$phppath' WHERE setting = 'phppath'";
 		$HWDSS['updates'][4] = "UPDATE #__hwdvidsss SET value = '$wgetpath' WHERE setting = 'wgetpath'";
+		$HWDSS['updates'][5] = "UPDATE #__hwdvidsss SET value = '$qtfaststart' WHERE setting = 'qtfaststart'";
 		$HWDSS['message'] = "Saving server settings to database";
 		// apply
 		foreach($HWDSS['updates'] as $UPDT) {
@@ -94,29 +102,29 @@ class hwdvids_BE_settings
 		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'draw.php');
 		$updt_config = hwdvsDrawFile::serverConfig();
 		if ($updt_config) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETSAVED);
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=serversettings' );
+			$app->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETSAVED);
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=serversettings' );
 		} else {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETNOTSAVED);
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=serversettings' );
+			$app->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETNOTSAVED);
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=serversettings' );
 		}
 	}
    /**
 	*/
 	function savegeneral()
 	{
-		global $mainframe, $option;
+		$app = & JFactory::getApplication();
 
 		hwdvids_BE_settings::updateFromPost();
 
 		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'draw.php');
 		$updt_config = hwdvsDrawFile::generalConfig();
 		if ($updt_config) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETSAVED);
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=generalsettings' );
+			$app->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETSAVED);
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=generalsettings' );
 		} else {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETNOTSAVED);
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=generalsettings' );
+			$app->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETNOTSAVED);
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=generalsettings' );
 		}
 	}
    /**
@@ -124,25 +132,24 @@ class hwdvids_BE_settings
 	*/
 	function saveLayout()
 	{
-		global $mainframe, $option;
+		$app = & JFactory::getApplication();
 
 		hwdvids_BE_settings::updateFromPost();
 
 		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'draw.php');
 		$updt_config = hwdvsDrawFile::generalConfig();
 		if ($updt_config) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETSAVED);
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=layoutsettings' );
+			$app->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETSAVED);
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=layoutsettings' );
 		} else {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETNOTSAVED);
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=settings' );
+			$app->enqueueMessage(_HWDVIDS_ALERT_ADMIN_SETNOTSAVED);
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=settings' );
 		}
 	}
    /**
 	*/
 	function updateFromPost()
 	{
-		global $mainframe;
 		$db = & JFactory::getDBO();
 
 		//register globals = off
@@ -150,7 +157,7 @@ class hwdvids_BE_settings
 			extract($_POST);
 		}
 
-		if (isset($ad1custom) && $ad1custom !== '') { $ad1custom = trim( $ad1custom ); }
+                if (isset($ad1custom) && $ad1custom !== '') { $ad1custom = trim( $ad1custom ); }
 		if (isset($customencode) && $customencode !== '') {
 			$customencode = stripslashes($customencode);
 			$customencode = preg_replace("/[^A-Za-z0-9-.'_\s\s+]/", "", $customencode);
@@ -214,6 +221,16 @@ class hwdvids_BE_settings
 		for ($i=0, $n=count($plarray05); $i < $n; $i++) {
 			if ($i == ($n-1)) { $xmlcustom05.= intval($plarray05[$i]); } else { $xmlcustom05.= intval($plarray05[$i]).","; }
 		}
+
+		//linux
+		if (substr($vsdirectory, -1) == "/")
+		{
+			$vsdirectory = substr($vsdirectory, 0, -1);
+		}
+		//windows
+		if (($vsdirectory[strlen($vsdirectory)-1]) == "\\") { $vsdirectory = substr_replace($vsdirectory ,"",-2); }
+		if (($vsdirectory[strlen($vsdirectory)-1]) == "\\") { $vsdirectory = substr_replace($vsdirectory ,"",-2); }
+		$vsdirectory = str_replace("\\", "\\\\", $vsdirectory);
 
 		// update server settings db
 		if (isset($vpp) && $vpp !== '') { $HWDGS['updates'][0] = "UPDATE #__hwdvidsgs SET value = '$vpp' WHERE setting = 'vpp'"; }
@@ -293,7 +310,7 @@ class hwdvids_BE_settings
 		if (isset($truncdesc) && $truncdesc !== '') { $HWDGS['updates'][73] = "UPDATE #__hwdvidsgs SET value = '$truncdesc' WHERE setting = 'truncdesc'"; }
 		if (isset($trungdesc) && $trungdesc !== '') { $HWDGS['updates'][74] = "UPDATE #__hwdvidsgs SET value = '$trungdesc' WHERE setting = 'trungdesc'"; }
 		if (isset($truntitle) && $truntitle !== '') { $HWDGS['updates'][75] = "UPDATE #__hwdvidsgs SET value = '$truntitle' WHERE setting = 'truntitle'"; }
-		if ($task == "savegeneral") {
+		if ($task == "savelayout") {
 			$HWDGS['updates'][76] = "UPDATE #__hwdvidsgs SET value = '$sb_digg' WHERE setting = 'sb_digg'";
 			$HWDGS['updates'][77] = "UPDATE #__hwdvidsgs SET value = '$sb_reddit' WHERE setting = 'sb_reddit'";
 			$HWDGS['updates'][78] = "UPDATE #__hwdvidsgs SET value = '$sb_delicious' WHERE setting = 'sb_delicious'";
@@ -476,14 +493,32 @@ class hwdvids_BE_settings
 		if (isset($uselibx264) && $uselibx264 !== '') { $HWDGS['updates'][249] = "UPDATE #__hwdvidsgs SET value = '$uselibx264' WHERE setting = 'uselibx264'"; }
 		if (isset($countcvids) && $countcvids !== '') { $HWDGS['updates'][250] = "UPDATE #__hwdvidsgs SET value = '$countcvids' WHERE setting = 'countcvids'"; }
 		if (isset($search_method) && $search_method !== '') { $HWDGS['updates'][251] = "UPDATE #__hwdvidsgs SET value = '$search_method' WHERE setting = 'search_method'"; }
-		if (isset($search_title) && $search_title !== '') { $HWDGS['updates'][252] = "UPDATE #__hwdvidsgs SET value = '$search_title' WHERE setting = 'search_title'"; }
-		if (isset($search_descr) && $search_descr !== '') { $HWDGS['updates'][253] = "UPDATE #__hwdvidsgs SET value = '$search_descr' WHERE setting = 'search_descr'"; }
-		if (isset($search_keywo) && $search_keywo !== '') { $HWDGS['updates'][254] = "UPDATE #__hwdvidsgs SET value = '$search_keywo' WHERE setting = 'search_keywo'"; }
+		if ($task == "savegeneral") {
+			$HWDGS['updates'][252] = "UPDATE #__hwdvidsgs SET value = '$search_title' WHERE setting = 'search_title'";
+			$HWDGS['updates'][253] = "UPDATE #__hwdvidsgs SET value = '$search_descr' WHERE setting = 'search_descr'";
+			$HWDGS['updates'][254] = "UPDATE #__hwdvidsgs SET value = '$search_keywo' WHERE setting = 'search_keywo'";
+		}
 		if (isset($vsdirectory) && $vsdirectory !== '') { $HWDGS['updates'][255] = "UPDATE #__hwdvidsgs SET value = '$vsdirectory' WHERE setting = 'vsdirectory'"; }
 		if (isset($use_protection) && $use_protection !== '') { $HWDGS['updates'][256] = "UPDATE #__hwdvidsgs SET value = '$use_protection' WHERE setting = 'use_protection'"; }
 		if (isset($protection_level) && $protection_level !== '') { $HWDGS['updates'][257] = "UPDATE #__hwdvidsgs SET value = '$protection_level' WHERE setting = 'protection_level'"; }
 		if (isset($cnvt_keyf) && $cnvt_keyf !== '') { $HWDGS['updates'][258] = "UPDATE #__hwdvidsgs SET value = '$cnvt_keyf' WHERE setting = 'cnvt_keyf'"; }
 		if (isset($age_check) && $age_check !== '') { $HWDGS['updates'][259] = "UPDATE #__hwdvidsgs SET value = '$age_check' WHERE setting = 'age_check'"; }
+		if (isset($gtree_edtr) && $gtree_edtr !== '') { $HWDGS['updates'][260] = "UPDATE #__hwdvidsgs SET value = '$gtree_edtr' WHERE setting = 'gtree_edtr'"; }
+		if (isset($gtree_edtr_child) && $gtree_edtr_child !== '') { $HWDGS['updates'][261] = "UPDATE #__hwdvidsgs SET value = '$gtree_edtr_child' WHERE setting = 'gtree_edtr_child'"; }
+		if (isset($disable_nav_playlist) && $disable_nav_playlist !== '') { $HWDGS['updates'][262] = "UPDATE #__hwdvidsgs SET value = '$disable_nav_playlist' WHERE setting = 'disable_nav_playlist'"; }
+		if (isset($disable_nav_channel) && $disable_nav_channel !== '') { $HWDGS['updates'][263] = "UPDATE #__hwdvidsgs SET value = '$disable_nav_channel' WHERE setting = 'disable_nav_channel'"; }
+		if (isset($storagetype) && $storagetype !== '') { $HWDGS['updates'][264] = "UPDATE #__hwdvidsgs SET value = '$storagetype' WHERE setting = 'storagetype'"; }
+		if (isset($cnvt_fsize_hd) && $cnvt_fsize_hd !== '') {                               $HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '$cnvt_fsize_hd' WHERE setting = 'cnvt_fsize_hd'"; }
+		if (isset($cnvt_hd_preset) && $cnvt_hd_preset !== '') {                             $HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '$cnvt_hd_preset' WHERE setting = 'cnvt_hd_preset'"; }
+		if (isset($keep_ar) && $keep_ar !== '') {                                           $HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '$keep_ar' WHERE setting = 'keep_ar'"; }
+		if (isset($warpAccountKey) && $warpAccountKey !== '') {                             $HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '$warpAccountKey' WHERE setting = 'warpAccountKey'"; }
+		if (isset($warpSecretKey) && $warpSecretKey !== '') {                               $HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '$warpSecretKey' WHERE setting = 'warpSecretKey'"; }
+		if (isset($cpp) && $cpp !== '') {                                                   $HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '$cpp' WHERE setting = 'cpp'"; }
+		if ($task == "savegeneral") {
+			$HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '$ipod320' WHERE setting = 'ipod320'";
+			$HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '$ipod640' WHERE setting = 'ipod640'";
+		}
+		if (isset($multiple_cats) && $multiple_cats !== '') {                               $HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '$multiple_cats' WHERE setting = 'multiple_cats'"; }
 
 		$HWDGS['message'] = "Saving general settings to database";
 		// apply
@@ -492,9 +527,35 @@ class hwdvids_BE_settings
 			if(!$db->query()) {
 				//Save failed
 				print("<font color=red>".$HWDGS['message']." failed! SQL error:" . $db->stderr(true)."</font><br />");
+				//return;
+			}
+		}
+	}
+   /**
+	*/
+	function restoreDefaults()
+	{
+		$db = & JFactory::getDBO();
+		$app = & JFactory::getApplication();
+
+		$HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '6' WHERE setting = 'vpp'";
+		$HWDGS['updates'][] = "UPDATE #__hwdvidsgs SET value = '6' WHERE setting = 'vpp'";
+
+
+		$HWDGS['message'] = "Saving general settings to database";
+
+		foreach($HWDGS['updates'] as $UPDT)
+		{
+			$db->setQuery($UPDT);
+			if(!$db->query())
+			{
+				print("<font color=red>".$HWDGS['message']." failed! SQL error:" . $db->stderr(true)."</font><br />");
 				return;
 			}
 		}
+
+		$app->enqueueMessage("Default Settings Restored");
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=generalsettings' );
 	}
 }
 ?>

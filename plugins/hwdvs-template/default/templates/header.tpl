@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -12,15 +12,18 @@
 <div id="hwdvids">
 <center>
    {if $print_ads}{if $advert1}<div id="hwdadverts-padding">{$advert1}</div>{/if}{/if}
-   {if $print_search}
-   <div id="searchWrapper">
-		<form action="{$form_search}" method="post" name="mainnavform">
-			<div id="hwdsearchbar" class="hwdsearchbar">
-				<div class="hwdsearchbox">{$searchinput}</div>
+			{if $print_search}
+			<div id="hwdvs_searchbar" class="hwdsearchbar">
+				<div class="rounded_input">
+					<div class="contain menudo_image">
+						<form action="{$form_search}" method="post">
+							{$searchinput_alt}
+							<input type="submit" value="" onclick="menudo_search(); return false;" class="button" />
+						</form>
+					</div>
+				</div>
 			</div>
-		</form>
-	</div>	
-   {/if}
+			{/if}
    {if $print_nav}
    <div id="hwdvs_navcontainer">
       <ul id="navlist">
@@ -31,14 +34,24 @@
       </ul>
    </div>
    {/if}
+   
    <div style="clear:both;"></div>
+   
    {if $print_moderation}
-   <div class="usernav">{$smarty.const._HWDVIDS_MODPA}&nbsp;&nbsp;{$smarty.const._HWDVIDS_MODRV}&nbsp;&nbsp;{$smarty.const._HWDVIDS_MODRG}</div>
+   <div class="usernav">{$pending}{$reportedvideos}{$reportedgroups}</div>
    {/if}
+   
    <div style="clear:both;"></div>
    
    {if $print_usernav}
-   <div class="usernav">{$yv}&nbsp;&nbsp;{$yf}&nbsp;&nbsp;{$yg}&nbsp;&nbsp;{$ym}&nbsp;&nbsp;{$cg}</div>
+   <div class="usernav">{$yv}{$yf}{$yg}{$ym}{$yp}</div>
    {/if}
+   
+   {if $print_usernav}
+   <div class="usernav">{$cg}{$cp}{$yc}</div>
+   {/if}   
+   
    {if $print_ads}{if $advert2}<div id="hwdadverts-padding">{$advert2}</div>{/if}{/if}
 </center>
+
+

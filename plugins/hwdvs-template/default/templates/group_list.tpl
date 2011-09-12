@@ -1,14 +1,14 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
 
 <div class="box">
-  <div style="width:{$thumbwidth};float:left;">{$data->thumbnail}</div>
+  <div class="listThumbnail" style="float:left;">{$data->thumbnail}</div>
   <div class="avatar">{$data->avatar}</div>
   <div style="clear:right;float:right;text-align:right;">{$data->groupmembership}</div>
   <div style="clear:right;float:right;text-align:right;">{$data->reportgroup}</div>

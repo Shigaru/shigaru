@@ -28,7 +28,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
   <link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/skin.css" rel="stylesheet" type="text/css"/>
 
-
 <!--[if lte IE 6]>
 <link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
 <![endif]-->
@@ -46,10 +45,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <script>
 	jQuery.noConflict();
   jQuery(document).ready(function() {
-    jQuery("#tabs,#tabs-tags,#comments-tabs").tabs({ fx: { opacity: 'toggle' } });
+    jQuery("#tabs,#tabs-tags,#comments-tabs").tabs({ fx: { opacity: 'toggle'} });
     jQuery('.jcarousel-skin-tango').jcarousel({
-        auto: 3,
-        scroll:3
+        auto: 4,scroll:3, animation: 3000, easing:'swing' 
     });
     
     	

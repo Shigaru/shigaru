@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0" method="upgrade">
 	<name>hwdVideoShare</name>
-	<creationDate>2010 04 19</creationDate>
+	<creationDate>2011-09-09</creationDate>
 	<author>Highwood Design</author>
-	<copyright>(C) 2007 - 2009 Highwood Design</copyright>
+	<copyright>(C) 2007 - 2011 Highwood Design</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>info@highwooddesign.co.uk</authorEmail>
 	<authorUrl>http://hwdmediashare.co.uk</authorUrl>
-	<version>[ Masterton ]</version>
+	<version>[ Nightly Build ]</version>
 	<description>Social networking video sharing component for the Joomla! CMS</description>
 
 	<installfile>install.hwdvideoshare.php</installfile>
@@ -18,6 +19,12 @@
 			<file driver="mysql">install.mysql.nonutf8.sql</file>
 		</sql>
 	</install>
+
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
 
 	<files folder="frontend">
 		<folder>assets/</folder>
@@ -39,20 +46,20 @@
 	</files>
 	
 	<administration>
-		<menu>hwdVideoShare</menu>
+		<menu img="../administrator/components/com_hwdvideoshare/assets/images/menu/hwdvideoshare.png">hwdVideoShare</menu>
 		<submenu>
-			<menu task="videos">Videos</menu>
-			<menu task="categories">Categories</menu>
-			<menu task="groups">Groups</menu>
-			<menu task="serversettings">Server Settings</menu>
-			<menu task="generalsettings">General Settings</menu>
-			<menu task="converter">Converter</menu>
-			<menu task="approvals">Pending Approval</menu>
-			<menu task="reported">Reported Media</menu>
-			<menu task="plugins">Plugins</menu>
-			<menu task="export">Export Data</menu>
-			<menu task="import">Import Data</menu>
-			<menu task="maintenance">Maintenance</menu>
+			<menu task="videos" img="../administrator/components/com_hwdvideoshare/assets/images/menu/hwdvideoshare.png">Videos</menu>
+			<menu task="categories" img="../administrator/components/com_hwdvideoshare/assets/images/menu/categories.png">Categories</menu>
+			<menu task="groups" img="../administrator/components/com_hwdvideoshare/assets/images/menu/groups.png">Groups</menu>
+			<menu task="serversettings" img="../administrator/components/com_hwdvideoshare/assets/images/menu/seversettings.png">Server Settings</menu>
+			<menu task="generalsettings" img="../administrator/components/com_hwdvideoshare/assets/images/menu/generalsettings.png">General Settings</menu>
+			<menu task="converter" img="../administrator/components/com_hwdvideoshare/assets/images/menu/converter.png">Converter</menu>
+			<menu task="approvals" img="../administrator/components/com_hwdvideoshare/assets/images/menu/approvals.png">Pending Approval</menu>
+			<menu task="reported" img="../administrator/components/com_hwdvideoshare/assets/images/menu/reported.png">Reported Media</menu>
+			<menu task="plugins" img="../administrator/components/com_hwdvideoshare/assets/images/menu/plugins.png">Plugins</menu>
+			<menu task="export" img="../administrator/components/com_hwdvideoshare/assets/images/menu/export.png">Export Data</menu>
+			<menu task="import" img="../administrator/components/com_hwdvideoshare/assets/images/menu/import.png">Import Data</menu>
+			<menu task="maintenance" img="../administrator/components/com_hwdvideoshare/assets/images/menu/maintenance.png">Maintenance</menu>
 		</submenu>
 		<files folder="administrator">
 			<folder>assets/</folder>
@@ -60,12 +67,16 @@
 			<folder>install/</folder>
 			<folder>libraries/</folder>
 			<folder>models/</folder>
+                        <folder>sql/</folder>
+                        <folder>tables/</folder>
 			<folder>templates/</folder>
 			<folder>views/</folder>
 
+			<filename>access.xml</filename>
 			<filename>admin.hwdvideoshare.html.php</filename>
 			<filename>admin.hwdvideoshare.php</filename>
 			<filename>config.hwdvideoshare.php</filename>
+			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>index.html</filename>
 			<filename>install.mysql.utf8.sql</filename>
@@ -77,8 +88,9 @@
 		</files>
 		
 		<languages folder="languages/admin">
-			<language tag="en-GB">en-GB.com_hwdvideoshare.menu.ini</language>
 			<language tag="en-GB">en-GB.com_hwdvideoshare.ini</language>
+			<language tag="en-GB">en-GB.com_hwdvideoshare.menu.ini</language>
+			<language tag="en-GB">en-GB.com_hwdvideoshare.sys.ini</language>
 		</languages>
 		
 	</administration>

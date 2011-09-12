@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -14,8 +14,10 @@
       <td width="150">{$smarty.const._HWDVIDS_ACCESS}</td>
       <td>
         <select name="public_private">
-          <option value="public"{$so1p}>{$smarty.const._HWDVIDS_SELECT_PUBLIC}</option>
-          <option value="registered"{$so1r}>{$smarty.const._HWDVIDS_SELECT_REG}</option>
+		<option value="public"{$so1p}>{$smarty.const._HWDVIDS_SELECT_PUBLIC}</option>
+		<option value="registered"{$so1r}>{$smarty.const._HWDVIDS_SELECT_REG}</option>
+		<option value="me"{$so1m}>{$smarty.const._HWDVIDS_SELECT_ME}</option>
+		<option value="password"{$so1w}>{$smarty.const._HWDVIDS_SELECT_PASSWORD}</option>
         </select>
       </td>
     </tr>

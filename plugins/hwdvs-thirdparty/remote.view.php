@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license Creative Commons Attribution-Non-Commercial-No Derivative Works 3.0 Unported Licence
  *    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
  */
@@ -43,13 +43,7 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 			$data = @explode(",", $row->video_id);
 			$truepath = remotePrepareFlvURL($row->video_id);
 
-			$file_ext = substr($row->thumbnail, strrpos($row->thumbnail, '.') + 1);
-
-			if (file_exists(JPATH_SITE . DS . "hwdvideos" . DS . "thumbs" . DS . "l_tp-" . $data[0] . "." . $file_ext)) {
-				$thumb_url = JURI::root(true) . DS . "hwdvideos" . DS . "thumbs" . DS . "l_tp-" . $data[0] . "." . $file_ext;
-			} else {
-				$thumb_url = (!empty($row->thumbnail) ? $row->thumbnail : $data[1]);
-			}
+			$thumb_url = hwd_vs_tools::generatePlayerThumbnail($row);
 
 			$player = new hwd_vs_videoplayer();
 
@@ -77,9 +71,9 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 						$flv_path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xspf'.DS.$row->id.'.xml';
 
 						if ($c->loadswfobject == "on" && $task !=="grabjomsocialplayer") {
-							$code.= $player->prepareplayer($flv_url, $flv_width, $flv_height, rand(100, 999), "playlist", $flv_path, null, $autostart);
+							$code.= $player->prepareplayer($flv_url, $flv_width, $flv_height, rand(100, 999), "playlist", $flv_path, null, $autostart, $row->id);
 						} else {
-							$code.= $player->prepareEmbeddedPlayer($flv_url, $flv_width, $flv_height, rand(100, 999), "playlist", $flv_path, null, $autostart);
+							$code.= $player->prepareEmbeddedPlayer($flv_url, $flv_width, $flv_height, rand(100, 999), "playlist", $flv_path, null, $autostart, $row->id);
 						}
 						return $code;
 					}
@@ -88,9 +82,9 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 			}
 
 			if ($c->loadswfobject == "on") {
-				$code.= $player->prepareplayer($truepath, $flv_width, $flv_height, rand(100, 999), "youtube", null, $thumb_url, $autostart);
+				$code.= $player->prepareplayer($truepath, $flv_width, $flv_height, rand(100, 999), "remote", null, $thumb_url, $autostart, $row->id);
 			} else {
-				$code.= $player->prepareEmbeddedPlayer($truepath, $flv_width, $flv_height, rand(100, 999), "youtube", null, $thumb_url, $autostart);
+				$code.= $player->prepareEmbeddedPlayer($truepath, $flv_width, $flv_height, rand(100, 999), "remote", null, $thumb_url, $autostart, $row->id);
 			}
 
 			return $code;
@@ -189,22 +183,13 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
      * @param int    $Itemid  the joomla menu id
      * @return       $code   the full third party thumbnail image tag
      */
-	function remotePrepareVideoEmbed($option, $vid, $Itemid)
+	function remotePrepareVideoEmbed($video_id, $vid, $Itemid, $row=null)
 	{
-		$code = '';
-
-		if (substr($option, 0, 6) == 'embed|') {
-
-			if (file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'embed.view.php')) {
-
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'embed.view.php');
-				$code = embedPrepareVideoEmbed($option);
-
-			}
-
-		} else {
-		}
-
+		$data = @explode(",", $video_id);
+		$truepath = $data[0];
+		$thumb_url = hwd_vs_tools::generatePlayerThumbnail($row);
+		$player = new hwd_vs_videoplayer();
+		$code = $player->prepareEmbedCode($truepath, null, null, null, "remote", null, $thumb_url, 0, $vid);
 		return $code;
 	}
     /**
@@ -219,10 +204,9 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 	{
 		$code = '';
 
-		if (substr($option, 0, 6) == 'embed|') {
-
+		if (substr($option, 0, 6) == 'embed|')
+		{
 			return;
-
 		}
 		else
 		{
@@ -237,8 +221,6 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 				return;
 			}
 		}
-
 		return $code;
-
 	}
 ?>

@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license Creative Commons Attribution-Non-Commercial-No Derivative Works 3.0 Unported Licence
  *    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
  */
@@ -26,33 +26,33 @@ class hwd_vs_videoplayer {
      */
     function prepareplayer($flv_url, $flv_width=427, $flv_height=340, $ui=0, $mediatype="video", $flv_path=null, $thumb_url=null, $autostart=null, $video_id=null, $rtmp=null)
 	{
-		global $task, $smartyvs, $option, $show_longtail, $longtail_c, $longtail_mediaid, $mainframe, $videoplayer;
-		if (!defined('HWDVIDSPATH')) { define('HWDVIDSPATH', dirname(__FILE__).'/../../'); }
+		global $task, $smartyvs, $option, $Itemid, $show_longtail, $longtail_c, $j15, $j16;
 		$c = hwd_vs_Config::get_instance();
+$doc = & JFactory::getDocument();
 
-		$code=null;
+		if ($j16)
+		{
+			$playerSwf = JURI::root()."plugins/hwdvs-videoplayer/jwflv/jwflv/mediaplayer.swf";
+		}
+		else
+		{
+			$playerSwf = JURI::root()."plugins/hwdvs-videoplayer/jwflv/mediaplayer.swf";
+		}
 
-		$getFlashVars = hwd_vs_videoplayer::getFlashVars($flv_url, $flv_width, $flv_height, $ui, $mediatype, $flv_path, $thumb_url, $autostart, null, null, $rtmp);
+		$code = null;
+
+		$getFlashVars = hwd_vs_videoplayer::getFlashVars($flv_url, $flv_width, $flv_height, $ui, $mediatype, $flv_path, $thumb_url, $autostart, null, $video_id, $rtmp);
 		$flashvars15 = $getFlashVars->flashvars15;
 		$flashvars21 = $getFlashVars->flashvars21;
 
-		if ($show_longtail && !defined( '_HWD_VS_LTFLAG' )) {
-
-			if (empty($videoplayer->id)) { $videoplayer->title = rand(); }
-			if (empty($videoplayer->title)) { $videoplayer->title = "Video"; }
-			if (empty($videoplayer->description)) { $videoplayer->description = "Video"; }
-
-			$flashvars15.= '&ltas.cc='.$longtail_c.'&ltas.mediaid='.$longtail_mediaid.'_'.$videoplayer->id.'&title='.@$videoplayer->title.'&description='.@$videoplayer->description.'&plugins=ltas';
-
-		}
-
-		if (!defined( '_HWD_VS_SWFOFLAG' )) {
+		if (!defined( '_HWD_VS_SWFOFLAG' ))
+		{
 			define( '_HWD_VS_SWFOFLAG', 1 );
 
 			if ($c->swfobject == 1) {
-				$mainframe->addCustomHeadTag('<script type="text/javascript" src="'.JURI::root( true ).'/components/com_hwdvideoshare/assets/js/swfobject1.5.js"></script>');
+				$doc->addCustomTag('<script type="text/javascript" src="'.JURI::root( true ).'/components/com_hwdvideoshare/assets/js/swfobject1.5.js"></script>');
 			} else {
-				$mainframe->addCustomHeadTag('<script type="text/javascript" src="'.JURI::root( true ).'/components/com_hwdvideoshare/assets/js/swfobject2.1.js"></script>');
+				$doc->addCustomTag('<script type="text/javascript" src="'.JURI::root( true ).'/components/com_hwdvideoshare/assets/js/swfobject2.1.js"></script>');
 			}
 
 			if (($c->loadmootools == "on") && (strpos(JURI::base(true), "/administrator") === false)) {
@@ -66,12 +66,13 @@ class hwd_vs_videoplayer {
 			$divid="flashcontent_".$ui;
 		}
 
-		if ($c->swfobject == 1) {
+		if ($c->swfobject == 1)
+		{
 
 			$code.="<div id=\"".$divid."\" name=\"".$divid."\" style=\"text-align:inherit;height:100%;width:100%;\">"._HWDVIDS_INFO_ENABLEJAVA."</div>
 					<script type=\"text/javascript\">";
 					if ($c->ieoa_fix == 1) { $code.='window.addEvent(\'domready\', function(){'; }
-			$code.="					   var so_".$ui." = new SWFObject(\"".JURI::root()."plugins/hwdvs-videoplayer/jwflv/mediaplayer.swf?".rand()."\", \"hwdvs\", \"".$getFlashVars->param_width."\", \"".$getFlashVars->param_height."\", \"8\", \"#".$getFlashVars->param_bgcolor."\");
+			$code.="					   var so_".$ui." = new SWFObject(\"".$playerSwf."?".rand()."\", \"hwdvs\", \"".$getFlashVars->param_width."\", \"".$getFlashVars->param_height."\", \"8\", \"#".$getFlashVars->param_bgcolor."\");
 										   so_".$ui.".addVariable(\"width\",\"".$getFlashVars->param_width."\");
 										   so_".$ui.".addVariable(\"height\",\"".$getFlashVars->param_height."\");
 										   so_".$ui.".addParam(\"allowfullscreen\", \"true\");
@@ -103,11 +104,11 @@ class hwd_vs_videoplayer {
 									  wmode: "transparent"
 									};
 
-									swfobject.embedSWF("'.JURI::root().'plugins/hwdvs-videoplayer/jwflv/mediaplayer.swf?'.rand().'", "'.$divid.'", "'.$getFlashVars->param_width.'", "'.$getFlashVars->param_height.'", "9.0.0","expressInstall.swf", flashvars, params);
+									swfobject.embedSWF("'.$playerSwf.'?'.rand().'", "'.$divid.'", "'.$getFlashVars->param_width.'", "'.$getFlashVars->param_height.'", "9.0.0","expressInstall.swf", flashvars, params);
 
 							  </script>';
 
-			$mainframe->addCustomHeadTag($dynamicheader);
+			$doc->addCustomTag($dynamicheader);
 
     		$code.="<div id=\"".$divid."\" name=\"".$divid."\" style=\"text-align:inherit;height:100%;width:100%;\">"._HWDVIDS_INFO_ENABLEJAVA."</div>";
 
@@ -118,24 +119,22 @@ class hwd_vs_videoplayer {
 
     function prepareEmbeddedPlayer($flv_url, $flv_width=427, $flv_height=340, $ui=0, $mediatype="video", $flv_path=null, $thumb_url=null, $autostart=null, $video_id=null, $rtmp=null)
 	{
-		global $task, $smartyvs, $option, $show_longtail, $longtail_c, $longtail_mediaid, $mainframe, $Itemid, $videoplayer;
-		if (!defined('HWDVIDSPATH')) { define('HWDVIDSPATH', dirname(__FILE__).'/../../'); }
+		global $task, $smartyvs, $option, $task, $Itemid, $show_longtail, $longtail_c, $j15, $j16;
 		$c = hwd_vs_Config::get_instance();
 
-		$code=null;
-
-		$getFlashVars = hwd_vs_videoplayer::getFlashVars($flv_url, $flv_width, $flv_height, $ui, $mediatype, $flv_path, $thumb_url, $autostart, null, null, $rtmp);
-		$flashvars15 = $getFlashVars->flashvars15;
-
-		if ($show_longtail && !defined( '_HWD_VS_LTFLAG' )) {
-
-			if (empty($videoplayer->id)) { $videoplayer->id = rand(); }
-			if (empty($videoplayer->title)) { $videoplayer->title = "Video"; }
-			if (empty($videoplayer->description)) { $videoplayer->description = "Video"; }
-
-			$flashvars15.= '&ltas.cc='.$longtail_c.'&ltas.mediaid='.$longtail_mediaid.'_'.$videoplayer->id.'&title='.@$videoplayer->title.'&description='.@$videoplayer->description.'&plugins=ltas';
-
+		if ($j16)
+		{
+			$playerSwf = JURI::root()."plugins/hwdvs-videoplayer/jwflv/jwflv/mediaplayer.swf";
 		}
+		else
+		{
+			$playerSwf = JURI::root()."plugins/hwdvs-videoplayer/jwflv/mediaplayer.swf";
+		}
+
+		$code = null;
+
+		$getFlashVars = hwd_vs_videoplayer::getFlashVars($flv_url, $flv_width, $flv_height, $ui, $mediatype, $flv_path, $thumb_url, $autostart, null, $video_id, $rtmp);
+		$flashvars15 = $getFlashVars->flashvars15;
 
 		if ($show_longtail) {
 			$divid="mediaspace";
@@ -148,27 +147,31 @@ class hwd_vs_videoplayer {
 
 		$code.="<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" width=\"".$getFlashVars->param_width."\" height=\"".$getFlashVars->param_height."\" id=\"".$divid."\" name=\"".$divid."\">\n";
 
-		$code.="<param name=\"movie\" value=\"".JURI::root()."plugins/hwdvs-videoplayer/jwflv/mediaplayer.swf\">\n";
+		$code.="<param name=\"movie\" value=\"".$playerSwf."\">\n";
 		$code.="<param name=\"allowfullscreen\" value=\"true\">\n";
 		$code.="<param name=\"allowscriptaccess\" value=\"always\">\n";
 		$code.="<param name=\"menu\" value=\"false\">\n";
 		$code.="<param name=\"wmode\" value=\"transparent\">\n";
 		$code.="<param name=\"flashvars\" value=\"".$flashvars15."\">\n";
 
-		$code.="<embed src=\"".JURI::root()."plugins/hwdvs-videoplayer/jwflv/mediaplayer.swf\" width=\"".$getFlashVars->param_width."\" height=\"".$getFlashVars->param_height."\" allowscriptaccess=\"always\" id=\"".$divid."\" name=\"".$divid."\" wmode=\"transparent\" allowfullscreen=\"true\" flashvars=\"".$flashvars15."\" />\n";
+		$code.="<embed src=\"".$playerSwf."\" width=\"".$getFlashVars->param_width."\" height=\"".$getFlashVars->param_height."\" allowscriptaccess=\"always\" id=\"".$divid."\" name=\"".$divid."\" wmode=\"transparent\" allowfullscreen=\"true\" flashvars=\"".$flashvars15."\" />\n";
 
 		$code.="</object>\n";
 
 		$code.="</div>\n";
 
-		$code.="<!--[if IE]><script>
-				window.addEvent('beforeunload', function() {
-					document.getElementById('holder').innerHTML = '';
+		if ($task !== "grabajaxplayer")
+		{
+			$code.="<!--[if IE]><script>
+					window.addEvent('beforeunload', function()
+					{
+						document.getElementById('holder').innerHTML = '';
+					});
+					</script><![endif]-->";
+		}
 
-				});
-				</script><![endif]-->";
-
-		if ($show_longtail && !defined( '_HWD_VS_LTFLAG' )) {
+		if ($show_longtail && !defined( '_HWD_VS_LTFLAG' ))
+		{
 			$code.='<script type="text/javascript" src="http://www.ltassrv.com/AdSrv/js/?cc='.$longtail_c.'"></script>';
 			define( '_HWD_VS_LTFLAG', 1 );
 		}
@@ -176,26 +179,44 @@ class hwd_vs_videoplayer {
 	}
     function prepareEmbedCode($flv_url, $flv_width=427, $flv_height=340, $ui=0, $mediatype="video", $flv_path=null, $thumb_url=null, $autostart=null, $video_id=null, $rtmp=null)
 	{
-		global $Itemid, $task, $mosConfig_sitename, $option, $mainframe;
-		if (!defined('HWDVIDSPATH')) { define('HWDVIDSPATH', dirname(__FILE__).'/../../'); }
+		global $Itemid, $task, $mosConfig_sitename, $option, $j15, $j16;
 		$c = hwd_vs_Config::get_instance();
 
-		$code=null;
+		if ($j16)
+		{
+			$playerSwf = JURI::root()."plugins/hwdvs-videoplayer/jwflv/jwflv/mediaplayer.swf";
+		}
+		else
+		{
+			$playerSwf = JURI::root()."plugins/hwdvs-videoplayer/jwflv/mediaplayer.swf";
+		}
 
-		$getFlashVars = hwd_vs_videoplayer::getFlashVars($flv_url, $flv_width, $flv_height, $ui, $mediatype, $flv_path, $thumb_url, $autostart, 1, $video_id, $rtmp=null);
+		$code = null;
+
+		$getFlashVars = hwd_vs_videoplayer::getFlashVars($flv_url, $flv_width, $flv_height, $ui, $mediatype, $flv_path, $thumb_url, $autostart, 1, $video_id, $rtmp);
 		$flashvars15 = $getFlashVars->flashvars15;
 
 		$getFlashVars->param_width = 427;
 	    $getFlashVars->param_height = intval($getFlashVars->param_width*$c->var_fb);
 
-		if ($c->embedreturnlink == 1) {
-			$code.='<div><center>';
+		if ($c->embedreturnlink == 1)
+		{
+			$code.="<div><center>";
 		}
-		$code.='<embed src=&#34;'.JURI::root().'plugins/hwdvs-videoplayer/jwflv/mediaplayer.swf&#34; width=&#34;'.$getFlashVars->param_width.'&#34; height=&#34;'.$getFlashVars->param_height.'&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; flashvars=&#34;'.$flashvars15.'&#34; />';
-		if ($c->embedreturnlink == 1) {
+		$code.="<object width=&#34;".$getFlashVars->param_width."&#34; height=&#34;".$getFlashVars->param_height."&#34;>
+<param name=&#34;movie&#34; value=&#34;".$playerSwf."&#34;></param>
+<param name=&#34;allowFullScreen&#34; value=&#34;true&#34;></param>
+<param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;></param>
+<param name=&#34;wmode&#34; value=&#34;transparent&#34;></param>
+<param name=&#34;flashvars&#34; value=&#34;".$flashvars15."&#34;></param>
+<embed src=&#34;".$playerSwf."&#34; type=&#34;application/x-shockwave-flash&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; width=&#34;".$getFlashVars->param_width."&#34; height=&#34;".$getFlashVars->param_height."&#34; wmode=&#34;transparent&#34; flashvars=&#34;".$flashvars15."&#34;></embed>
+</object>";
+		if ($c->embedreturnlink == 1)
+		{
 			$jconfig = new jconfig();
-			$code.='<br /><a href=&#34;'.JURI::root().'index.php?option=com_hwdvideoshare&Itemid='.$Itemid.'&#34; title=&#34;'.$jconfig->sitename.'&#34;>'.$jconfig->sitename.'</a></center></div>';
+			$code.="<br /><a href=&#34;".JURI::root()."index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewvideo&video_id=".$video_id."&#34; title=&#34;".$jconfig->sitename."&#34;>".$jconfig->sitename."</a></center></div>";
 		}
+
 		return $code;
 	}
 	/**
@@ -217,20 +238,48 @@ class hwd_vs_videoplayer {
 	*/
 	function getFlashVars($flv_url, $flv_width, $flv_height, $ui, $mediatype, $flv_path, $thumb_url, $autostart, $embed=0, $video_id=null, $rtmp=null)
 	{
-		global $smartyvs, $option, $Itemid, $show_longtail, $longtail_c, $longtail_d, $longtail_s, $mainframe;
+		global $smartyvs, $option, $Itemid, $show_longtail, $longtail_c, $longtail_mediaid, $show_video_ad, $videoplayer;
 
 		$c = hwd_vs_Config::get_instance();
+$doc = & JFactory::getDocument();
 
 		$params = hwd_vs_videoplayer::getMyParams('jwflv');
+		$plugins = "";
 
-		if (isset($flv_width) && !empty($flv_width)) {
+		if (isset($flv_width) && !empty($flv_width))
+		{
 			$param_width = $flv_width;
-		} else {
+		}
+		else
+		{
 			$param_width = $c->flvplay_width;
 		}
-		if (isset($flv_height) && !empty($flv_height)) {
+
+		if (isset($flv_height) && !empty($flv_height))
+		{
 			$param_height = $flv_height;
-		} else {
+		}
+		else if ($c->var_c == 1 && !empty($flv_path) && !isset($show_video_ad))
+		{
+			$extension = "ffmpeg";
+			$extension_soname = $extension . "." . PHP_SHLIB_SUFFIX;
+			$extension_fullname = PHP_EXTENSION_DIR . "/" . $extension_soname;
+
+			if(extension_loaded($extension))
+			{
+				$movie = new ffmpeg_movie($flv_path);
+				if (method_exists($movie,'getFrameHeight') && method_exists($movie,'getFrameWidth'))
+				{
+					$height = $movie->getFrameHeight();
+					$width = $movie->getFrameWidth();
+
+					$param_height = intval($param_width*($height/$width));
+				}
+			}
+		}
+
+		if (!isset($param_height))
+		{
 			$param_height = $param_width*$c->var_fb;
 		}
 
@@ -267,6 +316,8 @@ class hwd_vs_videoplayer {
 
 	    $param_pl_show = $params->get('pl_show', 1);
 	    $param_pl_position = $params->get('pl_position', 'right');
+
+	    $param_captions = $params->get('captions', 0);
 
 		if (($rtmp == "1")) {
 
@@ -305,26 +356,32 @@ class hwd_vs_videoplayer {
 			$flashvars21 = "file:\"".$rtmp_file."\"";
 			$flashvars15.= "&streamer=".$rtmp_streamer;
 			$flashvars21.= ",streamer:\"".$rtmp_streamer."\"";
+		}
+		else
+		{
+			if ($param_pseudostreaming == "1" && $mediatype == "video")
+			{
+				$flashvars15 = "provider=http";
+				$flashvars21 = "provider:\"http\"";
 
-		} else {
-
-			if ($param_pseudostreaming == "1") {
-
-				$flashvars15 = "&streamer=".JURI::root( true )."/plugins/hwdvs-videoplayer/jwflv/streamer.php";
-				$flashvars21 = ",streamer:\"".JURI::root( true )."/plugins/hwdvs-videoplayer/jwflv/streamer.php\"";
-
-				$flashvars15.= "&file=".$flv_url;
-				$flashvars21.= "file:\"".$flv_url."\"";
-				if ($param_start > 0) {
-					$flashvars15.= "&start=".$param_start;
-					$flashvars21.= ",start:\"".$param_start."\"";
+				if (substr($flv_url, -3) == "flv")
+				{
+					$flashvars15.= "&streamer=http://".$_SERVER['HTTP_HOST'].JURI::root( true )."/plugins/hwdvs-videoplayer/jwflv/streamer.php";
+					$flashvars21.= ",streamer:\"http://".$_SERVER['HTTP_HOST'].JURI::root( true )."/plugins/hwdvs-videoplayer/jwflv/streamer.php\"";
 				}
 
-			} else {
-				$flashvars15 = "&file=".$flv_url;
-				$flashvars21 = "file:\"".$flv_url."\"";
+				$flashvars15.= "&file=".$flv_url;
+				$flashvars21.= ",file:\"".$flv_url."\"";
+				if ($param_start > 0) {
+					$flashvars15.= "&http.startparam=".$param_start;
+					$flashvars21.= ",http.startparam:\"".$param_start."\"";
+				}
 			}
-
+			else
+			{
+				$flashvars15 = "file=".$flv_url;
+				$flashvars21 = "file:\"".urldecode($flv_url)."\"";
+			}
 		}
 
 		if ($param_linktarget == 0) {
@@ -468,6 +525,11 @@ class hwd_vs_videoplayer {
 			$flashvars15.= "&type=rtmp";
 			$flashvars21.= ",type:\"rtmp\"";
 		}
+		if ($mediatype == "highwinds")
+		{
+			$flashvars15.= "&type=highwinds";
+			$flashvars21.= ",type:\"highwinds\"";
+		}
 
 		if (($mediatype !== "playlist") && !empty($thumb_url)) {
 			$flashvars15.= "&image=".urlencode($thumb_url);
@@ -476,8 +538,7 @@ class hwd_vs_videoplayer {
 
 	    if ($param_googleanalytics == "1")
 	    {
-			$flashvars15.= "&plugins=googlytics-1";
-			$flashvars21.= ",plugins:\"googlytics-1\"";
+			$plugins.= "googlytics-1,";
 
 			$script = "<script type=\"text/javascript\">
 			var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
@@ -489,40 +550,36 @@ class hwd_vs_videoplayer {
 			pageTracker._trackPageview();
 			</script>";
 
-			$mainframe->addCustomHeadTag($script);
+			$doc->addCustomTag($script);
 
-	    } else if ($param_googleanalytics == "2") {
-
-			$flashvars15.= "&plugins=gapro-1";
-			$flashvars21.= ",plugins:\"gapro-1\"";
+	    }
+	    else if ($param_googleanalytics == "2")
+	    {
+			$plugins.= "gapro-1,";
 
 			$flashvars15.= "&gapro.accountid=".$param_accountid;
 			$flashvars21.= ",gapro.accountid:\"".$param_accountid."\"";
 
-			if ($param_trackstarts == "1") {
-
+			if ($param_trackstarts == "1")
+			{
 				$flashvars15.= "&gapro.trackstarts=true";
 				$flashvars21.= ",gapro.trackstarts:\"true\"";
-
 			}
 
-			if ($param_trackpercentage == "1") {
-
+			if ($param_trackpercentage == "1")
+			{
 				$flashvars15.= "&gapro.trackpercentage=true";
 				$flashvars21.= ",gapro.trackpercentage:\"true\"";
-
 			}
 
-			if ($param_tracktime == "1") {
-
+			if ($param_tracktime == "1")
+			{
 				$flashvars15.= "&gapro.tracktime=true";
 				$flashvars21.= ",gapro.tracktime:\"true\"";
-
 			}
-
 	    }
 
-		if ($mediatype == "playlist" && $param_pl_show == 1)
+		if ($mediatype == "playlist" && $param_pl_show == 1 && $show_video_ad !== 1)
 		{
 			$flashvars15.= "&playlist=$param_pl_position";
 			$flashvars21.= ",playlist:\"$param_pl_position\"";
@@ -530,8 +587,36 @@ class hwd_vs_videoplayer {
 			$flashvars21.= ",playlistsize:\"200\"";
 		}
 
+		if ($show_video_ad == 4)
+		{
+			$flashvars15.= "&config=".JURI::root()."components/com_hwdvideoshare/assets/xml/vast_jwflv_config.xml";
+			$flashvars21.= "";
+
+			$plugins.= "ova,";
+		}
+
+		if ($show_longtail && !defined( '_HWD_VS_LTFLAG' ))
+		{
+			if (empty($videoplayer->id)) { $videoplayer->id = rand(); }
+			if (empty($videoplayer->title)) { $videoplayer->title = "Video"; }
+			if (empty($videoplayer->description)) { $videoplayer->description = "Video"; }
+
+			$flashvars15.= '&ltas.cc='.$longtail_c.'&ltas.mediaid=hwdvs_'.$videoplayer->id.'&title='.@$videoplayer->title.'&description='.@$videoplayer->description;
+			$plugins.= "ltas,";
+		}
+
+		if ($param_captions == 1)
+		{
+			if (file_exists(JPATH_SITE.DS."components".DS."com_hwdvideoshare".DS."xml".DS."captions".DS.$video_id.".xml"))
+			{
+				$flashvars15.= "&captions.file=".JURI::root()."components/com_hwdvideoshare/xml/captions/".$video_id.".xml";
+				$plugins.= "captions-1,";
+			}
+		}
+
 		$smartyvs->assign("player_width", $param_width);
 
+		$flashvars15.= "&plugins=$plugins";
 		$flashvars15 = str_replace("&", "&amp;", $flashvars15);
 
 		$code->flashvars15 = $flashvars15;
@@ -541,7 +626,6 @@ class hwd_vs_videoplayer {
 		$code->param_bgcolor = $param_bgcolor;
 
 		return $code;
-
 	}
 }
 ?>

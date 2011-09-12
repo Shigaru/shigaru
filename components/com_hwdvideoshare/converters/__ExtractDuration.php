@@ -2,7 +2,7 @@
 /**
  *    @version 2.1.2 Build 21201 Alpha [ Linkwater ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -32,19 +32,18 @@ class hwd_vs_ExtractDuration
      * CONVERT VIDEOS TO FLV FORMAT
      * @param database A database connector object
      */
-	function extract($path_new, $output) {
-
+	function extract($path_new, $output)
+	{
 		defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
 		defined('CONVERTPATH') ? null : define('CONVERTPATH', dirname(__FILE__));
 
-		if(substr(PHP_OS, 0, 3) == "WIN") {
-
+		if(substr(PHP_OS, 0, 3) == "WIN")
+		{
 			defined('JPATH_SITE') ? null : define('JPATH_SITE', str_replace("\components\com_hwdvideoshare\converters", "", CONVERTPATH) );
-
-		} else {
-
+		}
+		else
+		{
 			defined('JPATH_SITE') ? null : define('JPATH_SITE', str_replace("/components/com_hwdvideoshare/converters", "", CONVERTPATH) );
-
 		}
 
 		// get hwdVideoShare general settings
@@ -66,31 +65,33 @@ class hwd_vs_ExtractDuration
 		// Try to load extension
 		// If extension is not loaded, don't try! Instead, grep for duration from shell output.
 
-		if(extension_loaded($extension)) {
-
+		if(extension_loaded($extension))
+		{
 			$video_info = @new ffmpeg_movie($path_new); //duration of new flv file.
-			if ($video_info) {
+			if ($video_info)
+			{
 				$full_sec = $video_info->getDuration(); // Gets the duration in secs.
 			}
-
 		}
 
-		if(empty($full_sec)) {
-
-			if ($c->encoder == "MENCODER") {
-				if (preg_match('/Video stream:.*bytes..(.*?).sec/', $output, $regs)) {
-					$full_sec = $regs[1];
-				} else {
-					$full_sec = "";
-				}
-			} else if ($c->encoder == "FFMPEG") {
-				if (@preg_match('/Duration:.(.*?),.start/', $output, $regs)) {
-					$full_sec = hwd_vs_ConverterTools::hms2sec($regs[1]);
-				} else {
-					$full_sec = "";
-				}
+		if(empty($full_sec) && $c->encoder == "MENCODER" && !empty($output))
+		{
+			if (preg_match('/Video stream:.*bytes..(.*?).sec/', $output, $regs))
+			{
+				$full_sec = $regs[1];
 			}
+		}
 
+		if(empty($full_sec))
+		{
+			$cmd_input_ffmpeg = "$s->ffmpegpath -i $path_new";
+			@exec("$sharedlib $cmd_input_ffmpeg 2>&1", $cmd_output_ffmpeg);
+			$cmd_output_ffmpeg = implode($cmd_output_ffmpeg);
+
+			if (@preg_match('/Duration:.(.*?),.start/', $cmd_output_ffmpeg, $regs))
+			{
+				$full_sec = hwd_vs_ConverterTools::hms2sec($regs[1]);
+			}
 		}
 
 		if ($full_sec == "" || !is_numeric($full_sec)) {
@@ -129,7 +130,7 @@ class hwd_vs_ExtractDuration
 			$output.= "<div>Could not load ffmpeg-php extension. Using fallback method.</div>";
 		}
 		if ($result[1] !== "0:00:01") {
-			$output.= "<div class=\"success\">SUCCESS: Thumbnail image will be taken at ".$result[1]."</div>";
+			$output.= "<div class=\"success\">SUCCESS: Duration is ".$result[0].". Thumbnail image will be taken at ".$result[1]."</div>";
 		} else {
 			$output.= "<div class=\"error\">ERROR: Could not determine video duration</div>";
 		}

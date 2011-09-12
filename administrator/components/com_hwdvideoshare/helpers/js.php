@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -34,58 +34,61 @@ class hwd_vs_javascript
     /**
      *
      */
-    function confirmDelete()
+    function confirmDelete($ajax=null)
 	{
+		$doc = & JFactory::getDocument();
+
 		$code=null;
-		$code.='<script language="javascript" type="text/javascript">
-		<!--
-			function confirmDelete()
+		$code.='function confirmDelete()
+				{
+					var agree=confirm("'._HWDVIDS_INFO_CONFIRMFRONTDEL.'");
+					if (agree)
+					 return true;
+					else
+					 return false;
+				}';
+
+		if (!defined('_HWD_VS_JS_CONFIRMDELETE'))
+		{
+			define( '_HWD_VS_JS_CONFIRMDELETE', 1 );
+			if ($doc->getType() != 'raw')
 			{
-				var agree=confirm("'._HWDVIDS_INFO_CONFIRMFRONTDEL.'");
-				if (agree)
-					return true ;
-				else
-					return false ;
+				$doc->addCustomTag("<script language=\"javascript\" type=\"text/javascript\">$code</script>");
 			}
-		// -->
-		</script>';
-		return $code;
-	}
-    /**
-     *
-     */
-    function confirmEdit()
-	{
-		$code=null;
-		$code.='<script language="javascript" type="text/javascript">
-		<!--
-			function confirmEdit()
+			else
 			{
-				var agree=confirm("'._HWDVIDS_INFO_CONFIRMFRONTEDIT.'");
-				if (agree)
-					return true ;
-				else
-					return false ;
+				echo "<script language=\"javascript\" type=\"text/javascript\">$code</script>";
 			}
-		// -->
-		</script>';
-		return $code;
+		}
+		return;
 	}
     /**
      *
      */
     function disableSubmit()
-	{ ?>
-	<script language="javascript" type="text/javascript">
-		<!--
-			function disablesubmit () {
+	{
+		$doc = & JFactory::getDocument();
 
-			videoupload.send.disabled=true
+		$code=null;
+		$code.='function disablesubmit ()
+				{
+					videoupload.send.disabled=true
+				}';
 
+		if (!defined('_HWD_VS_JS_DISABLESUBMIT'))
+		{
+			define( '_HWD_VS_JS_DISABLESUBMIT', 1 );
+			if ($doc->getType() != 'raw')
+			{
+				$doc->addCustomTag("<script language=\"javascript\" type=\"text/javascript\">$code</script>");
 			}
-		// -->
-	</script>
-	<?php }
+			else
+			{
+				echo "<script language=\"javascript\" type=\"text/javascript\">$code</script>";
+			}
+		}
+		return;
+	}
     /**
      *
      */
@@ -93,102 +96,177 @@ class hwd_vs_javascript
 	{
 		global $task;
 		$c = hwd_vs_Config::get_instance();
-		?>
-		<script language="javascript" type="text/javascript">
-			function chkform () {
-			var form = document.videoupload;
-			if (form.title.value == "") {
-				alert("<?php echo _HWDVIDS_ALERT_NOTITLE ?>");
-				form.title.focus();
-				return false;
-			} else if (form.description.value == "") {
-				alert("<?php echo _HWDVIDS_ALERT_NODESC ?>");
-				form.description.focus();
-				return false;
-			} else if (form.category_id.value == "0") {
-				alert("<?php echo _HWDVIDS_ALERT_NOCAT ?>");
-				form.category_id.focus();
-				return false;
-			} else if (form.tags.value == "") {
-				alert("<?php echo _HWDVIDS_ALERT_NOTAG ?>");
-				form.tags.focus();
-				return false;
-			<?php
-			if ($c->disablecaptcha == 0 && $task == "upload") {
-				echo "} else if (form.security_code.value == \"\") {";
-				echo "alert(\""._HWDVIDS_ALERT_NOSECURE."\");";
-				echo "form.security_code.focus();";
-				echo "return false;";
+		$doc = & JFactory::getDocument();
+
+		$code=null;
+		$code.='function chkform ()
+				{
+					var form = document.videoupload;
+					if (form.title.value == "")
+					{
+						alert("'._HWDVIDS_ALERT_NOTITLE.'");
+						form.title.focus();
+						return false;
+					}
+					else if (form.description.value == "")
+					{
+						alert("'._HWDVIDS_ALERT_NODESC.'");
+						form.description.focus();
+						return false;
+					}
+					else if (form.category_id.value == "0")
+					{
+						alert("'._HWDVIDS_ALERT_NOCAT.'");
+						form.category_id.focus();
+						return false;
+					}
+					else if (form.tags.value == "")
+					{
+						alert("'._HWDVIDS_ALERT_NOTAG.'");
+						form.tags.focus();
+						return false;
+					}';
+
+		if ($c->disablecaptcha == 0 && $task == "upload")
+		{
+		$code.='    else if (form.security_code.value == "")
+					{
+						alert("'._HWDVIDS_ALERT_NOSECURE.'");
+						form.security_code.focus();
+						return false;
+					}';
+		}
+		$code.='    else {
+						document.videoupload.send.disabled=true;
+					}
+				}';
+
+		if (!defined( '_HWD_VS_JS_CHECKUPLOADFORM' ) && $doc->getType() != 'raw')
+		{
+			define( '_HWD_VS_JS_CHECKUPLOADFORM', 1 );
+			if ($doc->getType() != 'raw')
+			{
+				$doc->addCustomTag("<script language=\"javascript\" type=\"text/javascript\">$code</script>");
 			}
-			?>
-			} else {
-				document.videoupload.send.disabled=true;
+			else
+			{
+				echo "<script language=\"javascript\" type=\"text/javascript\">$code</script>";
 			}
 		}
-		</script>
-		<?php
+		return;
 	}
     /**
      *
      */
 	function checkAddForm()
-	{ ?>
-	<script language="javascript" type="text/javascript">
-		function chkaddform () {
-		var form = document.videoadd;
-		if (form.embeddump.value == "") {
-    		alert("<?php echo _HWDVIDS_ALERT_NOEMBEDCODE ?>");
-    		form.embeddump.focus();
-    		return false;
-  		} else if (form.category_id.value == "0") {
-    		alert("<?php echo _HWDVIDS_ALERT_NOCAT ?>");
-    		form.category_id.focus();
-    		return false;
-    	} else {
-			document.videoadd.send.disabled=true;
-  		}
+	{
+		global $task;
+		$c = hwd_vs_Config::get_instance();
+		$doc = & JFactory::getDocument();
+
+		$code=null;
+		$code.='function chkform ()
+				{
+					var form = document.videoadd;
+					if (form.embeddump.value == "")
+					{
+						alert("'._HWDVIDS_ALERT_NOEMBEDCODE.'");
+						form.embeddump.focus();
+						return false;
+					}
+					else if (form.category_id.value == "0")
+					{
+						alert("'._HWDVIDS_ALERT_NOCAT.'");
+						form.category_id.focus();
+						return false;
+					}
+					else
+					{
+						document.videoadd.send.disabled=true;
+					}
+				}';
+
+		if (!defined( '_HWD_VS_JS_CHECKADDFORM' ) && $doc->getType() != 'raw')
+		{
+			define( '_HWD_VS_JS_CHECKADDFORM', 1 );
+			if ($doc->getType() != 'raw')
+			{
+				$doc->addCustomTag("<script language=\"javascript\" type=\"text/javascript\">$code</script>");
+			}
+			else
+			{
+				echo "<script language=\"javascript\" type=\"text/javascript\">$code</script>";
+			}
+		}
+		return;
 	}
-	</script>
-	<?php }
     /**
      *
      */
-    function CheckEditForm()
+    function checkEditForm()
 	{
-	$c = hwd_vs_Config::get_instance();
-	?>
-	<script language="javascript" type="text/javascript">
-		function chkform () {
-		videoupload.send.disabled=true
-		var form = document.videoupload;
-		if (form.title.value == "") {
-    		alert("<?php echo _HWDVIDS_ALERT_NOTITLE ?>");
-    		form.title.focus();
-    		return false;
-  		} else if (form.description.value == "") {
-    		alert("<?php echo _HWDVIDS_ALERT_NODESC ?>");
-    		form.description.focus();
-    		return false;
-  		} else if (form.category_id.value == "none") {
-    		alert("<?php echo _HWDVIDS_ALERT_NOCAT ?>");
-    		form.category_id.focus();
-    		return false;
-  		} else if (form.tags.value == "") {
-    		alert("<?php echo _HWDVIDS_ALERT_NOTAG ?>");
-    		form.tags.focus();
-    		return false;
-  		<?php
-  		if ($c->disablecaptcha == 0) {
-  			echo "} else if (form.security_code.value == \"\") {";
-  			echo "alert(\""._HWDVIDS_ALERT_NOSECURE."\");";
-  			echo "form.security_code.focus();";
-  			echo "return false;";
+		global $task;
+		$c = hwd_vs_Config::get_instance();
+		$doc = & JFactory::getDocument();
+
+		$code=null;
+		$code.='function chkform ()
+				{
+					var form = document.videoedit;
+					form.send.disabled=true
+					if (form.title.value == "")
+					{
+						alert("'._HWDVIDS_ALERT_NOTITLE.'");
+						form.title.focus();
+						return false;
+					}
+					else if (form.description.value == "")
+					{
+						alert("'._HWDVIDS_ALERT_NODESC.'");
+						form.description.focus();
+						return false;
+					}
+					else if (form.category_id.value == "none")
+					{
+						alert("'._HWDVIDS_ALERT_NOCAT.'");
+						form.category_id.focus();
+						return false;
+					}
+					else if (form.tags.value == "")
+					{
+						alert("'._HWDVIDS_ALERT_NOTAG.'");
+						form.tags.focus();
+						return false;
+					}';
+
+		if ($c->disablecaptcha == 0 && $task == "editvideo")
+		{
+		$code.='    else if (form.security_code.value == "")
+					{
+						alert("'._HWDVIDS_ALERT_NOSECURE.'");
+						form.security_code.focus();
+						return false;
+					}';
 		}
-		?>
-  		}
+		$code.='    else {
+						document.videoedit.send.disabled=true;
+					}
+				}';
+
+		if (!defined( '_HWD_VS_JS_CHECKEDITFORM' ) && $doc->getType() != 'raw')
+		{
+			define( '_HWD_VS_JS_CHECKEDITFORM', 1 );
+			if ($doc->getType() != 'raw')
+			{
+				$doc->addCustomTag("<script language=\"javascript\" type=\"text/javascript\">$code</script>");
+			}
+			else
+			{
+				echo "<script language=\"javascript\" type=\"text/javascript\">$code</script>";
+			}
+		}
+		return;
 	}
-	</script>
-	<?php }
     /**
      *
      */
@@ -222,10 +300,52 @@ class hwd_vs_javascript
     /**
      *
      */
+    function checkAddPlaylistForm()
+	{
+	$c = hwd_vs_Config::get_instance();
+	?>
+	<script language="javascript" type="text/javascript">
+	function chkform () {
+		var form = document.createPlaylist;
+		if (form.playlist_name.value == "") {
+    		alert("<?php echo _HWDVIDS_ALERT_NOPLNAME ?>");
+    		form.playlist_name.focus();
+    		return false;
+  		} else if (form.playlist_description.value == "") {
+    		alert("<?php echo _HWDVIDS_ALERT_NOPLDESC ?>");
+    		form.playlist_description.focus();
+    		return false;
+  		<?php
+  		if ($c->disablecaptcha == 0) {
+  			echo "} else if (form.security_code.value == \"\") {";
+  			echo "alert(\""._HWDVIDS_ALERT_NOSECURE."\");";
+  			echo "form.security_code.focus();";
+  			echo "return false;";
+		}
+		?>
+  		}
+	}
+	</script>
+	<?php }
+    /**
+     *
+     */
     function ajaxAddToFav($row, $remfav, $addfav)
 	{
 	$c = hwd_vs_Config::get_instance();
 	$my = & JFactory::getUser();
+
+	if ($my->id == 0)
+	{
+		$rff = $addfav;
+		$atf = $remfav;
+	}
+	else
+	{
+		$rff = $remfav;
+		$atf = $addfav;
+	}
+
 	?>
 	<script language='javascript' type='text/javascript'>
 	//Browser Support Code
@@ -252,15 +372,12 @@ class hwd_vs_javascript
 		// Create a function that will receive data sent from the server
 		ajaxRequest.onreadystatechange = function(){
 			if(ajaxRequest.readyState == 4){
-				document.getElementById('ajaxresponse').style.border = "1px solid #171d25";
 				document.getElementById('ajaxresponse').style.overflow = "hidden";
-				document.getElementById('ajaxresponse').style.padding = "3px";
-				document.getElementById('ajaxresponse').style.margin = "3px 0 3px 0";
 				document.getElementById('ajaxresponse').innerHTML = ajaxRequest.responseText;
-				document.getElementById('addremfav').innerHTML = '<?php echo $remfav ?>';
+				document.getElementById('addremfav').innerHTML = '<?php echo $rff ?>';
 			}
 		}
-		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addtofavourites&no_html=1&userid=".$my->id."&videoid=".$row->id; ?>", true);
+		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addtofavourites&userid=".$my->id."&videoid=".$row->id; ?>", true);
 		ajaxRequest.send(null);
 	}
 	function ajaxFunctionRFF(){
@@ -286,16 +403,13 @@ class hwd_vs_javascript
 		// Create a function that will receive data sent from the server
 		ajaxRequest.onreadystatechange = function(){
 			if(ajaxRequest.readyState == 4){
-				document.getElementById('ajaxresponse').style.border = "1px solid #171d25";
 				document.getElementById('ajaxresponse').style.overflow = "hidden";
-				document.getElementById('ajaxresponse').style.padding = "3px";
-				document.getElementById('ajaxresponse').style.margin = "3px 0 3px 0";
 				document.getElementById('ajaxresponse').innerHTML = ajaxRequest.responseText;
-				document.getElementById('addremfav').innerHTML = '<?php echo $addfav ?>';
+				document.getElementById('addremfav').innerHTML = '<?php echo $atf ?>';
 			}
 		}
 
-		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_removefromfavourites&no_html=1&userid=".$my->id."&videoid=".$row->id; ?>", true);
+		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_removefromfavourites&userid=".$my->id."&videoid=".$row->id; ?>", true);
 		ajaxRequest.send(null);
 	}
 	//-->
@@ -354,9 +468,9 @@ class hwd_vs_javascript
 			var div = document.getElementById(divId);
 			div.innerHTML = innerHTML;
 			var x = div.getElementsByTagName("script");
-			for(var i=0;i<x.length;i++)
+			for(var ii=0;ii<x.length;ii++)
 			{
-				eval(x[i].text);
+				eval(x[ii].text);
 			}
 		}
 	}
@@ -403,9 +517,9 @@ class hwd_vs_javascript
 			var div = document.getElementById(divId);
 			div.innerHTML = innerHTML;
 			var x = div.getElementsByTagName("script");
-			for(var i=0;i<x.length;i++)
+			for(var ii=0;ii<x.length;ii++)
 			{
-				eval(x[i].text);
+				eval(x[ii].text);
 			}
 		}
 	}
@@ -446,12 +560,10 @@ class hwd_vs_javascript
 		// Create a function that will receive data sent from the server
 		ajaxRequest.onreadystatechange = function(){
 			if(ajaxRequest.readyState == 4){
-				document.getElementById('add2groupresponse').style.border = "1px solid #171d25";
 				document.getElementById('add2groupresponse').innerHTML = ajaxRequest.responseText;
-				document.getElementById('add2groupresponse').style.margin = "3px 0 3px 0";
 			}
 		}
-		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addvideotogroup&no_html=1&videoid=".$row->id."&groupid=" ?>"+ chosen_value , true);
+		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addvideotogroup&videoid=".$row->id."&groupid=" ?>"+ chosen_value , true);
 		ajaxRequest.send(null);
 	}
 	//-->
@@ -491,12 +603,10 @@ class hwd_vs_javascript
 		// Create a function that will receive data sent from the server
 		ajaxRequest.onreadystatechange = function(){
 			if(ajaxRequest.readyState == 4){
-				document.getElementById('add2playlistresponse').style.border = "1px solid #171d25";
 				document.getElementById('add2playlistresponse').innerHTML = ajaxRequest.responseText;
-				document.getElementById('add2playlistresponse').style.margin = "3px 0 3px 0";
 			}
 		}
-		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addvideotoplaylist&no_html=1&videoid=".$row->id."&playlistid=" ?>"+ chosen_value , true);
+		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addvideotoplaylist&videoid=".$row->id."&playlistid=" ?>"+ chosen_value , true);
 		ajaxRequest.send(null);
 	}
 	//-->
@@ -535,14 +645,11 @@ class hwd_vs_javascript
 		// Create a function that will receive data sent from the server
 		ajaxRequest.onreadystatechange = function(){
 			if(ajaxRequest.readyState == 4){
-				document.getElementById('ajaxresponse').style.border = "1px solid #171d25";
 				document.getElementById('ajaxresponse').style.overflow = "hidden";
-				document.getElementById('ajaxresponse').style.padding = "3px";
-				document.getElementById('ajaxresponse').style.margin = "3px 0 3px 0";
 				document.getElementById('ajaxresponse').innerHTML = ajaxRequest.responseText;
 			}
 		}
-		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_reportvideo&no_html=1&userid=".$my->id."&videoid=".$row->id."&userid=".$my->id ?>", true);
+		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_reportvideo&userid=".$my->id."&videoid=".$row->id."&userid=".$my->id ?>", true);
 		ajaxRequest.send(null);
 	}
 
@@ -590,216 +697,8 @@ class hwd_vs_javascript
 		ajaxRequest.send(null);
 	}
 
-	//-->
-	</script>
+		//-->
+		</script>
 	<?php }
-	/**
-     * Outputs frontpage HTML
-     *
-     * @param string $option  the joomla component name
-     * @param array  $rows  array of video data
-     * @param array  $rowsfeatured  array of featured video data
-     * @param object $pageNav  page navigation object
-     * @param int    $total  the total video count
-     * @return       Nothing
-     */
-    function ajaxStarbox($row, $rating)
-	{
-	$c = hwd_vs_Config::get_instance();
-
-	$code = null;
-	$code.= "<script language='javascript' type='text/javascript'>
-					new Starbox('hwdvid_sb', ".$rating.", { overlay: 'big.png', buttons: 10, rerate: false, indicator: '#{average} rating from #{total} votes', total: ".$row->rating_number_votes.", onRate: function(element, info) {
-
-						var ajaxRequest;  // The variable that makes Ajax possible!
-
-						try{
-							// Opera 8.0+, Firefox, Safari
-							ajaxRequest = new XMLHttpRequest();
-						} catch (e){
-							// Internet Explorer Browsers
-							try{
-								ajaxRequest = new ActiveXObject(\"Msxml2.XMLHTTP\");
-							} catch (e) {
-								try{
-									ajaxRequest = new ActiveXObject(\"Microsoft.XMLHTTP\");
-								} catch (e){
-									// Something went wrong
-									alert(\""._HWDVIDS_AJAX_BBROKE."\");
-									return false;
-								}
-							}
-						}
-						// Create a function that will receive data sent from the server
-						ajaxRequest.onreadystatechange = function(){
-							if(ajaxRequest.readyState == 4){
-								document.getElementById('ajaxresponse').style.border = '1px solid #171d25';
-								document.getElementById('ajaxresponse').style.overflow = 'hidden';
-								document.getElementById('ajaxresponse').style.padding = '3px';
-								document.getElementById('ajaxresponse').style.margin = '3px 0 3px 0';
-								document.getElementById('ajaxresponse').innerHTML = ajaxRequest.responseText;
-							}
-						}
-						ajaxRequest.open(\"GET\", \"".JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajaxrate&no_html=1&rating=\" + info.rated + \"&video_id=".$row->id."\", true);
-						ajaxRequest.send(null);
-
-					  var indicator = element.down('.indicator');
-					  indicator.update('You rated ' + info.rated);
-					  window.setTimeout(function() { indicator.update('"._HWDVIDS_AJAX_THANKVOTE."') }, 2000);
-					  new Effect.Highlight(indicator);
-					}});
-		     </script>";
-
-	return $code;
-	}
-    /**
-     * Outputs frontpage HTML
-     *
-     * @param string $option  the joomla component name
-     * @param array  $rows  array of video data
-     * @param array  $rowsfeatured  array of featured video data
-     * @param object $pageNav  page navigation object
-     * @param int    $total  the total video count
-     * @return       Nothing
-     */
-    function ajaxMasuga()
-	{
-	global $Itemid;
-	$c = hwd_vs_Config::get_instance();
-
-	$code=null;
-	$code.="<script language='javascript' type='text/javascript'>
-	/*
-	Page:           rating.js
-	Created:        Aug 2006
-	Last Mod:       Mar 11 2007
-	Handles actions and requests for rating bars.
-	---------------------------------------------------------
-	ryan masuga, masugadesign.com
-	ryan@masugadesign.com
-	Licensed under a Creative Commons Attribution 3.0 License.
-	http://creativecommons.org/licenses/by/3.0/
-	See readme.txt for full credit details.
-	--------------------------------------------------------- */
-
-	var xmlhttp
-		/*@cc_on @*/
-		/*@if (@_jscript_version >= 5)
-		  try {
-		  xmlhttp=new ActiveXObject(\"Msxml2.XMLHTTP\")
-		 } catch (e) {
-		  try {
-			xmlhttp=new ActiveXObject(\"Microsoft.XMLHTTP\")
-		  } catch (E) {
-		   xmlhttp=false
-		  }
-		 }
-		@else
-		 xmlhttp=false
-		@end @*/
-		if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
-		 try {
-		  xmlhttp = new XMLHttpRequest();
-		 } catch (e) {
-		  xmlhttp=false
-		 }
-		}
-		function myXMLHttpRequest() {
-		  var xmlhttplocal;
-		  try {
-			xmlhttplocal= new ActiveXObject(\"Msxml2.XMLHTTP\")
-		 } catch (e) {
-		  try {
-			xmlhttplocal= new ActiveXObject(\"Microsoft.XMLHTTP\")
-		  } catch (E) {
-			xmlhttplocal=false;
-		  }
-		 }
-
-		if (!xmlhttplocal && typeof XMLHttpRequest!='undefined') {
-		 try {
-		  var xmlhttplocal = new XMLHttpRequest();
-		 } catch (e) {
-		  var xmlhttplocal=false;
-		  alert('couldn\'t create xmlhttp object');
-		 }
-		}
-		return(xmlhttplocal);
-	}
-
-	function sndReq(vote,id_num,ip_num,units) {
-		var theUL = document.getElementById('unit_ul'+id_num); // the UL
-
-		// switch UL with a loading div
-		theUL.innerHTML = '<div class=\"loading\"></div>';
-
-		xmlhttp.open('get', '".JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajaxratedb&Itemid=".$Itemid."&j='+vote+'&q='+id_num+'&t='+ip_num+'&c='+units);
-		xmlhttp.onreadystatechange = handleResponse;
-		xmlhttp.send(null);
-
-	}
-
-	function handleResponse() {
-	  if(xmlhttp.readyState == 4){
-			if (xmlhttp.status == 200){
-
-			var response = xmlhttp.responseText;
-			var update = new Array();
-
-			if(response.indexOf('|') != -1) {
-				update = response.split('|');
-				changeText(update[0], update[1]);
-			}
-			}
-		}
-	}
-
-	function changeText( div2show, text ) {
-		// Detect Browser
-		var IE = (document.all) ? 1 : 0;
-		var DOM = 0;
-		if (parseInt(navigator.appVersion) >=5) {DOM=1};
-
-		// Grab the content from the requested \"div\" and show it in the \"container\"
-		if (DOM) {
-		document.getElementById('ajaxratemasuga').innerHTML = text;
-		}  else if(IE) {
-			document.all['ajaxratemasuga'].innerHTML = text;
-		}
-	}
-
-	/* =============================================================== */
-
-
-	var ratingAction = {
-			'a.hwdvsmrater' : function(element){
-				element.onclick = function(){
-
-				var parameterString = this.href.replace(/.*\?(.*)/, \"$1\"); // onclick=\"sndReq('j=1&q=2&t=127.0.0.1&c=5');
-				var parameterTokens = parameterString.split(\"&\"); // onclick=\"sndReq('j=1,q=2,t=127.0.0.1,c=5');
-				var parameterList = new Array();
-
-				for (j = 0; j < parameterTokens.length; j++) {
-					var parameterName = parameterTokens[j].replace(/(.*)=.*/, \"$1\"); // j
-					var parameterValue = parameterTokens[j].replace(/.*=(.*)/, \"$1\"); // 1
-					parameterList[parameterName] = parameterValue;
-				}
-				var theratingID = parameterList['q'];
-				var theVote = parameterList['j'];
-				var theuserIP = parameterList['t'];
-				var theunits = parameterList['c'];
-
-				//for testing alert('sndReq('+theVote+','+theratingID+','+theuserIP+','+theunits+')'); return false;
-				sndReq(theVote,theratingID,theuserIP,theunits); return false;
-				}
-			}
-
-		};
-
-	Behaviour.register(ratingAction);
-	</script>";
-	return $code;
-
-	}
 }
 ?>

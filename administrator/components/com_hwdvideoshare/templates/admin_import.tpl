@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -33,6 +33,9 @@
     {$endtab}
     {$starttab5}
         {include file='admin_import_seyret.tpl'}
+    {$endtab}
+    {$starttab10}
+        {include file='admin_import_jomsocial.tpl'}
     {$endtab}
     {$starttab6}
         {include file='admin_import_tp.tpl'}

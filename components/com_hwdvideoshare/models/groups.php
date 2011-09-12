@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -38,33 +38,14 @@ class hwd_vs_groups
      */
     function groups()
 	{
-		global $mainframe, $limitstart, $hwdvs_joing, $hwdvs_selectg, $smartyvs;
+		global $limitstart, $hwdvs_joing, $hwdvs_selectg, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 
-		// check component access settings and deny those without privileges
-		if ($c->access_method == 0) {
-			if (!hwd_vs_access::allowAccess( $c->gtree_grup, $c->gtree_grup_child, hwd_vs_access::userGID( $my->id ))) {
-				if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-					$smartyvs->assign("showconnectionbox", 1);
-					hwd_vs_tools::infomessage(3, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, "exclamation.png", 0);
-					return;
-				} else {
-					$smartyvs->assign("showconnectionbox", 1);
-					hwd_vs_tools::infomessage(3, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0);
-					return;
-				}
-			}
-		} else if ($c->access_method == 1) {
-			if (!hwd_vs_access::allowLevelAccess( $c->accesslevel_upld, hwd_vs_access::userGID( $my->id ))) {
-				$smartyvs->assign("showconnectionbox", 1);
-				hwd_vs_tools::infomessage(3, 0,  _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_NOT_AUTHORIZED, "exclamation.png", 0);
-				return;
-			}
-		}
+		if (!hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.group")) {return;}
 
 		$limit 	= intval($c->gpp);
 
@@ -80,6 +61,7 @@ class hwd_vs_groups
   		$total = $db->loadResult();
 		echo $db->getErrorMsg();
 
+		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
 		//Groups that are published
@@ -122,26 +104,7 @@ class hwd_vs_groups
 		$acl= & JFactory::getACL();
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 
-		// check component access settings and deny those without privileges
-		if ($c->access_method == 0) {
-			if (!hwd_vs_access::allowAccess( $c->gtree_grup, $c->gtree_grup_child, hwd_vs_access::userGID( $my->id ))) {
-				if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-					$smartyvs->assign("showconnectionbox", 1);
-					hwd_vs_tools::infomessage(3, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, "exclamation.png", 0);
-					return;
-				} else {
-					$smartyvs->assign("showconnectionbox", 1);
-					hwd_vs_tools::infomessage(3, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0);
-					return;
-				}
-			}
-		} else if ($c->access_method == 1) {
-			if (!hwd_vs_access::allowLevelAccess( $c->accesslevel_upld, hwd_vs_access::userGID( $my->id ))) {
-				$smartyvs->assign("showconnectionbox", 1);
-				hwd_vs_tools::infomessage(3, 0,  _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_NOT_AUTHORIZED, "exclamation.png", 0);
-				return;
-			}
-		}
+		if (!hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.group")) {return;}
 
 		if (!$my->id) {
 			$smartyvs->assign("showconnectionbox", 1);
@@ -158,11 +121,14 @@ class hwd_vs_groups
      */
 	function deletegroup()
 	{
-		global $mainframe, $Itemid;
+		global $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+$app = & JFactory::getApplication();
+
+		if (!hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.group")) {return;}
 
 		$userid = $my->id;
 		$groupid	= JRequest::getInt( 'groupid', 0 );
@@ -194,8 +160,8 @@ class hwd_vs_groups
 		}
 
 		$msg = _HWDVIDS_ALERT_GREMOVED;
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=groups&Itemid='.$Itemid );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=groups&Itemid='.$Itemid );
 	}
     /**
      * Outputs frontpage HTML
@@ -204,30 +170,14 @@ class hwd_vs_groups
      */
 	function viewGroup()
 	{
-		global $mainframe, $mosConfig_live_site, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		global $mosConfig_live_site, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 
-		// check component access settings and deny those without privileges
-		if ($c->access_method == 0) {
-			if (!hwd_vs_access::allowAccess( $c->gtree_grup, $c->gtree_grup_child, hwd_vs_access::userGID( $my->id ))) {
-				if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-					hwd_vs_tools::infomessage(3, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, "exclamation.png", 0);
-					return;
-				} else {
-					hwd_vs_tools::infomessage(3, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0);
-					return;
-				}
-			}
-		} else if ($c->access_method == 1) {
-			if (!hwd_vs_access::allowLevelAccess( $c->accesslevel_upld, hwd_vs_access::userGID( $my->id ))) {
-				hwd_vs_tools::infomessage(3, 0,  _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_NOT_AUTHORIZED, "exclamation.png", 0);
-				return;
-			}
-		}
+		if (!hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.group")) {return;}
 
 		$groupid = JRequest::getInt( 'group_id', 0, 'request' );
 
@@ -264,6 +214,7 @@ class hwd_vs_groups
   		$total = $db->loadResult();
 		echo $db->getErrorMsg();
 
+		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
 		//Videos that are approved(converted) and published in this group
@@ -309,11 +260,13 @@ class hwd_vs_groups
      */
     function savegroup()
 	{
-		global $mainframe, $params, $Itemid, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $mosConfig_sitename;
+		global $params, $Itemid, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $mosConfig_sitename;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+
+		if (!hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.group")) {return;}
 
 		if ($c->disablecaptcha == "0") {
 			$sessid = session_id();
@@ -346,10 +299,13 @@ class hwd_vs_groups
      */
     function updateGroup()
 	{
-		global $Itemid, $mainframe;
+		global $Itemid;
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$c = hwd_vs_Config::get_instance();
+                $app = & JFactory::getApplication();
+
+		if (!hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.group")) {return;}
 
 		$id = JRequest::getInt( 'id', 0 );
 		$referrer = JRequest::getVar( 'referrer', JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=yourgroups&Itemid='.$Itemid );
@@ -358,8 +314,8 @@ class hwd_vs_groups
 		$row->load( $id );
 
 		if ($row->adminid != $my->id) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_NOPERM);
-			$mainframe->redirect( $referrer );
+			$app->enqueueMessage(_HWDVIDS_ALERT_NOPERM);
+			$app->redirect( $referrer );
 		}
 
 		$group_name 		= Jrequest::getVar( 'group_name', _HWDPS_UNKNOWN );
@@ -392,8 +348,8 @@ class hwd_vs_groups
 		hwd_vs_recount::recountVideosInCategory($row->category_id);
 
 		$msg = _HWDVIDS_ALERT_GSAVED;
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( $referrer );
+		$app->enqueueMessage($msg);
+		$app->redirect( $referrer );
 	}
 	/**
      * Outputs frontpage HTML
@@ -402,11 +358,14 @@ class hwd_vs_groups
      */
     function bindNewGroup()
 	{
-		global $mainframe, $params, $Itemid, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $mosConfig_sitename;
+		global $params, $Itemid, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $mosConfig_sitename;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+                $app = & JFactory::getApplication();
+
+		if (!hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.group")) {return;}
 
 			$group_name 		= Jrequest::getVar( 'group_name', _HWDVIDS_UNKNOWN );
 			$public_private 	= JRequest::getWord( 'public_private' );
@@ -517,8 +476,8 @@ class hwd_vs_groups
 			} else {
 				$msg = _HWDVIDS_ALERT_GPENDING;
 			}
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( JURI::root() . 'index.php?option=com_hwdvideoshare&task=groups&Itemid='.$Itemid );
+			$app->enqueueMessage($msg);
+			$app->redirect( JURI::root() . 'index.php?option=com_hwdvideoshare&task=groups&Itemid='.$Itemid );
 	}
     /**
      * Outputs frontpage HTML
@@ -527,17 +486,20 @@ class hwd_vs_groups
      */
     function joingroup()
 	{
-		global $Itemid, $mainframe;
+		global $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+                $app = & JFactory::getApplication();
+
+		if (!hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.group")) {return;}
 
 		$url =  Jrequest::getVar( 'url', JURI::root() );
 
 		if (!$my->id) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_LOG2JOING);
-			$mainframe->redirect( $url );
+			$app->enqueueMessage(_HWDVIDS_ALERT_LOG2JOING);
+			$app->redirect( $url );
 		}
 
 		$memberid = $my->id;
@@ -580,8 +542,8 @@ class hwd_vs_groups
 			AlphaUserPointsHelper::newpoints( 'plgaup_joinVideoGroup_hwdvs' );
 		}
 
-		$mainframe->enqueueMessage(_HWDVIDS_ALERT_SUCJOIN);
-		$mainframe->redirect( $url );
+		$app->enqueueMessage(_HWDVIDS_ALERT_SUCJOIN);
+		$app->redirect( $url );
 	}
     /**
      * Outputs frontpage HTML
@@ -590,17 +552,20 @@ class hwd_vs_groups
      */
     function leavegroup()
 	{
-		global $Itemid, $mainframe;
+		global $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+                $app = & JFactory::getApplication();
+
+		if (!hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.group")) {return;}
 
 		$url =  Jrequest::getVar( 'url', JURI::root() );
 
 		if (!$my->id) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_LOG2LEAVEG);
-			$mainframe->redirect( $url );
+			$app->enqueueMessage(_HWDVIDS_ALERT_LOG2LEAVEG);
+			$app->redirect( $url );
 		}
 
 		$memberid = $my->id;
@@ -629,8 +594,8 @@ class hwd_vs_groups
 			AlphaUserPointsHelper::newpoints( 'plgaup_leaveVideoGroup_hwdvs' );
 		}
 
-		$mainframe->enqueueMessage(_HWDVIDS_ALERT_SUCLEAVE);
-		$mainframe->redirect( $url );
+		$app->enqueueMessage(_HWDVIDS_ALERT_SUCLEAVE);
+		$app->redirect( $url );
   	}
     /**
      * Outputs frontpage HTML
@@ -639,11 +604,13 @@ class hwd_vs_groups
      */
     function editGroup()
 	{
-		global $mosConfig_live_site, $mainframe, $Itemid;
+		global $mosConfig_live_site, $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+
+		if (!hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORGRUP, _HWDVIDS_ALERT_GRUP_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.group")) {return;}
 
 		$groupid = JRequest::getInt( 'groupid', 0 );
 
@@ -652,8 +619,8 @@ class hwd_vs_groups
 
 		//check valid user
 		if ($row->adminid != $my->id) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_NOPERM);
-			$mainframe->redirect( JURI::root() . 'index.php?option=com_hwdvideoshare&task=groups&Itemid='.$Itemid );
+			$app->enqueueMessage(_HWDVIDS_ALERT_NOPERM);
+			$app->redirect( JURI::root() . 'index.php?option=com_hwdvideoshare&task=groups&Itemid='.$Itemid );
 		}
 
 		//Videos that are approved(converted) and published in this group

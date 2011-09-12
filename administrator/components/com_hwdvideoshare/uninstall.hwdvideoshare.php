@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -20,11 +20,10 @@
  */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
-function com_uninstall() {
-
-	// set cache variables
-	$cachedir = JPATH_SITE.'/cache/'; // Directory to cache files in (keep outside web root)
-	$cacheext = 'cache'; // Extension to give cached files (usually cache, htm, txt)
+function com_uninstall()
+{
+	$cachedir = JPATH_SITE.DS."cache".DS;
+	$cacheext = 'cache';
 
 	$page_today = 'http://xmlplaylists_today';
 	$cachefile_today = $cachedir . md5($page_today) . '.' . $cacheext;

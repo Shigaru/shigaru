@@ -37,6 +37,8 @@ if(substr(PHP_OS, 0, 3) == "WIN") {
 require_once ( JPATH_BASE.DS.'includes'.DS.'defines.php' );
 require_once ( JPATH_BASE.DS.'includes'.DS.'framework.php' );
 require_once ( JPATH_BASE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php' );
+require_once ( JPATH_BASE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'directory.php' );
+
 $c = hwd_vs_Config::get_instance();
 
 defined('JURL_BASE') ? null : define('JURL_BASE', str_replace("/components/com_hwdvideoshare/assets/uploads/perl", "", JURI::base()) );
@@ -81,7 +83,7 @@ if (substr($allowed_formats, -1) == "|") {$allowed_formats = substr($allowed_for
 $redirect_url = JURL_BASE.'index.php?option=com_hwdvideoshare&amp;task=uploadconfirmperl&amp;Itemid=0';
 
 $_CONFIG['config_file_name']                      = 'ubr_default_config';
-$_CONFIG['upload_dir']                            = JPATH_BASE.'/hwdvideos/uploads/originals/';
+$_CONFIG['upload_dir']                            = PATH_HWDVS_DIR.DS."uploads".DS."originals".DS;
 $_CONFIG['multi_upload_slots']                    = 0;
 $_CONFIG['max_upload_slots']                      = 10;
 $_CONFIG['embedded_upload_results']               = 0;

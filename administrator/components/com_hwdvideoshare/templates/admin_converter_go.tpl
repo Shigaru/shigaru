@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -37,8 +37,8 @@
                   <b>{$smarty.const._HWDVIDS_INFO_QFTUM}: {$total2}</b><br />
                   <b>{$smarty.const._HWDVIDS_INFO_QFSWF}: {$total4}</b><br />
                   <b>{$smarty.const._HWDVIDS_INFO_QFMP4}: {$total5}</b><br />
-                  <b>{$smarty.const._HWDVIDS_INFO_QFTRG}: {$total6}</b><br />
-                  <b>{$smarty.const._HWDVIDS_INFO_QFDRC}: {$total7}</b><br />
+                  <b>{$smarty.const._HWDVIDS_INFO_QFTRG}: {$total6}</b> [<a href="index.php?option=com_hwdvideoshare&task=cancelThumbnailRegeneration" target="_top">CANCEL</a>]<br />
+                  <b>{$smarty.const._HWDVIDS_INFO_QFDRC}: {$total7}</b> [<a href="index.php?option=com_hwdvideoshare&task=cancelDurationRecalculation" target="_top">CANCEL</a>]<br />
                   <b>{$smarty.const._HWDVIDS_INFO_QFING}: {$total3}</b><br />
                 </td>
               </tr>

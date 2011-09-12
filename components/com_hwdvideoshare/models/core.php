@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 class hwd_vs_core
 {
-
     /**
      * Make frontpage SQL queries with appropriate filters
      *
@@ -40,72 +39,113 @@ class hwd_vs_core
      */
     function frontpage()
     {
-        global $mainframe, $limitstart, $limit, $hwdvs_selectv, $hwdvs_joinv;
+        global $limitstart, $limit, $smartyvs, $hwdvs_selectv, $hwdvs_joinv, $isModerator;
         $c = hwd_vs_Config::get_instance();
   		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 
+		jimport( 'joomla.filesystem.file' );
+
         // number of videos to display
-        $limit     = intval($c->vpp);
+        $limit       = intval($c->vpp);
+        $sort        = JRequest::getWord( 'sort', 'recent' );
+		$rowsNbwType = "";
 
         // sql search filters
-        $where = ' WHERE video.published = 1';
-        $where .= ' AND video.approved = "yes"';
-        if (!$my->id) {
-        $where .= ' AND video.public_private = "public"';
+        $where = ' WHERE video.approved = "yes"';
+        if (!$isModerator)
+        {
+        	$where.= ' AND video.published = 1';
         }
+		if ($c->bviic == 1 && $my->id == 0)
+		{
+        	$where.= ' AND video.public_private = "public"';
+		}
 
-        $userGID = hwd_vs_access::userGID( $my->id );
-        $parentGID = implode(hwd_vs_access::getRecursiveGIDS($userGID), ",");
-        if (!empty($parentGID)) { $parentGID = ",".$parentGID; }
-        $parentGID = "-2,-1".$parentGID;
-        $where .= ' AND (access.access_v IN ('.$parentGID.') OR video.category_id = 0)';
-
-        $hwdvs_selectv.= ', access.access_v, access.access_v_r, access.access_lev_v';
+		if ($sort == "recent")
+		{
+			$order = ' ORDER BY video.date_uploaded DESC';
+			$smartyvs->assign("title", _HWDVIDS_RECENTVIDEOS);
+			$smartyvs->assign("recent_selected", "selected=\"selected\"");
+		}
+		else if ($sort == "popular")
+		{
+			$order = ' ORDER BY video.number_of_views DESC';
+			$smartyvs->assign("title", _HWDVIDS_POPULARVIDEOS);
+			$smartyvs->assign("popular_selected", "selected=\"selected\"");
+		}
+		else if ($sort == "rated")
+		{
+			$order = ' ORDER BY video.updated_rating DESC';
+			$smartyvs->assign("title", _HWDVIDS_RATEDVIDEOS);
+			$smartyvs->assign("rated_selected", "selected=\"selected\"");
+		}
 
         // get video count
         $db->SetQuery( 'SELECT count(*)'
 					 . ' FROM #__hwdvidsvideos AS video'
 					 . $hwdvs_joinv
-					 . ' LEFT JOIN #__hwdvidscategories AS `access` ON access.id = video.category_id'
 					 . $where
 					 );
         $total = $db->loadResult();
         echo $db->getErrorMsg();
 
+		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
-
         $query = 'SELECT'.$hwdvs_selectv
                 . ' FROM #__hwdvidsvideos AS video'
                 . $hwdvs_joinv
-			    . ' LEFT JOIN #__hwdvidscategories AS `access` ON access.id = video.category_id'
                 . $where
-                . ' ORDER BY video.date_uploaded DESC'
+                . $order
                 ;
+
         $db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
         $rows = $db->loadObjectList();
 
-        if ($c->feat_rand == 0) {
-        	$order = ' ORDER BY video.ordering ASC';
-        } else {
+        if ($c->feat_rand == 0)
+        {
+			if (file_exists(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order'))
+			{
+				$orderString = JFile::read(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order');
+				$featuredArray = explode(",", $orderString);
+				$total = count($featuredArray);
+				for ($i = 0; $i < $total; $i ++)
+				{
+					$featuredArray[$i] = intval($featuredArray[$i]);
+				}
+				$featuredOrder = implode(",",$featuredArray);
+				$featuredOrderString =
+
+				$order = " ORDER BY FIELD( video.id, $featuredOrder )";
+			}
+			else
+			{
+				$order = '';
+			}
+        }
+        else if ($c->feat_rand == 1)
+        {
         	$order = ' ORDER BY rand()';
+        }
+        else if ($c->feat_rand == 3)
+        {
+        	$order = ' ORDER BY video.date_uploaded DESC';
         }
 
         if ($c->feat_show == 0) {
-        	$limit = ' LIMIT 0, '.$c->fpfeaturedvids;
+        	$sqlLimit = ' LIMIT 0, '.$c->fpfeaturedvids;
         } else {
-        	$limit = ' LIMIT 0, '.($c->fpfeaturedvids+1);
+        	$sqlLimit = ' LIMIT 0, '.($c->fpfeaturedvids+1);
         }
 
         // get featured videos
         $query = 'SELECT'.$hwdvs_selectv
                 . ' FROM #__hwdvidsvideos AS video'
 				. $hwdvs_joinv
-			    . ' LEFT JOIN #__hwdvidscategories AS `access` ON access.id = video.category_id'
                 . $where
                 . ' AND video.featured = 1'
                 . $order
-                . $limit
+                . $sqlLimit
                 ;
         $db->SetQuery($query);
         $rowsfeatured = $db->loadObjectList();
@@ -142,22 +182,30 @@ class hwd_vs_core
 
 			}
 
-			if (!file_exists(JPATH_SITE.DS.'modules'.DS.'mod_hwd_vs_beingwatched'.DS.'mod_hwd_vs_beingwatched.php') || $override == 0) {
-
-				//Videos that are approved(converted) and published in this group
-				$query = 'SELECT DISTINCT'.$hwdvs_selectv
-						. ' FROM #__hwdvidsvideos AS video'
-						. ' LEFT JOIN #__hwdvidslogs_views AS l ON l.videoid = video.id'
-						. $hwdvs_joinv
-						. ' LEFT JOIN #__hwdvidscategories AS `access` ON access.id = video.category_id'
-						. $where
-						. ' AND l.date > NOW() - INTERVAL 1440 MINUTE'
-						. ' ORDER BY l.date DESC'
-						. ' LIMIT 0, 10'
-						;
-				$db->SetQuery($query);
-				$rowsnow = $db->loadObjectList();
-
+			if (!file_exists(JPATH_SITE.DS.'modules'.DS.'mod_hwd_vs_beingwatched'.DS.'mod_hwd_vs_beingwatched.php') || $override == 0)
+			{
+				if (file_exists(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'bwn.xml'))
+				{
+					require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xmlparse.class.php');
+					$parser = new HWDVS_xmlParse();
+					$rowsnow = $parser->parse("bwn");
+					$rowsNbwType = "xml";
+				}
+				else
+				{
+					$query = 'SELECT DISTINCT'.$hwdvs_selectv
+					. ' FROM #__hwdvidsvideos AS video'
+					. ' LEFT JOIN #__hwdvidslogs_views AS l ON l.videoid = video.id'
+					. $hwdvs_joinv
+					. $where
+					. ' AND l.date > NOW() - INTERVAL 1440 MINUTE'
+					. ' ORDER BY l.date DESC'
+					. ' LIMIT 0, 10'
+					;
+					$db->SetQuery($query);
+					$rowsnow = $db->loadObjectList();
+					$rowsNbwType = "sql";
+				}
 			}
 
         }
@@ -192,10 +240,83 @@ class hwd_vs_core
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
-		
 
         // send out
-        hwd_vs_html::frontpage($rows, $rowsfeatured, $pageNav, $total, $rowsnow, $mostviewed, $mostfavoured, $mostpopular, $wordList);
+        hwd_vs_html::frontpage($rows, $rowsfeatured, $pageNav, $total, $rowsnow, $mostviewed, $mostfavoured, $mostpopular, $rowsNbwType, $wordList);
+    }
+    /**
+     * Make frontpage SQL queries with appropriate filters
+     *
+     * @return       Nothing
+     */
+    function videos()
+    {
+        global $limitstart, $limit, $smartyvs, $hwdvs_selectv, $hwdvs_joinv, $isModerator;
+        $c = hwd_vs_Config::get_instance();
+  		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+
+		jimport( 'joomla.filesystem.file' );
+
+        // number of videos to display
+        $limit       = intval($c->vpp);
+        $sort        = JRequest::getWord( 'sort', 'recent' );
+		$rowsNbwType = "";
+
+        // sql search filters
+        $where = ' WHERE video.approved = "yes"';
+        if (!$isModerator)
+        {
+        	$where.= ' AND video.published = 1';
+        }
+		if ($c->bviic == 1 && $my->id == 0)
+		{
+        	$where.= ' AND video.public_private = "public"';
+		}
+
+		if ($sort == "recent")
+		{
+			$order = ' ORDER BY video.date_uploaded DESC';
+			$smartyvs->assign("title", _HWDVIDS_RECENTVIDEOS);
+			$smartyvs->assign("recent_selected", "selected=\"selected\"");
+		}
+		else if ($sort == "popular")
+		{
+			$order = ' ORDER BY video.number_of_views DESC';
+			$smartyvs->assign("title", _HWDVIDS_POPULARVIDEOS);
+			$smartyvs->assign("popular_selected", "selected=\"selected\"");
+		}
+		else if ($sort == "rated")
+		{
+			$order = ' ORDER BY video.updated_rating DESC';
+			$smartyvs->assign("title", _HWDVIDS_RATEDVIDEOS);
+			$smartyvs->assign("rated_selected", "selected=\"selected\"");
+		}
+
+        // get video count
+        $db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 . $hwdvs_joinv
+					 . $where
+					 );
+        $total = $db->loadResult();
+        echo $db->getErrorMsg();
+
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+
+        $query = 'SELECT'.$hwdvs_selectv
+                . ' FROM #__hwdvidsvideos AS video'
+                . $hwdvs_joinv
+                . $where
+                . $order
+                ;
+
+        $db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
+        $rows = $db->loadObjectList();
+
+        // send out
+        hwd_vs_html::frontpage($rows, null, $pageNav, $total, null, null, null, null, null);
     }
     /**
      * Check video player access and cache settings and query SQL for video data
@@ -204,148 +325,42 @@ class hwd_vs_core
      */
     function viewvideo()
     {
-        global $hwdvs_joinv, $hwdvs_selectv, $smartyvs, $mainframe;
+        global $hwdvs_joinv, $hwdvs_selectv, $smartyvs, $isModerator;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 
-		// check component access settings and deny those without privileges
-		if ($c->access_method == 0) {
-			if (!hwd_vs_access::allowAccess( $c->gtree_plyr, $c->gtree_plyr_child, hwd_vs_access::userGID( $my->id ))) {
-				if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-					$smartyvs->assign("showconnectionbox", 1);
-					hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORPLYR, "exclamation.png", 1);
-					return;
-				} else {
-					$smartyvs->assign("showconnectionbox", 1);
-					hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_PLYR_NOT_AUTHORIZED, "exclamation.png", 1);
-					return;
-				}
-			}
-		} else if ($c->access_method == 1) {
-			if (!hwd_vs_access::allowLevelAccess( $c->accesslevel_upld, hwd_vs_access::userGID( $my->id ))) {
-				$smartyvs->assign("showconnectionbox", 1);
-				hwd_vs_tools::infomessage(1, 0,  _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_PLYR_NOT_AUTHORIZED, "exclamation.png", 0);
-				return;
-			}
+		if (!hwd_vs_access::checkAccess($c->gtree_plyr, $c->gtree_plyr_child, 2, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORPLYR, _HWDVIDS_ALERT_PLYR_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.access"))
+		{
+			return;
 		}
-
-        // don't want to cache
-        header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
         // get video id from POST array
         $video_id = JRequest::getInt( 'video_id', 0 );
 
         // check video can be viewed by user
-        $where = ' WHERE video.published = 1';
-        $where .= ' AND video.id = '.$video_id;
-        $where .= ' AND video.approved = "yes"';
+        $where = ' WHERE video.id = '.$video_id;
 
-        $hwdvs_selectv_extended = $hwdvs_selectv.', access.access_v, access.access_v_r, access.access_lev_v';
-
-        $query = 'SELECT'.$hwdvs_selectv_extended
+        $query = 'SELECT'.$hwdvs_selectv
                 . ' FROM #__hwdvidsvideos AS video'
                 . $hwdvs_joinv
-			    . ' LEFT JOIN #__hwdvidscategories AS `access` ON access.id = video.category_id'
                 . $where
                 . ' ORDER BY video.date_uploaded DESC'
                 ;
         $db->SetQuery($query);
         $row = $db->loadObject();
 
-        if ( count($row) < 1 ) {
-        	hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_VIDNOEXIST, "exclamation.png", 0);
-            return;
-        }
-
-        if ( $row->public_private == "registered" && $my->id == 0 )
-        {
-        	hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, "Only registered users can view this video", "exclamation.png", 0);
-            return;
-        }
-
-        if ( $row->public_private == "me" && $my->id !== $row->user_id )
-        {
-        	hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, "Only the owner can view this video", "exclamation.png", 0);
-            return;
-        }
-
-        if ( $row->public_private == "password" )
-        {
-
-			$password = Jrequest::getVar( 'password', '' );
-			$pass_check_variable = $mainframe->getUserState( "hwdvs_pw_$row->id", "notset" );
-
-			if ($pass_check_variable == "notset")
-			{
-				if (!empty($password))
-				{
-					if (md5($password) == $row->password)
-					{
-						$mainframe->setUserState( "hwdvs_pw_$row->id", $password );
-					}
-					else
-					{
-						return;
-					}
-				}
-				else
-				{
-					$message = '<p>This video is password protected.</p><br /><form action="" method="post">
-					Password&nbsp;&nbsp;<input name="password" value="" type="password" class="inputbox" size="20" maxlength="500" style="width: 200px;" />
-					<input type="submit" value="View Video">
-					</form>';
-
-					hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, $message, null, 0);
-					return;
-				}
-			}
-			else
-			{
-				if (md5($password) == $row->password)
-				{
-					$mainframe->setUserState( "hwdvs_pw_$row->id", $password );
-				}
-				else
-				{
-					$message = '<p>The password you entered is not valid.</p><br /><form action="" method="post">
-					Password&nbsp;&nbsp;<input name="password" value="" type="password" class="inputbox" size="20" maxlength="500" style="width: 200px;" />
-					<input type="submit" value="View Video">
-					</form>';
-
-					hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_NOACCESS, $message, null, 0);
-					return;
-				}
-			}
-        }
+		if (!hwd_vs_tools::validateVideoAccess($row))
+		{
+			return;
+		}
 
         // get view count
         hwd_vs_tools::logViewing($video_id);
         require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
         hwd_vs_recount::recountVideoViews($video_id);
-
-		// check component access settings and deny those without privileges
-		if ($c->bviic == 1 && $row->category_id !== "0") {
-			if ($c->access_method == 0) {
-				if (!hwd_vs_access::allowAccess( $row->access_v, $row->access_v_r, hwd_vs_access::userGID( $my->id ))) {
-					if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-						hwd_vs_tools::infomessage(2, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORVCAT, "exclamation.png", 0);
-						return;
-					} else {
-						hwd_vs_tools::infomessage(2, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_VCAT_NOT_AUTHORIZED, "exclamation.png", 0);
-						return;
-					}
-				}
-			} else if ($c->access_method == 1) {
-				if (!hwd_vs_access::allowLevelAccess( $row->access_lev_v, hwd_vs_access::userGID( $my->id ))) {
-					hwd_vs_tools::infomessage(2, 0,  _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_VCAT_NOT_AUTHORIZED, "exclamation.png", 0);
-					return;
-				}
-			}
-		}
 
 		// get more videos from user
 		if ($c->showuldr == "1") {
@@ -366,24 +381,25 @@ class hwd_vs_core
 		}
 
 		// get related videos
-		if ($c->showrevi == "1") {
+		if ($c->showrevi == "1")
+		{
 			$searchterm = addslashes($row->title." ".$row->description." ".$row->tags);
-			if (!$my->id) {
-			$wherevids = ' WHERE video.public_private = \'public\' AND MATCH (title,tags,description) AGAINST (\''.$searchterm.'\')';
-			} else {
-			$wherevids = ' WHERE MATCH (title,tags,description) AGAINST (\''.$searchterm.'\')';
-			}
+
+			require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'search.php');
+        	$whereVideos = hwd_vs_search::search_perform_videos("related",$searchterm);
+
 			// get matching video data
 			$query = 'SELECT'.$hwdvs_selectv
                     . ' FROM #__hwdvidsvideos AS video'
                     . $hwdvs_joinv
-					. $wherevids
+					. $whereVideos
 					. ' AND video.published = 1'
 					. ' AND video.approved = "yes"'
 					. ' AND video.id <> '.$row->id
 					//. ' ORDER BY video.date_uploaded DESC'
 					. ' LIMIT 0, '.$c->revi_no
 					;
+
 			$db->SetQuery($query);
 			$relatedrows = $db->loadObjectList();
 		} else {
@@ -442,14 +458,15 @@ class hwd_vs_core
      */
     function categories()
     {
-        global $mainframe, $limitstart, $option;
+        global $limitstart, $option;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
 
 		$order = JRequest::getCmd( 'hwdcorder' );
-		$mainframe->setUserState( 'hwdvsCategoryOrder', $order );
-		$filter_order = $mainframe->getUserStateFromRequest( 'hwdvsCategoryOrder', 'cateorder' );
+		$app->setUserState( 'hwdvsCategoryOrder', $order );
+		$filter_order = $app->getUserStateFromRequest( 'hwdvsCategoryOrder', 'cateorder' );
 
 		if (!empty($filter_order)) {
 			$c->cordering = $filter_order;
@@ -475,23 +492,26 @@ class hwd_vs_core
 			$order = ' ORDER BY ordering, category_name';
 		}
 
-		$where = ' WHERE published = 1';
-		$where.= ' AND parent = 0';
-		if ($c->cat_he == 1) {
-			$where.= ' AND num_vids > 0';
+		$where = " WHERE published = 1";
+		$where.= " AND parent = 0";
+		if ($c->cat_he == 1)
+		{
+			$where.= " AND num_vids > 0";
 		}
 
-		// get category list
-        $query = 'SELECT *'
-                . ' FROM #__hwdvidscategories'
-                . $where
-    			. $order
-    			;
-        $db->setQuery( $query );
+        $query = "SELECT count(*) FROM #__hwdvidscategories $where";
+        $db->SetQuery($query);
+        $total = $db->loadResult();
+		$limit = $c->cpp;
+
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+
+        $query = "SELECT * FROM #__hwdvidscategories $where $order";
+        $db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
         $rows = $db->loadObjectList();
 
- 		// send out
-        hwd_vs_html::categories($rows);
+        hwd_vs_html::categories($rows, $pageNav, $total);
     }
     /**
      * Query SQL for requested category data
@@ -500,12 +520,13 @@ class hwd_vs_core
      */
     function viewcategory()
     {
-        global $mainframe, $limitstart, $hwdvs_joinv, $hwdvs_selectv, $smartyvs;
+        global $limitstart, $hwdvs_joinv, $hwdvs_selectv, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		$app = & JFactory::getApplication();
 
         // number of videos to display
         $limit     = intval($c->vpp);
@@ -521,9 +542,15 @@ class hwd_vs_core
         $db->SetQuery( $query_cat );
         $cat = $db->loadObject();
 
+		if (count($cat) == 0)
+		{
+			hwd_vs_tools::infomessage(1, 0,  _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_TCDNE, "exclamation.png", 0);
+			return;
+		}
+
 		$order = JRequest::getCmd( 'order' );
-		$mainframe->setUserState( 'hwdvsCategoryVideoOrder', $order );
-		$filter_order = $mainframe->getUserStateFromRequest( 'hwdvsCategoryVideoOrder', 'order' );
+		$app->setUserState( 'hwdvsCategoryVideoOrder', $order );
+		$filter_order = $app->getUserStateFromRequest( 'hwdvsCategoryVideoOrder', 'order' );
 
 		if (!empty($filter_order)) {
 			$cco = $filter_order;
@@ -536,63 +563,69 @@ class hwd_vs_core
         // filter for sql data
         $where = ' WHERE video.published = 1';
         $where .= ' AND video.approved = "yes"';
-        if ($c->countcvids == 1) {
+        if ($c->countcvids == 1)
+        {
 	        $cids = hwd_vs_tools::getChildCategories($cat->id);
-			$where .= ' AND video.category_id IN ('.$cids.')';
-		} else {
-        	$where .= ' AND video.category_id = '.$cat_id;
-		}
-		if (!$my->id) {
-        $where .= ' AND video.public_private = "public"';
+		$where .= ' AND (video.category_id IN ('.$cids.') OR cmap.categoryid = '.$cat_id.')';
+        }
+        else
+        {
+        	$where .= ' AND (video.category_id = '.$cat_id.' OR cmap.categoryid = '.$cat_id.')';
         }
 
-		if ( $cco == "orderASC" ) {
-			$order = ' ORDER BY video.ordering ASC';
-		} else if ( $cco == "orderDESC" ) {
-			$order = ' ORDER BY video.ordering DESC';
-		} else if ( $cco == "dateASC" ) {
-			$order = ' ORDER BY video.date_uploaded ASC';
-		} else if ( $cco == "dateDESC" ) {
-			$order = ' ORDER BY video.date_uploaded DESC';
-		} else if ( $cco == "nameASC" ) {
-			$order = ' ORDER BY video.title ASC';
-		} else if ( $cco == "nameDESC" ) {
-			$order = ' ORDER BY video.title DESC';
-		} else if ( $cco == "hitsASC" ) {
-			$order = ' ORDER BY video.number_of_views ASC';
-		} else if ( $cco == "hitsDESC" ) {
-			$order = ' ORDER BY video.number_of_views DESC';
-		} else if ( $cco == "voteASC" ) {
-			$order = ' ORDER BY video.updated_rating ASC';
-		} else if ( $cco == "voteDESC" ) {
-			$order = ' ORDER BY video.updated_rating DESC';
-		} else {
-			$order = ' ORDER BY video.date_uploaded DESC';
-		}
+        if ( $cco == "orderASC" ) {
+                $order = ' ORDER BY video.ordering ASC';
+        } else if ( $cco == "orderDESC" ) {
+                $order = ' ORDER BY video.ordering DESC';
+        } else if ( $cco == "dateASC" ) {
+                $order = ' ORDER BY video.date_uploaded ASC';
+        } else if ( $cco == "dateDESC" ) {
+                $order = ' ORDER BY video.date_uploaded DESC';
+        } else if ( $cco == "nameASC" ) {
+                $order = ' ORDER BY video.title ASC';
+        } else if ( $cco == "nameDESC" ) {
+                $order = ' ORDER BY video.title DESC';
+        } else if ( $cco == "hitsASC" ) {
+                $order = ' ORDER BY video.number_of_views ASC';
+        } else if ( $cco == "hitsDESC" ) {
+                $order = ' ORDER BY video.number_of_views DESC';
+        } else if ( $cco == "voteASC" ) {
+                $order = ' ORDER BY video.updated_rating ASC';
+        } else if ( $cco == "voteDESC" ) {
+                $order = ' ORDER BY video.updated_rating DESC';
+        } else if ( $cco == "random" ) {
+                $order = ' ORDER BY rand()';
+        } else {
+                $order = ' ORDER BY video.date_uploaded DESC';
+        }
+
+        $query = 'SELECT count(*)'
+            . ' FROM #__hwdvidsvideos as video'
+            . ' LEFT JOIN #__hwdvidsvideo_category AS cmap ON cmap.videoid = video.id'
+            . $where;
+            ;
 
         // count filtered videos
-        $db->SetQuery( 'SELECT count(*)'
-                     . ' FROM #__hwdvidsvideos AS video'
-                     . $where
-                     );
+        $db->SetQuery( $query );
         $total = $db->loadResult();
         echo $db->getErrorMsg();
 
-        // pagination
-		$pageNav = new JPagination( $total, $limitstart, $limit );
+        jimport('joomla.html.pagination');
+        $pageNav = new JPagination( $total, $limitstart, $limit );
 
         // get filtered video data
         $query = 'SELECT'.$hwdvs_selectv
                 . ' FROM #__hwdvidsvideos AS video'
-				. $hwdvs_joinv
+                . $hwdvs_joinv
+                . ' LEFT JOIN #__hwdvidsvideo_category AS cmap ON cmap.videoid = video.id'
                 . $where
                 . $order
                 ;
         $db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
         $rows = $db->loadObjectList();
 
-		// check component access settings and deny those without privileges
-		if ($c->access_method == 0) {
+		if ($c->bviic == 1)
+		{
 			if (!hwd_vs_access::allowAccess( $cat->access_v, $cat->access_v_r, hwd_vs_access::userGID( $my->id ))) {
 				if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
 					$smartyvs->assign("showconnectionbox", 1);
@@ -604,23 +637,12 @@ class hwd_vs_core
 					return;
 				}
 			}
-		} else if ($c->access_method == 1) {
-			if (!hwd_vs_access::allowLevelAccess( $cat->access_lev_v, hwd_vs_access::userGID( $my->id ))) {
-				$smartyvs->assign("showconnectionbox", 1);
-				hwd_vs_tools::infomessage(2, 0,  _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_NOT_AUTHORIZED, "exclamation.png", 0);
-				return;
-			}
-		}
-
-		if (count($cat) == 0) {
-			hwd_vs_tools::infomessage(1, 0,  _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_TCDNE, "exclamation.png", 0);
-			return;
 		}
 
 		// get subcategories
 		$order = JRequest::getCmd( 'hwdcorder' );
-		$mainframe->setUserState( 'hwdvsCategoryOrder', $order );
-		$filter_order = $mainframe->getUserStateFromRequest( 'hwdvsCategoryOrder', 'cateorder' );
+		$app->setUserState( 'hwdvsCategoryOrder', $order );
+		$filter_order = $app->getUserStateFromRequest( 'hwdvsCategoryOrder', 'cateorder' );
 
 		if (!empty($filter_order)) {
 			$c->cordering = $filter_order;
@@ -669,28 +691,30 @@ class hwd_vs_core
      */
     function search()
     {
-        global $mainframe, $Itemid;
+        global $hwdvsItemid;
+		$app = & JFactory::getApplication();
 
-        $pattern = JRequest::getVar( 'pattern', '' );
-		$pattern_safe = str_replace("'", "", $pattern);
-		$pattern_safe = str_replace('"', "", $pattern_safe);
-		$pattern_safe = rawurlencode(addslashes($pattern_safe));
-		
-		require ( "sphinxapi.php" );
-		$cl = new SphinxClient ();
-		$cl->SetServer( "localhost", "9312" );
-		$cl->SetMatchMode ( SPH_MATCH_EXTENDED2 );
-		$cl->SetSortMode ( SPH_SORT_RELEVANCE );
-		$cl->AddQuery ( $pattern_safe, "shigaru" );
-		$res = $cl->RunQueries();
-
-		print_r( $res[0]);
+        $pattern     = JRequest::getVar( 'pattern', '' );
         $category_id = JRequest::getInt( 'category_id', '0' );
+        $rpp         = JRequest::getInt( 'rpp', '0' );
+        $sort        = JRequest::getInt( 'sort', '0' );
+        $ep          = JRequest::getVar( 'ep', '' );
+        $ex          = JRequest::getVar( 'ex', '' );
 
-		$url = JRoute::_("index.php?option=com_hwdvideoshare&task=displayresults&category_id=$category_id&Itemid=$Itemid&pattern=$pattern_safe");
+		$url = JRoute::_("index.php?option=com_hwdvideoshare&task=displayresults&Itemid=$hwdvsItemid&category_id=$category_id");
 		$url = str_replace("&amp;", "&", $url);
 
-		$mainframe->redirect($url);
+		$pos = strpos($url, "?");
+		if ($pos === false)
+		{
+			$url = $url."?pattern=$pattern&rpp=$rpp&sort=$sort&ep=$ep&ex=$ex";
+		}
+		else
+		{
+			$url = $url."&pattern=$pattern&rpp=$rpp&sort=$sort&ep=$ep&ex=$ex";
+		}
+
+		$app->redirect($url);
     }
     /**
      * Query SQL for user inputted search pattern
@@ -699,90 +723,102 @@ class hwd_vs_core
      */
     function displayResults()
     {
-        global $mainframe, $limitstart, $hwdvs_joinv, $hwdvs_joing, $hwdvs_selectv, $hwdvs_selectg;
+        global $smartyvs, $limitstart, $hwdvs_joinv, $hwdvs_joing, $hwdvs_selectv, $hwdvs_selectg;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 
-		// number of videos and groups to display
-        $limitv     = intval($c->vpp);
-        $limitg     = intval($c->gpp);
+        $pattern     = JRequest::getVar( 'pattern', '' );
+        $category_id = JRequest::getInt( 'category_id', '0' );
+        $vpp         = JRequest::getInt( 'rpp', '0' );
+        $gpp         = JRequest::getInt( 'rpp', '0' );
+        $sort        = JRequest::getInt( 'sort', '0' );
+        $ep          = JRequest::getVar( 'ep', '' );
+        $ex          = JRequest::getVar( 'ex', '' );
 
-        // get POST array values
-        $pattern = JRequest::getVar( 'pattern', '' );
-		$pattern_safe = str_replace("'", "", $pattern);
-		$pattern_safe = str_replace('"', "", $pattern_safe);
-		$pattern_safe = addslashes($pattern_safe);
-        $category = JRequest::getInt( 'category_id', '0' );
-
-        // setup search filter for videos and groups
-        if (!$my->id) {
-        $wherevids = ' WHERE video.public_private = \'public\' AND MATCH (title,tags,description) AGAINST (\''.$pattern_safe.'\')';
-        $wheregroups = ' WHERE g.public_private = \'public\' AND MATCH (group_name,group_description) AGAINST (\''.$pattern_safe.'\')';
-        } else {
-        $wherevids = ' WHERE MATCH (title,tags,description) AGAINST (\''.$pattern_safe.'\')';
-        $wheregroups = ' WHERE MATCH (group_name,group_description) AGAINST (\''.$pattern_safe.'\')';
+        if (empty($vpp) || $vpp == 0)
+        {
+        	$limitv     = intval($c->vpp);
+        }
+        else
+        {
+        	$limitv     = $vpp;
+        }
+        if (empty($gpp) || $gpp == 0)
+        {
+        	$limitg     = intval($gpp);
+        }
+        else
+        {
+        	$limitg     = $gpp;
         }
 
-        if ($category > 0) {
-        	$wherevids.= ' AND video.category_id = '.$category;
-        }
+		$smartyvs->assign("pattern", $pattern);
+		$smartyvs->assign("ep", $ep);
+		$smartyvs->assign("ex", $ex);
+		$smartyvs->assign("rpp", $vpp);
+		$smartyvs->assign("sort", $sort);
 
-        $wherevids.= ' AND video.published = 1 AND video.approved = "yes"';
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'search.php');
+        $whereVideos = hwd_vs_search::search_perform_videos();
+        $whereGroups = hwd_vs_search::search_perform_groups();
 
-        // count matching videos
-        $db->SetQuery( 'SELECT count(*)'
-                     . ' FROM #__hwdvidsvideos AS video'
-                     . $wherevids
-                     );
-        $totalvids = $db->loadResult();
-        echo $db->getErrorMsg();
+		if ($sort == 1)
+		{
+			$orderVideos = " ORDER BY video.title ASC";
+		}
+		else if ($sort == 2)
+		{
+			$orderVideos = " ORDER BY video.date_uploaded DESC";
+		}
+		else if ($sort == 3)
+		{
+			$orderVideos = " ORDER BY video.updated_rating DESC";
+		}
+		else if ($sort == 4)
+		{
+			$orderVideos = " ORDER BY video.number_of_views DESC";
+		}
+		else
+		{
+			$orderVideos = "";
+		}
 
-        // pagination
-		$videoNav = new JPagination( $totalvids, $limitstart, $limitv );
+		$db->SetQuery( "SELECT count(*) FROM #__hwdvidsvideos AS video $whereVideos");
+		$totalVideos = $db->loadResult();
 
-        // get matching video data
-        $query = 'SELECT'.$hwdvs_selectv
-                . ' FROM #__hwdvidsvideos AS video'
-				. $hwdvs_joinv
-                . $wherevids
-                ;
-        $db->SetQuery($query, $videoNav->limitstart, $videoNav->limit);
-        $matchingvids = $db->loadObjectList();
+		jimport('joomla.html.pagination');
+		$videoNav = new JPagination( $totalVideos, $limitstart, $limitv );
 
-        if ($c->diable_nav_groups == 0) {
+		$query = "SELECT $hwdvs_selectv FROM #__hwdvidsvideos AS video $hwdvs_joinv $whereVideos $orderVideos";
+		//echo $query;
+		$db->SetQuery($query, $videoNav->limitstart, $videoNav->limit);
+		$matchingVideos = $db->loadObjectList();
 
+        if ($c->diable_nav_groups == 0)
+        {
 			// count matching groups
-			$db->SetQuery( 'SELECT count(*)'
-						 . ' FROM #__hwdvidsgroups AS g'
-						 . $hwdvs_joing
-					     . $wheregroups
-						 );
-			$totalgroups = $db->loadResult();
+			$db->SetQuery("SELECT count(*) FROM #__hwdvidsgroups AS g $hwdvs_joing $whereGroups");
+			$totalGroups = $db->loadResult();
 			echo $db->getErrorMsg();
 
 			// pagination
-			$groupNav = new JPagination( $totalgroups, $limitstart, $limitg );
+			$groupNav = new JPagination( $totalGroups, $limitstart, $limitg );
 
 			// get matching group data
-			$query = 'SELECT'.$hwdvs_selectg
-				   . ' FROM #__hwdvidsgroups AS g'
-				   . $hwdvs_joing
-				   . $wheregroups
-				   ;
+			$query = "SELECT $hwdvs_selectg FROM #__hwdvidsgroups AS g $hwdvs_joing $whereGroups";
 			$db->SetQuery($query, $groupNav->limitstart, $groupNav->limit);
-			$matchinggroups = $db->loadObjectList();
-
-		} else {
-
-			$totalgroups = 0;
+			$matchingGroups = $db->loadObjectList();
+		}
+		else
+		{
+			$totalGroups = 0;
 			$groupNav = null;
-			$matchinggroups = null;
-
+			$matchingGroups = null;
 		}
 
         // sent out
-        hwd_vs_html::search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $pattern);
+        hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id);
     }
     /**
      * Query SQL for all accessible category data
@@ -791,12 +827,13 @@ class hwd_vs_core
      */
     function downloadFile()
     {
-        global $mainframe, $limitstart;
+        global $limitstart;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+$app = & JFactory::getApplication();
 
 		//$currentSession = JSession::getInstance('none',array());
 		//$currentSession->destroy();
@@ -807,6 +844,8 @@ class hwd_vs_core
 		$media = JRequest::getCmd( 'media', 0 );
 		$fix = JRequest::getCmd( 'fix', 0 );
 		$streamer = JRequest::getCmd( 'streamer', 'off' );
+		$quality = JRequest::getCmd( 'quality', 'hd' );
+		$start = JRequest::getInt( 'start', '' );
 		$pushDownload = false;
 		$showError = false;
 
@@ -817,27 +856,26 @@ class hwd_vs_core
 
         $db->SetQuery( 'SELECT count(*) FROM #__hwdvidsantileech WHERE expiration = "'.$evp.'"' );
         $result = $db->loadResult();
-
-		if ($result > 0)
+		if ($result > 0 || $c->use_protection == 0 || $row->allow_embedding == "1")
 		{
-			$location = hwd_vs_tools::generateVideoLocations( $row );
-			hwd_vs_tools::initiateStreamer( $row, $location['path'] );
+			$location = hwd_vs_tools::generateVideoLocations( $row, $quality );
+			$location['ext'] = "flv";
 
 			$db->SetQuery( 'SELECT `count` FROM #__hwdvidsantileech WHERE expiration = "'.$evp.'"' );
 			$count = $db->loadResult();
 
-			if ($row->allow_embedding == 1 && $c->showvebc == 1) {
-
+			if ($row->allow_embedding == 1 && $c->showvebc == 1)
+			{
 				$pushDownload = true;
-
-			} else if ($count < $c->protection_level) {
-
+			}
+			else if ($count < $c->protection_level)
+			{
 				$newCount = $count+1;
 				$db->SetQuery( "UPDATE #__hwdvidsantileech SET `count` = $newCount WHERE expiration = \"".$evp."\"" );
 				$db->Query();
 
-				if ($deliver == "downloadoriginal" || $deliver == "download") {
-
+				if ($deliver !== "player")
+				{
 					if (!hwd_vs_access::allowAccess( $c->gtree_dnld, $c->gtree_dnld_child, hwd_vs_access::userGID( $my->id )))
 					{
 						$pushDownload = false;
@@ -846,21 +884,19 @@ class hwd_vs_core
 					{
 						$pushDownload = true;
 					}
-
-				} else if ($deliver == "player") {
-
-					$pushDownload = true;
-
 				}
-
-			} else {
-
+				else if ($deliver == "player")
+				{
+					$pushDownload = true;
+				}
+			}
+			else
+			{
 				$showError = true;
-
 			}
 
-			if ($deliver == "downloadoriginal") {
-
+			if ($deliver == "downloadoriginal" || $deliver == "original")
+			{
 				if ($handle = opendir(JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.'originals'))
 				{
 					$url = '';
@@ -873,10 +909,47 @@ class hwd_vs_core
 						{
 							$location['url']  = JURI::root().'hwdvideos/uploads/originals/'.$file;
 							$location['path'] = JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.'originals'.DS.$file;
+							$location['ext'] = $filename_ext;
 						}
 					}
 
 					closedir($handle);
+				}
+			}
+			else if ($deliver == "flv")
+			{
+				if (file_exists(PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".flv"))
+				{
+					$location['url']  = URL_HWDVS_DIR."/uploads/".$row->video_id.".flv";
+					$location['path'] = PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".flv";
+					$location['ext'] = "flv";
+				}
+			}
+			else if ($deliver == "h264")
+			{
+				if (file_exists(PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".mp4"))
+				{
+					$location['url']  = URL_HWDVS_DIR."/uploads/".$row->video_id.".mp4";
+					$location['path'] = PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".mp4";
+					$location['ext'] = "mp4";
+				}
+			}
+			else if ($deliver == "ipod340")
+			{
+				if (file_exists(PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".ipod320.mp4"))
+				{
+					$location['url']  = URL_HWDVS_DIR."/uploads/".$row->video_id.".ipod320.mp4";
+					$location['path'] = PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".ipod320.mp4";
+					$location['ext'] = "ipod320.mp4";
+				}
+			}
+			else if ($deliver == "ipod640")
+			{
+				if (file_exists(PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".ipod640.mp4"))
+				{
+					$location['url']  = URL_HWDVS_DIR."/uploads/".$row->video_id.".ipod640.mp4";
+					$location['path'] = PATH_HWDVS_DIR.DS."uploads".DS.$row->video_id.".ipod320.mp4";
+					$location['ext'] = "ipod640.mp4";
 				}
 			}
 
@@ -884,7 +957,11 @@ class hwd_vs_core
 			{
 				if (headers_sent($filename, $linenum) || $row->video_type == "seyret" || $row->video_type == "remote")
 				{
-					$mainframe->redirect( $location['url'] );
+					if (!empty($start))
+					{
+						$location['url'] = $location['url']."?start=".$start;
+					}
+					$app->redirect( $location['url'] );
 				}
 				else if ($deliver == "player")
 				{
@@ -894,31 +971,30 @@ class hwd_vs_core
 				else
 				{
 					// Transfer file in chunks to preserve memory on the server
-					$fn = basename($path);
+					$fn = basename($location['path']);
 
 					$title = str_replace(" ", "-", $row->title);
 					$title = preg_replace("/[^a-zA-Z0-9s-]/", "", $title);
 
 					if (!empty($title)) {
-						$ftitle = $title.".flv";
+						$ftitle = $title.".".$location['ext'];
 					} else {
 						$ftitle = $fn;
 					}
 
 					header('Content-Type: application/octet-stream');
 					header("Content-Disposition: attachment; filename=\"$ftitle\"");
-					header('Content-Length: '.filesize($path));
-					@hwd_vs_tools::readfile_chunked($path, true);
+					header('Content-Length: '.filesize($location['path']));
+					@hwd_vs_tools::readfile_chunked($location['path'], true);
 					exit;
 				}
 			}
 		}
 
-		if ($count > $c->protection_level) {
-
+		if ($count > $c->protection_level)
+		{
 			$db->SetQuery("DELETE FROM #__hwdvidsantileech WHERE expiration = \"$evp\"");
 			$db->Query();
-
 		}
 
 		$showError = true;
@@ -926,8 +1002,8 @@ class hwd_vs_core
 		$hwdvsItemid = hwd_vs_tools::generateValidItemid();
 
 		$msg = "You do not have access to this file using the requested method.";
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root()."index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=viewvideo&video_id=".$row->id );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root()."index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=viewvideo&video_id=".$row->id );
 
     }
     /**
@@ -937,7 +1013,7 @@ class hwd_vs_core
      */
     function deliverThumb()
     {
-        global $mainframe, $limitstart;
+        global $limitstart;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
@@ -952,6 +1028,16 @@ class hwd_vs_core
 		$db->Query();
 		$row = $db->loadObject();
 
+		$url = URL_HWDVS_DIR."/thumbs/".$row->video_id.".".$row->thumbnail;
+
+		if (headers_sent($filename, $linenum))
+		{
+			//problem
+		}
+
+		header('Location: '.$url);
+		exit;
+
 		$BASEPATH = JPATH_SITE.DS.'hwdvideos'.DS.'thumbs';
 		$BASEURL = JURI::root().'hwdvideos'.DS.'thumbs';
 
@@ -959,9 +1045,10 @@ class hwd_vs_core
 		$url = $BASEURL.DS.$row->video_id.'.jpg';
 		$watermark = $row->video_length;
 
-		if (headers_sent($filename, $linenum)) {
-			//problem
-		}
+		$image=imagecreatefromjpeg($path);
+		header('Content-Type: image/jpeg');
+		imagejpeg($image);
+		exit;
 
 		if ($c->thumb_ts == 0 || !function_exists('imagettftext') || empty($row->video_length) || $row->video_length == "0:00:00" || $row->video_length == "0:00:02") {
 
@@ -998,7 +1085,5 @@ class hwd_vs_core
 			exit;
 
 		}
-
     }
-
 }

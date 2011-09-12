@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -12,7 +12,6 @@
 {$hwdvs_community_js}
 
 {if $hwdvids_params.style eq 0}
-	<div class="standard">
 	{if $print_videolist}
 	      {foreach name=outer item=data from=$list}
 		  <div style="width:{$static_width}%;float:left;">
@@ -28,9 +27,7 @@
 	<div class="padding">{$noitems}</div>
 	{/if}
 	{$pageNavigation}
-	</div>
 {else}
-	<div class="standard">
 	{if $print_videolist}
 	<div id="{$iCID}_frame"><img id="{$iCID}_next" src="{$URL_HWDVS_IMAGES}arrow_next.png" alt="Next" style="padding: 5px 5px 5px 0;" /><img id="{$iCID}_prev" src="{$URL_HWDVS_IMAGES}arrow_prev.png" alt="Previous" style="padding: 5px 0;" /></div>
 	<center>
@@ -51,7 +48,6 @@
 	{else}
 	<div class="padding">{$noitems}</div>
 	{/if}
-	</div>
 {/if}
 	
 <div id="community_video_player_space"></div>

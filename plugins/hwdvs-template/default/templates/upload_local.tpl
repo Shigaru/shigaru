@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -20,7 +20,13 @@
     </tr>
     <tr>
       <td valign="top">{$smarty.const._HWDVIDS_DESC} <font class="required">*</font></td>
-      <td valign="top"><textarea rows="4" cols="20" name="description" class="inputbox" style="width: 200px;"></textarea></td>
+      <td valign="top">
+      	{if $print_wysiwyg}
+      		{$description}      	      	
+      	{else}
+      		<textarea rows="4" cols="20" name="description" class="inputbox" style="width: 200px;"></textarea></td>
+    	{/if}
+      </td>
     </tr>
     <tr>
       <td>{$smarty.const._HWDVIDS_CATEGORY} <font class="required">*</font></td>

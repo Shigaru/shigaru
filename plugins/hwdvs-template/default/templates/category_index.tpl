@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -10,7 +10,7 @@
 {include file='header.tpl'}
 
   {if $print_orderselect}
-  <div style="float:right;text-align:right;padding:5px;">
+  <div style="float:right;text-align:right;padding:0 0 5px 0;">
     {literal}
     <script language="javaScript">
       function goto_sort(form) { 
@@ -41,30 +41,39 @@
 {if $print_categories}
 <div class="standard">
 
-  {foreach name=outer item=data from=$list}
-    
-    {if $smarty.foreach.outer.first}
-      <div class="categoryBox"><div class="padding">
-    {elseif $data->level eq 0}
-      </div></div><div class="categoryBox"><div class="padding">      
-    {else}
-    {/if}
+	{foreach name=outer item=data from=$list}
 
-          {include file="category_list.tpl"}
-	  
-	  {if $smarty.foreach.outer.last}
-	   <div style="clear:both;"></div></div></div>
-	  {elseif $smarty.foreach.outer.index % $cpr-($cpr-1) == 0}
-	   <!--<div style="clear:both;"></div>-->
-	  {/if}
-    
-    {if $data->level eq 0}
-    {else}
-    {/if}
-    
-  {/foreach}
-  <div style="clear:both;"></div>
-  
+		{if $smarty.foreach.outer.first}
+			<div class="categoryBox">
+				<div class="padding">
+		{elseif $data->level eq 0}
+				</div>
+			</div>
+		{if $data->countTopLevel % $cpr == 0}
+			<div style="clear:both;"></div>
+		{/if}
+			<div class="categoryBox">
+				<div class="padding">      
+		{else}
+		{/if}
+
+		{include file="category_list.tpl"}
+
+		{if $smarty.foreach.outer.last}
+					<div style="clear:both;">
+					</div>
+				</div>
+			</div>
+		{/if}
+
+		{if $data->level eq 0}
+		{else}
+		{/if}
+
+	{/foreach}
+	<div style="clear:both;"></div>
+        <div><center>{$pageNavigation}</center></div>
+
 </div>
 {/if}
 

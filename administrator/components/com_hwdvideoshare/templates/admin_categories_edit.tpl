@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -109,7 +109,7 @@ function submitbutton(pressbutton) {
                 <td>{$smarty.const._HWDVIDS_PUB}</td>
                 <td>{$published}</td>
               </tr>
-              {if $print_accessgroups}
+              {if $j15}
               <tr>
                 <td valign="top">{$smarty.const._HWDVIDS_CVACCESS}</td>
                 <td valign="top">{$cvaccess_g}</td>
@@ -126,15 +126,6 @@ function submitbutton(pressbutton) {
                 <td valign="top">{$smarty.const._HWDVIDS_INCLUDECHILD}</td>
                 <td valign="top">{$access_u_r}</td>
               </tr>	  
-              {else}
-              <tr>
-                <td valign="top">{$smarty.const._HWDVIDS_CVACCESS}</td>
-                <td valign="top">{$cvaccess_l}</td>
-              </tr>
-              <tr>
-                <td valign="top">{$smarty.const._HWDVIDS_CUACCESS}</td>
-                <td valign="top">{$cuaccess_l}</td>
-              </tr>
               {/if}
               <tr>
                 <td valign="top">{$smarty.const._HWDVIDS_CVVISIBLE}</td>
@@ -173,6 +164,9 @@ function submitbutton(pressbutton) {
     </td>
   </tr>
 </table>
-
+{if $j16}
+{$categoryPermissions}
+{/if}
+            
 <form>
 {include file='admin_footer.tpl'}

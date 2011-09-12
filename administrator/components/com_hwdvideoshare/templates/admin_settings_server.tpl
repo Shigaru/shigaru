@@ -1,15 +1,15 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
 
 {include file='admin_header.tpl'}
 
-<div style="border: solid 1px #333;margin:5px 0 5px 0;padding:5px;text-align:left;font-weight:bold;">{$smarty.const._HWDVIDS_INFO_CONFIGF1} {$config_file_status}</div>
+{if $printConfigFileStatus}<div style="border: solid 1px #333;margin:5px 0 5px 0;padding:5px;text-align:left;font-weight:bold;">{$smarty.const._HWDVIDS_INFO_CONFIGF1} {$config_file_status}</div>{/if}
 <div>
   <table cellpadding="0" cellspacing="0" border="0" width="100%" class="adminform">
     <tr>
@@ -39,6 +39,11 @@
       <td align="left" valign="top" width="20%"><b>{$smarty.const._HWDVIDS_PATHWGET}</b></td>
       <td align="left" valign="top" width="20%"><input type="text" name="wgetpath" value="{$s->wgetpath}" size="40" maxlength="100"></td>
       <td align="left" valign="top" width="60%">{$smarty.const._HWDVIDS_SETT_PATHWGET_DESC}</td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="20%"><b>{$smarty.const._HWDVIDS_PATHQTFS}</b></td>
+      <td align="left" valign="top" width="20%"><input type="text" name="qtfaststart" value="{$s->qtfaststart}" size="40" maxlength="100"></td>
+      <td align="left" valign="top" width="60%">{$smarty.const._HWDVIDS_SETT_PATHQTFS_DESC}</td>
     </tr>
   </table>
 </div>

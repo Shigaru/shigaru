@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -41,8 +41,7 @@ class hwd_vs_recount {
      */
 	function initiate($override) {
 
-		global $mainframe;
-
+$app = & JFactory::getApplication();
 		// set cache variables
 		$cachedir = JPATH_SITE.'/administrator/cache/'; // Directory to cache files in (keep outside web root)
 		$cachetime = 86400; // Seconds to cache files for
@@ -56,7 +55,7 @@ class hwd_vs_recount {
 		if ($override == 2) {
 			// Show file from cache if still valid
 			if (time() - $cachetime < $cachefile_created) {
-				$mainframe->enqueueMessage(_HWDVIDS_M_COUNT_RUN);
+				$app->enqueueMessage(_HWDVIDS_M_COUNT_RUN);
 				return;
 			}
 		}
@@ -88,13 +87,14 @@ class hwd_vs_recount {
      * @param int    $total  the total video count
      * @return       Nothing
      */
-	function recountVideosInCategory($catid=null) {
+	function recountVideosInCategory($catid=null)
+        {
 		$db = & JFactory::getDBO();
 		$c = hwd_vs_Config::get_instance();
 
-        if (isset($catid)) {
-			$rows[0]->id = $catid;
-        } else {
+                if (isset($catid)) {
+                                $rows[0]->id = $catid;
+                } else {
         	// get all categories
 			$query = 'SELECT id'
 					. ' FROM #__hwdvidscategories'
@@ -121,8 +121,20 @@ class hwd_vs_recount {
 					. ' AND approved = "yes"'
 					;
 			$db->SetQuery($query);
-			$total = $db->loadResult();
+			$total1 = $db->loadResult();
 
+                        // count videos in category
+			$query = 'SELECT count(*)'
+					. ' FROM #__hwdvidsvideo_category AS map'
+					. ' LEFT JOIN #__hwdvidsvideos AS video ON video.id = map.videoid'
+                                        . ' WHERE map.categoryid ='.$row->id
+					. ' AND video.published = 1'
+					. ' AND video.approved = "yes"'
+					;
+			$db->SetQuery($query);
+			$total2 = $db->loadResult();
+
+                        $total = $total1 + $total2;
 			// update category
 			$db->SetQuery("UPDATE #__hwdvidscategories SET num_vids = $total WHERE id = $row->id");
 			$db->Query();
@@ -277,43 +289,42 @@ class hwd_vs_recount {
      * @param int    $total  the total video count
      * @return       Nothing
      */
-	function recountVideoViews($videoid=null) {
+	function recountVideoViews($videoid=null)
+	{
 		$db = & JFactory::getDBO();
 
-        if (isset($videoid)) {
+        if (isset($videoid))
+        {
 			$rows[0]->id = $videoid;
-        } else {
-			// get all groups
-			$query = 'SELECT id'
-					. ' FROM #__hwdvidsvideos'
-					;
+        }
+        else
+        {
+			$query = 'SELECT id FROM #__hwdvidsvideos';
 			$db->SetQuery($query);
 			$rows = $db->loadObjectList();
 		}
 
-		for ($i=0, $n=count($rows); $i < $n; $i++) {
+		for ($i=0, $n=count($rows); $i < $n; $i++)
+		{
 			$row = $rows[$i];
 
-			//count views in previous 30 days
-			$db->SetQuery( 'SELECT count(*)'
-							. ' FROM #__hwdvidslogs_views'
-							. ' WHERE videoid = '.$row->id
-							);
+			$db->SetQuery('SELECT count(*) FROM #__hwdvidslogs_views WHERE videoid = '.$row->id);
 			$total1 = $db->loadResult();
-			//count views in archive
-			$db->SetQuery( 'SELECT views'
-							. ' FROM #__hwdvidslogs_archive'
-							. ' WHERE videoid = '.$row->id
-							);
+
+			$db->SetQuery('SELECT views FROM #__hwdvidslogs_archive WHERE videoid = '.$row->id);
 			$total2 = $db->loadResult();
-			//count total views
-			$total = $total1 + $total2;
-			// update category
-			$db->SetQuery("UPDATE #__hwdvidsvideos SET number_of_views = $total WHERE id = $row->id");
-			$db->Query();
-			if ( !$db->query() ) {
-				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				exit();
+
+			$total = intval($total1 + $total2);
+
+			if ($total > 0)
+			{
+				$db->SetQuery("UPDATE #__hwdvidsvideos SET number_of_views = $total WHERE id = $row->id");
+				$db->Query();
+				if ( !$db->query() )
+				{
+					echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+					exit();
+				}
 			}
 		}
 		return true;
@@ -376,12 +387,97 @@ class hwd_vs_recount {
 		$db = & JFactory::getDBO();
 		$c = hwd_vs_Config::get_instance();
 
-        if (isset($videoid)) {
-			$rows[0]->id = $videoid;
-        } else {
-			// get all groups
-			$query = 'SELECT id FROM #__hwdvidsvideos'
-					;
+                if (isset($videoid))
+                {
+                        $rows[0]->id = $videoid;
+                }
+                else
+                {
+                        $query = 'SELECT id FROM #__hwdvidsvideos';
+                        $db->SetQuery($query);
+                        $rows = $db->loadObjectList();
+                }
+
+		if ($c->commssys !== "99")
+		{
+                    for ($i=0, $n=count($rows); $i < $n; $i++)
+                    {
+			$row = $rows[$i];
+
+			$comments = 0;
+			if ( $c->commssys == 0 )
+			{
+				$tableCheck = "SELECT `object_group` FROM #__jcomments";
+				$db->setQuery($tableCheck);
+				if ($db->query())
+				{
+					$db->SetQuery("SELECT count(*) FROM #__jcomments WHERE `object_group` = \"com_hwdvideoshare_v\" AND `object_id` = ".$row->id);
+					$comments = $db->loadResult();
+				}
+			}
+			else if ( $c->commssys == 2 )
+			{
+				//joomlaComment
+				$comments = 0;
+			}
+			else if ( $c->commssys == 3 )
+			{
+				$tableCheck = "SELECT `option` FROM #__jomcomment";
+				$db->setQuery($tableCheck);
+				if ($db->query())
+				{
+					$db->SetQuery("SELECT count(*) FROM #__jomcomment WHERE `option` = \"com_hwdvideoshare_v\" AND `contentid` = ".$row->id);
+					$comments = $db->loadResult();
+				}
+			}
+			else if ( $c->commssys == 7 )
+			{
+				//kunena
+				$comments = 0;
+			}
+			else if ( $c->commssys == 9 )
+			{
+				//jacomment
+				$tableCheck = "SELECT `id` FROM #__jacomment_items";
+				$db->setQuery($tableCheck);
+				if ($db->query())
+				{
+					$db->SetQuery("SELECT count(*) FROM #__jacomment_items WHERE `option` = \"com_hwdvideoshare_v\" AND `contentid` = ".$row->id);
+					$comments = $db->loadResult();
+				}
+			}
+
+			$db->SetQuery("UPDATE #__hwdvidsvideos SET number_of_comments = $comments WHERE id = $row->id");
+			if ( !$db->query() )
+			{
+				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				exit();
+			}
+                    }
+                }
+                return true;
+    }
+    /**
+     * Outputs frontpage HTML
+     *
+     * @param string $option  the joomla component name
+     * @param array  $rows  array of video data
+     * @param array  $rowsfeatured  array of featured video data
+     * @param object $pageNav  page navigation object
+     * @param int    $total  the total video count
+     * @return       Nothing
+     */
+	function recountVideosInPlaylist($playlistid=null)
+	{
+		$db = & JFactory::getDBO();
+
+        if (isset($playlistid))
+        {
+			$rows[0]->id = $playlistid;
+        }
+        else
+        {
+			$query = 'SELECT id FROM #__hwdvidsplaylists';
 			$db->SetQuery($query);
 			$rows = $db->loadObjectList();
 		}
@@ -390,30 +486,14 @@ class hwd_vs_recount {
 		{
 			$row = $rows[$i];
 
-			if ( $c->commssys == 0 )
-			{
-				//jcomments
-				$comments = 0;
-			}
-			else if ( $c->commssys == 3 )
-			{
-				$db->SetQuery("SELECT count(*) FROM #__jomcomment WHERE `option` = \"com_hwdvideoshare_v\" AND `contentid` = ".$row->id);
-				$comments = $db->loadResult();
-			}
-			else if ( $c->commssys == 7 )
-			{
-				//kunena
-				$comments = 0;
-			}
-			else if ( $c->commssys == 2 )
-			{
-				//joomlaComment
-				$comments = 0;
-			}
+			$db->SetQuery( 'SELECT playlist_data FROM #__hwdvidsplaylists WHERE id = '.$row->id );
+			$data = $db->loadResult();
+			$videos = explode(",", $data);
+			$total = count($videos);
 
-			$db->SetQuery("UPDATE #__hwdvidsvideos SET number_of_comments = $comments WHERE id = $row->id");
-			if ( !$db->query() )
-			{
+			$db->SetQuery("UPDATE #__hwdvidsplaylists SET total_videos = $total WHERE id = $row->id");
+			$db->Query();
+			if ( !$db->query() ) {
 				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 				exit();
 			}

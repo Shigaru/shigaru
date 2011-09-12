@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -126,12 +126,12 @@
 	//-->
 	</script>	
 {/literal}
-<form action="index.php" method="post" name="adminForm">
+<form action="index.php" method="post" name="adminForm" id="adminForm">
   <table cellpadding="0" cellspacing="0" border="0" width="100%" class="adminform" style="margin:10px 0;">
     <tr>
       <td style="background-color: #202626; width:100%; text-align: right; vertical-align: top;">
         <img src="{$mosConfig_live_site}/administrator/components/com_hwdvideoshare/assets/images/logo.png" height="47" width="250" alt="Logo" style="float: left;" />
-        <font style="color: #fffffe; font-size: 200%; font-weight: bold;">{$header_title}</font>
+        <font style="color: #fffffe; font-size: 200%; font-weight: bold;">{$header_title}&nbsp;</font>
       </td>
     </tr>
     {if $print_search}

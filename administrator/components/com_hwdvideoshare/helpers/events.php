@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -32,13 +32,14 @@ class hwdvsEvent {
 
     function onAfterVideoUpload($params)
     {
-		global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $Itemid, $mosConfig_sitename, $mainframe;
+		global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $Itemid, $mosConfig_sitename;
 		$c = hwd_vs_Config::get_instance();
 
 		$my = & JFactory::getUser();
 
 		// send upload to converter if required
-		if ($c->requiredins == 1 && ($params->type == "local" || $params->type == "mp4" || $params->type == "swf")) {
+		if ($c->requiredins == 1 && ($params->type == "local" || $params->type == "mp4" || $params->type == "swf"))
+                {
 
 			$s = hwd_vs_SConfig::get_instance();
 
@@ -46,7 +47,8 @@ class hwdvsEvent {
 				if(substr(PHP_OS, 0, 3) != "WIN") {
 					@exec("env -i $s->phppath ".JPATH_SITE.DS."components".DS."com_hwdvideoshare".DS."converters".DS."converter.php &>/dev/null &");
 				} else {
-					@exec("$s->phppath ".JPATH_SITE.DS."components".DS."com_hwdvideoshare".DS."converters".DS."converter.php NUL");
+					//@pclose(popen("start \"bla\" \"" . $s->phppath . "\" " . escapeshellarg("\"".JPATH_SITE.DS."components".DS."com_hwdvideoshare".DS."converters".DS."converter.php\""), "r"));
+					@exec("$s->phppath \"".JPATH_SITE.DS."components".DS."com_hwdvideoshare".DS."converters".DS."converter.php\" >nul");
 				}
 			} else if ($c->autoconvert == "wget1") {
 				if(substr(PHP_OS, 0, 3) != "WIN") {
@@ -61,7 +63,6 @@ class hwdvsEvent {
 					@exec("$s->wgetpath \"".JURI::root()."components/com_hwdvideoshare/converters/converter.php\" NUL");
 				}
 			}
-
 		}
 
 		// mail admin notification
@@ -99,7 +100,7 @@ class hwdvsEvent {
 
     function onAfterVideoApproval($params)
     {
-		global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $Itemid, $mosConfig_sitename, $mainframe;
+		global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $Itemid, $mosConfig_sitename;
 		$c = hwd_vs_Config::get_instance();
 		$my = & JFactory::getUser();
   		$db =& JFactory::getDBO();
@@ -107,6 +108,7 @@ class hwdvsEvent {
 		JPluginHelper::importPlugin( 'system' );
 		$dispatcher =& JDispatcher::getInstance();
 		$results = $dispatcher->trigger( 'onAfterVideoApproval', array( $params ) );
+		$results = $dispatcher->trigger( 'onAfterVideoUpload', array( $params ) );
 
 		// perform maintenance
 		include_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
@@ -134,28 +136,33 @@ class hwdvsEvent {
 
 			$act = new stdClass();
 			$act->cmd 	= 'video.upload';
-			$act->actor 	= $my->id;
+			$act->actor 	= $params->user_id;
 			$act->target 	= 0; // no target
 			$act->content 	= '';
 			$act->app 	= 'hwdvideoshare';
-			$act->cid 	= 0;
+			$act->cid 	= $params->id;
 
 			$single_video = '{actor} '._HWDVIDS_JS_AS1.' '._HWDVIDS_JS_AS2.' {app} '._HWDVIDS_JS_AS3;
-			$mutliple_videos = '{actor} '._HWDVIDS_JS_AS1.' {count} '._HWDVIDS_JS_AS5.' {app} '._HWDVIDS_JS_AS4;
+			$multiple_videos = '{actor} '._HWDVIDS_JS_AS1.' {count} '._HWDVIDS_JS_AS5.' {app} '._HWDVIDS_JS_AS4;
 
 			$link = JRoute::_('index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$params->id);
-			$title = $params->title;
+			$title = stripslashes($params->title);
 
 			//// Variation 1
 			//$single_video    = '{actor} '._HWDVIDS_JS_AS1.' '._HWDVIDS_JS_AS2.' <a href="'.$link.'">'._HWDVIDS_JS_AS3.'</a>';
-			//$mutliple_videos = '{actor} '._HWDVIDS_JS_AS1.' '._HWDVIDS_JS_AS2.' {count} <a href="'.$link.'">'._HWDVIDS_JS_AS4.'</a>';
+			//$multiple_videos = '{actor} '._HWDVIDS_JS_AS1.' '._HWDVIDS_JS_AS2.' {count} <a href="'.$link.'">'._HWDVIDS_JS_AS4.'</a>';
 
 			//// Variation 2
 			//$single_video    = '{actor} '._HWDVIDS_JS_AS1.' '._HWDVIDS_JS_AS2.' '._HWDVIDS_JS_AS3.' called <a href="'.$link.'">'.$title.'</a>';
-			//$mutliple_videos = '{actor} '._HWDVIDS_JS_AS1.' '._HWDVIDS_JS_AS2.' '._HWDVIDS_JS_AS3.' called <a href="'.$link.'">'.$title.'</a>';
+			//$multiple_videos = '{actor} '._HWDVIDS_JS_AS1.' '._HWDVIDS_JS_AS2.' '._HWDVIDS_JS_AS3.' called <a href="'.$link.'">'.$title.'</a>';
+
+			//// Variation 3
+			//$single_video    = '{actor} has uploaded video <a href="'.$link.'">'.$title.'</a>';
+			//$multiple_videos = '{actor} has uploaded video <a href="'.$link.'">'.$title.'</a>';
 
 			// insert into activity stream
-			$act->title 	= JText::_('{single}'.$single_video.'{/single}{multiple}'.$mutliple_videos.'{/multiple}');
+			$act->title 	= JText::_('{single}'.$single_video.'{/single}{multiple}'.$multiple_videos.'{/multiple}');
+			$act->content 	= "{getActivityContentHTML}";
 
 			CFactory::load('libraries', 'activities');
 			CActivityStream::add($act);

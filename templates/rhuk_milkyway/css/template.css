@@ -258,7 +258,16 @@ background:url("../images/tweeter-icon.png") no-repeat scroll 4% 52% Lavender;
 background:url("../images/donate.png") no-repeat scroll 4% 52% Lavender;
 }
 
+#whitebox .random{
+background:url("../images/random.png") no-repeat scroll 4% 50% Lavender;
+}
 
+#whitebox .followus{
+background:url("../images/followus.png") no-repeat scroll 4% 50% Lavender;
+}
+#whitebox .community{
+background:url("../images/communityicon.png") no-repeat scroll 4% 50% Lavender;
+}
 
 
 
@@ -1378,4 +1387,9 @@ text-align: center; float: left; margin: 0 0 2px;
 }    
 #logout{float:left;}
 
+#randonvideodescrip {
+background: url(../images/video_description.gif) no-repeat bottom left;
+padding:20px 0 0 40px;
+}
 
+#randonvideoautor{padding:12px 0 12px 40px;}

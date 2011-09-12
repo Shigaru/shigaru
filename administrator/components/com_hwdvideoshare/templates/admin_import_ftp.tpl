@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -59,6 +59,7 @@ function chk_importFormFTP() {
                 <option value ="flv">FLV</option>
                 <option value ="mp4">MP4</option>
                 <option value ="swf">SWF</option>
+                <option value ="flv">FLV & MP4</option>
               </select>    
             </td>
           </tr>

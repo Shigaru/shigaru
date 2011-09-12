@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="hwdvs-thirdparty" method="upgrade">
     <name>Remote Video</name>
-    <creationDate>2010 04 19</creationDate>
+    <creationDate>2011-09-09</creationDate>
     <author>Highwood Design</author>
-    <copyright>(C) 2007 - 2009 Highwood Design</copyright>
+    <copyright>(C) 2007 - 2011 Highwood Design</copyright>
     <authorEmail>info@highwooddesign.co.uk</authorEmail>
     <authorUrl>http://hwdmediashare.co.uk</authorUrl>
-    <version>[ Masterton ]</version>
+    <version>[ Nightly Build ]</version>
     <description>Adds Remote Video support to hwdVideoShare</description>
     <files>
         <filename plugin="remote">remote.php</filename>

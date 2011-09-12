@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
  */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
-global $smartyvs, $show_video_ad, $show_longtail, $longtail_channel, $mainframe;
+global $smartyvs, $show_video_ad, $show_longtail, $longtail_channel;
 
 $smartyvs->assign("print_ads", 1);
 

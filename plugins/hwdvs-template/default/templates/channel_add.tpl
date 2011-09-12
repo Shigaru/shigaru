@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -11,11 +11,11 @@
 
 <form name="creategroup" action="{$form_add_channel}" method="post" onsubmit="return chkform()">
 <div class="standard">
-  <h2>Welcome to your new channel, username</h2>
+  <h2>{$smarty.const._HWDVIDS_WTYNC}, {$username}</h2>
   <table width="100%" cellpadding="0" cellspacing="4" border="0">
     <tr>
-      <td width="150">Your Channel</td>
-      <td>http://dev15.hwdmediashare.co.uk/subdirectory</td>
+      <td width="150">{$smarty.const._HWDVIDS_YOURCHANNEL}</td>
+      <td>{$channelUrl}</td>
     </tr>
     <tr>
       <td valign="top">{$smarty.const._HWDVIDS_DESC} <font class="required">*</font></td>
@@ -28,33 +28,11 @@
 </div>
 
 <div class="standard">
-  <h2>Your Style</h2>
-  <table width="100%" cellpadding="0" cellspacing="4" border="0">
-    <tr>
-      <td width="150">{$smarty.const._HWDVIDS_ACCESS}</td>
-      <td>
-        <select name="public_private">
-          <option value="public" selected>{$smarty.const._HWDVIDS_SELECT_PUBLIC}</option>
-          <option value="registered">{$smarty.const._HWDVIDS_SELECT_REG}</option>
-        </select>
-      </td>
-    </tr>
-  </table>
+  <h2>{$smarty.const._HWDVIDS_YOURSTYLE}</h2>
 </div>
 
 <div class="standard">
-  <h2>Your Preferences</h2>
-  <table width="100%" cellpadding="0" cellspacing="4" border="0">
-    <tr>
-      <td width="150">{$smarty.const._HWDVIDS_ACCESS}</td>
-      <td>
-        <select name="public_private">
-          <option value="public" selected>{$smarty.const._HWDVIDS_SELECT_PUBLIC}</option>
-          <option value="registered">{$smarty.const._HWDVIDS_SELECT_REG}</option>
-        </select>
-      </td>
-    </tr>
-  </table>
+  <h2>{$smarty.const._HWDVIDS_YOURPREFERENCES}</h2>
 </div>
 
 <div class="standard">

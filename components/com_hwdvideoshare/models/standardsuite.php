@@ -1,8 +1,8 @@
-<?php
+R<?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -56,6 +56,7 @@ class hwd_vs_standard
 		$where .= ' AND a.videoid = '.$videoid;
 
 		if ($rating > 5) die(_HWDVIDS_ALERT_INVALVOTE); // kill the script because normal users will never see this.
+		if ($rating < 0) die(_HWDVIDS_ALERT_INVALVOTE); // kill the script because normal users will never see this.
 
 		//Current Video Details
 		$query = 'SELECT *'
@@ -114,6 +115,7 @@ class hwd_vs_standard
 			$_POST['userid'] = $my->id;
 			$_POST['videoid'] = $videoid;
 			$_POST['ip'] = $ip;
+			$_POST['date'] = date('Y-m-d H:i:s');
 
 			// bind it to the table
 			if (!$row -> bind($_POST)) {
@@ -300,7 +302,7 @@ class hwd_vs_standard
 
 		$_POST['userid'] = $userid;
 		$_POST['videoid'] = $videoid;
-		$_POST['status'] = _HWDVIDS_UNREAD;
+		$_POST['status'] = "UNREAD";
 		$_POST['date'] = date('Y-m-d H:i:s');
 
 		// bind it to the table
@@ -344,17 +346,18 @@ class hwd_vs_standard
      */
     function reportGroup()
 	{
-	global $mainframe, $my, $acl, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $Itemid, $mosConfig_sitename;
+	global $my, $acl, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $Itemid, $mosConfig_sitename;
 	$c = hwd_vs_Config::get_instance();
 	$db = & JFactory::getDBO();
 	$my = & JFactory::getUser();
+$app = & JFactory::getApplication();
 
 		$url = Jrequest::getVar( 'url', '' );
 
 		if (!$my->id) {
 			$msg = _HWDVIDS_ALERT_LOG2FLAG;
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( $url );
+			$app->enqueueMessage($msg);
+			$app->redirect( $url );
 		}
 
 		$userid = $my->id;
@@ -370,8 +373,8 @@ class hwd_vs_standard
 
 		if ( $total>0 ) {
 			$msg = _HWDVIDS_ALERT_ALREADYFLAG;
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( $url );
+			$app->enqueueMessage($msg);
+			$app->redirect( $url );
 		}
 
 		$row = new hwdvids_flaggroup($db);
@@ -413,8 +416,8 @@ class hwd_vs_standard
 		}
 
 		$msg = _HWDVIDS_ALERT_SUCFLAGGED;
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( $url );
+		$app->enqueueMessage($msg);
+		$app->redirect( $url );
 	}
     /**
      * Outputs frontpage HTML
@@ -426,7 +429,7 @@ class hwd_vs_standard
 	global $database, $my, $acl, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $Itemid, $mosConfig_sitename;
 		$db = & JFactory::getDBO();
 		$c = hwd_vs_Config::get_instance();
-		$url = $db->getEscaped( strip_tags( trim( strtolower( mosGetParam( $_POST, 'url' ) ) ) ) );
+		$url = Jrequest::getVar( 'url', '' );
 
 		if (!$my->id) {
 			hwd_vs_tools::infomessage(1, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_LOG2AV2G, "exclamation.png", 1);
@@ -434,8 +437,9 @@ class hwd_vs_standard
 		}
 
 		$userid = $my->id;
-		$videoid = intval ( mosGetParam($_POST, 'videoid') );
-		$groupid = intval ( mosGetParam($_POST, 'groupid') );
+		$videoid = JRequest::getInt( 'videoid', '0' );
+		$groupid = JRequest::getInt( 'groupid', '0' );
+
 		$date = date('Y-m-d H:i:s');
 		$published = 1;
 
@@ -458,7 +462,7 @@ class hwd_vs_standard
 			return;
 		}
 
-		$row = new hwdvids_groupvideo($database);
+		$row = new hwdvids_groupvideo($db);
 
 		$_POST['videoid'] = $videoid;
 		$_POST['groupid'] = $groupid;
@@ -498,9 +502,11 @@ class hwd_vs_standard
      */
     function viewNextVideo()
 	{
-	global $mainframe, $Itemid;
+		global $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
 
 		$video_id = JRequest::getInt( 'video_id', 0 );
 		$category_id = JRequest::getInt( 'category_id', 0 );
@@ -515,8 +521,8 @@ class hwd_vs_standard
 
 		if (!$current->date_uploaded) {
 			$msg = _HWDVIDS_PGTPV;
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$video_id );
+			$app->enqueueMessage($msg);
+			$app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$video_id );
 		}
 
         // sql search filters
@@ -541,11 +547,11 @@ class hwd_vs_standard
 
 		if (!$row->id) {
 			$msg = _HWDVIDS_YHRTE;
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$video_id );
+			$app->enqueueMessage($msg);
+			$app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$video_id );
 		}
 
-		$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$row->id );
+		$app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$row->id );
 
 		return;
 	}
@@ -557,9 +563,11 @@ class hwd_vs_standard
      */
     function viewPrevVideo()
 	{
-	global $mainframe, $Itemid;
+		global $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
 
 		$video_id = JRequest::getInt( 'video_id', 0 );
 		$category_id = JRequest::getInt( 'category_id', 0 );
@@ -574,8 +582,8 @@ class hwd_vs_standard
 
 		if (!$current->date_uploaded) {
 			$msg = _HWDVIDS_PGTNV;
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$video_id );
+			$app->enqueueMessage($msg);
+			$app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$video_id );
 		}
 
         // sql search filters
@@ -600,11 +608,11 @@ class hwd_vs_standard
 
 		if (!$row->id) {
 			$msg = _HWDVIDS_YHRTS;
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$video_id );
+			$app->enqueueMessage($msg);
+			$app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$video_id );
 		}
 
-		$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$row->id );
+		$app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid='.$Itemid.'&video_id='.$row->id );
 
 		return;
 	}

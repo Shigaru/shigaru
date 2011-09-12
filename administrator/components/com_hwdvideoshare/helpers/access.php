@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -46,34 +46,63 @@ class hwd_vs_access
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
 
-		if ($accessgroupid == -2 || ($accessgroupid == -1 && $usersgroupid > 0)) {
-			//grant public access or access to all registered users
+		if ($accessgroupid == -2 || ($accessgroupid == -1 && $usersgroupid > 0))
+		{
+			// Grant public access or access to all registered users
 			return true;
 		}
-		else {
-			//need to do more checking based on more restrictions
-			if( $usersgroupid == $accessgroupid ) {
-				//direct match
+		else
+		{
+			// Need to do more checking based on more restrictions
+			if ($usersgroupid == $accessgroupid)
+			{
+				// Direct match
 				return true;
 			}
-			else {
-				if ($recurse=='RECURSE') {
-					//check if there are children groups
+			else
+			{
+				if ($recurse=='RECURSE')
+				{
+					// Check if there are children groups
+					$groupchildren = hwd_vs_access::getParentGIDS($accessgroupid);
 
-					//$groupchildren=$acl->get_group_children( $usersgroupid, 'ARO', $recurse );
-					//print_r($groupchildren);
-					$groupchildren=array();
-					$groupchildren=hwd_vs_access::getParentGIDS($accessgroupid);
+					/**
+					$groupchildren_site = $acl->get_group_children( $usersgroupid, 'ARO', $recurse );
+					$groupchildren_admin = $acl->get_group_children( 30, 'ARO', $recurse );
 
-					if ( is_array( $groupchildren ) && count( $groupchildren ) > 0) {
-						if ( in_array($usersgroupid, $groupchildren) ) {
+					if (is_array($groupchildren_site) && is_array($groupchildren_admin))
+					{
+						$groupchildren = array_merge($groupchildren_site, $groupchildren_admin);
+					}
+					else if (is_array($groupchildren_site) && !empty($groupchildren_admin))
+					{
+						$groupchildren = array_push($groupchildren_site, $groupchildren_admin);
+					}
+					else if (is_array($groupchildren_admin) && !empty($groupchildren_site))
+					{
+						$groupchildren = array_push($groupchildren_admin, $groupchildren_site);
+					}
+					else if (is_array($groupchildren_site))
+					{
+						$groupchildren = $groupchildren_site;
+					}
+					else
+					{
+						$groupchildren = $groupchildren_admin;
+					}
+					*/
+
+					if (is_array($groupchildren) && count($groupchildren) > 0)
+					{
+						if (in_array($usersgroupid, $groupchildren) )
+						{
 							//match
 							return true;
 						}
 					}
 				}
 			}
-			//deny access
+			// Deny access
 			return false;
 		}
 	}
@@ -85,30 +114,40 @@ class hwd_vs_access
      * @param int    $usersgroupid  the user's group id
      * @return       True or false
      */
-	function allowLevelAccess( $accessgroupid, $usersgroupid )
+	function allowLevelAccess( $accessLevelId, $usersAccessId )
 	{
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
 
-		if ($usersgroupid == 0) {
-			$allowArry = 0;
-		} else {
-			// get allowed levels for users gid
-			$query			=	"SELECT jaclplus FROM #__core_acl_aro_groups WHERE group_id = ".(int) $usersgroupid;
-			$db->setQuery( $query );
-			$allowArry	=	$db->loadResult();
+		if ($usersAccessId == 0)
+		{
+			$allowArry = "0";
+		}
+		else
+		{
+			if ($usersAccessId == 1)
+			{
+				$allowArry = "0,1";
+			}
+			else if ($usersAccessId == 2)
+			{
+				$allowArry = "0,1,2";
+			}
 		}
 
 		$allowArry = @explode(",", $allowArry);
-		$checkArry = @explode(",", $accessgroupid);
+		$checkArry = @explode(",", $accessLevelId);
 
 		$result = array_intersect($allowArry, $checkArry);
 
-		if (count($result) > 0) {
+		if (count($result) > 0)
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
@@ -241,36 +280,93 @@ class hwd_vs_access
 	 *
 	 *
 	 */
-	function checkAccess($gtree, $gtree_child, $nav, $usernav, $title, $message_register, $message_denied, $icon, $backlink) {
-
-		global $mainframe, $smartyvs;
-        $c = hwd_vs_Config::get_instance();
+	function checkAccess($gtree, $gtree_child, $nav, $usernav, $title, $message_register, $message_denied, $icon, $backlink, $assetname="", $noMessage=0, $action="core.frontend.access")
+	{
+		global $j15, $j16, $smartyvs;
+                $c = hwd_vs_Config::get_instance();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
 		$usersConfig = & JComponentHelper::getParams( 'com_users' );
 
-		if ($c->access_method == 0) {
-			if (!hwd_vs_access::allowAccess( $gtree, $gtree_child, hwd_vs_access::userGID( $my->id ))) {
-				if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-					$smartyvs->assign("showconnectionbox", 1);
+		if ($j16)
+		{                     
+                        $asset = JTable::getInstance('Asset');
+                        if (empty($assetname))
+                        {
+                                $assetname = "com_hwdvideoshare";
+                        }
+                        else
+                        {
+                                $assetname = "com_hwdvideoshare.$assetname";
+                        }
+                        $asset->loadByName($assetname);
+
+                        // not good!
+                        if (empty($asset->rules))
+                        {
+                            return true;
+                        }
+
+                        // Access check.
+			if (!JFactory::getUser()->authorise($action, $assetname))
+			{
+                                //echo $assetname."<br>";
+                                //echo $action;
+                                if ($noMessage == 1)
+				{
+                                        return false;
+				}
+				else
+				{
+					JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+					if ($my->id == 0)
+					{
+						$smartyvs->assign("showconnectionbox", 1);
+					}
 					hwd_vs_tools::infomessage($nav, $usernav, $title, $message_register, $icon, $backlink);
-					return false;
-				} else {
-					$smartyvs->assign("showconnectionbox", 1);
-					hwd_vs_tools::infomessage($nav, $usernav, $title, $message_denied, $icon, $backlink);
 					return false;
 				}
 			}
-		} else if ($c->access_method == 1) {
-			if (!hwd_vs_access::allowLevelAccess( $c->accesslevel_upld, hwd_vs_access::userGID( $my->id ))) {
-				$smartyvs->assign("showconnectionbox", 1);
-				hwd_vs_tools::infomessage($nav, $usernav,  $title, $message_denied, $icon, $backlink);
-				return false;
+		}
+		else
+		{
+			if (!hwd_vs_access::allowAccess( $gtree, $gtree_child, hwd_vs_access::userGID( $my->id )))
+			{
+				if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) )
+				{
+					if ($noMessage == 1)
+					{
+						return false;
+					}
+					else
+					{
+						if ($my->id == 0)
+						{
+							$smartyvs->assign("showconnectionbox", 1);
+						}
+						hwd_vs_tools::infomessage($nav, $usernav, $title, $message_register, $icon, $backlink);
+						return false;
+					}
+				}
+				else
+				{
+					if ($noMessage == 1)
+					{
+						return false;
+					}
+					else
+					{
+						if ($my->id == 0)
+						{
+							$smartyvs->assign("showconnectionbox", 1);
+						}
+						hwd_vs_tools::infomessage($nav, $usernav, $title, $message_denied, $icon, $backlink);
+						return false;
+					}
+				}
 			}
 		}
-
 		return true;
-
 	}
 }
 ?>

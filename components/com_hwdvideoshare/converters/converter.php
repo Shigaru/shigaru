@@ -2,7 +2,7 @@
 /**
  *    @version 2.1.2 Build 21201 Alpha [ Linkwater ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -18,19 +18,20 @@
  *    You should have received a copy of the GNU General Public License
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
-define('CONVERTPATH', dirname(__FILE__) );
 
-if(substr(PHP_OS, 0, 3) == "WIN") {
+define( '_JEXEC', 1 );
+define( 'JPATH_BASE', realpath(dirname(__FILE__).DS.'..'.DS.'..'.DS.'..' ));
+define( 'CONVERTPATH', dirname(__FILE__) );
 
-	define('JPATH_SITE', str_replace("\components\com_hwdvideoshare\converters", "", CONVERTPATH) );
+require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
+require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
+@include_once ( JPATH_BASE .DS.'libraries'.DS.'import.php' );
+@include_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'import.php' );
+jimport( 'joomla.application.cli' );
 
-} else {
-
-	define('JPATH_SITE', str_replace("/components/com_hwdvideoshare/converters", "", CONVERTPATH) );
-
-}
+$mainframe =& JFactory::getApplication('site');
+$mainframe->initialise();
 
 header('Content-type: text/html; charset=utf-8');
 
@@ -44,32 +45,38 @@ include_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'converters'.D
 include_once(JPATH_SITE.DS.'configuration.php');
 include_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php');
 include_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'serverconfig.hwdvideoshare.php');
+include_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'directory.php');
 
 $c          = hwd_vs_Config::get_instance();
 $s          = hwd_vs_SConfig::get_instance();
 $row        = new JConfig;
 $batch      = rand(100, 999);
-$path_base  = JPATH_SITE.DS.'hwdvideos';
 $output     = '';
 
 $output.= "<html><head><link type=\"text/css\" rel=\"stylesheet\" href=\"../../../administrator/components/com_hwdvideoshare/assets/css/converter.css\" /></head><body>";
 
-if (is_callable('exec') && function_exists('exec')) {
+if (is_callable('exec') && function_exists('exec'))
+{
 	// continue
-} else {
+}
+else
+{
 	$output.= "You must enable the exec() function before you can convert videos.<br /><br />";
 	$output.= "<img src=\"../../../components/com_hwdvideoshare/assets/images/icons/delete.png\" border=\"0\" alt=\"\" title=\"\" style=\"padding:1px 5px;vertical-align:bottom;\" />The exec() function <font color=\"red\"><b>is not available</b></font><br /><br />";
 	$output.= "</body></html>";
 	echo $output;
 	exit;
 }
-if (ini_get('safe_mode')) {
+if (ini_get('safe_mode'))
+{
 	$output.= "You must disable safe_mode before you can convert videos.<br /><br />";
 	$output.= "<img src=\"../../../components/com_hwdvideoshare/assets/images/icons/delete.png\" border=\"0\" alt=\"\" title=\"\" style=\"padding:1px 5px;vertical-align:bottom;\" />The PHP safe mode is <font color=\"red\"><b>On</b></font><br /><br />";
 	$output.= "</body></html>";
 	echo $output;
 	exit;
-} else {
+}
+else
+{
 	// continue
 }
 
@@ -143,6 +150,7 @@ if ($setupBatchRT) {
 
 $output.= "</div>";
 
+unset($selectBatch);
 $selectBatch = hwd_vs_ConverterTools::selectBatch($row, "queuedforconversion", $batch);
 $count = mysql_num_rows($selectBatch);
 
@@ -156,9 +164,9 @@ $count = mysql_num_rows($selectBatch);
 			$filename_original = $result['video_id'];
 			list($filename_noext, $filename_ext) = @split('\.', $filename_original);
 
-			$path_original = $path_base.DS.'uploads'.DS.'originals'.DS.$filename_original;
-			$path_new_flv  = $path_base.DS.'uploads'.DS.$filename_noext.'.flv';
-			$path_new_mp4  = $path_base.DS.'uploads'.DS.$filename_noext.'.mp4';
+			$path_original = PATH_HWDVS_DIR.DS.'uploads'.DS.'originals'.DS.$filename_original;
+			$path_new_flv  = PATH_HWDVS_DIR.DS.'uploads'.DS.$filename_noext.'.flv';
+			$path_new_mp4  = PATH_HWDVS_DIR.DS.'uploads'.DS.$filename_noext.'.mp4';
 
 			hwd_vs_ConverterTools::set($row, $filename_original);
 
@@ -211,7 +219,15 @@ $count = mysql_num_rows($selectBatch);
 		   /******************************************
 			* CREATE THUMBNAIL IMAGE
 			**/
-			$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw($path_base, $path_new_flv, $filename_noext, $filename_ext, $ExtractDuration[1], $ExtractDuration[0]);
+			if (file_exists($path_new_mp4) && filesize($path_new_mp4) > 0)
+			{
+				$path_video = $path_new_mp4;
+			}
+			else
+			{
+				$path_video = $path_new_flv;
+			}
+			$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw(PATH_HWDVS_DIR, $path_video, $filename_noext, $filename_ext, $ExtractDuration[1], $ExtractDuration[0]);
 
 			$output.= $GenerateThumbnail[9];
 
@@ -259,6 +275,7 @@ $count = mysql_num_rows($selectBatch);
 	* END WHILE
 	**/
 
+unset($selectBatch);
 $selectBatch = hwd_vs_ConverterTools::selectBatch($row, "queuedforthumbnail", $batch);
 $count = mysql_num_rows($selectBatch);
 
@@ -273,9 +290,10 @@ $count = mysql_num_rows($selectBatch);
 		while ($result = @mysql_fetch_array($selectBatch)) {
 
 			$filename_original = $result['video_id'];
-			$path_original = $path_base . '/uploads/originals/' . $filename_original;
+			$path_original = PATH_HWDVS_DIR.DS."uploads".DS."originals".DS."$filename_original";
 			list($filename_noext, $filename_ext) = @split('\.', $filename_original);
-			$path_new_flv = $path_base . "/uploads/" . $filename_noext . ".flv";
+			$path_new_flv = PATH_HWDVS_DIR.DS."uploads".DS."$filename_noext.flv";
+			$path_new_mp4 = PATH_HWDVS_DIR.DS."uploads".DS."$filename_noext.mp4";
 
 			hwd_vs_ConverterTools::set($row, $filename_original);
 
@@ -283,11 +301,13 @@ $count = mysql_num_rows($selectBatch);
 			* COPYING VIDEOS INTO THE UPLOAD DIRECTORY
 			**/
 			$output.= "<div class=\"box\"><div><h2>Copying FLV Video File (File ".$n." of ".$count.")</h2></div>";
+
 				if(copy($path_original, $path_new_flv)){
 					$output.= "<div class=\"success\">SUCCESS: Original video file copied to upload directory</div>";
 				} else {
 					$output.= "<div class=\"error\">ERROR: Could not copy the original video into the upload directory. Check directory permissions.</div>";
 				}
+
 			$output.= "</div>";
 
 			if(!file_exists($path_new_flv) || (filesize($path_new_flv) == 0)){
@@ -303,7 +323,20 @@ $count = mysql_num_rows($selectBatch);
 
 			}
 			chmod($path_new_flv, 0755);
+
 		   /******************************************
+			* FLASH META DATA MANIPULATION (INSERT onMetaData TAG)
+			**/
+			$InjectMetaData = hwd_vs_InjectMetaData::inject($path_new_flv);
+
+			$output.= $InjectMetaData[4];
+
+			if ($InjectMetaData[0] == 0) {
+				$file_contents = '['.date('Y-m-d H:i:s').'] [ Meta Injection Failed ] INPUT: '.$InjectMetaData[2].' OUTPUT: '.$InjectMetaData[3];
+				hwd_vs_ConverterTools::writeLog($file_contents);
+			}
+
+			/******************************************
 			* GET VIDEO LENGTH
 			**/
 			$ExtractDuration = hwd_vs_ExtractDuration::extract($path_new_flv, '');
@@ -318,7 +351,16 @@ $count = mysql_num_rows($selectBatch);
 		   /******************************************
 			* CREATE THUMBNAIL IMAGE
 			**/
-			$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw($path_base, $path_video, $filename_noext, $filename_ext, $ExtractDuration[1], $ExtractDuration[0]);
+			if (file_exists($path_new_mp4) && filesize($path_new_mp4) > 0)
+			{
+				$path_video = $path_new_mp4;
+			}
+			else
+			{
+				$path_video = $path_new_flv;
+			}
+			$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw(PATH_HWDVS_DIR, $path_video, $filename_noext, $filename_ext, $ExtractDuration[1], $ExtractDuration[0]);
+			$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw(PATH_HWDVS_DIR, $path_video, $filename_noext, $filename_ext, $ExtractDuration[1], $ExtractDuration[0]);
 
 			$output.= $GenerateThumbnail[9];
 
@@ -366,6 +408,7 @@ $count = mysql_num_rows($selectBatch);
 	* END WHILE
 	**/
 
+unset($selectBatch);
 $selectBatch = hwd_vs_ConverterTools::selectBatch($row, "queuedforswf", $batch);
 $count = mysql_num_rows($selectBatch);
 
@@ -380,9 +423,9 @@ $count = mysql_num_rows($selectBatch);
 		while ($result = @mysql_fetch_array($selectBatch)) {
 
 			$filename_original = $result['video_id'];
-			$path_original = $path_base . '/uploads/originals/' . $filename_original;
+			$path_original = PATH_HWDVS_DIR.DS."uploads".DS."originals".DS."$filename_original";
 			list($filename_noext, $filename_ext) = @split('\.', $filename_original);
-			$path_new = $path_base . "/uploads/" . $filename_noext . ".swf";
+			$path_new = PATH_HWDVS_DIR.DS."uploads".DS."$filename_noext.swf";
 
 			hwd_vs_ConverterTools::set($row, $filename_original);
 
@@ -434,6 +477,7 @@ $count = mysql_num_rows($selectBatch);
 	* END WHILE
 	**/
 
+unset($selectBatch);
 $selectBatch = hwd_vs_ConverterTools::selectBatch($row, "queuedformp4", $batch);
 $count = mysql_num_rows($selectBatch);
 
@@ -445,14 +489,13 @@ $count = mysql_num_rows($selectBatch);
 		* Process each video file
 		**/
 		$n = 1;
-		while ($result = @mysql_fetch_array($selectBatch)) {
+		while ($result = @mysql_fetch_array($selectBatch))
+		{
 			$filename_original = $result['video_id'];
-			$path_original = $path_base . '/uploads/originals/' . $filename_original;
+			$path_original = PATH_HWDVS_DIR.DS."uploads".DS."originals".DS."$filename_original";
 			list($filename_noext, $filename_ext) = @split('\.', $filename_original);
-
-			$path_original = $path_base . '/uploads/originals/' . $filename_original;
-			$path_new_flv  = $path_base . "/uploads/" . $filename_noext . ".flv";
-			$path_new_mp4  = $path_base . "/uploads/" . $filename_noext . ".mp4";
+			$path_new_flv = PATH_HWDVS_DIR.DS."uploads".DS."$filename_noext.flv";
+			$path_new_mp4 = PATH_HWDVS_DIR.DS."uploads".DS."$filename_noext.mp4";
 
 			hwd_vs_ConverterTools::set($row, $filename_original);
 
@@ -525,15 +568,10 @@ $count = mysql_num_rows($selectBatch);
 
 			}
 
-			if (file_exists($path_new_flv)) {
-				$path_video = $path_new_flv;
-			} else {
-				$path_video = $path_new_mp4;
-			}
 		   /******************************************
 			* FLASH META DATA MANIPULATION (INSERT onMetaData TAG)
 			**/
-			$InjectMetaData = hwd_vs_InjectMetaData::inject($path_video);
+			$InjectMetaData = hwd_vs_InjectMetaData::inject($path_new_flv);
 
 			$output.= $InjectMetaData[4];
 
@@ -543,9 +581,14 @@ $count = mysql_num_rows($selectBatch);
 			}
 
 		   /******************************************
+			* MOVE MOOV ATOM
+			**/
+			hwd_vs_MoovAtom::move($path_new_mp4);
+
+		   /******************************************
 			* GET VIDEO LENGTH
 			**/
-			$ExtractDuration = hwd_vs_ExtractDuration::extract($path_video, hwd_vs_ConverterTools::processOutput($ConvertVideo[3]));
+			$ExtractDuration = hwd_vs_ExtractDuration::extract($path_new_flv, hwd_vs_ConverterTools::processOutput($ConvertVideo[3]));
 
 			$output.= $ExtractDuration[3];
 
@@ -557,7 +600,15 @@ $count = mysql_num_rows($selectBatch);
 		   /******************************************
 			* CREATE THUMBNAIL IMAGE
 			**/
-			$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw($path_base, $path_video, $filename_noext, $filename_ext, $ExtractDuration[1], $ExtractDuration[0]);
+			if (file_exists($path_new_mp4) && filesize($path_new_mp4) > 0)
+			{
+				$path_video = $path_new_mp4;
+			}
+			else
+			{
+				$path_video = $path_new_flv;
+			}
+			$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw(PATH_HWDVS_DIR, $path_video, $filename_noext, $filename_ext, $ExtractDuration[1], $ExtractDuration[0]);
 
 			$output.= $GenerateThumbnail[9];
 
@@ -605,6 +656,7 @@ $count = mysql_num_rows($selectBatch);
 	* END WHILE
 	**/
 
+unset($selectBatch);
 $selectBatch = hwd_vs_ConverterTools::selectBatch($row, "re-calculate_duration", $batch);
 $count = mysql_num_rows($selectBatch);
 
@@ -627,7 +679,7 @@ $count = mysql_num_rows($selectBatch);
 
 				if ($result['video_type'] == "local" || $result['video_type'] == "mp4") {
 
-					$path_new = $path_base . "/uploads/" . $filename_noext . ".flv";
+					$path_new = PATH_HWDVS_DIR.DS."uploads".DS."$filename_noext.flv";
 					$ExtractDuration = hwd_vs_ExtractDuration::extract($path_new, '');
 
 
@@ -643,10 +695,14 @@ $count = mysql_num_rows($selectBatch);
 
 				}
 
-				if ($result['video_length'] == "0:00:02" || $ExtractDuration[0] !== "0:00:02") {
+				if ($result['video_length'] == "0:00:02" || $ExtractDuration[0] !== "0:00:02")
+				{
 					$output.= "<div><b>ADDING NEW DURATION (".$ExtractDuration[0].")</b></div>";
 					hwd_vs_ConverterTools::addDuration($row, $filename_noext, $ExtractDuration[0]);
-					hwd_vs_ConverterTools::addThumbPosition($row, $filename_noext, $ExtractDuration[1]);
+					if ($result['thumb_snap'] == "0:00:00" || $result['thumb_snap'] == "0:00:01" || $result['thumb_snap'] == "0:00:02")
+					{
+						hwd_vs_ConverterTools::addThumbPosition($row, $filename_noext, $ExtractDuration[1]);
+					}
 				}
 
 				$output.= "<div><b>RE-APPROVING</b></div>";
@@ -671,6 +727,7 @@ $count = mysql_num_rows($selectBatch);
 	* END WHILE
 	**/
 
+unset($selectBatch);
 $selectBatch = hwd_vs_ConverterTools::selectBatch($row, "re-generate_thumb", $batch);
 $count = mysql_num_rows($selectBatch);
 
@@ -690,8 +747,17 @@ $count = mysql_num_rows($selectBatch);
 				if ($result['video_type'] == "local" || $result['video_type'] == "mp4") {
 
 					$output.= "<div><b>TAKING NEW THUMBNAILS (".$result['thumb_snap'].")</b></div>";
-					$path_new = $path_base . "/uploads/" . $filename_noext . ".flv";
-					$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw($path_base, $path_new, $result['video_id'], "flv", $result['thumb_snap'], $result['video_length']);
+					$path_new_flv = PATH_HWDVS_DIR.DS.'uploads'.DS.$filename_noext.'.flv';
+					$path_new_mp4 = PATH_HWDVS_DIR.DS.'uploads'.DS.$filename_noext.'.mp4';
+					if (file_exists($path_new_mp4) && filesize($path_new_mp4) > 0)
+					{
+						$path_video = $path_new_mp4;
+					}
+					else
+					{
+						$path_video = $path_new_flv;
+					}
+					$GenerateThumbnail = hwd_vs_GenerateThumbnail::draw(PATH_HWDVS_DIR, $path_video, $result['video_id'], "flv", $result['thumb_snap'], $result['video_length']);
 
 				} else if ($result['video_type'] == "swf") {
 

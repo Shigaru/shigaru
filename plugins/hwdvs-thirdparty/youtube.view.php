@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license Creative Commons Attribution-Non-Commercial-No Derivative Works 3.0 Unported Licence
  *    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
  */
@@ -19,108 +19,133 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
     function youtubeComPrepareVideo($row, $flv_width=null, $flv_height=null, $autostart=null)
 	{
 		global $show_video_ad, $pre_url, $post_url, $smartyvs, $task, $pre_url, $post_url;
-		if (!defined('HWDVIDSPATH')) { define('HWDVIDSPATH', dirname(__FILE__).'/../../'); }
 		$c = hwd_vs_Config::get_instance();
 
-			$code=null;
+		jimport('joomla.html.parameter');
+                $plugin =& JPluginHelper::getPlugin('hwdvs-thirdparty', 'youtube');
+		$pluginParams = new JParameter( $plugin->params );
 
-			if (@explode(",", $row->video_id)) {
-				$data = explode(",", $row->video_id);
-				$videocode = $data[0];
-			} else {
-			    return $code;
-			}
+		$pp_playLocal     = $pluginParams->get('playLocal', '2');
+		$pp_playerVersion = $pluginParams->get('playerVersion', '1');
 
-			if ($c->playlocal == "1" && ($c->hwdvids_videoplayer_file == 'jwflv' || $c->hwdvids_videoplayer_file == 'jwflv_v5')) {
+		$code = null;
+
+		$data = @explode(",", $row->video_id);
+		$videocode = $data[0];
+
+		if (($c->playlocal == "1" && $pp_playLocal == "2") || $pp_playLocal == "1")
+		{
+			if ($c->hwdvids_videoplayer_file == 'jwflv' || $c->hwdvids_videoplayer_file == 'jwflv_v5' || $c->hwdvids_videoplayer_file == 'jwflv_html5')
+			{
 				$truepath = "http://www.youtube.com/watch%3Fv%3D".$videocode;
-			} else 	if ($c->playlocal == "1") {
+			}
+			else
+			{
 				$truepath = youtubeComPrepareFlvURL($row->video_id);
-			} else {
-				$truepath = '';
 			}
+		}
+		else
+		{
+			$truepath = '';
+		}
 
-			$file_ext = substr($row->thumbnail, strrpos($row->thumbnail, '.') + 1);
+		$thumb_url = hwd_vs_tools::generatePlayerThumbnail($row);
 
-			if (file_exists(JPATH_SITE . DS . "hwdvideos" . DS . "thumbs" . DS . "l_tp-" . $data[0] . "." . $file_ext)) {
-				$thumb_url = JURI::root(true) . DS . "hwdvideos" . DS . "thumbs" . DS . "l_tp-" . $data[0] . "." . $file_ext;
-			} else {
-				$thumb_url = (!empty($row->thumbnail) ? $row->thumbnail : $data[1]);
-			}
+		if (!empty($truepath) && $c->playlocal == "1")
+		{
+			$player = new hwd_vs_videoplayer();
 
-			if (!empty($truepath) && $c->playlocal == "1") {
+			if ($show_video_ad == 1) {
 
-				$player = new hwd_vs_videoplayer();
+				if ($c->hwdvids_videoplayer_file == "flow") {
 
-				if ($show_video_ad == 1) {
+					$flv_tracks = array();
+					$flv_tracks[0] = $pre_url;
+					$flv_tracks[1] = $truepath;
+					$flv_tracks[2] = $post_url;
 
-					if ($c->hwdvids_videoplayer_file == "flow") {
+					$code.= $player->prepareEmbeddedPlayer($flv_tracks, $flv_width, $flv_height, rand(100, 999), "playlist", null, null, $autostart);
+					return $code;
 
-						$flv_tracks = array();
-						$flv_tracks[0] = $pre_url;
-						$flv_tracks[1] = $truepath;
-						$flv_tracks[2] = $post_url;
+				} else {
 
-						$code.= $player->prepareEmbeddedPlayer($flv_tracks, $flv_width, $flv_height, rand(100, 999), "playlist", null, null, $autostart);
-						return $code;
+					$xspf_playlist = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xspf'.DS.$row->id.'.xml';
+					@unlink($xspf_playlist);
+					require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdrevenuemanager'.DS.'redrawplaylist.class.php');
+					hwd_rm_playlist::writeFile($row, $truepath, $pre_url, $post_url, $thumb_url);
 
-					} else {
+					if (file_exists($xspf_playlist)) {
+						$flv_url = JURI::root(true)."/components/com_hwdvideoshare/xml/xspf/".$row->id.".xml";
+						$flv_path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xspf'.DS.$row->id.'.xml';
 
-						$xspf_playlist = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xspf'.DS.$row->id.'.xml';
-						@unlink($xspf_playlist);
-						require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdrevenuemanager'.DS.'redrawplaylist.class.php');
-						hwd_rm_playlist::writeFile($row, $truepath, $pre_url, $post_url, $thumb_url);
-
-						if (file_exists($xspf_playlist)) {
-							$flv_url = JURI::root(true)."/components/com_hwdvideoshare/xml/xspf/".$row->id.".xml";
-							$flv_path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xspf'.DS.$row->id.'.xml';
-
-							if ($c->loadswfobject == "on" && $task !=="grabjomsocialplayer") {
-								$code.= $player->prepareplayer($flv_url, $flv_width, $flv_height, rand(100, 999), "playlist", $flv_path, null, $autostart);
-							} else {
-								$code.= $player->prepareEmbeddedPlayer($flv_url, $flv_width, $flv_height, rand(100, 999), "playlist", $flv_path, null, $autostart);
-							}
-							return $code;
+						if ($c->loadswfobject == "on" && $task !=="grabjomsocialplayer") {
+							$code.= $player->prepareplayer($flv_url, $flv_width, $flv_height, rand(100, 999), "playlist", $flv_path, null, $autostart, $row->id);
+						} else {
+							$code.= $player->prepareEmbeddedPlayer($flv_url, $flv_width, $flv_height, rand(100, 999), "playlist", $flv_path, null, $autostart, $row->id);
 						}
-					}
-
-				}
-
-				if ($c->loadswfobject == "on") {
-					$code.= $player->prepareplayer($truepath, $flv_width, $flv_height, rand(100, 999), "youtube", null, $thumb_url, $autostart);
-				} else {
-					$code.= $player->prepareEmbeddedPlayer($truepath, $flv_width, $flv_height, rand(100, 999), "youtube", null, $thumb_url, $autostart);
-				}
-
-				return $code;
-
-			} else {
-
-				if ($flv_width==null) {
-					$smartyvs->assign("player_width", $c->flvplay_width);
-					$flv_width = $c->flvplay_width."px";
-				} else {
-					$smartyvs->assign("player_width", $flv_width);
-					if (preg_match("/%/", $flv_width)) {
-						$flv_width = $flv_width;
-					} else {
-						$flv_width = $flv_width."px";
-					}
-				}
-				if ($flv_height==null) {
-					$flv_height = intval ($flv_width*$c->var_fb);
-					$flv_height = $flv_height+25;
-					$flv_height = $flv_height."px";
-				} else {
-					if (preg_match("/%/", $flv_height)) {
-						$flv_height = $flv_height;
-					} else {
-						$flv_height = $flv_height."px";
+						return $code;
 					}
 				}
 
-				$code = "<embed src=\"http://www.youtube.com/v/".$videocode."&rel=0&fs=1&color1=0x3a3a3a&color2=0x999999&border=0\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"".$flv_width."\" height=\"".$flv_height."\" allowfullscreen=\"true\"></embed>";
-				return $code;
 			}
+
+			if ($c->loadswfobject == "on")
+			{
+				$code.= $player->prepareplayer($truepath, $flv_width, $flv_height, rand(100, 999), "youtube", null, $thumb_url, $autostart, $row->id);
+			}
+			else
+			{
+				$code.= $player->prepareEmbeddedPlayer($truepath, $flv_width, $flv_height, rand(100, 999), "youtube", null, $thumb_url, $autostart, $row->id);
+			}
+
+			return $code;
+
+		} else {
+
+			if ($flv_width==null) {
+				$smartyvs->assign("player_width", $c->flvplay_width);
+				$flv_width = $c->flvplay_width."px";
+			} else {
+				$smartyvs->assign("player_width", $flv_width);
+				if (preg_match("/%/", $flv_width)) {
+					$flv_width = $flv_width;
+				} else {
+					$flv_width = $flv_width."px";
+				}
+			}
+			if ($flv_height==null) {
+				$flv_height = intval ($flv_width*$c->var_fb);
+				$flv_height = $flv_height+25;
+				$flv_height = $flv_height."px";
+			} else {
+				if (preg_match("/%/", $flv_height)) {
+					$flv_height = $flv_height;
+				} else {
+					$flv_height = $flv_height."px";
+				}
+			}
+
+			$protocol = "http://";
+			if(is_callable(array('hwd_vs_tools', 'isSSL')))
+			{
+				if (hwd_vs_tools::isSSL())
+				{
+					$protocol = "https://";
+				}
+			}
+
+			if ($pp_playerVersion == 1)
+			{
+				$code = "<iframe title=\"YouTube video player\" class=\"youtube-player\" type=\"text/html\" width=\"".$flv_width."\" height=\"".$flv_height."\" src=\"".$protocol."www.youtube.com/embed/".$videocode."\" frameborder=\"0\"></iframe>";
+				$code = "<iframe title=\"YouTube video player\" class=\"youtube-player\" type=\"text/html\" width=\"".$flv_width."\" height=\"".$flv_height."\" src=\"".$protocol."youtube.com/embed/".$videocode."?hd=1&wmode=transparent\" frameborder=\"0\"></iframe>";
+			}
+			else
+			{
+				$code = "<embed src=\"".$protocol."www.youtube.com/v/".$videocode."&rel=0&fs=1&color1=0x3a3a3a&color2=0x999999&border=0\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"".$flv_width."\" height=\"".$flv_height."\" allowfullscreen=\"true\"></embed>";
+				$code = "<embed src=\"".$protocol."www.youtube.com/v/".$videocode."&rel=0&fs=1&color1=0x3a3a3a&color2=0x999999&border=0&hd=1\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"".$flv_width."\" height=\"".$flv_height."\" allowfullscreen=\"true\"></embed>";
+			}
+			return $code;
+		}
 	}
     /**
      * Prepares the code to insert the third party thumbnail image
@@ -192,7 +217,7 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
      */
 	function youtubeComPrepareVideoEmbed($option, $vid, $Itemid)
 	{
-		global $mosConfig_sitename, $mosConfig_live_site;
+		global $mosConfig_sitename, $mosConfig_live_site, $hwdvsItemid;
 		$c = hwd_vs_Config::get_instance();
 			if (@explode(",", $option)) {
 				$data = explode(",", $option);
@@ -205,8 +230,12 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 			}
 			$code.= "<object width=&#34;425&#34; height=&#34;355&#34;><param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/".$videocode."&rel=1&#34;></param><param name=&#34;wmode&#34; value=&#34;transparent&#34;></param><embed src=&#34;http://www.youtube.com/v/".$videocode."&rel=1&#34; type=&#34;application/x-shockwave-flash&#34; wmode=&#34;transparent&#34; width=&#34;425&#34; height=&#34;355&#34;></embed></object>";
 			if ($c->embedreturnlink == 1) {
-				$jconfig = new jconfig();
-				$code.='<br /><a href=&#34;'.JURI::root().'index.php?option=com_hwdvideoshare&Itemid='.$Itemid.'&#34; title=&#34;'.$jconfig->sitename.'&#34;>'.$jconfig->sitename.'</a></center></div>';
+                                $uri =& JURI::getInstance();
+                                $base	= $uri->toString( array('scheme', 'host', 'port'));
+                                $link	= $base.JRoute::_("index.php?option=com_hwdvideoshare&Itemid=$hwdvsItemid&task=viewvideo&video_id=$vid");
+
+                                $jconfig = new jconfig();
+                                $code.="<br /><a href=&#34;".$link."&#34; title=&#34;".$jconfig->sitename."&#34;>".$jconfig->sitename."</a></center></div>";
 			}
 
 			return $code;
@@ -221,6 +250,7 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
      */
 	function youtubeComPrepareFlvURL($option)
 	{
+		return false;
 		global $mosConfig_sitename, $mosConfig_live_site;
 		$c = hwd_vs_Config::get_instance();
 
@@ -243,8 +273,8 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
      * @param string $video_id
      * @return       $code
      */
-	function downloadYT($video_id) {
-
+	function downloadYT($video_id)
+	{
 		$url = "http://www.youtube.com/watch?v=".$video_id;
 		$url = hwd_vs_tools::get_final_url( $url );
 

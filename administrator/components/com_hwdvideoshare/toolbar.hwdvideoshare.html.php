@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -20,17 +20,26 @@
  */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
-class hwdvidmenu {
-
+class hwdvidmenu
+{
 	function HOMEPAGE_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function VIDEO_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::publishList();
 		JToolBarHelper::spacer();
 		JToolBarHelper::unpublishList();
@@ -43,22 +52,38 @@ class hwdvidmenu {
 		JToolBarHelper::spacer();
 		JToolBarHelper::deleteList(_HWDVIDS_INFO_CONFIRMBACKDEL, 'delete', _HWDVIDS_TOOLBAR_REMOVE);
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function EDITVID_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
+		JToolBarHelper::apply();
+		JToolBarHelper::spacer();
 		JToolBarHelper::save('savevid');
 		JToolBarHelper::spacer();
 		JToolBarHelper::cancel('cancelvid');
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function CAT_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::custom('publishcat', 'publish.png', 'publish_f2.png', _HWDVIDS_TOOLBAR_PUBLISH, false);
 		JToolBarHelper::spacer();
 		JToolBarHelper::custom('unpublishcat', 'unpublish.png', 'unpublish_f2.png', _HWDVIDS_TOOLBAR_UNPUBLISH, false);
@@ -69,22 +94,36 @@ class hwdvidmenu {
 		JToolBarHelper::spacer();
 		JToolBarHelper::deleteList(_HWDVIDS_INFO_CONFIRMBACKCDEL, 'deletecat', _HWDVIDS_TOOLBAR_REMOVE);
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function EDITCAT_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::save('savecat');
 		JToolBarHelper::spacer();
 		JToolBarHelper::cancel('cancelcat');
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function GROUPS_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::custom('publishg', 'publish.png', 'publish_f2.png', _HWDVIDS_TOOLBAR_PUBLISH, false);
 		JToolBarHelper::spacer();
 		JToolBarHelper::custom('unpublishg', 'unpublish.png', 'unpublish_f2.png', _HWDVIDS_TOOLBAR_UNPUBLISH, false);
@@ -97,94 +136,162 @@ class hwdvidmenu {
 		JToolBarHelper::spacer();
 		JToolBarHelper::deleteList(_HWDVIDS_INFO_CONFIRMBACKGDEL, 'deletegroups', _HWDVIDS_TOOLBAR_DELETE);
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function EDITGRP_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::save('savegrp');
 		JToolBarHelper::spacer();
 		JToolBarHelper::cancel('cancelgrp');
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function APPROVE_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::back();
 		JToolBarHelper::spacer();
 		JToolBarHelper::custom('approve', 'publish.png', 'publish_f2.png', _HWDVIDS_TOOLBAR_APPROVE, false);
 		JToolBarHelper::spacer();
 		JToolBarHelper::deleteList(_HWDVIDS_INFO_CONFIRMBACKDEL, 'delete', _HWDVIDS_TOOLBAR_REMOVE);
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function SSETTINGS_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::save('saveserver');
 		JToolBarHelper::spacer();
 		JToolBarHelper::cancel('cancel');
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function GSETTINGS_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::save('savegeneral');
 		JToolBarHelper::spacer();
 		JToolBarHelper::cancel('cancel');
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function LSETTINGS_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::save('savelayout');
 		JToolBarHelper::spacer();
 		JToolBarHelper::cancel('cancel');
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function MAINTENANCE_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::back();
 		JToolBarHelper::spacer();
 		JToolBarHelper::custom('runmaintenance', 'config.png', 'config_f2.png', _HWDVIDS_TOOLBAR_RUN, false);
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function INFO_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::back();
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function EXPORT_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::custom('botJombackup', 'archive.png', 'archive_f2.png', _HWDVIDS_TOOLBAR_BKUP, false);
 		JToolBarHelper::spacer();
 		JToolBarHelper::cancel();
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 
 	function IMPORT_MENU()
 	{
-        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'logo' );
+		global $j16;
+
+        JToolBarHelper::title( _HWDVIDS_TOOLBARTITLE, 'mediamanager.png' );
 		JToolBarHelper::cancel();
 		JToolBarHelper::spacer();
+		if ($j16)
+		{
+			JToolBarHelper::preferences('com_hwdvideoshare');
+			JToolBarHelper::spacer();
+		}
 		JToolBarHelper::custom('homepage', 'help.png', 'help_f2.png', _HWDVIDS_TOOLBAR_HOME, false);
 	}
 }

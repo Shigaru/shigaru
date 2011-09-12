@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -102,11 +102,13 @@ function ajaxChangeUser(){
     <h3>Scan Directory</h3>
     <input type="text" name="directory" onKeyUp="ajaxFunction();" value="{$mosConfig_absolute_path}" size="120">
     <input type="submit" value="Import Videos">
+    <div style="clear:both;"></div>
     <div id="ajaxresponse"></div>
-    
+    <div style="clear:both;"></div>
     <h3>Assign User</h3>
     <div id="ajaxChangeUserResponse">{$user} <span onclick="ajaxChangeUser();" style="cursor:pointer;">[{$smarty.const._HWDVIDS_CHANGEUSER}]</span></div>
-    
+    <div style="clear:both;"></div>
+
     <h3>Default Video Information</h3>
     <p>The videos that are found in this directory will be copied to the hwdVideoShare video folder and added to the database. The following information will be used to label the videos.</p>
     <table cellpadding="0" cellspacing="0" border="0">

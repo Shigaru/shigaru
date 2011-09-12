@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ class hwd_vs_fixerrors {
      */
 	function initiate($override) {
 
-		global $mainframe;
+$app = & JFactory::getApplication();
 
 		// set cache variables
 		$cachedir = JPATH_SITE.'/administrator/cache/'; // Directory to cache files in (keep outside web root)
@@ -56,7 +56,7 @@ class hwd_vs_fixerrors {
 		if ($override == 2) {
 			// Show file from cache if still valid
 			if (time() - $cachetime < $cachefile_created) {
-				$mainframe->enqueueMessage(_HWDVIDS_M_FIX_RUN);
+				$app->enqueueMessage(_HWDVIDS_M_FIX_RUN);
 				return;
 			}
 		}
@@ -109,50 +109,9 @@ class hwd_vs_fixerrors {
 
 			$row = $rows[$i];
 
-			$title = $row->title;
-			$title = stripslashes($title);
-			$title = stripslashes($title);
-			$title = hwdEncoding::fixDoubleEncodings($title);
-			$title = hwdEncoding::charset_decode_utf_8($title);
-			$title = hwdEncoding::charset_encode_utf_8($title);
-			$title = html_entity_decode($title);
-			$title = htmlspecialchars_decode($title);
-			$title = addslashes($title);
-
-			$description = $row->description;
-			$description = stripslashes($description);
-			$description = stripslashes($description);
-			$description = hwdEncoding::fixDoubleEncodings($description);
-			$description = hwdEncoding::charset_decode_utf_8($description);
-			$description = hwdEncoding::charset_encode_utf_8($description);
-			$description = html_entity_decode($description);
-			$description = htmlspecialchars_decode($description);
-			$description = addslashes($description);
-
-			$raw_tags = $row->tags;
-			$tags = '';
-			$tag_arr_co = explode(",", $raw_tags);
-
-			for ($j=0, $m=count($tag_arr_co); $j < $m; $j++) {
-
-				$row_co = $tag_arr_co[$j];
-				$tag_arr_sp = explode(" ", $row_co);
-
-				for ($k=0, $p=count($tag_arr_sp); $k < $p; $k++) {
-
-					$row_sp = $tag_arr_sp[$k];
-					$row_sp = hwdEncoding::fixDoubleEncodings($row_sp);
-					$row_sp = hwdEncoding::charset_decode_utf_8($row_sp);
-					$row_sp = preg_replace("/[^a-zA-Z0-9s_&#;-]/", "", $row_sp);
-					$row_sp = hwdEncoding::charset_encode_utf_8($row_sp);
-
-					if (!empty($row_sp)) {
-						$tags.= $row_sp.",";
-					}
-
-				}
-			}
-			if (substr($tags, -2) == ", ") {$tags = substr($tags, 0, -2);}
+			$title 				= hwd_vs_tools::generatePostTitle($row->title);
+			$description 		= hwd_vs_tools::generatePostDescription($row->description);
+			$tags 				= hwd_vs_tools::generatePostTags($row->tags);
 
 			$thumb_snap = $row->thumb_snap;
 			if ($row->thumb_snap == "0:00:00") {

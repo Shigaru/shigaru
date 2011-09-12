@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -35,21 +35,30 @@ class hwdvs_fileManagement
      */
    function checkDirectoryStructure()
    {
-		global $database, $mainframe, $limitstart, $Itemid;
-		$filepath = array();
-		$filepath[] = JPATH_SITE."/hwdvideos/";
-		$filepath[] = JPATH_SITE."/hwdvideos/thumbs/";
-		$filepath[] = JPATH_SITE."/hwdvideos/uploads/";
-		$filepath[] = JPATH_SITE."/hwdvideos/uploads/originals/";
-		$filepath[] = JPATH_SITE."/components/com_hwdvideoshare/xml/";
-		$filepath[] = JPATH_SITE."/components/com_hwdvideoshare/xml/xspf/";
-		foreach ($filepath as $path) {
-			if (file_exists($path)) {
-				if (!is_writable($path)) {
-					echo "<div style=\"border:2px solid #c30;color:#c30;margin-bottom:2px;padding:5px;\">"._HWDVIDS_ALERT_MANCHMOD." <b>".$path."</b></div>";
+		$jconfig = new jconfig();
+		if ($jconfig->ftp_enable != 1)
+		{
+			$filepath = array();
+			$filepath[] = PATH_HWDVS_DIR;
+			$filepath[] = PATH_HWDVS_DIR.DS."thumbs";
+			$filepath[] = PATH_HWDVS_DIR.DS."uploads";
+			$filepath[] = PATH_HWDVS_DIR.DS."uploads".DS."originals";
+			$filepath[] = JPATH_SITE.DS."components".DS."com_hwdvideoshare".DS."xml";
+			$filepath[] = JPATH_SITE.DS."components".DS."com_hwdvideoshare".DS."xml".DS."xspf";
+
+			foreach ($filepath as $path)
+			{
+				if (file_exists($path))
+				{
+					if (!is_writable($path))
+					{
+						echo "<div style=\"border:2px solid #c30;color:#c30;margin-bottom:2px;padding:5px;\">"._HWDVIDS_ALERT_MANCHMOD." <b>".$path."</b></div>";
+					}
 				}
-			} else {
-				echo "<div style=\"border:2px solid #c30;color:#c30;margin-bottom:2px;padding:5px;\">"._HWDVIDS_ALERT_MANMKDIR." <b>".$path."</b></div>";
+				else
+				{
+					echo "<div style=\"border:2px solid #c30;color:#c30;margin-bottom:2px;padding:5px;\">"._HWDVIDS_ALERT_MANMKDIR." <b>".$path."</b></div>";
+				}
 			}
 		}
    }

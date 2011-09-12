@@ -1,33 +1,24 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 {if $showdetails}
-    <div class="padding" style="float:right;">{$videoplayer->deletevideo}&nbsp;{$videoplayer->editvideo}&nbsp{$videoplayer->publishvideo}</div>
-    
-    <h2>{$videoplayer->title}</h2>
-    
-    <div class="padding">
-      <div style="float:left;padding-right:5px;">
-{/if}
-      {$videoplayer->player}
-{if $showdetails}
-      </div>
-      <div class="padding">{$videoplayer->description}</div>
-      <div class="padding" style="height:40px;"><div style="float:left;">{$videoplayer->ratingsystem}</div></div>
-      <div class="padding">{$videoplayer->thumbnail}</div>
-      <div class="padding">{$videoplayer->duration}</div>
-      <div class="padding"><a href="{$mosConfig_live_site}/index.php?option=com_hwdvideoshare&task=viewvideo&Itemid={$Itemid}&video_id={$videoplayer->id}" class="swap">{$smarty.const._HWDVIDS_GTVP}</a> &raquo;</div>
 
-    </div>
-        
-    <div style="clear:both;"></div>
+	<h2>{$videoplayer->title}</h2>
 
-    </div>
+	<div class="padding">
+		<div style="float:left;padding-right:5px;">
+		{/if}
+			{$videoplayer->player}
+		{if $showdetails}
+		</div>
+
+		<div id="videoDetails">{include file='video_details.tpl'}</div>
+	</div>
+
 {/if}

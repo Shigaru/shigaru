@@ -1,14 +1,14 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
 
 <div class="box">
-  <div style="float:left;">{$data->thumbnail}</div>
+  <div class="listThumbnail" style="float:left;">{$data->thumbnail}</div>
   <div class="avatar">{$data->avatar}</div>
   <div class="listtitle">{$data->playlisttitle} ({$data->totalvideos} Videos) {$data->editplaylist} {$data->deleteplaylist}</div>
   <div class="listdesc">{$data->playlistdescription}</div>

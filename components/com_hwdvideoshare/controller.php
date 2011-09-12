@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,12 @@ class UserController extends JController
 		hwd_vs_core::frontpage();
 	}
 
+	function videos()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'core.php');
+		hwd_vs_core::videos();
+	}
+
 	function upload()
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'uploads.php');
@@ -69,6 +75,12 @@ class UserController extends JController
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'uploads.php');
 		hwd_vs_uploads::uploadConfirmPhp();
+	}
+
+	function uploadconfirmwarp()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'uploads.php');
+		hwd_vs_uploads::uploadConfirmWarp();
 	}
 
 	function addconfirm()
@@ -153,6 +165,18 @@ class UserController extends JController
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
 		hwd_vs_usrfunc::yourMemberships();
+	}
+
+	function yourplaylists()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		hwd_vs_usrfunc::yourPlaylists();
+	}
+
+	function yourchannel()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		hwd_vs_usrfunc::yourChannel();
 	}
 
 	function editvideo()
@@ -325,19 +349,23 @@ class UserController extends JController
 
 	function gotocategory()
 	{
-		global $Itemid, $mainframe;
+		global $hwdvsItemid;
+		$app = & JFactory::getApplication();
 
 		$menu = &JMenu::getInstance('site');
-		$mparams = &$menu->getParams($Itemid);
+		$mparams = &$menu->getParams($hwdvsItemid);
 		$hwdmcid = $mparams->get( 'hwdmcid', '');
-		if (!empty($hwdmcid)) {
-			$url = JRoute::_('index.php?option=com_hwdvideoshare&task=viewcategory&cat_id='.$hwdmcid.'&Itemid='.$Itemid);
-			$url = str_replace("&amp;", "&", $url);
-		} else {
-			$url = JRoute::_('index.php?option=com_hwdvideoshare&task=viewcategory&cat_id='.$hwdmcid.'&Itemid='.$Itemid);
+		if (!empty($hwdmcid))
+		{
+			$url = JRoute::_('index.php?option=com_hwdvideoshare&task=viewcategory&cat_id='.$hwdmcid.'&Itemid='.$hwdvsItemid);
 			$url = str_replace("&amp;", "&", $url);
 		}
-		$mainframe->redirect( $url );
+		else
+		{
+			$url = JRoute::_('index.php?option=com_hwdvideoshare&task=viewcategory&cat_id='.$hwdmcid.'&Itemid='.$hwdvsItemid);
+			$url = str_replace("&amp;", "&", $url);
+		}
+		$app->redirect( $url );
 	}
 
 	function insertVideo()
@@ -380,7 +408,11 @@ class UserController extends JController
 		hwd_vs_channels::saveChannel();
 	}
 
-
+	function updateChannel()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'channels.php');
+		hwd_vs_channels::updateChannel();
+	}
 
 
 	function playlists()
@@ -404,7 +436,7 @@ class UserController extends JController
 	function viewPlaylist()
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'playlists.php');
-		hwd_vs_playlists::savePlaylist();
+		hwd_vs_playlists::viewPlaylist();
 	}
 
 	function editPlaylist()
@@ -419,13 +451,52 @@ class UserController extends JController
 		hwd_vs_playlists::deletePlaylist();
 	}
 
+	function updatePlaylist()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'playlists.php');
+		hwd_vs_playlists::updatePlaylist();
+	}
+
+	function reorderplaylist()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'playlists.php');
+		hwd_vs_playlists::reorderplaylist();
+	}
+
+	function subscribeChannel()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'channels.php');
+		hwd_vs_channels::subscribeChannel();
+	}
+
+	function unsubscribeChannel()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'channels.php');
+		hwd_vs_channels::unsubscribeChannel();
+	}
+
 	function ajax_addvideotoplaylist()
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
 		hwd_vs_ajax::addVideoToPlaylist();
 	}
 
+	function removeVideoFromPlaylist()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'playlists.php');
+		hwd_vs_playlists::removeVideoFromPlaylist();
+	}
 
+	function pending()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'moderator.php');
+		hwd_vs_moderator::pending();
+	}
 
+	function approvevideo()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'moderator.php');
+		hwd_vs_moderator::approvevideo();
+	}
 }
 ?>

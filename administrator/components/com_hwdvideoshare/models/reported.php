@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -27,10 +27,11 @@ class hwdvids_BE_flagged
 	*/
 	function showflagged()
 	{
-		global $option, $mainframe, $limit, $limitstart;
+		global $option, $limit, $limitstart;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
-		$search 		= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+		$search 		= $app->getUserStateFromRequest( "search{$option}", 'search', '' );
 		$search 		= $db->getEscaped( trim( strtolower( $search ) ) );
 
 		$query = "SELECT a.*, u.*"
@@ -56,9 +57,11 @@ class hwdvids_BE_flagged
    /**
 	* delete flagged videos
 	*/
-	function deleteflaggedvid($cid=null) {
-		global $mainframe, $task, $my, $option;
+	function deleteflaggedvid($cid=null)
+	{
+		global $task, $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
 		$total = count ( $cid );
 		$cids = implode( ',', $cid );
@@ -107,15 +110,17 @@ class hwdvids_BE_flagged
 		}
 
 		$msg = $total ._HWDVIDS_ALERT_ADMIN_FLAGMDEL;
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=reported' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=reported' );
 	}
    /**
 	* delete flagged groups
 	*/
-	function deleteflaggedgroup($cid=null) {
-		global $mainframe, $task, $my, $option;
+	function deleteflaggedgroup($cid=null)
+	{
+		global $task, $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
 		$total = count ( $cid );
 		$cids = implode( ',', $cid );
@@ -157,15 +162,17 @@ class hwdvids_BE_flagged
 		}
 
 		$msg = $total ._HWDVIDS_ALERT_ADMIN_FLAGMDEL;
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=reported' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=reported' );
 	}
    /**
 	* ignore flagged videos
 	*/
-	function readflaggedvid($cid=null) {
-		global $mainframe, $task, $my, $option;
+	function readflaggedvid($cid=null)
+	{
+		global $task, $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
 		$total = count ( $cid );
 		$cids = implode( ',', $cid );
@@ -178,15 +185,17 @@ class hwdvids_BE_flagged
 		}
 
 		$msg = $total ._HWDVIDS_ALERT_ADMIN_FLAGMREAD;
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=reported' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=reported' );
 	}
    /**
 	* ignore flagged groups
 	*/
-	function readflaggedgroup($cid=null) {
-		global $mainframe, $task, $my, $option;
+	function readflaggedgroup($cid=null)
+	{
+		global $task, $option;
   		$db =& JFactory::getDBO();
+		$app = & JFactory::getApplication();
 
 		$total = count ( $cid );
 		$cids = implode( ',', $cid );
@@ -199,8 +208,8 @@ class hwdvids_BE_flagged
 		}
 
 		$msg = $total ._HWDVIDS_ALERT_ADMIN_FLAGMREAD;
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option='.$option.'&task=reported' );
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=reported' );
 	}
    /**
 	* watch flagged videos

@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -62,12 +62,16 @@ class hwdvids_HTML
    /**
 	* show videos
 	*/
-	function showvideos($rows, $rows_feat, &$pageNav, $searchtext, $category_id)
+	function showvideos($rows, &$pageNav, $searchtext, $category_id, $featuredOnly)
 	{
-		global $mainframe, $smartyvs, $mosConfig_offset, $limitstart, $Itemid, $my, $option;
+		global $smartyvs, $limitstart, $Itemid, $option, $j16;
+		$app = & JFactory::getApplication();
+		$c = hwd_vs_Config::get_instance();
+                JHTML::_('behavior.tooltip');
+		jimport( 'joomla.filesystem.file' );
 
-		$filter_order     = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'a.date_uploaded', 'cmd' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', 'desc', 'word' );
+		$filter_order     = $app->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'date_uploaded', 'cmd' );
+		$filter_order_Dir = $app->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', 'desc', 'word' );
 
 		/** define template variables **/
 		$hidden_inputs = '<input type="hidden" name="boxchecked" value="0" />
@@ -78,103 +82,142 @@ class hwdvids_HTML
 						  <input type="hidden" name="filter_order" value="'.$filter_order.'" />
 						  <input type="hidden" name="filter_order_Dir" value="'.$filter_order_Dir.'" />';
 
-
 		$categoryselectlist = hwd_vs_tools::categoryList(_HWDVIDS_INFO_ANYCAT, $category_id, _HWDVIDS_INFO_NOCATS, 0, "category_id", 0, 'class="inputbox" onChange="document.adminForm.submit()"', true);
+		$featuredSelected = $featuredOnly == 1 ?  "selected = \"selected\"" : "";
+		$filterFeatured = "<select name=\"featuredOnly\" onChange=\"document.adminForm.submit()\"><option value=\"0\">All</option><option value=\"1\" $featuredSelected>Featured Only</option></select>";
+
 		$search = _HWDVIDS_SEARCHV.'&nbsp;';
 		$search.= '<input type="text" name="search" value="'.$searchtext.'" class="text_area" onChange="document.adminForm.submit();" />&nbsp;';
+		$search.= $filterFeatured.'&nbsp;';
 		$search.= $categoryselectlist.'&nbsp;';
 		$search.= _HWDVIDS_RPP.'&nbsp;';
 		$search.= $pageNav->getLimitBox().'&nbsp;';
-		jimport('joomla.html.pane');
-		$pane =& JPane::getInstance('tabs');
-		$startpane = $pane->startPane( 'video-pane');
-		$endtab = $pane->endPanel();
-		$endpane = $pane->endPane();
-		$starttab1 = $pane->startPanel( _HWDVIDS_TAB_ALLVIDS, 'panel1' );
-		$starttab2 = $pane->startPanel( _HWDVIDS_TAB_FEATV, 'panel2' );
 
-		$video_header = ($filter_order == 'a.title') ? _HWDVIDS_TITLE.'<img src="/subdirectory/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_TITLE;
-		$length_header = ($filter_order == 'a.video_length') ? _HWDVIDS_LENGTH.'<img src="/subdirectory/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_LENGTH;
-		$rating_header = ($filter_order == 'a.updated_rating') ? _HWDVIDS_RATING.'<img src="/subdirectory/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_RATING;
-		$date_header = ($filter_order == 'a.date_uploaded') ? _HWDVIDS_DATEUPLD.'<img src="/subdirectory/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_DATEUPLD;
-		$status_header =  ($filter_order == 'a.approved') ? _HWDVIDS_APPROVED.'<img src="/subdirectory/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_APPROVED;
-		$featured_header = ($filter_order == 'a.featured') ? _HWDVIDS_FEATURED.'<img src="/subdirectory/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_FEATURED;
-		$published_header = ($filter_order == 'a.published') ? _HWDVIDS_PUB.'<img src="/subdirectory/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_PUB;
-		$views_header = ($filter_order == 'a.number_of_views') ? _HWDVIDS_VIEWS.'<img src="/subdirectory/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_VIEWS;
-		$access_header = ($filter_order == 'a.public_private') ? _HWDVIDS_ACCESS.'<img src="/subdirectory/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_ACCESS;
-		$order_header = ($filter_order == 'a.ordering') ? _HWDVIDS_ORDER.'<img src="/subdirectory/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_ORDER;
-
-		/** define template arrays **/
-		$list_all = array();
-		$k = 0;
-		for ($i=0, $n=count($rows); $i < $n; $i++) {
-			$row = $rows[$i];
-
-			$list_all[$i]->id = $row->id;
-			$list_all[$i]->checked = JHTML::_('grid.checkedout', $row, $i);
-			if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-				$list_all[$i]->title = stripslashes($row->title);
-			} else {
-				$link = 'index.php?option=com_hwdvideoshare&task=editvidsA&hidemainmenu=1&cid='. $row->id;
-				$list_all[$i]->title = '<a href="'.$link.'" title="Edit Category">'.stripslashes($row->title).'</a>';
-			}
-			$list_all[$i]->length = $row->video_length;
-			$list_all[$i]->rating = $row->updated_rating;
-			$list_all[$i]->views = $row->number_of_views;
-			$list_all[$i]->access = hwd_vs_tools::generateVideoAccess($row->public_private);
-			$list_all[$i]->date = $row->date_uploaded;
-			$list_all[$i]->status = hwd_vs_tools::generateVideoStatus($row->approved);
-			$list_all[$i]->published_task = $row->published ? 'unpublish' : 'publish';
-			$list_all[$i]->published_img = $row->published ? 'publish_g.png' : 'publish_x.png';
-			$list_all[$i]->featured_task = $row->featured ? 'unfeature' : 'feature';
-			$list_all[$i]->featured_img =$row->featured ? 'publish_g.png' : 'publish_x.png';
-			$list_all[$i]->ordering = $row->ordering;
-            if ($i > 0 || ($i + $pageNav->limitstart > 0)) {
-			    $list_all[$i]->reorderup = '<a href = "#reorder" onClick = "return listItemTask(\'cb'.$i.'\',\'order_up\')"> <img src = "images/uparrow.png" width = "12" height = "12" border = "0" alt = ""> </a>';
-            }
-			if ($i < $n - 1 || $i + $pageNav->limitstart < $pageNav->total - 1) {
-			    $list_all[$i]->reorderdown = '<a href = "#reorder" onClick = "return listItemTask(\'cb'.$i.'\',\'order_down\')"> <img src = "images/downarrow.png" width = "12" height = "12" border = "0" alt = ""> </a>';
-			}
-			$list_all[$i]->k = $k;
-			$list_all[$i]->i = $i;
-			$k = 1 - $k;
+		if ($featuredOnly)
+		{
+			$ordering = ($filter_order == "ordering") ?  true : false;
+		}
+		else
+		{
+			$ordering = ($filter_order == "category_id" || $filter_order == "ordering") ?  true : false;
 		}
 
-		$cbtotal = count($rows)+1;
-		$list_feat = array();
-		$k = 0;
-		for ($i=0, $n=count($rows_feat); $i < $n; $i++) {
-			$row = $rows_feat[$i];
+		$video_header = ($filter_order == 'title') ? _HWDVIDS_TITLE.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_TITLE;
+		$category_header = ($filter_order == 'category_id') ? _HWDVIDS_CATEGORY.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_CATEGORY;
+		$length_header = ($filter_order == 'video_length') ? _HWDVIDS_LENGTH.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_LENGTH;
+		$rating_header = ($filter_order == 'updated_rating') ? _HWDVIDS_RATING.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_RATING;
+		$views_header = ($filter_order == 'number_of_views') ? _HWDVIDS_VIEWS.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_VIEWS;
+		$access_header = ($filter_order == 'public_private') ? _HWDVIDS_ACCESS.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_ACCESS;
+		$date_header = ($filter_order == 'date_uploaded') ? _HWDVIDS_DATEUPLD.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_DATEUPLD;
+		$status_header =  ($filter_order == 'approved') ? _HWDVIDS_APPROVED.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_APPROVED;
+		$featured_header = ($filter_order == 'featured') ? _HWDVIDS_FEATURED.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_FEATURED;
+		$published_header = ($filter_order == 'published') ? _HWDVIDS_PUB.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_PUB;
+		$order_header = ($filter_order == 'ordering') ? _HWDVIDS_ORDER.'&nbsp;<img src="'.JURI::root(true).'/administrator/images/sort_'.$filter_order_Dir.'.png" />' : _HWDVIDS_ORDER;
+		if ($ordering)
+		{
+			if ($featuredOnly)
+			{
+				$order_header.= JHTML::_('grid.order', $rows, "filesave.png", "saveFeaturedVideoOrder");
+			}
+			else
+			{
+				$order_header.= JHTML::_('grid.order', $rows, "filesave.png", "saveVideoOrder");
+			}
+		}
 
-			$list_feat[$i]->id = $row->id;
-			$list_feat[$i]->checked = JHTML::_('grid.checkedout', $row, $cbtotal);
-			if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-				$list_feat[$i]->title = stripslashes($row->title);
-			} else {
-				$link = 'index.php?option=com_hwdvideoshare&task=editvidsA&hidemainmenu=1&cid='. $row->id;
-				$list_feat[$i]->title = '<a href="'.$link.'" title="Edit Category">'.stripslashes($row->title).'</a>';
+		/** define template arrays **/
+		$list = array();
+		$k = 0;
+		for ($i=0, $n=count($rows); $i < $n; $i++)
+		{
+			$row = $rows[$i];
+			$link = 'index.php?option=com_hwdvideoshare&task=editvidsA&hidemainmenu=1&cid='. $row->id;
+			$toolTipTitle = "Length: $row->video_length<br />Rating: $row->updated_rating/5<br />Views: $row->number_of_views";
+
+			$list[$i]->id = $row->id;
+			$list[$i]->checked = JHTML::_('grid.checkedout', $row, $i);
+			$list[$i]->title = '<span class="hasTip" title="'.$toolTipTitle.'"><a href="'.$link.'" title="" alt="">'.stripslashes($row->title).'</a></span>';
+                        if ($c->multiple_cats == "1")
+                        {
+                                $list[$i]->category = strip_tags(hwd_vs_tools::generateCategoryLinks($row));
+                        }
+                        else
+                        {
+                                $list[$i]->category = hwd_vs_tools::generateCategory( $row->category_id );
+                        }
+			$list[$i]->length = $row->video_length;
+			$list[$i]->rating = $row->updated_rating;
+			$list[$i]->views = $row->number_of_views;
+			$list[$i]->access = hwd_vs_tools::generateVideoAccess($row->public_private);
+			$list[$i]->date = $row->date_uploaded;
+			$list[$i]->status = hwd_vs_tools::generateVideoStatus($row->approved);
+			$list[$i]->published_task = $row->published ? 'unpublish' : 'publish';
+			if ($j16)
+			{
+				$list[$i]->published_img = $row->published ? 'templates/bluestork/images/admin/tick.png' : 'templates/bluestork/images/admin/publish_x.png';
 			}
-			$list_feat[$i]->length = $row->video_length;
-			$list_feat[$i]->rating = $row->updated_rating;
-			$list_feat[$i]->views = $row->number_of_views;
-			$list_feat[$i]->access = hwd_vs_tools::generateVideoAccess($row->public_private);
-			$list_feat[$i]->date = $row->date_uploaded;
-			$list_feat[$i]->ordering = $row->ordering;
-			$list_feat[$i]->status = hwd_vs_tools::generateVideoStatus($row->approved);
-			$list_feat[$i]->published_task = $row->published ? 'unpublish' : 'publish';
-			$list_feat[$i]->published_img = $row->published ? 'publish_g.png' : 'publish_x.png';
-			$list_feat[$i]->featured_task = $row->featured ? 'unfeature' : 'feature';
-			$list_feat[$i]->featured_img =$row->featured ? 'publish_g.png' : 'publish_x.png';
-			$list_feat[$i]->k = $k;
-			$list_feat[$i]->i = $cbtotal;
-			$list_feat[$i]->ordering = $i;
-            if ($i > 0 || ($i + $pageNav->limitstart > 0)) {
-			    $list_feat[$i]->reorderup = '<a href = "#reorder" onClick = "return listItemTask(\'cb'.$cbtotal.'\',\'order_f_up\')"> <img src = "images/uparrow.png" width = "12" height = "12" border = "0" alt = ""> </a>';
-            }
-			if ($i < $n - 1 || $i + $pageNav->limitstart < $pageNav->total - 1) {
-			    $list_feat[$i]->reorderdown = '<a href = "#reorder" onClick = "return listItemTask(\'cb'.$cbtotal.'\',\'order_f_down\')"> <img src = "images/downarrow.png" width = "12" height = "12" border = "0" alt = ""> </a>';
+			else
+			{
+				$list[$i]->published_img = $row->published ? 'images/publish_g.png' : 'images/publish_x.png';
 			}
-			$cbtotal++;
+			$list[$i]->featured_task = $row->featured ? 'unfeature' : 'feature';
+			if ($j16)
+			{
+				$list[$i]->featured_img = $row->featured ? 'templates/bluestork/images/admin/featured.png' : 'templates/bluestork/images/admin/disabled.png';
+			}
+			else
+			{
+				$list[$i]->featured_img = $row->featured ? 'images/publish_g.png' : 'images/publish_x.png';
+			}
+			if ($featuredOnly)
+			{
+				if (!isset($fo[$row->id])) $fo[$row->id] = 0;
+				$disabled = $ordering ?  '' : 'disabled="disabled"';
+				$list[$i]->ordering = "<input type=\"text\" name=\"order[]\" size=\"4\" value=\"".$i."\" $disabled class=\"text_area\" style=\"text-align: center\" />";
+				if ($ordering)
+				{
+					$list[$i]->reorderup = $pageNav->orderUpIcon($i, true, "orderFeaturedVideoUp");
+					$list[$i]->reorderdown = $pageNav->orderDownIcon($i, $n, true, "orderFeaturedVideoDown");
+				}
+				else
+				{
+					$list[$i]->reorderup = $pageNav->orderUpIcon($i, true, "orderFeaturedVideoUp", null. null, false);
+					$list[$i]->reorderdown = $pageNav->orderDownIcon($i, $n, true, "orderFeaturedVideoDown", null. null, false);
+				}
+			}
+			else
+			{
+				$disabled = $ordering ?  '' : 'disabled="disabled"';
+				$list[$i]->ordering = "<input type=\"text\" name=\"order[]\" size=\"4\" value=\"".$row->ordering."\" $disabled class=\"text_area\" style=\"text-align: center\" />";
+				if ($ordering)
+				{
+					$list[$i]->reorderup = $pageNav->orderUpIcon($i, ($row->category_id == @$rows[$i-1]->category_id), "orderVideoUp");
+					$list[$i]->reorderdown = $pageNav->orderDownIcon($i, $n, ($row->category_id == @$rows[$i+1]->category_id), "orderVideoDown");
+				}
+				else
+				{
+					$list[$i]->reorderup = $pageNav->orderUpIcon($i, ($row->category_id == @$rows[$i-1]->category_id), "orderVideoUp", null. null, false);
+					$list[$i]->reorderdown = $pageNav->orderDownIcon($i, $n, ($row->category_id == @$rows[$i+1]->category_id), "orderVideoDown", null. null, false);
+				}
+			}
+			$list[$i]->k = $k;
+			$list[$i]->i = $i;
+			if ($row->video_type == "local" || $row->video_type == "mp4")
+			{
+				$list[$i]->type = JURI::root(true)."/administrator/components/com_hwdvideoshare/assets/images/icons/local.png";
+			}
+			else if ($row->video_type == "remote" && substr($row->video_id, 0, 6) !== "embed|")
+			{
+				$list[$i]->type = JURI::root(true)."/administrator/components/com_hwdvideoshare/assets/images/icons/remote.png";
+			}
+			else if ($row->video_type == "swf")
+			{
+				$list[$i]->type = JURI::root(true)."/administrator/components/com_hwdvideoshare/assets/images/icons/swf.png";
+			}
+			else
+			{
+				$list[$i]->type = JURI::root(true)."/administrator/components/com_hwdvideoshare/assets/images/icons/thirdparty.png";
+			}
 			$k = 1 - $k;
 		}
 
@@ -186,24 +229,19 @@ class hwdvids_HTML
 		$smartyvs->assign( "totalvideos", count($rows) );
 		$smartyvs->assign( "writePagesLinks", $pageNav->getPagesLinks() );
 		$smartyvs->assign( "writePagesCounter", $pageNav->getPagesCounter() );
-		$smartyvs->assign( "list_all", $list_all );
-		$smartyvs->assign( "list_feat", $list_feat );
-		$smartyvs->assign( "startpane", $startpane );
-		$smartyvs->assign( "endtab", $endtab );
-		$smartyvs->assign( "endpane", $endpane );
-		$smartyvs->assign( "starttab1", $starttab1 );
-		$smartyvs->assign( "starttab2", $starttab2 );
+		$smartyvs->assign( "list_all", $list );
 
-		$smartyvs->assign( "video_sort_header", JHTML::_('grid.sort', $video_header, 'a.title', $filter_order_Dir, $filter_order_Dir ) );
-		$smartyvs->assign( "length_sort_header", JHTML::_('grid.sort', $length_header, 'a.video_length', $filter_order_Dir, $filter_order_Dir ) );
-		$smartyvs->assign( "rating_sort_header", JHTML::_('grid.sort', $rating_header, 'a.updated_rating', $filter_order_Dir, $filter_order_Dir ) );
-		$smartyvs->assign( "date_sort_header", JHTML::_('grid.sort', $date_header, 'a.date_uploaded', $filter_order_Dir, $filter_order_Dir ) );
-		$smartyvs->assign( "status_sort_header", JHTML::_('grid.sort', $status_header, 'a.approved', $filter_order_Dir, $filter_order_Dir ) );
-		$smartyvs->assign( "featured_sort_header", JHTML::_('grid.sort', $featured_header, 'a.featured', $filter_order_Dir, $filter_order_Dir ) );
-		$smartyvs->assign( "published_sort_header", JHTML::_('grid.sort', $published_header, 'a.published', $filter_order_Dir, $filter_order_Dir ) );
-		$smartyvs->assign( "views_sort_header", JHTML::_('grid.sort', $views_header, 'a.number_of_views', $filter_order_Dir, $filter_order_Dir ) );
-		$smartyvs->assign( "access_sort_header", JHTML::_('grid.sort', $access_header, 'a.public_private', $filter_order_Dir, $filter_order_Dir ) );
-		$smartyvs->assign( "ordering_sort_header", JHTML::_('grid.sort', $order_header, 'a.ordering', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "video_sort_header", JHTML::_('grid.sort', $video_header, 'title', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "category_sort_header", JHTML::_('grid.sort', $category_header, 'category_id', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "length_sort_header", JHTML::_('grid.sort', $length_header, 'video_length', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "rating_sort_header", JHTML::_('grid.sort', $rating_header, 'updated_rating', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "views_sort_header", JHTML::_('grid.sort', $views_header, 'number_of_views', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "access_sort_header", JHTML::_('grid.sort', $access_header, 'public_private', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "date_sort_header", JHTML::_('grid.sort', $date_header, 'date_uploaded', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "status_sort_header", JHTML::_('grid.sort', $status_header, 'approved', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "featured_sort_header", JHTML::_('grid.sort', $featured_header, 'featured', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "published_sort_header", JHTML::_('grid.sort', $published_header, 'published', $filter_order_Dir, $filter_order_Dir ) );
+		$smartyvs->assign( "ordering_sort_header", JHTML::_('grid.sort', $order_header, 'ordering', $filter_order_Dir, $filter_order_Dir ) );
 
 		/** display template **/
 		$smartyvs->display('admin_videos.tpl');
@@ -214,9 +252,12 @@ class hwdvids_HTML
 	*/
 	function editvideos($row, $cat, $usr, $favs, $flagged)
 	{
-		global $option, $smartyvs, $Itemid;
+		global $option, $smartyvs, $Itemid, $j15;
 		$c = hwd_vs_Config::get_instance();
+  		$db =& JFactory::getDBO();
+                jimport('joomla.user.authorization');
 		$editor      =& JFactory::getEditor();
+		$acl=& JFactory::getACL();
 
 		// force no-cache so new thumbnail will display
 		@header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
@@ -240,41 +281,188 @@ class hwdvids_HTML
 
 		//echo '<script type="text/javascript" src="'.JURI::root(true).'/components/com_hwdvideoshare/js/mootools-1.2-core-yc.js"></script>';
 
-		if ($row->public_private == "public")          { $pubsel = "selected=\"selected\""; $regsel=null; $msel=null; $wsel=null; }
-		else if ($row->public_private == "registered") { $regsel = "selected=\"selected\""; $pubsel=null; $msel=null; $wsel=null; }
-		else if ($row->public_private == "me")         { $msel = "selected=\"selected\""; $pubsel=null; $regsel=null; $wsel=null; }
-		else if ($row->public_private == "password")   { $wsel = "selected=\"selected\""; $pubsel=null; $regsel=null; $msel=null; }
+		$pubsel =null; $regsel=null; $msel=null; $wsel=null; $gsel=null; $lsel=null; $aclsel=null;
+                if ($row->public_private == "public")          { $pubsel = "selected=\"selected\""; }
+		else if ($row->public_private == "registered") { $regsel = "selected=\"selected\""; }
+		else if ($row->public_private == "me")         { $msel = "selected=\"selected\""; }
+		else if ($row->public_private == "password")   { $wsel = "selected=\"selected\""; }
+		else if ($row->public_private == "group")   { $gsel = "selected=\"selected\""; }
+		else if ($row->public_private == "level")   { $lsel = "selected=\"selected\""; }
+                else if ($row->public_private == "acl")   { $aclsel = "selected=\"selected\""; }
 
-		$public_private = "<select name=\"public_private\" onChange=\"ShowPasswordField()\">
-		                   <option value=\"public\" ".$pubsel.">"._HWDVIDS_SELECT_PUBLIC."</option>
-		                   <option value=\"registered\" ".$regsel.">"._HWDVIDS_SELECT_REG."</option>
-		                   <option value=\"me\" ".$msel.">"._HWDVIDS_SELECT_ME."</option>
-		                   <option value=\"password\" ".$wsel.">"._HWDVIDS_SELECT_PASSWORD."</option>
-					       </select>";
+		if ($j15)
+		{
+                        $public_private = "<select name=\"public_private\" onChange=\"ShowPasswordField()\">
+                                           <option value=\"public\" ".$pubsel.">"._HWDVIDS_SELECT_PUBLIC."</option>
+                                           <option value=\"registered\" ".$regsel.">"._HWDVIDS_SELECT_REG."</option>
+                                           <option value=\"me\" ".$msel.">"._HWDVIDS_SELECT_ME."</option>
+                                           <option value=\"password\" ".$wsel.">"._HWDVIDS_SELECT_PASSWORD."</option>
+                                           <option value=\"group\" ".$gsel.">"._HWDVIDS_SELECT_JACG."</option>
+                                           <option value=\"level\" ".$lsel.">"._HWDVIDS_SELECT_JACL."</option>
+                                                       </select>";
+
+                        $gtree=array();
+			$gtree[] = JHTML::_('select.option', -2 , '- ' ._HWDVIDS_SELECT_EVERYONE . ' -');
+			$gtree[] = JHTML::_('select.option', -1, '- ' . _HWDVIDS_SELECT_ALLREGUSER . ' -');
+			$gtree = array_merge( $gtree, $acl->get_group_children_tree( null, 'USERS', false  ) );
+
+			if ($row->public_private == "group")
+			{
+				$gtree_video = JHTML::_('select.genericlist', $gtree, 'gtree_video', 'size="4"', 'value', 'text', $row->password);
+				$smartyvs->assign( "gtree_video", $gtree_video );
+			}
+			else
+			{
+				$gtree_video = JHTML::_('select.genericlist', $gtree, 'gtree_video', 'size="4"', 'value', 'text', '');
+				$smartyvs->assign( "gtree_video", $gtree_video );
+			}
+
+			if ($row->public_private == "level")
+			{
+				$jacl_video = hwd_vs_tools::hwdvsMultiAccess( $row->password, 'jacl_video[]' );
+				$smartyvs->assign( "jacl_video", $jacl_video );
+			}
+			else
+			{
+				$jacl_video = hwd_vs_tools::hwdvsMultiAccess( '', 'jacl_video[]' );
+				$smartyvs->assign( "jacl_video", $jacl_video );
+			}
+		}
+		else
+		{
+                        $public_private = "<select name=\"public_private\" onChange=\"ShowPasswordField()\">
+                                           <option value=\"public\" ".$pubsel.">"._HWDVIDS_SELECT_PUBLIC."</option>
+                                           <option value=\"registered\" ".$regsel.">"._HWDVIDS_SELECT_REG."</option>
+                                           <option value=\"me\" ".$msel.">"._HWDVIDS_SELECT_ME."</option>
+                                           <option value=\"password\" ".$wsel.">"._HWDVIDS_SELECT_PASSWORD."</option>
+                                           <option value=\"acl\" ".$aclsel.">ACL</option>
+                                           </select>";
+
+                        //jimport( 'joomla.form.form' );
+			//$form = &JForm::getInstance('category', JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'forms'.DS.'category.xml');
+
+                        $assetCheck = JTable::getInstance('Asset');
+                        $assetCheck->loadByName('com_hwdvideoshare.video.'.JRequest::getInt( 'cid', '' ));
+
+                        if (empty($assetCheck->id))
+                        {
+                                $rules = new JRules('{"view":{"1":1},"download":{"1":1}}');
+
+                                $updateNulls = false;
+                                $assetCheck = JTable::getInstance('Asset');
+                                $assetCheck->loadByName('com_hwdvideoshare');
+
+                                $parentId	= $assetCheck->id;
+                                $name		= 'com_hwdvideoshare.video.'.(int) $row->id;
+                                $title		= $row->title;
+
+                                $asset	= JTable::getInstance('Asset');
+                                $asset->loadByName($name);
+
+                                // Check for an error.
+                                if ($error = $asset->getError())
+                                {
+                                        $this->setError($error);
+                                }
+                                else
+                                {
+                                        // Prepare the asset to be stored.
+                                        $asset->parent_id	= $parentId;
+                                        $asset->name		= $name;
+                                        $asset->title		= $title;
+
+                                        if ($rules instanceof JRules) {
+                                                $asset->rules = (string) $rules;
+                                        }
+
+                                        if (!$asset->check() || !$asset->store($updateNulls))
+                                        {
+                                                print_r($asset->getError());
+                                                exit;
+                                                //return false;
+                                        }
+                                }
+                        }
+
+                        $newModel = new hwdVideoShareModelEditvidsA();
+                        $form = $newModel->getForm();
+
+                        $videoPermissions = "<div class=\"width-100 fltlft\">
+			                    ".JHtml::_('sliders.start','permissions-sliders-1', array('useCookie'=>1))."
+			                    ".JHtml::_('sliders.panel',JText::_('Video Permissions'), 'access-rules')."
+				                <fieldset class=\"panelform\">
+				                ".$form->getLabel('rules')."
+				                ".$form->getInput('rules')."
+				                </fieldset>
+				                ".JHtml::_('sliders.end')."
+				                </div>";
+			$smartyvs->assign( "videoPermissions", $videoPermissions );
+		}
 
 		$missingfile=null;
-		if ($row->video_type == "local" || $row->video_type == "mp4") {
+		if ($row->video_type == "local" || $row->video_type == "mp4")
+		{
 
 			$location = _HWDVIDS_DETAILS_SOTS."<br />";
 			if (file_exists(JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".flv")) {
 				$location.= "<b>"._HWDVIDS_NQFILE.":</b> ".JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".flv<br />";
 			}
+			else
+			{
+				$location.= "<b>"._HWDVIDS_NQFILE.":</b> ".JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".flv <b>(MISSING)</b><br />";
+				$smartyvs->assign( "print_missingfile", 1 );
+			}
 			if (file_exists(JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".mp4")) {
 				$location.= "<b>"._HWDVIDS_HQFILE.":</b> ".JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".mp4<br />";
 			}
-			if (!file_exists(JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".flv") && !file_exists(JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".mp4")) {
-				$missingfile = "<div style=\"color:#ff0000;font-weight:bold;\">"._HWDVIDS_ALERT_MISSINGVIDFILE."</div>";
+			else
+			{
+				$location.= "<b>"._HWDVIDS_HQFILE.":</b> ".JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".mp4 <b>(MISSING)</b><br />";
+				$smartyvs->assign( "print_missingfile", 1 );
 			}
-		} else if ($row->video_type == "swf") {
+		}
+		else if ($row->video_type == "swf")
+		{
 			$location = _HWDVIDS_DETAILS_SOTS."<br /><b>"._HWDVIDS_FNAME.":</b> ".JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".swf";
 			if (@!file_exists(JPATH_SITE."/hwdvideos/uploads/".$row->video_id.".swf")) {
 				$missingfile = "<div style=\"color:#ff0000;font-weight:bold;\">"._HWDVIDS_ALERT_MISSINGVIDFILE."</div>";
 			}
-		} else if ($row->video_type == "remote") {
+		}
+		else if ($row->video_type == "remote")
+		{
 			$data = @explode(",", $row->video_id);
 			$location = _HWDVIDS_DETAILS_REMSER." (".$row->video_type.")<br /><b>"._HWDVIDS_FURL.":</b> ".$data[0];
-		} else if ($row->video_type == "seyret") {
+		}
+		else if ($row->video_type == "rtmp")
+		{
+			$parsed_url = parse_url($row->video_id);
+			$rtmp_file_temp = $parsed_url['path'];
+			$rtmp_file_temp = explode(":", $rtmp_file_temp, 2);
 
+			if (!empty($rtmp_file_temp[1]))
+			{
+				$rtmp_file = $rtmp_file_temp[1];
+				if (substr($rtmp_file, 0, 1) == "/")
+				{
+					$rtmp_file = substr($rtmp_file, 1);
+				}
+
+				$rtmp_streamer_temp = $rtmp_file_temp[0];
+				$rtmp_streamer_temp = explode("/", $rtmp_streamer_temp);;
+
+				$rtmp_path = implode("/", $rtmp_streamer_temp);
+				$rtmp_streamer = $parsed_url['scheme']."://".$parsed_url['host'].$rtmp_path;
+			}
+			else
+			{
+				$rtmp_file = null;
+				$rtmp_streamer = null;
+			}
+
+			$location = _HWDVIDS_DETAILS_REMSER." (".$row->video_type.")<br /><b>RTMP Streamer:</b> ".$rtmp_streamer."<br /><b>RTMP File:</b> ".$rtmp_file;
+		}
+		else if ($row->video_type == "seyret")
+		{
 			$data = @explode(",", $row->video_id);
 			if ($data[0] == "local") {
 
@@ -292,8 +480,9 @@ class hwdvids_HTML
 					$location = _HWDVIDS_DETAILS_REMSER." (".$data[0].")";
 				}
 			}
-
-		} else {
+		}
+		else
+		{
 			hwd_vs_tools::getPluginDetails($row->video_type);
 			$flvurlfunc = preg_replace("/[^a-zA-Z0-9s_-]/", "", $row->video_type)."PrepareFlvURL";
 			if (function_exists($flvurlfunc)) {
@@ -337,9 +526,42 @@ class hwdvids_HTML
 		    $smartyvs->assign( 'print_pending', 1 );
 		}
 
-		$smartyvs->assign( "categorylist" , hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $row->category_id, _HWDVIDS_INFO_NOCATS, 1) );
+		$age_check = "<select name=\"age_check\" size=\"1\" class=\"inputbox\">";
+		$age_check.= "<option value=\"-1\""; if ($row->age_check == -1) { $age_check.= " selected=\"selected\""; } $age_check.= ">Global</option>";
+		$age_check.= "<option value=\"0\""; if ($row->age_check == 0) { $age_check.= " selected=\"selected\""; } $age_check.= ">Off</option>";
+
+		for ($i=1, $n=100; $i < $n; $i++)
+		{
+		$age_check.= "<option value=\"$i\""; if ($row->age_check == $i) $age_check.= " selected=\"selected\""; $age_check.= ">$i</option>";
+		}
+
+		$age_check.= "</select>";
+
+		$smartyvs->assign( "age_check" , $age_check);
+                if ($c->multiple_cats == "1")
+                {
+                        $db->SetQuery("SELECT categoryid FROM #__hwdvidsvideo_category WHERE videoid = $row->id");
+                        $rows = $db->loadObjectList();
+                        $selected = array();
+                        for ($i = 0, $n = count($rows); $i < $n; $i++)
+                        {
+                                $selected[] = $rows[$i]->categoryid;
+                        }
+                }
+                else
+                {
+                        $selected = $row->category_id;
+                }
+                $smartyvs->assign( "categorylist", hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
 		$smartyvs->assign( "title", str_replace('"', "&#34;", stripslashes($row->title)) );
-		$smartyvs->assign( "category", hwd_vs_tools::generateCategory( $row->category_id ) );
+                if ($c->multiple_cats == "1")
+                {
+                        $smartyvs->assign( "category", strip_tags(hwd_vs_tools::generateCategoryLinks($row)) );
+                }
+                else
+                {
+                        $smartyvs->assign( "category", hwd_vs_tools::generateCategory( $row->category_id ) );
+                }
 		$smartyvs->assign( "description", $editor->display("description",stripslashes($row->description),350,250,40,20,1) );
 		$smartyvs->assign( "tags", str_replace('"', "&#34;", $row->tags) );
 		$smartyvs->assign( "published", hwd_vs_tools::yesnoSelectList( 'published', 'class="inputbox"', $row->published ) );
@@ -396,7 +618,7 @@ class hwdvids_HTML
 			$thumbnail_form_code.= '<form action="index.php" method="post" enctype="multipart/form-data">
 			<div style="padding:2px 0;"><input type="file" name="thumbnail_file" value="" size="30"></div>
 			<div style="padding:2px 0;"><input type="submit" value="Upload"></div>
-			<input type="hidden" name="option" value="'.$option.'" />
+			<input type="hidden" name="option" value="com_hwdvideoshare" />
 			<input type="hidden" name="cid" value="'.$row->id.'" />
 			<input type="hidden" name="task" value="editvidsA" />
 			<input type="hidden" name="upld_thumbnail" value="1" />
@@ -413,7 +635,7 @@ class hwdvids_HTML
 	*/
 	function showcategories($rows, &$pageNav, $searchtext)
 	{
-		global $database, $mosConfig_offset, $limitstart, $smartyvs, $Itemid, $my;
+		global $limitstart, $smartyvs, $Itemid, $j16;
 
 		/** define template variables **/
 		$hidden_inputs = '<input type="hidden" name="boxchecked" value="0" />
@@ -434,6 +656,7 @@ class hwdvids_HTML
 		$smartyvs->assign( "totalcategories", count($rows) );
 		$smartyvs->assign( "writePagesLinks", $pageNav->getPagesLinks() );
 		$smartyvs->assign( "writePagesCounter", $pageNav->getPagesCounter() );
+		$smartyvs->assign( "saveOrder", JHTML::_('grid.order', $rows, "filesave.png", "saveCategoryOrder" ) );
 
 		/** define template arrays **/
 		$list = array();
@@ -452,7 +675,7 @@ class hwdvids_HTML
 
             if ($row->access_v == -2) {
 				$list[$i]->view_access = _HWDVIDS_SELECT_EVERYONE;
-            } else if ($row->access_v == -2) {
+            } else if ($row->access_v == -1) {
 				$list[$i]->view_access = _HWDVIDS_SELECT_ALLREGUSER;
 			} else {
                 $gID = hwd_vs_access::groupName($row->access_v);
@@ -460,25 +683,36 @@ class hwdvids_HTML
             }
             if ($row->access_u == -2) {
 				$list[$i]->upld_access = _HWDVIDS_SELECT_EVERYONE;
-            } else if ($row->access_u == -2) {
+            } else if ($row->access_u == -1) {
 				$list[$i]->upld_access = _HWDVIDS_SELECT_ALLREGUSER;
 			} else {
                 $gID = hwd_vs_access::groupName($row->access_u);
 				$list[$i]->upld_access = $gID;
             }
-			$list[$i]->published_task = $row->published ? 'unpublishcat' : 'publishcat';
-			$list[$i]->published_img = $row->published ? 'publish_g.png' : 'publish_x.png';
-			$list[$i]->order = $row->ordering;
-	        if ($i > 0 || ($i + $pageNav->limitstart > 0)) {
-			    $list[$i]->reorderup = '<a href = "#reorder" onClick = "return listItemTask(\'cb'.$i.'\',\'orderup\')"> <img src = "images/uparrow.png" width = "12" height = "12" border = "0" alt = ""> </a>';
-            }
-			if ($i < $n - 1 || $i + $pageNav->limitstart < $pageNav->total - 1) {
-			    $list[$i]->reorderdown = '<a href = "#reorder" onClick = "return listItemTask(\'cb'.$i.'\',\'orderdown\')"> <img src = "images/downarrow.png" width = "12" height = "12" border = "0" alt = ""> </a>';
+			if ($j16)
+			{
+				$list[$i]->view_access = "-";
+                                $list[$i]->upld_access = "-";
 			}
+                        $list[$i]->published_task = $row->published ? 'unpublishcat' : 'publishcat';
+			if ($j16)
+			{
+				$list[$i]->published_img = $row->published ? 'templates/bluestork/images/admin/tick.png' : 'templates/bluestork/images/admin/publish_x.png';
+			}
+			else
+			{
+				$list[$i]->published_img = $row->published ? 'images/publish_g.png' : 'images/publish_x.png';
+			}
+			$list[$i]->ordering = "<input type=\"text\" name=\"order[]\" size=\"4\" value=\"".$row->ordering."\" class=\"text_area\" style=\"text-align: center\" />";
+			$list[$i]->reorderup = $pageNav->orderUpIcon($i, true, "orderCategoryUp");
+			$list[$i]->reorderdown = $pageNav->orderDownIcon($i, $n, true, "orderCategoryDown");
 			$list[$i]->k = $k;
 			$list[$i]->i = $i;
 			$k = 1 - $k;
+
 		}
+
+
 		$smartyvs->assign( "list", $list );
 
 		/** display template **/
@@ -490,7 +724,7 @@ class hwdvids_HTML
 	*/
 	function editcategories($row, $gtree, $categoryList)
 	{
-		global $option, $smartyvs, $task;
+		global $option, $smartyvs, $task, $j15, $j16;
 		$task        = JRequest::getCmd( 'task', 'frontpage' );
 		$c = hwd_vs_Config::get_instance();
 
@@ -523,6 +757,70 @@ class hwdvids_HTML
 			<option value="nosubsDESC"'; if ($row->order_by == "nosubsDESC") { $order_by_select.= ' selected="selected"'; } $order_by_select.= '>'._HWDVIDS_SELECT_NOSUBS.' DESC</option>
 		</select>';
 
+		if ($j16)
+		{
+                        //jimport( 'joomla.form.form' );
+			//$form = &JForm::getInstance('category', JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'forms'.DS.'category.xml');
+
+                        $assetCheck = JTable::getInstance('Asset');
+                        $assetCheck->loadByName('com_hwdvideoshare.category.'.JRequest::getInt( 'cid', '' ));
+
+                        if (empty($assetCheck->id))
+                        {
+                                $rules = new JRules('{"view":{"1":1},"upload":{"1":1}}');
+
+                                $updateNulls = false;
+                                $assetCheck = JTable::getInstance('Asset');
+                                $assetCheck->loadByName('com_hwdvideoshare');
+
+                                $parentId	= $assetCheck->id;
+                                $name		= 'com_hwdvideoshare.category.'.(int) $row->id;
+                                $title		= $row->category_name;
+
+                                $asset	= JTable::getInstance('Asset');
+                                $asset->loadByName($name);
+
+                                // Check for an error.
+                                if ($error = $asset->getError())
+                                {
+                                        $this->setError($error);
+                                }
+                                else
+                                {
+                                        // Prepare the asset to be stored.
+                                        $asset->parent_id	= $parentId;
+                                        $asset->name		= $name;
+                                        $asset->title		= $title;
+
+                                        if ($rules instanceof JRules) {
+                                                $asset->rules = (string) $rules;
+                                        }
+
+                                        if (!$asset->check() || !$asset->store($updateNulls))
+                                        {
+                                                print_r($asset->getError());
+                                                exit;
+                                                //return false;
+                                        }
+                                }
+                        }
+
+                        $newModel = new hwdVideoShareModelEditcatA();
+                        $form = $newModel->getForm();
+
+                        			$categoryPermissions = "<div class=\"width-100 fltlft\">
+			                    ".JHtml::_('sliders.start','permissions-sliders-1', array('useCookie'=>1))."
+			                    ".JHtml::_('sliders.panel',JText::_('Category Permissions'), 'access-rules')."
+				                <fieldset class=\"panelform\">
+				                ".$form->getLabel('rules')."
+				                ".$form->getInput('rules')."
+				                </fieldset>
+				                ".JHtml::_('sliders.end')."
+				                </div>";
+
+			$smartyvs->assign( "categoryPermissions", $categoryPermissions );
+		}
+
 		/** assign template variables **/
 		$smartyvs->assign( "hidden_inputs" , $hidden_inputs );
 		$smartyvs->assign( "header_title" , _HWDVIDS_SECTIONHEAD_CATS );
@@ -543,12 +841,12 @@ class hwdvids_HTML
 		$smartyvs->assign( "published", hwd_vs_tools::yesnoSelectList( 'published', 'class="inputbox"', $row->published ) );
 		$smartyvs->assign( "cvaccess_g", JHTML::_('select.genericlist', $gtree, 'access_v', 'size="4"', 'value', 'text', $row->access_v) ) ;
 		$smartyvs->assign( "cuaccess_g", JHTML::_('select.genericlist', $gtree, 'access_u', 'size="4"', 'value', 'text', $row->access_u) );
+
 		$smartyvs->assign( "access_v_r", $access_v_r );
 		$smartyvs->assign( "access_u_r", $access_u_r );
 		$smartyvs->assign( "order_by_select", $order_by_select );
-		$smartyvs->assign( "cvaccess_l", hwd_vs_tools::hwdvsMultiAccess( $row->access_lev_v, 'access_lev_v[]' ) );
-		$smartyvs->assign( "cuaccess_l", hwd_vs_tools::hwdvsMultiAccess( $row->access_lev_u, 'access_lev_u[]' ) );
 		$smartyvs->assign( "access_b_v", hwd_vs_tools::yesnoSelectList( 'access_b_v', 'class="inputbox"', $row->access_b_v ) );
+
 		if (!empty($row->thumbnail)) {
 			$smartyvs->assign( "print_thumbnail", 1 );
 			$smartyvs->assign( "thumbnail_url", $row->thumbnail );
@@ -563,7 +861,8 @@ class hwdvids_HTML
 	*/
 	function showgroups($rows, &$pageNav, $searchtext)
 	{
-		global $Itemid, $smartyvs, $limitstart, $my;
+		global $Itemid, $smartyvs, $limitstart, $j16;
+		$my = & JFactory::getUser();
 
 		/** define template variables **/
 		$hidden_inputs = '<input type="hidden" name="boxchecked" value="0" />
@@ -605,9 +904,23 @@ class hwdvids_HTML
 			$list[$i]->total_members = $row->total_members;
 			$list[$i]->total_videos = $row->total_videos;
 			$list[$i]->published_task = $row->published ? 'unpublishg' : 'publishg';
-			$list[$i]->published_img = $row->published ? 'publish_g.png' : 'publish_x.png';
+			if ($j16)
+			{
+				$list[$i]->published_img = $row->published ? 'templates/bluestork/images/admin/tick.png' : 'templates/bluestork/images/admin/publish_x.png';
+			}
+			else
+			{
+				$list[$i]->published_img = $row->published ? 'images/publish_g.png' : 'images/publish_x.png';
+			}
 			$list[$i]->featured_task = $row->featured ? 'unfeatureg' : 'featureg';
-			$list[$i]->featured_img =$row->featured ? 'publish_g.png' : 'publish_x.png';
+			if ($j16)
+			{
+				$list[$i]->featured_img = $row->featured ? 'templates/bluestork/images/admin/featured.png' : 'templates/bluestork/images/admin/disabled.png';
+			}
+			else
+			{
+				$list[$i]->featured_img = $row->featured ? 'images/publish_g.png' : 'images/publish_x.png';
+			}
 			$list[$i]->k = $k;
 			$list[$i]->i = $i;
 			$k = 1 - $k;
@@ -621,13 +934,13 @@ class hwdvids_HTML
    /**
 	* edit categories
 	*/
-	function editgroups($row, $uploader_list)
+	function editgroups($row, $groupMembers, $groupVideos)
 	{
 		global $option, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 
 		/** define template variables **/
-		$hidden_inputs = '<input type="hidden" name="option" value="'.$option.'" />
+		$hidden_inputs = '<input type="hidden" name="option" value="com_hwdvideoshare" />
 		<input type="hidden" name="id" value="'.$row->id.'" />
 		<input type="hidden" name="task" value="" />';
 		jimport('joomla.html.pane');
@@ -645,6 +958,24 @@ class hwdvids_HTML
 		                   <option value=\"registered\" ".$regsel.">"._HWDVIDS_SELECT_REG."</option>
 					       </select>";
 
+		$groupMemberList = null;
+		for ($i=0, $n=count($groupMembers); $i < $n; $i++)
+		{
+			$row0 = $groupMembers[$i];
+
+			$groupMemberList[$i]->member = "$row0->username ($row0->name)";
+			$groupMemberList[$i]->remove = "<a href=\"index.php?option=com_hwdvideoshare&task=removeGroupMember&groupid=$row0->groupid&memberid=$row0->memberid\"><img border=\"0\" title=\"Remove\" alt=\"Remove\" src=\"components/com_hwdvideoshare/assets/images/icons/delete.png\"></a>";
+		}
+
+		$groupVideoList = null;
+		for ($i=0, $n=count($groupVideos); $i < $n; $i++)
+		{
+			$row0 = $groupVideos[$i];
+
+			$groupVideoList[$i]->video = stripslashes($row0->title);
+			$groupVideoList[$i]->remove = "<a href=\"index.php?option=com_hwdvideoshare&task=removeGroupVideo&groupid=$row0->groupid&videoid=$row0->videoid\"><img border=\"0\" title=\"Remove\" alt=\"Remove\" src=\"components/com_hwdvideoshare/assets/images/icons/delete.png\"></a>";
+		}
+
 		/** assign template variables **/
 		$smartyvs->assign( "hidden_inputs", $hidden_inputs );
 		$smartyvs->assign( "header_title", _HWDVIDS_SECTIONHEAD_GROUPS );
@@ -659,9 +990,12 @@ class hwdvids_HTML
 		$smartyvs->assign( "group_description", stripslashes($row->group_description) );
 		$smartyvs->assign( "group_published", hwd_vs_tools::yesnoSelectList( 'published', 'class="inputbox"', $row->published ) );
 		$smartyvs->assign( "group_featured", hwd_vs_tools::yesnoSelectList( 'featured', 'class="inputbox"', $row->featured ) );
-		$smartyvs->assign( "group_admin", $uploader_list );
+		$smartyvs->assign( "group_admin", hwd_vs_tools::generateBEUserFromID($row->adminid) );
 		$smartyvs->assign( "group_access", $public_private );
 		$smartyvs->assign( "group_comments", hwd_vs_tools::yesnoSelectList( 'allow_comments', 'class="inputbox"', $row->allow_comments ) );
+		$smartyvs->assign( "groupMemberList", $groupMemberList );
+		$smartyvs->assign( "groupVideoList", $groupVideoList );
+
 
 		/** display template **/
 		$smartyvs->display('admin_groups_edit.tpl');
@@ -672,7 +1006,7 @@ class hwdvids_HTML
 	*/
 	function showserversettings()
 	{
-		global $smartyvs, $database;
+		global $smartyvs;
 		$s = hwd_vs_SConfig::get_instance();
 
 		/** define template variables **/
@@ -680,17 +1014,32 @@ class hwdvids_HTML
 		<input type="hidden" name="option" value="com_hwdvideoshare" />
 		<input type="hidden" name="task" value="serversettings" />
 		<input type="hidden" name="hidemainmenu" value="0">';
-  		if (is_writable(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'serverconfig.hwdvideoshare.php')) {
-  			$config_file_status = "<span style=\"color:#458B00;\">"._HWDVIDS_INFO_CONFIGF2."</span>.";
-  		} else {
-  			$config_file_status = '<span style="color:#ff0000;">'._HWDVIDS_INFO_CONFIGF3.'</span>. ('.JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'serverconfig.hwdvideoshare.php)';
-  		}
+
+		$jconfig = new jconfig();
+		if ($jconfig->ftp_enable != 1)
+		{
+			$printConfigFileStatus = 1;
+			if (is_writable(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php'))
+			{
+				$config_file_status = "<span style=\"color:#458B00;\">"._HWDVIDS_INFO_CONFIGF2."</span>.";
+			}
+			else
+			{
+				$config_file_status = '<span style="color:#ff0000;">'._HWDVIDS_INFO_CONFIGF3.'</span> ('.JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php)';
+			}
+		}
+		else
+		{
+			$printConfigFileStatus = 0;
+			$config_file_status = '';
+		}
 
 		/** assign template variables **/
 		$smartyvs->assign( "hidden_inputs" , $hidden_inputs );
 		$smartyvs->assign( "header_title" , _HWDVIDS_SECTIONHEAD_SS );
   		$smartyvs->assign( "s" , $s );
   		$smartyvs->assign( "config_file_status" , $config_file_status );
+  		$smartyvs->assign( "printConfigFileStatus" , $printConfigFileStatus );
 
 		/** display template **/
 		$smartyvs->display('admin_settings_server.tpl');
@@ -701,7 +1050,7 @@ class hwdvids_HTML
 	*/
 	function showgeneralsettings(&$gtree)
 	{
-		global $smartyvs, $mainframe;
+		global $smartyvs;
 		$s = hwd_vs_SConfig::get_instance();
 		$c = hwd_vs_Config::get_instance();
 
@@ -716,7 +1065,7 @@ class hwdvids_HTML
 	*/
 	function showlayoutsettings(&$gtree)
 	{
-		global $smartyvs, $database, $mainframe;
+		global $smartyvs;
 		$s = hwd_vs_SConfig::get_instance();
 		$c = hwd_vs_Config::get_instance();
 
@@ -790,13 +1139,13 @@ class hwdvids_HTML
 	*/
 	function showapprovals($rows, $pageNav)
 	{
-		global $database, $smartyvs, $limitstart, $mosConfig_offset, $Itemid, $option, $my;
+		global $smartyvs, $limitstart, $Itemid, $option;
 
 		/** define template variables **/
 		$hidden_inputs = '<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="option" value="com_hwdvideoshare" />
 		<input type="hidden" name="limitstart" value="'.$limitstart.'" />
-		<input type="hidden" name="task" value="approve" />
+		<input type="hidden" name="task" value="approvals" />
 		<input type="hidden" name="hidemainmenu" value="0">';
 		$search = _HWDVIDS_RPP.'&nbsp;';
 		$search.= $pageNav->getLimitBox().'&nbsp;';
@@ -852,7 +1201,7 @@ class hwdvids_HTML
 	*/
 	function showflagged(&$rowsfv, &$rowsfg)
 	{
-		global $database, $mosConfig_offset, $limitstart, $smartyvs, $Itemid, $my;
+		global $limitstart, $smartyvs, $Itemid;
 
 		/** define template variables **/
 		$hidden_inputs = '<input type="hidden" name="boxchecked" value="0" />
@@ -891,7 +1240,7 @@ class hwdvids_HTML
 				$link = 'index.php?option=com_hwdvideoshare&task=editvidsA&hidemainmenu=1&cid='. $row->id;
 				$list_videos[$i]->title = '<a href="'.$link.'" title="Edit Category">'.stripslashes($row->title).'</a>';
 			}
-			$list_videos[$i]->user = hwd_vs_tools::generateBEUserFromID($row->user_id);
+			$list_videos[$i]->user = hwd_vs_tools::generateBEUserFromID($row->userid);
 			$list_videos[$i]->status = $row->status;
 			$list_videos[$i]->date = $row->date;
 			$list_videos[$i]->k = $k;
@@ -913,7 +1262,7 @@ class hwdvids_HTML
 				$link = 'index.php?option=com_hwdvideoshare&task=editgrpA&hidemainmenu=1&cid='. $row->id;
 				$list_groups[$i]->title = '<a href="'.$link.'" title="Edit Category">'.stripslashes($row->group_name).'</a>';
 			}
-			$list_groups[$i]->user = hwd_vs_tools::generateBEUserFromID($row->adminid);
+			$list_groups[$i]->user = hwd_vs_tools::generateBEUserFromID($row->userid);
 			$list_groups[$i]->status = $row->status;
 			$list_groups[$i]->date = $row->date;
 			$list_groups[$i]->k = $k;
@@ -930,10 +1279,11 @@ class hwdvids_HTML
    /**
 	* show plugins
 	*/
-	function plugins() {
-		global $my, $smartyvs, $limitstart, $mainframe, $option;
+	function plugins()
+	{
+		global $smartyvs, $limitstart, $option;
 
-		$hidden_inputs = '<input type="hidden" name="option" value="'.$option.'" />
+		$hidden_inputs = '<input type="hidden" name="option" value="com_hwdvideoshare" />
 		<input type="hidden" name="task" value="plugins" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="limitstart" value="'.$limitstart.'" />
@@ -944,14 +1294,12 @@ class hwdvids_HTML
         $smartyvs->display('admin_plugins.tpl');
 		return;
 	}
-
-
    /**
 	* export
 	*/
 	function backuptables()
 	{
-		global $mosConfig_mailfrom, $smartyvs;
+		global $smartyvs;
 		$config = new JConfig;
 
 		$hidden_inputs = '<input type="hidden" name="boxchecked" value="0" />
@@ -970,7 +1318,7 @@ class hwdvids_HTML
 	*/
 	function importdata()
 	{
-		global $mosConfig_mailfrom, $smartyvs;
+		global $smartyvs;
 		$db = & JFactory::getDBO();
 
 		$hidden_inputs = '<input type="hidden" name="boxchecked" value="0" />
@@ -990,7 +1338,8 @@ class hwdvids_HTML
 		$starttab6 = $pane->startPanel( _HWDVIDS_TAB_TPV, 'panel6' );
 		$starttab7 = $pane->startPanel( _HWDVIDS_TAB_PHPM, 'panel7' );
 		$starttab8 = $pane->startPanel( _HWDVIDS_TAB_SCAN, 'panel8' );
-		$starttab9 = $pane->startPanel( _HWDVIDS_TAB_RTMP, 'panel8' );
+		$starttab9 = $pane->startPanel( _HWDVIDS_TAB_RTMP, 'panel9' );
+		$starttab10= $pane->startPanel( "JomSocial", 'panel10' );
 
 		/** assign template variables **/
 		$smartyvs->assign( "hidden_inputs", $hidden_inputs );
@@ -1007,21 +1356,40 @@ class hwdvids_HTML
 		$smartyvs->assign( "starttab7", $starttab7 );
 		$smartyvs->assign( "starttab8", $starttab8 );
 		$smartyvs->assign( "starttab9", $starttab9 );
+		$smartyvs->assign( "starttab10",$starttab10 );
 		$smartyvs->assign( "newvideoid", hwd_vs_tools::generateNewVideoid() );
 
-		if (file_exists(JPATH_SITE.DS.'components'.DS.'com_seyret'.DS)) {
+		if (file_exists(JPATH_SITE.DS.'components'.DS.'com_seyret'.DS))
+		{
 			$smartyvs->assign( "seyretinstalled", 1 );
 
-			//check number of seyret videos
-			$db->SetQuery( 'SELECT count(*)'
-							. ' FROM #__seyret_items'
-						 );
-			$seyretitems = $db->loadResult();
-			$smartyvs->assign( "seyretitems", $seyretitems );
+			$db->SetQuery( 'SELECT count(*) FROM #__seyret_items' );
+			$seyretitems1 = $db->loadResult();
 
-			//get seyret categories
-			$db->setQuery( "SELECT `id` AS `key`, `categoryname` AS `text` FROM #__seyret_categories ORDER BY categoryname" );
-			$rows_seyret = $db->loadObjectList();
+			if ($seyretitems1 == 0)
+			{
+				$db->SetQuery( 'SELECT count(*) FROM #__seyret_video' );
+				$seyretitems2 = $db->loadResult();
+			}
+
+			if ($seyretitems1 == 0 && $seyretitems2 == 0)
+			{
+				$smartyvs->assign( "seyretinstalled", 0 );
+			}
+			else if ($seyretitems1 > 0)
+			{
+				$smartyvs->assign( "seyretitems", $seyretitems1 );
+				//get seyret categories
+				$db->setQuery( "SELECT `id` AS `key`, `categoryname` AS `text` FROM #__seyret_categories ORDER BY categoryname" );
+				$rows_seyret = $db->loadObjectList();
+			}
+			else if ($seyretitems2 > 0)
+			{
+				$smartyvs->assign( "seyretitems", $seyretitems2 );
+				//get seyret categories
+				$db->setQuery( "SELECT `id` AS `key`, `categoryname` AS `text` FROM #__seyret_category ORDER BY categoryname" );
+				$rows_seyret = $db->loadObjectList();
+			}
 
 			$n = count($rows_seyret);
 			$rows_seyret[$n]->key = "-1";
@@ -1031,7 +1399,28 @@ class hwdvids_HTML
 
 			$smartyvs->assign( "seyretcatsel", $seyretcatsel );
 		}
-		if (file_exists(JPATH_SITE.DS.'components'.DS.'com_achtube'.DS)) {
+		if (file_exists(JPATH_SITE.DS.'components'.DS.'com_community'.DS))
+		{
+			$smartyvs->assign( "jomsocialinstalled", 1 );
+
+			$db->SetQuery( 'SELECT count(*) FROM #__community_videos' );
+			$jomsocialitems = $db->loadResult();
+
+			$smartyvs->assign( "jomsocialitems", $jomsocialitems );
+
+			$db->setQuery( "SELECT `id` AS `key`, `name` AS `text` FROM #__community_videos_category ORDER BY name" );
+			$rows_jsvc = $db->loadObjectList();
+
+			$n = count($jomsocialitems);
+			$rows_jsvc[$n]->key = "-1";
+			$rows_jsvc[$n]->text = "All Categories";
+
+			$jsvcSelect = JHTML::_('select.genericlist', $rows_jsvc, 'jsvcid', 'class="inputbox" size="1"', 'key', 'text', -1);
+
+			$smartyvs->assign( "jsvcSelect", $jsvcSelect );
+		}
+		if (file_exists(JPATH_SITE.DS.'components'.DS.'com_achtube'.DS))
+		{
 			$smartyvs->assign( "achtubeinstalled", 1 );
 		}
 

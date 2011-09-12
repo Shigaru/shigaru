@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -82,6 +82,40 @@
 		ajaxRequest.send(null);
 	}
 
+	//Browser Support Code
+	function ajaxMaintenanceTask(task){
+
+		document.getElementById('maintenanceResponse').innerHTML = "<img src=\"{/literal}{$mosConfig_live_site}{literal}/components/com_hwdvideoshare/assets/images/processing.gif\" border=\"0\" alt=\"\" title=\"\"> Working...";
+
+		var ajaxRequest;  // The variable that makes Ajax possible!
+
+		try{
+			// Opera 8.0+, Firefox, Safari
+			ajaxRequest = new XMLHttpRequest();
+		} catch (e){
+			// Internet Explorer Browsers
+			try{
+				ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			} catch (e) {
+				try{
+					ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				} catch (e){
+					// Something went wrong
+					alert("Your browser broke!");
+					return false;
+				}
+			}
+		}
+		// Create a function that will receive data sent from the server
+		ajaxRequest.onreadystatechange = function(){
+			if(ajaxRequest.readyState == 4){
+				document.getElementById('maintenanceResponse').innerHTML = ajaxRequest.responseText;
+			}
+		}
+		ajaxRequest.open("GET", "{/literal}{$mosConfig_live_site}{literal}/administrator/index.php?option=com_hwdvideoshare&task=ajax_"+task, true);
+		ajaxRequest.send(null);
+	}
+	
 	//-->
 	</script>
 {/literal}
@@ -148,6 +182,23 @@
           <p><b>{$smarty.const._HWDVIDS_MAIN_LR} {$archive_cache}</b></p>
           <div id="ajax_log_response"></div>
           
+      </div>
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" width="50%">
+
+      <div style="border: 1px solid #ccc; padding: 5px; margin: 0 5px 5px 0;">
+        <h2>Other Maintenance Tools</h2>
+        <div style="cursor:pointer;" onclick="ajaxMaintenanceTask('warphdsync')"><img src="components/com_hwdphotoshare/assets/images/menu/maintenance.png" border="0" alt="" title="" style="padding:1px 5px;vertical-align:bottom;" /><b>Synchronise WarpHD</b></div>
+      </div>
+
+    </td>
+    <td align="left" valign="top">
+      
+      <div style="border: 1px solid #ccc; padding: 5px; margin: 0 0 5px 0;">
+         <div id="maintenanceResponse"></div>
       </div>
       
     </td>

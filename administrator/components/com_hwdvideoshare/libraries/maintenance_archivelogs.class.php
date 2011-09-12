@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -39,9 +39,9 @@ class hwd_vs_logs {
      * @param int    $total  the total video count
      * @return       Nothing
      */
-	function initiate($override=null) {
-
-		global $mainframe;
+	function initiate($override=null)
+	{
+$app = & JFactory::getApplication();
 
 		// set cache variables
 		$cachedir = JPATH_SITE.'/administrator/cache/'; // Directory to cache files in (keep outside web root)
@@ -56,7 +56,7 @@ class hwd_vs_logs {
 		if ($override == 2) {
 			// Show file from cache if still valid
 			if (time() - $cachetime < $cachefile_created) {
-				$mainframe->enqueueMessage(_HWDVIDS_M_LOG_RUN);
+				$app->enqueueMessage(_HWDVIDS_M_LOG_RUN);
 				return;
 			}
 		}
@@ -85,77 +85,183 @@ class hwd_vs_logs {
      * @param int    $total  the total video count
      * @return       Nothing
      */
-	function archiveViews() {
-		global $mainframe;
+	function archiveViews()
+	{
 		$db = & JFactory::getDBO();
 
-		$db->SetQuery('SELECT count(*) FROM #__hwdvidslogs_views WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY)');
+		$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_views WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY)");
 		$count = $db->loadResult();
-
 		$text = $count." view logs need to be archived\n";
-
 		if ( $count == 0 ) { return $text; }
 
-		$db->SetQuery('SELECT * FROM #__hwdvidslogs_views WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY) LIMIT 0, 1000');
+		$db->SetQuery("SELECT * FROM #__hwdvidslogs_views WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY) LIMIT 0, 500");
 		$rows = $db->loadObjectList();
+		$totalLogged = 0;
 
-		if (count($rows) > 0) {
-
-			for ($i=0, $n=count($rows); $i < $n; $i++) {
+		if (count($rows) > 0)
+		{
+			for ($i=0, $n=count($rows); $i < $n; $i++)
+			{
 				$row = $rows[$i];
+				$total = 0;
+				$tta = 0;
+				$ara = 0;
+				$views = 0;
 
-				$db->SetQuery( 'SELECT count(*)'
-							 . ' FROM #__hwdvidslogs_archive'
-							 . ' WHERE videoid = '.$row->videoid
-							 );
+				$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_views WHERE videoid = ".$row->videoid." AND date <= DATE_SUB(NOW(),INTERVAL 30 DAY)");
+				$tta = $db->loadResult();
+				if ( $tta == 0 ) { continue; }
+
+				$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_archive WHERE videoid = ".$row->videoid);
 				$total = $db->loadResult();
 
-				if ($total > 0) {
-					$db->SetQuery( 'SELECT views'
-								 . ' FROM #__hwdvidslogs_archive'
-								 . ' WHERE videoid = '.$row->videoid
-								 );
-					$views = $db->loadResult();
-					$views = $views+1;
+				if ($total > 0)
+				{
+					$db->SetQuery("SELECT views FROM #__hwdvidslogs_archive WHERE videoid = ".$row->videoid);
+					$ara = $db->loadResult();
+					$views = $ara + $tta;
 
-					// remove from full table
-					$db->SetQuery("UPDATE #__hwdvidslogs_archive SET views = ".$views." WHERE videoid = $row->videoid");
-					$db->Query();
-					if ( !$db->query() ) {
+					if ($views > 0)
+					{
+						$db->SetQuery("UPDATE #__hwdvidslogs_archive SET views = $views WHERE videoid = ".$row->videoid);
+						if ( !$db->query() )
+						{
+							echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+							exit();
+						}
+					}
+				}
+				else
+				{
+					$views = $tta;
+					if ($views > 0)
+					{
+						$row_new = new hwdvidslogs_archive($db);
+
+						$_POST['videoid'] 		= $row->videoid;
+						$_POST['views'] 		= $views;
+
+						if (!$row_new->bind($_POST))
+						{
+							echo "<script> alert('".$row_new->getError()."'); window.history.go(-1); </script>\n";
+							exit();
+						}
+
+						if (!$row_new->store())
+						{
+							echo "<script> alert('".$row_new -> getError()."'); window.history.go(-1); </script>\n";
+							exit();
+						}
+					}
+				}
+
+				if ($views > 0)
+				{
+					$db->SetQuery("DELETE FROM #__hwdvidslogs_views WHERE videoid = ".$row->videoid." AND date <= DATE_SUB(NOW(),INTERVAL 30 DAY)" );
+					if ( !$db->query() )
+					{
 						echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 						exit();
 					}
-				} else {
+				}
+
+				$totalLogged = $totalLogged + $tta;
+			}
+		}
+
+		$text = "Successfully archived ".$totalLogged." views\n";
+
+		$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_views WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY)");
+		$count = $db->loadResult();
+		$text.= $count." view logs need to be archived\n";
+
+		return $text;
+    }
+    /**
+     * Outputs frontpage HTML
+     *
+     * @param string $option  the joomla component name
+     * @param array  $rows  array of video data
+     * @param array  $rowsfeatured  array of featured video data
+     * @param object $pageNav  page navigation object
+     * @param int    $total  the total video count
+     * @return       Nothing
+     */
+	function archiveFavours()
+	{
+		$db = & JFactory::getDBO();
+
+		$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_favours WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY)");
+		$count = $db->loadResult();
+		$text = $count." favour logs need to be archived\n";
+		if ( $count == 0 ) { return $text; }
+
+		$db->SetQuery("SELECT * FROM #__hwdvidslogs_favours WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY) LIMIT 0, 500");
+		$rows = $db->loadObjectList();
+		$totalLogged = 0;
+
+		if (count($rows) > 0)
+		{
+			for ($i=0, $n=count($rows); $i < $n; $i++)
+			{
+				$row = $rows[$i];
+
+				$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_favours WHERE videoid = ".$row->videoid." AND date <= DATE_SUB(NOW(),INTERVAL 30 DAY)");
+				$tta = $db->loadResult();
+				if ( $tta == 0 ) { continue; }
+
+				$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_archive WHERE videoid = ".$row->videoid);
+				$total = $db->loadResult();
+
+				if ($total > 0)
+				{
+					$db->SetQuery("SELECT favours FROM #__hwdvidslogs_archive WHERE videoid = ".$row->videoid);
+					$favours = $db->loadResult();
+					$favours = $favours + $tta;
+
+					$db->SetQuery("UPDATE #__hwdvidslogs_archive SET favours = $favours WHERE videoid = ".$row->videoid);
+					if ( !$db->query() )
+					{
+						echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+						exit();
+					}
+				}
+				else
+				{
 					$row_new = new hwdvidslogs_archive($db);
 
 					$_POST['videoid'] 		= $row->videoid;
-					$_POST['views'] 		= 1;
+					$_POST['favours'] 		= $tta;
 
-					// bind it to the table
-					if (!$row_new->bind($_POST)) {
+					if (!$row_new->bind($_POST))
+					{
 						echo "<script> alert('".$row_new->getError()."'); window.history.go(-1); </script>\n";
 						exit();
 					}
 
-					// store it in the db
-					if (!$row_new->store()) {
+					if (!$row_new->store())
+					{
 						echo "<script> alert('".$row_new -> getError()."'); window.history.go(-1); </script>\n";
 						exit();
 					}
 				}
 
-				$db->SetQuery("DELETE FROM #__hwdvidslogs_views WHERE id = ".$row->id);
-				$db->Query();
-				if ( !$db->query() ) {
+				$db->SetQuery("DELETE FROM #__hwdvidslogs_favours WHERE videoid = ".$row->videoid." AND date <= DATE_SUB(NOW(),INTERVAL 30 DAY)" );
+				if ( !$db->query() )
+				{
 					echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 					exit();
 				}
 
+				$totalLogged = $totalLogged + $tta;
 			}
-
 		}
 
-		$text.= "Successfully archived ".count($rows)." views\n";
+		$text = "Successfully archived ".$totalLogged." favours\n";
+
+		$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_favours WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY)");
+		$count = $db->loadResult();
+		$text.= $count." favour logs need to be archived\n";
 
 		return $text;
     }
@@ -169,156 +275,78 @@ class hwd_vs_logs {
      * @param int    $total  the total video count
      * @return       Nothing
      */
-	function archiveFavours() {
+	function archiveVotes()
+	{
 		$db = & JFactory::getDBO();
 
-		$db->SetQuery('SELECT count(*) FROM #__hwdvidslogs_favours WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY)');
+		$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_votes WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY)");
 		$count = $db->loadResult();
-
-		$text = $count." favour logs need to be archived\n";
-
-		if ( $count == 0 ) { return $text; }
-
-		$db->SetQuery('SELECT * FROM #__hwdvidslogs_favours WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY) LIMIT 0, 1000');
-		$rows = $db->loadObjectList();
-
-		for ($i=0, $n=count($rows); $i < $n; $i++) {
-			$row = $rows[$i];
-
-			$db->SetQuery( 'SELECT count(*)'
-						 . ' FROM #__hwdvidslogs_archive'
-						 . ' WHERE videoid = '.$row->videoid
-						 );
-			$total = $db->loadResult();
-
-			if ($total > 0) {
-				$db->SetQuery( 'SELECT favours'
-							 . ' FROM #__hwdvidslogs_archive'
-							 . ' WHERE videoid = '.$row->videoid
-							 );
-				$favours = $db->loadResult();
-				$favours = $favours+$row->favour;
-
-				// remove from full table
-				$db->SetQuery("UPDATE #__hwdvidslogs_archive SET favours = ".$favours." WHERE videoid = $row->videoid");
-				$db->Query();
-				if ( !$db->query() ) {
-					echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-					exit();
-				}
-			} else {
-				$row_new = new hwdvidslogs_archive($db);
-
-				$_POST['videoid'] 		= $row->videoid;
-				$_POST['favours'] 		= $row->favour;
-
-				// bind it to the table
-				if (!$row_new->bind($_POST)) {
-					echo "<script> alert('".$row_new->getError()."'); window.history.go(-1); </script>\n";
-					exit();
-				}
-
-				// store it in the db
-				if (!$row_new->store()) {
-					echo "<script> alert('".$row_new -> getError()."'); window.history.go(-1); </script>\n";
-					exit();
-				}
-			}
-
-			$db->SetQuery("DELETE FROM #__hwdvidslogs_favours WHERE id = ".$row->id);
-			$db->Query();
-			if ( !$db->query() ) {
-				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				exit();
-			}
-
-		}
-
-		$text.= "Successfully archived ".count($rows)." favours\n";
-
-		return $text;
-    }
-    /**
-     * Outputs frontpage HTML
-     *
-     * @param string $option  the joomla component name
-     * @param array  $rows  array of video data
-     * @param array  $rowsfeatured  array of featured video data
-     * @param object $pageNav  page navigation object
-     * @param int    $total  the total video count
-     * @return       Nothing
-     */
-	function archiveVotes() {
-		$db = & JFactory::getDBO();
-
-		$db->SetQuery('SELECT count(*) FROM #__hwdvidslogs_votes WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY)');
-		$count = $db->loadResult();
-
 		$text = $count." vote logs need to be archived\n";
-
 		if ( $count == 0 ) { return $text; }
 
-		$db->SetQuery('SELECT * FROM #__hwdvidslogs_votes WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY) LIMIT 0, 1000');
+		$db->SetQuery("SELECT * FROM #__hwdvidslogs_votes WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY) LIMIT 0, 1000");
 		$rows = $db->loadObjectList();
 
-		for ($i=0, $n=count($rows); $i < $n; $i++) {
-			$row = $rows[$i];
+		if (count($rows) > 0)
+		{
+			for ($i=0, $n=count($rows); $i < $n; $i++)
+			{
+				$row = $rows[$i];
 
-			$db->SetQuery( 'SELECT count(*)'
-						 . ' FROM #__hwdvidslogs_archive'
-						 . ' WHERE videoid = '.$row->videoid
-						 );
-			$total = $db->loadResult();
+				$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_archive WHERE videoid = ".$row->videoid);
+				$total = $db->loadResult();
 
-			if ($total > 0) {
-				$db->SetQuery( 'SELECT number_of_votes, sum_of_votes'
-							 . ' FROM #__hwdvidslogs_archive'
-							 . ' WHERE videoid = '.$row->videoid
-							 );
-				$data = $db->loadObject();
-				$number_of_votes = $data->number_of_votes + 1;
-				$sum_of_votes    = $data->sum_of_votes    + $row->vote;
-				$rating          = $sum_of_votes/$number_of_votes;
+				if ($total > 0)
+				{
+					$db->SetQuery("SELECT number_of_votes, sum_of_votes FROM #__hwdvidslogs_archive WHERE videoid = ".$row->videoid);
+					$data = $db->loadObject();
+					$number_of_votes = $data->number_of_votes + 1;
+					$sum_of_votes    = $data->sum_of_votes    + $row->vote;
+					$rating          = $sum_of_votes/$number_of_votes;
 
-				// remove from full table
-				$db->SetQuery("UPDATE #__hwdvidslogs_archive SET number_of_votes=".$number_of_votes.", sum_of_votes=".$sum_of_votes.", rating=".$rating." WHERE videoid = $row->videoid");
-				$db->Query();
-				if ( !$db->query() ) {
+					$db->SetQuery("UPDATE #__hwdvidslogs_archive SET number_of_votes=".$number_of_votes.", sum_of_votes=".$sum_of_votes.", rating=".$rating." WHERE videoid = $row->videoid");
+					if ( !$db->query() )
+					{
+						echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+						exit();
+					}
+				}
+				else
+				{
+					$row_new = new hwdvidslogs_archive($db);
+
+					$_POST['videoid'] 			= $row->videoid;
+					$_POST['number_of_votes'] 	= 1;
+					$_POST['sum_of_votes'] 		= $row->vote;
+					$_POST['rating'] 			= $row->vote;
+
+					if (!$row_new->bind($_POST))
+					{
+						echo "<script> alert('".$row_new->getError()."'); window.history.go(-1); </script>\n";
+						exit();
+					}
+
+					if (!$row_new->store())
+					{
+						echo "<script> alert('".$row_new -> getError()."'); window.history.go(-1); </script>\n";
+						exit();
+					}
+				}
+
+				$db->SetQuery("DELETE FROM #__hwdvidslogs_votes WHERE id = ".$row->id." AND date <= DATE_SUB(NOW(),INTERVAL 30 DAY)" );
+				if ( !$db->query() )
+				{
 					echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
 					exit();
 				}
-			} else {
-				$row_new = new hwdvidslogs_archive($db);
-
-				$_POST['videoid'] 			= $row->videoid;
-				$_POST['number_of_votes'] 	= 1;
-				$_POST['sum_of_votes'] 		= $row->vote;
-				$_POST['rating'] 			= $row->vote;
-
-				// bind it to the table
-				if (!$row_new->bind($_POST)) {
-					echo "<script> alert('".$row_new->getError()."'); window.history.go(-1); </script>\n";
-					exit();
-				}
-
-				// store it in the db
-				if (!$row_new->store()) {
-					echo "<script> alert('".$row_new -> getError()."'); window.history.go(-1); </script>\n";
-					exit();
-				}
 			}
-
-			$db->SetQuery("DELETE FROM #__hwdvidslogs_votes WHERE id = ".$row->id);
-			$db->Query();
-			if ( !$db->query() ) {
-				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				exit();
-			}
-
 		}
 
+		$text = "Successfully archived ".count($rows)." votes\n";
 
-		$text.= "Successfully archived ".count($rows)." votes\n";
+		$db->SetQuery("SELECT count(*) FROM #__hwdvidslogs_votes WHERE date <= DATE_SUB(NOW(),INTERVAL 30 DAY)");
+		$count = $db->loadResult();
+		$text.= $count." vote logs need to be archived\n";
 
 		return $text;
     }

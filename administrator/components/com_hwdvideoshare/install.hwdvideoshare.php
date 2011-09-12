@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -20,23 +20,46 @@
  */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
-function com_install() {
-	global $mainframe;
+function com_install()
+{
 	$db =& JFactory::getDBO();
+    jimport('joomla.filesystem.file');
 	$doc =& JFactory::getDocument();
 
-	$doc->addCustomTag('<link rel="stylesheet" href="'.JURI::root( true ).'/administrator/components/com_hwdvideoshare/assets/css/installer.css" type="text/css" />');
+	jimport( 'joomla.version' );
 
+	$version = new JVersion;
+	$joomla = $version->getShortVersion();
+	if(substr($joomla,0,3) == '1.6' || substr($joomla,0,3) == '1.7')
+	{
+		$j15 = false;
+		$j16 = true;
+	}
+	else
+	{
+		$j15 = true;
+		$j16 = false;
+	}
+
+	if ($j15)
+	{
+		$doc->addCustomTag('<link rel="stylesheet" href="'.JURI::root( true ).'/administrator/components/com_hwdvideoshare/assets/css/installer.css" type="text/css" />');
+	}
+	else
+	{
+		echo '<link rel="stylesheet" href="'.JURI::root( true ).'/administrator/components/com_hwdvideoshare/assets/css/installer.css" type="text/css" />';
+	}
 	?>
 	<div class="installer_logo_box"><img src="../administrator/components/com_hwdvideoshare/assets/images/logo.png" border="0" alt="hwdVideoShare" title="hwdVideoShare" /></div>
 
 	<div class="installer_box">
-		<h2>hwdVideoShare [ Masterton ]</h2>
+		<h2>hwdVideoShare</h2>
 		<p>An open source video sharing component developed by <a href="http://joomla.highwooddesign.co.uk" target="_blank">Highwood Design</a>.<br />
 		Released under the terms and conditions of the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a>.<br />
 		See the component homepage for more details after installation.</p>
 	</div>
 
+	<?php if ($j15) { ?>
 	<div class="installer_box">
 		<h3>Menu Configuration</h3>
 		<?php
@@ -70,20 +93,24 @@ function com_install() {
 		$db->setQuery("UPDATE #__components SET admin_menu_img='../administrator/components/com_hwdvideoshare/assets/images/menu/hwdvideoshare.png' WHERE admin_menu_link='option=com_hwdvideoshare'");
 		$iconresult[12] = $db->query();
 
-		foreach ($iconresult as $i=>$icresult) {
-			if (!$icresult) {
+		foreach ($iconresult as $i=>$icresult)
+		{
+			if (!$icresult)
+			{
 				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Image of menu entry $i could not be set correctly.<br />';
 				$section_check=false;
 			}
 		}
 
-		if ($section_check==true) {
+		if ($section_check==true)
+		{
 			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/tick.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="success">SUCCESS</font><br />';
 		}
 
 		$db->setQuery("SELECT COUNT(*) FROM #__components WHERE link = 'option=com_hwdvideoshare'");
 		$components =& $db->loadResult();
-		if ($components > 1) {
+		if ($components > 1)
+		{
 			$db->setQuery("SELECT id FROM #__components WHERE link = 'option=com_hwdvideoshare' ORDER BY id DESC LIMIT 1");
 			$comid =& $db->loadResult();
 			$db->setQuery("DELETE FROM #__components WHERE link  = 'option=com_hwdvideoshare' AND id != $comid  ");
@@ -93,6 +120,34 @@ function com_install() {
 		}
 	?>
 	</div>
+	<?php } ?>
+
+	<?php if ($j16) { ?>
+	<div class="installer_box">
+		<h3>Setup Default Permission Rules</h3>
+		<?php
+		$section_check=true;
+
+		$db = & JFactory::getDBO();
+		$db->SetQuery("SELECT rules FROM #__assets WHERE name = \"com_hwdvideoshare\"");
+		$rules = $db->loadResult();
+		if (empty($rules) || $rules == "{}")
+		{
+			$db->setQuery('UPDATE #__assets SET rules = \'{"core.admin":{"7":1},"core.manage":[],"core.frontend.access":{"1":1},"core.frontend.upload.local":{"1":1},"core.frontend.upload.tp":{"6":1,"2":1},"core.frontend.download":{"1":1},"core.frontend.group":{"1":1},"core.frontend.moderator":{"6":1},"core.frontend.wysiwyg":{"6":1}}\' WHERE name = \'com_hwdvideoshare\'');
+			if (!$db->query())
+			{
+				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" title="" class="icon" /><font class="fail">ERROR:</font> Could not set default permissions.<br />';
+				$section_check=false;
+			}
+		}
+
+		if ($section_check==true)
+		{
+			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/tick.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="success">SUCCESS</font><br />';
+		}
+	?>
+	</div>
+	<?php } ?>
 
 	<div class="installer_box">
 		<h3>Database Upgrade & Patches</h3>
@@ -130,7 +185,16 @@ function com_install() {
 		$HWDUpgrades[0]['updates'][23] = "UPDATE `#__hwdvidsvideos` SET video_type='zshare.net' WHERE video_type='zshare'";
 		// from 2.1.2 Alpha Build 21202 to 2.1.3 Alpha Build 21301:
 		$HWDUpgrades[0]['updates'][24] = "ALTER TABLE `#__hwdvidsvideos` CHANGE `updated_rating` `updated_rating` float(4,2) default 0";
-
+		// from svn-r362 to svn-r363:
+		$HWDUpgrades[0]['updates'][25] = "CREATE INDEX `idx_category_id` ON `#__hwdvidsvideos` (category_id)";
+		$HWDUpgrades[0]['updates'][26] = "CREATE INDEX `idx_videoid` ON `#__hwdvidslogs_views` (videoid)";
+		$HWDUpgrades[0]['updates'][27] = "CREATE INDEX `idx_date` ON `#__hwdvidslogs_views` (date)";
+		$HWDUpgrades[0]['updates'][28] = "CREATE INDEX `idx_videoid` ON `#__hwdvidslogs_votes` (videoid)";
+		$HWDUpgrades[0]['updates'][29] = "CREATE INDEX `idx_date` ON `#__hwdvidslogs_votes` (date)";
+		$HWDUpgrades[0]['updates'][30] = "CREATE INDEX `idx_videoid` ON `#__hwdvidslogs_favours` (videoid)";
+		$HWDUpgrades[0]['updates'][31] = "CREATE INDEX `idx_date` ON `#__hwdvidslogs_favours` (date)";
+		// from svn-r495 to svn-r496:
+		$HWDUpgrades[0]['updates'][32] = "CREATE INDEX `idx_user_id` ON `#__hwdvidsvideos` (user_id)";
 
 		$HWDUpgrades[0]['message'] = "All Version Compatibility Check";
 		// from 1.1.4 ALPHA RC2.12 to 1.1.4 ALPHA RC2.13:
@@ -198,30 +262,40 @@ function com_install() {
 		$HWDUpgrades[9]['updates'][0] = "ALTER TABLE `#__hwdvidsvideos` ADD `age_check` INT(50) DEFAULT '-1' NOT NULL AFTER `number_of_comments`";
 		$HWDUpgrades[9]['message'] = "Build 2.1.6 to 2.1.7 [Patch 2]";
 		// from 2.1.6 to 2.1.7:
-		$HWDUpgrades[9]['test'] = "SELECT `password` FROM #__hwdvidsvideos";
-		$HWDUpgrades[9]['updates'][0] = "ALTER TABLE `#__hwdvidsvideos` ADD `password` VARCHAR(100) DEFAULT '' NOT NULL AFTER `user_id`";
-		$HWDUpgrades[9]['message'] = "Build 2.1.6 to 2.1.7 [Patch 4]";
+		$HWDUpgrades[10]['test'] = "SELECT `password` FROM #__hwdvidsvideos";
+		$HWDUpgrades[10]['updates'][0] = "ALTER TABLE `#__hwdvidsvideos` ADD `password` VARCHAR(100) DEFAULT '' NOT NULL AFTER `user_id`";
+		$HWDUpgrades[10]['message'] = "Build 2.1.6 to 2.1.7 [Patch 4]";
+		// from 2.1.10 to 2.1.11:
+		$HWDUpgrades[11]['test'] = "SELECT `views` FROM #__hwdvidschannels";
+		$HWDUpgrades[11]['updates'][0] = "ALTER TABLE `#__hwdvidschannels` ADD `views` INT(50) DEFAULT '0' NOT NULL AFTER `user_id`";
+		$HWDUpgrades[11]['message'] = "Build 2.1.10 to 2.1.11 [Patch 1]";
 
 		//Apply Upgrades
-		foreach ($HWDUpgrades AS $HWDUpgrade) {
+		foreach ($HWDUpgrades AS $HWDUpgrade)
+		{
 			$db->setQuery($HWDUpgrade['test']);
 			//if it fails test then apply upgrade
-			if (!$db->query()) {
-				foreach($HWDUpgrade['updates'] as $UPDT) {
+			if (!$db->query())
+			{
+				foreach($HWDUpgrade['updates'] as $UPDT)
+				{
 					$db->setQuery($UPDT);
-					if(!$db->query()) {
-						//Upgrade failed
-						echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> '.$HWDUpgrade['message'].'... <b>Upgrade failed! SQL error: ' . $db->stderr(true).'</b><br />';
-						$section_check=false;
-
+					if(!$db->query())
+					{
+						$pos = strpos($UPDT, "CREATE INDEX");
+						if ($pos === false)
+						{
+							//Upgrade failed
+							echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> '.$HWDUpgrade['message'].'... <b>Upgrade failed! SQL error: ' . $db->stderr(true).'</b><br />';
+							$section_check=false;
+						}
 					}
 				}
-				//Upgrade was successful
-				//echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/tick.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="success">FINISHED:</font> '.$HWDUpgrade['message'].'... <b>Upgrade Applied Successfully</b><br />';
 			}
 		}
 
-		if ($section_check==true) {
+		if ($section_check==true)
+		{
 			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/tick.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="success">SUCCESS</font><br />';
 		}
 	?>
@@ -235,29 +309,31 @@ function com_install() {
 		// Set up initialisation
 		$db->setQuery("UPDATE #__hwdvidsgs SET value=1 WHERE setting='initialise_now'");
 		$initialise[0] = $db->query();
-		foreach ($initialise as $i=>$icresult) {
-			if (!$icresult) {
+		foreach ($initialise as $i=>$icresult)
+		{
+			if (!$icresult)
+			{
 				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to set initialisation<br />';
 				$section_check=false;
 			}
 		}
 
-		// update general config file
-		$updt_config = drawconfig();
-		if ($updt_config == false) {
+		$updt_config = drawConfig();
+		if ($updt_config == false)
+		{
 			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to update general configuration file<br />';
 			$section_check=false;
 		}
 
-		// update server config file
-		$updt_sconfig = drawserverconfig();
-		if ($updt_sconfig == false) {
+		$updt_sconfig = drawServerConfig();
+		if ($updt_sconfig == false)
+		{
 			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to update server configuration file<br />';
 			$section_check=false;
 		}
 
-
-		if ($section_check==true) {
+		if ($section_check==true)
+		{
 			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/tick.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="success">SUCCESS</font><br />';
 		}
 	?>
@@ -268,57 +344,68 @@ function com_install() {
 		<?php
 		$section_check=true;
 
-		$path = JPATH_SITE . '/components/com_hwdvideoshare/xml/';
-		if (!makeDirectoryWritable($path)) {
+		$path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS;
+		if (!makeDirectoryWritable($path))
+		{
 			$section_check=false;
 		}
 
-		$path = JPATH_SITE . '/components/com_hwdvideoshare/xml/xspf/';
-		if (!makeDirectoryWritable($path)) {
+		$path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xspf'.DS;
+		if (!makeDirectoryWritable($path))
+		{
 			$section_check=false;
 		}
 
-		$path = JPATH_SITE . '/components/com_hwdvideoshare/assets/uploads/perl/ubr_default_config.php';
-		if (!makeDirectoryExecutable($path)) {
+		$path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'assets'.DS.'uploads'.DS.'perl'.DS.'ubr_default_config.php';
+		if (!makeDirectoryExecutable($path))
+		{
 			$section_check=false;
 		}
 
-		$path = JPATH_SITE . '/components/com_hwdvideoshare/assets/uploads/perl/ubr_finished_lib.php';
-		if (!makeDirectoryExecutable($path)) {
+		$path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'assets'.DS.'uploads'.DS.'perl'.DS.'ubr_finished_lib.php';
+		if (!makeDirectoryExecutable($path))
+		{
 			$section_check=false;
 		}
 
-		$path = JPATH_SITE . '/components/com_hwdvideoshare/assets/uploads/perl/ubr_get_progress.php';
-		if (!makeDirectoryExecutable($path)) {
+		$path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'assets'.DS.'uploads'.DS.'perl'.DS.'ubr_get_progress.php';
+		if (!makeDirectoryExecutable($path))
+		{
 			$section_check=false;
 		}
 
-		$path = JPATH_SITE . '/components/com_hwdvideoshare/assets/uploads/perl/ubr_image_lib.php';
-		if (!makeDirectoryExecutable($path)) {
+		$path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'assets'.DS.'uploads'.DS.'perl'.DS.'ubr_image_lib.php';
+		if (!makeDirectoryExecutable($path))
+		{
 			$section_check=false;
 		}
 
-		$path = JPATH_SITE . '/components/com_hwdvideoshare/assets/uploads/perl/ubr_ini.php';
-		if (!makeDirectoryExecutable($path)) {
+		$path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'assets'.DS.'uploads'.DS.'perl'.DS.'ubr_ini.php';
+		if (!makeDirectoryExecutable($path))
+		{
 			$section_check=false;
 		}
 
-		$path = JPATH_SITE . '/components/com_hwdvideoshare/assets/uploads/perl/ubr_lib.php';
-		if (!makeDirectoryExecutable($path)) {
+		$path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'assets'.DS.'uploads'.DS.'perl'.DS.'ubr_lib.php';
+		if (!makeDirectoryExecutable($path))
+		{
 			$section_check=false;
 		}
 
-		$path = JPATH_SITE . '/components/com_hwdvideoshare/assets/uploads/perl/ubr_link_upload.php';
-		if (!makeDirectoryExecutable($path)) {
+		$path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'assets'.DS.'uploads'.DS.'perl'.DS.'ubr_link_upload.php';
+		if (!makeDirectoryExecutable($path))
+		{
 			$section_check=false;
 		}
 
-		$path = JPATH_SITE . '/components/com_hwdvideoshare/assets/uploads/perl/ubr_set_progress.php';
-		if (!makeDirectoryExecutable($path)) {
+		$path = JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'assets'.DS.'uploads'.DS.'perl'.DS.'ubr_set_progress.php';
+		if (!makeDirectoryExecutable($path))
+		{
 			$section_check=false;
 		}
 
-		if ($section_check==true) {
+		if ($section_check==true)
+		{
 			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/tick.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="success">SUCCESS</font><br />';
 		}
 	?>
@@ -329,29 +416,34 @@ function com_install() {
 		<?php
 		$section_check=true;
 
-		$path = JPATH_SITE . '/hwdvideos/';
-		if (!createDirectory($path)) {
+		$path = JPATH_SITE.DS.'hwdvideos'.DS;
+		if (!createDirectory($path))
+		{
 			$section_check=false;
 		}
 
-		if(file_exists($path) && is_writable($path)){
-
-			$path = JPATH_SITE . '/hwdvideos/thumbs/';
-			if (!createDirectory($path)) {
+		if (file_exists($path))
+		{
+			$path = JPATH_SITE.DS.'hwdvideos'.DS.'thumbs'.DS;
+			if (!createDirectory($path))
+			{
 				$section_check=false;
 			}
 
-			$path = JPATH_SITE . '/hwdvideos/uploads/';
-			if (!createDirectory($path)) {
+			$path = JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS;
+			if (!createDirectory($path))
+			{
 				$section_check=false;
 			}
 
-			$path = JPATH_SITE . '/hwdvideos/uploads/originals/';
-			if (!createDirectory($path)) {
+			$path = JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.'originals'.DS;
+			if (!createDirectory($path))
+			{
 				$section_check=false;
 			}
-
-		} else {
+		}
+		else
+		{
 			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> The directory <b>'.$path.'</b> could not be created or could not be made writable<br /><p style="padding-left: 26px">Manually do the following:<br />1) Create the directory <b>'.$path.'</b><br />2) Make this directory writable (chmod 0777)<br />3) Re-install hwdVideoShare</p><br />';
 		}
 
@@ -360,7 +452,8 @@ function com_install() {
 		@copy(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'index.html', JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.'index.html');
 		@copy(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'index.html', JPATH_SITE.DS.'hwdvideos'.DS.'uploads'.DS.'originals'.DS.'index.html');
 
-		if ($section_check==true) {
+		if ($section_check==true)
+		{
 			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/tick.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="success">SUCCESS</font><br />';
 		}
 	?>
@@ -371,47 +464,50 @@ function com_install() {
 		<?php
 		$section_check=true;
 
-		$path = JPATH_SITE . '/cgi-bin/';
-		if (!@createDirectory($path, true)) {
+		$path = JPATH_SITE.DS.'cgi-bin'.DS;
+		if (!@createDirectory($path, true))
+		{
 			$section_check=false;
 		}
 
-		$path = JPATH_SITE . '/cgi-bin/uu/';
-		if (!@createDirectory($path, true)) {
+		$path = JPATH_SITE.DS.'cgi-bin'.DS.'uu'.DS;
+		if (!@createDirectory($path, true))
+		{
 			$section_check=false;
 		}
 
-		@unlink(JPATH_SITE . "/cgi-bin/uu/uu_default_config.pm");
-		@unlink(JPATH_SITE . "/cgi-bin/uu/uu_ini_status.pl");
-		@unlink(JPATH_SITE . "/cgi-bin/uu/uu_lib.pm");
-		@unlink(JPATH_SITE . "/cgi-bin/uu/uu_upload.pl");
+		@unlink(JPATH_SITE.DS.'cgi-bin'.DS.'uu'.DS.'uu_default_config.pm');
+		@unlink(JPATH_SITE.DS.'cgi-bin'.DS.'uu'.DS.'uu_ini_status.pl');
+		@unlink(JPATH_SITE.DS.'cgi-bin'.DS.'uu'.DS.'uu_lib.pm');
+		@unlink(JPATH_SITE.DS.'cgi-bin'.DS.'uu'.DS.'uu_upload.pl');
 
-		if(file_exists(JPATH_SITE . "/cgi-bin/uu/")){
-
-			if(is_writable(JPATH_SITE . "/cgi-bin/uu/")){
-
-				if(!file_exists(JPATH_SITE . "/cgi-bin/uu/ubr_upload.pl")){
-
-					$path = JPATH_SITE . '/administrator/components/com_hwdvideoshare/uberuploader/ubr_upload.pl';
-					if(file_exists($path)){
-						if(!copy($path, JPATH_SITE . "/cgi-bin/uu/ubr_upload.pl")) {
-							echo '<img src="../administrator/components/com_hwdvideoshare/images/info.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="warn">WARNING:</font> Failed to copy '.$path.' to the cgi-bin<br />';
-							$section_check=false;
-						}
+		if (file_exists(JPATH_SITE.DS.'cgi-bin'.DS.'uu'.DS))
+		{
+			if(!file_exists(JPATH_SITE.DS.'cgi-bin'.DS.'uu'.DS.'ubr_upload.pl'))
+			{
+				$path = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'uberuploader'.DS.'ubr_upload.pl';
+				if(file_exists($path))
+				{
+					if(!JFile::copy($path, JPATH_SITE.DS.'cgi-bin'.DS.'uu'.DS.'ubr_upload.pl'))
+					{
+						echo '<img src="../administrator/components/com_hwdvideoshare/images/info.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="warn">WARNING:</font> Failed to copy '.$path.' to the cgi-bin<br />';
+						$section_check=false;
 					}
-
-				} else {
-
-					if(!is_executable(JPATH_SITE . "/cgi-bin/uu/ubr_upload.pl")) {
-						if(@!chmod(JPATH_SITE . "/cgi-bin/uu/ubr_upload.pl", 0755)) {
-							echo '<img src="../administrator/components/com_hwdvideoshare/images/info.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="warn">WARNING:</font> Failed to make '.$path.' executable<br />';
-							$section_check=false;
-						}
-					}
-
 				}
 			}
-		} else {
+			else
+			{
+				if (!makeDirectoryExecutable( JPATH_SITE.DS.'cgi-bin'.DS.'uu'.DS.'ubr_upload.pl'))
+				{
+					if (!makeDirectoryWritable( JPATH_SITE.DS.'cgi-bin'.DS.'uu'.DS.'ubr_upload.pl'))
+					{
+						echo '<img src="../administrator/components/com_hwdvideoshare/images/info.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="warn">WARNING:</font> Failed to make '.$path.' executable<br />';
+						$section_check=false;
+					}
+				}
+			}
+		} else
+		{
 			echo '<img src="../administrator/components/com_hwdvideoshare/images/info.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="warn">WARNING:</font> Failed to create '.$path.'<br />';
 		}
 
@@ -427,204 +523,390 @@ function com_install() {
 		$section_check=true;
 
 		$plugdir = JPATH_PLUGINS.DS.'hwdvs-language';
-		if (!JFolder::create($plugdir)) {
+		if (!JFolder::create($plugdir))
+		{
 			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$plugdir.'"');
 		}
 		$plugdir = JPATH_PLUGINS.DS.'hwdvs-template';
-		if (!JFolder::create($plugdir)) {
+		if (!JFolder::create($plugdir))
+		{
 			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$plugdir.'"');
 		}
 		$plugdir = JPATH_PLUGINS.DS.'hwdvs-thirdparty';
-		if (!JFolder::create($plugdir)) {
+		if (!JFolder::create($plugdir))
+		{
 			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$plugdir.'"');
 		}
 		$plugdir = JPATH_PLUGINS.DS.'hwdvs-videoplayer';
-		if (!JFolder::create($plugdir)) {
+		if (!JFolder::create($plugdir))
+		{
 			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$plugdir.'"');
 		}
 
 		// youtube
 
-			$file_destination = JPATH_PLUGINS.DS.'hwdvs-thirdparty';
 			$file_original = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'install'.DS.'plugins'.DS.'youtube';
+			if ($j15)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-thirdparty';
+			}
+			if ($j16)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-thirdparty'.DS.'youtube';
+				if (!JFolder::create($file_destination))
+				{
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$file_destination.'"');
+				}
+			}
 
-			if (!copyDirectoryRecursive($file_original, $file_destination )) {
+			if (!copyDirectoryRecursive($file_original, $file_destination ))
+			{
 				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to install Youtube plugin. Check your Joomla <a href="'.JURI::root( true ).DS.'administrator'.DS.'index.php?option=com_admin&task=sysinfo">Directory Permissions</a> are writeable.<br />';
 				$section_check=false;
 			}
 
 			@deleteDirectoryRecursive( $file_original );
 
-			$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'youtube' AND folder = 'hwdvs-thirdparty'");
-			$count = $db->loadResult();
-			if ($count == 0) {
-				$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'Youtube', 'youtube', 'hwdvs-thirdparty', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
-				$db->setQuery( $query );
-				$db->query();
+			if ($j15)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'youtube' AND folder = 'hwdvs-thirdparty'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'Youtube', 'youtube', 'hwdvs-thirdparty', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
+					$db->setQuery( $query );
+					$db->query();
+				}
+			}
+			if ($j16)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__extensions WHERE type = 'plugin' AND element = 'youtube' AND folder = 'hwdvs-thirdparty'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__extensions` VALUES ('', 'Youtube', 'plugin', 'youtube', 'hwdvs-thirdparty', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', '', 0)";
+					$db->setQuery( $query );
+					$db->query();
+				}
 			}
 
 		// google
 
-			$file_destination = JPATH_PLUGINS.DS.'hwdvs-thirdparty'.DS;
 			$file_original = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'install'.DS.'plugins'.DS.'google'.DS;
+			if ($j15)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-thirdparty';
+			}
+			if ($j16)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-thirdparty'.DS.'google';
+				if (!JFolder::create($file_destination))
+				{
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$file_destination.'"');
+				}
+			}
 
-			if (!copyDirectoryRecursive($file_original, $file_destination )) {
+			if (!copyDirectoryRecursive($file_original, $file_destination ))
+			{
 				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to install Google plugin. Check your Joomla <a href="'.JURI::root( true ).DS.'administrator'.DS.'index.php?option=com_admin&task=sysinfo">Directory Permissions</a> are writeable.<br />';
 				$section_check=false;
 			}
 
 			@deleteDirectoryRecursive( $file_original );
 
-			$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'google' AND folder = 'hwdvs-thirdparty'");
-			$count = $db->loadResult();
-			if ($count == 0) {
-				$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'Google', 'google', 'hwdvs-thirdparty', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
-				$db->setQuery( $query );
-				$db->query();
+			if ($j15)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'google' AND folder = 'hwdvs-thirdparty'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'Google', 'google', 'hwdvs-thirdparty', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
+					$db->setQuery( $query );
+					$db->query();
+				}
+			}
+			if ($j16)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__extensions WHERE type = 'plugin' AND element = 'google' AND folder = 'hwdvs-thirdparty'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__extensions` VALUES ('', 'Google', 'plugin', 'google', 'hwdvs-thirdparty', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', '', 0)";
+					$db->setQuery( $query );
+					$db->query();
+				}
 			}
 
 		// remote
 
-			$file_destination = JPATH_PLUGINS.DS.'hwdvs-thirdparty'.DS;
 			$file_original = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'install'.DS.'plugins'.DS.'remote'.DS;
+			if ($j15)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-thirdparty';
+			}
+			if ($j16)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-thirdparty'.DS.'remote';
+				if (!JFolder::create($file_destination))
+				{
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$file_destination.'"');
+				}
+			}
 
-			if (!copyDirectoryRecursive($file_original, $file_destination )) {
+			if (!copyDirectoryRecursive($file_original, $file_destination ))
+			{
 				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to install Remote plugin. Check your Joomla <a href="'.JURI::root( true ).DS.'administrator'.DS.'index.php?option=com_admin&task=sysinfo">Directory Permissions</a> are writeable.<br />';
 				$section_check=false;
 			}
 
 			@deleteDirectoryRecursive( $file_original );
 
-			$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'remote' AND folder = 'hwdvs-thirdparty'");
-			$count = $db->loadResult();
-			if ($count == 0) {
-				$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'Remote', 'remote', 'hwdvs-thirdparty', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
-				$db->setQuery( $query );
-				$db->query();
+			if ($j15)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'remote' AND folder = 'hwdvs-thirdparty'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'Remote', 'remote', 'hwdvs-thirdparty', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
+					$db->setQuery( $query );
+					$db->query();
+				}
+			}
+			if ($j16)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__extensions WHERE type = 'plugin' AND element = 'remote' AND folder = 'hwdvs-thirdparty'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__extensions` VALUES ('', 'Remote', 'plugin', 'remote', 'hwdvs-thirdparty', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', '', 0)";
+					$db->setQuery( $query );
+					$db->query();
+				}
 			}
 
 		// flow player
 
-			$file_destination = JPATH_PLUGINS.DS.'hwdvs-videoplayer'.DS;
 			$file_original = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'install'.DS.'plugins'.DS.'flow'.DS;
+			if ($j15)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-videoplayer';
+			}
+			if ($j16)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-videoplayer'.DS.'flow';
+				if (!JFolder::create($file_destination))
+				{
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$file_destination.'"');
+				}
+			}
 
-			if (!copyDirectoryRecursive($file_original, $file_destination )) {
+			if (!copyDirectoryRecursive($file_original, $file_destination ))
+			{
 				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to install Flow Player plugin. Check your Joomla <a href="'.JURI::root( true ).DS.'administrator'.DS.'index.php?option=com_admin&task=sysinfo">Directory Permissions</a> are writeable.<br />';
 				$section_check=false;
 			}
 
 			@deleteDirectoryRecursive( $file_original );
 
-			$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'flow' AND folder = 'hwdvs-videoplayer'");
-			$count = $db->loadResult();
-			if ($count == 0) {
-				$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'Flow Player', 'flow', 'hwdvs-videoplayer', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
-				$db->setQuery( $query );
-				$db->query();
+			if ($j15)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'flow' AND folder = 'hwdvs-videoplayer'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'Flow Player', 'flow', 'hwdvs-videoplayer', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
+					$db->setQuery( $query );
+					$db->query();
+				}
+			}
+			if ($j16)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__extensions WHERE type = 'plugin' AND element = 'flow' AND folder = 'hwdvs-videoplayer'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__extensions` VALUES ('', 'Flow Player', 'plugin', 'flow', 'hwdvs-videoplayer', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', '', 0)";
+					$db->setQuery( $query );
+					$db->query();
+				}
 			}
 
 		// jw flv player
 
-			$file_destination = JPATH_PLUGINS.DS.'hwdvs-videoplayer'.DS;
 			$file_original = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'install'.DS.'plugins'.DS.'jwflv'.DS;
+			if ($j15)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-videoplayer';
+			}
+			if ($j16)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-videoplayer'.DS.'jwflv';
+				if (!JFolder::create($file_destination))
+				{
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$file_destination.'"');
+				}
+			}
 
-			if (!copyDirectoryRecursive($file_original, $file_destination )) {
+			if (!copyDirectoryRecursive($file_original, $file_destination ))
+			{
 				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to install JW FLV Player plugin. Check your Joomla <a href="'.JURI::root( true ).DS.'administrator'.DS.'index.php?option=com_admin&task=sysinfo">Directory Permissions</a> are writeable.<br />';
 				$section_check=false;
 			}
 
 			@deleteDirectoryRecursive( $file_original );
 
-			$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'jwflv' AND folder = 'hwdvs-videoplayer'");
-			$count = $db->loadResult();
-			if ($count == 0) {
-				$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'JW FLV Player', 'jwflv', 'hwdvs-videoplayer', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
-				$db->setQuery( $query );
-				$db->query();
+			if ($j15)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'jwflv' AND folder = 'hwdvs-videoplayer'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'JW FLV (Version 4) Player', 'jwflv', 'hwdvs-videoplayer', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
+					$db->setQuery( $query );
+					$db->query();
+				}
 			}
-
+			if ($j16)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__extensions WHERE type = 'plugin' AND element = 'jwflv' AND folder = 'hwdvs-videoplayer'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__extensions` VALUES ('', 'JW FLV (Version 4) Player', 'plugin', 'jwflv', 'hwdvs-videoplayer', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', '', 0)";
+					$db->setQuery( $query );
+					$db->query();
+				}
+			}
 
 		// english
 
-			$file_destination = JPATH_PLUGINS.DS.'hwdvs-language'.DS;
 			$file_original = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'install'.DS.'plugins'.DS.'english'.DS;
+			if ($j15)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-language';
+			}
+			if ($j16)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-language'.DS.'english';
+				if (!JFolder::create($file_destination))
+				{
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$file_destination.'"');
+				}
+			}
 
-			if (!copyDirectoryRecursive($file_original, $file_destination )) {
+			if (!copyDirectoryRecursive($file_original, $file_destination ))
+			{
 				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to install English plugin. Check your Joomla <a href="'.JURI::root( true ).DS.'administrator'.DS.'index.php?option=com_admin&task=sysinfo">Directory Permissions</a> are writeable.<br />';
 				$section_check=false;
 			}
 
 			@deleteDirectoryRecursive( $file_original );
 
-			$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'english' AND folder = 'hwdvs-language'");
-			$count = $db->loadResult();
-			if ($count == 0) {
-				$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'English Language', 'english', 'hwdvs-language', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
-				$db->setQuery( $query );
-				$db->query();
+			if ($j15)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'english' AND folder = 'hwdvs-language'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'English Language', 'english', 'hwdvs-language', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
+					$db->setQuery( $query );
+					$db->query();
+				}
+			}
+			if ($j16)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__extensions WHERE type = 'plugin' AND element = 'english' AND folder = 'hwdvs-language'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__extensions` VALUES ('', 'English Language', 'plugin', 'english', 'hwdvs-language', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', '', 0)";
+					$db->setQuery( $query );
+					$db->query();
+				}
 			}
 
 		// default template
 
-			$file_destination = JPATH_PLUGINS.DS.'hwdvs-template'.DS;
 			$file_original = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'install'.DS.'plugins'.DS.'default'.DS;
+			if ($j15)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-template';
+			}
+			if ($j16)
+			{
+				$file_destination = JPATH_PLUGINS.DS.'hwdvs-template'.DS.'default';
+				if (!JFolder::create($file_destination))
+				{
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$file_destination.'"');
+				}
+			}
 
-			if (!copyDirectoryRecursive($file_original, $file_destination )) {
+			if (!copyDirectoryRecursive($file_original, $file_destination ))
+			{
 				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to install Default Template plugin. Check your Joomla <a href="'.JURI::root( true ).DS.'administrator'.DS.'index.php?option=com_admin&task=sysinfo">Directory Permissions</a> are writeable.<br />';
 				$section_check=false;
 			}
 
 			@deleteDirectoryRecursive( $file_original );
 
-			$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'default' AND folder = 'hwdvs-template'");
-			$count = $db->loadResult();
-			if ($count == 0) {
-				$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'Default Template', 'default', 'hwdvs-template', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
-				$db->setQuery( $query );
-				$db->query();
+			if ($j15)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__plugins WHERE element = 'default' AND folder = 'hwdvs-template'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__plugins` VALUES ('', 'Default Template', 'default', 'hwdvs-template', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '')";
+					$db->setQuery( $query );
+					$db->query();
+				}
+			}
+			if ($j16)
+			{
+				$db->setQuery("SELECT COUNT(*) FROM #__extensions WHERE type = 'plugin' AND element = 'default' AND folder = 'hwdvs-template'");
+				$count = $db->loadResult();
+				if ($count == 0)
+				{
+					$query = "INSERT IGNORE INTO `#__extensions` VALUES ('', 'Default Template', 'plugin', 'default', 'hwdvs-template', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', '', 0)";
+					$db->setQuery( $query );
+					$db->query();
+				}
 			}
 
-		if ($section_check==true) {
+
+		if ($section_check==true)
+		{
 			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/tick.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="success">SUCCESS</font><br />';
 		}
 	?>
 	</div>
 <?php
 }
-
-
 /**
  * Draws the general configuration file
  */
-function drawconfig()
-	{
+function drawConfig()
+{
 	global $database;
 	$db =& JFactory::getDBO();
-
-	$configfile = "components/com_hwdvideoshare/config.hwdvideoshare.php";
-	@chmod ($configfile, 0777);
-	$permission = is_writable($configfile);
-	if (!$permission) {
-		return false;
-	}
 
 	$config = "<?php\n";
 	$config .= "class hwd_vs_Config{ \n\n";
 	$config .= "  // Stores the only allowable instance of this class.\n";
 	$config .= "  var \$instanceConfig = null;\n\n";
 	$config .= "  // Member variables\n";
+
 	// print out config
-	$query  = 'SELECT *'
-			. ' FROM #__hwdvidsgs'
-			;
+	$query  = 'SELECT * FROM #__hwdvidsgs';
 	$db->setQuery($query);
 	$rows = $db->loadObjectList();
-	for ($i=0, $n=count($rows); $i < $n; $i++) {
+	for ($i=0, $n=count($rows); $i < $n; $i++)
+	{
 		$row = $rows[$i];
 		if ($row->setting == "flvplay_width" && empty($row->value)) { $row->value = "450"; }
 		if ($row->setting == "customencode") { $row->value = addslashes($row->value); }
 		$config .= "  var \$".$row->setting." = '".$row->value."';\n";
 	}
+
 	$config .= "\n/**\n";
 	$config .= "  * get_instance\n";
 	$config .= "  *	Description:\n";
@@ -644,44 +926,37 @@ function drawconfig()
 	$config .= "}\n";
 	$config .= "?>";
 
-	if ($fp = fopen("$configfile", "w")) {
-		fputs($fp, $config, strlen($config));
-		fclose ($fp);
+	$configFile = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php';
+	if (!JFile::write($configFile, $config)) {
+		return false;
 	}
 
 	return true;
-	}
-
+}
 /**
  * Draws the server configuration file
  */
-function drawserverconfig()
-	{
+function drawServerConfig()
+{
 	global $database;
 	$db =& JFactory::getDBO();
-
-	$configfile = "components/com_hwdvideoshare/serverconfig.hwdvideoshare.php";
-	@chmod ($configfile, 0777);
-	$permission = is_writable($configfile);
-	if (!$permission) {
-		return false;
-	}
 
 	$config = "<?php\n";
 	$config .= "class hwd_vs_SConfig{ \n\n";
 	$config .= "  // Stores the only allowable instance of this class.\n";
 	$config .= "  var \$instanceConfig = null;\n\n";
 	$config .= "  // Member variables\n";
+
 	// print out config
-	$query  = 'SELECT *'
-			. ' FROM #__hwdvidsss'
-			;
+	$query  = 'SELECT * FROM #__hwdvidsss';
 	$db->setQuery($query);
 	$rows = $db->loadObjectList();
-	for ($i=0, $n=count($rows); $i < $n; $i++) {
+	for ($i=0, $n=count($rows); $i < $n; $i++)
+	{
 		$row = $rows[$i];
 		$config .= "  var \$".$row->setting." = '".$row->value."';\n";
 	}
+
 	$config .= "\n/**\n";
 	$config .= "  * get_instance\n";
 	$config .= "  *	Description:\n";
@@ -701,138 +976,134 @@ function drawserverconfig()
 	$config .= "}\n";
 	$config .= "?>";
 
-	if ($fp = fopen("$configfile", "w")) {
-		fputs($fp, $config, strlen($config));
-		fclose ($fp);
+	$configFile = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'serverconfig.hwdvideoshare.php';
+	if (!JFile::write($configFile, $config)) {
+		return false;
 	}
 
 	return true;
 }
-
 /**
  * Draws the server configuration file
  */
 function createDirectory($path, $suppress=false)
 {
-	if(!file_exists($path)){
-		if(@mkdir($path)) {
-			if(!is_writable($path)){
-				if(@!chmod($path, 0777)) {
-					if (!$suppress) {
-						echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to make '.$path.' writeable<br />';
-					}
-					return false;
-				}
-			}
-		} else {
-			if (!$suppress) {
-				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to create '.$path.'<br />';
+	if(!file_exists($path))
+	{
+		if(JFolder::create($path, "0755"))
+		{
+			@JPath::setPermissions($path, "0644", "0755");
+		}
+		else
+		{
+			if (!$suppress)
+			{
+				echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" title="" class="icon" /><font class="fail">ERROR:</font> Failed to create '.$path.'<br />';
 			}
 			return false;
-		}
-	} else {
-		if(!is_writable($path)){
-			if(@!chmod($path, 0777)) {
-				if (!$suppress) {
-					echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to make '.$path.' writeable<br />';
-				}
-				return false;
-			}
 		}
 	}
 	return true;
 }
-
 /**
  * Draws the server configuration file
  */
 function makeDirectoryWritable($path)
 {
-	if (@!is_writable($path)) {
-		if(@!chmod($path, 0777)) {
-			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to make '.$path.' writeable<br />';
-			return false;
-		}
-	}
+	@JPath::setPermissions($path, "0644", "0755");
 	return true;
 }
-
 /**
- * Draws the server configuration file
+ * Makes a directory executable using Joomla
+ *
+ * @return       Nothing
  */
 function makeDirectoryExecutable($path)
 {
-	if (@!is_executable($path)) {
-		if(@!chmod($path, 0755)) {
-			echo '<img src="../administrator/components/com_hwdvideoshare/assets/images/icons/delete.png" border="0" alt="" width="16" height="16" title="" class="icon" /><font class="fail">ERROR:</font> Failed to make '.$path.' executable<br />';
-			return false;
-		}
-	}
+	JPath::setPermissions($path, "0755", "0755");
 	return true;
 }
-
 /**
  * Copy a directory
  */
-function copyDirectoryRecursive($source, $dest, $options=array('folderPermission'=>0755,'filePermission'=>0755))
-    {
-        $result=false;
+function copyDirectoryRecursive($source, $dest)
+{
+	$result = false;
 
-        if (is_file($source)) {
-            if ($dest[strlen($dest)-1]=='/') {
-                if (!file_exists($dest)) {
-                    cmfcDirectory::makeAll($dest,$options['folderPermission'],true);
-                }
-                $__dest=$dest."/".basename($source);
-            } else {
-                $__dest=$dest;
-            }
-            $result=@copy($source, $__dest);
-            @chmod($__dest,$options['filePermission']);
+	if (is_file($source))
+	{
+		if ($dest[strlen($dest)-1] == '/')
+		{
+			if (!file_exists($dest))
+			{
+				cmfcDirectory::makeAll($dest, "0755", true);
+			}
+			$__dest = $dest."/".basename($source);
+		}
+		else
+		{
+			$__dest = $dest;
+		}
+		$result = JFile::copy($source, $__dest);
+		@JPath::setPermissions($__dest, "0644", "0755");
+	}
+	elseif(is_dir($source))
+	{
+		if ($dest[strlen($dest)-1] == '/')
+		{
+			if ($source[strlen($source)-1] == '/')
+			{
+				//Copy only contents
+			}
+			else
+			{
+				//Change parent itself and its contents
+				$dest=$dest.basename($source);
+				JFolder::create($dest);
+				@JPath::setPermissions($dest, "0644", "0755");
+			}
+		}
+		else
+		{
+			if ($source[strlen($source)-1]=='/')
+			{
+				//Copy parent directory with new name and all its content
+				JFolder::create($dest, "0755");
+				@JPath::setPermissions($dest, "0644", "0755");
+			}
+			else
+			{
+				//Copy parent directory with new name and all its content
+				JFolder::create($dest, "0755");
+				@JPath::setPermissions($dest, "0644", "0755");
+			}
+		}
 
-        } elseif(is_dir($source)) {
-            if ($dest[strlen($dest)-1]=='/') {
-                if ($source[strlen($source)-1]=='/') {
-                    //Copy only contents
-                } else {
-                    //Change parent itself and its contents
-                    $dest=$dest.basename($source);
-                    @mkdir($dest);
-                    chmod($dest,$options['filePermission']);
-                }
-            } else {
-                if ($source[strlen($source)-1]=='/') {
-                    //Copy parent directory with new name and all its content
-                    @mkdir($dest,$options['folderPermission']);
-                    chmod($dest,$options['filePermission']);
-                } else {
-                    //Copy parent directory with new name and all its content
-                    @mkdir($dest,$options['folderPermission']);
-                    @chmod($dest,$options['filePermission']);
-                }
-            }
-
-            $dirHandle=opendir($source);
-            while($file=readdir($dirHandle))
-            {
-                if($file!="." && $file!="..")
-                {
-                     if(!is_dir($source."/".$file)) {
-                        $__dest=$dest."/".$file;
-                    } else {
-                        $__dest=$dest."/".$file;
-                    }
-                    //echo "$source/$file ||| $__dest<br />";
-                    $result=copyDirectoryRecursive($source."/".$file, $__dest, $options);
-                }
-            }
-            closedir($dirHandle);
-
-        } else {
-            $result=false;
-        }
-        return $result;
-    }
+		$dirHandle = opendir($source);
+		while($file = readdir($dirHandle))
+		{
+			if($file != "." && $file != "..")
+			{
+				if(!is_dir($source."/".$file))
+				{
+					$__dest = $dest."/".$file;
+				}
+				else
+				{
+					$__dest = $dest."/".$file;
+				}
+				//echo "$source/$file ||| $__dest<br />";
+				$result=copyDirectoryRecursive($source."/".$file, $__dest);
+			}
+		}
+		closedir($dirHandle);
+	}
+	else
+	{
+		$result=false;
+	}
+	return $result;
+}
 
 /**
  * Delete a directory

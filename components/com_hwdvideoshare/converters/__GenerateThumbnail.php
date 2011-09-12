@@ -2,7 +2,7 @@
 /**
  *    @version 2.1.2 Build 21201 Alpha [ Linkwater ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -189,54 +189,61 @@ class hwd_vs_GenerateThumbnail
 		}
 
 		//Dynamic
-		if ( @!file_exists($path_dthumb) || (@filesize($path_dthumb) == 0) ) {
+		if ( @!file_exists($path_dthumb) || (@filesize($path_dthumb) == 0) )
+		{
+			if (function_exists('imagecreatefromjpeg'))
+			{
+				$cmd_dinput = "$s->ffmpegpath -i $path_cmd_new -an -r 0.2 -t 45 -y -s ".$nthumbwidth."x".$nthumbheight." ".$path_cmd_seqthumb."_%d.jpg";
+				@exec("$sharedlib $cmd_dinput 2>&1", $cmd_doutput);
 
-			$cmd_dinput = "$s->ffmpegpath -i $path_cmd_new -an -r 0.2 -t 45 -y -s ".$nthumbwidth."x".$nthumbheight." ".$path_cmd_seqthumb."_%d.jpg";
-			@exec("$sharedlib $cmd_dinput 2>&1", $cmd_doutput);
+				include_once JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'GIFEncoder.class.php';
 
-			include_once JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'GIFEncoder.class.php';
+				$frames = null;
+				$time = null;
 
-			$frames = null;
-			$time = null;
+				for($i=1;$i<9;$i++){
 
-			for($i=1;$i<9;$i++){
+					if (file_exists($path_seqthumb_orig.'_'.$i.'.jpg')) {
 
-				if (file_exists($path_seqthumb_orig.'_'.$i.'.jpg')) {
+						$imgname = $path_seqthumb_orig.'_'.$i.'.jpg';
+						$im = @imagecreatefromjpeg($imgname); /* Attempt to open */
+						imagegif($im, $path_seqthumb_orig.'_'.$i.'.gif');
+						$frames[] = $path_seqthumb_orig.'_'.$i.'.gif';
+						$time[] = 100;
 
-					$imgname = $path_seqthumb_orig.'_'.$i.'.jpg';
-					$im = @imagecreatefromjpeg($imgname); /* Attempt to open */
-					imagegif($im, $path_seqthumb_orig.'_'.$i.'.gif');
-					$frames[] = $path_seqthumb_orig.'_'.$i.'.gif';
-					$time[] = 100;
+					}
 
 				}
 
+				if (is_array($frames)) {
+
+					$gif = new GIFEncoder    (
+						$frames, // frames array
+						$time, // elapsed time array
+						0, // loops (0 = infinite)
+						2, // disposal
+						0, 0, 0, // rgb of transparency
+						"url" // source type
+					);
+
+					$fh = fopen($path_dthumb, 'w') or die("can't open file");
+					fwrite($fh, $gif->GetAnimation());
+					fclose($fh);
+
+					@imagedestroy($im);
+
+				}
+
+				for($i=1;$i<9;$i++){
+					@unlink($path_seqthumb_orig.'_'.$i.'.gif');
+					@unlink($path_seqthumb_orig.'_'.$i.'.jpg');
+				}
 			}
-
-			if (is_array($frames)) {
-
-				$gif = new GIFEncoder    (
-					$frames, // frames array
-					$time, // elapsed time array
-					0, // loops (0 = infinite)
-					2, // disposal
-					0, 0, 0, // rgb of transparency
-					"url" // source type
-				);
-
-				$fh = fopen($path_dthumb, 'w') or die("can't open file");
-				fwrite($fh, $gif->GetAnimation());
-				fclose($fh);
-
-				@imagedestroy($im);
-
+			else
+			{
+				$cmd_dinput = "Could not use image manupulation functions. Check the GD image library has been installed";
+				$cmd_doutput = "";
 			}
-
-			for($i=1;$i<9;$i++){
-				@unlink($path_seqthumb_orig.'_'.$i.'.gif');
-				@unlink($path_seqthumb_orig.'_'.$i.'.jpg');
-			}
-
 		}
 
 		$result = array();
@@ -278,21 +285,23 @@ class hwd_vs_GenerateThumbnail
 
 			}
 		}
-		if(file_exists($path_lthumb) && (filesize($path_lthumb) > 0)) {
-
+		if(file_exists($path_lthumb) && (filesize($path_lthumb) > 0))
+                {
 			@unlink($path_lthumb_orig);
 			if (!@rename($path_lthumb, $path_lthumb_orig)) {
 				@copy($path_lthumb, $path_lthumb_orig);
 			}
 
-			if(file_exists($path_lthumb_orig) && (filesize($path_lthumb_orig) > 0)) {
-
+			if(file_exists($path_lthumb_orig) && (filesize($path_lthumb_orig) > 0))
+                        {
 				$result[6] = 1;
 				@unlink($path_lthumb);
-
 			}
 		}
 
+@chmod($path_sthumb_orig, 0755);
+@chmod($path_dthumb_orig, 0755);
+@chmod($path_lthumb_orig, 0755);
 		$result = hwd_vs_GenerateThumbnail::generateOutput($result);
 		return $result;
 

@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -27,176 +27,174 @@ class hwdvids_BE_exports
 	*/
 	function backuptables()
 	{
-		global $database, $my;
 		hwdvids_HTML::backuptables();
 	}
 
-/**
-*  The backup process controller
-*/
-function botJombackup()
+	/**
+	*  The backup process controller
+	*/
+	function botJombackup()
 	{
-	// All this global stuff will need to be rewritten for 1.5, but it'll suffice for now
-	global $mainframe;
+		$app = & JFactory::getApplication();
+		$config = new JConfig;
 
-	$config = new JConfig;
+		$jb_abspath		= JPATH_SITE;
+		$jb_host		= $config->host;
+		$jb_user		= $config->user;
+		$jb_password	= $config->password;
+		$jb_db			= $config->db;
+		$jb_mailfrom	= $config->mailfrom;
+		$jb_fromname	= $config->fromname;
+		$jb_livesite	= JURI::root();
 
-	$jb_abspath		= JPATH_SITE;
-	$jb_host		= $config->host;
-	$jb_user		= $config->user;
-	$jb_password	= $config->password;
-	$jb_db			= $config->db;
-	$jb_mailfrom	= $config->mailfrom;
-	$jb_fromname	= $config->fromname;
-	$jb_livesite	= JURI::root();
+		$bkuparray = array(
+		'testing' => 1,
+		'deletefile' => true,
+		'compress' => 1,
+		'backuppath' => 0,
+		'recipient' => '',
+		'subject' => 'Mysql backup',
+		'fromname' => $jb_fromname,
+		'body' => 'Mysql backup from '.$jb_fromname,
+		'drop_tables' => 1,
+		'create_tables' => 1,
+		'struct_only' => 0,
+		'locks' => 0,
+		'comments' => 1,
+		);
 
-	$bkuparray = array(
-	'testing' => 1,
-	'deletefile' => true,
-	'compress' => 1,
-	'backuppath' => 0,
-	'recipient' => '',
-	'subject' => 'Mysql backup',
-	'fromname' => $jb_fromname,
-	'body' => 'Mysql backup from '.$jb_fromname,
-	'drop_tables' => 1,
-	'create_tables' => 1,
-	'struct_only' => 0,
-	'locks' => 0,
-	'comments' => 1,
-	);
+		$testing 			= $bkuparray['testing'];
+		$compress			= $bkuparray['compress'];
+		$deletefile			= $bkuparray['deletefile'];
+		$drop_tables 		= $bkuparray['drop_tables'];
+		$create_tables 		= $bkuparray['create_tables'];
+		$struct_only 		= $bkuparray['struct_only'];
+		$locks 				= $bkuparray['locks'];
+		$comments 			= $bkuparray['comments'];
+		$ToEmail 			= $bkuparray['recipient'];
+		$Subject 			= $bkuparray['subject'];
+		$Body 				= $bkuparray['body'];
+		$backuppath			= $bkuparray['backuppath'];
+		$FromName 			= $bkuparray['fromname'];
 
-	$testing 			= $bkuparray['testing'];
-	$compress			= $bkuparray['compress'];
-	$deletefile			= $bkuparray['deletefile'];
-	$drop_tables 		= $bkuparray['drop_tables'];
-	$create_tables 		= $bkuparray['create_tables'];
-	$struct_only 		= $bkuparray['struct_only'];
-	$locks 				= $bkuparray['locks'];
-	$comments 			= $bkuparray['comments'];
-	$ToEmail 			= $bkuparray['recipient'];
-	$Subject 			= $bkuparray['subject'];
-	$Body 				= $bkuparray['body'];
-	$backuppath			= $bkuparray['backuppath'];
-	$FromName 			= $bkuparray['fromname'];
+		$mediaPath          = JPATH_SITE.DS."media";
+		$checkfileName      = "jombackup_checkfile_";
+		$today              = date("Y-m-d");
+		$dateCheckFile      = $checkfileName.$today;
+		$okToContinue       = true;
 
-	$mediaPath=JPATH_SITE.'/media';
-	$checkfileName='jombackup_checkfile_';
-	$today = date("Y-m-d");
-	$dateCheckFile=$checkfileName.$today;
-	$okToContinue=true;
-
-	if ($okToContinue)
+		if ($okToContinue)
 		{
-		// No need to do the require beforehand if not ok to continue, so we'll do it here to save an eeny weeny amount of time
-		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'mysql_backup.class.php');
+			require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'mysql_backup.class.php');
 
-		// Ok, let's crack on. First we want to get rid of yesterday's jombackup_checkfile, no need to have that lying around now
-		$yesterday=date("Y-m-d" ,strtotime("yesterday") );
-		$yesterdaysCheckfile=$checkfileName.$yesterday;
-		if (is_file($yesterdaysCheckfile) && @is_writable($yesterdaysCheckfile) )
+			$backup_obj = new Jombackup_MySQL_DB_Backup();
+			$result = hwdvids_BE_exports::jombackupBackup($backup_obj,$jb_host,$jb_user,$jb_password,$jb_db,$bkuparray,$mediaPath,$jb_fromname,$compress,$backuppath);
+			$backupFile = $backup_obj->jombackup_file_name;
+
+			$EmailResult=hwdvids_BE_exports::jombackupEmail($bkuparray,$jb_mailfrom,$jb_fromname,$backupFile,$result['output'],$jb_livesite);
+			if (!empty($backupFile))
 			{
-			unlink($yesterdaysCheckfile);
-			}
-		// Now we need to create the backup
-		$backup_obj = new Jombackup_MySQL_DB_Backup();
-		$result=hwdvids_BE_exports::jombackupBackup($backup_obj,$jb_host,$jb_user,$jb_password,$jb_db,$bkuparray,$mediaPath,$jb_fromname,$compress,$backuppath);
-		$backupFile=$backup_obj->jombackup_file_name;
-		// and email it to wherever
-		$EmailResult=hwdvids_BE_exports::jombackupEmail($bkuparray,$jb_mailfrom,$jb_fromname,$backupFile,$result['output'],$jb_livesite);
-		if ($deletefile=="1" && !empty($backupFile) )
-			{
-			if ($testing)
 				$msg = _HWDVIDS_EXPORT_SUCCESS;
-				//$msg = _HWDVIDS_EXPORT_SUCCESS."<br />"._HWDVIDS_EXPORT_DELETE1." ".$backupFile;
 				unlink($backupFile);
-				$mainframe->enqueueMessage($msg);
-				$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=export' );
+				$app->enqueueMessage($msg);
+				$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=export' );
 				return;
 			}
-		else if ($testing)
-			$msg = _HWDVIDS_EXPORT_SUCCESS;
-			//$msg = _HWDVIDS_EXPORT_SUCCESS."<br />"._HWDVIDS_EXPORT_DELETE0." ".$backup_obj->jombackup_file_name;
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=export' );
-			return;
-		// Job done
 		}
 	}
 
-function jombackupEmail($bkuparray,$jb_mailfrom,$jb_fromname,$Attachment,$Body,$jb_livesite)
+	function jombackupEmail($bkuparray,$jb_mailfrom,$jb_fromname,$Attachment,$Body,$jb_livesite)
 	{
-	$ToEmail 			= Jrequest::getVar( 'recipient', $jb_mailfrom );
-	$Subject 			= Jrequest::getVar( 'subject', 'hwdVideoShare SQL Backup' );
-	$Body 				= Jrequest::getVar( 'body', 'hwdVideoShare backup completed successfully at ' );
-	$Body 				= $Body." ".$jb_fromname;
-	$FromName 			= $bkuparray['fromname'];
-	if (empty($ToEmail)) {$ToEmail=$jb_mailfrom;}
-	if (empty($Subject)) {$Subject="hwdVideoShare SQL Backup";}
-	if (empty($Body)) 	 {$Body="hwdVideoShare backup completed successfully.";}
-	JUtility::sendMail($jb_mailfrom, $FromName, $ToEmail, $Subject.' '.$jb_livesite, $Body, $mode=0, $cc=NULL, $bcc=NULL, $Attachment);
+		$ToEmail 			= Jrequest::getVar( 'recipient', $jb_mailfrom );
+		$Subject 			= Jrequest::getVar( 'subject', 'hwdVideoShare SQL Backup' );
+		$Body 				= Jrequest::getVar( 'body', 'hwdVideoShare backup completed successfully at ' );
+		$Body 				= $Body." ".$jb_fromname;
+		$FromName 			= $bkuparray['fromname'];
+		if (empty($ToEmail)) {$ToEmail=$jb_mailfrom;}
+		if (empty($Subject)) {$Subject="hwdVideoShare SQL Backup";}
+		if (empty($Body)) 	 {$Body="hwdVideoShare backup completed successfully.";}
+		JUtility::sendMail($jb_mailfrom, $FromName, $ToEmail, $Subject.' '.$jb_livesite, $Body, $mode=0, $cc=NULL, $bcc=NULL, $Attachment);
 	}
 
-function jombackupBackup(&$backup_obj,$jb_host,$jb_user,$jb_password,$jb_db,$bkuparray,$mediaPath,$jb_fromname,$compress,$backuppath)
+	function jombackupBackup(&$backup_obj,$jb_host,$jb_user,$jb_password,$jb_db,$bkuparray,$mediaPath,$jb_fromname,$compress,$backuppath)
 	{
-	$config = new JConfig;
+		$config = new JConfig;
 
-	$Body 				= $bkuparray['body'];
-	$drop_tables 		= $bkuparray['drop_tables'];
-	$create_tables 		= $bkuparray['create_tables'];
-	$struct_only 		= $bkuparray['struct_only'];
-	$locks 				= $bkuparray['locks'];
-	$comments 			= $bkuparray['comments'];
-	if (!empty($backuppath) && is_dir($backuppath) && @is_writable($backuppath)  )
-		$backup_dir 		= $backuppath;
-	else
-		$backup_dir 		= $mediaPath;
+		$Body 				= $bkuparray['body'];
+		$drop_tables 		= $bkuparray['drop_tables'];
+		$create_tables 		= $bkuparray['create_tables'];
+		$struct_only 		= $bkuparray['struct_only'];
+		$locks 				= $bkuparray['locks'];
+		$comments 			= $bkuparray['comments'];
+		if (!empty($backuppath) && is_dir($backuppath) && @is_writable($backuppath)  )
+			$backup_dir 		= $backuppath;
+		else
+			$backup_dir 		= $mediaPath;
 
-	//----------------------- EDIT - REQUIRED SETUP VARIABLES -----------------------
-	$backup_obj->server 	= $jb_host;
-	$backup_obj->port 		= 3306;
-	$backup_obj->username 	= $jb_user;
-	$backup_obj->password 	= $jb_password;
-	$backup_obj->database 	= $jb_db;
-	//Tables you wish to backup. All tables in the database will be backed up if this array is null.
-	$backup_obj->tables = array($config->dbprefix.'hwdvidscategories',$config->dbprefix.'hwdvidsfavorites',$config->dbprefix.'hwdvidsflagged_groups',$config->dbprefix.'hwdvidsflagged_videos',$config->dbprefix.'hwdvidsgroups',$config->dbprefix.'hwdvidsgroup_membership',$config->dbprefix.'hwdvidsgroup_videos',$config->dbprefix.'hwdvidsgs',$config->dbprefix.'hwdvidslogs_archive',$config->dbprefix.'hwdvidslogs_favours',$config->dbprefix.'hwdvidslogs_views',$config->dbprefix.'hwdvidslogs_votes',$config->dbprefix.'hwdvidsplugin',$config->dbprefix.'hwdvidsrating',$config->dbprefix.'hwdvidsss',$config->dbprefix.'hwdvidsvideos');
-	//------------------------ END - REQUIRED SETUP VARIABLES -----------------------
+		//----------------------- EDIT - REQUIRED SETUP VARIABLES -----------------------
+		$backup_obj->server 	= $jb_host;
+		$backup_obj->port 		= 3306;
+		$backup_obj->username 	= $jb_user;
+		$backup_obj->password 	= $jb_password;
+		$backup_obj->database 	= $jb_db;
 
-	//-------------------- OPTIONAL PREFERENCE VARIABLES ---------------------
-	//Add DROP TABLE IF EXISTS queries before CREATE TABLE in backup file.
-	$backup_obj->drop_tables = $drop_tables;
-	//No table structure will be backed up if false
-	$backup_obj->create_tables = $create_tables;
-	//Only structure of the tables will be backed up if true.
-	$backup_obj->struct_only = $struct_only;
-	//Add LOCK TABLES before data backup and UNLOCK TABLES after
-	$backup_obj->locks = $locks;
-	//Include comments in backup file if true.
-	$backup_obj->comments = $comments;
-	//Directory on the server where the backup file will be placed. Used only if task parameter equals MSX_SAVE.
-	$backup_obj->backup_dir = $backup_dir.'/';
-	//Default file name format.
-	$backup_obj->fname_format = 'd_m_Y';
-	//Values you want to be intrerpreted as NULL
-	$backup_obj->null_values = array( );
+		//Tables you wish to backup. All tables in the database will be backed up if this array is null.
+		$backup_obj->tables = array(
+		$config->dbprefix.'hwdvidsantileech',
+		$config->dbprefix.'hwdvidscategories',
+		$config->dbprefix.'hwdvidschannels',
+		$config->dbprefix.'hwdvidsfavorites',
+		$config->dbprefix.'hwdvidsflagged_groups',
+		$config->dbprefix.'hwdvidsflagged_videos',
+		$config->dbprefix.'hwdvidsgroups',
+		$config->dbprefix.'hwdvidsgroup_membership',
+		$config->dbprefix.'hwdvidsgroup_videos',
+		$config->dbprefix.'hwdvidsgs',
+		$config->dbprefix.'hwdvidslogs_archive',
+		$config->dbprefix.'hwdvidslogs_favours',
+		$config->dbprefix.'hwdvidslogs_views',
+		$config->dbprefix.'hwdvidslogs_votes',
+		$config->dbprefix.'hwdvidsplaylists',
+		$config->dbprefix.'hwdvidsrating',
+		$config->dbprefix.'hwdvidsss',
+		$config->dbprefix.'hwdvidssubs',
+		$config->dbprefix.'hwdvidsvideos'
+		);
+		//----------------------- END - REQUIRED SETUP VARIABLES ------------------------
 
-	$savetask = MSX_SAVE;
-	//Optional name of backup file if using 'MSX_APPEND', 'MSX_SAVE' or 'MSX_DOWNLOAD'. If nothing is passed, the default file name format will be used.
-	$filename = '';
-	//--------------------- END - REQUIRED EXECUTE VARIABLES ----------------------
-	$result_bk = $backup_obj->Execute($savetask, $filename, $compress);
-	if (!$result_bk)
+		//----------------------- OPTIONAL PREFERENCE VARIABLES -------------------------
+		//Add DROP TABLE IF EXISTS queries before CREATE TABLE in backup file.
+		$backup_obj->drop_tables = $drop_tables;
+		//No table structure will be backed up if false
+		$backup_obj->create_tables = $create_tables;
+		//Only structure of the tables will be backed up if true.
+		$backup_obj->struct_only = $struct_only;
+		//Add LOCK TABLES before data backup and UNLOCK TABLES after
+		$backup_obj->locks = $locks;
+		//Include comments in backup file if true.
+		$backup_obj->comments = $comments;
+		//Directory on the server where the backup file will be placed. Used only if task parameter equals MSX_SAVE.
+		$backup_obj->backup_dir = $backup_dir.'/';
+		//Default file name format.
+		$backup_obj->fname_format = 'd_m_Y';
+		//Values you want to be intrerpreted as NULL
+		$backup_obj->null_values = array( );
+
+		$savetask = MSX_SAVE;
+		//Optional name of backup file if using 'MSX_APPEND', 'MSX_SAVE' or 'MSX_DOWNLOAD'. If nothing is passed, the default file name format will be used.
+		$filename = '';
+		//----------------------- END - REQUIRED EXECUTE VARIABLES ----------------------
+		$result_bk = $backup_obj->Execute($savetask, $filename, $compress);
+
+		if (!$result_bk)
 		{
-		$output = $backup_obj->error;
+			$output = $backup_obj->error;
 		}
-	else
+		else
 		{
-		$output = $Body.': ' . strftime('%A %d %B %Y  - %T ') . ' ';
+			$output = $Body.': ' . strftime('%A %d %B %Y  - %T ') . ' ';
 		}
-	return array('result'=>$result_bk,'output'=>$output);
+		return array('result'=>$result_bk,'output'=>$output);
 	}
-
-
-
 }
 ?>

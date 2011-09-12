@@ -1,14 +1,14 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
 
 <div id="hwdvids">
-	
+
 	{if $hwdvids_params.navigation eq "full"}
 
 		<center>
@@ -38,14 +38,12 @@
 		   {if $print_ads}<div id="hwdadverts">{$advert2}</div>{/if}
 		</center>
 	
-	{else if $hwdvids_params.navigation eq "basic"}
+	{elseif $hwdvids_params.navigation eq "basic"}
 	
         	{if $navlinks_print}
-        	<div class="standard">
         		<div class="padding">
-        			<a href='{$myvideos_link}'>{$smarty.const._HWDVIDS_NAV_YOURVIDS}</a> | <a href='{$uploadvideos_link}'>{$smarty.const._HWDVIDS_NAV_UPLOAD}</a>
+        			<a href='{$uservideos_link}'>{$smarty.const._HWDVIDS_VIEWALL}</a> | <a href='{$myvideos_link}'>{$smarty.const._HWDVIDS_NAV_YOURVIDS}</a> | <a href='{$uploadvideos_link}'>{$smarty.const._HWDVIDS_NAV_UPLOAD}</a>
         		</div>
-        	</div>
         	{/if}
 		
 	{/if}

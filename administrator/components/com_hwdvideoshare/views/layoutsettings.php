@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ class hwdvids_HTML_settings
 	*/
 	function showlayoutsettings(&$gtree)
 	{
-		global $mosConfig_live_site, $mosConfig_absolute_path, $mosConfig_mailfrom, $smartyvs, $acl, $database;
+		global $smartyvs, $acl, $database;
 		$c = hwd_vs_Config::get_instance();
 		$db =& JFactory::getDBO();
 
@@ -37,33 +37,84 @@ class hwdvids_HTML_settings
 		/** display template **/
 		$smartyvs->display('admin_header.tpl');
 
-  		if (is_writable(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php')) {
-  			$config_file_status = "<span style=\"color:#458B00;\">"._HWDVIDS_INFO_CONFIGF2."</span>.";
-  		} else {
-  			$config_file_status = '<span style="color:#ff0000;">'._HWDVIDS_INFO_CONFIGF3.'</span> ('.JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php)';
-  		}
   		?>
   		<div style="border: solid 1px #333;margin:5px 0 5px 0;padding:5px;text-align:left;font-weight:bold;">
   		  <ul id="submenu">
             <li>
-              <a href="index.php?option=com_hwdvideoshare&task=generalsettings">General Settings</a>
+              <a class="active" href="index.php?option=com_hwdvideoshare&task=generalsettings">General Settings</a>
             </li>
             <li>
-              <a class="active" href="index.php?option=com_hwdvideoshare&task=layoutsettings">Layout Settings</a>
+              <a href="index.php?option=com_hwdvideoshare&task=layoutsettings">Layout Settings</a>
             </li>
-            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo _HWDVIDS_INFO_CONFIGF1." ".$config_file_status; ?></li>
+            <?php
+			$jconfig = new jconfig();
+			if ($jconfig->ftp_enable != 1)
+			{
+				if (is_writable(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php'))
+				{
+					$config_file_status = "<span style=\"color:#458B00;\">"._HWDVIDS_INFO_CONFIGF2."</span>.";
+				}
+				else
+				{
+					$config_file_status = '<span style="color:#ff0000;">'._HWDVIDS_INFO_CONFIGF3.'</span> ('.JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php)';
+				}
+            	echo "<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"._HWDVIDS_INFO_CONFIGF1." ".$config_file_status."</li>";
+			}
+			?>
           </ul>
         <div style="clear:both;"></div>
         </div>
 
+		<?php
+		if (file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-template'.DS.'default'.DS.'params1.xml'))
+		{
+			$paramsdata = "";
+			$paramsdefs = JPATH_SITE.DS.'plugins'.DS.'hwdvs-template'.DS.'default'.DS.'params.xml';
+			$params = new JParameter( $paramsdata, $paramsdefs );
+
+			jimport( 'joomla.application.component.view' );
+			JView::assignRef('params', $params);
+
+			jimport('joomla.html.pane');
+
+			$pane =& JPane::getInstance( 'sliders' );
+
+			echo $pane->startPane( 'content-pane' );
+
+			// First slider panel
+			// Create a slider panel with a title of SLIDER_PANEL_1_TITLE and a title id attribute of SLIDER_PANEL_1_NAME
+			echo $pane->startPanel( JText::_( 'SLIDER_PANEL_1_TITLE' ), 'SLIDER_PANEL_1_NAME' );
+			// Display the parameters defined in the <params> group with no 'group' attribute
+			echo $this->params->render( 'params' );
+			echo $pane->endPanel();
+
+			//Second slider panel
+			// Create a slider panel with a title of SLIDER_PANEL_2_TITLE and a title id attribute of SLIDER_PANEL_2_NAME
+			echo $pane->startPanel( JText::_( 'SLIDER_PANEL_2_TITLE' ), 'SLIDER_PANEL_2_NAME' );
+			// Display the parameters defined in the <params> group with the 'group' attribute of 'GROUP_NAME'
+			echo $this->params->render( 'params', 'metadata' );
+			echo $pane->endPanel();
+
+			//Second slider panel
+			// Create a slider panel with a title of SLIDER_PANEL_3_TITLE and a title id attribute of SLIDER_PANEL_32_NAME
+			echo $pane->startPanel( JText::_( 'SLIDER_PANEL_3_TITLE' ), 'SLIDER_PANEL_3_NAME' );
+			// Display the parameters defined in the <params> group with the 'group' attribute of 'GROUP_NAME'
+			echo $this->params->render( 'params', 'advanced' );
+			echo $pane->endPanel();
+
+			echo $pane->endPane();
+		}
+		else
+		{
+		?>
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="adminform">
 			  <tr><td align="left" valign="top" colspan="3"><h3><?php echo _ADMIN_HWDVIDS_SETT_DISABLENAVTABS ?></h3></td></tr>
 			  <tr>
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEVIDTAB ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_videos" size="1" class="inputbox">
-					<option value="1"<?php if ($c->diable_nav_videos == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_videos == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->diable_nav_videos == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_videos == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEVIDTAB_DESC ?></td>
@@ -72,8 +123,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLECATTAB ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_catego" size="1" class="inputbox">
-					<option value="1"<?php if ($c->diable_nav_catego == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_catego == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->diable_nav_catego == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_catego == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLECATTAB_DESC ?></td>
@@ -82,19 +133,39 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEGRPTAB ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_groups" size="1" class="inputbox">
-					<option value="1"<?php if ($c->diable_nav_groups == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_groups == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->diable_nav_groups == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_groups == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEGRPTAB_DESC ?></td>
 			  </tr>
 			  <tr>
+				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEPLTAB ?></td>
+				<td width="20%" align="left" valign="top">
+				<select name="disable_nav_playlist" size="1" class="inputbox">
+					<option value="1"<?php if ($c->disable_nav_playlist == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->disable_nav_playlist == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
+				</select>
+				</td>
+				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEPLTAB_DESC ?></td>
+			  </tr>
+			  <tr>
+				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLECHTAB ?></td>
+				<td width="20%" align="left" valign="top">
+				<select name="disable_nav_channel" size="1" class="inputbox">
+					<option value="1"<?php if ($c->disable_nav_channel == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->disable_nav_channel == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
+				</select>
+				</td>
+				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLECHTAB_DESC ?></td>
+			  </tr>
+			  <tr>
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEULDTAB ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_upload" size="1" class="inputbox">
-					<option value="2"<?php if ($c->diable_nav_upload == 2) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_HIDEUPLDNA.' '; ?></option>
-					<option value="1"<?php if ($c->diable_nav_upload == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_upload == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="2"<?php if ($c->diable_nav_upload == 2) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_HIDEUPLDNA; ?></option>
+					<option value="1"<?php if ($c->diable_nav_upload == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_upload == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEULDTAB_DESC ?></td>
@@ -103,8 +174,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLESEARCHBAR ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_search" size="1" class="inputbox">
-					<option value="1"<?php if ($c->diable_nav_search == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_search == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->diable_nav_search == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_search == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLESEARCHBAR_DESC ?></td>
@@ -116,8 +187,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEUSERBAR ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_user" size="1" class="inputbox">
-					<option value="1"<?php if ($c->diable_nav_user == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_user == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->diable_nav_user == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_user == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEUSERBAR_DESC ?></td>
@@ -126,8 +197,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEYVLINK ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_user1" size="1" class="inputbox">
-					<option value="1"<?php if ($c->diable_nav_user1 == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_user1 == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->diable_nav_user1 == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_user1 == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEYVLINK_DESC ?></td>
@@ -136,8 +207,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEYFLINK ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_user2" size="1" class="inputbox">
-					<option value="1"<?php if ($c->diable_nav_user2 == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_user2 == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->diable_nav_user2 == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_user2 == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEYFLINK_DESC ?></td>
@@ -146,8 +217,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEYGLINK ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_user3" size="1" class="inputbox">
-					<option value="1"<?php if ($c->diable_nav_user3 == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_user3 == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->diable_nav_user3 == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_user3 == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEYGLINK_DESC ?></td>
@@ -156,8 +227,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEYMLINK ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_user4" size="1" class="inputbox">
-					<option value="1"<?php if ($c->diable_nav_user4 == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_user4 == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->diable_nav_user4 == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_user4 == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLEYMLINK_DESC ?></td>
@@ -166,8 +237,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLECGLINK ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="diable_nav_user5" size="1" class="inputbox">
-					<option value="1"<?php if ($c->diable_nav_user5 == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->diable_nav_user5 == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->diable_nav_user5 == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->diable_nav_user5 == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_DISABLECGLINK_DESC ?></td>
@@ -179,8 +250,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWWN ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="frontpage_watched" size="1" class="inputbox">
-					<option value="1"<?php if ($c->frontpage_watched == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->frontpage_watched == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->frontpage_watched == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->frontpage_watched == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWWN_DESC ?></td>
@@ -214,11 +285,11 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWMV ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="frontpage_viewed" size="1" class="inputbox">
-					<option value="0"<?php if ($c->frontpage_viewed == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
-					<option value="today"<?php if ($c->frontpage_viewed == "today") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTODAY.' '; ?></option>
-					<option value="thisweek"<?php if ($c->frontpage_viewed == "thisweek") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTW.' '; ?></option>
-					<option value="thismonth"<?php if ($c->frontpage_viewed == "thismonth") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTM.' '; ?></option>
-					<option value="alltime"<?php if ($c->frontpage_viewed == "alltime") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FAT.' '; ?></option>
+					<option value="0"<?php if ($c->frontpage_viewed == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
+					<option value="today"<?php if ($c->frontpage_viewed == "today") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTODAY; ?></option>
+					<option value="thisweek"<?php if ($c->frontpage_viewed == "thisweek") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTW; ?></option>
+					<option value="thismonth"<?php if ($c->frontpage_viewed == "thismonth") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTM; ?></option>
+					<option value="alltime"<?php if ($c->frontpage_viewed == "alltime") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FAT; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWMV_DESC ?></td>
@@ -227,11 +298,11 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWMF ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="frontpage_favoured" size="1" class="inputbox">
-					<option value="0"<?php if ($c->frontpage_favoured == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
-					<option value="today"<?php if ($c->frontpage_favoured == "today") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTODAY.' '; ?></option>
-					<option value="thisweek"<?php if ($c->frontpage_favoured == "thisweek") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTW.' '; ?></option>
-					<option value="thismonth"<?php if ($c->frontpage_favoured == "thismonth") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTM.' '; ?></option>
-					<option value="alltime"<?php if ($c->frontpage_favoured == "alltime") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FAT.' '; ?></option>
+					<option value="0"<?php if ($c->frontpage_favoured == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
+					<option value="today"<?php if ($c->frontpage_favoured == "today") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTODAY; ?></option>
+					<option value="thisweek"<?php if ($c->frontpage_favoured == "thisweek") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTW; ?></option>
+					<option value="thismonth"<?php if ($c->frontpage_favoured == "thismonth") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTM; ?></option>
+					<option value="alltime"<?php if ($c->frontpage_favoured == "alltime") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FAT; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWMF_DESC ?></td>
@@ -240,11 +311,11 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWMP ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="frontpage_popular" size="1" class="inputbox">
-					<option value="0"<?php if ($c->frontpage_popular == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
-					<option value="today"<?php if ($c->frontpage_popular == "today") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTODAY.' '; ?></option>
-					<option value="thisweek"<?php if ($c->frontpage_popular == "thisweek") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTW.' '; ?></option>
-					<option value="thismonth"<?php if ($c->frontpage_popular == "thismonth") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTM.' '; ?></option>
-					<option value="alltime"<?php if ($c->frontpage_popular == "alltime") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FAT.' '; ?></option>
+					<option value="0"<?php if ($c->frontpage_popular == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
+					<option value="today"<?php if ($c->frontpage_popular == "today") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTODAY; ?></option>
+					<option value="thisweek"<?php if ($c->frontpage_popular == "thisweek") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTW; ?></option>
+					<option value="thismonth"<?php if ($c->frontpage_popular == "thismonth") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FTM; ?></option>
+					<option value="alltime"<?php if ($c->frontpage_popular == "alltime") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_FAT; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWMP_DESC ?></td>
@@ -253,8 +324,10 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top">Show Featured Player</td>
 				<td width="20%" align="left" valign="top">
 				<select name="feat_show" size="1" class="inputbox">
-					<option value="1"<?php if ($c->feat_show == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->feat_show == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="3"<?php if ($c->feat_show == 3) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?> (Playlist)</option>
+					<option value="2"<?php if ($c->feat_show == 2) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?> (Show Details)</option>
+					<option value="1"<?php if ($c->feat_show == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?> (Hide Details)</option>
+					<option value="0"<?php if ($c->feat_show == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">Show featured video player on homepage</td>
@@ -266,22 +339,22 @@ class hwdvids_HTML_settings
 					<option value="global"<?php if ($c->feat_as == "global") { ?> selected="selected"<?php } ?>>Global</option>
 					<option value="yes"<?php if ($c->feat_as == "yes") { ?> selected="selected"<?php } ?>>Yes</option>
 					<option value="no"<?php if ($c->feat_as == "no") { ?> selected="selected"<?php } ?>>No</option>
-					<option value="first"<?php if ($c->feat_as == "first") { ?> selected="selected"<?php } ?>>First View of Day Only</option>
+					<option value="first"<?php if ($c->feat_as == "first") { ?> selected="selected"<?php } ?>>First View of Session Only</option>
 
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">Select the auto-start control for the featured video player on the homepage.</td>
 			  </tr>
 			  <tr>
-				<td width="20%" align="left" valign="top">Display Type</td>
+				<td width="20%" align="left" valign="top">Listing Order</td>
 				<td width="20%" align="left" valign="top">
 				<select name="feat_rand" size="1" class="inputbox">
-					<option value="2"<?php if ($c->feat_rand == 2) { ?> selected="selected"<?php } ?>>Playlist</option>
+					<option value="3"<?php if ($c->feat_rand == 3) { ?> selected="selected"<?php } ?>>Newest</option>
 					<option value="1"<?php if ($c->feat_rand == 1) { ?> selected="selected"<?php } ?>>Random</option>
-					<option value="0"<?php if ($c->feat_rand == 0) { ?> selected="selected"<?php } ?>>Latest</option>
+					<option value="0"<?php if ($c->feat_rand == 0) { ?> selected="selected"<?php } ?>>Ordering</option>
 				</select>
 				</td>
-				<td width="60%" align="left" valign="top">Show a random featured video each time or just display the first fetaured video.</td>
+				<td width="60%" align="left" valign="top">Select the ordering of the featured videos on the frontpage.</td>
 			  </tr>
 			  <tr>
 				<td width="20%" align="left" valign="top">Featured Video Width</td>
@@ -378,8 +451,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_CVAR ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="var_c" size="1" class="inputbox">
-					<option value="1"<?php if ($c->var_c == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->var_c == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->var_c == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->var_c == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_CVAR_DESC ?></td>
@@ -424,6 +497,7 @@ class hwdvids_HTML_settings
 					<option value="0.5625"<?php if ($c->tar_fb == "0.5625") { ?> selected="selected"<?php } ?>>16:9</option>
 					<option value="0.54054"<?php if ($c->tar_fb == "0.54054") { ?> selected="selected"<?php } ?>>1.85:1</option>
 					<option value="0.41841"<?php if ($c->tar_fb == "0.41841") { ?> selected="selected"<?php } ?>>2.39:1</option>
+					<option value="1.40625"<?php if ($c->tar_fb == "1.40625") { ?> selected="selected"<?php } ?>>32:45 [Movie Poster]</option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_TAR_DESC ?></td>
@@ -432,8 +506,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_UDT ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="udt" size="1" class="inputbox">
-					<option value="1"<?php if ($c->udt == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->udt == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->udt == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->udt == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_UDT_DESC ?></td>
@@ -442,8 +516,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top">Include Thumbnail Timestamp</td>
 				<td width="20%" align="left" valign="top">
 				<select name="thumb_ts" size="1" class="inputbox">
-					<option value="1"<?php if ($c->thumb_ts == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->thumb_ts == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->thumb_ts == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->thumb_ts == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">You can print the video timestamp on the thumbnail.</td>
@@ -452,12 +526,48 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top">Show thumbnail tooltip</td>
 				<td width="20%" align="left" valign="top">
 				<select name="show_tooltip" size="1" class="inputbox">
-					<option value="1"<?php if ($c->show_tooltip == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->show_tooltip == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->show_tooltip == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->show_tooltip == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">You can enable a tooltip which shows the title and description for the thumbnail.</td>
 			  </tr>
+			</table>
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="adminform">
+			  <tr><td align="left" valign="top" colspan="3"><h3><?php echo _ADMIN_HWDVIDS_SETT_SOCBM ?></h3></td></tr>
+			  <tr><td align="left" valign="top" colspan="3">
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_digg" value="on" <?php if ($c->sb_digg == "on") { ?> checked="checked"<?php } ?> />&#160;Digg!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_reddit" value="on" <?php if ($c->sb_reddit == "on") { ?> checked="checked"<?php } ?> />&#160;Reddit!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_delicious" value="on" <?php if ($c->sb_delicious == "on") { ?> checked="checked"<?php } ?> />&#160;Del.icio.us!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_google" value="on" <?php if ($c->sb_google == "on") { ?> checked="checked"<?php } ?> />&#160;Google!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_live" value="on" <?php if ($c->sb_live == "on") { ?> checked="checked"<?php } ?> />&#160;Live!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_facebook" value="on" <?php if ($c->sb_facebook == "on") { ?> checked="checked"<?php } ?> />&#160;Facebook!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_slashdot" value="on" <?php if ($c->sb_slashdot == "on") { ?> checked="checked"<?php } ?> />&#160;Slashdot!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_netscape" value="on" <?php if ($c->sb_netscape == "on") { ?> checked="checked"<?php } ?> />&#160;Netscape!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_technorati" value="on" <?php if ($c->sb_technorati == "on") { ?> checked="checked"<?php } ?> />&#160;Technorati!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_stumbleupon" value="on" <?php if ($c->sb_stumbleupon == "on") { ?> checked="checked"<?php } ?> />&#160;StumbleUpon!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_spurl" value="on" <?php if ($c->sb_spurl == "on") { ?> checked="checked"<?php } ?> />&#160;Spurl!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_wists" value="on" <?php if ($c->sb_wists == "on") { ?> checked="checked"<?php } ?> />&#160;Wists!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_simpy" value="on" <?php if ($c->sb_simpy == "on") { ?> checked="checked"<?php } ?> />&#160;Simpy!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_newsvine" value="on" <?php if ($c->sb_newsvine == "on") { ?> checked="checked"<?php } ?> />&#160;Newsvine!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_blinklist" value="on" <?php if ($c->sb_blinklist == "on") { ?> checked="checked"<?php } ?> />&#160;Blinklist!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_furl" value="on" <?php if ($c->sb_furl == "on") { ?> checked="checked"<?php } ?> />&#160;Furl!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_fark" value="on" <?php if ($c->sb_fark == "on") { ?> checked="checked"<?php } ?> />&#160;Fark!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_blogmarks" value="on" <?php if ($c->sb_blogmarks == "on") { ?> checked="checked"<?php } ?> />&#160;Blogmarks!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_yahoo" value="on" <?php if ($c->sb_yahoo == "on") { ?> checked="checked"<?php } ?> />&#160;Yahoo!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_smarking" value="on" <?php if ($c->sb_smarking == "on") { ?> checked="checked"<?php } ?> />&#160;Smarking!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_netvouz" value="on" <?php if ($c->sb_netvouz == "on") { ?> checked="checked"<?php } ?> />&#160;Netvouz!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_shadows" value="on" <?php if ($c->sb_shadows == "on") { ?> checked="checked"<?php } ?> />&#160;Shadows!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_rawsugar" value="on" <?php if ($c->sb_rawsugar == "on") { ?> checked="checked"<?php } ?> />&#160;RawSugar!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_magnolia" value="on" <?php if ($c->sb_magnolia == "on") { ?> checked="checked"<?php } ?> />&#160;Ma.gnolia!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_plugim" value="on" <?php if ($c->sb_plugim == "on") { ?> checked="checked"<?php } ?> />&#160;PlugIM!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_squidoo" value="on" <?php if ($c->sb_squidoo == "on") { ?> checked="checked"<?php } ?> />&#160;Squidoo!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_blogmemes" value="on" <?php if ($c->sb_blogmemes == "on") { ?> checked="checked"<?php } ?> />&#160;BlogMemes!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_feedmelinks" value="on" <?php if ($c->sb_feedmelinks == "on") { ?> checked="checked"<?php } ?> />&#160;FeedMeLinks!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_blinkbits" value="on" <?php if ($c->sb_blinkbits == "on") { ?> checked="checked"<?php } ?> />&#160;BlinkBits!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_tailrank" value="on" <?php if ($c->sb_tailrank == "on") { ?> checked="checked"<?php } ?> />&#160;Tailrank!&#160;</div>
+				<div style="float:left;padding:3px;"><input type="checkbox" name="sb_linkagogo" value="on" <?php if ($c->sb_linkagogo == "on") { ?> checked="checked"<?php } ?> />&#160;linkaGoGo!&#160;</div>
+			  </td></tr>
 			</table>
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="adminform">
 			  <tr><td align="left" valign="top" colspan="3"><h3><?php echo _ADMIN_HWDVIDS_SETT_VPINFOOT ?></h3></td></tr>
@@ -465,8 +575,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top">Show Information on Video Page?</td>
 				<td width="20%" align="left" valign="top">
 				<select name="show_vp_info" size="1" class="inputbox">
-					<option value="1"<?php if ($c->show_vp_info == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->show_vp_info == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->show_vp_info == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->show_vp_info == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">Show information or just the video player?</td>
@@ -475,8 +585,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWRAT ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showrate" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showrate == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showrate == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showrate == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showrate == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWRAT_DESC ?></td>
@@ -485,8 +595,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWATF ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showatfb" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showatfb == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showatfb == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showatfb == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showatfb == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWATF_DESC ?></td>
@@ -495,8 +605,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWRPB ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showrpmb" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showrpmb == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showrpmb == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showrpmb == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showrpmb == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWRPB_DESC ?></td>
@@ -505,8 +615,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWCOM ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showcoms" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showcoms == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showcoms == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showcoms == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showcoms == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWCOM_DESC ?></td>
@@ -515,8 +625,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWVUR ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showvurl" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showvurl == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showvurl == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showvurl == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showvurl == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWVUR_DESC ?></td>
@@ -525,8 +635,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWVEB ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showvebc" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showvebc == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showvebc == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showvebc == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showvebc == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWVEB_DESC ?></td>
@@ -535,8 +645,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWDSC ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showdesc" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showdesc == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showdesc == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showdesc == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showdesc == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWDSC_DESC ?></td>
@@ -545,8 +655,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWTAG ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showtags" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showtags == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showtags == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showtags == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showtags == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWTAG_DESC ?></td>
@@ -555,8 +665,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWSBK ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showscbm" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showscbm == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showscbm == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showscbm == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showscbm == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWSBK_DESC ?></td>
@@ -565,8 +675,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWULR ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showuldr" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showuldr == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showuldr == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showuldr == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showuldr == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWULR_DESC ?></td>
@@ -634,8 +744,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top">Show <b>Related Videos</b></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showrevi" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showrevi == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showrevi == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showrevi == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showrevi == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">Allow users to see other videos that are related to the one currently being watched</td>
@@ -703,8 +813,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top">Show <b>More Category Videos</b></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showmftc" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showmftc == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showmftc == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showmftc == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showmftc == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">Allow users to see other videos in the same category</td>
@@ -772,38 +882,40 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWA2G ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="showa2gb" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showa2gb == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showa2gb == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showa2gb == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showa2gb == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_SHOWA2G_DESC ?></td>
 			  </tr>
 			  <tr>
-				<td width="20%" align="left" valign="top">Show <b>Download Original</b> Link</td>
+				<td width="20%" align="left" valign="top">Show <b>Download Video</b> Link</td>
 				<td width="20%" align="left" valign="top">
 				<select name="showdlor" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showdlor == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showdlor == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showdlor == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showdlor == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
-				<td width="60%" align="left" valign="top">For local videos you can allow users to download the original unconverted video</td>
+				<td width="60%" align="left" valign="top">For local videos you can allow users to download the video files</td>
 			  </tr>
+			  <!--
 			  <tr>
 				<td width="20%" align="left" valign="top">Show <b>Download FLV</b> Link</td>
 				<td width="20%" align="left" valign="top">
 				<select name="showdlfl" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showdlfl == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showdlfl == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showdlfl == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showdlfl == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">For local videos you can allow users to download the converted flv video</td>
 			  </tr>
+			  -->
 			  <tr>
 				<td width="20%" align="left" valign="top">Show <b>Display Original</b> Link</td>
 				<td width="20%" align="left" valign="top">
 				<select name="showvuor" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showvuor == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showvuor == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showvuor == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showvuor == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">For third party videos you can give users a link to the original video page</td>
@@ -812,8 +924,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top">Show <b>Next & Previous</b> Video Links</td>
 				<td width="20%" align="left" valign="top">
 				<select name="showprnx" size="1" class="inputbox">
-					<option value="1"<?php if ($c->showprnx == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->showprnx == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->showprnx == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->showprnx == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">Allow users to scroll through category videos using text links</td>
@@ -895,6 +1007,7 @@ class hwdvids_HTML_settings
 					<option value="hitsDESC"<?php if ($c->cvordering == "hitsDESC") { ?> selected="selected"<?php } ?>><?php echo _HWDVIDS_SELECT_HITS; ?> DESC</option>
 					<option value="voteASC"<?php if ($c->cvordering == "voteASC") { ?> selected="selected"<?php } ?>><?php echo _HWDVIDS_SELECT_RATING; ?> ASC</option>
 					<option value="voteDESC"<?php if ($c->cvordering == "voteDESC") { ?> selected="selected"<?php } ?>><?php echo _HWDVIDS_SELECT_RATING; ?> DESC</option>
+					<option value="random"<?php if ($c->cvordering == "random") { ?> selected="selected"<?php } ?>><?php echo _HWDVIDS_SELECT_RANDOM; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_CVORDERING_DESC ?></td>
@@ -903,8 +1016,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_CUSTORDERING ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="custordering" size="1" class="inputbox">
-					<option value="1"<?php if ($c->custordering == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->custordering == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->custordering == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->custordering == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_CUSTORDERING_DESC ?></td>
@@ -960,8 +1073,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top">Continous Scrolling</td>
 				<td width="20%" align="left" valign="top">
 				<select name="scroll_wr" size="1" class="inputbox">
-					<option value="true"<?php if ($c->scroll_wr == "true") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="false"<?php if ($c->scroll_wr == "false") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="true"<?php if ($c->scroll_wr == "true") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="false"<?php if ($c->scroll_wr == "false") { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">When the scroll bar reaches hte end wrap the scoller back to the start</td>
@@ -971,11 +1084,28 @@ class hwdvids_HTML_settings
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="adminform">
 			  <tr><td align="left" valign="top" colspan="3"><h3>Category Settings</h3></td></tr>
 			  <tr>
+				<td width="20%" align="left" valign="top">Categories per page</td>
+				<td width="20%" align="left" valign="top">
+				<select name="cpp" size="1" class="inputbox">
+					<?php
+					for ($i=1, $n=101; $i < $n; $i++) {
+						echo "<option value=\"".$i."\"";
+						if ($c->cpp == $i) {
+							echo " selected=\"selected\"";
+						}
+						echo ">".$i."</option>";
+					}
+					?>
+				</select>
+				</td>
+				<td width="60%" align="left" valign="top">Set the number of categories displayed per page</td>
+			  </tr>
+			  <tr>
 				<td width="20%" align="left" valign="top">Show Child Videos</td>
 				<td width="20%" align="left" valign="top">
 				<select name="countcvids" size="1" class="inputbox">
-					<option value="1"<?php if ($c->countcvids == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->countcvids == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->countcvids == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->countcvids == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">Show and count all child videos in categories.</td>
@@ -984,8 +1114,8 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top">Hide empty categories</td>
 				<td width="20%" align="left" valign="top">
 				<select name="cat_he" size="1" class="inputbox">
-					<option value="1"<?php if ($c->cat_he == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES.' '; ?></option>
-					<option value="0"<?php if ($c->cat_he == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO.' '; ?></option>
+					<option value="1"<?php if ($c->cat_he == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_YES; ?></option>
+					<option value="0"<?php if ($c->cat_he == 0) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_NO; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top">Hide categories that contain no videos from the main category list.</td>
@@ -998,16 +1128,16 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_GPP ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="gpp" size="1" class="inputbox">
-					<option value="5"<?php if ($c->gpp == 5) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_05.' '; ?></option>
-					<option value="10"<?php if ($c->gpp == 10) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_10.' '; ?></option>
-					<option value="15"<?php if ($c->gpp == 15) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_15.' '; ?></option>
-					<option value="20"<?php if ($c->gpp == 20) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_20.' '; ?></option>
-					<option value="25"<?php if ($c->gpp == 25) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_25.' '; ?></option>
-					<option value="30"<?php if ($c->gpp == 30) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_30.' '; ?></option>
-					<option value="35"<?php if ($c->gpp == 35) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_35.' '; ?></option>
-					<option value="40"<?php if ($c->gpp == 40) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_40.' '; ?></option>
-					<option value="45"<?php if ($c->gpp == 45) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_45.' '; ?></option>
-					<option value="50"<?php if ($c->gpp == 50) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_50.' '; ?></option>
+					<option value="5"<?php if ($c->gpp == 5) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_05; ?></option>
+					<option value="10"<?php if ($c->gpp == 10) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_10; ?></option>
+					<option value="15"<?php if ($c->gpp == 15) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_15; ?></option>
+					<option value="20"<?php if ($c->gpp == 20) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_20; ?></option>
+					<option value="25"<?php if ($c->gpp == 25) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_25; ?></option>
+					<option value="30"<?php if ($c->gpp == 30) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_30; ?></option>
+					<option value="35"<?php if ($c->gpp == 35) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_35; ?></option>
+					<option value="40"<?php if ($c->gpp == 40) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_40; ?></option>
+					<option value="45"<?php if ($c->gpp == 45) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_45; ?></option>
+					<option value="50"<?php if ($c->gpp == 50) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_50; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_GPP_DESC ?></td>
@@ -1016,16 +1146,16 @@ class hwdvids_HTML_settings
 				<td width="20%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_FGROUPS ?></td>
 				<td width="20%" align="left" valign="top">
 				<select name="fpfeaturedgroups" size="1" class="inputbox">
-					<option value="1"<?php if ($c->fpfeaturedgroups == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_01.' '; ?></option>
-					<option value="2"<?php if ($c->fpfeaturedgroups == 2) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_02.' '; ?></option>
-					<option value="3"<?php if ($c->fpfeaturedgroups == 3) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_03.' '; ?></option>
-					<option value="4"<?php if ($c->fpfeaturedgroups == 4) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_04.' '; ?></option>
-					<option value="5"<?php if ($c->fpfeaturedgroups == 5) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_05.' '; ?></option>
-					<option value="6"<?php if ($c->fpfeaturedgroups == 6) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_06.' '; ?></option>
-					<option value="7"<?php if ($c->fpfeaturedgroups == 7) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_07.' '; ?></option>
-					<option value="8"<?php if ($c->fpfeaturedgroups == 8) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_08.' '; ?></option>
-					<option value="9"<?php if ($c->fpfeaturedgroups == 9) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_09.' '; ?></option>
-					<option value="10"<?php if ($c->fpfeaturedgroups == 10) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_10.' '; ?></option>
+					<option value="1"<?php if ($c->fpfeaturedgroups == 1) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_01; ?></option>
+					<option value="2"<?php if ($c->fpfeaturedgroups == 2) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_02; ?></option>
+					<option value="3"<?php if ($c->fpfeaturedgroups == 3) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_03; ?></option>
+					<option value="4"<?php if ($c->fpfeaturedgroups == 4) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_04; ?></option>
+					<option value="5"<?php if ($c->fpfeaturedgroups == 5) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_05; ?></option>
+					<option value="6"<?php if ($c->fpfeaturedgroups == 6) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_06; ?></option>
+					<option value="7"<?php if ($c->fpfeaturedgroups == 7) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_07; ?></option>
+					<option value="8"<?php if ($c->fpfeaturedgroups == 8) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_08; ?></option>
+					<option value="9"<?php if ($c->fpfeaturedgroups == 9) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_09; ?></option>
+					<option value="10"<?php if ($c->fpfeaturedgroups == 10) { ?> selected="selected"<?php } ?>><?php echo _ADMIN_HWDVIDS_SETT_10; ?></option>
 				</select>
 				</td>
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_FGROUPS_DESC ?></td>
@@ -1054,7 +1184,9 @@ class hwdvids_HTML_settings
 				<td width="60%" align="left" valign="top"><?php echo _ADMIN_HWDVIDS_SETT_TRUNGDESC_DESC ?></td>
 			  </tr>
 			</table>
-
+		<?php
+		}
+		?>
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="option" value="com_hwdvideoshare" />
 		<input type="hidden" name="task" value="layoutsettings" />

@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,11 @@
  */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
-$allowedft = "";
-if ($c->requiredins == 1) {
+global $hwdvsItemid;
 
+$allowedft = "";
+if ($c->requiredins == 1)
+{
 	$allowedft = "";
 	$tag = null;
 	if ($c->ft_mpg == "on") {$allowedft .= "\".mpg\"";$tag = 1;}
@@ -44,36 +46,44 @@ if ($c->requiredins == 1) {
 	{
 		$oformat = $oformats[$i];
 		$oformat = preg_replace("/[^a-zA-Z0-9s]/", "", $oformat);
-		if ($tag = 1) {
+		if ($tag = 1)
+		{
 			$allowedft .=  ", \".".$oformat."\"";
-		} else if ($tag = null) {
+		}
+		else if ($tag = null)
+		{
 			$allowedft .= "\".".$oformat."\"";
 			$tag = 1;
 		}
 	}
-
-} else {
-
+}
+else
+{
 	$allowedft = "";
 	$tag = null;
 	if ($c->ft_mp4 == "on" && $tag == 1) {$allowedft .=  ", \".mp4\"";} else if ($c->ft_mp4 == "on" && $tag == null) {$allowedft .= "\".mp4\"";$tag = 1;}
 	if ($c->ft_flv == "on" && $tag == 1) {$allowedft .=  ", \".flv\"";} else if ($c->ft_flv == "on" && $tag == null) {$allowedft .= "\".flv\"";$tag = 1;}
 	if ($c->ft_swf == "on" && $tag == 1) {$allowedft .=  ", \".swf\"";} else if ($c->ft_swf == "on" && $tag == null) {$allowedft .= "\".swf\"";$tag = 1;}
-
 }
 
-$PHPFORMURL = JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=uploadconfirmphp");
+$PHPFORMURL = JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=uploadconfirmphp");
 
-$PHPHIDDENINPUTS = "<input type=\"hidden\" name=\"videotype\" value=\"".stripslashes($videotype)."\" />
-                    <input type=\"hidden\" name=\"title\" value=\"".stripslashes($title)."\" />
-                    <input type=\"hidden\" name=\"description\" value=\"".stripslashes($description)."\" />
-                    <input type=\"hidden\" name=\"category_id\" value=\"".stripslashes($category_id)."\" />
-                    <input type=\"hidden\" name=\"tags\" value=\"".stripslashes($tags)."\" />
-                    <input type=\"hidden\" name=\"public_private\" value=\"".stripslashes($public_private)."\" />
-                    <input type=\"hidden\" name=\"allow_comments\" value=\"".stripslashes($allow_comments)."\" />
-                    <input type=\"hidden\" name=\"allow_embedding\" value=\"".stripslashes($allow_embedding)."\" />
-                    <input type=\"hidden\" name=\"allow_ratings\" value=\"".stripslashes($allow_ratings)."\" />";
+$PHPHIDDENINPUTS = "<input type=\"hidden\" name=\"videotype\" value=\"".htmlspecialchars($videotype)."\" />
+                    <input type=\"hidden\" name=\"title\" value=\"".htmlspecialchars($title)."\" />
+                    <input type=\"hidden\" name=\"description\" value=\"".htmlspecialchars($description)."\" />
+                    <input type=\"hidden\" name=\"category_id\" value=\"".htmlspecialchars($category_id)."\" />
+                    <input type=\"hidden\" name=\"tags\" value=\"".htmlspecialchars($tags)."\" />
+                    <input type=\"hidden\" name=\"public_private\" value=\"".htmlspecialchars($public_private)."\" />
+                    <input type=\"hidden\" name=\"allow_comments\" value=\"".htmlspecialchars($allow_comments)."\" />
+                    <input type=\"hidden\" name=\"allow_embedding\" value=\"".htmlspecialchars($allow_embedding)."\" />
+                    <input type=\"hidden\" name=\"allow_ratings\" value=\"".htmlspecialchars($allow_ratings)."\" />";
+if (isset($md5password))
+{
+$PHPHIDDENINPUTS.= "<input type=\"hidden\" name=\"hwdvspassword\" value=\"".$md5password."\" />";
+}
 
 $smartyvs->assign("allowedft", $allowedft);
 $smartyvs->assign("PHPFORMURL", $PHPFORMURL);
 $smartyvs->assign("PHPHIDDENINPUTS", $PHPHIDDENINPUTS);
+
+?>

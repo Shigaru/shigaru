@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ class hwd_vs_playlists
      */
     function playlists()
 	{
-		global $mainframe, $limitstart, $hwdvs_joing, $hwdvs_selectg, $smartyvs;
+		global $limitstart, $hwdvs_joing, $hwdvs_selectg, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
@@ -59,6 +59,7 @@ class hwd_vs_playlists
   		$total = $db->loadResult();
 		echo $db->getErrorMsg();
 
+		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
 		//Groups that are published
@@ -114,18 +115,19 @@ class hwd_vs_playlists
      */
 	function deletePlaylist()
 	{
-		global $mainframe, $Itemid;
+		global $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+$app = & JFactory::getApplication();
 
 		$userid = $my->id;
 		$playlistid	= JRequest::getInt( 'playlistid', 0 );
 
 		if (!$my->id) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_LOG2REMG);
-			$mainframe->redirect( JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=playlists") );
+			$app->enqueueMessage(_HWDVIDS_ALERT_LOG2REMG);
+			$app->redirect( JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=playlists") );
 		}
 
 		$db->SetQuery("DELETE FROM #__hwdvidsplaylists WHERE id = $playlistid AND user_id = $my->id");
@@ -136,86 +138,8 @@ class hwd_vs_playlists
 		}
 
 		$msg = _HWDVIDS_ALERT_PLREMOVED;
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=playlists&Itemid='.$Itemid );
-	}
-    /**
-     * Outputs frontpage HTML
-     *
-     * @return       Nothing
-     */
-	function viewChannel()
-	{
-		global $mainframe, $mosConfig_live_site, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
-		$c = hwd_vs_Config::get_instance();
-		$db = & JFactory::getDBO();
-		$my = & JFactory::getUser();
-		$acl= & JFactory::getACL();
-		$usersConfig = &JComponentHelper::getParams( 'com_users' );
-
-		$userid = JRequest::getInt( 'user_id', 0, 'request' );
-
-
-		$db->SetQuery( 'SELECT count(*) FROM #__hwdvidschannels WHERE user_id = '.$userid );
-  		$channel_exists = $db->loadResult();
-		echo $db->getErrorMsg();
-
-		if ( $channel_exists<1 && $userid !== $my->id ) {
-			hwd_vs_tools::infomessage(1, 0,  "Channel not created!", "This channel does not exist yet.", "exclamation.png", 0);
-			return;
-		} else if ( $channelexists<1 && $userid == $my->id ) {
-			$mainframe->redirect( JURI::root() . 'index.php?option=com_hwdvideoshare&task=createChannel&Itemid='.$Itemid );
-		}
-
-		$whereV = ' WHERE video.published = 1';
-		$whereV .= ' AND video.approved = "yes"';
-		$whereV .= ' AND l.groupid = '.$groupid;
-
-		$db->SetQuery( 'SELECT count(*)'
-					 . ' FROM #__hwdvidsvideos AS video'
-					 . ' LEFT JOIN #__hwdvidsgroup_videos AS l ON l.videoid = video.id'
-					 . $whereV
-					 );
-  		$total = $db->loadResult();
-		echo $db->getErrorMsg();
-
-		$pageNav = new JPagination( $total, $limitstart, $limit );
-
-		//Videos that are approved(converted) and published in this group
-		$query = 'SELECT'.$hwdvs_selectv
-				. ' FROM #__hwdvidsvideos AS video'
-				. $hwdvs_joinv
-				. ' LEFT JOIN #__hwdvidsgroup_videos AS l ON l.videoid = video.id'
-				. $whereV
-				. ' ORDER BY video.date_uploaded DESC'
-				;
-
-		$db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
-		$rows = $db->loadObjectList();
-
-		//Videos that are approved(converted) and published in this group
-		$query = 'SELECT m.*, u.name, u.username'
-				. ' FROM #__hwdvidsgroup_membership AS m'
-				. ' LEFT JOIN #__users AS u ON u.id = m.memberid'
-		        . ' WHERE m.groupid = '.$groupid
-		        . ' AND m.approved = 1'
-				. ' ORDER BY date DESC'
-				;
-
-		$db->SetQuery($query);
-		$members = $db->loadObjectList();
-		//Group details
-		$query = 'SELECT a.*, u.name, u.username'
-				. ' FROM #__hwdvidsgroups AS a'
-				. ' LEFT JOIN #__users AS u ON u.id = a.adminid'
-				. ' WHERE a.id = '.$groupid
-				. ' ORDER BY id DESC'
-				;
-
-		$db->SetQuery( $query );
-    	$groupdetails = $db->loadObject();
-
-		hwd_vs_html::viewGroup($rows, $pageNav, $total, $members, $groupdetails);
+		$app->enqueueMessage($msg);
+		$app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=playlists&Itemid='.$Itemid );
 	}
     /**
      * Outputs frontpage HTML
@@ -224,7 +148,7 @@ class hwd_vs_playlists
      */
     function savePlaylist()
 	{
-		global $mainframe, $params, $Itemid, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $mosConfig_sitename;
+		global $params, $Itemid, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $mosConfig_sitename;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
@@ -249,67 +173,6 @@ class hwd_vs_playlists
    		    hwd_vs_playlists::bindNewPlaylist();
 		}
 	}
-    /**
-     * Outputs frontpage HTML
-     *
-     * @param string $option  the joomla component name
-     * @param array  $rows  array of video data
-     * @param array  $rowsfeatured  array of featured video data
-     * @param object $pageNav  page navigation object
-     * @param int    $total  the total video count
-     * @return       Nothing
-     */
-    function updateChannel()
-	{
-		global $Itemid, $mainframe;
-		$db = & JFactory::getDBO();
-		$my = & JFactory::getUser();
-		$c = hwd_vs_Config::get_instance();
-
-		$id = JRequest::getInt( 'id', 0 );
-		$referrer = JRequest::getVar( 'referrer', JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=yourgroups&Itemid='.$Itemid );
-
-		$row = new hwdvids_group($db);
-		$row->load( $id );
-
-		if ($row->adminid != $my->id) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_NOPERM);
-			$mainframe->redirect( $referrer );
-		}
-
-		$group_name 		= Jrequest::getVar( 'group_name', _HWDPS_UNKNOWN );
-		$group_description  = Jrequest::getVar( 'group_description', _HWDPS_UNKNOWN );
-		$privacy        	= JRequest::getWord( 'privacy' );
-		$allow_comments		= JRequest::getInt( 'allow_comments', 0, 'request' );
-
-		$_POST['group_name'] 		= $group_name;
-		$_POST['group_description'] = $group_description;
-		$_POST['privacy'] 	        = $privacy;
-		$_POST['allow_comments'] 	= $allow_comments;
-
-		// bind it to the table
-		if (!$row -> bind($_POST)) {
-			echo "<script> alert('"
-				.$row -> getError()
-				."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		// store it in the db
-		if (!$row -> store()) {
-			echo "<script> alert('"
-				.$row -> getError()
-				."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
-		hwd_vs_recount::recountVideosInCategory($row->category_id);
-
-		$msg = _HWDVIDS_ALERT_GSAVED;
-		$mainframe->enqueueMessage($msg);
-		$mainframe->redirect( $referrer );
-	}
 	/**
      * Outputs frontpage HTML
      *
@@ -317,11 +180,12 @@ class hwd_vs_playlists
      */
     function bindNewPlaylist()
 	{
-		global $mainframe, $params, $Itemid, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $mosConfig_sitename;
+		global $params, $Itemid, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $mosConfig_sitename;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+$app = & JFactory::getApplication();
 
 			$playlist_name        = Jrequest::getVar( 'playlist_name', _HWDVIDS_UNKNOWN );
 			$playlist_description = Jrequest::getVar( 'playlist_description', _HWDVIDS_UNKNOWN );
@@ -379,41 +243,96 @@ class hwd_vs_playlists
 			} else {
 				$msg = _HWDVIDS_ALERT_GPENDING;
 			}
-			$mainframe->enqueueMessage($msg);
-			$mainframe->redirect( JURI::root() . 'index.php?option=com_hwdvideoshare&task=playlists&Itemid='.$Itemid );
+			$app->enqueueMessage($msg);
+			$app->redirect( JURI::root() . 'index.php?option=com_hwdvideoshare&task=playlists&Itemid='.$Itemid );
 	}
     /**
      * Outputs frontpage HTML
      *
      * @return       Nothing
      */
-    function joingroup()
+    function editPlaylist()
 	{
-		global $Itemid, $mainframe;
+		global $mosConfig_live_site, $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+$app = & JFactory::getApplication();
 
-		$url =  Jrequest::getVar( 'url', JURI::root() );
+		$playlistid = JRequest::getInt( 'playlistid', 0 );
 
-		if (!$my->id) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_LOG2JOING);
-			$mainframe->redirect( $url );
+		$row = new hwdvids_playlist($db);
+		$row->load( $playlistid );
+
+		//check valid user
+		if ($row->user_id != $my->id) {
+			$app->enqueueMessage(_HWDVIDS_ALERT_NOPERM);
+			$app->redirect( JURI::root() . 'index.php?option=com_hwdvideoshare&task=playlists&Itemid='.$Itemid );
 		}
 
-		$memberid = $my->id;
-		$groupid = JRequest::getInt( 'groupid', 0 );
+		if (empty($row->playlist_data))
+		{
+			$row->playlist_data = 0;
+		}
 
-		$date = date('Y-m-d H:i:s');
-		$published = 1;
+		if (!empty($row->playlist_data))
+		{
+			$playlist = explode(",", $row->playlist_data);
+			$playlist = preg_replace("/[^0-9]/", "", $playlist);
 
-		$row = new hwdvids_groupmember($db);
+			$counter = 0;
+			$pl_videos = array();
+			for ($i=0, $n=count($playlist); $i < $n; $i++)
+			{
+				$db->SetQuery('SELECT * FROM #__hwdvidsvideos WHERE id = '.$playlist[$i]);
+				$video = $db->loadObject();
+				if (isset($video->id))
+				{
+					$pl_videos[$counter] = $video;
+					$counter++;
+				}
+			}
+		}
+		else
+		{
+			$pl_videos = null;
+		}
 
-		$_POST['memberid'] = $memberid;
-		$_POST['groupid'] = $groupid;
-		$_POST['date'] = $date;
-		$_POST['approved'] = 1;
+		hwd_vs_html::editPlaylist($row, $pl_videos);
+  	}
+    /**
+     * Outputs frontpage HTML
+     *
+     * @return       Nothing
+     */
+    function updatePlaylist()
+	{
+		global $Itemid;
+		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+		$c = hwd_vs_Config::get_instance();
+$app = & JFactory::getApplication();
+
+		$playlist_id = JRequest::getInt( 'playlist_id', 0 );
+		$referrer = JRequest::getVar( 'referrer', JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewChannel&Itemid='.$Itemid.'&user_id='.$my->id.'&sort=playlists' );
+
+		$row = new hwdvids_playlist($db);
+		$row->load( $playlist_id );
+
+		if ($row->user_id != $my->id) {
+			$app->enqueueMessage(_HWDVIDS_ALERT_NOPERM);
+			$app->redirect( $referrer );
+		}
+
+		$playlist_name 		   = Jrequest::getVar( 'playlist_name', _HWDPS_UNKNOWN );
+		$playlist_description  = Jrequest::getVar( 'playlist_description', _HWDPS_UNKNOWN );
+		$public_private    	   = JRequest::getWord( 'public_private' );
+
+		$_POST['id'] 		            = $playlist_id;
+		$_POST['playlist_name'] 		= $playlist_name;
+		$_POST['playlist_description']  = $playlist_description;
+		$_POST['public_private'] 	    = $public_private;
 
 		// bind it to the table
 		if (!$row -> bind($_POST)) {
@@ -431,111 +350,178 @@ class hwd_vs_playlists
 			exit();
 		}
 
-		// perform maintenance
-		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
-		hwd_vs_recount::recountMembersInGroup($groupid);
-
-		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';
-		if ( file_exists($api_AUP))
-		{
-			require_once ($api_AUP);
-			AlphaUserPointsHelper::newpoints( 'plgaup_joinVideoGroup_hwdvs' );
-		}
-
-		$mainframe->enqueueMessage(_HWDVIDS_ALERT_SUCJOIN);
-		$mainframe->redirect( $url );
-	}
-    /**
-     * Outputs frontpage HTML
-     *
-     * @return       Nothing
-     */
-    function leavegroup()
-	{
-		global $Itemid, $mainframe;
-		$c = hwd_vs_Config::get_instance();
-		$db = & JFactory::getDBO();
-		$my = & JFactory::getUser();
-		$acl= & JFactory::getACL();
-
-		$url =  Jrequest::getVar( 'url', JURI::root() );
-
-		if (!$my->id) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_LOG2LEAVEG);
-			$mainframe->redirect( $url );
-		}
-
-		$memberid = $my->id;
-		$groupid = JRequest::getInt( 'groupid', 0 );
-
-		$where = ' WHERE memberid = '.$memberid;
-		$where .= ' AND groupid = '.$groupid;
-
-		$db->SetQuery( 'DELETE FROM #__hwdvidsgroup_membership'
-							. $where
-							);
-
-		if ( !$db->query() ) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		// perform maintenance
-		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
-		hwd_vs_recount::recountMembersInGroup($groupid);
-
-		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';
-		if ( file_exists($api_AUP))
-		{
-			require_once ($api_AUP);
-			AlphaUserPointsHelper::newpoints( 'plgaup_leaveVideoGroup_hwdvs' );
-		}
-
-		$mainframe->enqueueMessage(_HWDVIDS_ALERT_SUCLEAVE);
-		$mainframe->redirect( $url );
+		$msg = _HWDVIDS_ALERT_PLSAVED;
+		$app->enqueueMessage($msg);
+		$app->redirect( $referrer );
   	}
     /**
      * Outputs frontpage HTML
      *
      * @return       Nothing
      */
-    function editPlaylist()
+    function viewPlaylist()
 	{
-		global $mosConfig_live_site, $mainframe, $Itemid;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 
-		$playlistid = JRequest::getInt( 'playlistid', 0 );
+		$playlist_id = JRequest::getInt( 'playlist_id', 0 );
 
 		$row = new hwdvids_playlist($db);
-		$row->load( $playlistid );
+		$row->load( $playlist_id );
 
-		//check valid user
-		if ($row->user_id != $my->id) {
-			$mainframe->enqueueMessage(_HWDVIDS_ALERT_NOPERM);
-			$mainframe->redirect( JURI::root() . 'index.php?option=com_hwdvideoshare&task=groups&Itemid='.$Itemid );
+		hwd_vs_html::viewPlaylist($row);
+	}
+	/**
+	 * Save editted video details
+	 */
+	function reorderplaylist()
+	{
+	    global $Itemid;
+	    $db =& JFactory::getDBO();
+	    $my = & JFactory::getUser();
+$app = & JFactory::getApplication();
+
+	    $playlist_id  = JRequest::getInt( 'playlist_id', 0 );
+	    $orderdata = JRequest::getVar( 'orderdata' );
+	    $neworder = explode("_", $orderdata);
+		$updatedOrder = "";
+
+	    for ($i=0, $n=count($neworder)-1; $i < $n; $i++)
+	    {
+	      $orderslot = explode("--", $neworder[$i]);
+	      $order = intval(preg_replace("/[^0-9]/", "", $orderslot[0]));
+	      $pid = intval(preg_replace("/[^0-9]/", "", $orderslot[1]));
+
+		  $updatedOrder.= "$pid,";
+	    }
+
+		if (substr($updatedOrder, -1) == ",")
+		{
+			$updatedOrder = substr($updatedOrder, 0, strlen($updatedOrder)-1);
 		}
 
-		if (empty($row->playlist_data)) {
+	      // update ordering
+	      $db->SetQuery("UPDATE #__hwdvidsplaylists SET playlist_data = \"$updatedOrder\" WHERE id = $playlist_id");
+	      $db->Query();
+	      if ( !$db->query() ) {
+	        echo "<script language=\"javascript\" type=\"text/javascript\"> alert('".addslashes($db->getErrorMsg())."'); window.history.go(-1); </script>\n";
+	        exit();
+	      }
 
-			$row->playlist_data = 0;
+	    // perform maintenance
+		//require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdphotoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
+	   // hwd_ps_tools::setAlbumModifiedDate($album_id);
+	   /// include_once(JPATH_SITE.DS.'components'.DS.'com_hwdphotoshare'.DS.'xml'.DS.'xmloutput.class.php');
+	   // hwd_ps_xmlOutput::prepareSlideshowXML($album_id);
 
+		$row = new hwdvids_playlist($db);
+		$row->load( $playlist_id );
+		if (!empty($row->playlist_data))
+		{
+			$playlist = explode(",", $row->playlist_data);
+			$playlist = preg_replace("/[^0-9]/", "", $playlist);
+
+			$counter = 0;
+			$pl_videos = array();
+			for ($i=0, $n=count($playlist); $i < $n; $i++)
+			{
+				$db->SetQuery('SELECT * FROM #__hwdvidsvideos WHERE id = '.$playlist[$i]);
+				$video = $db->loadObject();
+				if (isset($video->id))
+				{
+					$pl_videos[$counter] = $video;
+					$counter++;
+				}
+			}
 		}
 
-		//Videos that are approved(converted) and published in this group
-		$query = 'SELECT *'
-				. ' FROM #__hwdvidsvideos'
-				. ' WHERE id IN ('.$row->playlist_data.')'
-				;
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'draw.php');
+		hwdvsDrawFile::XMLDataFile($pl_videos, "pl_$playlist_id");
+		hwdvsDrawFile::XMLPlaylistFile($pl_videos, "pl_$playlist_id");
 
-		$db->SetQuery($query);
-		$pl_videos = $db->loadObjectList();
-		echo $db->getErrorMsg();
+	    $msg = _HWDPS_ALERT_AREORGANISED;
+	    $app->enqueueMessage($msg);
+	    $app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=editPlaylist&playlistid='.$playlist_id.'&Itemid='.$Itemid );
+    }
+   /**
+	* Save editted video details
+	*/
+	function removeVideoFromPlaylist()
+	  {
+	    global $Itemid;
+	    $db =& JFactory::getDBO();
+	    $my = & JFactory::getUser();
+$app = & JFactory::getApplication();
 
-		hwd_vs_html::editPlaylist($row, $pl_videos);
-  	}
+	    $playlist_id  = JRequest::getInt( 'playlist_id', 0 );
+	    $video_id  = JRequest::getInt( 'video_id', 0 );
 
+		$row = new hwdvids_playlist($db);
+		$row->load( $playlist_id );
+
+		if ( $row->user_id !== $my->id )
+		{
+			$msg = "You do not have permission to remove videos from this playlist";
+			$app->enqueueMessage($msg);
+			$app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=editPlaylist&playlistid='.$playlist_id.'&Itemid='.$Itemid );
+		}
+
+                $pl_videos = array();
+		if (!empty($row->playlist_data))
+		{
+			$playlist = explode(",", $row->playlist_data);
+			$playlist = preg_replace("/[^0-9]/", "", $playlist);
+
+			for ($i=0, $n=count($playlist); $i < $n; $i++)
+			{
+                                if (intval($playlist[$i]) !== intval($video_id))
+				{
+                                    $pl_videos[] = $playlist[$i];
+				}
+			}
+		}
+
+		$newData = implode(",", $pl_videos);
+
+		$db->SetQuery("UPDATE #__hwdvidsplaylists SET playlist_data = \"$newData\" WHERE id = $playlist_id");
+		if ( !$db->query() ) { echo "<script language=\"javascript\" type=\"text/javascript\"> alert('".addslashes($db->getErrorMsg())."'); window.history.go(-1); </script>\n"; exit(); }
+
+		// perform maintenance
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
+		hwd_vs_recount::recountVideosInPlaylist($playlist_id);
+
+		$row = new hwdvids_playlist($db);
+		$row->load( $playlist_id );
+		if (!empty($row->playlist_data))
+		{
+			$playlist = explode(",", $row->playlist_data);
+			$playlist = preg_replace("/[^0-9]/", "", $playlist);
+
+			$counter = 0;
+			$pl_videos = array();
+			for ($i=0, $n=count($playlist); $i < $n; $i++)
+			{
+				$db->SetQuery('SELECT * FROM #__hwdvidsvideos WHERE id = '.$playlist[$i]);
+				$video = $db->loadObject();
+				if (isset($video->id))
+				{
+					$pl_videos[$counter] = $video;
+					$counter++;
+				}
+			}
+		}
+
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'draw.php');
+		hwdvsDrawFile::XMLDataFile($pl_videos, "pl_$playlist_id");
+		hwdvsDrawFile::XMLPlaylistFile($pl_videos, "pl_$playlist_id");
+
+                $msg = _HWDPS_ALERT_VIDEODELETEDFROMPLAYLIST;
+            
+                $app->enqueueMessage($msg);
+                $app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=editPlaylist&playlistid='.$playlist_id.'&Itemid='.$Itemid );
+	}
 }
 ?>

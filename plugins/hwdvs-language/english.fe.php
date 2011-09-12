@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,9 @@ DEFINE("_HWDVIDS_NAV_YOURMEMBERSHIPS","Your Group Membership");
 DEFINE("_HWDVIDS_NAV_CREATEGROUP","Create New Group");
 DEFINE("_HWDVIDS_NAV_YOURVIDS","Your Videos");
 DEFINE("_HWDVIDS_NAV_YOURFAVS","Your Favourites");
+DEFINE("_HWDVIDS_NAV_CREATEPL","Create New Playlist");
+DEFINE("_HWDVIDS_NAV_YOURPL","Your Playlists");
+DEFINE("_HWDVIDS_NAV_YOURCHANNEL","Your Channel");
 
 //Frontend Search
 
@@ -109,6 +112,8 @@ DEFINE("_HWDVIDS_TITLE_NOACCESS","Access Denied!");
 DEFINE("_HWDVIDS_TITLE_ERROR","Error");
 DEFINE("_HWDVIDS_TITLE_AV2G","Add to Group");
 DEFINE("_HWDVIDS_TITLE_GRPVIDS","Group Videos");
+DEFINE("_HWDVIDS_TITLE_PENDINGVIDEOS","Videos Pending Approval");
+DEFINE("_HWDVIDS_TITLE_GCF","Group Creation Failed");
 
 //Alerts
 
@@ -149,6 +154,7 @@ DEFINE("_HWDVIDS_ALERT_LOG2CYM","You need to login to see your group memberships
 DEFINE("_HWDVIDS_ALERT_LOG2CYV","You need to login to see your videos");
 DEFINE("_HWDVIDS_ALERT_LOG2CYF","You need to login to see your favourite videos");
 DEFINE("_HWDVIDS_ALERT_SUCAV2G","The video has been added to the group.");
+DEFINE("_HWDVIDS_ALERT_SUCAV2PL","The video has been added to the playlist.");
 DEFINE("_HWDVIDS_ALERT_GREMOVED","Your group has been deleted");
 DEFINE("_HWDVIDS_ALERT_GSAVED","Your group has been saved");
 DEFINE("_HWDVIDS_ALERT_GPENDING","Your group has been saved and is pending approval from our website moderators");
@@ -175,6 +181,7 @@ DEFINE("_HWDVIDS_ALERT_REGISTERFORVCAT","You need to register and login to view 
 DEFINE("_HWDVIDS_ALERT_VCAT_NOT_AUTHORIZED","You are not authorized to view this video. You do not have permissions to access this category.");
 DEFINE("_HWDVIDS_ALERT_REGISTERFORDNLD","You need to register and login to download this video.");
 DEFINE("_HWDVIDS_ALERT_DNLD_NOT_AUTHORIZED","You are not authorized to download this video.");
+DEFINE("_HWDVIDS_ALERT_CSAVED","Your channel has been setup correctly.");
 
 //Meta
 
@@ -182,7 +189,7 @@ DEFINE("_HWDVIDS_META_DEFAULT","Videos");
 DEFINE("_HWDVIDS_META_FP","Frontpage");
 DEFINE("_HWDVIDS_META_SR","Search Results");
 DEFINE("_HWDVIDS_META_UPLD","Upload Your Videos");
-DEFINE("_HWDVIDS_META_UPLDSUC","Successfully Upload Your Video");
+DEFINE("_HWDVIDS_META_UPLDSUC","Successfully Uploaded Your Video");
 DEFINE("_HWDVIDS_META_ADDSUC","Successfully Added Your Video");
 DEFINE("_HWDVIDS_META_CATS","Video Categories");
 DEFINE("_HWDVIDS_META_GRPS","Video Groups");
@@ -194,6 +201,8 @@ DEFINE("_HWDVIDS_META_YGRPS","Your groups");
 DEFINE("_HWDVIDS_META_YGRPM","Your group memberships");
 DEFINE("_HWDVIDS_META_FEATG","Featured groups");
 DEFINE("_HWDVIDS_META_EVIDS","Edit your video information");
+DEFINE("_HWDVIDS_META_NPL","Create a new playlist");
+DEFINE("_HWDVIDS_META_EPL","Edit your playlist information");
 
 //Selects
 
@@ -202,6 +211,7 @@ DEFINE("_HWDVIDS_SELECT_UPLDDATE","Upload Date");
 DEFINE("_HWDVIDS_SELECT_NAME","Name");
 DEFINE("_HWDVIDS_SELECT_HITS","Hits");
 DEFINE("_HWDVIDS_SELECT_RATING","Rating");
+DEFINE("_HWDVIDS_SELECT_RANDOM","Random");
 DEFINE("_HWDVIDS_SELECT_NOVIDS","Number of Videos");
 DEFINE("_HWDVIDS_SELECT_NOSUBS","Number of Subcategories");
 DEFINE("_HWDVIDS_SELECT_UPLDADDTP","Add a video from an external website");
@@ -245,9 +255,7 @@ DEFINE("_HWDVIDS_INFO_NOCATS","There are no available categories");
 DEFINE("_HWDVIDS_INFO_CONFIRMFRONTEDIT","Are you sure you want to edit this item?");
 DEFINE("_HWDVIDS_INFO_CONFIRMFRONTDEL","Are you sure you want to delete this item?");
 DEFINE("_HWDVIDS_INFO_NOPLUGIN","Sorry! This video can no longer be played on this website.");
-DEFINE("_HWDVIDS_INFO_VIEWS","Plays");
-DEFINE("_HWDVIDS_INFO_PLAYS","Plays:");
-DEFINE("_HWDVIDS_INFO_SHARED","Shared by: ");
+DEFINE("_HWDVIDS_INFO_VIEWS","Views");
 DEFINE("_HWDVIDS_INFO_CATEGORY","Category");
 DEFINE("_HWDVIDS_INFO_MOREFEATUREDV","More Featured Videos");
 DEFINE("_HWDVIDS_INFO_MOREFEATUREDG","More Featured Groups");
@@ -318,6 +326,10 @@ DEFINE("_HWDVIDS_BUTTON_SAVEGROUP","Save Group");
 DEFINE("_HWDVIDS_BUTTON_RESET","Reset");
 DEFINE("_HWDVIDS_BUTTON_GO","Go");
 DEFINE("_HWDVIDS_BUTTON_SEND","Send");
+DEFINE("_HWDVIDS_BUTTON_SAVECHANNEL","Save Channel");
+DEFINE("_HWDVIDS_BUTTON_VIEW","View");
+DEFINE("_HWDVIDS_BUTTON_SAVEPL","Save Playlist");
+DEFINE("_HWDVIDS_BUTTON_ADSEARCH","Advanced Search");
 
 //Ajax
 
@@ -366,6 +378,10 @@ DEFINE("_HWDVIDS_ERROR_UPLDERR08","The upload failed. ERROR CODE 001.");
 DEFINE("_HWDVIDS_ERROR_UPLDERR09","The upload failed. ERROR CODE 002.");
 DEFINE("_HWDVIDS_ERROR_UPLDERR10","The upload failed. ERROR CODE 003.");
 DEFINE("_HWDVIDS_ERROR_UPLDERR11","Your video could not be added. It is not from a supported website.");
+DEFINE("_HWDVIDS_UPLD_GFORMERR01","We did not find a group title. Please go back and complete the form.");
+DEFINE("_HWDVIDS_UPLD_GFORMERR02","We did not find a group privacy setting. Please go back and complete the form.");
+DEFINE("_HWDVIDS_UPLD_GFORMERR03","We did not find a group comments option. Please go back and complete the form.");
+DEFINE("_HWDVIDS_UPLD_GFORMERR04","We did not find a group description. Please go back and complete the form.");
 
 //General
 
@@ -380,27 +396,20 @@ DEFINE("_HWDVIDS_WMIP_02"," plugin.");
 DEFINE("_HWDVIDS_MVTD","Most Viewed Today");
 DEFINE("_HWDVIDS_MVTW","Most Viewed This Week");
 DEFINE("_HWDVIDS_MVTM","Most Viewed This Month");
-DEFINE("_HWDVIDS_MVAT","Most <br /> viewed");
+DEFINE("_HWDVIDS_MVAT","Most <br /> Viewed");
 DEFINE("_HWDVIDS_MFTD","Most Favoured Today");
 DEFINE("_HWDVIDS_MFTW","Most Favoured This Week");
 DEFINE("_HWDVIDS_MFTM","Most Favoured This Month");
-DEFINE("_HWDVIDS_MFAT","Most <br /> Favoured");
+DEFINE("_HWDVIDS_MFAT","Most Favoured");
 DEFINE("_HWDVIDS_MPTD","Most Popular Today");
 DEFINE("_HWDVIDS_MPTW","Most Popular This Week");
 DEFINE("_HWDVIDS_MPTM","Most Popular This Month");
-DEFINE("_HWDVIDS_MPAT","Most <br /> Popular");
+DEFINE("_HWDVIDS_MPAT","Most Popular");
 DEFINE("_HWDVIDS_BWN","Being Watched Now");
 DEFINE("_HWDVIDS_RELATED","Related");
 DEFINE("_HWDVIDS_UNKNOWN","Unknown");
 DEFINE("_HWDVIDS_RECENT","Recent");
-DEFINE("_HWDVIDS_MOST_RECENT","Most <br /> recent");
-DEFINE("_HWDVIDS_MOST_RATED","Most <br /> rated");
-DEFINE("_HWDVIDS_MOST_COMMENTED","Most <br /> commented");
 DEFINE("_HWDVIDS_FEATURED_VIDEOS","Featured Videos");
-DEFINE("_HWDVIDS_POP_BANDS","Popular bands");
-DEFINE("_HWDVIDS_POP_TAGS","Popular tags");
-DEFINE("_HWDVIDS_POP_GENRES","Popular genres");
-DEFINE("_HWDVIDS_RANDOM_VIDEOS","Random Video");
 DEFINE("_HWDVIDS_TITLE","Title");
 DEFINE("_HWDVIDS_LENGTH","Duration");
 DEFINE("_HWDVIDS_RATING","Rating");
@@ -485,6 +494,99 @@ DEFINE("_HWDVIDS_FEATVIDEOPLAYLISTS","Featured Video Playlists");
 
 DEFINE("_HWDVIDS_SELECT_ME","Only Me");
 DEFINE("_HWDVIDS_SELECT_PASSWORD","Password Protected");
+DEFINE("_HWDVIDS_EDITCHANNEL","Edit Channel");
+DEFINE("_HWDVIDS_INFO_NVC","No channels have been setup");
+
+DEFINE("_HWDVIDS_PASSWORD","Password");
+DEFINE("_HWDVIDS_ORUCAV","Only registered users can view this video");
+DEFINE("_HWDVIDS_OOCAV","Only the owner can view this video");
+DEFINE("_HWDVIDS_IPW","The password you entered is not valid");
+DEFINE("_HWDVIDS_TVPP","This video is password protected");
+DEFINE("_HWDVIDS_RECENTVIDEOS","Recent Videos");
+DEFINE("_HWDVIDS_POPULARVIDEOS","Most Popular Videos");
+DEFINE("_HWDVIDS_RATEDVIDEOS","Top Rated Videos");
+DEFINE("_HWDVIDS_SENDFRIEND","Send to a friend");
+DEFINE("_HWDVIDS_SELPL","Please select a playlist first");
+DEFINE("_HWDVIDS_ALERT_NOPLNAME","Please enter a playlist name");
+DEFINE("_HWDVIDS_ALERT_NOPLDESC","Please enter a playlist description");
+DEFINE("_HWDVIDS_ALERT_PLREMOVED","Your playlist has been deleted");
+DEFINE("_HWDVIDS_SUBSCRIBE","Subscribe");
+DEFINE("_HWDVIDS_UNSUBSCRIBE","Unsubscribe");
+DEFINE("_HWDVIDS_ASALL","Find videos with all these words");
+DEFINE("_HWDVIDS_ASEXACT","Find videos with this exact wording or phrase");
+DEFINE("_HWDVIDS_ASEX","But without any of these unwanted words");
+DEFINE("_HWDVIDS_RPP","Results per page");
+DEFINE("_HWDVIDS_ORGANISE","Organise");
+DEFINE("_HWDVIDS_RELEVANCE","Relevance");
+DEFINE("_HWDVIDS_MOREVIDEOS","More Videos");
+DEFINE("_HWDVIDS_COMMENTS","comments");
+
+DEFINE("_HWDVIDS_AGEGATE","This video is age restricted.");
+DEFINE("_HWDVIDS_AGEGATE_ENTER","Please enter your date of birth.");
+DEFINE("_HWDVIDS_AGEGATE_INVALID","The date you entered is not valid.");
+DEFINE("_HWDVIDS_AGEGATE_TOOYOUNG","You are too young to watch this video.");
+
+DEFINE("_HWDVIDS_RATE_1STAR","Very poor");
+DEFINE("_HWDVIDS_RATE_2STAR","Fair");
+DEFINE("_HWDVIDS_RATE_3STAR","Average");
+DEFINE("_HWDVIDS_RATE_4STAR","Good");
+DEFINE("_HWDVIDS_RATE_5STAR","Excellent");
+
+DEFINE("_HWDVIDS_VIEWED","Viewed");
+DEFINE("_HWDVIDS_POPULAR","Popular");
+DEFINE("_HWDVIDS_FAVOURED","Favoured");
+
+DEFINE("_HWDVIDS_NVPA","No videos are pending approval.");
+DEFINE("_HWDVIDS_ALERT_LOG2ADDC","You must login to create a channel.");
+
+DEFINE("_HWDVIDS_LB_GC","Get Connected!");
+DEFINE("_HWDVIDS_LB_1","Share your videos and photos");
+DEFINE("_HWDVIDS_LB_2","Connect and expand your network");
+DEFINE("_HWDVIDS_LB_3","View community videos and photos");
+DEFINE("_HWDVIDS_LB_4","Create your own video and photos groups");
+DEFINE("_HWDVIDS_LB_JOIN","Join Our Website Now!");
+DEFINE("_HWDVIDS_LB_U","Username");
+DEFINE("_HWDVIDS_LB_P","Password");
+DEFINE("_HWDVIDS_LB_RM","Remember my details");
+DEFINE("_HWDVIDS_LB_L","Login");
+DEFINE("_HWDVIDS_LB_FP","Forgot your password?");
+DEFINE("_HWDVIDS_LB_FU","Forgot your username?");
+
+DEFINE("_HWDVIDS_WTYNC","Welcome to your new channel");
+DEFINE("_HWDVIDS_EYC","Edit your channel");
+DEFINE("_HWDVIDS_YOURSTYLE","Your Style");
+DEFINE("_HWDVIDS_YOURPREFERENCES","Your Preferences");
+DEFINE("_HWDVIDS_YOURCHANNEL","Your Channel");
+DEFINE("_HWDVIDS_YOURLOGO","Your Logo");
+DEFINE("_HWDVIDS_YOURLOGO_DESC","You can upload a new logo for your channel. Uploads are limited to 2MB.");
+DEFINE("_HWDVIDS_VIDEOCHANNELS","Video Channels");
+
+DEFINE("_HWDVIDS_FAVOURITEVIDEOS","Favourite Videos");
+DEFINE("_HWDVIDS_RECENTLYVIEWED","Recently Viewed");
+DEFINE("_HWDVIDS_CHANNELVIEWS","Channel Views");
+DEFINE("_HWDVIDS_TOTALUPLOADS","Total Uploads");
+DEFINE("_HWDVIDS_JOINED","Joined");
+DEFINE("_HWDVIDS_LASTVISIT","Last Sign In");
+DEFINE("_HWDVIDS_SUBCRIBERS","Subscribers");
+
+DEFINE("_HWDVIDS_NOUV","No user videos");
+DEFINE("_HWDVIDS_NOUP","No user playlists");
+DEFINE("_HWDVIDS_NOUG","No user groups");
+
+DEFINE("_HWDVIDS_C_UPLOADS","%s's uploaded videos");
+DEFINE("_HWDVIDS_C_FAVOURITES","%s's favourite videos");
+DEFINE("_HWDVIDS_C_VIEWED","%s's recently viewed videos");
+DEFINE("_HWDVIDS_C_LIKED","%s's recently liked videos");
+DEFINE("_HWDVIDS_C_DISLIKED","%s's recently disliked videos");
+DEFINE("_HWDVIDS_C_GROUPS","%s's groups");
+DEFINE("_HWDVIDS_C_PLAYLISTS","%s's playlists");
+DEFINE("_HWDVIDS_C_MEMBERSHIPS","%s's memberships");
+DEFINE("_HWDVIDS_C_SUBSCRIPTIONS","%s's subscriptions");
+DEFINE("_HWDVIDS_C_TITLE","%s's Channel");
+
+
+/* Shigaru customs */
+
 DEFINE("_HWDVIDS_HOMEPROMO","Sign up. Upload videos or submit video links of music tutorials. Comment. Rate. Discover. Learn. Share. Create a profile page. Make friends. Promote your music.  Join the Shigaru online music community now and meet music lovers from all over the world!");
 DEFINE("_HWDVIDS_WATCHMORE","Watch more videos like these");
 DEFINE("_HWDVIDS_LATESTCOMM","Latest Comments");
@@ -492,16 +594,20 @@ DEFINE("_HWDVIDS_POPUCOMM","Popular Comments");
 DEFINE("_HWDVIDS_DONATETO","Donate to Shigaru.com");
 DEFINE("_HWDVIDS_SUBSCRIBE","Subscribe to the newsletter");
 DEFINE("_HWDVIDS_SUBSARCHIVE","View newsletter archive");
-
-
 DEFINE("_HWDVIDS_SHIGARU_ADS","Some ads to keep Shigaru up and running");
 DEFINE("_HWDVIDS_SHIGARU_FOLLOW","Follow us on ...");
-
 DEFINE("_HWDVIDS_SHIGARU_FACEFAN","This is how our fans look like ...");
 DEFINE("_HWDVIDS_SHIGARU_TWITTER","What are we tweeting ...");
-
-
 DEFINE("_HWDVIDS_SHIGARU_OURFACES","Shigaru Community (and growing!)");
 DEFINE("_HWDVIDS_SHIGARU_TOTALCATEGORIZED"," (categorized by the Shigaru)");
-
-
+DEFINE("_HWDVIDS_MOST_RECENT","Most <br /> recent");
+DEFINE("_HWDVIDS_MOST_RATED","Most <br /> rated");
+DEFINE("_HWDVIDS_MOST_COMMENTED","Most <br /> commented");
+DEFINE("_HWDVIDS_FEATURED_VIDEOS","Featured Videos");
+DEFINE("_HWDVIDS_POP_BANDS","Popular bands");
+DEFINE("_HWDVIDS_POP_TAGS","Popular tags");
+DEFINE("_HWDVIDS_POP_GENRES","Popular genres");
+DEFINE("_HWDVIDS_RANDOM_VIDEOS","Random Video");
+DEFINE("_HWDVIDS_INFO_SHARED","Shared by: ");
+DEFINE("_HWDVIDS_INFO_PLAYS","Plays:");
+DEFINE("_HWDVIDS_INFO_NOCOMM","Number of Comments:");

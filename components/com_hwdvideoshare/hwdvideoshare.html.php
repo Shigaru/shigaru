@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -19,9 +19,7 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
-//global $mainframe;
-//$comments = $mainframe->getCfg('absolute_path') . DS . 'components' . DS . 'com_jcomments' . DS . 'jcomments.php';
-//import($comments);
+
 /**
  * This class is the HTML generator for hwdVideoShare frontend
  *
@@ -29,39 +27,27 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
  * @author     Dave Horsfall <info@highwooddesign.co.uk>
  * @copyright  2008 Highwood Design
  * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @version    1.1.4 Alpha RC2.13
  */
 class hwd_vs_html
 {
-	
-	
     /**
-     * Outputs frontpage HTML
      *
-     * @param array  $rows  array of video data
-     * @param array  $rowsfeatured  array of featured video data
-     * @param object $pageNav  page navigation object
-     * @param int    $total  the total video count
-     * @return       Nothing
      */
-    function frontpage($rows, $rowsfeatured, $pageNav, $total, $rowsnow, $mostviewed, $mostfavoured, $mostpopular,$wordList)
+    function frontpage($rows, $rowsfeatured, $pageNav, $total, $rowsnow, $mostviewed, $mostfavoured, $mostpopular, $rowsNbwType,$wordList)
     {
-		/*
-		echo '<pre>';
-		print_r($mostpopular);
-		echo '</pre>';
-		echo '<pre>';
-		var_dump($mostfavoured);
-		echo '</pre>';
-		* */
-		global $Itemid, $smartyvs, $mainframe, $hwdvsTemplateOverride, $limit;
+		global $Itemid, $smartyvs, $hwdvsTemplateOverride, $limit, $limitstart, $j15, $j16;
 		$c = hwd_vs_Config::get_instance();
   		$db =& JFactory::getDBO();
+$app = & JFactory::getApplication();
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
+		$app = & JFactory::getApplication();
 
 		$active = &$menu->getActive();
 
@@ -72,6 +58,312 @@ class hwd_vs_html
 		} else {
 			$metatitle = _HWDVIDS_META_DEFAULT;
 		}
+
+		if ($limitstart > 0)
+		{
+			$pageNumber = intval(($limitstart/$c->vpp) + 1);
+			if ($pageNumber > 1)
+			{
+				$metatitle.= " - ".JText::_('PAGE')." $pageNumber";
+			}
+		}
+
+		// set the page/meta title
+		$doc->setTitle( $metatitle );
+		$doc->setMetaData( 'title' , $metatitle );
+		hwd_vs_tools::generateActiveLink(1);
+		hwd_vs_tools::generateBreadcrumbs();
+
+		// define javascript
+		hwd_vs_javascript::confirmdelete();
+
+		if ($limitstart == "0")
+		{
+			if ($rowsnow == "switch" && $c->frontpage_watched == "1") {
+
+				jimport( 'joomla.application.module.helper' );
+				$bwn_modName = 'hwd_vs_beingwatched';
+				$bwn_modObj = JModuleHelper::getModule($bwn_modName);
+
+				if (!isset($bwn_modObj->id)) {
+
+					$query = 'SELECT id, title, module, position, showtitle, control, params FROM #__modules WHERE module = "mod_hwd_vs_beingwatched"';
+					$db->SetQuery($query);
+					$bwn_modObj = $db->loadObject();
+					$bwn_modObj->user = 0;
+					$bwn_modObj->content = '';
+					$bwn_modObj->name = '';
+					$bwn_modObj->style = '';
+				}
+
+				$bwn_modContent = JModuleHelper::renderModule($bwn_modObj);
+				$smartyvs->assign("print_nowlist", 2);
+				$smartyvs->assign("bwn_modContent", $bwn_modContent);
+
+			}
+
+			if ($rowsnow !== "switch" && count($rowsnow) > 0 && $c->frontpage_watched == "1")
+			{
+
+				$params = array();
+
+				if (isset($hwdvsTemplateOverride['beingWatchNow'])) {
+					$params['novtd'] = $hwdvsTemplateOverride['beingWatchNow'];
+				} else {
+					$params['novtd'] = $c->bwn_no;
+				}
+
+				if (isset($hwdvsTemplateOverride['thumbWidth5'])) {
+					$thumbwidth = $hwdvsTemplateOverride['thumbWidth5'];
+					$params['thumb_width'] = $hwdvsTemplateOverride['thumbWidth5'];
+
+				} else {
+					$thumbwidth = null;
+					$params['thumb_width'] = $hwdvsTemplateOverride['thumbWidth5'];
+				}
+
+				$smartyvs->assign("print_nowlist", 1);
+
+				if ($rowsNbwType == "xml")
+				{
+					$nowlist = hwd_vs_tools::generateVideoListFromXml($rowsnow, $thumbwidth);
+				}
+				else
+				{
+					$nowlist = hwd_vs_tools::generateVideoListFromSql($rowsnow, null, $thumbwidth);
+				}
+				$smartyvs->assign("nowlist", $nowlist);
+
+				if ($c->loadmootools == "on") {
+					JHTML::_('behavior.mootools');
+				}
+
+				if (isset($hwdvsTemplateOverride['loadCarousel']) && $hwdvsTemplateOverride['loadCarousel'] == 0)
+				{
+					// continue;
+				}
+				else
+				{
+					require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'carousel.php');
+					$iCID = 'hwdvs_bwn';
+					hwdvsCarousel::setup($iCID, $params);
+					$smartyvs->assign("iCID", $iCID);
+				}
+			}
+
+			$k = 0;
+			if (count($rowsfeatured) > 0)
+			{
+				$smartyvs->assign("print_featured", 1);
+				if ($c->fvid_w == 0) { $c->fvid_w = "100%"; }
+
+				if ($c->feat_show == 3)
+				{
+					$xspf_playlist = JPATH_SITE.'/components/com_hwdvideoshare/xml/xspf/featured.xml';
+					if (file_exists($xspf_playlist) && filesize($xspf_playlist) > 210)
+					{
+						$featured_file = null;
+						$featured_file->id = null;
+						$featured_file->video_type = "playlist";
+						$featured_file->playlist = JURI::root(true).'/components/com_hwdvideoshare/xml/xspf/featured.xml';
+						$array_i = 0;
+						$featured_file->description = null;
+						$featured_file->tags = null;
+					}
+				}
+				if ($c->feat_show !== "3" || !isset($featured_file->video_type))
+				{
+					if ($c->feat_show == "2")
+					{
+						$smartyvs->assign("showFeaturedDetails", 1);
+					}
+					$array_i = 0;
+					$featured_file = $rowsfeatured[$array_i];
+				}
+
+				if ($c->feat_as == "yes")
+				{
+					$as = "1";
+				}
+				else if ($c->feat_as == "no")
+				{
+					$as = "0";
+				}
+				else if ($c->feat_as == "first")
+				{
+					$fas_check = $app->getUserState( "hwdvs_fas_check", "notviewed" );
+					if ($fas_check !== "viewed")
+					{
+						$app->setUserState( "hwdvs_fas_check", "viewed" );
+						$as = "1";
+					}
+					else
+					{
+						$as = "0";
+					}
+				}
+				else
+				{
+					$as = null;
+				}
+
+				hwd_vs_tools::logViewing($featured_file->id);
+				//require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
+				//hwd_vs_recount::recountVideoViews($featured_file->id);
+
+				if ($c->usehq == "1")
+				{
+					$quality = "hd";
+				}
+				else if ($c->usehq == "2")
+				{
+					$quality = "sd";
+				}
+				else
+				{
+					$quality = null;
+				}
+
+				$featured_video_player = hwd_vs_tools::generateVideoPlayer($featured_file, $c->fvid_w, $c->fvid_h, $as, $quality);
+				$smartyvs->assign("featured_video_player", $featured_video_player);
+
+				$meta_description = hwd_vs_tools::generateMetaText($featured_file->description);
+				$meta_tags = hwd_vs_tools::generateMetaText($featured_file->tags);
+
+				// set the page/meta title
+				$doc->setMetaData( 'description' , $meta_description );
+				$doc->setMetaData( 'keywords' , $meta_tags );
+
+
+				if (isset($hwdvsTemplateOverride['thumbWidth6'])) {
+					$thumbwidth = $hwdvsTemplateOverride['thumbWidth6'];
+				} else {
+					$thumbwidth = null;
+				}
+
+				$featuredlist = hwd_vs_tools::generateVideoListFromSql($rowsfeatured, "featuredthumbs", $thumbwidth);
+				$smartyvs->assign("featuredlist", $featuredlist);
+
+				if ($c->feat_show == "2")
+				{
+					$smartyvs->assign("featured_video_details", hwd_vs_tools::generateVideoDetails($rowsfeatured[$array_i], null, null, null, $Itemid, null, null));
+/*					
+					echo '<pre>';
+					 print_r(hwd_vs_tools::generateVideoDetails($rowsfeatured[$array_i], null, null, null, $Itemid, null, null));
+					echo '</pre>';
+	*/				 
+					
+				}
+			}
+			if (count($rowsfeatured) > 1) {
+				$smartyvs->assign("print_multiple_featured", 1);
+			}
+
+			if (count($mostviewed) > 0 && $c->frontpage_viewed !== "0") {
+				$smartyvs->assign("print_mostviewed", 1);
+
+				if (isset($hwdvsTemplateOverride['thumbWidth2'])) {
+					$thumbwidth = $hwdvsTemplateOverride['thumbWidth2'];
+				} else {
+					$thumbwidth = null;
+				}
+
+				$mostviewedlist = hwd_vs_tools::generateVideoListFromXml($mostviewed, $thumbwidth);
+				$smartyvs->assign("mostviewedlist", $mostviewedlist);
+				if ($c->frontpage_viewed == "today") {
+					$smartyvs->assign("title_mostviewed", _HWDVIDS_MVTD);
+				} else if ($c->frontpage_viewed == "thisweek") {
+					$smartyvs->assign("title_mostviewed", _HWDVIDS_MVTW);
+				} else if ($c->frontpage_viewed == "thismonth") {
+					$smartyvs->assign("title_mostviewed", _HWDVIDS_MVTM);
+				} else if ($c->frontpage_viewed == "alltime") {
+					$smartyvs->assign("title_mostviewed", _HWDVIDS_MVAT);
+				}
+			}
+
+			if (count($mostfavoured) > 0 && $c->frontpage_favoured !== "0") {
+				$smartyvs->assign("print_mostfavoured", 1);
+
+				if (isset($hwdvsTemplateOverride['thumbWidth3'])) {
+					$thumbwidth = $hwdvsTemplateOverride['thumbWidth3'];
+				} else {
+					$thumbwidth = null;
+				}
+
+				$mostfavouredlist = hwd_vs_tools::generateVideoListFromXml($mostfavoured, $thumbwidth);
+				$smartyvs->assign("mostfavouredlist", $mostfavouredlist);
+				/*
+			echo '<pre>';
+				print_r($mostfavouredlist);
+			echo '</pre>';
+			*/
+				if ($c->frontpage_favoured == "today") {
+					$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFTD);
+				} else if ($c->frontpage_favoured == "thisweek") {
+					$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFTW);
+				} else if ($c->frontpage_favoured == "thismonth") {
+					$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFTM);
+				} else if ($c->frontpage_favoured == "alltime") {
+					$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFAT);
+				}
+			}
+
+			if (count($mostpopular) > 0 && $c->frontpage_popular !== "0") {
+				$smartyvs->assign("print_mostpopular", 1);
+
+				if (isset($hwdvsTemplateOverride['thumbWidth4'])) {
+					$thumbwidth = $hwdvsTemplateOverride['thumbWidth4'];
+				} else {
+					$thumbwidth = null;
+				}
+
+				$mostpopularlist = hwd_vs_tools::generateVideoListFromXml($mostpopular, $thumbwidth);
+				$smartyvs->assign("mostpopularlist", $mostpopularlist);
+			/*
+			echo '<pre>';
+				print_r($mostpopularlist);
+			echo '</pre>';
+			*/
+				if ($c->frontpage_popular == "today") {
+					$smartyvs->assign("title_mostpopular", _HWDVIDS_MPTD);
+				} else if ($c->frontpage_popular == "thisweek") {
+					$smartyvs->assign("title_mostpopular", _HWDVIDS_MPTW);
+				} else if ($c->frontpage_popular == "thismonth") {
+					$smartyvs->assign("title_mostpopular", _HWDVIDS_MPTM);
+				} else if ($c->frontpage_popular == "alltime") {
+					$smartyvs->assign("title_mostpopular", _HWDVIDS_MPAT);
+				}
+			}
+		}
+
+		if (count($rows) > 0) {
+			$smartyvs->assign("print_videolist", 1);
+			$list = hwd_vs_tools::generateVideoListFromSql($rows, null, $hwdvsTemplateOverride['thumbWidth1']);
+			$smartyvs->assign("list", $list);
+			
+		}
+
+		$smartyvs->assign( "featured_link" , JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=featuredvideos") );
+		$smartyvs->assign( "print_featured_player", $c->feat_show );
+
+		$page = $total - $c->vpp;
+		$pageNavigation = null;
+		if ( $page > 0 )
+		{
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
+		}
+		$smartyvs->assign("pageNavigation", $pageNavigation);
+		
+		/* Shigaru Customs */
 		
 		/* comments boxes */
 		jimport( 'joomla.application.module.helper' );
@@ -90,8 +382,6 @@ class hwd_vs_html
 		$mostmodule->params = $componentParams->toString();
 		$mostpopularcomments = JModuleHelper::renderModule($mostmodule);
 		$smartyvs->assign("mostpopularcomments", $mostpopularcomments);
-		
-		
 		
 		// link to thn reasons
 		
@@ -148,45 +438,6 @@ class hwd_vs_html
 		$zncbmembers = JModuleHelper::renderModule($zncbmembers);
 		$smartyvs->assign("zncbmembers", $zncbmembers);
 		
-		
-		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle );
-		$mainframe->addMetaTag( 'title' , $metatitle );
-		hwd_vs_tools::generateActiveLink(1);
-		hwd_vs_tools::generateBreadcrumbs();
-
-		// define javascript
-		hwd_vs_javascript::confirmdelete();
-
-		if ($rowsnow == "switch" && $c->frontpage_watched == "1") {
-
-			jimport( 'joomla.application.module.helper' );
-			$bwn_modName = 'hwd_vs_beingwatched';
-			$bwn_modObj = JModuleHelper::getModule($bwn_modName);
-
-			if (!isset($bwn_modObj->id)) {
-
-				$query = 'SELECT id, title, module, position, showtitle, control, params FROM #__modules WHERE module = "mod_hwd_vs_beingwatched"';
-				$db->SetQuery($query);
-				$bwn_modObj = $db->loadObject();
-				$bwn_modObj->user = 0;
-				$bwn_modObj->content = '';
-				$bwn_modObj->name = '';
-				$bwn_modObj->style = '';
-			}
-
-			$bwn_modContent = JModuleHelper::renderModule($bwn_modObj);
-			$smartyvs->assign("print_nowlist", 2);
-			$smartyvs->assign("bwn_modContent", $bwn_modContent);
-
-		}
-		
-		
-		/* Most commented */
-		/*
-		$mostcommented =hwd_vs_tools::getMostCommented();
-		$smartyvs->assign("mostcommented", $mostcommented);
-		*/
 		// VIDEO TAGS
 		$tagsList =hwd_vs_tools::concatenateWords($wordList);
 		$tagsList = hwd_vs_tools::filterWords($tagsList);
@@ -209,215 +460,39 @@ class hwd_vs_html
 		$gentagsList = hwd_vs_tools::parseTagsString($gentagsList,50);
 		$gentagsList = hwd_vs_tools::outputWords($gentagsList,10,25);
 		$smartyvs->assign("gentagsList", $gentagsList);
-
-		if ($rowsnow !== "switch" && count($rowsnow) > 0 && $c->frontpage_watched == "1") {
-
-			$params = array();
-
-			if (isset($hwdvsTemplateOverride['beingWatchNow'])) {
-				$params['novtd'] = $hwdvsTemplateOverride['beingWatchNow'];
-			} else {
-				$params['novtd'] = $c->bwn_no;
-			}
-
-			if (isset($hwdvsTemplateOverride['thumbWidth5'])) {
-				$thumbwidth = $hwdvsTemplateOverride['thumbWidth5'];
-				$params['thumb_width'] = $hwdvsTemplateOverride['thumbWidth5'];
-
-			} else {
-				$thumbwidth = null;
-				$params['thumb_width'] = $hwdvsTemplateOverride['thumbWidth5'];
-			}
-
-			$smartyvs->assign("print_nowlist", 1);
-			$nowlist = hwd_vs_tools::generateVideoListFromSql($rowsnow, null, $thumbwidth);
-			$smartyvs->assign("nowlist", $nowlist);
-			/*
-			if ($c->loadmootools == "on") {
-				JHTML::_('behavior.mootools');
-			}
-			*/
-			
-			if (isset($hwdvsTemplateOverride['loadCarousel']) && $hwdvsTemplateOverride['loadCarousel'] == 0) {
-				// continue;
-			} else {
-				//$mainframe->addCustomHeadTag('<script type="text/javascript" src="'.JURI::root( true ).'/components/com_hwdvideoshare/assets/js/icarousel.js"></script> ');
-				//require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'carousel.php');
-				$iCID = 'example_3';
-				//hwdvsCarousel::setup($iCID, $params);
-				$smartyvs->assign("iCID", $iCID);
-			}
-		}
-
-		$k = 0;
-		if (count($rowsfeatured) > 0) {
-			$smartyvs->assign("print_featured", 1);
-			if ($c->fvid_w == 0) { $c->fvid_w = "100%"; }
-
-			if ($c->feat_rand == 2)
-			{
-				$xspf_playlist = JPATH_SITE.'/components/com_hwdvideoshare/xml/xspf/featured.xml';
-				if (file_exists($xspf_playlist))
-				{
-					$featured_file = null;
-					$featured_file->video_type = "playlist";
-					$featured_file->playlist = JURI::root(true).'/components/com_hwdvideoshare/xml/xspf/featured.xml';
-				}
-			}
-			else if ($c->feat_rand == 1)
-			{
-				$array_size = count($rowsfeatured);
-				$array_i = rand(0, $array_size-1);
-				$featured_file = $rowsfeatured[$array_i];
-			}
-			else
-			{
-				$array_i = 0;
-				$featured_file = $rowsfeatured[$array_i];
-			}
-
-			if ($c->feat_as == "yes") {
-				$as = "1";
-			} else if ($c->feat_as == "no") {
-				$as = "0";
-			} else if ($c->feat_as == "first") {
-				$as = null;
-			} else {
-				$as = null;
-			}
-
-
-			$featured_video_player = hwd_vs_tools::generateVideoPlayer($featured_file, $c->fvid_w, $c->fvid_h, $as);
-			$featured_descr = $rowsfeatured[1];
-			$smartyvs->assign("featured_video_player", $featured_video_player);
-			$smartyvs->assign("featured_desc", $featured_descr);
-
-			if (isset($hwdvsTemplateOverride['thumbWidth6'])) {
-				$thumbwidth = $hwdvsTemplateOverride['thumbWidth6'];
-			} else {
-				$thumbwidth = null;
-			}
-
-			$featuredlist = hwd_vs_tools::generateVideoListFromSql($rowsfeatured, "featuredthumbs", $thumbwidth);
-			$smartyvs->assign("featuredlist", $featuredlist);
-		}
-		if (count($rowsfeatured) > 1) {
-			$smartyvs->assign("print_multiple_featured", 1);
-		}
-
-		if (count($rows) > 0) {
-			$smartyvs->assign("print_videolist", 1);
-			$list = hwd_vs_tools::generateVideoListFromSql($rows, null, $hwdvsTemplateOverride['thumbWidth1']);
-			$smartyvs->assign("list", $list);
-		}
-
-		if (count($mostviewed) > 0 && $c->frontpage_viewed !== "0") {
-			$smartyvs->assign("print_mostviewed", 1);
-
-			if (isset($hwdvsTemplateOverride['thumbWidth2'])) {
-				$thumbwidth = $hwdvsTemplateOverride['thumbWidth2'];
-			} else {
-				$thumbwidth = null;
-			}
-
-			$mostviewedlist =hwd_vs_tools::generateVideoListFromSql($rows, null, $hwdvsTemplateOverride['thumbWidth1']);
-			$smartyvs->assign("mostviewedlist", $mostviewedlist);
-			if ($c->frontpage_viewed == "today") {
-				$smartyvs->assign("title_mostviewed", _HWDVIDS_MVTD);
-			} else if ($c->frontpage_viewed == "thisweek") {
-				$smartyvs->assign("title_mostviewed", _HWDVIDS_MVTW);
-			} else if ($c->frontpage_viewed == "thismonth") {
-				$smartyvs->assign("title_mostviewed", _HWDVIDS_MVTM);
-			} else if ($c->frontpage_viewed == "alltime") {
-				$smartyvs->assign("title_mostviewed", _HWDVIDS_MVAT);
-			}
-		}
-
-		if (count($mostfavoured) > 0 && $c->frontpage_favoured !== "0") {
-			$smartyvs->assign("print_mostfavoured", 1);
-
-			if (isset($hwdvsTemplateOverride['thumbWidth3'])) {
-				$thumbwidth = $hwdvsTemplateOverride['thumbWidth3'];
-			} else {
-				$thumbwidth = null;
-			}
-
-			$mostfavouredlist = hwd_vs_tools::generateVideoListFromXml($mostfavoured, $thumbwidth);
-			$smartyvs->assign("mostfavouredlist", $mostfavouredlist);
-			if ($c->frontpage_favoured == "today") {
-				$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFTD);
-			} else if ($c->frontpage_favoured == "thisweek") {
-				$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFTW);
-			} else if ($c->frontpage_favoured == "thismonth") {
-				$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFTM);
-			} else if ($c->frontpage_favoured == "alltime") {
-				$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFAT);
-			}
-		}
-
-		if (count($mostpopular) > 0 && $c->frontpage_popular !== "0") {
-			$smartyvs->assign("print_mostpopular", 1);
-
-			if (isset($hwdvsTemplateOverride['thumbWidth4'])) {
-				$thumbwidth = $hwdvsTemplateOverride['thumbWidth4'];
-			} else {
-				$thumbwidth = null;
-			}
-
-			$mostpopularlist = hwd_vs_tools::generateVideoListFromSql($rows, null, $hwdvsTemplateOverride['thumbWidth1']);
-			$smartyvs->assign("mostpopularlist", $mostpopularlist);
-			if ($c->frontpage_popular == "today") {
-				$smartyvs->assign("title_mostpopular", _HWDVIDS_MPTD);
-			} else if ($c->frontpage_popular == "thisweek") {
-				$smartyvs->assign("title_mostpopular", _HWDVIDS_MPTW);
-			} else if ($c->frontpage_popular == "thismonth") {
-				$smartyvs->assign("title_mostpopular", _HWDVIDS_MPTM);
-			} else if ($c->frontpage_popular == "alltime") {
-				$smartyvs->assign("title_mostpopular", _HWDVIDS_MPAT);
-			}
-		}
-		$smartyvs->assign( "popular_link" , JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=featuredvideos") );
-		$smartyvs->assign( "recent_link" , JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=featuredvideos") );
-		$smartyvs->assign( "viewed_link" , JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=featuredvideos") );
-		$smartyvs->assign( "featured_link" , JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=featuredvideos") );
-		$smartyvs->assign( "print_featured_player", $c->feat_show );
-
-		$page = $total - $c->vpp;
-		$pageNavigation = null;
-		if ( $page > 0 ) {
-			$link = "index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&limit=".$limit;
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
-		}
-		$smartyvs->assign("pageNavigation", $pageNavigation);
+		
 		$smartyvs->assign("totalvideos", $total);
+		
+		/* most commented */
+		
+		$mostcommentedrows = hwd_vs_tools::getMostCommented();
+		$mostcommented = hwd_vs_tools::generateVideoListFromSql($mostcommentedrows, null, $hwdvsTemplateOverride['thumbWidth1']);
+		$smartyvs->assign("mostcommented", $mostcommented);
+		
+		/*
+			 echo '<pre>';
+				print_r($mostcommented);
+			echo '</pre>';
+			*/
+	
 		
 		$smartyvs->display('index.tpl');
 		return;
     }
     /**
-     * Outputs results from user search
      *
-     * @param int    $totalvids  the total matching video count
-     * @param array  $matchingvids  array of matching video data
-     * @param object $videoNav  page navigation object
-     * @param int    $totalgroups  the total matching group count
-     * @param array  $matchinggroups  array of matching group data
-     * @param object $groupNav  page navigation object
-     * @param string $searchterm  the search pattern from user search
-     * @return       Nothing
      */
-    function search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $searchterm)
+    function search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $searchterm, $category_id=0)
     {
-		global $Itemid, $mainframe, $smartyvs;
+		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -430,12 +505,13 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
 
 		$smartyvs->assign("searchterm", $searchterm);
+		$smartyvs->assign("categorySearchSelect", hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $category_id, _HWDVIDS_INFO_NOCATS, 1, "category_id", 0));
 
 		if (count($matchingvids) > 0) {
 			$smartyvs->assign("print_matchvids", 1);
@@ -444,12 +520,10 @@ class hwd_vs_html
 
 			$vpage = $totalvids - $c->vpp;
 			$vpageNavigation = null;
-			if ( $vpage > 0 ) {
-			$vlink = "index.php?option=com_hwdvideoshare&task=search&searchterm=".$searchterm."&Itemid=".$Itemid;
-			$vpageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$vpageNavigation.= $videoNav->getPagesLinks($vlink);
-			$vpageNavigation.= "<div class=\"pagecount\">".$videoNav->getPagesCounter()."</div>";
-			$vpageNavigation.= "</div>";
+			if ( $vpage > 0 )
+			{
+				$vpageNavigation.= $videoNav->getPagesLinks()."<br />";
+				$vpageNavigation.= $videoNav->getPagesCounter();
 			}
 			$smartyvs->assign("vpageNavigation", $vpageNavigation);
 
@@ -465,12 +539,10 @@ class hwd_vs_html
 
 			$gpage = $totalgroups - $c->gpp;
 			$gpageNavigation = null;
-			if ( $gpage > 0 ) {
-			$glink = "index.php?option=com_hwdvideoshare&task=search&searchterm=".$searchterm."&Itemid=".$Itemid;
-			$gpageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$gpageNavigation.= $groupNav->getPagesLinks($glink);
-			$gpageNavigation.= "<div class=\"pagecount\">".$groupNav->getPagesCounter()."</div>";
-			$gpageNavigation.= "</div>";
+			if ( $gpage > 0 )
+			{
+				$gpageNavigation.= $groupNav->getPagesLinks()."<br />";
+				$gpageNavigation.= $groupNav->getPagesCounter();
 			}
 			$smartyvs->assign("gpageNavigation", $gpageNavigation);
 
@@ -483,31 +555,23 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Constructs the necessary upload form
      *
-     * @param int    $uploadpage  the parameter that determines the necessary upload page
-     * @param string $videotype  determines the source of video file
-     * @param int    $checksecurity  an integer for checking captcha security
-     * @param string $title  user inputted video data
-     * @param string $description  user inputted video data
-     * @param int    $category_id  user inputted video data
-     * @param string $tags  user inputted video data
-     * @param string $public_private  user inputted video data
-     * @param int    $allow_comments  user inputted video data
-     * @param int    $allow_embedding  user inputted video data
-     * @param int    $allow_ratings  user inputted video data
-     * @return       Nothing
      */
-    function uploadMedia($uploadpage, $videotype, $checksecurity, $title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings)
+    function uploadMedia($uploadpage, $videotype, $checksecurity, $title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings, $md5password)
     {
-		global $mainframe, $Itemid, $my, $params, $smartyvs;
+		global $Itemid, $my, $params, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
+		$my = & JFactory::getUser();
 
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
+		$app = & JFactory::getApplication();
 
 		$active = &$menu->getActive();
 
@@ -520,8 +584,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_UPLD );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_UPLD );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_UPLD );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_UPLD );
 		hwd_vs_tools::generateActiveLink(4);
 		hwd_vs_tools::generateBreadcrumbs();
 
@@ -534,19 +598,32 @@ class hwd_vs_html
 			$smartyvs->assign("allowed_formats", $allowedformats);
 			$smartyvs->assign("maximum_upload", $c->maxupld);
 
-			if ($c->locupldmeth == "3") {
+			if ($c->locupldmeth == "3")
+			{
 				require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'views'.DS.'upload_perl.php');
 				$smartyvs->display('upload_local_perl.tpl');
 				return;
-			} else if ($c->locupldmeth == "2") {
+			}
+			else if ($c->locupldmeth == "2")
+			{
 				require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'views'.DS.'upload_flash.php');
 				$smartyvs->display('upload_local_flash.tpl');
 				return;
-			} else if ($c->locupldmeth == "0") {
+			}
+			else if ($c->locupldmeth == "0")
+			{
 				require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'views'.DS.'upload_php.php');
 				$smartyvs->display('upload_local_php.tpl');
 				return;
-			} else {
+			}
+			else if ($c->locupldmeth == "4")
+			{
+				require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'views'.DS.'upload_warp.php');
+				$smartyvs->display('upload_local_warp.tpl');
+				return;
+			}
+			else
+			{
 				require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'views'.DS.'upload_php.php');
 				$smartyvs->display('upload_local_php.tpl');
 				return;
@@ -554,17 +631,23 @@ class hwd_vs_html
 
 		} else if ($uploadpage == "thirdparty") {
 
-			$mainframe->setUserState( "com_hwdvideoshare.upload_selection", "tp" );
+			$app->setUserState( "com_hwdvideoshare.upload_selection", "tp" );
 			hwd_vs_javascript::checkaddform();
-			$smartyvs->assign("genresselect", $genresselectlist = hwd_vs_tools::genresList() );
-			$smartyvs->assign("instrumentsselectlist", $instrumentsselectlist = hwd_vs_tools::instrumentsList() );
-			$smartyvs->assign("languagesselectlist", $languageselectlist = hwd_vs_tools::languagesList() );
+			$captcha = hwd_vs_tools::generateCaptcha();
+			$smartyvs->assign("captcha", $captcha);
 			$smartyvs->display('upload_thirdparty.tpl');
 			return;
 
 		} else if ($uploadpage == "1") {
 
-			$mainframe->setUserState( "com_hwdvideoshare.upload_selection", "local" );
+			if (hwd_vs_access::allowAccess( $c->gtree_edtr, $c->gtree_edtr_child, hwd_vs_access::userGID( $my->id )))
+			{
+				$editor =& JFactory::getEditor();
+				$smartyvs->assign( "description", $editor->display("description","",350,250,40,20,1) );
+				$smartyvs->assign( "print_wysiwyg", 1 );
+			}
+
+			$app->setUserState( "com_hwdvideoshare.upload_selection", "local" );
 			hwd_vs_javascript::checkuploadform();
 			$captcha = hwd_vs_tools::generateCaptcha();
 			$smartyvs->assign("captcha", $captcha);
@@ -574,7 +657,7 @@ class hwd_vs_html
 		} else if ($uploadpage == "0") {
 
 			hwd_vs_javascript::disablesubmit();
-			$upload_selection = $mainframe->getUserState( "com_hwdvideoshare.upload_selection", '' );
+			$upload_selection = $app->getUserState( "com_hwdvideoshare.upload_selection", '' );
 			if ($upload_selection == "tp") {
 				$tpselect = 'selected="selected"';
 			} else {
@@ -587,14 +670,11 @@ class hwd_vs_html
 		}
     }
     /**
-     * Confirms local file upload
      *
-     * @param string $uploadname  the title of uploaded media
-     * @return       Nothing
      */
     function uploadConfirm($uploadname, $row)
     {
-		global $Itemid, $smartyvs, $mainframe;
+		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -602,6 +682,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -614,8 +697,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_UPLDSUC );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_UPLDSUC );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_UPLDSUC );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_UPLDSUC );
 		hwd_vs_tools::generateActiveLink(4);
 		hwd_vs_tools::generateBreadcrumbs();
 
@@ -634,16 +717,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Confirms video addition from third party video website
      *
-     * @param string $uploadname  the title of uploaded media
-     * @param string $failures  list of information that failed
-     *                          to be extracted from third party website
-     * @return       Nothing
      */
     function addConfirm($uploadname, $failures, $row)
     {
-		global $mainframe, $smartyvs, $Itemid;
+		global $smartyvs, $Itemid;
 		$c = hwd_vs_Config::get_instance();
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
@@ -653,6 +731,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -665,8 +746,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_ADDSUC );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_ADDSUC );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_ADDSUC );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_ADDSUC );
 		hwd_vs_tools::generateActiveLink(4);
 		hwd_vs_tools::generateBreadcrumbs();
 		hwd_vs_javascript::checkuploadform();
@@ -675,7 +756,7 @@ class hwd_vs_html
 		$smartyvs->assign("videolink", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewvideo&video_id=".$row->id));
 		$smartyvs->assign("failures", $failures);
 		$smartyvs->assign("thumbnail", hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, 0, $c->thumbwidth, $c->thumbwidth*3/4, null));
-		$smartyvs->assign("title", stripslashes($row->title));
+		$smartyvs->assign("title", stripslashes(htmlentities($row->title)));
 		$smartyvs->assign("description", stripslashes($row->description));
 		$smartyvs->assign("tags", stripslashes($row->tags));
 		$smartyvs->assign("rowid", $row->id);
@@ -690,9 +771,12 @@ class hwd_vs_html
 			$smartyvs->assign("waitmessage", _HWDVIDS_INFO_VIDEOWAIT2);
 		}
 
-		if ($my->id == 0) {
+		if ($my->id == 0 || $c->allowvidedit == 0)
+		{
 			$smartyvs->assign("showEditForm", 0);
-		} else {
+		}
+		else
+		{
 			$smartyvs->assign("showEditForm", 1);
 
 			if ($row->public_private == "registered") {
@@ -731,9 +815,22 @@ class hwd_vs_html
 				$smartyvs->assign("so40", "");
 				$smartyvs->assign("so4value", "1");
 			}
-			$smartyvs->assign("categoryselect", $categoryselectlist = hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $row->category_id, _HWDVIDS_INFO_NOCATS, 1) );
-			
-			
+
+                        if ($c->multiple_cats == "1")
+			{
+				$db->SetQuery("SELECT categoryid FROM #__hwdvidsvideo_category WHERE videoid = $row->id");
+				$rows = $db->loadObjectList();
+				$selected = array();
+                                for ($i = 0, $n = count($rows); $i < $n; $i++)
+				{
+					$selected[] = $rows[$i]->categoryid;
+				}
+			}
+			else
+			{
+				$selected = $row->category_id;
+			}
+			$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
 		}
 
 		$smartyvs->display('upload_thirdparty_confirm.tpl');
@@ -741,14 +838,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Constructs the video player page
      *
-     * @param array  $row  the array containing video information
-     * @return       Nothing
      */
     function viewVideo($row, $userrows, $related_videos, $categoryrows)
     {
-		global $mainframe, $Itemid, $smartyvs, $hwdvsTemplateOverride, $videoplayer;
+		global $Itemid, $smartyvs, $hwdvsTemplateOverride, $videoplayer;
 		$c = hwd_vs_Config::get_instance();
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
@@ -758,6 +852,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -775,142 +872,76 @@ class hwd_vs_html
 		$meta_tags = hwd_vs_tools::generateMetaText($row->tags);
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - ".$meta_title );
-		$mainframe->addMetaTag( 'title' , $metatitle." - ".$meta_title );
-		$mainframe->addMetaTag( 'description' , $meta_description );
-		$mainframe->addMetaTag( 'keywords' , $meta_tags );
-		$mainframe->addCustomHeadTag('<link rel="image_src" href="'.hwd_vs_tools::generateThumbnailURL( $row->id, $row->video_id, $row->video_type, $row->thumbnail ).'" />');
+		$doc->setTitle( $metatitle." - ".$meta_title );
+		$doc->setMetaData( 'title' , $metatitle." - ".$meta_title );
+		$doc->setMetaData( 'description' , $meta_description );
+		$doc->setMetaData( 'keywords' , $meta_tags );
+		$doc->addCustomTag('<link rel="image_src" href="'.hwd_vs_tools::generateThumbnailURL( $row->id, $row->video_id, $row->video_type, $row->thumbnail ).'" />');
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs($row, $meta_title);
 
-		if (!isset($row->username)) { $row->username = ''; }
-		if (!isset($row->name)) { $row->name = ''; }
+		$smartyvs->assign("videoplayer", hwd_vs_tools::generateVideoDetails($row, null, null, null, $Itemid, null, null));
+		//$smartyvs->assign("videoplayer", $videoplayer);
 
-		$videoplayer->id = intval($row->id);
-		$videoplayer->title = stripslashes($row->title);
-		$videoplayer->player = hwd_vs_tools::generateVideoPlayer($row);
-		$videoplayer->videourl = hwd_vs_tools::generateVideoUrl($row);
-		$videoplayer->embedcode = hwd_vs_tools::generateEmbedCode($row);
-		$videoplayer->socialbmlinks = hwd_vs_tools::generateSocialBookmarks();
-		$videoplayer->comments = hwd_vs_tools::generateVideoComments($row);
-
-		$videoplayer->editvideo = hwd_vs_tools::generateEditVideoLink($row);
-		$videoplayer->deletevideo = hwd_vs_tools::generateDeleteVideoLink($row);
-
-		if ($c->showdesc == "1") {
-			$smartyvs->assign("print_description", 1);
-			$videoplayer->description = stripslashes($row->description);
-		}
-		if ($c->showtags == "1") {
-			$smartyvs->assign("print_tags", 1);
-			$videoplayer->tags = hwd_vs_tools::generateTagListString($row->tags);
-		}
-
-		if ($c->showatfb == "1") {
-			$videoplayer->favourties = hwd_vs_tools::generateFavouriteButton($row);
-		}
-
-		if ($my->id && $c->showa2gb == "1") {
-			$smartyvs->assign("print_addtogroup", 1);
-			hwd_vs_javascript::ajaxaddtogroup($row);
-			$videoplayer->addtogroup = hwd_vs_tools::generateAddToGroupButton($row);
-		}
-
-			$smartyvs->assign("print_addtoplaylist", 1);
-			hwd_vs_javascript::ajaxaddtoplaylist($row);
-			$videoplayer->addtoplaylist = hwd_vs_tools::generateAddToPlaylistButton($row);
-
-		$videoplayer->uploader = hwd_vs_tools::generateUserFromID($row->user_id, $row->username, $row->name);
-
-		if ($c->showrpmb == "1") {
-			hwd_vs_javascript::ajaxreportmedia($row);
-			$videoplayer->reportmedia = hwd_vs_tools::generateReportMediaButton($row);
-		}
-
-		if ($c->showrate == "1") {
-			$videoplayer->ratingsystem = hwd_vs_tools::generateRatingSystem($row);
-		}
-
-		if ($row->video_type == "local" || $row->video_type == "mp4"  || $row->video_type == "swf"  || $row->video_type == "seyret" || ($row->video_type == "remote" && substr($row->video_id, 0, 6) !== "embed|")) {
-			if ($c->usehq == "1") {
-				$videoplayer->switchquality = hwd_vs_tools::generateSwitchQuality($row);
-			}
-			if ($c->showdlor == "1") {
-				$videoplayer->downloadoriginal = hwd_vs_tools::generateDownloadVideoLink($row, 1);
-			}
-			if ($c->showdlfl == "1") {
-				$videoplayer->downloadflv = hwd_vs_tools::generateDownloadVideoLink($row, 0);
-			}
-		} else {
-			if ($c->showvuor == "1") {
-				$videoplayer->vieworiginal = hwd_vs_tools::generateViewOriginalLink($row);
-			}
-		}
-
-		if ($c->showprnx == "1") {
-			$smartyvs->assign("print_nextprev", 1);
-			$videoplayer->nextprev = hwd_vs_tools::generateNextPrevLinks($row);
-		}
-
-
-		if (count($related_videos) > 0 && $c->showrevi == "1") {
-			if (isset($hwdvsTemplateOverride['thumbWidth8'])) {
+		if (count($related_videos) > 0 && $c->showrevi == "1")
+		{
+			if (isset($hwdvsTemplateOverride['thumbWidth8']))
+			{
 				$thumbwidth = $hwdvsTemplateOverride['thumbWidth8'];
-			} else {
+			}
+			else
+			{
 				$thumbwidth = null;
 			}
-
 			$smartyvs->assign("print_relatedlist", 1);
 			$listrelated = hwd_vs_tools::generateVideoListFromSql($related_videos, "", $thumbwidth);
 			$smartyvs->assign("listrelated", $listrelated);
 		}
+		else
+		{
+			$smartyvs->assign("listrelated", "There are no related videos.");
+		}
 
-
-
-		$videoplayer->customad1 = "";
-		$videoplayer->customad2 = "";
-		$videoplayer->customad3 = "";
-		$videoplayer->morebyuser = "";
-
-		if ($c->cbint == 3) { $row->avatar=$row->username; }
-		if (!isset($row->avatar)) { $row->avatar=null; }
-		$videoplayer->avatar = hwd_vs_tools::generateAvatar($row->user_id, $row->avatar, 0, null, null, null);
-
-
-
-
-		$videoplayer->views = $row->number_of_views;;
-		$videoplayer->category = hwd_vs_tools::generateCategoryLink($row->category_id);;
-		$videoplayer->upload_date = $row->date_uploaded;
-
-		$smartyvs->assign("videoplayer", $videoplayer);
-
-
-		if (count($userrows) > 0 && $c->showuldr == "1") {
-			if (isset($hwdvsTemplateOverride['thumbWidth7'])) {
+		if (count($userrows) > 0 && $c->showuldr == "1")
+		{
+			if (isset($hwdvsTemplateOverride['thumbWidth7']))
+			{
 				$thumbwidth = $hwdvsTemplateOverride['thumbWidth7'];
-			} else {
+			}
+			else
+			{
 				$thumbwidth = null;
 			}
-
 			$smartyvs->assign("print_uservideolist", 1);
 			$userlist = hwd_vs_tools::generateVideoListFromSql($userrows, "", $thumbwidth);
 			$smartyvs->assign("userlist", $userlist);
-		} else {
+			// Fix needed for Joomla template issue
+			jimport('joomla.html.pane');
+			$pane =& JPane::getInstance('tabs');
+			$starttab7 = $pane->startPanel(_HWDVIDS_TITLE_MOREBYUSR." $row->username", 'panel6' );
+			$smartyvs->assign( "starttab7", $starttab7 );
+		}
+		else
+		{
 			$smartyvs->assign("userlist", "This user does not have any other videos.");
 		}
 
-		if (count($categoryrows) > 0 && $c->showmftc == "1") {
-			if (isset($hwdvsTemplateOverride['thumbWidth9'])) {
+		if (count($categoryrows) > 0 && $c->showmftc == "1")
+		{
+			if (isset($hwdvsTemplateOverride['thumbWidth9']))
+			{
 				$thumbwidth = $hwdvsTemplateOverride['thumbWidth9'];
-			} else {
+			}
+			else
+			{
 				$thumbwidth = null;
 			}
-
 			$smartyvs->assign("print_categoryvideolist", 1);
 			$categoryvideolist = hwd_vs_tools::generateVideoListFromSql($categoryrows, "", $thumbwidth);
 			$smartyvs->assign("categoryvideolist", $categoryvideolist);
-		} else {
+		}
+		else
+		{
 			$smartyvs->assign("categoryvideolist", "There are no more videos in this category.");
 		}
 
@@ -921,19 +952,18 @@ class hwd_vs_html
 		//$dispatcher =& JDispatcher::getInstance();
 		//$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
 
+		$smartyvs->assign("showMoreButton", 1);
+
 		$smartyvs->display('video_player.tpl');
 
 		return;
     }
     /**
-     * Lists all available categories
      *
-     * @param array  $row  the array containing category information
-     * @return       Nothing
      */
-    function categories($rows)
+    function categories($rows, $pageNav, $total)
     {
-		global $Itemid, $mainframe, $smartyvs, $params;
+		global $Itemid, $smartyvs, $j15, $j16;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
@@ -946,6 +976,9 @@ class hwd_vs_html
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
 
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
+
 		$active = &$menu->getActive();
 
 		if (!empty($mparams_pt)) {
@@ -957,8 +990,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_CATS );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_CATS );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_CATS );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_CATS );
 		hwd_vs_tools::generateActiveLink(2);
 		hwd_vs_tools::generateBreadcrumbs();
 
@@ -987,20 +1020,14 @@ class hwd_vs_html
 		if (count($rows) > 0) {
 			$smartyvs->assign("print_categories", 1);
 			$z = 0;
-			for ($i=0, $m=count($rows); $i < $m; $i++) {
+			for ($i=0, $m=count($rows); $i < $m; $i++)
+			{
 				$row = $rows[$i];
 
-				// check component access settings and deny those without privileges
-				if ($c->access_method == 0) {
-					if (!hwd_vs_access::allowAccess( $row->access_v, $row->access_v_r, hwd_vs_access::userGID( $my->id ))) {
-						if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-							continue;
-						} else {
-							continue;
-						}
-					}
-				} else if ($c->access_method == 1) {
-					if (!hwd_vs_access::allowLevelAccess( $row->access_lev_v, hwd_vs_access::userGID( $my->id ))) {
+				if ($c->bviic == 1)
+				{
+                                        if (!hwd_vs_access::checkAccess($row->access_v, $row->access_v_r, 4, 0, "", "", "", "exclamation.png", 0, "category.$row->id", 1, "view"))
+					{
 						continue;
 					}
 				}
@@ -1010,7 +1037,7 @@ class hwd_vs_html
 				$list[$z]->title = hwd_vs_tools::generateCategoryLink($row->id, $row->category_name);
 				$list[$z]->num_vids = $row->num_vids;
 				$list[$z]->num_subcats = $row->num_subcats;
-				$list[$z]->description = hwd_vs_tools::truncateText($row->category_description, $c->trunvdesc);
+				$list[$z]->description = hwd_vs_tools::truncateText(strip_tags($row->category_description), $c->truncdesc);
 				$list[$z]->k = $k;
 				$list[$z]->countTopLevel = $topCounter;
 				$k = 1 - $k;
@@ -1028,22 +1055,17 @@ class hwd_vs_html
 						;
 				$db->setQuery( $query );
 				$subs1 = $db->loadObjectList();
-				if (count($subs1) > 0) {
-					for ($j=0, $n=count($subs1); $j < $n; $j++) {
+				if (count($subs1) > 0)
+				{
+					for ($j=0, $n=count($subs1); $j < $n; $j++)
+					{
 						$z++;
 						$sub1 = $subs1[$j];
 
-						// check component access settings and deny those without privileges
-						if ($c->access_method == 0) {
-							if (!hwd_vs_access::allowAccess( $sub1->access_v, $sub1->access_v_r, hwd_vs_access::userGID( $my->id ))) {
-								if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-									continue;
-								} else {
-									continue;
-								}
-							}
-						} else if ($c->access_method == 1) {
-							if (!hwd_vs_access::allowLevelAccess( $sub1->access_lev_v, hwd_vs_access::userGID( $my->id ))) {
+						if ($c->bviic == 1)
+						{
+							if (!hwd_vs_access::allowAccess( $sub1->access_v, $sub1->access_v_r, hwd_vs_access::userGID( $my->id )))
+							{
 								continue;
 							}
 						}
@@ -1071,22 +1093,17 @@ class hwd_vs_html
 								;
 						$db->setQuery( $query );
 						$subs2 = $db->loadObjectList();
-						if (count($subs2) > 0) {
-							for ($l=0, $o=count($subs2); $l < $o; $l++) {
+						if (count($subs2) > 0)
+						{
+							for ($l=0, $o=count($subs2); $l < $o; $l++)
+							{
 								$z++;
 								$sub2 = $subs2[$l];
 
-								// check component access settings and deny those without privileges
-								if ($c->access_method == 0) {
-									if (!hwd_vs_access::allowAccess( $sub2->access_v, $sub2->access_v_r, hwd_vs_access::userGID( $my->id ))) {
-										if ( ($my->id < 1) && (!$usersConfig->get( 'allowUserRegistration' ) == '0' && hwd_vs_access::allowAccess( $c->gtree_upld, 'RECURSE', $acl->get_group_id('Registered','ARO') ) ) ) {
-											continue;
-										} else {
-											continue;
-										}
-									}
-								} else if ($c->access_method == 1) {
-									if (!hwd_vs_access::allowLevelAccess( $sub2->access_lev_v, hwd_vs_access::userGID( $my->id ))) {
+								if ($c->bviic == 1)
+								{
+									if (!hwd_vs_access::allowAccess( $sub2->access_v, $sub2->access_v_r, hwd_vs_access::userGID( $my->id )))
+									{
 										continue;
 									}
 								}
@@ -1114,32 +1131,44 @@ class hwd_vs_html
 			$smartyvs->assign("print_orderselect", 1);
 		}
 
+		$page = $total - $c->cpp;
+		$pageNavigation = null;
+		if ( $page > 0 )
+		{
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
+		}
+		$smartyvs->assign("pageNavigation", $pageNavigation);
+
 		$smartyvs->display('category_index.tpl');
 		return;
-
-
     }
     /**
-     * Constructs the category page and lists all category videos
      *
-     * @param array  $rows  the array containing video information
-     * @param object $pageNav  the page navigation object
-     * @param int    $total  the total category video count
-     * @param int    $cat_id  the id of the category
-     * @param array  $cat  the array containing category information
-     * @return       Nothing
      */
     function viewCategory($rows, $pageNav, $total, $cat_id, $cat, $subcats)
     {
-    	global $Itemid, $smartyvs, $mainframe;
+    	global $Itemid, $smartyvs, $j16;
 		$c = hwd_vs_Config::get_instance();
 		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
+$app = & JFactory::getApplication();
 
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1152,16 +1181,18 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_CATS." - ".$cat->category_name );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_CATS." - ".$cat->category_name );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_CATS." - ".$cat->category_name );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_CATS." - ".$cat->category_name );
 		hwd_vs_tools::generateActiveLink(2);
 		hwd_vs_tools::generateBreadcrumbs($cat, $cat->category_name);
 
 		$smartyvs->assign("category_id", $cat->id);
 		$smartyvs->assign("category_name", $cat->category_name);
 		$smartyvs->assign("category_description", $cat->category_description);
+		$smartyvs->assign("category_nov", $cat->num_vids);
 
-		if (count($rows) > 0) {
+		if (count($rows) > 0)
+		{
 			$smartyvs->assign("print_videolist", 1);
 			$list = hwd_vs_tools::generateVideoListFromSql($rows);
 			$smartyvs->assign("list", $list);
@@ -1169,34 +1200,89 @@ class hwd_vs_html
 
 		$page = $total - $c->vpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-			$link = "index.php?option=com_hwdvideoshare&task=viewcategory&cat_id=".$cat_id."&Itemid=".$Itemid;
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 
-		if (count($subcats) > 0) {
+		if (count($rows) > 0)
+		{
+			if ($c->feat_as == "yes")
+			{
+				$as = "1";
+			}
+			else if ($c->feat_as == "no")
+			{
+				$as = "0";
+			}
+			else if ($c->feat_as == "first")
+			{
+				$fas_check = $app->getUserState( "hwdvs_fas_check", "notviewed" );
+				if ($fas_check !== "viewed")
+				{
+					$app->setUserState( "hwdvs_fas_check", "viewed" );
+					$as = "1";
+				}
+				else
+				{
+					$as = "0";
+				}
+			}
+			else
+			{
+				$as = null;
+			}
+
+			if ($c->usehq == "1")
+			{
+				$quality = "hd";
+			}
+			else if ($c->usehq == "2")
+			{
+				$quality = "sd";
+			}
+			else
+			{
+				$quality = null;
+			}
+
+			if ($c->fvid_w == 0) { $c->fvid_w = "100%"; }
+			$category_video_player = hwd_vs_tools::generateVideoPlayer($rows[0], $c->fvid_w, $c->fvid_h, $as, $quality);
+			$smartyvs->assign("category_video_player", $category_video_player);
+		}
+
+		if (count($subcats) > 0)
+		{
 			$smartyvs->assign("print_subcats", 1);
 
 			$k=0;
-			for ($i=0, $m=count($subcats); $i < $m; $i++) {
+			for ($i=0, $m=count($subcats); $i < $m; $i++)
+			{
 				$row = $subcats[$i];
 				$subcatlist[$i]->level = 0;
 				$subcatlist[$i]->thumbnail = hwd_vs_tools::generateCategoryThumbnailLink( $row, $k, $c->thumbwidth, $c->thumbwidth*$c->tar_fb, null);
 				$subcatlist[$i]->title = hwd_vs_tools::generateCategoryLink($row->id, $row->category_name);
 				$subcatlist[$i]->num_vids = $row->num_vids;
 				$subcatlist[$i]->num_subcats = $row->num_subcats;
-				$subcatlist[$i]->description = hwd_vs_tools::truncateText($row->category_description, $c->trunvdesc);
+				$subcatlist[$i]->description = hwd_vs_tools::truncateText(strip_tags($row->category_description), $c->truncdesc);
 				$subcatlist[$i]->k = $k;
 				$k = 1 - $k;
 			}
 			$smartyvs->assign("subcatlist", $subcatlist);
 		}
 
-		if ($c->custordering == 1) {
+		if ($c->custordering == 1)
+		{
 			$smartyvs->assign("print_orderselect", 1);
 		}
 
@@ -1211,17 +1297,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Constructs the group list page and lists all groups
      *
-     * @param array  $rows  the array containing group information
-     * @param array  $rowsfeatured  the array containing featured group information
-     * @param object $pageNav  the page navigation object
-     * @param int    $total  the total group count
-     * @return       Nothing
      */
     function groups($rows, $rowsfeatured, $pageNav, $total)
     {
-		global $Itemid, $mainframe, $smartyvs, $params;
+		global $Itemid, $smartyvs, $params;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -1229,6 +1309,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1241,8 +1324,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_GRPS );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_GRPS );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_GRPS );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_GRPS );
 		hwd_vs_tools::generateActiveLink(3);
 		hwd_vs_javascript::confirmdelete();
 		hwd_vs_tools::generateBreadcrumbs();
@@ -1262,12 +1345,18 @@ class hwd_vs_html
 
 		$page = $total - $c->gpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-			$link = "index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=groups";
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 
@@ -1277,13 +1366,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Constructs the new group form
      *
-     * @return       Nothing
      */
     function createGroup()
     {
-		global $mainframe, $Itemid, $smartyvs, $Itemid;
+		global $Itemid, $smartyvs, $Itemid;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -1291,6 +1378,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1303,8 +1393,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_NGRPS );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_NGRPS );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_NGRPS );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_NGRPS );
 		hwd_vs_tools::generateActiveLink(3);
 		hwd_vs_javascript::checkaddgroupform();
 		hwd_vs_tools::generateBreadcrumbs();
@@ -1318,17 +1408,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Constructs the group page and lists all containing group videos
      *
-     * @param array  $rows  the array containing video information
-     * @param object $pageNav  the page navigation object
-     * @param int    $total  the total video count
-     * @param array  $groupdetails  the array containing group information
-     * @return       Nothing
      */
     function viewGroup($rows, $pageNav, $total, $members, $groupdetails)
     {
-		global $mainframe, $Itemid, $smartyvs;
+		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 
 		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
@@ -1337,6 +1421,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1349,8 +1436,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_GRPS." - ".$groupdetails->group_name );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_GRPS." - ".$groupdetails->group_name );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_GRPS." - ".$groupdetails->group_name );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_GRPS." - ".$groupdetails->group_name );
 		hwd_vs_tools::generateActiveLink(3);
 		hwd_vs_tools::generateBreadcrumbs();
 
@@ -1397,20 +1484,20 @@ class hwd_vs_html
 
 		$page = $total - $c->vpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-				$link = "index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewgroup&group_id=".$groupdetails->id;
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
-
-
-
-
-
-
 
 
 
@@ -1425,16 +1512,11 @@ class hwd_vs_html
 
     }
     /**
-     * Constructs a video list of all user videos
      *
-     * @param array  $rows  the array containing video information
-     * @param object $pageNav  the page navigation object
-     * @param int    $total  the total video count
-     * @return       Nothing
      */
     function yourVideos($rows, $pageNav, $total)
     {
-		global $smartyvs, $Itemid, $mainframe;
+		global $smartyvs, $Itemid;
 		$c = hwd_vs_Config::get_instance();
 
 		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
@@ -1443,6 +1525,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1455,8 +1540,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_YVIDS );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_YVIDS );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
 
@@ -1468,12 +1553,18 @@ class hwd_vs_html
 
 		$page = $total - $c->vpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-			$link = "index.php?option=com_hwdvideoshare&task=yourvids&Itemid=".$Itemid;
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 
@@ -1481,16 +1572,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Constructs a video list of all user favourite videos
      *
-     * @param array  $rows  the array containing video information
-     * @param object $pageNav  the page navigation object
-     * @param int    $total  the total video count
-     * @return       Nothing
      */
     function yourFavourites($rows, $pageNav, $total)
     {
-		global $Itemid, $smartyvs, $mainframe;
+		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 
 		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
@@ -1499,6 +1585,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1511,8 +1600,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_YFAVS );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_YFAVS );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_YFAVS );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YFAVS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
 
@@ -1524,12 +1613,18 @@ class hwd_vs_html
 
 		$page = $total - $c->vpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-			$link = "index.php?option=com_hwdvideoshare&task=yourfavs&Itemid=".$Itemid;
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 )
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 
@@ -1538,16 +1633,11 @@ class hwd_vs_html
 
     }
     /**
-     * Constructs a video list of all featured videos
      *
-     * @param array  $rows  the array containing video information
-     * @param object $pageNav  the page navigation object
-     * @param int    $total  the total video count
-     * @return       Nothing
      */
     function featuredVideos($rows, $pageNav, $total)
     {
-		global $Itemid, $smartyvs, $mainframe;
+		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -1555,6 +1645,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1567,8 +1660,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_FEATU );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_FEATU );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_FEATU );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_FEATU );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
 
@@ -1580,12 +1673,18 @@ class hwd_vs_html
 
 		$page = $total - $c->vpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-			$link = "index.php?option=com_hwdvideoshare&task=featuredvids&Itemid=".$Itemid;
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 
@@ -1593,16 +1692,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Constructs a group list of all user groups
      *
-     * @param array  $rows  the array containing group information
-     * @param object $pageNav  the page navigation object
-     * @param int    $total  the total group count
-     * @return       Nothing
      */
     function yourGroups($rows, $pageNav, $total)
     {
-		global $Itemid, $smartyvs, $mainframe;
+		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -1610,6 +1704,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1622,8 +1719,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_YGRPS );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_YGRPS );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_YGRPS );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YGRPS );
 		hwd_vs_tools::generateActiveLink(3);
 		hwd_vs_tools::generateBreadcrumbs();
 
@@ -1635,12 +1732,18 @@ class hwd_vs_html
 
 		$page = $total - $c->vpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-					$link = "index.php?option=com_hwdvideoshare&task=yourgroups&Itemid=".$Itemid;
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 
@@ -1648,16 +1751,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Constructs a group list of all user group memberships
      *
-     * @param array  $rows  the array containing group information
-     * @param object $pageNav  the page navigation object
-     * @param int    $total  the total group count
-     * @return       Nothing
      */
     function yourMemberships($rows, $pageNav, $total)
     {
-		global $Itemid, $smartyvs, $mainframe;
+		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -1665,6 +1763,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1677,8 +1778,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_YGRPM );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_YGRPM );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_YGRPM );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YGRPM );
 		hwd_vs_tools::generateActiveLink(3);
 		hwd_vs_tools::generateBreadcrumbs();
 
@@ -1690,12 +1791,18 @@ class hwd_vs_html
 
 		$page = $total - $c->vpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-					$link = "index.php?option=com_hwdvideoshare&task=yourmemberships&Itemid=".$Itemid;
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 
@@ -1703,16 +1810,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Constructs a group list of all featured groups
      *
-     * @param array  $rows  the array containing group information
-     * @param object $pageNav  the page navigation object
-     * @param int    $total  the total group count
-     * @return       Nothing
      */
     function featuredGroups($rows, $pageNav, $total)
     {
-		global $Itemid, $smartyvs, $mainframe;
+		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -1720,6 +1822,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1732,8 +1837,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_FEATG );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_FEATG );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_FEATG );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_FEATG );
 		hwd_vs_tools::generateActiveLink(3);
 		hwd_vs_tools::generateBreadcrumbs();
 
@@ -1745,12 +1850,18 @@ class hwd_vs_html
 
 		$page = $total - $c->vpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-					$link = "index.php?option=com_hwdvideoshare&task=featuredvids&Itemid=".$Itemid."&task=featuredgroups";
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 
@@ -1758,21 +1869,23 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Loads video data to edit
      *
-     * @param array  $row  the array containing video information
-     * @return       Nothing
      */
     function editVideoInfo($row)
     {
-    	global $mainframe, $Itemid, $smartyvs, $Itemid;
+    	global $Itemid, $smartyvs, $Itemid;
         $c = hwd_vs_Config::get_instance();
+		$my = & JFactory::getUser();
+		$db = & JFactory::getDBO();
 
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1789,15 +1902,26 @@ class hwd_vs_html
         // decode
         $meta_title = html_entity_decode($row->title);
         // set the page/meta title
-        $mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
-        $mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
+        $doc->setTitle( $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
+        $doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
 		hwd_vs_tools::generateActiveLink(1);
-		hwd_vs_javascript::checkuploadform();
+		hwd_vs_javascript::checkEditForm();
 		hwd_vs_tools::generateBreadcrumbs();
 
 			$smartyvs->assign("thumbnail", hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, 0, null, null, null));
-			$smartyvs->assign("title", stripslashes($row->title));
-			$smartyvs->assign("description", stripslashes($row->description));
+			$smartyvs->assign("title", stripslashes(htmlentities($row->title)));
+
+			if (!hwd_vs_access::allowAccess( $c->gtree_edtr, $c->gtree_edtr_child, hwd_vs_access::userGID( $my->id )))
+			{
+				$smartyvs->assign( "description", stripslashes($row->description) );
+			}
+			else
+			{
+				$editor      =& JFactory::getEditor();
+				$smartyvs->assign( "description", $editor->display("description",stripslashes($row->description),350,250,40,20,1) );
+				$smartyvs->assign( "print_wysiwyg", 1 );
+			}
+
 			$smartyvs->assign("tags", stripslashes($row->tags));
 			$smartyvs->assign("rowid", $row->id);
 			$smartyvs->assign("rowuid", $row->user_id);
@@ -1867,21 +1991,32 @@ class hwd_vs_html
 					$smartyvs->assign("so4value", "1");
 				}
 
-			$smartyvs->assign("categoryselect", $categoryselectlist = hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $row->category_id, _HWDVIDS_INFO_NOCATS, 1) );
+			if ($c->multiple_cats == "1")
+			{
+				$db->SetQuery("SELECT categoryid FROM #__hwdvidsvideo_category WHERE videoid = $row->id");
+				$rows = $db->loadObjectList();
+				$selected = array();
+                                for ($i = 0, $n = count($rows); $i < $n; $i++)
+				{
+					$selected[] = $rows[$i]->categoryid;
+				}
+			}
+			else
+			{
+				$selected = $row->category_id;
+			}
+			$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
 
 
 		$smartyvs->display('video_edit.tpl');
 		return;
     }
     /**
-     * Loads group data to edit
      *
-     * @param array  $row  the array containing group information
-     * @return       Nothing
      */
     function editGroupInfo($row, $grp_members)
     {
-    	global $mainframe, $Itemid, $smartyvs, $Itemid;
+    	global $Itemid, $smartyvs, $Itemid;
         $c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -1889,6 +2024,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1903,8 +2041,8 @@ class hwd_vs_html
         // decode
         $meta_title = html_entity_decode($row->group_name);
         // set the page/meta title
-        $mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
-        $mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
+        $doc->setTitle( $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
+        $doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
 		hwd_vs_tools::generateActiveLink(3);
 		hwd_vs_javascript::confirmdelete();
 		hwd_vs_tools::generateBreadcrumbs();
@@ -1926,22 +2064,24 @@ class hwd_vs_html
 		$smartyvs->display('group_edit.tpl');
 		return;
     }
-
     /**
-     * Constructs the new group form
      *
-     * @return       Nothing
      */
     function createChannel()
     {
-		global $mainframe, $Itemid, $smartyvs, $Itemid;
+		global $Itemid, $smartyvs, $Itemid;
 		$c = hwd_vs_Config::get_instance();
+  		$db =& JFactory::getDBO();
+		$my = & JFactory::getUser();
 
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1954,8 +2094,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_NGRPS );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_NGRPS );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_NGRPS );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_NGRPS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_javascript::checkaddgroupform();
 		hwd_vs_tools::generateBreadcrumbs();
@@ -1964,19 +2104,22 @@ class hwd_vs_html
 		$smartyvs->assign("form_add_channel", $form_add_channel);
 		$captcha = hwd_vs_tools::generateCaptcha();
 		$smartyvs->assign("captcha", $captcha);
+
+		$query = "SELECT username FROM #__users WHERE id = $my->id";
+		$db->SetQuery( $query );
+		$username = $db->loadResult();
+		$smartyvs->assign("username", $username);
+		$smartyvs->assign("channelUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=$Itemid&task=viewchannel&user_id=$my->id"));
 
 		$smartyvs->display('channel_add.tpl');
 		return;
     }
-
     /**
-     * Constructs the new group form
      *
-     * @return       Nothing
      */
-    function channels()
+    function channels($rows, $rowsfeatured, $pageNav, $total)
     {
-		global $mainframe, $Itemid, $smartyvs, $Itemid;
+		global $Itemid, $smartyvs, $Itemid;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -1984,6 +2127,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -1996,29 +2142,43 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_NGRPS );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_NGRPS );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_FEATU );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_FEATU );
 		hwd_vs_tools::generateActiveLink(1);
-		hwd_vs_javascript::checkaddgroupform();
 		hwd_vs_tools::generateBreadcrumbs();
 
-		$form_add_channel = JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=saveChannel");
-		$smartyvs->assign("form_add_channel", $form_add_channel);
-		$captcha = hwd_vs_tools::generateCaptcha();
-		$smartyvs->assign("captcha", $captcha);
+		if (count($rows) > 0) {
+			$smartyvs->assign("print_channellist", 1);
+			$list = hwd_vs_tools::generateChannelListFromSql($rows);
+			$smartyvs->assign("list", $list);
+		}
+
+		$page = $total - $c->vpp;
+		$pageNavigation = null;
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
+		}
+		$smartyvs->assign("pageNavigation", $pageNavigation);
 
 		$smartyvs->display('channel_index.tpl');
 		return;
     }
-
     /**
-     * Constructs the new group form
      *
-     * @return       Nothing
      */
-    function viewChannel($channel, $rows, $pageNav, $total)
+    function viewChannel($channel, $rows, $type, $pageNav, $total, $rows_favourites, $rows_recentlyviewed)
     {
-		global $Itemid, $smartyvs, $mainframe, $hwdvsTemplateOverride, $limit;
+		global $Itemid, $smartyvs, $hwdvsTemplateOverride, $limit, $print_glink, $print_plink, $j16;
 		$c = hwd_vs_Config::get_instance();
   		$db =& JFactory::getDBO();
 		// load the menu name
@@ -2027,6 +2187,9 @@ class hwd_vs_html
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
 
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
+
 		$active = &$menu->getActive();
 
 		if (!empty($mparams_pt)) {
@@ -2038,54 +2201,183 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle );
-		$mainframe->addMetaTag( 'title' , $metatitle );
+		$doc->setTitle( $metatitle );
+		$doc->setMetaData( 'title' , $metatitle );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
 
 		// define javascript
 		hwd_vs_javascript::confirmdelete();
 
-		if (count($rows) > 0) {
-			$smartyvs->assign("print_videolist", 1);
-			$list = hwd_vs_tools::generateVideoListFromSql($rows, null, $hwdvsTemplateOverride['thumbWidth1']);
-			$smartyvs->assign("list", $list);
+		switch ($type)
+		{
+			case "videos":
+
+				if (count($rows) > 0) {
+					$smartyvs->assign("print_list", 1);
+					$list = hwd_vs_tools::generateVideoListFromSql($rows, null, $hwdvsTemplateOverride['thumbWidth1']);
+					$smartyvs->assign("list", $list);
+				}
+
+				$rpp = $c->vpp;
+				$smartyvs->assign("noItems", _HWDVIDS_NOUV);
+
+			break;
+			case "groups":
+
+				if (count($rows) > 0) {
+					$smartyvs->assign("print_list", 1);
+					$list = hwd_vs_tools::generateGroupListFromSql($rows, null, $hwdvsTemplateOverride['thumbWidth1']);
+					$smartyvs->assign("list", $list);
+				}
+
+				$rpp = $c->gpp;
+				$smartyvs->assign("noItems", _HWDVIDS_NOUG);
+
+			break;
+			case "playlists":
+
+				if (count($rows) > 0) {
+					$smartyvs->assign("print_list", 1);
+					$list = hwd_vs_tools::generatePlaylistListFromSql($rows, null, $hwdvsTemplateOverride['thumbWidth1']);
+					$smartyvs->assign("list", $list);
+				}
+
+				$rpp = $c->vpp;
+				$smartyvs->assign("noItems", _HWDVIDS_NOUP);
+
+			break;
 		}
 
-		$page = $total - $c->vpp;
+		$smartyvs->assign("type", $type);
+
+		$page = $total - $rpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-			$link = "index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&limit=".$limit;
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 )
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 
-		$channel_data->editchannel = hwd_vs_tools::generateEditChannelLink($channel);
-		$smartyvs->assign("channel_data", $channel_data);
 
+
+		if (count($rows_favourites) > 0) {
+			$smartyvs->assign("print_favouriteslist", 1);
+			$list_favourites = hwd_vs_tools::generateVideoListFromSql($rows_favourites, null, 50);
+			$smartyvs->assign("list_favourites", $list_favourites);
+		}
+
+		if (count($rows_recentlyviewed) > 0) {
+			$smartyvs->assign("print_recentlyviewedlist", 1);
+			$list_recentlyviewed = hwd_vs_tools::generateVideoListFromSql($rows_recentlyviewed, null, 50);
+			$smartyvs->assign("list_recentlyviewed", $list_recentlyviewed);
+		}
+
+		if (isset($channel->id))
+		{
+			$channelData->editchannel = hwd_vs_tools::generateEditChannelLink($channel);
+			$channelData->channel_description = $channel->channel_description;
+			$channelData->user_id = intval($channel->user_id);
+			$channelData->views = intval($channel->views);
+			$channelData->subscribe = hwd_vs_tools::generateChannelSubscriptionStatus($channel);
+			$channelData->registerDate = strftime("%l%P - %b %e, %Y", strtotime($channel->registerDate));
+			$channelData->lastvisitDate = strftime("%l%P - %b %e, %Y", strtotime($channel->lastvisitDate));
+			$channelData->subscribers = $channel->subscribers;
+			$channelData->uploads = $channel->uploads;
+			$channelData->thumbnail = $channel->thumbnail;
+			if (!empty($channelData->thumbnail))
+			{
+				$smartyvs->assign("displayChannelThumbnail", 1);
+			}
+		}
+		else
+		{
+			$channelData->user_id = intval($channel->user_id);
+		}
+		$smartyvs->assign("channelData", $channelData);
+
+		$query = "SELECT username FROM #__users WHERE id = $channel->user_id";
+		$db->SetQuery( $query );
+		$username = $db->loadResult();
+		$smartyvs->assign("username", $username);
+
+		$smartyvs->assign("channelTitle", sprintf(_HWDVIDS_C_TITLE, $username));
+
+		$smartyvs->assign("selectUploads", 1);
+		$smartyvs->assign("selectUploadsUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewChannel&user_id=".$channelData->user_id."&sort=uploads"));
+		$smartyvs->assign("selectUploadsText", sprintf(_HWDVIDS_C_UPLOADS, $username));
+
+		$smartyvs->assign("selectFavourites", 1);
+		$smartyvs->assign("selectFavouritesUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewChannel&user_id=".$channelData->user_id."&sort=favourites"));
+		$smartyvs->assign("selectFavouritesText", sprintf(_HWDVIDS_C_FAVOURITES, $username));
+
+		$smartyvs->assign("selectViewed", 1);
+		$smartyvs->assign("selectViewedUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewChannel&user_id=".$channelData->user_id."&sort=viewed"));
+		$smartyvs->assign("selectViewedText", sprintf(_HWDVIDS_C_VIEWED, $username));
+
+		$smartyvs->assign("selectLiked", 1);
+		$smartyvs->assign("selectLikedUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewChannel&user_id=".$channelData->user_id."&sort=liked"));
+		$smartyvs->assign("selectLikedText", sprintf(_HWDVIDS_C_LIKED, $username));
+
+		$smartyvs->assign("selectDisliked", 1);
+		$smartyvs->assign("selectDislikedUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewChannel&user_id=".$channelData->user_id."&sort=disliked"));
+		$smartyvs->assign("selectDislikedText", sprintf(_HWDVIDS_C_DISLIKED, $username));
+
+		if ($print_glink)
+		{
+			$smartyvs->assign("selectGroups", 1);
+			$smartyvs->assign("selectGroupsUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewChannel&user_id=".$channelData->user_id."&sort=groups"));
+			$smartyvs->assign("selectGroupsText", sprintf(_HWDVIDS_C_GROUPS, $username));
+		}
+
+		if ($print_plink)
+		{
+			$smartyvs->assign("selectPlaylists", 1);
+			$smartyvs->assign("selectPlaylistsUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewChannel&user_id=".$channelData->user_id."&sort=playlists"));
+			$smartyvs->assign("selectPlaylistsText", sprintf(_HWDVIDS_C_PLAYLISTS, $username));
+		}
+
+		if ($print_glink)
+		{
+			$smartyvs->assign("selectMemberships", 1);
+			$smartyvs->assign("selectMembershipsUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewChannel&user_id=".$channelData->user_id."&sort=memberships"));
+			$smartyvs->assign("selectMembershipsText", sprintf(_HWDVIDS_C_MEMBERSHIPS, $username));
+		}
+
+		$smartyvs->assign("selectSubscriptions", 1);
+		$smartyvs->assign("selectSubscriptionsUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewChannel&user_id=".$channelData->user_id."&sort=subscriptions"));
+		$smartyvs->assign("selectSubscriptionsText", sprintf(_HWDVIDS_C_SUBSCRIPTIONS, $username));
 
 		$smartyvs->display('channel_view.tpl');
 		return;
     }
     /**
-     * Loads group data to edit
      *
-     * @param array  $row  the array containing group information
-     * @return       Nothing
      */
     function editChannelInfo($row)
     {
-    	global $mainframe, $Itemid, $smartyvs, $Itemid;
+    	global $Itemid, $smartyvs, $Itemid;
         $c = hwd_vs_Config::get_instance();
+  		$db =& JFactory::getDBO();
+		$my = & JFactory::getUser();
 
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -2098,42 +2390,38 @@ class hwd_vs_html
 		}
 
         // decode
-        $meta_title = html_entity_decode($row->group_name);
+        $meta_title = html_entity_decode($row->channel_name);
         // set the page/meta title
-        $mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
-        $mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
+        $doc->setTitle( $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
+        $doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
 		hwd_vs_tools::generateActiveLink(3);
 		hwd_vs_javascript::confirmdelete();
 		hwd_vs_tools::generateBreadcrumbs();
 
-			$smartyvs->assign("title", stripslashes($row->group_name));
-			$smartyvs->assign("description", stripslashes($row->group_description));
-			$smartyvs->assign("rowid", $row->id);
-			$smartyvs->assign("rowuid", $row->adminid);
+		$smartyvs->assign("channel_description", stripslashes($row->channel_description));
+		$smartyvs->assign("cid", $row->id);
 
 
-		if (count($grp_members) > 0) {
-			$smartyvs->assign("print_grp_members", 1);
-			$grp_memberlist = hwd_vs_tools::generateGroupMemberList($grp_members);
-			$smartyvs->assign("grp_memberlist", $grp_memberlist);
-		}
+		$form_edit_channel = JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=updateChannel");
+		$smartyvs->assign("form_edit_channel", $form_edit_channel);
+		$captcha = hwd_vs_tools::generateCaptcha();
+		$smartyvs->assign("captcha", $captcha);
 
-			$smartyvs->assign("form_edit_group", JURI::root(true)."/index.php?option=com_hwdvideoshare&task=updategroup");
+		$query = "SELECT username FROM #__users WHERE id = $my->id";
+		$db->SetQuery( $query );
+		$username = $db->loadResult();
+		$smartyvs->assign("username", $username);
+		$smartyvs->assign("channelUrl", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=$Itemid&task=viewchannel&user_id=$my->id"));
 
 		$smartyvs->display('channel_edit.tpl');
 		return;
     }
-
-
-
     /**
-     * Constructs the new group form
      *
-     * @return       Nothing
      */
     function createPlaylist()
     {
-		global $mainframe, $Itemid, $smartyvs, $Itemid;
+		global $Itemid, $smartyvs, $Itemid;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -2141,6 +2429,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -2153,14 +2444,14 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_NGRPS );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_NGRPS );
-		hwd_vs_tools::generateActiveLink(3);
-		hwd_vs_javascript::checkaddgroupform();
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_NPL );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_NPL );
+		hwd_vs_tools::generateActiveLink(1);
+		hwd_vs_javascript::checkAddPlaylistForm();
 		hwd_vs_tools::generateBreadcrumbs();
 
-		$form_add_group = JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=savePlaylist");
-		$smartyvs->assign("form_add_group", $form_add_group);
+		$form_add_playlist = JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=savePlaylist");
+		$smartyvs->assign("form_add_playlist", $form_add_playlist);
 		$captcha = hwd_vs_tools::generateCaptcha();
 		$smartyvs->assign("captcha", $captcha);
 
@@ -2168,17 +2459,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Constructs the group list page and lists all groups
      *
-     * @param array  $rows  the array containing group information
-     * @param array  $rowsfeatured  the array containing featured group information
-     * @param object $pageNav  the page navigation object
-     * @param int    $total  the total group count
-     * @return       Nothing
      */
     function playlists($rows, $rowsfeatured, $pageNav, $total)
     {
-		global $Itemid, $mainframe, $smartyvs, $params;
+		global $Itemid, $smartyvs, $params;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -2186,6 +2471,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -2198,8 +2486,8 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_GRPS );
-		$mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_GRPS );
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_GRPS );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_GRPS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_javascript::confirmdelete();
 		hwd_vs_tools::generateBreadcrumbs();
@@ -2219,12 +2507,18 @@ class hwd_vs_html
 
 		$page = $total - $c->gpp;
 		$pageNavigation = null;
-		if ( $page > 0 ) {
-			$link = "index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=groups";
-			$pageNavigation.= "<div class=\"pagenavi\" align=\"center\">";
-			$pageNavigation.= $pageNav->getPagesLinks($link);
-			$pageNavigation.= "<div class=\"pagecount\">".$pageNav->getPagesCounter()."</div>";
-			$pageNavigation.= "</div>";
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 
@@ -2234,14 +2528,11 @@ class hwd_vs_html
 		return;
     }
     /**
-     * Loads group data to edit
      *
-     * @param array  $row  the array containing group information
-     * @return       Nothing
      */
     function editPlaylist($row, $pl_videos)
     {
-    	global $mainframe, $Itemid, $smartyvs, $Itemid;
+    	global $Itemid, $smartyvs, $Itemid;
         $c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -2249,6 +2540,9 @@ class hwd_vs_html
 		$menu   = &JMenu::getInstance('site');
 		$mparams = &$menu->getParams($Itemid);
 		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
 
@@ -2263,17 +2557,15 @@ class hwd_vs_html
         // decode
         $meta_title = html_entity_decode($row->playlist_name);
         // set the page/meta title
-        $mainframe->setPageTitle( $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
-        $mainframe->addMetaTag( 'title' , $metatitle." - "._HWDVIDS_META_EVIDS." - ".$meta_title );
+        $doc->setTitle( $metatitle." - "._HWDVIDS_META_EPL." - ".$meta_title );
+        $doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_EPL." - ".$meta_title );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_javascript::confirmdelete();
 		hwd_vs_tools::generateBreadcrumbs();
 
-		$smartyvs->assign("title", stripslashes($row->playlist_name));
-		$smartyvs->assign("description", stripslashes($row->playlist_description));
-		$smartyvs->assign("rowid", $row->id);
-		$smartyvs->assign("rowuid", $row->user_id);
-		$smartyvs->assign("playlist_id", $row->user_id);
+		$smartyvs->assign("playlist_name", stripslashes($row->playlist_name));
+		$smartyvs->assign("playlist_description", stripslashes($row->playlist_description));
+		$smartyvs->assign("playlist_id", $row->id);
 
 		if (count($pl_videos) > 0) {
 			$smartyvs->assign("print_pl_videos", 1);
@@ -2291,9 +2583,220 @@ class hwd_vs_html
 			$smartyvs->assign("pl_video_list", $pl_video_list);
 		}
 
-		$smartyvs->assign("form_edit_group", JURI::root(true)."/index.php?option=com_hwdvideoshare&task=updatePlaylist");
+		$smartyvs->assign("form_edit_playlist", JURI::root(true)."/index.php?option=com_hwdvideoshare&task=updatePlaylist");
 
 		$smartyvs->display('playlist_edit.tpl');
+		return;
+    }
+    /**
+     *
+     */
+    function viewPlaylist($row)
+    {
+    	global $Itemid, $smartyvs, $Itemid;
+        $c = hwd_vs_Config::get_instance();
+
+		// load the menu name
+		jimport( 'joomla.application.menu' );
+		$menu   = &JMenu::getInstance('site');
+		$mparams = &$menu->getParams($Itemid);
+		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
+
+		$active = &$menu->getActive();
+
+		if (!empty($mparams_pt)) {
+			$metatitle = $mparams_pt;
+		} else if (!empty($active->name)) {
+			$metatitle = $active->name;
+		} else {
+			$metatitle = _HWDVIDS_META_DEFAULT;
+		}
+
+        // decode
+        $meta_title = html_entity_decode($row->playlist_name);
+        // set the page/meta title
+        $doc->setTitle( $metatitle." - "._HWDVIDS_META_EPL." - ".$meta_title );
+        $doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_EPL." - ".$meta_title );
+		hwd_vs_tools::generateActiveLink(1);
+		hwd_vs_javascript::confirmdelete();
+		hwd_vs_tools::generateBreadcrumbs();
+
+		$smartyvs->assign("playlist_name", stripslashes($row->playlist_name));
+		$smartyvs->assign("playlist_description", stripslashes($row->playlist_description));
+		$smartyvs->assign("playlist_id", $row->id);
+
+		$hwdvids_params['autostart'] 	= 1;
+		$hwdvids_params['extended'] 	= 1;
+
+		$hwdvids_params['thumb_width'] 		= 60;
+		$hwdvids_params['mod_hwd_itemid'] 	= 0;
+		$hwdvids_params['trunc_title'] 		= '';
+		$hwdvids_params['trunc_descr'] 		= '';
+
+		if ($hwdvids_params['mod_hwd_itemid'] == 0)
+		{
+			$hwdvids_params['mod_hwd_itemid'] = hwd_vs_tools::generateValidItemid();
+		}
+
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xmlparse.class.php');
+		$parser = new HWDVS_xmlParse();
+		$parsed_list = $parser->parse("pl_$row->id");
+
+		if (count($parsed_list) > 0)
+		{
+			$smartyvs->assign("vid", $parsed_list[0]['id']);
+
+			$row->video_id = "";
+			$row->video_type = "playlist";
+			$row->playlist = JURI::base( true )."/components/com_hwdvideoshare/xml/xspf/pl_$row->id.xml";
+			$video_player = hwd_vs_tools::generateVideoPlayer( $row, null, null, $hwdvids_params['autostart'] );
+
+			if ($hwdvids_params['extended'] == 1)
+			{
+				$tooltip = 1;
+				$list = hwd_vs_tools::generateVideoListFromXml($parsed_list, $hwdvids_params['thumb_width'], $hwdvids_params['mod_hwd_itemid'], $tooltip, $hwdvids_params['trunc_title'], $hwdvids_params['trunc_descr'], "hwdvs_insert_playlist_video");
+				$smartyvs->assign("list", $list);
+			}
+		}
+		else
+		{
+			hwd_vs_tools::infomessage(4, 0, "Empty playlist", "This playlist does not contactin any videos", "exclamation.png", 0);
+			return;
+		}
+
+                $param_width = $c->flvplay_width;
+                $param_height = $param_width*$c->var_fb;
+
+		$random = rand();
+		$smartyvs->assign("print_extended", 1);
+		$smartyvs->assign("random", $random);
+
+		$hwdvs_ajax_video_js = "<script language=\"javascript\" type=\"text/javascript\">
+				<!--
+				//Browser Support Code
+				function hwdvs_insert_playlist_video(video_id){
+
+					var ajaxRequest;  // The variable that makes Ajax possible!
+
+					document.getElementById('hwdvs_player_container".$random."').style.padding = \"0\";
+					document.getElementById('hwdvs_player_container".$random."').style.margin = \"0\";
+					document.getElementById('hwdvs_player_container".$random."').innerHTML = '<div style=\"padding:5px;\">Loading...<br /><img src=\"".JURI::root( true )."/plugins/community/hwdvideoshare/loading.gif\"></div>';
+
+					try{
+						// Opera 8.0+, Firefox, Safari
+						ajaxRequest = new XMLHttpRequest();
+					} catch (e){
+						// Internet Explorer Browsers
+						try{
+							ajaxRequest = new ActiveXObject(\"Msxml2.XMLHTTP\");
+						} catch (e) {
+							try{
+								ajaxRequest = new ActiveXObject(\"Microsoft.XMLHTTP\");
+							} catch (e){
+								// Something went wrong
+								alert(\"Your browser broke!\");
+								return false;
+							}
+						}
+					}
+					// Create a function that will receive data sent from the server
+					ajaxRequest.onreadystatechange = function(){
+						if(ajaxRequest.readyState == 4){
+							document.getElementById('hwdvs_player_container".$random."').style.padding = \"0\";
+							document.getElementById('hwdvs_player_container".$random."').style.margin = \"0\";
+							document.getElementById('hwdvs_player_container".$random."').innerHTML = ajaxRequest.responseText;
+
+							var theInnerHTML = ajaxRequest.responseText;
+							var theID = 'hwdvs_player_container".$random."';
+							setAndExecute(theID,theInnerHTML);
+						}
+					}
+					ajaxRequest.open(\"GET\", \"".JURI::root( true )."/index.php?option=com_hwdvideoshare&task=grabajaxplayer&Itemid=".$hwdvids_params['mod_hwd_itemid']."&template=mod_hwd_vs_video_playlist_container&width=".$param_width."&height=".$param_height."&tmpl=component&video_id=\" + video_id, true);
+					ajaxRequest.send(null);
+
+					function setAndExecute(divId, innerHTML)
+					{
+						var div = document.getElementById(divId);
+						div.innerHTML = innerHTML;
+						var x = div.getElementsByTagName(\"script\");
+						for(var i=0;i<x.length;i++)
+						{
+							eval(x[i].text);
+						}
+					}
+				}
+
+				//-->
+			 </script>";
+		$doc->addCustomTag($hwdvs_ajax_video_js);
+
+
+		$smartyvs->assign("hwdvids_params", $hwdvids_params);
+		$smartyvs->assign("video_player", $video_player);
+		$smartyvs->display('playlist_view.tpl');
+
+		return;
+    }
+    /**
+     *
+     */
+    function pending($rows, $pageNav, $total)
+    {
+		global $smartyvs, $Itemid;
+		$c = hwd_vs_Config::get_instance();
+
+		// load the menu name
+		jimport( 'joomla.application.menu' );
+		$menu   = &JMenu::getInstance('site');
+		$mparams = &$menu->getParams($Itemid);
+		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
+
+		$active = &$menu->getActive();
+
+		if (!empty($mparams_pt)) {
+			$metatitle = $mparams_pt;
+		} else if (!empty($active->name)) {
+			$metatitle = $active->name;
+		} else {
+			$metatitle = _HWDVIDS_META_DEFAULT;
+		}
+
+		// set the page/meta title
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_YVIDS );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
+		hwd_vs_tools::generateActiveLink(1);
+		hwd_vs_tools::generateBreadcrumbs();
+
+		if (count($rows) > 0) {
+			$smartyvs->assign("print_videolist", 1);
+			$list = hwd_vs_tools::generateVideoListFromSql($rows);
+			$smartyvs->assign("list", $list);
+		}
+
+		$page = $total - $c->vpp;
+		$pageNavigation = null;
+		if ( $page > 0 ) 
+                {
+			if ($j16)
+			{
+				$pageNavigation.= "<div class=\"pagination\">";
+			}
+			$pageNavigation.= $pageNav->getPagesLinks();
+			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+			if ($j16)
+			{
+				$pageNavigation.= "</div>";
+			}
+		}
+		$smartyvs->assign("pageNavigation", $pageNavigation);
+
+		$smartyvs->display('video_pending.tpl');
 		return;
     }
 }

@@ -1,8 +1,8 @@
 <?php
 /**
- *    @version [ Masterton ]
+ *    @version [ Nightly Build ]
  *    @package hwdVideoShare
- *    @copyright (C) 2007 - 2009 Highwood Design
+ *    @copyright (C) 2007 - 2011 Highwood Design
  *    @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  ***
  *    This program is free software: you can redistribute it and/or modify
@@ -21,12 +21,13 @@
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 // declare global variables
-global $limitstart, $limit, $mainframe, $cid;
+global $limitstart, $limit, $task, $cid;
 
 // get general configuration data
-require_once( $mainframe->getPath( 'class' ) );
-require_once( $mainframe->getPath( 'admin_html' ) );
 require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php');
+require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'directory.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'hwdvideoshare.class.php');
+require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'admin.hwdvideoshare.html.php');
 require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'serverconfig.hwdvideoshare.php');
 require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'js.php');
 require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'access.php');
@@ -37,25 +38,29 @@ $c           = hwd_vs_Config::get_instance();
 $db          = & JFactory::getDBO();
 $my          = & JFactory::getUser();
 $acl         = & JFactory::getACL();
-$limit       = $mainframe->getUserStateFromRequest("viewlistlimit", 'limit', 10);
-$limitstart  = $mainframe->getUserStateFromRequest("viewlimitstart", 'limitstart', 0);
+$app         = & JFactory::getApplication();
+$limit       = $app->getUserStateFromRequest("viewlistlimit", 'limit', 10);
+$limitstart  = $app->getUserStateFromRequest("viewlimitstart", 'limitstart', 0);
 $task        = JRequest::getCmd( 'task', 'frontpage' );
 
 $request_array = JRequest::get( 'request' );
 @$cid 	= $request_array['cid'];
 
+hwdvsInitialise::getJVersion();
+hwdvsInitialise::getMooVersion();
 hwdvsInitialise::language('be');
-if (!hwdvsInitialise::template(false)) {return;}
+if (!hwdvsInitialise::template('0')) {return;}
 hwdvsInitialise::mysqlQuery();
 hwdvsInitialise::definitions();
 
-jimport('joomla.html.pagination');
-
-// check for initialisation request
-if ( $c->initialise_now == "1" && $task !== "initialise_now" ) {
+// Check for initialisation request
+if ( $c->initialise_now == "1" && $task !== "initialise_now" )
+{
 	hwdvids_HTML::initialise($option);
 	return;
-} else if ( $c->initialise_now == "1" && $task == "initialise_now" ) {
+}
+else if ( $c->initialise_now == "1" && $task == "initialise_now" )
+{
 	hwdvsInitialise::initialiseSetup();
 	return;
 }

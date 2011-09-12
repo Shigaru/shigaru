@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -41,9 +41,9 @@ var tabberOptions = {
 {/literal}
 <script type="text/javascript" src="{$link_home}/plugins/hwdvs-template/default/js/tabber.js"></script>
 
-  {$startpane}
+  {if $print_pane}{$startpane}{/if}
     {if $print_mvtd or $print_mvtw or $print_mvtm or $print_mvat}
-    {$starttab_mostviewed}
+    {if $print_pane}{$starttab_mostviewed}{/if}
     
     <div class="tabber" id="tab-viewed">
 
@@ -70,6 +70,7 @@ var tabberOptions = {
 	  {else}
 
 	    <div id="mostviewed_today_frame"><img id="mostviewed_today_next" src="{$URL_HWDVS_IMAGES}arrow_next.png" alt="Next" style="padding: 5px 5px 5px 0;" /><img id="mostviewed_today_prev" src="{$URL_HWDVS_IMAGES}arrow_prev.png" alt="Previous" style="padding: 5px 0;" /></div>
+	    <div style="clear:both"></div>
 	    <center>
 
 	      <div id="mostviewed_today">
@@ -113,6 +114,7 @@ var tabberOptions = {
 	      {/foreach}
 	  {else}
 	    <div id="mostviewed_thisweek_frame"><img id="mostviewed_thisweek_next" src="{$URL_HWDVS_IMAGES}arrow_next.png" alt="Next" style="padding: 5px 5px 5px 0;" /><img id="mostviewed_thisweek_prev" src="{$URL_HWDVS_IMAGES}arrow_prev.png" alt="Previous" style="padding: 5px 0;" /></div>
+	    <div style="clear:both"></div>
 	    <center>
 
 	      <div id="mostviewed_thisweek">
@@ -222,10 +224,10 @@ var tabberOptions = {
       
     </div>
     
-    {$endtab}
+    {if $print_pane}{$endtab}{/if}
     {/if}
     {if $print_mptd or $print_mptw or $print_mptm or $print_mpat}
-    {$starttab_mostpopular}
+    {if $print_pane}{$starttab_mostpopular}{/if}
 
     <div class="tabber" id="tab-popular">
 
@@ -403,10 +405,10 @@ var tabberOptions = {
       
     </div>
 
-    {$endtab}
+    {if $print_pane}{$endtab}{/if}
     {/if}
     {if $print_mftd or $print_mftw or $print_mftm or $print_mfat}
-    {$starttab_mostfavoured}
+    {if $print_pane}{$starttab_mostfavoured}{/if}
 
     <div class="tabber" id="tab-favoured">
 
@@ -584,8 +586,9 @@ var tabberOptions = {
     
     </div>
 
-    {$endtab}
+    {if $print_pane}{$endtab}{/if}
     {/if}    
-  {$endpane}
+  {if $print_pane}{$endpane}{/if}
+  
   
 <script type="text/javascript">tabberAutomatic();</script>

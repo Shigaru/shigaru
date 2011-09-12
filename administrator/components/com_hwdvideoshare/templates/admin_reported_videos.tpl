@@ -1,8 +1,8 @@
 {* 
 //////
-//    @version [ Masterton ]
+//    @version [ Nightly Build ]
 //    @package hwdVideoShare
-//    @copyright (C) 2007 - 2009 Highwood Design
+//    @copyright (C) 2007 - 2011 Highwood Design
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
@@ -12,7 +12,7 @@
     <thead>
       <tr>
         <th width="5" class="title">ID</th>
-        <th width="5"><input type="checkbox" name="toggle" value="" onClick="checkAll({$totalvideos});" /></th>
+        <th width="5"><input type="checkbox" name="toggle" value="" onClick="checkAllPageBoxes();" /></th>
         <th class="title">{$smarty.const._HWDVIDS_TITLE}</th>
         <th class="title">{$smarty.const._HWDVIDS_REP_DELETEVID}</th>
         <th class="title">{$smarty.const._HWDVIDS_REP_INGOREV}</th>
