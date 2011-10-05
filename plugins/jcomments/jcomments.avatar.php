@@ -107,7 +107,7 @@ function plgJCommentsAvatars( &$comments )
 		}
 	}
 	$users = array_unique($users);
-
+	
  	switch($avatar_type) {
  	        case 'contacts':
 			if (count($users)) {

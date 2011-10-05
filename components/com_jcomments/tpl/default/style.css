@@ -1,51 +1,105 @@
 /* content plugin styles */
-.jcomments-links {margin-top: 10px; clear:both; text-align: left}
-.comment-link, .readmore-link{padding: 0 5px 5px 14px;background-image: url(images/jc_blog.gif);background-repeat: no-repeat}
-.comment-link {background-position: 0 -27px}
-.readmore-link {background-position: 0 2px}
+.jcomments-links {
+	color:#999;
+	float:right;
+	padding-top:19px;}
 	
+	.jcomments-links a {
+		color:#999!important;
+		font-style:italic}
+		
+		.jcomments-links a:hover {
+			color:#444!important}
+	
+
 /* JComments common styles */
 #jc a:link, #jc a:visited, #jc a:hover {outline: none} 
 #jc .clear {clear: both; height: 1px; overflow: hidden}
 #jc .busy { display:none; margin: 3px auto; padding: 0; width: 16px; height: 16px; background: url(images/jc_busy.gif) no-repeat; }
 
-#jc h4 {color: #555;background-color: inherit;font-weight: bold;text-align: left;border-bottom: 1px solid #D2DADB;padding: 0 0 2px 0;margin-bottom: 10px}
+#jc h4 { 
+	color: #555;
+	padding-bottom:.2em;
+	border-bottom:3px solid #E6E6E6;
+	line-height:1.4;}
+	#jc h4 a {
+		text-align:right;
+		float:right;}
 
 #jc p.message {color: #777;background-color: inherit; background-image: none; text-align: center;text-decoration: none;text-transform: none;text-indent: 0;padding: 5px 0 0 0;border-top: 1px solid #D2DADB}
 
 #comments {margin: 0;padding: 0;width: 100%;text-align: left;text-decoration: none;text-transform: none;text-indent: 0}
 #comments a {color: #849B9F;background-color: inherit;font-weight: normal;text-decoration: none}
-#comments a:active, #comments a:focus, #comments a:hover {color: #cc0000}
 #comments a[rel*=external] {background: url(images/jc_link.gif) no-repeat center right;padding: 0 10px 0 0;margin: 0 2px}
 	
 /* RSS and Refresh*/
-#comments .rss, #comments .refresh, #comments .subscribe {padding: 0 0 0 14px;margin: 0 0 0 2px;border: none}
-#comments .rss {background: url(images/jc_rss.gif) no-repeat center left}
-#comments .refresh {background: url(images/jc_refresh.gif) no-repeat center left}
+#comments .rss, 
+#comments .refresh, 
+#comments .subscribe { 
+	padding: 0;
+	margin: 0 0 0 8px;
+	border: none; 
+	width:16px; 
+	height:16px;}
+
+
+#comments .rss {background: url(images/jc_rss.png) no-repeat center left}
+#comments .refresh {background: url(images/jc_refresh.png) no-repeat center left}
 #comments .subscribe {background: url(images/jc_subscribe.gif) no-repeat center left}
-#comments h4 .rss, #comments h4 .refresh {padding: 0 0 0 10px;margin: 0 0 0 5px;display: inline}
 
 /* List footer */
-#comments-list-footer {margin: 0 0 10px 20px}
+#comments-list-footer {margin: 0; text-align:right;}
+	#comments-list-footer a { padding-left:25px!important; line-height:30px; }
 
 /* Show/hide form */
 #comments-form-link .showform {margin: 5px 0 0 22px;padding: 0 0 5px 14px;background: url(images/jc_blog.gif) no-repeat 0 -28px;border: none;font-weight: bold;display: block}
 
 /* Comment */
-#comments .comment-box {margin: 0;padding: 0; color: #999}
-#comments .comment-avatar {float: left;margin: 0;padding: 0}
-#comments .avatar-indent {padding-left: 40px}
+#comments .comment-avatar {
+	margin: 0;
+	position:relative;
+	overflow:hidden;
+	padding: 0}
+	#comments .comment-avatar img {
+		float:right!important;
+		margin:0 0 10px!important;
+		text-align:right}
 
-#comments .comment-anchor {color: #777; text-decoration: none; border: none}
-#comments .comment-author, #comments .author-homepage {color: #3c452d;font: bold 1em Verdana, Arial, Sans-Serif;margin: 0;padding: 0}
+#comments .comment-anchor {
+	color: #D9D9D9;
+	font-size:1.5em;
+	text-decoration: none; 
+	border: none; 
+	position:absolute;
+	left:5px; 
+	top:0px; 
+	background:none;}
+	#comments .comment-anchor:hover {
+		color:#999}
+		
+#comments .comment-author, 
+#comments .author-homepage {
+	font: bold 1em Verdana, Arial, Sans-Serif;
+	font-style:italic;
+	margin: 0 0 10px 10px;
+	color:#777;
+	display:block;
+	text-align:right;
+	padding: 0 0 10px;
+	border-bottom:1px solid #DEDEDE}
 #comments .author-homepage {text-decoration: none; border-bottom: 1px dotted #3c452d}
-#comments .comment-title {color: #b01625;font: bold 1em Verdana, Arial, Sans-Serif;margin: 0;padding: 0}
+#comments .comment-title { color: #777; font: bold 1.2em Georgia, "Times New Roman", Times, serif;margin: 0;padding: 0;;}
 
 /* Avatar */
 #comments .comment-avatar img {width: 32px}
 
 /* Date and Time*/	
-#comments .comment-date {font-size: 10px;color: #999;margin: 0;padding: 0 0 0 12px;background: url(images/jc_date.gif) no-repeat center left}
+#comments .comment-date {
+	color: #999;
+	margin: 0;
+	padding: 0;
+	display:block;
+	text-align:right;}
 #comments .comment-body {color: #777;margin: 6px 0 0;padding:0 0 2px}
 
 /* Quote, Code and Hidden block styles */
@@ -58,7 +112,17 @@
 #comments .hidden {clear: both;display: block;margin: 5px 0}
 
 /* Quote and Reply to buttons panel */
-#comments .comments-buttons {height: 15px;float: right}
+#comments div.comments-buttons {
+	clear:both;}
+	
+	#comments div.comments-buttons a {
+		padding:3px 10px;
+		float:right;
+		text-align:center;
+		background:#fff;
+		color:#999;}
+		#comments div.comments-buttons a:hover {
+			color:#444}
 
 #comments .email, #comments .emailactive {font: normal 1em Verdana, Arial, Sans-Serif; text-decoration: none; white-space: normal; margin: 0; padding: 0; line-height: 10px; cursor: pointer; border-bottom: 1px dotted #999}
 #comments .email {color: #444; background-color: inherit}
@@ -73,15 +137,25 @@
 #comments .toolbar img{cursor: pointer; padding: 0; margin: 0}
 
 /* Comments list */
-#comments .comments-list {margin-left: 20px;height: 1%}
+#comments .comments-list {}
 #comments .even, #comments .odd {background-image: none;color: #3c452d; margin-left: 0px;margin-bottom: 10px;padding: 0}
 
 #comments-list .comments-inline-edit {padding: 5px; margin: 5px 0; color: inherit;background-color: #fff;border: 1px solid #ccc}
 
 /* Comment form */
-#comments-form, #comments-form p, #comments-form .comments-policy, #comments-form span, #comments-form .counter {text-align: left;text-decoration: none;text-transform: none;text-indent: 0}
+
 #comments-form p, #comments-form span, #comments-form .counter {color: #777;font: normal 1em Verdana, Arial, Sans-Serif}
-#comments-form p, #comments-form #comments-form-buttons, #comments-form #comments-form-error {font: normal 1em Verdana, Arial, Sans-Serif;margin-left: 20px !important;margin-top: 10px;margin-bottom: 8px;overflow: hidden;padding: 0}
+#comments-form p, #comments-form #comments-form-buttons, #comments-form #comments-form-error {}
+
+#comments-form-buttons {
+	clear:both;
+	position:relative;
+	overflow:hidden;
+	margin-top:20px;
+	margin-bottom:20px;}
+
+	#comments-form-buttons span span {
+		padding-top:7px;}
 
 #comments-inline-edit {border: 1px solid #ccc;margin: 5px 0 0 0;background: #fff}
 #comments-inline-edit #comments-form p, #comments-inline-edit #comments-form #comments-form-buttons,
@@ -95,23 +169,23 @@
 #comments-form img.smile {margin: 0 3px 3px 0;padding: 0;border: none;cursor: pointer}
 #comments-form img.captcha {padding: 0;margin: 0 0 3px 0;border: 1px solid #ccc}
 #comments-form span.captcha {padding: 0 0 0 12px; color: #777; background: url(images/jc_refreshg.gif) no-repeat 0 2px;cursor: pointer}
-#comments-form label {color: #777; background-color: inherit; line-height: 1.5em; padding: 0; margin: 0; vertical-align: middle}
-#comments-form input, #comments-form textarea {color: #444; background-color: #fff; padding: 0; border: 1px solid #ccc}
+#comments-form label {color: #999; background-color: inherit; line-height: 1.5em; padding: 0; margin: 0 0 0 10px; vertical-align: middle}
+#comments-form input, #comments-form textarea {color: #999; background-color: #F5F5F5; padding: 3px 7px 0; border: 1px solid #DEDEDE}
 #comments-form input {width: 170px;margin-bottom: 2px;height: 1.5em}
-#comments-form input.selected, #comments-form textarea.selected {color: #777;background-color: #ffffe0;border: 1px solid #849B9F}
+#comments-form input.selected, #comments-form textarea.selected {color: #777;background-color: #fff;border: 1px solid #DEDEDE}
 #comments-form input.error, #comments-form textarea.error {border: 1px solid #f00;text-decoration:none;text-transform:none;background-color: #ffffe0}
 
 #comments-form input.checkbox {width: 16px; line-height: 1.5em; padding: 0; margin: 0; vertical-align: middle; border: none}
 #comments-form input.captcha {width: 116px; margin: 3px 0 5px 0}
-#comments-form textarea {max-width: 400px !important;width: 350px;margin:0}
+#comments-form textarea {max-width: 500px !important;width: 400px;margin:0}
 
-#comments-form #comments-form-message, #comments-inline-edit #comments-form-message {padding: 5px 5px 5px 25px;margin-right: 5px;display: block}
+#comments-form #comments-form-message, #comments-inline-edit #comments-form-message {padding: 5px 5px 5px 25px;margin-right: 5px; margin-bottom:15px; display: block}
 .comments-form-message-error {background: #FFD86F url(images/jc_error.gif) no-repeat 4px 50%}
 .comments-form-message-info {background: #DFEEFF url(images/jc_info.gif) no-repeat 4px 50%}
 
-#comments-form .counterpanel {height:13px;display:block;overflow:hidden;color: #ccc;padding: 0;margin:0;border:1px solid #ddd;border-top-width:0;max-width: 400px !important;width: 350px;background-color: #eee}
+#comments-form .counterpanel {height:13px;display:block;overflow:hidden;color: #ccc;padding: 0;margin:0;border:1px solid #ddd;border-top-width:0;max-width: 400px !important;width: 500px;background-color: #eee}
 
-#comments-form .grippie {height:13px;display:block;overflow:hidden;color: #ccc;padding: 0;margin:0;border:1px solid #ddd;border-top-width:0;max-width: 400px !important;width: 350px;cursor:s-resize;background: #eee url(images/resize.gif) no-repeat right center}
+#comments-form .grippie {height:15px;display:block;overflow:hidden;color: #ccc;padding: 2px 7px 0;margin:0;border:1px solid #ddd;border-top-width:0;max-width: 400px !important;width: 500px;cursor:s-resize;background: #eee url(images/resize.gif) no-repeat right center}
 #comments-form .grippie .counter {font-size: 10px;padding: 0; margin: 0}
 #comments-form .grippie span {display:block;float:left}
 #comments-form .grippie span span {display:inline;float:none}
@@ -122,8 +196,9 @@
 #comments-form .btn a {text-decoration: none; height: 22px;line-height: 22px;font-size: 12px;font-weight: bold;color: #777;padding: 0px 5px;border: none}
 #comments-form .btn a:hover {text-decoration: none; color: #0B55C4}
 #comments-form-smilespanel {display: none;cursor: pointer;padding: 2px;max-width: 200px;background-color: #fff;border: 1px solid #ccc;overflow: auto;left: 0;top: 0;position:absolute}
+
 #comments-footer, #comments-footer a {color: #ccc !important; background-color: inherit; font: normal 9px Verdana, Arial, Sans-Serif !important}
-#comments-footer {display: block;height: 14px;border-top: 1px solid #ccc;padding-top: 1px;margin-top: 4px;text-align: right}
+#comments-footer {display: block;height: 14px;border-top: 1px solid #ddd;padding-top: 1px;margin-top: 4px;text-align: right; clear:both;}
 #comments-footer a {text-decoration: none !important;text-transform: none;padding: 0;margin: 0;border: none !important;float: right; background: none !important}
 
 /* Pagination */
@@ -139,7 +214,10 @@ body #jc #nav-bottom, body #jc #nav-top {line-height: 19px !important;line-heigh
 #jc #nav-top span.activepage {border-top: 1px solid #d6dadd;border-left: 1px solid #d6dadd;border-right: 1px solid #d6dadd;border-bottom: 1px solid white}
 
 /* Vote */
-#jc span.comments-vote {width: 6em;height: 15px;float: right}
+#jc span.comments-vote { 
+	position:absolute;
+	top:10px;
+	right:10px;}
 #jc span.comments-vote a{width: 15px;height: 14px;float: left;margin: 0 3px 0 0;display: block;background-repeat: no-repeat;background-image: url(images/jc_vote.gif);border: none !important; text-decoration: none}
 #jc span.comments-vote .busy{margin: 0; float: right; width: 16px}
 #jc .vote-good{background-position: 0 0}
@@ -169,13 +247,37 @@ body #jc #nav-bottom, body #jc #nav-top {line-height: 19px !important;line-heigh
 #jc span.bbcode img {width: 23px;height: 23px;float: left;margin: 0 2px 0 0}
 #jc .custombbcode {width: 23px;height: 23px;float: left;margin: 0 2px 0 0;display: block;text-decoration:none;cursor: pointer}
 
+
 /* Rounded comments */
-.rbox {margin: 0;width:auto;overflow: hidden}
-.rbox div {text-align: left;margin: 0px}
-.rbox_t {margin: 0;border-top: 1px solid #ccc;background-color: #FFF}
-.rbox_tl {background: url(images/jc_rb_tl.gif) 0 0 no-repeat;padding-left: 13px}
-.rbox_tr {height: 10px;overflow: hidden;background: url(images/jc_rb_tr.gif) 100% 0 no-repeat;padding-right: 13px}
-.rbox_m {border-left: 1px solid #ccc;border-right: 1px solid #ccc;width: auto;padding: 0px 8px; background-color:#fff;line-height: 100%}
-.rbox_b {margin-top: -5px;border-bottom: 1px solid #ccc;background-color: #FFF;height: 12px;line-height: 12px}
-.rbox_bl {background: url(images/jc_rb_bl.gif) 0 100% no-repeat;padding-left: 13px}
-.rbox_br {height: 13px;background: url(images/jc_rb_br.gif) 100% 100% no-repeat;padding-right: 13px}
+.rbox { 
+	position:relative;
+	overflow:hidden;
+	clear:both;
+	padding:10px 0 0;
+	background:#fff url(images/rbox.png) repeat-x top}
+	
+	
+	.rbox .rbox_left {
+		float:left;
+		width:25%;
+		font-style:italic;
+		text-align:center;}
+	
+	.rbox .rbox_right {
+		float:right;
+		width:72%;}
+		
+		
+		.rbox .rbox_right img {
+			float:none!important;
+			margin:0!important;
+			background:none!important;
+			padding:0!important;
+			border:0!important}
+		
+
+
+	
+	
+	
+	

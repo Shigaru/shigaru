@@ -40,7 +40,7 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 	<input type="hidden" name="view" value="search" />
 	<input type="hidden" name="Itemid" value="99999999" />
 	<input type="hidden" name="option" value="com_search" />
-	<button title="<?php echo JText::_('Go'); ?>" class="button" type="submit" onclick="this.form.rokajaxsearch.focus();"><span><span><?php echo JText::_('GO'); ?></span></span></button>
+	<input id="searchgo" class="button fnone" type="submit" onclick="this.form.rokajaxsearch.focus();" value="<?php echo JText::_('Go'); ?>" name="Submit">
 	<?php if (($websearch || $blogsearch || $imagesearch || $videosearch) && $api): ?>
 		<div class="search_options">
 			<label style="float: left; margin-right: 8px">

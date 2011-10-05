@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user">
+	<name>CB User Menu</name>
+	<author>Chris Michaelides</author>
+	<creationDate>15/08/2009</creationDate>
+	<copyright>AXXIS Internet Solutions</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>info@axxis.gr</authorEmail>
+	<authorUrl>http://www.axxis.gr</authorUrl>
+	<version>1.0</version>
+	<description>
+	This plugin will display user's custom menu.</description>
+
+<install>
+</install>
+
+<uninstall>
+</uninstall>
+
+	<files>
+		<filename plugin="cb_plugin_custommenu">cb_plugin_custommenu.php</filename>
+		<filename >add.png</filename>
+		<filename >delete.png</filename>
+		<filename >online.gif</filename>
+		<filename >offline.gif</filename>
+		<filename >pm.gif</filename>
+		<filename >stop.jpg</filename>
+		<filename >index.html</filename>
+		<filename >language/index.html</filename>
+		<filename >language/english.php</filename>
+	</files>
+
+	<params>
+  </params>
+
+
+	<tabs>
+	<tab name="CB User Custom Menu" description="" class="cbcustommenuTab" fields="1" position="cb_tabmain" displaytype="tab">
+	<params>
+	 <param name="usernames" type="radio" default="u.username" label="Real Name or Username?" description="Choose what should be displyed an the user's name">
+    			<option value="u.name">Real Name</option>
+    			<option value="u.username">Username</option>
+	 </param>
+	 <param name="shownames" type="radio" default="1" label="Show Name?" description="Choose if the user's name should be displayed">
+    			<option value="1">_UE_YES</option>
+    			<option value="0">_UE_NO</option>
+	 </param>
+	 <param name="showonline" type="radio" default="1" label="Show Online Status?" description="Choose if you want the online/offline icon to be displayed">
+    			<option value="1">_UE_YES</option>
+    			<option value="0">_UE_NO</option>
+	 </param>
+	 <param name="showicons" type="radio" default="1" label="Show Icon Links?" description="Choose if you want the icon links to be displayed">
+    			<option value="1">_UE_YES</option>
+    			<option value="0">_UE_NO</option>
+	 </param>
+	 <param name="showtext" type="radio" default="1" label="Show Text Links?" description="Choose if you want the text links to be displayed">
+    			<option value="1">_UE_YES</option>
+    			<option value="0">_UE_NO</option>
+	 </param>
+ 	</params>
+	
+	
+	<fields>
+	</fields>
+
+
+	</tab>
+	</tabs>
+
+</cbinstall>

@@ -33,7 +33,7 @@ $modulefunction = intval( $params->get( 'modulefunction', 2) );
 $showimageapr = intval( $params->get( 'showimageapr', 1) );         
 $showavataronly  = intval( $params->get( 'showavataronly', 1) );     
 $gender =  $params->get( 'gender_field', 'cb_gender') ;
-$age =  $params->get( 'age_field', 'cb_birthday');
+$age =  $params->get( 'age_field', 'cb_age');
 $location = $params->get( 'location_field', 'cb_location');
 $show_gender = $params->get( 'showgender', '0');
 $show_age = $params->get( 'showage', '0');
@@ -60,12 +60,9 @@ $show_location= $params->get( 'showlocation', '0');
 			$zngender = "";
 		}
 		
-				//Show age?
-		if ($show_age == 1) {
-			$znage = ',c.'.$age;
-		} else {
-			$znage = "";
-		}
+		
+			$znage = ',c.'.$age.' AS age';
+		
 		
 				//Show location?
 		if ($show_location == 1) {

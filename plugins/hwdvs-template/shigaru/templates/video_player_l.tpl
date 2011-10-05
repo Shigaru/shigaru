@@ -46,85 +46,45 @@ var tabberOptions = {
 {if $print_nextprev or $print_videourl or $print_embedcode or $print_uservideolist or $print_relatedlist}
 <div class="sic-container">
   
-  <div class="sic-right">
-
-    <div class="standard">
-
-      <div style="float:right;"><div class="padding">{$videoplayer->avatar}</div></div>
-      {if $print_nextprev}
-        <div class="padding">{$videoplayer->nextprev}</div>
-      {/if}
-      {if $print_videourl}
-          <div class="padding"><form name="vlink" action="#"><div>{$smarty.const._HWDVIDS_TITLE_PERMALINK}</div><input type="text" value="{$videoplayer->videourl}" name="vlink" /></form></div>
-      {/if}
-      {if $print_embedcode}
-          <div class="padding"><form name="elink" action="#"><div>{$smarty.const._HWDVIDS_INFO_VIDEMBEDCODE}</div><input type="text" value="{$videoplayer->embedcode}" name="elink" /></form></div>
-      {/if}
-      
-      <div style="clear:both;"></div>
-    </div>
-
-    {if $print_ads}{if $advert4}<div class="standard"><div class="padding"><div id="hwdadverts-nopadding">{$advert4}</div></div></div>{/if}{/if}
-    
-    {if $print_uservideolist}
-    <div class="standard">
-      <h2>{$smarty.const._HWDVIDS_TITLE_MOREBYUSR} {$videoplayer->uploader}</h2>
-      <div class="scoller">
-      <div class="list">
-        <div class="box">
-          {foreach name=outer item=data from=$userlist}
-	  {include file="video_list_small.tpl"}
-	  <div style="clear:both;"></div>
-          {/foreach}
-        </div>
-      </div>  
-      </div>
-    </div>
-    {/if}
-    
-    {if $print_relatedlist}
-    <div class="standard">
-      <h2>{$smarty.const._HWDVIDS_RELATED}</h2>
-      <div class="scoller">
-      <div class="list">
-        <div class="box">
-          {foreach name=outer item=data from=$listrelated}
-	  {include file="video_list_small.tpl"}
-	  <div style="clear:both;"></div>
-          {/foreach}
-        </div>
-      </div>  
-      </div>
-    </div>
-    {/if}
-
-    {if $print_categoryvideolist}
-    <div class="standard">
-      <h2>{$smarty.const._HWDVIDS_MORECATVIDS}</h2>
-      <div class="scoller">
-      <div class="list">
-        <div class="box">
-          {foreach name=outer item=data from=$categoryvideolist}
-	  {include file="video_list_small.tpl"}
-	  <div style="clear:both;"></div>
-          {/foreach}
-        </div>
-      </div>  
-      </div>
-    </div>
-    {/if}
-    
-  </div>
-  
-  <div class="sic-center">
+  <div>
 {/if}  
-    <div class="standard">
-      <h2>{$videoplayer->title} {$videoplayer->editvideo} {$videoplayer->deletevideo}</h2>
-      <div class="padding"><center>{$videoplayer->player}</center></div>
-    </div>
-
-
-    <div class="tabber" id="tab1">
+	<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">{$smarty.const._HWDVIDS_SHIGARU_VIDEO} {$smarty.const._HWDVIDS_SHIGARU_TUTORIALS}</a></li>
+		<li><a href="#tabs-2">{$smarty.const._HWDVIDS_SHIGARU_VIDEO} {$smarty.const._HWDVIDS_SHIGARU_DESCRIPTION}</a></li>
+		<li><a href="#tabs-3">{$smarty.const._HWDVIDS_SHIGARU_VIDEO} {$smarty.const._HWDVIDS_SHIGARU_TAGS}</a></li>
+	</ul>
+	<div id="tabs-1" class="standard">
+      <div class="list">
+        <div class="box">
+				  <div>
+					 <div class="fleft">
+					 {$videoplayer->title} {$videoplayer->editvideo} {$videoplayer->deletevideo}
+					 </div>
+					 <div class="fright">
+							{$videoplayer->avatar}
+					</div>
+				  </div>
+				  <div class="padding clear"><center>{$videoplayer->player}</center></div>
+				 {if $print_nextprev}
+					<div class="padding">{$videoplayer->nextprev}</div>
+				  {/if}
+				  {if $print_videourl}
+					  <div class="padding"><form name="vlink" action="#"><div>{$smarty.const._HWDVIDS_TITLE_PERMALINK}</div><input type="text" value="{$videoplayer->videourl}" name="vlink" /></form></div>
+				  {/if}
+				  {if $print_embedcode}
+					  <div class="padding"><form name="elink" action="#"><div>{$smarty.const._HWDVIDS_INFO_VIDEMBEDCODE}</div><input type="text" value="{$videoplayer->embedcode}" name="elink" /></form></div>
+				  {/if}
+      </div>  
+      </div>
+    </div>  
+      
+   <div id="tabs-2" class="standard">
+      <div class="list">
+        <div class="box">   
+			<div class="padding"><strong>{$smarty.const._HWDVIDS_DESC}</strong><br /><p id="truncateMe">{$videoplayer->description}</p></div>
+			
+      <div class="tabber" id="tab1">
     {if $videoplayer->ratingsystem or $videoplayer->downloadoriginal or $videoplayer->vieworiginal or $videoplayer->downloadflv or $videoplayer->favourties or $videoplayer->reportmedia}
       <div class="tabbertab">
       <h2>{$smarty.const._HWDVIDS_RATING}</h2>
@@ -203,23 +163,128 @@ var tabberOptions = {
       </div>
       {/if}
     </div>
+      
+      </div>
+      </div>
+      </div>
+      
+      </div>
+ </div>   
+	
+   
+
+
+    
 
 {if $print_nextprev or $print_videourl or $print_embedcode or $print_uservideolist or $print_relatedlist}
   </div>
 </div>
 {/if}
-
-<div style="clear:both;"></div>
-{if $print_comments}
-    <div class="standard">
-      <h2>{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</h2>
-      {$videoplayer->comments}
+<div id="hwdvids">
+<div class="sic-container">
+  
+  <div class="sic-right">
+	  
+	  <div class="standard">
+      <div class="list">
+        <div class="box">   
+			<div id="tabs">
+				<ul>
+					<li><a href="#more-tabs-1">{$smarty.const._HWDVIDS_RELATED}</a></li>
+					<li><a href="#more-tabs-2">{$smarty.const._HWDVIDS_TITLE_MOREBYUSR} {$videoplayer->uploader}</a></li>
+					<li><a href="#more-tabs-3">{$smarty.const._HWDVIDS_MORECATVIDS}</a></li>
+				</ul>
+	
+	<div id="more-tabs-1" class="standard">
+      <div class="scoller">
+      <div class="list">
+        <div class="box">
+          {foreach name=outer item=data from=$listrelated}
+	  {include file="video_list_small.tpl"}
+	  <div style="clear:both;"></div>
+          {/foreach}
+        </div>
+      </div>  
+      </div>
     </div>
-{/if} 
+    
+    <div id="more-tabs-2" class="standard">
+      <div class="scoller">
+      <div class="list">
+        <div class="box">
+          {foreach name=outer item=data from=$userlist}
+	  {include file="video_list_small.tpl"}
+	  <div style="clear:both;"></div>
+          {/foreach}
+        </div>
+      </div>  
+      </div>
+    </div>
+    
+    <div id="more-tabs-3" class="standard">
+      <div class="scoller">
+      <div class="list">
+        <div class="box">
+          {foreach name=outer item=data from=$categoryvideolist}
+	  {include file="video_list_small.tpl"}
+	  <div style="clear:both;"></div>
+          {/foreach}
+        </div>
+      </div>  
+      </div>
+    </div>
+    
+    
+   </div> 
+   </div>
+</div> 
+   </div>	  
+	  
+	  
+</div>
+  
+  <div class="sic-center">
+<div class="standard">
+      <div class="list">
+        <div class="box">   
+	<div id="comments-tabs">
+	<ul>
+		<li><a href="#comments-tabs-1">{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</a></li>
+		<li><a href="#comments-tabs-2">{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</a></li>
+	</ul>
+	
+	<div id="comments-tabs-1" class="standard">
+      <div class="scoller">
+      <div class="list">
+        <div class="box">
+          {if $print_comments}
+			  {$videoplayer->comments}
+		{/if} 
+        </div>
+      </div>  
+      </div>
+    </div>
+    
+    <div id="comments-tabs-2" class="standard">
+      <div class="scoller">
+      <div class="list">
+        <div class="box">
+          {if $print_comments}
+			  {$videoplayer->comments}
+		{/if} 
+        </div>
+      </div>  
+      </div>
+    </div>
+    
+   </div> 
+   </div>
+ </div> 
+</div>   
+
 <div style="clear:both;"></div>
 
 <script type="text/javascript">
 tabberAutomatic(tabberOptions);
 </script>
 
-{include file='footer.tpl'}

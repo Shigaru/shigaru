@@ -170,6 +170,9 @@ class hwdvsDrawFile {
 			$config .= "    <category_id><![CDATA[".$row->category_id."]]></category_id>\n";
 			$config .= "    <description><![CDATA[".$row->description."]]></description>\n";
 			$config .= "    <views><![CDATA[".$row->number_of_views."]]></views>\n";
+			if($row->counts)
+				$config .= "    <numfavoured><![CDATA[".$row->counts."]]></numfavoured>\n";
+			$config .= "    <views><![CDATA[".$row->number_of_views."]]></views>\n";
 			$config .= "    <date><![CDATA[".$row->date_uploaded."]]></date>\n";
 			$config .= "    <duration><![CDATA[".$row->video_length."]]></duration>\n";
 			$config .= "    <rating><![CDATA[".$row->updated_rating."]]></rating>\n";

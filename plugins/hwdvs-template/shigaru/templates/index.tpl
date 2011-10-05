@@ -11,7 +11,7 @@
 <br /> </div>
 
 <div id="totalvideos">
-	{$smarty.const._HWDVIDS_INFO_TOTVID}: <b>{$totalvideos}</b> {$smarty.const._HWDVIDS_SHIGARU_TOTALCATEGORIZED}
+	<span class="fontbold">{$smarty.const._HWDVIDS_INFO_TOTVID}: </span><span class="fontred">{$totalvideos}</span> {$smarty.const._HWDVIDS_SHIGARU_TOTALCATEGORIZED}
 </div>
 
 {include file='header.tpl'}
@@ -172,13 +172,16 @@
 	<ul>
 		<li><a href="#comments-tabs-1">{$smarty.const._HWDVIDS_LATESTCOMM}</a></li>
 		<li><a href="#comments-tabs-2">{$smarty.const._HWDVIDS_POPUCOMM}</a></li>
-		<li><a href="#comments-tabs-3">{$smarty.const._HWDVIDS_POPUCOMM}</a></li>
-		<li><a href="#comments-tabs-4">{$smarty.const._HWDVIDS_POPUCOMM}</a></li>
-		<li><a href="#comments-tabs-5">{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</a></li>
+		<li><a href="#comments-tabs-3">{$smarty.const._HWDVIDS_RECENTUPDATES}</a></li>
+		<li><a href="#comments-tabs-4">{$smarty.const._HWDVIDS_RECENTACTVITY}</a></li>
+		<li><a href="#comments-tabs-5">{$smarty.const._HWDVIDS_TOPPOSTERS}</a></li>
 	</ul>
 	
 	<div id="comments-tabs-1" class="standard">
       <div class="scoller h150">
+      <div class="introtext">
+		{$smarty.const._HWDVIDS_LATESTCOMMINTRO}
+      </div>
       <div class="list">
         <div class="box">
           {$latestcomments}
@@ -189,6 +192,9 @@
 				
 	<div id="comments-tabs-2" class="standard">
       <div class="scoller h150">
+      <div class="introtext">
+		{$smarty.const._HWDVIDS_POPUCOMMINTRO}
+      </div>
       <div class="list">
         <div class="box">
           {$mostpopularcomments}
@@ -199,6 +205,9 @@
     
     <div id="comments-tabs-3" class="standard">
       <div class="scoller h150">
+      <div class="introtext">
+		{$smarty.const._HWDVIDS_RECENTUPDATESINTRO}
+      </div>
       <div class="list">
         <div class="box">
           {$whatareyou}
@@ -209,6 +218,9 @@
     
     <div id="comments-tabs-4" class="standard">
       <div class="scoller h150">
+      <div class="introtext">
+		{$smarty.const._HWDVIDS_RECENTACTVITYINTRO}
+      </div>
       <div class="list">
         <div class="box">
           {$recentactivity}
@@ -219,9 +231,12 @@
     
     <div id="comments-tabs-5" class="standard">
       <div class="scoller h150">
+      <div class="introtext">
+		{$smarty.const._HWDVIDS_TOPPOSTERSINTRO}
+      </div>
       <div class="list">
         <div class="box">
-          
+          {$topposters}
         </div>
       </div>  
       </div>
@@ -234,6 +249,29 @@
   
 		
 		
+		
+			<div id="whitebox">
+				<div class="whiteboxHeader community">
+						<div>
+							<h6>
+							{$smarty.const._HWDVIDS_SHIGARU_OURFACES}
+							</h6>
+						</div>
+				</div>
+				
+
+				<div id="whitebox_m">
+  
+					{$zncbmembers}
+  
+				</div>
+
+				<div id="whitebox_b">
+					<div id="whitebox_bl">
+						<div id="whitebox_br"></div>
+					</div>
+				</div>
+		</div>
 		 
  
  
@@ -251,11 +289,13 @@
 					{$tweetdisplay}
 				</div>
 				
-				<div id="whitebox_b">
-					<div id="whitebox_bl">
-						<div id="whitebox_br"></div>
-					</div>
-				</div>
+				<div class="viewmore">
+					<a href="http://twitter.com/shigaru" title="{$smarty.const._HWDVIDS_SHIGARU_FOLLOWUSTWEET}">
+						{$smarty.const._HWDVIDS_SHIGARU_FOLLOWUSTWEET}
+					</a>
+				</div>	
+				
+
 		</div>
 		
 		<br />
@@ -283,30 +323,7 @@
 				
 		</div>
 		
-		<br />
 		
-			<div id="whitebox">
-				<div class="whiteboxHeader community">
-						<div>
-							<h6>
-							{$smarty.const._HWDVIDS_SHIGARU_OURFACES}
-							</h6>
-						</div>
-				</div>
-				
-
-				<div id="whitebox_m">
-  
-					{$zncbmembers}
-  
-				</div>
-
-				<div id="whitebox_b">
-					<div id="whitebox_bl">
-						<div id="whitebox_br"></div>
-					</div>
-				</div>
-		</div>
 		
 		
 		
@@ -352,6 +369,9 @@
     
     <div id="tabs-tags-1" class="standard">
       <div class="scoller miniscoller">
+      <div class="introtext">
+		{$smarty.const._HWDVIDS_SHIGARU_TAGSBANDSINTRO}
+      </div>
       <div class="list">
         <div class="box">
           {$tagsList}
@@ -366,6 +386,9 @@
     
     <div id="tabs-tags-2" class="standard">
       <div class="scoller miniscoller">
+      <div class="introtext">
+		{$smarty.const._HWDVIDS_SHIGARU_TAGSINTRO}
+      </div>
       <div class="list">
         <div class="box">
           {$instagsList}
@@ -378,6 +401,9 @@
         
     <div id="tabs-tags-3" class="standard">
       <div class="scoller miniscoller">
+      <div class="introtext">
+		{$smarty.const._HWDVIDS_SHIGARU_TAGSGENREINTRO}
+      </div>
       <div class="list">
         <div class="box">
           {$gentagsList}
@@ -431,8 +457,7 @@
 				<div id="whitebox_m">
 					<center>
 						<div id="fb-root"></div>
-						<div class="fb-like-box" data-href="http://www.facebook.com/pages/Shigarucom/203892893007914" data-width="400" data-show-faces="true" data-stream="false" data-header="true">
-						</div>
+						<div class="fb-like-box" data-href="http://www.facebook.com/pages/Shigarucom/203892893007914" data-width="292" data-show-faces="true" data-border-color="#fff" data-stream="false" data-header="false"></div>
 					</center>	  
 				</div>
 
@@ -447,6 +472,29 @@
     
     <br />
     
+    <div id="whitebox">
+				<div class="whiteboxHeader donate">
+						<div>
+							<h6>
+							{$smarty.const._HWDVIDS_DONATETO}
+							</h6>
+						</div>
+				</div>
+				
+
+				<div id="whitebox_m">
+  
+					<center>{$donate}</center>
+  
+				</div>
+
+				<div id="whitebox_b">
+					<div id="whitebox_bl">
+						<div id="whitebox_br"></div>
+					</div>
+				</div>
+		</div>
+    <br />
     
     <div id="whitebox">
 				<div class="whiteboxHeader followus">
@@ -470,49 +518,14 @@
 					</div>
 				</div>
 		</div>
-		
-	
-    
-    <br />
-    
-    
-    
-    
-    <div id="whitebox">
-				<div class="whiteboxHeader donate">
-						<div>
-							<h6>
-							{$smarty.const._HWDVIDS_DONATETO}
-							</h6>
-						</div>
-				</div>
-				
-
-				<div id="whitebox_m">
-  
-					{$donate}
-  
-				</div>
-
-				<div id="whitebox_b">
-					<div id="whitebox_bl">
-						<div id="whitebox_br"></div>
-					</div>
-				</div>
+		<br/>	
+		<div id="addTop">
+			
+			<div id="backtotop">
+				<a href="#up">{$smarty.const._HWDVIDS_TOPPAGE}</a>
+			</div>
+			{$AddThis}
 		</div>
-		
-		
-		
-	
-		
-		
-    
-    
-    
-    
-    
-    
-   
 {if $print_mostviewed or $print_mostviewed or $print_mostpopular}
   </div>
 </div>

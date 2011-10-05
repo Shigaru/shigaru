@@ -126,6 +126,7 @@ class HWDVS_xmlParse
 		if ($state=="UPLOADER_ID") {$userdata[$usercount]["uploader_id"] = $data;}
 		if ($state=="COMMENTS") {$userdata[$usercount]["comments"] = $data;}
 		if ($state=="TAGS") {$userdata[$usercount]["tags"] = $data;}
+		if ($state=="NUMFAVOURED") {$userdata[$usercount]["numfavoured"] = $data;}
 	}
 }
 ?>

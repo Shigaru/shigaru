@@ -400,11 +400,11 @@ DEFINE("_HWDVIDS_MVAT","Most <br /> Viewed");
 DEFINE("_HWDVIDS_MFTD","Most Favoured Today");
 DEFINE("_HWDVIDS_MFTW","Most Favoured This Week");
 DEFINE("_HWDVIDS_MFTM","Most Favoured This Month");
-DEFINE("_HWDVIDS_MFAT","Most Favoured");
+DEFINE("_HWDVIDS_MFAT","Most <br /> Favoured");
 DEFINE("_HWDVIDS_MPTD","Most Popular Today");
 DEFINE("_HWDVIDS_MPTW","Most Popular This Week");
 DEFINE("_HWDVIDS_MPTM","Most Popular This Month");
-DEFINE("_HWDVIDS_MPAT","Most Popular");
+DEFINE("_HWDVIDS_MPAT","Most <br /> Popular");
 DEFINE("_HWDVIDS_BWN","Being Watched Now");
 DEFINE("_HWDVIDS_RELATED","Related");
 DEFINE("_HWDVIDS_UNKNOWN","Unknown");
@@ -589,25 +589,53 @@ DEFINE("_HWDVIDS_C_TITLE","%s's Channel");
 
 DEFINE("_HWDVIDS_HOMEPROMO","Sign up. Upload videos or submit video links of music tutorials. Comment. Rate. Discover. Learn. Share. Create a profile page. Make friends. Promote your music.  Join the Shigaru online music community now and meet music lovers from all over the world!");
 DEFINE("_HWDVIDS_WATCHMORE","Watch more videos like these");
-DEFINE("_HWDVIDS_LATESTCOMM","Latest Comments");
-DEFINE("_HWDVIDS_POPUCOMM","Popular Comments");
 DEFINE("_HWDVIDS_DONATETO","Donate to Shigaru.com");
 DEFINE("_HWDVIDS_SUBSCRIBE","Subscribe to the newsletter");
 DEFINE("_HWDVIDS_SUBSARCHIVE","View newsletter archive");
 DEFINE("_HWDVIDS_SHIGARU_ADS","Some ads to keep Shigaru up and running");
 DEFINE("_HWDVIDS_SHIGARU_FOLLOW","Follow us on ...");
-DEFINE("_HWDVIDS_SHIGARU_FACEFAN","This is how our fans look like ...");
+DEFINE("_HWDVIDS_SHIGARU_FACEFAN","Here are just a few of our Facebook fans...");
 DEFINE("_HWDVIDS_SHIGARU_TWITTER","What are we tweeting ...");
 DEFINE("_HWDVIDS_SHIGARU_OURFACES","Shigaru Community (and growing!)");
-DEFINE("_HWDVIDS_SHIGARU_TOTALCATEGORIZED"," (categorized by the Shigaru)");
+DEFINE("_HWDVIDS_SHIGARU_TOTALCATEGORIZED"," (categorized by the Shigaru community)");
 DEFINE("_HWDVIDS_MOST_RECENT","Most <br /> recent");
 DEFINE("_HWDVIDS_MOST_RATED","Most <br /> rated");
 DEFINE("_HWDVIDS_MOST_COMMENTED","Most <br /> commented");
 DEFINE("_HWDVIDS_FEATURED_VIDEOS","Featured Videos");
-DEFINE("_HWDVIDS_POP_BANDS","Popular bands");
-DEFINE("_HWDVIDS_POP_TAGS","Popular tags");
-DEFINE("_HWDVIDS_POP_GENRES","Popular genres");
+DEFINE("_HWDVIDS_POP_BANDS","Popular <br /> bands");
+DEFINE("_HWDVIDS_POP_TAGS","Popular <br />tags");
+DEFINE("_HWDVIDS_POP_GENRES","Popular <br />genres");
 DEFINE("_HWDVIDS_RANDOM_VIDEOS","Random Video");
 DEFINE("_HWDVIDS_INFO_SHARED","Shared by: ");
 DEFINE("_HWDVIDS_INFO_PLAYS","Plays:");
 DEFINE("_HWDVIDS_INFO_NOCOMM","Number of Comments:");
+DEFINE("_HWDVIDS_SHIGARU_VIDEO","Video");
+DEFINE("_HWDVIDS_SHIGARU_TUTORIALS","Tutorials");
+DEFINE("_HWDVIDS_SHIGARU_DESCRIPTION","Description");
+DEFINE("_HWDVIDS_SHIGARU_TAGS","Tags");
+DEFINE("_HWDVIDS_SHIGARU_TUTORSINTRO","Here are a few of the faces of the tutors you will find in the Shigaru video library:");
+DEFINE("_HWDVIDS_SHIGARU_FOLLOWUSTWEET","Follow Shigaru on Twitter");
+DEFINE("_HWDVIDS_SHIGARU_TAGSBANDSINTRO","Here is a list of the most popular bands that appear in the Shigaru video Library. Click to view a list:");
+DEFINE("_HWDVIDS_SHIGARU_TAGSGENREINTRO","Here is a list of the most popular genres that appear in the Shigaru video Library. Click to view a list:");
+DEFINE("_HWDVIDS_SHIGARU_TAGSINTRO","Here is a list of the most popular tags that appear in the Shigaru video Library. Click to view a list:");
+DEFINE("_HWDVIDS_SHIGARU_PROMOFOOT","Think you can play better? Submit your videos now then! Or submit video tutorials you have found on other websites. What are you waiting for? Share your musical knowledge!");
+DEFINE("_HWDVIDS_LATESTCOMM","Latest <br /> Video Comments");
+DEFINE("_HWDVIDS_POPUCOMM","Most Popular Video Comments");
+DEFINE("_HWDVIDS_RECENTUPDATES","Recent <br /> Status <br /> Updates");
+DEFINE("_HWDVIDS_RECENTACTVITY","Recent <br /> Profile <br /> Activity");
+DEFINE("_HWDVIDS_TOPPOSTERS","Top <br /> Video <br /> Posters");
+DEFINE("_HWDVIDS_TOPPAGE","Top of page");
+DEFINE("_HWDVIDS_RECENTUPDATESINTRO","Here is a list of recent user status updates (what users are writing on their profile page!):");
+DEFINE("_HWDVIDS_LATESTCOMMINTRO","Here is a list of the most recent comments made to our videos:");
+DEFINE("_HWDVIDS_RECENTACTVITYINTRO","Here is a list of recent user profile activity!:");
+DEFINE("_HWDVIDS_TOPPOSTERSINTRO","Here is a list of users who make the most popular video comments!");
+DEFINE("_HWDVIDS_POPUCOMMINTRO","Here is a list of video comments that got the most thumbs up!");
+
+
+
+
+
+
+
+
+

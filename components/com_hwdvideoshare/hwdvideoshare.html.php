@@ -38,7 +38,7 @@ class hwd_vs_html
 		global $Itemid, $smartyvs, $hwdvsTemplateOverride, $limit, $limitstart, $j15, $j16;
 		$c = hwd_vs_Config::get_instance();
   		$db =& JFactory::getDBO();
-$app = & JFactory::getApplication();
+		$app = & JFactory::getApplication();
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
@@ -289,14 +289,11 @@ $app = & JFactory::getApplication();
 				} else {
 					$thumbwidth = null;
 				}
-
+				
+				
 				$mostfavouredlist = hwd_vs_tools::generateVideoListFromXml($mostfavoured, $thumbwidth);
 				$smartyvs->assign("mostfavouredlist", $mostfavouredlist);
-				/*
-			echo '<pre>';
-				print_r($mostfavouredlist);
-			echo '</pre>';
-			*/
+
 				if ($c->frontpage_favoured == "today") {
 					$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFTD);
 				} else if ($c->frontpage_favoured == "thisweek") {
@@ -367,21 +364,21 @@ $app = & JFactory::getApplication();
 		
 		/* comments boxes */
 		jimport( 'joomla.application.module.helper' );
-		/*
+		
 		$module = JModuleHelper::getModule( 'jcomments_top_posters' );
 		$topposters = JModuleHelper::renderModule($module);
 		$smartyvs->assign("topposters", $topposters);
-		*/
+		
+
+		$mostmodule = JModuleHelper::getModule( 'jcomments', 'mostPopularComments' );
+		$mostpopularcomments = JModuleHelper::renderModule($mostmodule);
+		$smartyvs->assign("mostpopularcomments", $mostpopularcomments);
+		
 		$latestmodule = JModuleHelper::getModule( 'jcomments' );
 		$latestcomments = JModuleHelper::renderModule($latestmodule);
 		$smartyvs->assign("latestcomments", $latestcomments);
 		
-		$componentParams = new JParameter( $latestmodule->params ); 
-		$componentParams->set('type', '3');
-		$mostmodule = JModuleHelper::getModule( 'jcomments' );
-		$mostmodule->params = $componentParams->toString();
-		$mostpopularcomments = JModuleHelper::renderModule($mostmodule);
-		$smartyvs->assign("mostpopularcomments", $mostpopularcomments);
+		
 		
 		// link to thn reasons
 		
@@ -437,6 +434,11 @@ $app = & JFactory::getApplication();
 		$zncbmembers = JModuleHelper::getModule('zncbmembers');
 		$zncbmembers = JModuleHelper::renderModule($zncbmembers);
 		$smartyvs->assign("zncbmembers", $zncbmembers);
+		
+		 /* add this */
+		$AddThis = JModuleHelper::getModule('AddThis');
+		$AddThis = JModuleHelper::renderModule($AddThis);
+		$smartyvs->assign("AddThis", $AddThis);
 		
 		// VIDEO TAGS
 		$tagsList =hwd_vs_tools::concatenateWords($wordList);

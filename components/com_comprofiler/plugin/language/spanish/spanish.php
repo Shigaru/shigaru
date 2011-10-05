@@ -239,7 +239,7 @@ DEFINE('_UE_UL_USERNAME_NAME','Nombre de Usuario (Nombre)');
 //mod_userextraslogin
 DEFINE('_UE_NO_ACCOUNT','¿Sin cuenta todavía?');
 DEFINE('_UE_CREATE_ACCOUNT','Crear una cuenta');
-DEFINE('_UE_REGISTER','Registro');
+DEFINE('_UE_REGISTER','Registrarse');
 DEFINE('_UE_FORGOT_PASSWORD','¿Olvidó la contraseña?');
 DEFINE('_LOGIN_NOT_CONFIRMED','¡Su proceso de registro aún no está completo! Por favor revise su correo y siga las instrucciones. Si aún no recibe el correo electrónico compruebe su carpeta de correo no deseado o spam. Asegúrese de que las opciones de su cuenta de correo electrónico no estén establecidas para borrar automáticamente el spam. En tal caso, intente identificarse en el sitio de nuevo para recibir otro correo electrónico con las instrucciones.');
 DEFINE('_LOGIN_NOT_APPROVED','¡Su cuenta aún no ha sido aprobada!');

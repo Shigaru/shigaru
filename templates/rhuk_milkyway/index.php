@@ -35,14 +35,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
 <script>
-		(function(d){
-		  var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
-		  js = d.createElement('script'); js.id = id; js.async = true;
-		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-		  d.getElementsByTagName('head')[0].appendChild(js);
-		}(document));
-</script>
-<script>
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+
 	jQuery.noConflict();
   jQuery(document).ready(function() {
     jQuery("#tabs,#tabs-tags,#comments-tabs").tabs({ fx: { opacity: 'toggle'} });
@@ -50,7 +52,29 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
         auto: 4,scroll:3, animation: 3000, easing:'swing' 
     });
     
-    	
+    
+    
+    // Login Form
+
+		 jQuery(function() {
+			var button =  jQuery('#loginButton');
+			var box =  jQuery('#loginBox');
+			var form =  jQuery('#mod_loginform');
+			button.removeAttr('href');
+			button.mouseup(function(login) {
+				box.toggle();
+				button.toggleClass('active');
+			});
+			form.mouseup(function() { 
+				return false;
+			});
+			 jQuery(this).mouseup(function(login) {
+				if(!( jQuery(login.target).parent('#loginButton').length > 0)) {
+					button.removeClass('active');
+					box.hide();
+				}
+			});
+		});
 
     
   });
@@ -79,31 +103,19 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
         		jQuery(el).removeClass('hover');
         	}
         	
-        	function showLogin(){
-        		var loginMenu = document.getElementById('loginFormMenu').style.display;
-        		if(loginMenu == 'none'){
-	        		document.getElementById('loginBoxLeft').style.display = 'none';
-	        		document.getElementById('loginBoxRight').style.display = 'none';
-	        		document.getElementById('loginFormMenu').style.display = 'block';
-	        		jQuery("#loginBoxCenter").addClass("hover");
-        		}else{
-        			document.getElementById('loginBoxLeft').style.display = 'block';
-	        		document.getElementById('loginBoxRight').style.display = 'block';
-	        		document.getElementById('loginFormMenu').style.display = 'none';
-	        		jQuery("#loginBoxCenter").removeClass("hover");
-        		}
-        	}
+        	
 
 
   </script>
 
 </head>
-<body id="page_bg" class="color_<?php echo $this->params->get('colorVariation'); ?> bg_<?php echo $this->params->get('backgroundVariation'); ?> width_<?php echo $this->params->get('widthStyle'); ?>">
+<body id="page_bg"  class="color_<?php echo $this->params->get('colorVariation'); ?> bg_<?php echo $this->params->get('backgroundVariation'); ?> width_<?php echo $this->params->get('widthStyle'); ?>">
 <a name="up" id="up"></a>	
-
+<div id="totatwrapper">
+<div id="headerwrapper">
 <div id="header">
 				<div id="header_l">
-				<div id="logo"></div>
+				<div id="logo"><a href="<?php echo $this->baseurl ?>"><span><?php echo JText::_('The community for sharing musical knowledge') ?></span></a></div>
 				<p><?php echo JText::_('The community for sharing musical knowledge') ?></p>
 				</div>
 				<div id="withoutMusic">
@@ -136,7 +148,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </div>
 
 </div>			
-			
+</div>			
 <div class="clr"></div>
 <div class="center" align="center" id="center">
 	<div id="wrapper">
@@ -204,7 +216,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 									<?php endif; ?>
 								</tr>
 							</table>
-
+							<div class="tcenter">
+								<?php echo JText::_('Think you can play better?') ?> 
+								<a href="<?php echo $this->baseurl ?>/index.php?option=com_hwdvideoshare&task=upload&Itemid=66&lang=en" title="<?php echo JText::_('Submit') ?>"><?php echo JText::_('Submit') ?> </a>
+								<?php echo JText::_(' your videos now then! Or submit video tutorials you have found on other websites. What are you waiting for? Share your musical knowledge!') ?>
+							</div>
 						</div>
 						<div class="clr"></div>
 					</div>
@@ -240,7 +256,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				</div>
 			</div>
 		</div>
+		<div id="legalcopy">
+			<span class="red">&reg; 2008 www.shigaru.com.&copy; All Rights Reserved.&nbsp;Contact:&nbsp;</span>
+			<a id="direc" href="mailto:info@shigaru.com">info@shigaru.com</a>
+		</div>
 	</div>
+</div>
 </div>
 <jdoc:include type="modules" name="debug" />
 <jdoc:include type="modules" name="chat" />

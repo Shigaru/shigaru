@@ -307,6 +307,7 @@
 			margin: 0 0 6px 0;
 		}
 		
+		
 		#hwdvids .listthumb {
 			float:left;
 			margin-right:6px;
@@ -342,6 +343,12 @@
 			text-align: right;
 			font-size: 100%;
 			float: right;
+		}
+		
+		#hwdvids .listcomments {
+			background: url(images/comments.gif) no-repeat bottom left;
+			height: 14px;
+			width: 27px;
 		}
 		
 		#hwdvids .listviews span{

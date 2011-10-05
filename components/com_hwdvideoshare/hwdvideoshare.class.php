@@ -1275,7 +1275,8 @@ class hwd_vs_tools {
 		for ($i=0, $n=count($rows); $i < $n; $i++)
 		{
 			$row = $rows[$i];
-
+			
+				
 			if (empty($rows[$i]["id"])) {$rows[$i]["id"] = null;}
 			if (empty($rows[$i]["videotitle"])) {$rows[$i]["videotitle"] = null;}
 			if (empty($rows[$i]["videocode"])) {$rows[$i]["videocode"] = null;}
@@ -1286,6 +1287,7 @@ class hwd_vs_tools {
 			if (empty($rows[$i]["category_id"])) {$rows[$i]["category_id"] = null;}
 			if (empty($rows[$i]["description"])) {$rows[$i]["description"] = null;}
 			if (empty($rows[$i]["views"])) {$rows[$i]["views"] = null;}
+			if (empty($rows[$i]["numfavoured"])) {$rows[$i]["numfavoured"] = null;}
 			if (empty($rows[$i]["date"])) {$rows[$i]["date"] = null;}
 			if (empty($rows[$i]["duration"])) {$rows[$i]["duration"] = null;}
 			if (empty($rows[$i]["avatar"])) {$rows[$i]["avatar"] = null;}
@@ -1338,7 +1340,12 @@ class hwd_vs_tools {
 			if ($hwdvsTemplateOverride['show_timesince']) {            $code[$i]->timesince = hwd_vs_tools::generateTimeSinceUpload($rows[$i]["date"]); }
 			if ($hwdvsTemplateOverride['show_upload_date']) {          $code[$i]->upload_date = strftime("%l%P - %b %e, %Y", strtotime($rows[$i]["date"])); }
 			if ($hwdvsTemplateOverride['show_tags']) {                 $code[$i]->tags	= hwd_vs_tools::generateTagListString($rows[$i]["tags"]); }
-
+			
+			
+			if($rows[$i]["numfavoured"]){
+				$code[$i]->numfavoured	= $rows[$i]["numfavoured"]; 
+			}
+			
 			$code[$i]->k = $k;
 			$k = 1 - $k;
 		}

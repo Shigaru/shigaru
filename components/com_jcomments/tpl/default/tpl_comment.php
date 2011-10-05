@@ -31,35 +31,44 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
 			} else {
 				// return all comment item
 ?>
-<div class="rbox"><div class="rbox_tr"><div class="rbox_tl"><div class="rbox_t">&nbsp;</div></div></div><div class="rbox_m">
+
+<div class="rbox">
+
+<?php $comment_number = $this->getVar('comment-number', 1);
+				if ($this->getVar('comment-show-vote', 0) == 1) {
+					$this->getCommentVote( $comment );
+				}
+?>
+<a class="comment-anchor" href="<?php echo $thisurl; ?>#comment-<?php echo $comment->id; ?>" id="comment-<?php echo $comment->id; ?>">#<?php echo $comment_number; ?></a>
+
+
+<div class="rbox_left">
 <?php
 
 				$comment_number = $this->getVar('comment-number', 1);
 				//$thisurl = str_replace( 'amp;', '', $this->getVar( 'thisurl', '' ));
 				$thisurl = $this->getVar('thisurl', '');
 
-				$commentBoxIndentStyle = ($this->getVar('avatar') == 1) ? ' avatar-indent' : '';
+				$commentBoxIndentStyle = ($this->getVar('avatar') == 1) ? ' avatar-indent' : ''; ?>
 
-				if ($this->getVar('avatar') == 1) {
+			
+<div class="comment-box<?php echo $commentBoxIndentStyle; ?>">
+
+
+
+
+<?php if ($this->getVar('avatar') == 1) {
 ?>
+
+
+
 <div class="comment-avatar"><?php echo $comment->avatar; ?></div>
 <?php
 				}
 ?>
-<div class="comment-box<?php echo $commentBoxIndentStyle; ?>">
-<?php
-				if ($this->getVar('comment-show-vote', 0) == 1) {
-					$this->getCommentVote( $comment );
-				}
-?>
-<a class="comment-anchor" href="<?php echo $thisurl; ?>#comment-<?php echo $comment->id; ?>" id="comment-<?php echo $comment->id; ?>">#<?php echo $comment_number; ?></a>
-<?php
-				if (($this->getVar('comment-show-title') > 0) && ($comment->title != '')) {
-?>
-<span class="comment-title"><?php echo $comment->title; ?></span> &mdash; 
-<?php
-                                }
-				if ($this->getVar('comment-show-homepage') == 1) {
+
+
+<?php		if ($this->getVar('comment-show-homepage') == 1) {
 ?>
 <a class="author-homepage" href="<?php echo $comment->homepage; ?>" rel="nofollow" title="<?php echo $comment->author; ?>"><?php echo $comment->author; ?></a>
 <?php
@@ -69,21 +78,38 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
 <?php
 				}
 ?>
-<span class="comment-date"><?php echo JCommentsText::formatDate($comment->datetime, JText::_('DATETIME_FORMAT')); ?></span>
+<span class="comment-date"><?php echo JCommentsText::formatDate($comment->datetime, JText::_('DATE_FORMAT_LC3')); ?></span>
+
+
+</div>
+</div>
+
+
+<div class="rbox_right">
+
+<?php
+				if (($this->getVar('comment-show-title') > 0) && ($comment->title != '')) {
+?>
+<span class="comment-title"><?php echo $comment->title; ?></span>
+<?php
+     }
+ ?>
+								
 <div class="comment-body" id="comment-body-<?php echo $comment->id; ?>"><?php echo $comment->comment; ?></div>
 <?php
 				if (($this->getVar('button-reply') == 1)
 				|| ($this->getVar('button-quote') == 1)) {
 ?>
-<span class="comments-buttons">
-<?php
-					if ($this->getVar('button-reply') == 1) {
-?>
+
+</div>
+
+<div class="comments-buttons">
+
 <a href="#" onclick="jcomments.showReply(<?php echo $comment->id; ?>); return false;"><?php echo JText::_('Reply'); ?></a>
 <?php
 						if ($this->getVar('button-quote') == 1) {
 ?>
- | <a href="#" onclick="jcomments.showReply(<?php echo $comment->id; ?>,1); return false;"><?php echo JText::_('Reply with quote'); ?></a> | 
+ <a href="#" onclick="jcomments.showReply(<?php echo $comment->id; ?>,1); return false;"><?php echo JText::_('Reply with quote'); ?></a>
 <?php
 		                        	}
 					}
@@ -93,18 +119,18 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
 <?php
 					}
 ?>
-</span>
+</div>
 <?php
                                 }
 ?>
-</div><div class="clear"></div>
+
 <?php
 				// show frontend moderation panel
 				$this->getCommentAdministratorPanel( $comment );
 ?>
-</div><div class="rbox_br"><div class="rbox_bl"><div class="rbox_b">&nbsp;</div></div></div></div>
+
+</div>
 <?php
-			}
 		}
 	}
 
@@ -171,6 +197,7 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
 			return;
 		}
 ?>
+
 <span class="comments-vote">
 	<span id="comment-vote-holder-<?php echo $comment->id; ?>">
 <?php

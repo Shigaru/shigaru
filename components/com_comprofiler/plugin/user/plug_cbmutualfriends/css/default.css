@@ -1,0 +1,24 @@
+div.mutual_div {
+  width:100%;
+  overflow: hidden;
+}
+
+table.mutual_table {
+  width:100%;
+}
+
+table.mutual_table td {
+  background:#FFFFFF;
+  padding:3px 3px 3px 3px;
+  border:solid 1px #666666;
+  text-align:center;
+}
+
+a.mutual_image {
+  text-decoration:none;
+}
+
+a.mutual_name {
+  color:#666666;
+  font-weight:normal;
+}

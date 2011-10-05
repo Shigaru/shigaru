@@ -42,7 +42,7 @@ $flash_style=$params->get('flash_style');
 $html='
 <div id="twitter_div">
 <ul id="twitter_update_list"></ul>
-<a href="http://twitter.com/'.$username.'" id="twitter-link" style="display:block;text-align:right;">follow me on Twitter</a>
+
 </div>
 <script type="text/javascript" src="http://twitter.com/javascripts/blogger.js"></script>
 <script type="text/javascript" src="http://twitter.com/statuses/user_timeline/'.$username.'.json?callback=twitterCallback2&amp;count='.$count.'"></script>

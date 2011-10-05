@@ -26,7 +26,10 @@ class jtt_tpl_links extends JoomlaTuneTemplate
 
 		if ($readmoreLink != '' || $commentsLink != '') {
 ?>
-<div class="jcomments-links"><?php echo $readmoreLink; ?> <?php echo $commentsLink; ?></div>
+<?php echo $readmoreLink; ?> 
+
+
+<div class="jcomments-links"><?php echo $commentsLink; ?></div>
 <?php
         	}
 	}
@@ -49,7 +52,7 @@ class jtt_tpl_links extends JoomlaTuneTemplate
 		$text  = $this->getVar('link-readmore-text');
 		$title = $this->getVar('link-readmore-title');
 
-		return '<a class="readmore-link" href="'. $link .'" title="' . $title . '">' . $text . '</a>';
+		return '<p class="readmore"><a class="readmore-link" href="'. $link .'" title="' . $title . '"><span class="round"><span>' . $text . '</span></span></a></p>';
 	}
 
 	/*
@@ -75,6 +78,7 @@ class jtt_tpl_links extends JoomlaTuneTemplate
 		if ($count == 0) {
 			return '<a href="' . $link . '#addcomments" class="comment-link">' . JText::_('Add comment') . '</a>';
 		} else {
+			
 			$text = JText::sprintf('Read comments', $count);
 
 			if ($this->getVar('use-plural-forms', 0)) {

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Joomla Community Builder User Plugin: plug_cbMutualFriends
+* @version $Id$
+* @package plug_cbMutualFriends
+* @subpackage install.MutualFriends.php
+* @author Bhasker
+* @copyright (C) Clavib Inc
+* @license Limited  http://www.gnu.org/copyleft/gpl.html GNU/GPL
+*/
+-->
+<cbinstall version="1.0.3" type="plugin" group="user">
+	<name>CB Mutual Friends</name>
+	<author>Bhasker,Michaelides</author>
+	<creationDate>22 July 2009</creationDate>
+	<copyright>(C) 2009 AXXIS Internet Solutions</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>info@axxis.gr</authorEmail>
+	<version>1.1</version>
+	<description><![CDATA[
+	   <div align="left">
+		   <br />
+		   Provides each registered (Community Builder) user with a Mutual Friends Tab.<br />
+       <br />
+		   Developers: Bhasker, Michaelides.<br />
+		   <br />
+		   <h3>Plugin Quicknotes</h3><br />
+	    </div>
+	    <iframe SRC="../components/com_comprofiler/plugin/user/plug_cbmutualfriends/info/cbMutualFriends.html" NAME="mambot" WIDTH="450" HEIGHT="600" ALIGN="LEFT">
+		<p>It seems, your browser does not support so-called iframes. You should have seen a help file here. Click <a href="../components/com_comprofiler/plugin/user/plug_cbMutualFriends/info/cbMutualFriends.html">here</a> to open it anyway.</p>
+		</iframe>
+     	]]>
+	</description>
+	<files>
+		<filename plugin="cb.MutualFriends">cb.MutualFriends.php</filename>
+		<filename>params.php</filename>
+		<filename>index.html</filename>
+		<filename>info/cbMutualFriends.html</filename>
+		<filename>info/index.html</filename>
+		<filename>info/style-for-html-files.css</filename>
+		<filename>css/default.css</filename>
+		<filename>css/index.html</filename>
+		<filename>install.MutualFriends.php</filename>
+	</files>
+	<params>
+		<param name="@spacer" type="spacer" default="This plugin was created by Bhasker, further developed by Michaelides. Company: AXXIS Internet Solutions" label="Credits:" description="" />
+		<param name="@spacer" type="spacer" default="This plugin is distributed under a limited GNU/GPL license and cannot be modified to work with anything else outside of the Community Builder site" label="License:" description="" />		
+	</params>
+	<tabs>
+		<tab name="Mutual Friends" description="Mutual Friends Display on User side tab" class="getMutualFriendsTab" fields="0" position="cb_tabmain" displaytype="tab">
+			<params>
+				<param name="MutualAutoEnabled" type="radio" default="1" label="MutualFriends Enabled?" description="Specify NO to disable MutualFriends tab.">
+			        <option value="0">No</option>
+			        <option value="1">Yes</option>
+				</param>
+				<param name="usename" type="radio" default="1" label="Use Real Name or Username?" description="">
+			        <option value="1">Real Name</option>
+			        <option value="0">Username</option>
+				</param>
+				<param name="VeriKey" type="text" default="" label="Verification Key:" description="Enter your verification key here.">
+				</param>
+				<param name="MutualPerRow" type="text" default="1" label="Friends Per Row?" description="Enter how many friends to show per row.">
+				</param>
+				<param name="@spacer" type="spacer" default="" label="" description="" />
+			</params>
+			<fields>
+			</fields>
+		</tab>
+			<tab name="Mutual Friends" description="Mutual Friends Description" class="getMutualFriendsTab" fields="0" position="cb_tabmain" displaytype="tab">
+			<params>
+			</params>
+		</tab>
+	</tabs>
+	<install>
+	</install>
+	<uninstall>
+	</uninstall>
+	<installfile>install.MutualFriends.php</installfile>
+</cbinstall>

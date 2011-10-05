@@ -14,7 +14,7 @@
 
 <div class="listtitle">{$data->title} {$data->editvideo} {$data->deletevideo}</div>
 <div class="listshared">{$smarty.const._HWDVIDS_INFO_SHARED}  {$data->uploader} </div>
-<div class="listviews">{$smarty.const._HWDVIDS_INFO_NOCOMM}<br />{$data->comments}</div>
+<div class="listviews listcomments"><span class="dispnon">{$smarty.const._HWDVIDS_INFO_NOCOMM}</span>{$data->comments}</div>
      
 </div>
 <div style="clear:both;"></div>

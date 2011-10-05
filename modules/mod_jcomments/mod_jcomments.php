@@ -47,10 +47,12 @@ if ( !defined( '_JCOMMENTS_MODULE' ) ) {
 			{
 				case 'vote':
 					$orderby = '(cc.isgood-cc.ispoor) DESC';
+					$goodmore = ' AND (cc.isgood >0) ';
 					break;
 				case 'date':
 				default:
 					$orderby = 'cc.date DESC';
+					$goodmore = '';
 					break;
 			}
 
@@ -101,6 +103,7 @@ if ( !defined( '_JCOMMENTS_MODULE' ) ) {
 					. "\n FROM #__jcomments AS cc"
 					. "\n WHERE cc.published = " . ($unpublished ? '0' : '1')
 					. (count($groups) ? "\n   AND (cc.object_group = '" . implode( "' OR cc.object_group='", $groups ) . "')" : '')
+					.$goodmore
 					. (JCommentsMultilingual::isEnabled() ? "\nAND cc.lang = '" . JCommentsMultilingual::getLanguage() . "'" : "")
 					. "\n ORDER BY " . $orderby
 					. "\n LIMIT " . intval( $params->get( 'count' ) )
@@ -357,15 +360,14 @@ ul.jclist<?php echo $moduleclass_sfx;?> span img {width: auto; height: auto; flo
 			if ($avatar_size <= 0) {
 				$avatar_size = 32;
 			}
-			
+
 			if ($mambots) {
 				require_once (JCOMMENTS_HELPERS . DS . 'plugin.php');
 				JCommentsPluginHelper::importPlugin('jcomments');
 				JCommentsPluginHelper::trigger('onBeforeDisplayCommentsList', array(&$rows));
 
-				if ($acl->check('enable_gravatar')) {
 					JCommentsPluginHelper::trigger('onPrepareAvatars', array(&$rows));
-				}
+				
 			}
 			
 			modJCommentsHelper::getModuleStyles($params);
@@ -479,7 +481,6 @@ $params->def( 'count', 5 );
 $params->def( 'length', 20 );
 $params->def( 'type', 1 );
 $params->def( 'showcomments', 0 );
-
 switch ( intval( $params->get( 'type' ) ) ) {
 	case 1:
 		modJCommentsLatest( $params );

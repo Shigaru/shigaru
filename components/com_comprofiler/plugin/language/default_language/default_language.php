@@ -239,7 +239,7 @@ DEFINE('_UE_UL_USERNAME_NAME','Username(Name)');
 //mod_userextraslogin
 DEFINE('_UE_NO_ACCOUNT','No account yet?');
 DEFINE('_UE_CREATE_ACCOUNT','Create one');
-DEFINE('_UE_REGISTER','Register');
+DEFINE('_UE_REGISTER','Sign Up');
 DEFINE('_UE_FORGOT_PASSWORD','Forgot Password?');
 DEFINE('_LOGIN_NOT_CONFIRMED','Your registration process is not yet complete! Please check again your email for further instructions that have just been resent. If you don\'t find the email, check your spam-box. Make sure that your email account options are not set to immediately delete spam. If that was the case, just try logging in again to receive a new instructions email.');
 DEFINE('_LOGIN_NOT_APPROVED','Your account has not yet been approved!');

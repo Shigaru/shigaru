@@ -211,10 +211,8 @@ $cb_itemid = newItemID($link,'','');
 // *********************************************
 if ($templating) {
   echo '<link href="'.$grsite.'/modules/mod_cb_superactivity/css/dark.css" rel="stylesheet" type="text/css" />';
-  echo '<!-- CB Super Activity from http://www.axxis.gr -->';
 } else {
   echo '<link href="'.$grsite.'/modules/mod_cb_superactivity/css/default.css" rel="stylesheet" type="text/css" />';
-  echo '<!-- CB Super Activity from http://www.axxis.gr -->';
 }
 // *********************************************
 

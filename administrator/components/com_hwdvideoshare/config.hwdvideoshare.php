@@ -28,7 +28,7 @@ class hwd_vs_Config{
   var $mailnotifyaddress = 'info@shigaru.com';
   var $cbint = '1';
   var $disablelocupld = '0';
-  var $flvplay_width = '450';
+  var $flvplay_width = '640';
   var $flvplay_height = '400';
   var $disablecaptcha = '0';
   var $aa3v = '1';
@@ -161,7 +161,7 @@ class hwd_vs_Config{
   var $showatfb = '1';
   var $showrpmb = '1';
   var $showcoms = '1';
-  var $showvurl = '0';
+  var $showvurl = '1';
   var $showvebc = '0';
   var $showdesc = '1';
   var $showtags = '1';
@@ -222,7 +222,7 @@ class hwd_vs_Config{
   var $bwn_no = '3';
   var $cordering = 'orderASC';
   var $cvordering = 'orderASC';
-  var $custordering = '0';
+  var $custordering = '1';
   var $userdisplay = '1';
   var $gtree_dnld = '-1';
   var $gtree_dnld_child = 'RECURSE';
@@ -237,13 +237,13 @@ class hwd_vs_Config{
   var $con_thumb_n = '120';
   var $con_thumb_l = '500';
   var $con_gen_hd = '0';
-  var $showmftc = '0';
+  var $showmftc = '1';
   var $mftc_no = '10';
   var $feat_show = '2';
   var $feat_as = 'no';
   var $feat_rand = '1';
   var $scroll_no = '3';
-  var $scroll_as = '1000';
+  var $scroll_as = '3000';
   var $scroll_au = 'auto';
   var $scroll_wr = 'true';
   var $cat_he = '1';

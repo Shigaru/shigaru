@@ -1,0 +1,31 @@
+body {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: Black;
+}
+
+h1, h2, h3{
+	color: Orange;
+		}
+
+h1 {
+	font-size: 16px;
+}
+h2 {
+	font-size: 14px;
+	margin-left: 10px;
+}
+h3 {
+	font-size: 12px;
+	margin-left: 20px;
+}
+
+li {
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+p {
+	margin-left: 20px;
+}
+

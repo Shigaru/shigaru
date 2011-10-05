@@ -120,9 +120,17 @@ class jtt_tpl_form extends JoomlaTuneTemplate
 		}
 ?>
 <div id="comments-form-buttons">
-	<div class="btn" id="comments-form-send"><div><a href="#" tabindex="7" onclick="jcomments.saveComment();return false;" title="<?php echo JText::_('FORM_SEND_HINT'); ?>"><?php echo JText::_('FORM_SEND'); ?></a></div></div>
-	<div class="btn" id="comments-form-cancel" style="display:none;"><div><a href="#" tabindex="8" onclick="return false;" title="<?php echo JText::_('FORM_CANCEL'); ?>"><?php echo JText::_('FORM_CANCEL'); ?></a></div></div>
-	<div style="clear:both;"></div>
+		 <div class="floatleft">
+         
+         <a href="#" tabindex="7" onclick="jcomments.saveComment();return false;" title="<?php echo JText::_('FORM_SEND_HINT'); ?>"><span class="round"><span><?php echo JText::_('FORM_SEND'); ?></span></span></a>
+        </div>
+        
+        <div class="floatleft">
+	<div id="comments-form-cancel" style="display:none;"><a href="#" tabindex="8" onclick="return false;" title="<?php echo JText::_('FORM_CANCEL'); ?>"><span class="round"><span><?php echo JText::_('FORM_CANCEL'); ?></span></span></a></div>
+    
+    </div>
+    
+	<span class="clearfix">&nbsp;</span>
 </div>
 	<input type="hidden" name="object_id" value="<?php echo $object_id; ?>" />
 	<input type="hidden" name="object_group" value="<?php echo $object_group; ?>" />

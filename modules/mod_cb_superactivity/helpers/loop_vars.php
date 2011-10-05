@@ -74,7 +74,8 @@ $rustatus="";
 $dat = $data[$i];
 
 $userid=$dat->userid;
-$link_cb = $grRoute->_("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=$userid$cb_itemid");$output2="<div style='text-align:center;'><a href='http://www.axxis.gr/super_activity'>SuperActivity</a> by <a href='http://www.axxis.gr'>www.axxis.gr</a></div>";
+$link_cb = $grRoute->_("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=$userid$cb_itemid");
+$output2="";
 $link_cb_noSEF = "index.php?option=com_comprofiler&amp;task=userProfile&amp;user=$userid$cb_itemid";
 if ($guestlink!='GUESTS ALLOWED' && $grguest) $link_cb=$guestlink;
 

@@ -12,11 +12,10 @@
 <div >
 
 <div class="listtitle">{$data->title} {$data->editvideo} {$data->deletevideo}
-<br />
-<span><b>{$smarty.const._HWDVIDS_DESC}&#58;</b> {$data->description}</span>
+
 </div>
 <div class="listshared">{$smarty.const._HWDVIDS_INFO_SHARED}  {$data->uploader} </div>
-<div class="listviews">{$smarty.const._HWDVIDS_INFO_PLAYS} <br /> <span>{$data->views}</span></div>
+<div class="listviews listfavoured"><span>{$data->numfavoured}</span></div>
      
 </div>
 <div style="clear:both;"></div>

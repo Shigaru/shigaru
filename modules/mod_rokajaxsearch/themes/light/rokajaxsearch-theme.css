@@ -1,4 +1,10 @@
-#roksearch_search_str {background: #fff url(search-icon.png) 98% 50% no-repeat;float: left; font-size:90%; margin:0 4px 0 4px;}
+#roksearch_search_str {background: url("search-icon.png") no-repeat scroll 98% 50% #FFFFFF;
+    float: left;
+    font-size: 90%;
+    height: 27px;
+    line-height: 25px;
+    margin: 0 4px;
+    width: 78%;}
 #roksearch_search_str.loading {background-color: #fff;}
 #roksearch_results {background: #fff;border: 1px solid #dfdfdf;}
 #roksearch_results a#roksearch_link {background: url(close.png) 0 0 no-repeat;}
