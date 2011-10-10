@@ -448,8 +448,7 @@ margin-left:39px;
 
 
 #navigation ul li.lastmaintab {
-margin-right:0;
-margin-left:120px;
+margin-left: 21%;
 }
 
 
@@ -557,18 +556,10 @@ background: url(../images/community-over.png) 14% 52% no-repeat;
 }
 
 #navigation ul li#tab5 span.homeicon{
-background: url(../images/faqs.png) 14% 52% no-repeat;
-}
-
-#navigation ul li#tab5:hover span.homeicon{
-background: url(../images/faqs-over.png) 14% 52% no-repeat;
-}
-
-#navigation ul li#tab6 span.homeicon{
 background: url(../images/myprofile.png) 14% 52% no-repeat;
 }
 
-#navigation ul li#tab6:hover span.homeicon{
+#navigation ul li#tab5:hover span.homeicon{
 background: url(../images/myprofile-over.png) 14% 52% no-repeat;
 }
 
@@ -1096,7 +1087,6 @@ td.key {
 #langTab{
 position:absolute;
 z-index:9999;}
-#langTab .currentLang{width:100px;}
 .headAccountCont .leftSide,
 .headAccountCont .rightSide{float:left;/*background: url(../images/sprite.png) no-repeat scroll 0 0 transparent;*/}
 
@@ -1312,6 +1302,8 @@ z-index:9999;}
     cursor:pointer;
 }
 
+
+
 /* Login Button Text */
 #loginButton span {
     text-shadow:1px 1px #fff; 
@@ -1322,7 +1314,12 @@ z-index:9999;}
 }
 
 #loginButton:hover {
-	text-decoration:none;
+	color:red !important;
+    text-decoration:underline;
+}
+
+#loginButton:hover span{
+	color:red !important;
 }
 
 /* Login Box */
@@ -1341,6 +1338,7 @@ z-index:9999;}
     -moz-border-radius:3px;*/
     border-top:none;
     background: none repeat scroll 0 0 #D2E0EA;
+    
 }
 
 #loginButton.active span {
@@ -1382,7 +1380,7 @@ fieldset#body {
     margin:0;
 }
 
-#mod_loginform #checkbox {
+#mod_loginform #mod_login_remember {
     width:auto;
     margin:1px 9px 0 0;
     float:left;
@@ -1440,6 +1438,7 @@ fieldset#body {
     *padding:7px 2px 8px 2px; /* IE7 Fix */
     
 }
+input.button {padding: 2px 6px 4px;}
 
 /* Forgot your password */
 #mod_loginform span {
@@ -1474,14 +1473,14 @@ min-width:200px; float:right;}
 
 
 /*  withoutMUsic */
-#withoutMusic{ float:left;margin: 30px 0 0 25px;}
+#withoutMusic{ float:left;margin: 30px 0 0 34%;}
 #withoutMusic blockquote {
 	background:url("../images/quotes1.png") no-repeat scroll 0 2px transparent;
 margin:-0 auto 0;}
 
 #withoutMusic blockquote p {
 	line-height: 1.8;
-	margin: 0;
+	margin: 0 0 0 34px;
 	display: inline;
 	font-weight:bold;
 	padding-right: 24px;
@@ -1513,7 +1512,7 @@ margin:-0 auto 0;}
 		}
 	
 #search	dd {
-		margin: 0 0 0 5px;
+		margin: 0 0 0 15px;
 		padding: 0 0 10px 0;
 		color: #666;
 		font-family: Verdana, sans-serif;
@@ -1563,9 +1562,12 @@ padding:20px 0 0 40px;
     padding: 0 12px;
 }
 .introtext{
-background: url("../images/info.png") no-repeat scroll 5px 5px #F4F4F4;
-    padding: 9px 5px 5px 35px;
+background: url("../images/info.png") no-repeat scroll 5px 5px transparent;
+    padding: 9px 5px 0 35px;
 }
+span.jcl_date{float:right;margin-bottom: 6px;}
+ul.jclist li {margin-bottom:6px;border-bottom:1px solid #ccc;}
+#tabs,#whitebox,#comments-tabs,#tabs-tags {margin-bottom:18px;}
 
 
 .fontbold{ font-weight:bold;}
@@ -1573,3 +1575,4 @@ background: url("../images/info.png") no-repeat scroll 5px 5px #F4F4F4;
 .dispnon{display:none;}
 .fnone{float:none !important;}
 .tcenter{text-align:center !important;}
+.h250{height:250px !important;}

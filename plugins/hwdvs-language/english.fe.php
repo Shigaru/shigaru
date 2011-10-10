@@ -598,9 +598,9 @@ DEFINE("_HWDVIDS_SHIGARU_FACEFAN","Here are just a few of our Facebook fans...")
 DEFINE("_HWDVIDS_SHIGARU_TWITTER","What are we tweeting ...");
 DEFINE("_HWDVIDS_SHIGARU_OURFACES","Shigaru Community (and growing!)");
 DEFINE("_HWDVIDS_SHIGARU_TOTALCATEGORIZED"," (categorized by the Shigaru community)");
-DEFINE("_HWDVIDS_MOST_RECENT","Most <br /> recent");
-DEFINE("_HWDVIDS_MOST_RATED","Most <br /> rated");
-DEFINE("_HWDVIDS_MOST_COMMENTED","Most <br /> commented");
+DEFINE("_HWDVIDS_MOST_RECENT","Most <br /> Recent");
+DEFINE("_HWDVIDS_MOST_RATED","Most <br /> Rated");
+DEFINE("_HWDVIDS_MOST_COMMENTED","Most <br /> Commented");
 DEFINE("_HWDVIDS_FEATURED_VIDEOS","Featured Videos");
 DEFINE("_HWDVIDS_POP_BANDS","Popular <br /> bands");
 DEFINE("_HWDVIDS_POP_TAGS","Popular <br />tags");
@@ -630,6 +630,7 @@ DEFINE("_HWDVIDS_LATESTCOMMINTRO","Here is a list of the most recent comments ma
 DEFINE("_HWDVIDS_RECENTACTVITYINTRO","Here is a list of recent user profile activity!:");
 DEFINE("_HWDVIDS_TOPPOSTERSINTRO","Here is a list of users who make the most popular video comments!");
 DEFINE("_HWDVIDS_POPUCOMMINTRO","Here is a list of video comments that got the most thumbs up!");
+DEFINE("_HWDVIDS_WITHOUTMUSIC","Without music, <br /> life would be a mistake.");
 
 
 

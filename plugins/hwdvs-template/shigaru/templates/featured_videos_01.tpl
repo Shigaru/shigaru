@@ -25,7 +25,7 @@
 //////
 *}
 
-<div id="whitebox" class="mtop12">
+<div id="whitebox">
 				<div class="whiteboxHeader random">
 					<div>
 							<h6>
@@ -52,5 +52,4 @@
 					</div>
 				</div>
 		</div>
-<br />
   

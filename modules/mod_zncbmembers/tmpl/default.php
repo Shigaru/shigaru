@@ -16,13 +16,6 @@ $show_location= $params->get( 'showlocation', '0');
 $mw = $module_width . 'px';
 $mh = $module_height . 'px';
 
-$toolTipArray = array('className' => 'custom2', 'showDelay'=>'200', 
-   'hideDelay'=>'200', 'fixed'=>true,
-   'onShow'=>"function(tip) {tip.effect('opacity', 
-      {duration: 200, wait: false}).start(0,1)}", 
-   'onHide'=>"function(tip) {tip.effect('opacity', 
-      {duration: 200, wait: false}).start(1,0)}");
-JHTML::_('behavior.tooltip', '.hasTip2', $toolTipArray);
 
 echo	"<div >";
 foreach ( $zncbmembers as $row ) {
@@ -64,7 +57,7 @@ foreach ( $zncbmembers as $row ) {
 	
 	if ($imagelinked == 1) {
 		echo "<a href=\"index.php?option=com_comprofiler&task=userprofile&user=$row->id\" >";
-		echo '<span class="hasTip2" title="'.$titleimg.'">';
+		echo '<span class="hasTip" title="'.$titleimg.'">';
 		echo $img;
 		echo '</span>';
 		echo "</a>";	

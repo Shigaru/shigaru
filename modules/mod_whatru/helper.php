@@ -30,7 +30,7 @@ class modWhatruHelper
 	{
 	  	$db = JFactory::getDBO();
 
-		$query = "SELECT cb_rustatus, cb_rustatustime, user_id, username"
+		$query = "SELECT cb_rustatus, cb_rustatustime, user_id, username,'' as avatar, '' as profileLink"
 		. " FROM #__comprofiler c"
 		. " INNER JOIN #__users u ON c.user_id=u.id"
 		. " WHERE cb_rustatus<>''"

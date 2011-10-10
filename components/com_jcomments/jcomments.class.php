@@ -596,13 +596,13 @@ class JCommentsText
 			if (empty($format)) {
 				$format = JText::_('DATE_FORMAT_LC1');
 			}
-			return JHTML::_('date', $date, $format, $offset);
-		}
+			return strftime("%l%P - %b %e, %Y", strtotime($date));
+			}
 
 		if (!is_string($date)) {
 			$date = strftime($format, $date);
 		}
-
+		 
 		return mosFormatDate($date, $format, $offset);
 	}
 

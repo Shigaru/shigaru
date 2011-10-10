@@ -115,17 +115,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <div id="headerwrapper">
 <div id="header">
 				<div id="header_l">
-				<div id="logo"><a href="<?php echo $this->baseurl ?>"><span><?php echo JText::_('The community for sharing musical knowledge') ?></span></a></div>
+				<div id="logo"><a title="<?php echo JText::_('Shigaru.com Home page') ?>" href="<?php echo $this->baseurl ?>"><span><?php echo JText::_('The community for sharing musical knowledge') ?></span></a></div>
 				<p><?php echo JText::_('The community for sharing musical knowledge') ?></p>
 				</div>
-				<div id="withoutMusic">
-					<blockquote cite="Brian Littrell">
-						<p>
-							<?php echo JText::_('Without music, <br /> life would be a mistake.') ?>
-						</p>
-					</blockquote>
-					<p id="explainLink">Friedrich Nietzsche </p>
-				</div>
+				
 			</div>
 
 <div id="topNavBar">
@@ -259,6 +252,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<div id="legalcopy">
 			<span class="red">&reg; 2008 www.shigaru.com.&copy; All Rights Reserved.&nbsp;Contact:&nbsp;</span>
 			<a id="direc" href="mailto:info@shigaru.com">info@shigaru.com</a>
+			
 		</div>
 	</div>
 </div>

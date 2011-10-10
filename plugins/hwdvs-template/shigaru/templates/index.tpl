@@ -164,7 +164,7 @@
 		</div>
  
  
- <br />
+
   
   
   
@@ -178,7 +178,7 @@
 	</ul>
 	
 	<div id="comments-tabs-1" class="standard">
-      <div class="scoller h150">
+      <div class="scoller h250">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_LATESTCOMMINTRO}
       </div>
@@ -191,7 +191,7 @@
     </div>
 				
 	<div id="comments-tabs-2" class="standard">
-      <div class="scoller h150">
+      <div class="scoller h250">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_POPUCOMMINTRO}
       </div>
@@ -204,7 +204,7 @@
     </div>
     
     <div id="comments-tabs-3" class="standard">
-      <div class="scoller h150">
+      <div class="scoller h250">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_RECENTUPDATESINTRO}
       </div>
@@ -217,7 +217,7 @@
     </div>
     
     <div id="comments-tabs-4" class="standard">
-      <div class="scoller h150">
+      <div class="scoller h250">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_RECENTACTVITYINTRO}
       </div>
@@ -230,7 +230,7 @@
     </div>
     
     <div id="comments-tabs-5" class="standard">
-      <div class="scoller h150">
+      <div class="scoller h250">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_TOPPOSTERSINTRO}
       </div>
@@ -276,7 +276,7 @@
  
  
 		
-		<div id="whitebox" class="mtop12">
+		<div id="whitebox">
 				<div class="whiteboxHeader tweeter">
 					<div>
 							<h6>
@@ -298,13 +298,13 @@
 
 		</div>
 		
-		<br />
+	
 		
 		
 		
 		
 		
-		<div id="whitebox" class="mtop12">
+		<div id="whitebox">
 				<div class="whiteboxHeader">
 					<div>
 							<h6>
@@ -325,7 +325,14 @@
 		
 		
 		
-		
+		<div id="withoutMusic">
+					<blockquote cite="Brian Littrell">
+						<p>
+						{$smarty.const._HWDVIDS_WITHOUTMUSIC}
+						</p>
+					</blockquote>
+					<p id="explainLink">Friedrich Nietzsche </p>
+				</div>
 		
 		
 		
@@ -441,7 +448,7 @@
 		</div>
  
  
- <br />
+
   
     
     
@@ -470,7 +477,7 @@
 		
 	
     
-    <br />
+
     
     <div id="whitebox">
 				<div class="whiteboxHeader donate">
@@ -494,7 +501,7 @@
 					</div>
 				</div>
 		</div>
-    <br />
+   
     
     <div id="whitebox">
 				<div class="whiteboxHeader followus">
@@ -517,8 +524,7 @@
 						<div id="whitebox_br"></div>
 					</div>
 				</div>
-		</div>
-		<br/>	
+		</div>	
 		<div id="addTop">
 			
 			<div id="backtotop">
