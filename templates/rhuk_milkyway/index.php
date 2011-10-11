@@ -49,7 +49,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
   jQuery(document).ready(function() {
     jQuery("#tabs,#tabs-tags,#comments-tabs").tabs({ fx: { opacity: 'toggle'} });
     jQuery('.jcarousel-skin-tango').jcarousel({
-        auto: 4,scroll:3, animation: 3000, easing:'swing' 
+        auto: 3,scroll:3, animation: 1500, easing:'swing' 
     });
     
     
