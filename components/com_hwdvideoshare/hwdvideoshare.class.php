@@ -3603,6 +3603,8 @@ $app = & JFactory::getApplication();
 						require_once( $comments );
 						$comments = JComments::showComments( $row->id, 'com_hwdvideoshare_v', $row->title );
 			            $code.= "<div class=\"padding\">".$comments."</div>";
+			            $comments2 = JComments::showComments( $row->id.'b', 'com_hwdvideoshare_v', $row->title );
+			            $code.= "<div class=\"padding\">".$comments2."</div>";
 					}
 				}
 			}
@@ -3632,7 +3634,9 @@ $app = & JFactory::getApplication();
 				{
 					include_once(JPATH_SITE.DS.'plugins'.DS.'content'.DS.'jom_comment_bot.php');
 					$comments = jomcomment( $row->id, 'com_hwdvideoshare_v');
+					$comments2 = jomcomment( $row->id, 'com_hwdvideoshare_v');
 					$code.= "<div class=\"padding\">".$comments."</div>";
+					$code.= "<div class=\"padding\">".$comments2."</div>";
 				}
 			}
 			else if ( $c->commssys == 7 )

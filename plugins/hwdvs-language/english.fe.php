@@ -625,12 +625,14 @@ DEFINE("_HWDVIDS_RECENTUPDATES","Recent <br /> Status <br /> Updates");
 DEFINE("_HWDVIDS_RECENTACTVITY","Recent <br /> Profile <br /> Activity");
 DEFINE("_HWDVIDS_TOPPOSTERS","Top <br /> Video <br /> Posters");
 DEFINE("_HWDVIDS_TOPPAGE","Top of page");
-DEFINE("_HWDVIDS_RECENTUPDATESINTRO","Here is a list of recent user status updates (what users are writing on their profile page!):");
-DEFINE("_HWDVIDS_LATESTCOMMINTRO","Here is a list of the most recent comments made to our videos:");
-DEFINE("_HWDVIDS_RECENTACTVITYINTRO","Here is a list of recent user profile activity!:");
+DEFINE("_HWDVIDS_RECENTUPDATESINTRO","Here is a list of recent user status updates (what users are writing on their profile page!)");
+DEFINE("_HWDVIDS_LATESTCOMMINTRO","Here is a list of the most recent comments made to our videos");
+DEFINE("_HWDVIDS_RECENTACTVITYINTRO","Here is a list of recent user profile activity!");
 DEFINE("_HWDVIDS_TOPPOSTERSINTRO","Here is a list of users who make the most popular video comments!");
 DEFINE("_HWDVIDS_POPUCOMMINTRO","Here is a list of video comments that got the most thumbs up!");
 DEFINE("_HWDVIDS_WITHOUTMUSIC","Without music, <br /> life would be a mistake.");
+DEFINE("_HWDVIDS_FOLLOWOTHERSHITES","Follow Shigaru on other sites");
+DEFINE("_HWDVIDS_DONATETEXT","Please donate to help us pay our developers and translators… thank you");
 
 
 

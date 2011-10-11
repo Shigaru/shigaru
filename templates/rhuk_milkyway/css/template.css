@@ -1473,7 +1473,7 @@ min-width:200px; float:right;}
 
 
 /*  withoutMUsic */
-#withoutMusic{ float:left;margin: 30px 0 0 34%;}
+#withoutMusic{ float:left;margin: 30px 0 23px 34%;}
 #withoutMusic blockquote {
 	background:url("../images/quotes1.png") no-repeat scroll 0 2px transparent;
 margin:-0 auto 0;}
@@ -1494,6 +1494,7 @@ margin:-0 auto 0;}
 	font-size: x-small;
 	text-align: left;
 	color: #666;
+	text-align: right;
 }
 
 
@@ -1564,6 +1565,16 @@ padding:20px 0 0 40px;
 .introtext{
 background: url("../images/info.png") no-repeat scroll 5px 5px transparent;
     padding: 9px 5px 0 35px;
+}
+.promotext{
+   padding: 0 0 5px 0;
+}
+#donatebutton{float:right;	}
+#addTop{margin: 0 0 0 25%;	}
+
+#legalcopy{padding: 0 0 12px 0;}
+#twitter_update_list {
+margin: 0 0 0 -12px;
 }
 span.jcl_date{float:right;margin-bottom: 6px;}
 ul.jclist li {margin-bottom:6px;border-bottom:1px solid #ccc;}

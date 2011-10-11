@@ -490,9 +490,12 @@
 				
 
 				<div id="whitebox_m">
-  
-					<center>{$donate}</center>
-  
+					<div class="promotext">
+						{$smarty.const._HWDVIDS_DONATETEXT}
+					</div>
+					<div id="donatebutton">{$donate}</div>
+					<div class="clr"></div>
+					
 				</div>
 
 				<div id="whitebox_b">
@@ -514,7 +517,9 @@
 				
 
 				<div id="whitebox_m">
-  
+					<div class="promotext">
+						{$smarty.const._HWDVIDS_FOLLOWOTHERSHITES}
+					</div>
 					{$socialmedialinks}
   
 				</div>
