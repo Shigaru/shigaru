@@ -70,7 +70,7 @@ class hwd_vs_Config{
   var $gtree_upld_child = 'RECURSE';
   var $gtree_grup = '-2';
   var $gtree_grup_child = 'RECURSE';
-  var $thumbwidth = '145';
+  var $thumbwidth = '110';
   var $reconvertflv = '0';
   var $abortthumbfail = '1';
   var $diable_nav_search = '1';

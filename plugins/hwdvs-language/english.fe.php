@@ -432,7 +432,7 @@ DEFINE("_HWDVIDS_ALT_USRPRO","User Profile");
 DEFINE("_HWDVIDS_TAGS","Tags");
 DEFINE("_HWDVIDS_FLASHUPDL_allowedExtDescr","Allowed Video Files");
 DEFINE("_HWDVIDS_FLASHUPDL_validFileMessage","Thank you! Now hit upload.");
-DEFINE("_HWDVIDS_FLASHUPDL_startMessage","Select your video file");
+DEFINE("_HWDVIDS_FLASHUPDL_startMessage","Select a video to upload:");
 DEFINE("_HWDVIDS_FLASHUPDL_errorSizeMessage","This file is too large!");
 DEFINE("_HWDVIDS_FLASHUPDL_progressMessage","Please wait, uploading ");
 DEFINE("_HWDVIDS_FLASHUPDL_endMessage","Upload finished!");
@@ -613,6 +613,7 @@ DEFINE("_HWDVIDS_SHIGARU_VIDEO","Video");
 DEFINE("_HWDVIDS_SHIGARU_TUTORIALS","Tutorials");
 DEFINE("_HWDVIDS_SHIGARU_DESCRIPTION","Description");
 DEFINE("_HWDVIDS_SHIGARU_TAGS","Tags");
+DEFINE("_HWDVIDS_SHIGARU_EIGHTIES","80's Songs");
 DEFINE("_HWDVIDS_SHIGARU_TUTORSINTRO","Here are a few of the faces of the tutors you will find in the Shigaru video library:");
 DEFINE("_HWDVIDS_SHIGARU_FOLLOWUSTWEET","Follow Shigaru on Twitter");
 DEFINE("_HWDVIDS_SHIGARU_TAGSBANDSINTRO","Here is a list of the most popular bands that appear in the Shigaru video Library. Click to view a list:");
@@ -625,6 +626,10 @@ DEFINE("_HWDVIDS_RECENTUPDATES","Recent <br /> Status <br /> Updates");
 DEFINE("_HWDVIDS_RECENTACTVITY","Recent <br /> Profile <br /> Activity");
 DEFINE("_HWDVIDS_TOPPOSTERS","Top <br /> Video <br /> Posters");
 DEFINE("_HWDVIDS_TOPPAGE","Top of page");
+DEFINE("_HWDVIDS_SHIGARU_DATEADDED","Date Added");
+DEFINE("_HWDVIDS_SHIGARU_INSTRUMENT","Instrument");
+DEFINE("_HWDVIDS_SHIGARU_GENRE","Genre");
+DEFINE("_HWDVIDS_SHIGARU_LANGUAGE","Language");
 DEFINE("_HWDVIDS_RECENTUPDATESINTRO","Here is a list of recent user status updates (what users are writing on their profile page!)");
 DEFINE("_HWDVIDS_LATESTCOMMINTRO","Here is a list of the most recent comments made to our videos");
 DEFINE("_HWDVIDS_RECENTACTVITYINTRO","Here is a list of recent user profile activity!");
@@ -633,6 +638,65 @@ DEFINE("_HWDVIDS_POPUCOMMINTRO","Here is a list of video comments that got the m
 DEFINE("_HWDVIDS_WITHOUTMUSIC","Without music, <br /> life would be a mistake.");
 DEFINE("_HWDVIDS_FOLLOWOTHERSHITES","Follow Shigaru on other sites");
 DEFINE("_HWDVIDS_DONATETEXT","Please donate to help us pay our developers and translators… thank you");
+DEFINE("_HWDVIDS_SHIGARU_VIDEOLEVEL","Video Level");
+DEFINE("_HWDVIDS_SHIGARU_SEE_MORE_CATEGORY","See more videos from this category");
+DEFINE("_HWDVIDS_SHIGARU_SEE_NEXT_CATEGORY","See next video from this category");
+DEFINE("_HWDVIDS_SHIGARU_SEE_PREV_CATEGORY","See previous video from this category");
+DEFINE("_HWDVIDS_SHIGARU_LEVELS_ABSOLUTE_BEGINNER","Absolute Beginner");
+DEFINE("_HWDVIDS_SHIGARU_LEVELS_BEGINNER","Beginner");
+DEFINE("_HWDVIDS_SHIGARU_LEVELS_INTERMEDIATE","Intermediate");
+DEFINE("_HWDVIDS_SHIGARU_LEVELS_UPPER_INTERMEDIATE","Upper Intermediate");
+DEFINE("_HWDVIDS_SHIGARU_LEVELS_EXPERT","Expert");
+DEFINE("_HWDVIDS_SHIGARU_GUITAR","Guitar");
+DEFINE("en-GB","English");
+DEFINE("_HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU","Submit a video to Shigaru.com");
+DEFINE("_HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING","for deciding to share a video tutorial with the Shigaru community. Remember that:");
+DEFINE("_HWDVIDS_SHIGARU_THANKYOU","Thank you");
+DEFINE("_HWDVIDS_SHIGARU_YES","Yes");
+DEFINE("_HWDVIDS_SHIGARU_NO","No");
+DEFINE("_HWDVIDS_SHIGARU_SUBMIT_OPTIONS","You have TWO options:");
+DEFINE("_HWDVIDS_SHIGARU_SUBMIT_UPLOADPC","<span class=\"f15em boldred\">Upload a video</span> tutorial from your pc that you have recorded");
+DEFINE("_HWDVIDS_SHIGARU_SUBMIT_URL","<span class=\"f15em boldred\">Submit a URL</span> of a video tutorial that you have uploaded or found on another site");
+DEFINE("_HWDVIDS_SHIGARU_IMPORTANT","Important");
+DEFINE("_HWDVIDS_SHIGARU_BYCLICKING","By clicking Upload or Submit URL you indicate that you have read and accepted the Terms & Conditions");
+DEFINE("_HWDVIDS_SHIGARU_YOURIP","Your Computer (IP) address is:");
+DEFINE("_HWDVIDS_SHIGARU_VIDEOREVIEWED","Your video will be reviewed (within the space of an hour or so) by a control panel before being published so please do not post anything that is not music learning related as it will not reach the general public.");
+DEFINE("_HWDVIDS_SHIGARU_LEGALADVERT","Please do not upload material with original background music to which you do not have permission from the owner. ");
+DEFINE("_HWDVIDS_SHIGARU_OR","Or");
+DEFINE("_HWDVIDS_SHIGARU_UPLOADVIDEO","Upload Video");
+DEFINE("_HWDVIDS_SHIGARU_SUBMITURL","Submit URL");
+DEFINE("_HWDVIDS_SHIGARU_FORMATSACCEPTED","Formats accepted:");
+DEFINE("_HWDVIDS_SHIGARU_FILESIZE","File size:");
+DEFINE("_HWDVIDS_SHIGARU_NOTOVER","The video must not be over 100 MB");
+DEFINE("_HWDVIDS_SHIGARU_UNDERMIN","It must be under 15 minutes long.");
+DEFINE("_HWDVIDS_SHIGARU_LONGVIDEO","If it is a long video split it into different parts");
+DEFINE("_HWDVIDS_SHIGARU_FILLUPTHIS","for deciding to upload a video to the Shigaru Video Library. Upload your video now and share your knowledge of music with a worldwide audience, it will take you just a few minutes to fill out this form!");
+DEFINE("_HWDVIDS_SHIGARU_ONEOFTWO","Upload a video (Step 1 of 2)");
+DEFINE("_HWDVIDS_SHIGARU_MANDATORYFIELDS","Fields marked * are mandatory.");
+DEFINE("_HWDVIDS_SHIGARU_TYPEVIDEO","Type of video:");
+DEFINE("_HWDVIDS_SHIGARU_TITLEVIDEO","Title of video:");
+DEFINE("_HWDVIDS_SHIGARU_ORIGINBAND","Original artist/band:");
+DEFINE("_HWDVIDS_SHIGARU_SONGTITLE","Song title:");
+DEFINE("_HWDVIDS_SHIGARU_SHIGARUUSER","Shigaru user:");
+DEFINE("_HWDVIDS_SHIGARU_AREYOUCREATOR","Are you the original creator of the content in this video?");
+DEFINE("_HWDVIDS_SHIGARU_VIDEODESCRIP","Video description:");
+DEFINE("_HWDVIDS_SHIGARU_EXAMPLETITLE","<span class=\"fontbold\">Example:</span> How to play the intro to “Message in a bottle” by The Police (Part 1 of 3). Note, please do not add your name (the tutor) in the video title because this will be generated automatically.");
+DEFINE("_HWDVIDS_SHIGARU_INFOTOBETTERCATEG","This information will help us to better categorise our videos.");
+DEFINE("_HWDVIDS_SHIGARU_COPYRIGHTREASONS","We only ask this for copyright reasons, so we don’t upset anyone.");
+DEFINE("_HWDVIDS_SHIGARU_TEXTDESCRIPTION","In your video description you may include web links (For example, you may want to link to your own music related website. Or why not link to the website of the original band/artist whose song is covered in the tutorial?");
+
+
+
+
+
+
+
+  
+ 
+
+
+
+
 
 
 

@@ -342,7 +342,7 @@ class hwd_vs_core
 
         // check video can be viewed by user
         $where = ' WHERE video.id = '.$video_id;
-
+		$hwdvs_selectv.=',song_id,band_id,language_id,category_id,genre_id,intrument_id,level_id';
         $query = 'SELECT'.$hwdvs_selectv
                 . ' FROM #__hwdvidsvideos AS video'
                 . $hwdvs_joinv

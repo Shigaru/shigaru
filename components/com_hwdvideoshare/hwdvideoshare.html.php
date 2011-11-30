@@ -559,7 +559,7 @@ class hwd_vs_html
     /**
      *
      */
-    function uploadMedia($uploadpage, $videotype, $checksecurity, $title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings, $md5password)
+    function uploadMedia($uploadpage, $videotype, $checksecurity, $title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings, $md5password,$fylePath,$videourl)
     {
 		global $Itemid, $my, $params, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
@@ -574,7 +574,6 @@ class hwd_vs_html
 		jimport( 'joomla.document.document' );
 		$doc = & JFactory::getDocument();
 		$app = & JFactory::getApplication();
-
 		$active = &$menu->getActive();
 
 		if (!empty($mparams_pt)) {
@@ -584,6 +583,12 @@ class hwd_vs_html
 		} else {
 			$metatitle = _HWDVIDS_META_DEFAULT;
 		}
+		
+		/*  
+		echo '<pre>';
+			var_dump($uploadpage);
+		echo '</pre>';
+	*/
 
 		// set the page/meta title
 		$doc->setTitle( $metatitle." - "._HWDVIDS_META_UPLD );
@@ -593,7 +598,10 @@ class hwd_vs_html
 
 		$supported_websites = hwd_vs_tools::generateSupportedWebsiteList();
 		$smartyvs->assign("supported_websites", $supported_websites);
-
+		$smartyvs->assign("username",$my->username);
+		$ip = getenv("REMOTE_ADDR") ;
+		$smartyvs->assign("ipaddress",$ip);
+		
 		if ($uploadpage == "2") {
 
 			$allowedformats = hwd_vs_tools::generateAllowedFormats();
@@ -636,7 +644,10 @@ class hwd_vs_html
 			$app->setUserState( "com_hwdvideoshare.upload_selection", "tp" );
 			hwd_vs_javascript::checkaddform();
 			$captcha = hwd_vs_tools::generateCaptcha();
+			$editor =& JFactory::getEditor();
+			$smartyvs->assign( "description", $editor->display("description","",350,250,40,20,1) );
 			$smartyvs->assign("captcha", $captcha);
+			$smartyvs->assign("videourl",$videourl);
 			$smartyvs->display('upload_thirdparty.tpl');
 			return;
 
@@ -648,7 +659,7 @@ class hwd_vs_html
 				$smartyvs->assign( "description", $editor->display("description","",350,250,40,20,1) );
 				$smartyvs->assign( "print_wysiwyg", 1 );
 			}
-
+			$smartyvs->assign("fylePath",$fylePath);
 			$app->setUserState( "com_hwdvideoshare.upload_selection", "local" );
 			hwd_vs_javascript::checkuploadform();
 			$captcha = hwd_vs_tools::generateCaptcha();
@@ -657,8 +668,13 @@ class hwd_vs_html
 			return;
 
 		} else if ($uploadpage == "0") {
-
-			hwd_vs_javascript::disablesubmit();
+			require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'views'.DS.'upload_flash.php');
+			$allowedformats = hwd_vs_tools::generateAllowedFormats();
+			$smartyvs->assign("allowed_formats", $allowedformats);
+			$smartyvs->assign("maximum_upload", $c->maxupld);
+			hwd_vs_javascript::checkaddform();
+			$captcha = hwd_vs_tools::generateCaptcha();
+			$smartyvs->assign("captcha", $captcha);
 			$upload_selection = $app->getUserState( "com_hwdvideoshare.upload_selection", '' );
 			if ($upload_selection == "tp") {
 				$tpselect = 'selected="selected"';

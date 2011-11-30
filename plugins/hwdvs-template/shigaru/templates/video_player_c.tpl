@@ -45,7 +45,7 @@ var tabberOptions = {
 <script type="text/javascript" src="{$link_home}/plugins/hwdvs-template/default/js/tabber.js"></script>
 
     <div class="standard">
-      <h2>{$videoplayer->title} {$videoplayer->editvideo} {$videoplayer->deletevideo}</h2>
+      <h2>{$videoplayer->titleText} dasdasdasdasdasd{$videoplayer->editvideo} {$videoplayer->deletevideo}</h2>
       <div class="padding"><center>{$videoplayer->player}</center></div>
     </div>
     

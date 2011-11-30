@@ -991,6 +991,10 @@ class hwd_vs_uploads
 		}
 
 		$videotype = JRequest::getCmd( 'videotype' );
+		$fylePath = JRequest::getCmd( 'myFile' );
+		$videourl = JRequest::getCmd( 'videourl' );
+		
+		
 
 		if ($j15)
 		{
@@ -1068,7 +1072,7 @@ class hwd_vs_uploads
 				return;
 			}
 		} else {
-			hwd_vs_html::uploadMedia($uploadpage, $videotype, $checksecurity, $title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings, $md5password);
+			hwd_vs_html::uploadMedia($uploadpage, $videotype, $checksecurity, $title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings, $md5password,$fylePath,$videourl);
 		}
 	}
     /**

@@ -3573,6 +3573,31 @@ $app = & JFactory::getApplication();
 		return $code;
     }
     /**
+     * Generates video comments count
+     *
+     * @param string $row  the video sql data
+     * @return       $comments
+     */
+	function generateVideoCommentsCount($row)
+	{
+		if (!file_exists(JPATH_SITE.DS.'components'.DS.'com_jcomments'.DS))
+				{
+					$comments= "<div class=\"padding\">"._HWDVIDS_INFO_NOINS_JCOMMENTS."</div>";
+				}
+				else
+				{
+					$comments = JPATH_SITE.DS.'components'.DS.'com_jcomments'.DS.'jcomments.php';
+					if (file_exists( $comments ))
+					{	
+						require_once( $comments );
+						$comments = JComments::getCommentsCount( $row->id, 'com_hwdvideoshare_v');
+					}
+				}
+				
+		return $comments;
+    }
+    
+    /**
      * Generates the 'video comments' system
      *
      * @param string $row  the video sql data
@@ -3603,8 +3628,6 @@ $app = & JFactory::getApplication();
 						require_once( $comments );
 						$comments = JComments::showComments( $row->id, 'com_hwdvideoshare_v', $row->title );
 			            $code.= "<div class=\"padding\">".$comments."</div>";
-			            $comments2 = JComments::showComments( $row->id.'b', 'com_hwdvideoshare_v', $row->title );
-			            $code.= "<div class=\"padding\">".$comments2."</div>";
 					}
 				}
 			}
@@ -3869,6 +3892,79 @@ $app = & JFactory::getApplication();
 		$smartyvs->assign("comment_code", $code);
 		return $code;
     }
+    
+    
+       
+    /**
+     * Generates multilanguage text for Video Instrument
+     *
+     * @return       $instrument
+     */
+    
+    function getVideoInstrument($intrument_id){
+		
+		$db = & JFactory::getDBO();
+		$db->SetQuery( 'SELECT instrument'
+								. ' FROM #__hwdvidsinstruments'
+								. ' WHERE id = '.$intrument_id
+								);
+		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		$grows = $db->loadObjectList();
+		return $grows[0]->instrument;
+	}
+     
+     /**
+     * Generates multilanguage text for Video Levels
+     *
+     * @return       $label
+     */
+    
+    function getVideoLevel($level_id){
+		
+		$db = & JFactory::getDBO();
+		$db->SetQuery( 'SELECT label'
+								. ' FROM #__hwdvidslevels'
+								. ' WHERE id = '.$level_id
+								);
+		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		$grows = $db->loadObjectList();
+		return $grows[0]->label;
+	}	
+    /**
+     * Generates multilanguage text for Video Genre
+     *
+     * @return       $genre
+     */
+    
+    function getVideoGenre($genre_id){
+		
+		$db = & JFactory::getDBO();
+		$db->SetQuery( 'SELECT genre'
+								. ' FROM #__hwdvidsgenres'
+								. ' WHERE id = '.$genre_id
+								);
+		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		$grows = $db->loadObjectList();
+		return $grows[0]->genre;
+	}	
+    
+    /**
+     * Generates the contextual details of the video
+     *
+     * @return       $oDetails
+     */
+    
+    function generateSideDetails($row){
+		$oDetails->genre = constant(hwd_vs_tools::getVideoGenre($row->genre_id));
+		$oDetails->level = constant(hwd_vs_tools::getVideoLevel($row->level_id));
+		$oDetails->instrument = constant(hwd_vs_tools::getVideoInstrument($row->intrument_id));
+		$oDetails->language = constant($row->language_id);
+		return $oDetails;
+		}
+    
     /**
      * Generates the human readable allowed video formats string
      *
@@ -3879,7 +3975,9 @@ $app = & JFactory::getApplication();
 		global $hwdvsItemid, $option, $smartyvs, $j16;
 		$c = hwd_vs_Config::get_instance();
 		$my = & JFactory::getUser();
-
+		/*echo '<pre>';
+			var_dump($row->id);
+		echo '</pre>';*/
 		if (!isset($row->username)) { $row->username = ""; }
 		if (!isset($row->name)) { $row->name = ""; }
 		if (!isset($row->avatar)) { $row->avatar = null; }
@@ -3897,6 +3995,8 @@ $app = & JFactory::getApplication();
 				$quality = "sd";
 			}
 		}
+		
+		$sideDetails = hwd_vs_tools::generateSideDetails($row);
 
 		$details->id = intval($row->id);
 		$details->titleText = stripslashes($row->title);
@@ -3910,7 +4010,14 @@ $app = & JFactory::getApplication();
 		$details->favouritebutton = hwd_vs_tools::generateFavouriteButton($row);
 		$details->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, 0, $thumb_width, null, null, null, $hwdvsItemid, null, $tooltip, $lightbox, $row->video_length);
 		$details->avatar = hwd_vs_tools::generateAvatar($row->user_id, $row->avatar, 0);
-
+		$details->username = $row->username;
+		$details->song = $sideDetails->song;
+		$details->band = $sideDetails->band;
+		$details->language = $sideDetails->language;
+		$details->category = $sideDetails->category;
+		$details->genre = $sideDetails->genre;
+		$details->instrument = $sideDetails->instrument;
+		$details->level = $sideDetails->level;
 		if ($c->multiple_cats == "1")
 		{
 			$details->category = hwd_vs_tools::generateCategoryLinks($row);
@@ -3926,7 +4033,7 @@ $app = & JFactory::getApplication();
 		$details->editvideo = hwd_vs_tools::generateEditVideoLink($row);
 		$details->publishvideo = hwd_vs_tools::generatePublishVideoLink($row);
 		$details->approvevideo = hwd_vs_tools::generateApproveVideoLink($row);
-		$details->views = intval($row->number_of_views);
+		$details->views = number_format(intval($row->number_of_views));
 		$details->upload_date = strftime("%l%P - %b %e, %Y", strtotime($row->date_uploaded));
 		$details->sendToFriend = hwd_vs_tools::sendToFriend($row);
 		$details->uploader = hwd_vs_tools::generateUserFromID($row->user_id, $row->username, $row->name);
@@ -3941,7 +4048,7 @@ $app = & JFactory::getApplication();
 		$details->tags = hwd_vs_tools::generateTagListString($row->tags);
 		$details->favourties = hwd_vs_tools::generateFavouriteButton($row);
 		$details->addtoplaylist = hwd_vs_tools::generateAddToPlaylistButton($row);
-
+		$details->commentsNum = hwd_vs_tools::generateVideoCommentsCount($row);
 		if ($j16 || $option == "com_hwdvideoshare")
 		{
 			$details->comments = hwd_vs_tools::generateVideoComments($row);
@@ -5314,10 +5421,11 @@ $app = & JFactory::getApplication();
     	$rows = $db->loadObjectList();
 
 		$code = null;
+		$code.= "<div id=\"canesWrap\">";
 		for ($i=0, $n=count($rows); $i < $n; $i++)
 		{
 			$row = $rows[$i];
-
+			
 			if ($row->element == "thirdpartysupportpack")
 			{
 				if (file_exists($iniFile))
@@ -5338,13 +5446,14 @@ $app = & JFactory::getApplication();
 			}
 			else if ($row->element == "youtube")
 			{
-				$code.= "<a href=\"http://www.youtube.com\" target=\"_blank\">Youtube.com</a>, ";
+				$code.= "<a href=\"http://www.youtube.com\" target=\"_blank\"><div class=\"canes youtubeCan mright6\"><span class=\"nonvis\">Youtube.com</span></div></a>, ";
 			}
 			else if ($row->element == "google")
 			{
-				$code.= "<a href=\"http://video.google.com\" target=\"_blank\">Google.com</a>, ";
+				$code.= "<a href=\"http://video.google.com\" target=\"_blank\"><div class=\"canes googleCan mright6 mbot12\"><span class=\"nonvis\">Google.com</span></div></a>";
 			}
 		}
+		$code.="</div>";
 		if (substr($code, -2) == ", ") {$code = substr($code, 0, -2);}
 		return $code;
 	}
@@ -6311,7 +6420,7 @@ function isSSL()
 		if ($c->showprnx == "1")
 		{
 			$smartyvs->assign("print_nextprev", 1);
-			$code.= "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&task=previousvideo&category_id=".$row->category_id."&video_id=".$row->id)."\" class=\"swap\">"._HWDVIDS_PREV."</a> | <a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&task=nextvideo&category_id=".$row->category_id."&video_id=".$row->id)."\" class=\"swap\">"._HWDVIDS_NEXT."</a>";
+			$code.= "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&task=previousvideo&category_id=".$row->category_id."&video_id=".$row->id)."\" title=\""._HWDVIDS_SHIGARU_SEE_PREV_CATEGORY."\" class=\"swap\">"._HWDVIDS_PREV."</a> | <a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&task=nextvideo&category_id=".$row->category_id."&video_id=".$row->id)."\" class=\"swap\" title=\""._HWDVIDS_SHIGARU_SEE_NEXT_CATEGORY."\">"._HWDVIDS_NEXT."</a>";
 		}
 		return $code;
 	}

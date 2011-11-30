@@ -9,38 +9,6 @@
 
 {include file='header.tpl'}
 
-{literal}
-<script type="text/javascript">
-
-document.write('<style type="text/css">.tabber{display:none;}<\/style>');
-
-var tabberOptions = {
-
-  'manualStartup':true,
-
-  'onLoad': function(argsObj) {
-    if (argsObj.tabber.id == 'tab2') {
-      alert('Finished loading tab2!');
-    }
-  },
-
-  'onClick': function(argsObj) {
-
-    var t = argsObj.tabber; 
-    var id = t.id; 
-    var i = argsObj.index; 
-    var e = argsObj.event;
-
-    if (id == 'tab2') {
-      return confirm('Swtich');
-    }
-  },
-
-  'addLinkId': true
-
-};
-</script>
-{/literal}
 <script type="text/javascript" src="{$link_home}/plugins/hwdvs-template/default/js/tabber.js"></script>
 
 {if $print_nextprev or $print_videourl or $print_embedcode or $print_uservideolist or $print_relatedlist}
@@ -48,83 +16,77 @@ var tabberOptions = {
   
   <div>
 {/if}  
-	<div id="tabs">
-	<ul>
-		<li><a href="#tabs-1">{$smarty.const._HWDVIDS_SHIGARU_VIDEO} {$smarty.const._HWDVIDS_SHIGARU_TUTORIALS}</a></li>
-		<li><a href="#tabs-2">{$smarty.const._HWDVIDS_SHIGARU_VIDEO} {$smarty.const._HWDVIDS_SHIGARU_DESCRIPTION}</a></li>
-		<li><a href="#tabs-3">{$smarty.const._HWDVIDS_SHIGARU_VIDEO} {$smarty.const._HWDVIDS_SHIGARU_TAGS}</a></li>
-	</ul>
-	<div id="tabs-1" class="standard">
-      <div class="list">
-        <div class="box">
+
+
+
+        <div id="videoTitle" class="fleft">
 				  <div>
-					 <div class="fleft">
-					 {$videoplayer->title} {$videoplayer->editvideo} {$videoplayer->deletevideo}
+					 <div class="fleft titleText">
+					 {$videoplayer->titleText} {$videoplayer->editvideo} {$videoplayer->deletevideo}
 					 </div>
 					 <div class="fright">
-							{$videoplayer->avatar}
+							<div class="fleft mright6">{$smarty.const._HWDVIDS_INFO_SHARED}<br />{$videoplayer->username}</div><div class="fleft">{$videoplayer->avatar}</div>
 					</div>
 				  </div>
 				  <div class="padding clear"><center>{$videoplayer->player}</center></div>
-				 {if $print_nextprev}
-					<div class="padding">{$videoplayer->nextprev}</div>
-				  {/if}
-				  {if $print_videourl}
-					  <div class="padding"><form name="vlink" action="#"><div>{$smarty.const._HWDVIDS_TITLE_PERMALINK}</div><input type="text" value="{$videoplayer->videourl}" name="vlink" /></form></div>
-				  {/if}
-				  {if $print_embedcode}
-					  <div class="padding"><form name="elink" action="#"><div>{$smarty.const._HWDVIDS_INFO_VIDEMBEDCODE}</div><input type="text" value="{$videoplayer->embedcode}" name="elink" /></form></div>
-				  {/if}
+				 
       </div>  
-      </div>
-    </div>  
       
-   <div id="tabs-2" class="standard">
-      <div class="list">
-        <div class="box">   
+      <div id="infocontext" class="fleft">
+		  <div><span>{$smarty.const._HWDVIDS_INFO_PLAYS}</span><br /><b>{$videoplayer->views}</b></div>
+		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_DATEADDED}</span><br />{$videoplayer->upload_date}</div>
+		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_VIDEOLEVEL}</span><br />{$videoplayer->level}</div>
+		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENT}</span><br />{$videoplayer->instrument}</div>
+		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_GENRE}</span><br />{$videoplayer->genre}</div>
+		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}</span><br />{$videoplayer->language}</div>
+		  <div><span>{$smarty.const._HWDVIDS_SELECT_RATING}</span><br />{$videoplayer->ratingsystem}</div>
+		  <div><span>{$smarty.const._HWDVIDS_INFO_NOCOMM}</span><br />{$videoplayer->commentsNum}</div>
+		  <div>
+				  {if $print_nextprev}
+					{$videoplayer->nextprev}
+				  {/if}
+		  </div>
+		  <div>		  
+				  {if $print_videourl}
+					 <form name="vlink" action="#">{$smarty.const._HWDVIDS_TITLE_PERMALINK}<input type="text" value="{$videoplayer->videourl}" name="vlink" /></form>
+				  {/if}
+		  </div>		  
+		</div>
+		<div>
+		</div>
+	  </div> 
+
+      
+        <div class="clear">   </div>  
 			<div class="padding"><strong>{$smarty.const._HWDVIDS_DESC}</strong><br /><p id="truncateMe">{$videoplayer->description}</p></div>
 			
-      <div class="tabber" id="tab1">
-    {if $videoplayer->ratingsystem or $videoplayer->downloadoriginal or $videoplayer->vieworiginal or $videoplayer->downloadflv or $videoplayer->favourties or $videoplayer->reportmedia}
-      <div class="tabbertab">
-      <h2>{$smarty.const._HWDVIDS_RATING}</h2>
+
+
 	<div class="standard">
 	  <div class="padding">
-          <div style="float:right;">
-            <div>{$videoplayer->downloadoriginal}</div>
-            <div>{$videoplayer->downloadflv}</div>
             <div id="addremfav">{$videoplayer->favourties}</div>
             <div>{$videoplayer->reportmedia}</div>
-          </div>
-          {$videoplayer->ratingsystem}
-          <div>{$videoplayer->vieworiginal}</div>
+          
+         <!-- <div>{$videoplayer->vieworiginal}</div> -->
           <div style="padding: 5px 0;">{$videoplayer->switchquality}</div>
+          <div class="padding">{$videoplayer->socialbmlinks}</div> 
+		  <div class="padding">{if $print_addtogroup}{$videoplayer->addtogroup}<div id="add2groupresponse"></div>{/if}</div>
+		  <div class="padding">{if $print_addtoplaylist}{$videoplayer->addtoplaylist}<div id="add2playlistresponse"></div>{/if}</div>
+		  <span>{$smarty.const._HWDVIDS_SHIGARU_SEE_MORE_CATEGORY}</span>
+		  
+		  {$videoplayer->category}
           <div style="clear:both;"></div>
 	    <div id="ajaxresponse"></div>
           <div style="clear:both;"></div>	
 	  </div>
         </div>
       </div>
-      {/if}
-      {if $videoplayer->socialbmlinks or $print_addtogroup}
-      <div class="tabbertab">
-      <h2>{$smarty.const._HWDVIDS_SHARE}</h2>
-	<div class="standard">
-	  <div class="padding">{$videoplayer->socialbmlinks}</div> 
-	  <div class="padding">{if $print_addtogroup}{$videoplayer->addtogroup}<div id="add2groupresponse"></div>{/if}</div>
-	  <div class="padding">{if $print_addtoplaylist}{$videoplayer->addtoplaylist}<div id="add2playlistresponse"></div>{/if}</div>
-	</div>
-      </div>
-      {/if}
-      {if $print_description or $print_tags or $print_tags or $videoplayer->category}
-      <div class="tabbertab">
-      <h2>{$smarty.const._HWDVIDS_INFO}</h2>
-	<div class="standard">
-	  {if $print_description}
+      
+
 	  
-	  <div class="padding"><strong>{$smarty.const._HWDVIDS_DESC}</strong><br /><p id="truncateMe">{$videoplayer->description}</p></div>{/if}
+
 	  
-	  <!--
+	  
 	  {literal}
 	  <script type="text/javascript">
 	   
@@ -153,23 +115,15 @@ var tabberOptions = {
 	   
 	  </script>
 	  {/literal}
-	  -->
+	  
+		
 
-	  {if $print_tags}<div class="padding"><strong>{$smarty.const._HWDVIDS_TAGS}</strong><br />{$videoplayer->tags}</div>{/if}
-	  <div class="padding">{$videoplayer->category}</div>
-	  <div class="padding"><!--{$videoplayer->views}--></div>
-	  <div class="padding"><!--{$videoplayer->upload_date}--></div>
-	</div>
-      </div>
-      {/if}
-    </div>
+   
       
       </div>
       </div>
-      </div>
       
-      </div>
- </div>   
+  
 	
    
 
@@ -250,7 +204,7 @@ var tabberOptions = {
 	<div id="comments-tabs">
 	<ul>
 		<li><a href="#comments-tabs-1">{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</a></li>
-		<li><a href="#comments-tabs-2">{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</a></li>
+		<li><a href="#comments-tabs-2">{$smarty.const._HWDVIDS_TAGS}</a></li>
 	</ul>
 	
 	<div id="comments-tabs-1" class="standard">
@@ -269,13 +223,14 @@ var tabberOptions = {
       <div class="scoller">
       <div class="list">
         <div class="box">
-          {if $print_comments}
-			  {$videoplayer->comments}
-		{/if} 
+			  {$videoplayer->tags}
+	 
         </div>
       </div>  
       </div>
     </div>
+    
+    
     
    </div> 
    </div>
@@ -284,7 +239,4 @@ var tabberOptions = {
 
 <div style="clear:both;"></div>
 
-<script type="text/javascript">
-tabberAutomatic(tabberOptions);
-</script>
 

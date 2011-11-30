@@ -1527,11 +1527,7 @@ margin:-0 auto 0;}
 
 #homepromo{padding:5px; text-align:center !important;}
 #tagsCloud{height:192px;text-align:center !important;margin-top:20px;}
-.h150{height:150px !important;}
-.mtop12{margin-top:12px;}
-.fleft{float:left;}
-.fright{float:right;}
-.clear{clear:both;}
+
 #mod_login_greeting{float: left;
     margin: 9px 12px 0;}
 #logout form div{
@@ -1576,14 +1572,61 @@ background: url("../images/info.png") no-repeat scroll 5px 5px transparent;
 #twitter_update_list {
 margin: 0 0 0 -12px;
 }
+
 span.jcl_date{float:right;margin-bottom: 6px;}
 ul.jclist li {margin-bottom:6px;border-bottom:1px solid #ccc;}
 #tabs,#whitebox,#comments-tabs,#tabs-tags {margin-bottom:18px;}
-
-
+#videoTitle{}
+#videoTitle div div.titleText{width:488px;font-size:1.5em; color:red;line-height:1em;}
+#videoTitle div div.right{}
+#infocontext{padding-left:20px;}
+#infocontext div{background:#E1DFDF; padding:6px; margin-bottom:12px;}
+#infocontext div span{color:red;}
+#videouploadwrap{}
+#videouploadwrap ol li{    margin-bottom: 16px;padding: 6px 20px 6px 6px;}
+#videouploadwrap ol li.active{ background:#FFEFBA;}
+#videouploadwrap #twooptions{color:#7F7F7F; margin-top:12px;margin-bottom:30px;}
+#videouploadwrap div div ul{margin:0;list-style:cjk-ideographic outside none;}
+#videouploadwrap div div ul li{margin:0;padding: 0;}
+#uploadlegal ul{list-style-type: square; color:red;}
+#orOptions{margin: 12px;margin-left:-19px;color:#7F7F7F;}
+#orOptions div{background: url("../images/ico_dot.gif") repeat-x scroll 0 0 transparent;height: 5px;margin: -6px 0 0 27px;width: 100%;}
+#videodetailswrap{padding:12px;}
+#videodetailswrap div{}
+#videodetailswrap div div{float:left;}
+#wysigyginfovideo{float: right!important;margin: 0 20% 0 0;}
+.videohelptext{clear:both;margin: 6px 0 6px 31.5%;color:#7F7F7F;}
+.videoinfolabel{width:30%;text-align:right !important;font-weight:bold;margin-right: 12px;margin-top: 6px;}
+.headerText{font-size:1.5em;font-weight:bold;color:#000;}
+.boldred{font-weight:bold;color:red;}
 .fontbold{ font-weight:bold;}
 .fontred{color:red;}
 .dispnon{display:none;}
 .fnone{float:none !important;}
 .tcenter{text-align:center !important;}
 .h250{height:250px !important;}
+.f100{font-size:100%;}
+.f15em{font-size:1.5em;}
+.tblack{color:#000;}
+.h150{height:150px !important;}
+.mtop12{margin-top:12px;}
+.mtop24{margin-top:24px;}
+.mbot12{margin-bottom:12px;}
+.mbot6{margin-bottom:6px;}
+.mleft6{margin-left:6px;}
+.mright6{margin-right:6px;}
+.fleft{float:left;}
+.fright{float:right;}
+.clear{clear:both;}
+.tright{text-align:right !important;}
+.w40{width:40%;}
+.w60{width:60%;}
+.w70{width:70%;}
+.inputtextmed{width:40%;}
+.nonvis{visibility:hidden;}
+.dispnon{display:none;}
+
+#canesWrap{float:right;}
+.canes{width:33px;height:64px;float:left;}
+.youtubeCan{background: url("../../..//modules/mod_socialmedialinks/icons/drink/size3/youtube.png") no-repeat scroll 0 0 transparent;}
+.googleCan{background: url("../../..//modules/mod_socialmedialinks/icons/drink/size3/google.png") no-repeat scroll 0 0 transparent;}
