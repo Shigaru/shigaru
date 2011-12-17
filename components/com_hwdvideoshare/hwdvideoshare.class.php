@@ -34,9 +34,17 @@ class hwdvids_video extends JTable
   	var $video_id = null;
   	var $title = null;
   	var $description = null;
+  	var $song_id = null;
+  	var $band_id = null;
+  	var $language_id = null;
+  	var $genre_id = null;
+  	var $intrument_id = null;
+  	var $level_id = null;	
+  	var $ip_added = null;
+  	var $original_autor = null;
   	var $tags = null;
   	var $category_id = null;
-        var $date_uploaded = null;
+    var $date_uploaded = null;
   	var $video_length = null;
   	var $allow_comments = null;
   	var $allow_embedding = null;
@@ -65,6 +73,54 @@ class hwdvids_video extends JTable
      */
 	function hwdvids_video(&$db){
         parent::__construct( '#__hwdvidsvideos', 'id', $db );
+	}
+}
+
+/**
+ * @package    hwdVideoShare
+ * @author     SHIGARU 
+ * @copyright  SHIGARU
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @version    1.1.3
+ */
+class hwdvidsbands extends JTable
+{
+ 	var $id = null;
+ 	var $label = null;
+ 	var $description = null;
+ 	var $website = null;
+ 	var $externallink = null;
+
+    /**
+     * Constructor
+     * @param database A database connector object
+     */
+	function hwdvidsbands(&$db){
+        parent::__construct( '#__hwdvidsbands', 'id', $db );
+	}
+}
+
+/**
+ * @package    hwdVideoShare
+ * @author     SHIGARU 
+ * @copyright  SHIGARU
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @version    1.1.3
+ */
+class hwdvidssongs extends JTable
+{
+ 	var $id = null;
+ 	var $label = null;
+ 	var $description = null;
+ 	var $band_id = null;
+ 	var $externallink = null;
+
+    /**
+     * Constructor
+     * @param database A database connector object
+     */
+	function hwdvidssongs(&$db){
+        parent::__construct( '#__hwdvidssongs', 'id', $db );
 	}
 }
 
@@ -708,6 +764,170 @@ class hwd_vs_tools {
 		return $code;
     }
     /**
+     * Retrieves video info from external URL
+     * category name if necessary
+     *
+     * @param string    $embeddump  the external video URL
+     * @param boolean 	$admin_import(optional)  is the function called from admin?
+     * @return       $oThirdPartyVideoInfo  Object of video info
+     */
+	function getThirdPartyVideoInfo( $embeddump,$admin_import=false )
+	{
+		global $hwdvsItemid, $j15, $j16;
+		$db = & JFactory::getDBO();
+		$oThirdPartyVideoInfo;
+		$remote_verified = null;
+		
+		
+		$parsedurl = parse_url($embeddump);
+		if (empty($parsedurl['host'])) { $parsedurl['host'] = ''; }
+		preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $parsedurl['host'], $regs);
+		if (empty($regs['domain'])) { $regs['domain'] = ''; }
+		if ($j16)
+		{
+			if ($regs['domain'] == 'youtube.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube'.DS.'youtube.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube'.DS.'youtube.php');
+			}
+			else if ($regs['domain'] == 'google.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google'.DS.'google.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google'.DS.'google.php');
+			}
+			else if (file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'thirdpartysupportpack'.DS.$regs['domain'].'.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'thirdpartysupportpack'.DS.$regs['domain'].'.php');
+			}
+			else
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote'.DS.'remote.php');
+				$regs['domain'] = 'remote';
+			}
+		}
+		else
+		{
+			if ($regs['domain'] == 'youtube.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube.php');
+			}
+			else if ($regs['domain'] == 'google.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google.php');
+			}
+			else if (file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.$regs['domain'].'.php'))
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.$regs['domain'].'.php');
+			}
+			else
+			{
+				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
+				$regs['domain'] = 'remote';
+			}
+		}
+
+		$failures = "";
+		if (!isset($remote_verified)) {
+
+			$cn = 'hwd_vs_tp_'.preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']);
+			$f_processc = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processCode';
+			$f_processi = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processThumbnail';
+			$f_processt = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processTitle';
+			$f_processd = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDescription';
+			$f_processk = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processKeywords';
+			$f_processl = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDuration';
+
+			$tp = new $cn();
+
+			$ext_v_code  = $tp->$f_processc($embeddump);
+
+			//check if already exists
+			$db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos WHERE video_id = "'.$ext_v_code[1].'"' );
+			$duplicatecount = $db->loadResult();
+
+			if ($duplicatecount > 0 && $admin_import == false) {
+				hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_DUPLICATE, "exclamation.png", 0);
+				return;
+			} else if ($duplicatecount > 0 && $admin_import == true) {
+				return false;
+			}
+
+			$ext_v_title = $tp->$f_processt($embeddump, @$ext_v_code[1]);
+			$ext_v_descr = $tp->$f_processd($embeddump, @$ext_v_code[1]);
+			$ext_v_keywo = $tp->$f_processk($embeddump, @$ext_v_code[1]);
+			$ext_v_durat = $tp->$f_processl($embeddump, @$ext_v_code[1]);
+
+			if ($ext_v_code[0] == "0")
+			{
+				if ($j16)
+				{
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote'.DS.'remote.php');
+					$regs['domain'] = 'remote';
+				}
+				else
+				{
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
+					$regs['domain'] = 'remote';
+				}
+
+				$tp = new hwd_vs_tp_remote();
+				$ext_v_code  = $tp->remoteProcessCode($embeddump);
+				$ext_v_title = $tp->remoteProcessTitle($embeddump, @$ext_v_code[1]);
+				$ext_v_descr = $tp->remoteProcessDescription($embeddump, @$ext_v_code[1]);
+				$ext_v_keywo = $tp->remoteProcessKeywords($embeddump, @$ext_v_code[1]);
+				$ext_v_durat = $tp->remoteProcessDuration($embeddump, @$ext_v_code[1]);
+
+				if ($ext_v_code[0] == "0") {
+					
+					hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_INFO_TPPROCESSFAIL, "exclamation.png", 0);
+					return;
+				}
+
+				//check if already exists
+				$db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos WHERE video_id = "'.$ext_v_code[1].'"' );
+				$duplicatecount = $db->loadResult();
+
+				if ($duplicatecount > 0 && $admin_import == false) {
+					hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_DUPLICATE, "exclamation.png", 0);
+					return;
+				} else if ($duplicatecount > 0 && $admin_import == true) {
+					return false;
+				}
+			}
+
+			if ($ext_v_title[0] == 0) {$failures.=_HWDVIDS_INFO_TPTITLEFAIL."<br />";}
+			if ($ext_v_descr[0] == 0) {$failures.=_HWDVIDS_INFO_TPDESCFAIL."<br />";}
+			if ($ext_v_keywo[0] == 0) {$failures.=_HWDVIDS_INFO_TPKWFAIL."<br />";}
+			if ($ext_v_durat[0] == 0) {$failures.=_HWDVIDS_INFO_TPDRFAIL."<br />";}
+
+		} else if ($remote_verified == 0) {
+
+			$error_msg = _HWDVIDS_ERROR_UPLDERR11."<br /><br />"._HWDVIDS_INFO_SUPPTPW."<br />".hwd_vs_tools::generateSupportedWebsiteList();
+			hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, $error_msg, "exclamation.png", 1);
+			return;
+
+		}
+
+		$title 			= hwd_vs_tools::generatePostTitle($ext_v_title[1]);
+		$description 		= hwd_vs_tools::generatePostDescription($ext_v_descr[1]);
+		$tags 			= hwd_vs_tools::generatePostTags($ext_v_keywo[1]);
+		
+		$oThirdPartyVideoInfo->video_type		= $regs['domain'];
+		$oThirdPartyVideoInfo->video_id			= $ext_v_code[1];
+		$oThirdPartyVideoInfo->video_title		= trim($title);
+		$oThirdPartyVideoInfo->description		= $description;
+		$oThirdPartyVideoInfo->category_id 		= $category_id;
+		$oThirdPartyVideoInfo->tags				= $tags;
+		$oThirdPartyVideoInfo->video_length		= $ext_v_durat[1];
+		$oThirdPartyVideoInfo->date_uploaded	= date('Y-m-d H:i:s');
+		$oThirdPartyVideoInfo->remote_verified = $remote_verified;
+		$oThirdPartyVideoInfo->error_msg = $failures;
+		
+		
+		return $oThirdPartyVideoInfo;
+		
+    }
+    
+    
+     /**
      * Generates a link to category using $cat_id, and generates the
      * category name if necessary
      *
@@ -739,6 +959,7 @@ class hwd_vs_tools {
 		$code.= "</a>";
 		return $code;
     }
+    
     /**
      * Generates the name of a category from the $cat_id
      *
@@ -1675,6 +1896,38 @@ $app = & JFactory::getApplication();
 		}
 		return $code;
     }
+    
+    /**
+     * Generates an HTML select simple for an object list
+     * @param string $fields fields to be selected (fields a and b mandatory)
+     * @param string $tablename table to query
+     * @param string $orderby order column
+     * @return       $code 
+     */
+    function generateVideoCombos($fields,$tablename,$orderby,$elementid, $selectquestion=true,$others=false,$required=true){
+		$db =& JFactory::getDBO();
+		$db->setQuery("SELECT DISTINCT ".$fields." from #__".$tablename." ORDER BY ".$orderby.";"
+		                );
+		if($selectquestion)                
+			$options[] = JHTML::_('select.option', '', constant('_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT'));                
+		$mitems = $db->loadObjectList();
+		  foreach($mitems as $mitem) :
+			$options[] = JHTML::_('select.option', $mitem->a, constant($mitem->b));
+		  endforeach;
+		if($others)
+			$options[] = JHTML::_('select.option', 'OTHER', constant('_HWDVIDS_SHIGARU_SHIGAR_COMBO_OTHER'));      
+		$classCombo;
+		if($required)
+			$classCombo = 'class="inputbox required"';
+			else
+				$classCombo='class="inputbox"';
+			
+		  ## Create <select name="month" class="inputbox"></select> ##
+		  $code = JHTML::_('select.genericlist', $options, $elementid, $classCombo, 'value', 'text', $default);
+		
+		return $code;
+		}
+    
     /**
      * Generates the category list with formatted subcategories
      *
@@ -1686,8 +1939,9 @@ $app = & JFactory::getApplication();
      * @param int    $checkaccess(optional)  only list accessible categories for current user (0/1)
      * @return       $code
      */
-	function categoryList( $header, $selid, $nocatsmess, $pub = 0, $cname = "category_id", $checkaccess = 1, $tag_attribs = 'class="inputbox"', $show_uncategorised=false)
+	function categoryList( $header, $selid, $nocatsmess, $pub = 0, $cname = "category_id", $checkaccess = 1, $tag_attribs = 'class="inputbox required"', $show_uncategorised=false)
 	{
+		
   		$db =& JFactory::getDBO();
 		$my = & JFactory::getUser();
         $c = hwd_vs_Config::get_instance();
@@ -1721,7 +1975,7 @@ $app = & JFactory::getApplication();
 		if ($nocats == 0) {
 			$mitems[] = JHTML::_('select.option', '0', $nocatsmess);
 		} else {
-			$mitems[] = JHTML::_('select.option', '0', $header);
+			$mitems[] = JHTML::_('select.option', '', $header);
 			if ($show_uncategorised) {
 				$mitems[] = JHTML::_('select.option', 'none', 'Uncategorized');
 			}
@@ -2648,7 +2902,130 @@ $app = & JFactory::getApplication();
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
+		for($i = 0; $i < sizeof($wordList); ++$i){
+			$wordList[$i] =constant($wordList[$i]);
+		} 
+		return $wordList;
+    }
+    
+    /**
+     * adds a new row to the bands table
+     *
+     * 
+     * @return        $$row->id
+     */
+	function addSong($song, $band_id) {
+		$db = & JFactory::getDBO();
+		$row = new hwdvidssongs($db);
 		
+		$_POST['label'] 		= $song;
+		$_POST['description'] 	= $song;
+		$_POST['band_id'] 		= $band_id;
+		$_POST['externallink'] 	= $song;
+		
+		// bind it to the table
+		if (!$row->bind($_POST))
+		{
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+
+		// store it in the db
+		if (!$row->store())
+		{
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+		
+		return $row->id;
+    }
+    
+    /**
+     * checks if the band is already in the list of bands
+     *
+     * 
+     * @return        $bandMatched
+     */
+	function checkSong($band) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT label FROM #__hwdvidsbands AS a'; 
+		$query .= ' WHERE a.label ="'.$band.'"';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		if(sizeof($bandList)>0)
+			$bandMatched = $bandList[0];
+				else
+					$bandMatched =null;
+		return $bandMatched;
+    }
+    
+    /**
+     * adds a new row to the bands table
+     *
+     * 
+     * @return        $$row->id
+     */
+	function addBand($band) {
+		$db = & JFactory::getDBO();
+		$row = new hwdvidsbands($db);
+		
+		$_POST['label'] 			= $band;
+		$_POST['description'] 		= $band;
+		$_POST['website'] 			= $band;
+		$_POST['externallink'] 		= $band;
+		
+		// bind it to the table
+		if (!$row->bind($_POST))
+		{
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+
+		// store it in the db
+		if (!$row->store())
+		{
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+		
+		return $row->id;
+    }
+    
+    /**
+     * checks if the band is already in the list of bands
+     *
+     * 
+     * @return        $bandMatched
+     */
+	function checkBand($band) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT label FROM #__hwdvidsbands AS a'; 
+		$query .= ' WHERE a.label ="'.$band.'"';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		if(sizeof($bandList)>0)
+			$bandMatched = $bandList[0];
+				else
+					$bandMatched =null;
+		return $bandMatched;
+    }
+    
+    /**
+     * Generates list of most bands tags
+     *
+     * 
+     * @return        $wordList
+     */
+	function getBandTags() {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT label FROM #__hwdvidsbands AS a, #__hwdvidsvideos as b'; 
+		$query .= ' WHERE a.id = b.band_id';
+		$query .= ' LIMIT 0,30';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$wordList = $db->loadResultArray();
 		return $wordList;
     }
     
@@ -2666,7 +3043,9 @@ $app = & JFactory::getApplication();
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
-		
+		for($i = 0; $i < sizeof($wordList); ++$i){
+			$wordList[$i] =constant($wordList[$i]);
+		} 
 		return $wordList;
     }
     
@@ -2702,7 +3081,6 @@ $app = & JFactory::getApplication();
 		$words = '';
 		$words = implode(' ',$dataObj);
 		$words = strip_tags($words);
-		
 		return $words;		
 	}
 	
@@ -5390,7 +5768,7 @@ $app = & JFactory::getApplication();
 					</script>
 					<img src=\"".JURI::root( true )."/components/com_hwdvideoshare/assets/images/loadingCaptcha.png\" alt=\"Security Code\" name=\"hwdCaptchaPic\" id=\"hwdCaptchaPic\" width=\"120\" height=\"40\" style=\"border: 1px solid Black; width: 120px; height: 40px;\" />
 					<script language=\"javascript\">
-					document.write('<div style=\"cursor:pointer;padding:3px;\" onclick=\"refresh_hwd_Captcha()\" >"._HWDVIDS_INFO_NEWCODE."</a>');
+					document.write('<a style=\"cursor:pointer;padding:3px;\" onclick=\"refresh_hwd_Captcha()\" >"._HWDVIDS_INFO_NEWCODE."</a>');
 					</script>";
 		$smartyvs->assign("print_captcha", 1);
 		}

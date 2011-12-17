@@ -22,6 +22,7 @@ class hwd_vs_tp_remote
 	function remoteProcessCode($raw_code)
 	{
 		$code = hwd_vs_tp_remote::remoteGetCode($raw_code);
+		
 		if (!empty($code))
 		{
 			$thumbnail = hwd_vs_tp_remote::remoteGetThumbnail($code);

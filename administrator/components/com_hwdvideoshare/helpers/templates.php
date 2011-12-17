@@ -216,7 +216,7 @@ class hwd_vs_templates
 			$smartyvs->assign("so4value", "1");
 		}
 
-		$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, 0, _HWDVIDS_INFO_NOCATS, 1));
+		$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, 0, _HWDVIDS_INFO_NOCATS, 1));
 
 		$smartyvs->assign("rss_recent", JRoute::_("index.php?Itemid=".$hwdvsItemid."&option=com_hwdvideoshare&task=rss&feed=recent"));
 
@@ -360,7 +360,7 @@ class hwd_vs_templates
 
 
 
-		$categoryselectlist = hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, 0, _HWDVIDS_INFO_NOCATS, 1);
+		$categoryselectlist = hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, 0, _HWDVIDS_INFO_NOCATS, 1);
 		$smartyvs->assign("categoryselect", $categoryselectlist);
 
 		if ($c->usershare1 == 1 || $c->usershare2 == 1 || $c->usershare3 == 1 || $c->usershare4 == 1) {

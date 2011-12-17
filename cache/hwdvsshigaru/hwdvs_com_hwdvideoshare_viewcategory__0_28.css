@@ -1,0 +1,46 @@
+#hwdvs_navcontainer
+{
+	width: px;
+}
+
+#hwdvs_navcontainer ul li, #hwdvs_navcontainer ul, #hwdvids ul.tabbernav, #hwdvids ul.tabbernav li, #hwdvids .box {
+	list-style-image: url('/shigaru/images/blank.png')!important;
+	background-image: url('/shigaru/images/blank.png')!important;
+}
+
+#hwdvs_navcontainer ul li
+{
+	background: url('/shigaru/plugins/hwdvs-template/shigaru/images/button_nav_off.png') no-repeat top center!important;
+}
+
+#hwdvs_navcontainer li#active
+{
+	background: url('/shigaru/plugins/hwdvs-template/shigaru/images/button_nav_on.png') no-repeat top center!important;
+}
+
+#hwdvs_navcontainer ul li:hover
+{
+	background: url('/shigaru/plugins/hwdvs-template/shigaru/images/button_nav_hover.png') no-repeat top center!important;
+}
+
+#hwdvids .box
+{
+	background: transparent url('/shigaru/images/blank.png') no-repeat top center!important;
+}
+
+#hwdvids .videoBox {
+	width: 98%;
+	float:left;
+}
+#hwdvids .groupBox {
+	width: 98%;
+	float:left;
+}
+#hwdvids .categoryBox {
+	width: 48%;
+	float:left;
+}
+
+#hwdvids .menudo_image {
+	background:transparent url('/shigaru/plugins/hwdvs-template/shigaru/images/search_bar.png') no-repeat scroll 0px 0px;
+}

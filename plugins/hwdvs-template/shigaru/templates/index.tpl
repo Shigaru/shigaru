@@ -381,7 +381,7 @@
       </div>
       <div class="list">
         <div class="box">
-          {$tagsList}
+          {$bandtagsList}
 	  <div style="clear:both;"></div>
         </div>
       </div>  

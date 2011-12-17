@@ -9,8 +9,8 @@
 
 {if $full}{include file='header.tpl'}{/if}
 
-<div class="standard">
-  <h2>{$title}</h2>
+<div class="shigaruinfo">
+ {$title}
   <div class="padding">
     <img src="{$icon}" border="0" style="vertical-align:middle;" />&nbsp;&nbsp;{$message}<br /><br />
     {$backlink}
@@ -84,5 +84,3 @@
 </div>
 
 {/if}
-
-{if $full}{include file='footer.tpl'}{/if}

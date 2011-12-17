@@ -1,20 +1,28 @@
 <playlist version="1" xmlns="http://xspf.org/ns/0/" xmlns:jwplayer="http://developer.longtailvideo.com/ns/1">
 <title>hwdVideoShare Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2011-11-30 08:51:38</date>
+<date>2011-12-11 17:05:20</date>
 <trackList>
 
   <track>
-    <location><![CDATA[http://www.youtube.com/watch?v=stK47MWu6Jo]]></location>
-    <image><![CDATA[http://i.ytimg.com/vi/stK47MWu6Jo,http://img.youtube.com/vi/stK47MWu6Jo/default.jpg/0.jpg]]></image>
-    <title><![CDATA[How to Play Love The Way You Lie by Eminem and Rihanna on Guitar]]></title>
-    <annotation><![CDATA[How to do the Steve Martin dance: http://bitly.com/stevemartindance
-http://www.mahalo.com/how-to-play-love-the-way-you-lie-by-eminem-and-rihanna-on-guitar
-Like us on&#160;Facebook&#160;at&#160;http://www.facebook.com/MahaloGuitar
+    <location><![CDATA[http://www.youtube.com/watch?v=rqzSONKwZlo]]></location>
+    <image><![CDATA[http://i.ytimg.com/vi/rqzSONKwZlo/0.jpg]]></image>
+    <title><![CDATA[Highway to hell, AC/DC, como tocar higway to hell]]></title>
+    <annotation><![CDATA[http://www.virtuosso.com Aprende a tocar el solo de la famosa canci&#243;n Higway to hell de AC/DC. Los mejores cursos de guitarra en DVD los tiene Virtuosso. S&#237;guenos en Twitter: http://www.twitter.com/Virtuosso]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
 
-If you enjoy listening to music from Eminem, you may also like to learn how to play songs from the artist. One song that is quite simple to learn to play on guitar is "Love The Way You Lie" which also features artist Rihanna. This song only uses a few chords and has no change ups or complex segments. This song is ideal for someone that is just learning to play.
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=iemRWowVeOc]]></location>
+    <image><![CDATA[http://i.ytimg.com/vi/iemRWowVeOc/0.jpg]]></image>
+    <title><![CDATA[SIEMPRE IGUAL  *  LOS SUAVES  *  ACORDES PARA GUITARRA]]></title>
+    <annotation><![CDATA[(ocho de la ma&#241;ana...)
+E5(5 CUERDA)   A   F#m    B
 
-&#8232;Rihanna teamed up with Eminem to record the hit single "Love the Way You Lie". From Eminem's 7th album, "Recovery" this song is the second single to have been released. The song climbed to #1 on the Billboard charts and gave each of the artists another number one single to add to their recording history. For Eminem, this track marks his 4th single to reach number...]]></annotation>
+y en el cambio:
+
+(te arrastras al labavo...)
+D   A   F#m   B]]></annotation>
 	<meta rel='type'>youtube</meta>
   </track>
 

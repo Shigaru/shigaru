@@ -2,230 +2,190 @@
 <playlist version="1">
 <title>hwdVideoShare mostpopular_alltime Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2011-11-30 08:51:39</date>
+<date>2011-12-17 17:06:17</date>
 <trackList>
 
   <track>
-    <id><![CDATA[1]]></id>
-    <videotitle><![CDATA[el pinia en parachute]]></videotitle>
-    <videocode><![CDATA[cUnXZKHHuTQ,http%3A%2F%2Fimg.youtube.com%2Fvi%2FcUnXZKHHuTQ%2Fdefault.jpg]]></videocode>
+    <id><![CDATA[125]]></id>
+    <videotitle><![CDATA[Highway to hell, AC/DC, como tocar higway to hell]]></videotitle>
+    <videocode><![CDATA[rqzSONKwZlo]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
+    <thumbnail><![CDATA[tp-125.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
-    <category_id><![CDATA[8]]></category_id>
-    <description><![CDATA[el pinia en parachute]]></description>
-    <views><![CDATA[53]]></views>
-    <views><![CDATA[53]]></views>
-    <date><![CDATA[2010-05-03 13:52:30]]></date>
-    <duration><![CDATA[07:01]]></duration>
-    <rating><![CDATA[5.00]]></rating>
-    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
-    <uploader_id><![CDATA[0]]></uploader_id>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[&#60;p&#62;http://www.virtuosso.com Aprende a tocar el solo de la famosa canci&#243;n Higway to hell de AC/DC. Los mejores cursos de guitarra en DVD los tiene Virtuosso. S&#237;guenos en Twitter: http://www.twitter.com/Virtuosso&#60;/p&#62;]]></description>
+    <views><![CDATA[6]]></views>
+    <views><![CDATA[6]]></views>
+    <date><![CDATA[2011-12-10 18:52:23]]></date>
+    <duration><![CDATA[06:52]]></duration>
+    <rating><![CDATA[4.50]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[79]]></uploader_id>
     <avatar><![CDATA[]]></avatar>
     <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[pinia,parachute]]></tags>
+    <tags><![CDATA[highway to hell, ACDC, AC DC, como tocar higway to hell, cómo tocar higwall to hell, acdc, acdc, solos en la guitarra]]></tags>
   </track>
 
   <track>
-    <id><![CDATA[5]]></id>
-    <videotitle><![CDATA[televenchavez.mp4]]></videotitle>
-    <videocode><![CDATA[RDSsKfz3yHo,http%3A%2F%2Fimg.youtube.com%2Fvi%2FRDSsKfz3yHo%2Fdefault.jpg]]></videocode>
+    <id><![CDATA[130]]></id>
+    <videotitle><![CDATA[SIEMPRE IGUAL  *  LOS SUAVES  *  ACORDES PARA GUITARRA]]></videotitle>
+    <videocode><![CDATA[iemRWowVeOc]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
+    <thumbnail><![CDATA[tp-130.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
-    <category_id><![CDATA[2]]></category_id>
-    <description><![CDATA[Unknown]]></description>
-    <views><![CDATA[66]]></views>
-    <views><![CDATA[66]]></views>
-    <date><![CDATA[2010-05-03 19:23:53]]></date>
-    <duration><![CDATA[06:51]]></duration>
-    <rating><![CDATA[5.00]]></rating>
-    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
-    <uploader_id><![CDATA[0]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
-    <comments><![CDATA[3]]></comments>
-    <tags><![CDATA[periodista,televen,chavez,votacion,elecciones]]></tags>
-  </track>
+    <category_id><![CDATA[1]]></category_id>
+    <description><![CDATA[(ocho de la ma&#241;ana...)
+E5(5 CUERDA)   A   F#m    B
 
-  <track>
-    <id><![CDATA[6]]></id>
-    <videotitle><![CDATA[Los ganadores son......]]></videotitle>
-    <videocode><![CDATA[uFB819kANEo,http%3A%2F%2Fimg.youtube.com%2Fvi%2FuFB819kANEo%2Fdefault.jpg]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[5]]></category_id>
-    <description><![CDATA[MI MAIL ES: glamakeup@yahoo.es
+y en el cambio:
 
-PRIMERA GANADORA: 
-http://www.youtube.com/watch?v=g-qwbCUNiXg
-
-SEGUNDA GANADORA:
-http://www.youtube.com/watch?v=alxyGrqaC4A
-
-http://www.aishawari.com/
-
-]]></description>
-    <views><![CDATA[67]]></views>
-    <views><![CDATA[67]]></views>
-    <date><![CDATA[2010-05-03 19:24:38]]></date>
-    <duration><![CDATA[06:07]]></duration>
-    <rating><![CDATA[5.00]]></rating>
-    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
-    <uploader_id><![CDATA[0]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
-    <comments><![CDATA[2]]></comments>
-    <tags><![CDATA[CONCURSOAISHAWARI,MAKEUPTUTORIALS,AISHAWARI,ESBATT]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[7]]></id>
-    <videotitle><![CDATA[John cobra vs el santos]]></videotitle>
-    <videocode><![CDATA[aICfyXgJYcc,http%3A%2F%2Fimg.youtube.com%2Fvi%2FaICfyXgJYcc%2Fdefault.jpg]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[4]]></category_id>
-    <description><![CDATA[el super santos  rap hip hop]]></description>
-    <views><![CDATA[56]]></views>
-    <views><![CDATA[56]]></views>
-    <date><![CDATA[2010-05-03 19:29:21]]></date>
-    <duration><![CDATA[00:30]]></duration>
-    <rating><![CDATA[5.00]]></rating>
-    <uploader><![CDATA[pichica]]></uploader>
-    <uploader_id><![CDATA[63]]></uploader_id>
-    <avatar><![CDATA[63_4bdfddeadd3b6.jpg]]></avatar>
+(te arrastras al labavo...)
+D   A   F#m   B]]></description>
+    <views><![CDATA[1]]></views>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2011-12-11 13:11:39]]></date>
+    <duration><![CDATA[02:37]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
     <comments><![CDATA[1]]></comments>
-    <tags><![CDATA[jhon,cobra,batu]]></tags>
+    <tags><![CDATA[siempre, igual, los, suaves, suave, guitarra, heavy, acordes]]></tags>
   </track>
 
   <track>
-    <id><![CDATA[8]]></id>
-    <videotitle><![CDATA[TV3 - Pol]]></videotitle>
-    <videocode><![CDATA[6LLLsbLSG8o,http%3A%2F%2Fimg.youtube.com%2Fvi%2F6LLLsbLSG8o%2Fdefault.jpg]]></videocode>
+    <id><![CDATA[131]]></id>
+    <videotitle><![CDATA[Como tocar &#34;Agradecido&#34; con guitarra (Rosendo) y como preparar un bizcocho f&#225;cil]]></videotitle>
+    <videocode><![CDATA[eQ01w00JN8M]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
+    <thumbnail><![CDATA[tp-131.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
-    <category_id><![CDATA[9]]></category_id>
-    <description><![CDATA[Un nou cap]]></description>
-    <views><![CDATA[103]]></views>
-    <views><![CDATA[103]]></views>
-    <date><![CDATA[2010-05-03 19:56:46]]></date>
-    <duration><![CDATA[03:39]]></duration>
-    <rating><![CDATA[5.00]]></rating>
-    <uploader><![CDATA[pichica]]></uploader>
-    <uploader_id><![CDATA[63]]></uploader_id>
-    <avatar><![CDATA[63_4bdfddeadd3b6.jpg]]></avatar>
-    <comments><![CDATA[1]]></comments>
-    <tags><![CDATA[tv3,catalunya,catal]]></tags>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[-- GuitarFiero.com --
+
+En &#233;sta ocasi&#243;n y con motivo del v&#237;deo 100 os ense&#241;ar&#233; una manera f&#225;cil de hacer un bizcocho y mientras se hace veremos como tocar el tema &#34;Agradecido&#34; de Rosendo. Y como ta sab&#233;is todo el material lo encontrar&#233;is gratis en guitarfiero.com]]></description>
+    <views><![CDATA[1]]></views>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2011-12-11 17:07:01]]></date>
+    <duration><![CDATA[20:33]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[como, tocar, agradecido, rosendo, guitarra, tabs, riffs, bizcocho, hacer, facil, yogur, guitar, guitarfiero, español, castellano, spanish, rock, lesson, lecc]]></tags>
   </track>
 
   <track>
-    <id><![CDATA[17]]></id>
-    <videotitle><![CDATA[Flamenco Guitar lesson with free tabs Tremelo from Rafael Cortes on a Gerundino1987]]></videotitle>
-    <videocode><![CDATA[LOlqEy9VWWs,http%3A%2F%2Fimg.youtube.com%2Fvi%2FLOlqEy9VWWs%2Fdefault.jpg]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
+    <id><![CDATA[126]]></id>
+    <videotitle><![CDATA[zxzx]]></videotitle>
+    <videocode><![CDATA[ffbnia6pckhxx5]]></videocode>
+    <videotype><![CDATA[local]]></videotype>
     <thumbnail><![CDATA[]]></thumbnail>
     <category><![CDATA[]]></category>
     <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[&#60;p&#62;Gerundino Fern&#225;ndez negra 1987 flamenco guitar. As a tribute to Rafael Cort&#233;s free Tabs can be downloaded on our site https://www.lasonanta.eu/en/guitarras-flamencas/gerundino-fernandez-flamenco-guitar-1987.html  The more subscribers we get, the more Free Flamenco guitar lessons and Free Tabs we will publish. To subscribe to our Free Flamenco Guitar Lessons, please  go to https://www.lasonanta.eu/en/la-sonanta-mailing-list  If you want to know and feel how this Gerundino looks and sounds like, we invite you to watch and enjoy the included Free Flamenco guitar video lesson by our maestro Rezar Dominguez. This Free Flamenco guitar lesson consists of an intro enabling you to feel the sound and playability of this Gerundino, as well as a beautiful tremelo of Del Hoy al Ayer from Rafael Cort&#233;s.  The late &#39;el maestro guitarrero Gerundino Fern&#225;ndez Garcia&#39; (1931-2006) was, perhaps, the finest luthier of all time of the latter half of the twentieth...]]></description>
-    <views><![CDATA[69]]></views>
-    <views><![CDATA[69]]></views>
-    <date><![CDATA[2010-07-05 03:52:22]]></date>
-    <duration><![CDATA[06:59]]></duration>
-    <rating><![CDATA[5.00]]></rating>
-    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
-    <uploader_id><![CDATA[0]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
-    <comments><![CDATA[2]]></comments>
-    <tags><![CDATA[Flamenco,guitar,Gerundino,Del,Hoy,al,Ayer,Mario,Cortes,Free,lesson,Guitar,Tabs,Rezar,Dominguez,Geert,Doumen,La,sonanta,gitanos]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[10]]></id>
-    <videotitle><![CDATA[Mexicali Earthquake 4-4-10]]></videotitle>
-    <videocode><![CDATA[4z06GY_JYkE,http%3A%2F%2Fimg.youtube.com%2Fvi%2F4z06GY_JYkE%2Fdefault.jpg]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[1]]></category_id>
-    <description><![CDATA[This was taped about 5 minutes after the 4-4-10 Mexicali Earthquake, we live in Moreno Valley Ca, and our Chandeleir hit the wall, it was pretty cool!]]></description>
-    <views><![CDATA[119]]></views>
-    <views><![CDATA[119]]></views>
-    <date><![CDATA[2010-05-11 19:41:43]]></date>
-    <duration><![CDATA[00:30]]></duration>
-    <rating><![CDATA[4.67]]></rating>
-    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
-    <uploader_id><![CDATA[0]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
+    <description><![CDATA[xzxzx]]></description>
+    <views><![CDATA[1]]></views>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2011-12-10 18:55:17]]></date>
+    <duration><![CDATA[0:01:54]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[pichica]]></uploader>
+    <uploader_id><![CDATA[63]]></uploader_id>
+    <avatar><![CDATA[63_4bdfddeadd3b6.jpg]]></avatar>
     <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[Mexicali,Earthquake,4-4-10]]></tags>
+    <tags><![CDATA[fdsfsdf]]></tags>
   </track>
 
   <track>
-    <id><![CDATA[43]]></id>
-    <videotitle><![CDATA[zona norte posse]]></videotitle>
-    <videocode><![CDATA[C_bbHYb5Kwc,http%3A%2F%2Fimg.youtube.com%2Fvi%2FC_bbHYb5Kwc%2Fdefault.jpg]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
+    <id><![CDATA[127]]></id>
+    <videotitle><![CDATA[Unknown]]></videotitle>
+    <videocode><![CDATA[hwd7k58egta2sm]]></videocode>
+    <videotype><![CDATA[local]]></videotype>
     <thumbnail><![CDATA[]]></thumbnail>
     <category><![CDATA[]]></category>
-    <category_id><![CDATA[2]]></category_id>
-    <description><![CDATA[promo del cd de la kbp de alicante]]></description>
-    <views><![CDATA[43]]></views>
-    <views><![CDATA[43]]></views>
-    <date><![CDATA[2010-09-18 20:20:33]]></date>
-    <duration><![CDATA[02:35]]></duration>
-    <rating><![CDATA[4.50]]></rating>
-    <uploader><![CDATA[admin]]></uploader>
-    <uploader_id><![CDATA[62]]></uploader_id>
-    <avatar><![CDATA[gallery/frog.gif]]></avatar>
-    <comments><![CDATA[1]]></comments>
-    <tags><![CDATA[picolo,uzirecords,znp,mc,lee,bop,marcha,kbp]]></tags>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[_HWDVIDS_UNKNOWN]]></description>
+    <views><![CDATA[1]]></views>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2011-12-10 19:32:13]]></date>
+    <duration><![CDATA[0:00:07]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[fsdfsdf]]></tags>
   </track>
 
   <track>
-    <id><![CDATA[47]]></id>
-    <videotitle><![CDATA[ANTEO -paz y petardos- ZNP-]]></videotitle>
-    <videocode><![CDATA[7mVvsKakDw8,http%3A%2F%2Fimg.youtube.com%2Fvi%2F7mVvsKakDw8%2Fdefault.jpg]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
+    <id><![CDATA[128]]></id>
+    <videotitle><![CDATA[Unknown]]></videotitle>
+    <videocode><![CDATA[k24gzqxuw5ut7k]]></videocode>
+    <videotype><![CDATA[local]]></videotype>
     <thumbnail><![CDATA[]]></thumbnail>
     <category><![CDATA[]]></category>
-    <category_id><![CDATA[2]]></category_id>
-    <description><![CDATA[MADANTEO LEGENDA VIVA ZONA NORTE POSSE]]></description>
-    <views><![CDATA[46]]></views>
-    <views><![CDATA[46]]></views>
-    <date><![CDATA[2010-09-18 20:20:53]]></date>
-    <duration><![CDATA[02:45]]></duration>
-    <rating><![CDATA[4.50]]></rating>
-    <uploader><![CDATA[admin]]></uploader>
-    <uploader_id><![CDATA[62]]></uploader_id>
-    <avatar><![CDATA[gallery/frog.gif]]></avatar>
-    <comments><![CDATA[2]]></comments>
-    <tags><![CDATA[ZONA,NORTE,POSSE,ANTEO,LEE,JOSELE,PICOLO]]></tags>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[_HWDVIDS_UNKNOWN]]></description>
+    <views><![CDATA[1]]></views>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2011-12-10 19:34:48]]></date>
+    <duration><![CDATA[0:00:05]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[fdsdfsdf]]></tags>
   </track>
 
   <track>
-    <id><![CDATA[50]]></id>
-    <videotitle><![CDATA[How to Play TITANIC Theme on Guitar, WITH TABS!!!]]></videotitle>
-    <videocode><![CDATA[TMSaSRyGgQs,http%3A%2F%2Fimg.youtube.com%2Fvi%2FTMSaSRyGgQs%2Fdefault.jpg]]></videocode>
+    <id><![CDATA[129]]></id>
+    <videotitle><![CDATA[Dolores Se Llamaba Lola de Los suaves (C&#243;mo Tocar - tutorial en castellano ) www.shigaru.com]]></videotitle>
+    <videocode><![CDATA[GagtliRoV6E]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
+    <thumbnail><![CDATA[tp-129.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
-    <category_id><![CDATA[1]]></category_id>
-    <description><![CDATA[This guitar lesson shows how to play &#34;Titanic&#34; theme on guitar. My NEW guitar lesson website:
-http://www.bobsguitarlessons.yolasite.com
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[Aqu&#237; Rodolfo os explica c&#243;mo tocar la intro de Dolores Se Llamaba Lola de Los Suaves  -------------------------------------------------
 
-An AWESOME guitar course: http://tinyurl.com/nz4n6h]]></description>
-    <views><![CDATA[53]]></views>
-    <views><![CDATA[53]]></views>
-    <date><![CDATA[2010-09-19 08:06:50]]></date>
-    <duration><![CDATA[06:31]]></duration>
-    <rating><![CDATA[4.50]]></rating>
-    <uploader><![CDATA[admin]]></uploader>
-    <uploader_id><![CDATA[62]]></uploader_id>
-    <avatar><![CDATA[gallery/frog.gif]]></avatar>
-    <comments><![CDATA[2]]></comments>
-    <tags><![CDATA[titanic,theme,guitar,lesson,how,play,bobbycrispy,tabs,tablature,tutorial,teaching]]></tags>
+Para cientos m&#225;s tutoriales por favor visitad  http://www.shigaru.com . --------------------------------------------------
+
+www.shigaru.com es una comunidad nueva para amantes de la m&#250;sica, donde los conocimientos musicales son compartidos gratis con el mundo. Podeis subir explicaciones de canciones enteras, o s&#243;lo la explicaci&#243;n de un riff, o un estribillo o varias t&#233;cnicas....basicamente puedes subir tutoriales de cualquier cosa. Vuestros conocimientos m&#250;sicales ser&#225;n &#250;tiles para miles de personas por el mundo
+---------------------------------------
+
+Por favor dejad comentarios y si puedes subir una versi&#243;n mejor por favor subirla a http://www.shigaru.com. Pero please no seais ofensivos porque es muy f&#225;cil criticar. No prentendemos ser m&#250;sicos profesionales, s&#243;lo queremos...]]></description>
+    <views><![CDATA[1]]></views>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2011-12-10 19:47:19]]></date>
+    <duration><![CDATA[02:33]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[pichica]]></uploader>
+    <uploader_id><![CDATA[63]]></uploader_id>
+    <avatar><![CDATA[63_4bdfddeadd3b6.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[tutorial, rock, español, lección, leccion, clase, aprender, tocar, sting, Dolores se llamaba lola, lesson, explanation, explicacion, teacher, how, to, play, ]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[124]]></id>
+    <videotitle><![CDATA[Pin Pon es un mu&#241;eco...]]></videotitle>
+    <videocode><![CDATA[B6lbqdKC5NQ]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-124.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[rondas infantiles]]></description>
+    <views><![CDATA[1]]></views>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2011-12-10 18:33:44]]></date>
+    <duration><![CDATA[02:27]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[rondas, infantiles]]></tags>
   </track>
 
 </trackList>

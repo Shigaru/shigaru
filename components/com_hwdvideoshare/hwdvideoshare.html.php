@@ -463,6 +463,13 @@ class hwd_vs_html
 		$gentagsList = hwd_vs_tools::outputWords($gentagsList,10,25);
 		$smartyvs->assign("gentagsList", $gentagsList);
 		
+		// BANDS TAGS
+		$banwordList = hwd_vs_tools::getBandTags();
+		$bantagsList = hwd_vs_tools::concatenateWords($banwordList);
+		$bantagsList = hwd_vs_tools::filterWords($bantagsList);
+		$bantagsList = hwd_vs_tools::parseTagsString($bantagsList,50);
+		$bantagsList = hwd_vs_tools::outputWords($bantagsList,10,25);
+		$smartyvs->assign("bandtagsList", $bantagsList);
 		$smartyvs->assign("totalvideos", $total);
 		
 		/* most commented */
@@ -513,7 +520,7 @@ class hwd_vs_html
 		hwd_vs_tools::generateBreadcrumbs();
 
 		$smartyvs->assign("searchterm", $searchterm);
-		$smartyvs->assign("categorySearchSelect", hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $category_id, _HWDVIDS_INFO_NOCATS, 1, "category_id", 0));
+		$smartyvs->assign("categorySearchSelect", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, $category_id, _HWDVIDS_INFO_NOCATS, 1, "category_id", 0));
 
 		if (count($matchingvids) > 0) {
 			$smartyvs->assign("print_matchvids", 1);
@@ -584,11 +591,9 @@ class hwd_vs_html
 			$metatitle = _HWDVIDS_META_DEFAULT;
 		}
 		
-		/*  
-		echo '<pre>';
-			var_dump($uploadpage);
-		echo '</pre>';
-	*/
+		  
+		
+	
 
 		// set the page/meta title
 		$doc->setTitle( $metatitle." - "._HWDVIDS_META_UPLD );
@@ -640,30 +645,57 @@ class hwd_vs_html
 			}
 
 		} else if ($uploadpage == "thirdparty") {
-
+			$doc = & JFactory::getDocument();
+			$doc->addScript( JURI::root(true).'/templates/rhuk_milkyway/js/jquery.min.js' );
+			$doc->addCustomTag( '<script type="text/javascript">jQuery.noConflict();</script>' );
+			$doc->addScript(JURI::root(true).'/templates/rhuk_milkyway/js/sliding.form.js');
+			JHTML::_('behavior.formvalidation');
+			
 			$app->setUserState( "com_hwdvideoshare.upload_selection", "tp" );
-			hwd_vs_javascript::checkaddform();
+			$oThirdPartyVideoInfo = hwd_vs_tools::getThirdPartyVideoInfo($videourl);		
+			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		
+			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);		
+			$languagesCombo = hwd_vs_tools::generateVideoCombos('code as a, code as b','languages','id','language_id',true,false,true);	
+			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);		
 			$captcha = hwd_vs_tools::generateCaptcha();
 			$editor =& JFactory::getEditor();
-			$smartyvs->assign( "description", $editor->display("description","",350,250,40,20,1) );
+			$smartyvs->assign( "description", $editor->display("description",$oThirdPartyVideoInfo->description,350,200,20,20,1) );
+			$smartyvs->assign("videoInfo", $oThirdPartyVideoInfo);
+			$smartyvs->assign("infoPassed", 'true');
 			$smartyvs->assign("captcha", $captcha);
+			$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
+			$smartyvs->assign("levelsCombo", $levelsCombo);
+			$smartyvs->assign("languagesCombo", $languagesCombo);
+			$smartyvs->assign("genresCombo", $genresCombo);
 			$smartyvs->assign("videourl",$videourl);
-			$smartyvs->display('upload_thirdparty.tpl');
+			if(is_object($oThirdPartyVideoInfo))
+				$smartyvs->display('upload_thirdparty.tpl');
+				 else
+					$smartyvs->display('upload_choice.tpl');
 			return;
 
 		} else if ($uploadpage == "1") {
-
-			if (hwd_vs_access::allowAccess( $c->gtree_edtr, $c->gtree_edtr_child, hwd_vs_access::userGID( $my->id )))
-			{
-				$editor =& JFactory::getEditor();
-				$smartyvs->assign( "description", $editor->display("description","",350,250,40,20,1) );
-				$smartyvs->assign( "print_wysiwyg", 1 );
-			}
+			$doc = & JFactory::getDocument();
+			$doc->addScript( JURI::root(true).'/templates/rhuk_milkyway/js/jquery.min.js' );
+			$doc->addCustomTag( '<script type="text/javascript">jQuery.noConflict();</script>' );
+			$doc->addScript(JURI::root(true).'/templates/rhuk_milkyway/js/sliding.form.js');
+			JHTML::_('behavior.formvalidation');
+			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		
+			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);		
+			$languagesCombo = hwd_vs_tools::generateVideoCombos('code as a, code as b','languages','id','language_id',true,false,true);	
+			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);
+			$editor =& JFactory::getEditor();
+			$smartyvs->assign( "description", $editor->display("description",$oThirdPartyVideoInfo->description,350,200,20,20,1) );
+			$smartyvs->assign( "print_wysiwyg", 1 );
 			$smartyvs->assign("fylePath",$fylePath);
 			$app->setUserState( "com_hwdvideoshare.upload_selection", "local" );
 			hwd_vs_javascript::checkuploadform();
 			$captcha = hwd_vs_tools::generateCaptcha();
 			$smartyvs->assign("captcha", $captcha);
+			$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
+			$smartyvs->assign("levelsCombo", $levelsCombo);
+			$smartyvs->assign("languagesCombo", $languagesCombo);
+			$smartyvs->assign("genresCombo", $genresCombo);
 			$smartyvs->display('upload_local.tpl');
 			return;
 
@@ -742,7 +774,6 @@ class hwd_vs_html
 		global $smartyvs, $Itemid;
 		$c = hwd_vs_Config::get_instance();
   		$db =& JFactory::getDBO();
-		$my = & JFactory::getUser();
 
 		// load the menu name
 		jimport( 'joomla.application.menu' );
@@ -848,7 +879,7 @@ class hwd_vs_html
 			{
 				$selected = $row->category_id;
 			}
-			$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
+			$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
 		}
 
 		$smartyvs->display('upload_thirdparty_confirm.tpl');
@@ -2023,7 +2054,7 @@ $app = & JFactory::getApplication();
 			{
 				$selected = $row->category_id;
 			}
-			$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
+			$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
 
 
 		$smartyvs->display('video_edit.tpl');

@@ -650,7 +650,7 @@ DEFINE("_HWDVIDS_SHIGARU_LEVELS_EXPERT","Expert");
 DEFINE("_HWDVIDS_SHIGARU_GUITAR","Guitar");
 DEFINE("en-GB","English");
 DEFINE("_HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU","Submit a video to Shigaru.com");
-DEFINE("_HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING","for deciding to share a video tutorial with the Shigaru community. Remember that:");
+DEFINE("_HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING","for deciding to share a video tutorial with the Shigaru community. <br />Now, which of the following two options would you like to do?");
 DEFINE("_HWDVIDS_SHIGARU_THANKYOU","Thank you");
 DEFINE("_HWDVIDS_SHIGARU_YES","Yes");
 DEFINE("_HWDVIDS_SHIGARU_NO","No");
@@ -670,9 +670,9 @@ DEFINE("_HWDVIDS_SHIGARU_FILESIZE","File size:");
 DEFINE("_HWDVIDS_SHIGARU_NOTOVER","The video must not be over 100 MB");
 DEFINE("_HWDVIDS_SHIGARU_UNDERMIN","It must be under 15 minutes long.");
 DEFINE("_HWDVIDS_SHIGARU_LONGVIDEO","If it is a long video split it into different parts");
-DEFINE("_HWDVIDS_SHIGARU_FILLUPTHIS","for deciding to upload a video to the Shigaru Video Library. Upload your video now and share your knowledge of music with a worldwide audience, it will take you just a few minutes to fill out this form!");
+DEFINE("_HWDVIDS_SHIGARU_FILLUPTHIS","We have copied some of the info related to this video from the other website so you don’t have to enter all the details again. Feel free to edit the info below as necessary as this will help us to categorise the video better and ensure that it is better placed in search results.");
 DEFINE("_HWDVIDS_SHIGARU_ONEOFTWO","Upload a video (Step 1 of 2)");
-DEFINE("_HWDVIDS_SHIGARU_MANDATORYFIELDS","Fields marked * are mandatory.");
+DEFINE("_HWDVIDS_SHIGARU_MANDATORYFIELDS","Fields marked <span class=\"required\">*</span> are required.");
 DEFINE("_HWDVIDS_SHIGARU_TYPEVIDEO","Type of video:");
 DEFINE("_HWDVIDS_SHIGARU_TITLEVIDEO","Title of video:");
 DEFINE("_HWDVIDS_SHIGARU_ORIGINBAND","Original artist/band:");
@@ -684,6 +684,21 @@ DEFINE("_HWDVIDS_SHIGARU_EXAMPLETITLE","<span class=\"fontbold\">Example:</span>
 DEFINE("_HWDVIDS_SHIGARU_INFOTOBETTERCATEG","This information will help us to better categorise our videos.");
 DEFINE("_HWDVIDS_SHIGARU_COPYRIGHTREASONS","We only ask this for copyright reasons, so we don’t upset anyone.");
 DEFINE("_HWDVIDS_SHIGARU_TEXTDESCRIPTION","In your video description you may include web links (For example, you may want to link to your own music related website. Or why not link to the website of the original band/artist whose song is covered in the tutorial?");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS","Search tags:");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS_INFO","Search tags are key words to describe your video, separated by a space and commas. For example, for a The Police video you could include: Sting, Stewart Copeland, Rock, British Rock, English, Synchronicity ");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE","Music genre:");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE_INFO","If your genre is not included simply select  \"Other\" to enter it manually.");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_INSTRUMENT","Instrument:");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_INSTRUMENT_INFO","If your instrument is not included simply select  \"Other\" to enter it manually.");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_LEVEL","Level:");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_VIDEO_LANGUAGE","Language of the video:");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT","Select one option...");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_COMBO_OTHER","Other");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_VIDEO_DETAILS","Video Details");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_SONG_INFO","Song Information");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_ADDTIONAL_DETAILS","Additional Details");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_OTHER_STUFF","Other Stuff");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_CONFIRMATION","Confirmation");
 
 
 

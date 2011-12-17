@@ -2,187 +2,41 @@
 <playlist version="1">
 <title>hwdVideoShare pl_1 Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2011-09-11 04:34:13</date>
+<date>2011-12-08 12:38:58</date>
 <trackList>
 
   <track>
-    <id><![CDATA[21]]></id>
-    <videotitle><![CDATA[god]]></videotitle>
-    <videocode><![CDATA[ax6jo4zwmkw6i3]]></videocode>
-    <videotype><![CDATA[local]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[2]]></category_id>
-    <description><![CDATA[is a rocker]]></description>
-    <views><![CDATA[164]]></views>
-    <date><![CDATA[2010-07-12 11:11:42]]></date>
-    <duration><![CDATA[0:00:19]]></duration>
-    <rating><![CDATA[5.00]]></rating>
-    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
-    <uploader_id><![CDATA[67]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[god,rock,guitar,ipsum,string,learn]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[26]]></id>
-    <videotitle><![CDATA[Antonio Vega - Me quedo contigo]]></videotitle>
-    <videocode><![CDATA[BtUhDNSVO40,http%3A%2F%2Fimg.youtube.com%2Fvi%2FBtUhDNSVO40%2Fdefault.jpg]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[Si me das a elegir entre t&#250; y la riqueza,
-con esa grandeza que lleva consigo.
-&#161;Ay amor! Me quedo contigo.
-
-Si me das a elegir entre t&#250; y la gloria,
-aquella bella historia de m&#237; por los siglos
-&#161;Ay amor! Me quedo contigo.
-
-Pues me he enamorado y te quiero.
-Y solo deseo estar a tu lado,
-so&#241;ar con tus ojos, besarte en los labios,
-sentirme en tus brazos, que soy muy feliz.
-
-Si me das a elegir entre t&#250; y ese cielo,
-Donde libre es el vuelo para ir a otros nidos.
-&#161;Ay amor! Me quedo contigo.
-
-Si me das a elegir entre t&#250; y mis ideas,
-que yo sin ellas soy un hombre perdido.
-&#161;Ay amor!Me quedo contigo.
-
-Pues me he enamorado y te quiero.
-Y solo deseo estar a tu lado,
-so&#241;ar con tus ojos, besarte en los labios,
-sentirme en tus brazos, que soy muy feliz.
-
-Pues me he enamorado y te quiero.
-Y solo deseo estar a tu lado,
-so&#241;ar con tus ojos, besarte en los labios,
-sentirme en tus brazos, que soy muy feliz.]]></description>
-    <views><![CDATA[34]]></views>
-    <date><![CDATA[2010-09-06 23:15:46]]></date>
-    <duration><![CDATA[04:10]]></duration>
-    <rating><![CDATA[4.00]]></rating>
-    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
-    <uploader_id><![CDATA[67]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
-    <comments><![CDATA[2]]></comments>
-    <tags><![CDATA[Antonio,Vega,Me,quedo,contigo,Musica,española,pop,rock,Escapadas]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[97]]></id>
-    <videotitle><![CDATA[ming Home by Diddy-Dirty Money on Guitar
-      - YouTube]]></videotitle>
-    <videocode><![CDATA[-ooik5IuI1I,http%3A%2F%2Fimg.youtube.com%2Fvi%2F-ooik5IuI1I%2Fdefault.jpg]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[1]]></category_id>
-    <description><![CDATA[How to do the Steve Martin dance: http://bitly.com/stevemartindance http://www.mahalo.com/how-to-play-coming-home-by-diddy-dirty-money-on-guitar Mahalo rocks...]]></description>
-    <views><![CDATA[3]]></views>
-    <date><![CDATA[2011-09-09 01:59:29]]></date>
-    <duration><![CDATA[0:00:00]]></duration>
-    <rating><![CDATA[2.00]]></rating>
-    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
-    <uploader_id><![CDATA[62]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
-    <comments><![CDATA[1]]></comments>
-    <tags><![CDATA[coming,home,diddy-dirty,money,diddy,dirty,puff,dadd,sean,combs,how,to,play,guitar,songs,music,chords,rock,pop,rap,country,hits,radio,s]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[98]]></id>
-    <videotitle><![CDATA[How to Play Love The Way You Lie by Eminem and Rihanna on Guitar]]></videotitle>
-    <videocode><![CDATA[stK47MWu6Jo,http%3A%2F%2Fimg.youtube.com%2Fvi%2FstK47MWu6Jo%2Fdefault.jpg]]></videocode>
+    <id><![CDATA[74]]></id>
+    <videotitle><![CDATA[How to Play Misery by Maroon 5 on Guitar]]></videotitle>
+    <videocode><![CDATA[1-GoLE1jtk8,http%3A%2F%2Fimg.youtube.com%2Fvi%2F1-GoLE1jtk8%2Fdefault.jpg]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
     <thumbnail><![CDATA[]]></thumbnail>
     <category><![CDATA[]]></category>
     <category_id><![CDATA[1]]></category_id>
     <description><![CDATA[How to do the Steve Martin dance: http://bitly.com/stevemartindance
-http://www.mahalo.com/how-to-play-love-the-way-you-lie-by-eminem-and-rihanna-on-guitar
-Like us on&#160;Facebook&#160;at&#160;http://www.facebook.com/MahaloGuitar
+http://www.mahalo.com/how-to-play-misery-by-maroon-5-on-guitar
 
-If you enjoy listening to music from Eminem, you may also like to learn how to play songs from the artist. One song that is quite simple to learn to play on guitar is &#34;Love The Way You Lie&#34; which also features artist Rihanna. This song only uses a few chords and has no change ups or complex segments. This song is ideal for someone that is just learning to play.
+Learn how to play Misery by Maroon 5 on Guitar!
 
-&#8232;Rihanna teamed up with Eminem to record the hit single &#34;Love the Way You Lie&#34;. From Eminem&#39;s 7th album, &#34;Recovery&#34; this song is the second single to have been released. The song climbed to #1 on the Billboard charts and gave each of the artists another number one single to add to their recording history. For Eminem, this track marks his 4th single to reach number...]]></description>
-    <views><![CDATA[3]]></views>
-    <date><![CDATA[2011-09-09 01:59:32]]></date>
-    <duration><![CDATA[02:26]]></duration>
-    <rating><![CDATA[5.00]]></rating>
-    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
-    <uploader_id><![CDATA[62]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[eminem,rihanna,love,the,way,you,lie,how,to,play,guitar,mahalo]]></tags>
-  </track>
+Learn more songs at these Mahalo pages:
 
-  <track>
-    <id><![CDATA[60]]></id>
-    <videotitle><![CDATA[How to Play &#34;Firework&#34; by Katy Perry on Guitar]]></videotitle>
-    <videocode><![CDATA[4a1ZHUcqQ_0,http%3A%2F%2Fimg.youtube.com%2Fvi%2F4a1ZHUcqQ_0%2Fdefault.jpg]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[1]]></category_id>
-    <description><![CDATA[How to do the Steve Martin dance: http://bitly.com/stevemartindance
-http://www.mahalo.com/how-to-play-firework-by-katy-perry-on-guitar
-
-Mahalo Guitarist Jen Trani teaches you how to play Firework by Katy Perry!
-
-Learn more guitar songs at these mahalo pages:
-
-How to Play Stuck Like Glue by Sugarland on Guitar: http://www.mahalo.com/how-to-play-stuck-like-glue-by-sugarland-on-guitar
-How to Play If I Die Young by The Band Perry on Guitar: http://www.mahalo.com/how-to-play-if-i-die-young-by-the-band-perry-on-guitar
-How to Play Don&#39;t You Wanna Stay by Jason Aldean Ft. Kelly Clarkson on Guitar: http://www.mahalo.com/how-to-play-dont-you-wanna-stay-by-jason-aldean-ft-kelly-clarkson-on-guitar
-How to Play Mine by Taylor Swift on Guitar: http://www.mahalo.com/how-to-play-mine-by-taylor-swift-on-guitar
-How to Play We R Who We R by Kesha on Guitar: http://www.mahalo.com/how-to-play-we-r-who-we-r-by-kesha-on-guitar
-How to Play The Time (Dirty Bit) by The Black Eyed Peas on Guitar:...]]></description>
+How to Play Misery by Maroon 5 on Guitar: http://www.mahalo.com/how-to-play-misery-by-maroon-5-on-guitar
+How to Play Your Love is My Drug by Kesha on Guitar: http://www.mahalo.com/how-to-play-your-love-is-my-drug-by-kesha-on-guitar
+How to Play Magic by B.O.B. Ft. Rivers Cuomo on Guitar: http://www.mahalo.com/how-to-play-magic-by-b-o-bftrivers-cuomo-on-guitar
+How to Play If I Had You by Adam Lambert on Guitar: http://www.mahalo.com/how-to-play-if-i-had-you-by-adam-lambert-on-guitar
+How to Play Ridin&#39; Solo by Jason Derulo on Guitar: http://www.mahalo.com/how-to-play-ridin-solo-by-jason-derulo-on-guitar
+How to Play Rhythm of Love by Plain White T&#39;s on Guitar: http://www.mahalo.com/how-to-play-rhythm-of-love-by-plain-white-ts-on-guitar
+How to Play Makes Me Wonder...]]></description>
     <views><![CDATA[1]]></views>
-    <date><![CDATA[2011-09-09 01:57:21]]></date>
-    <duration><![CDATA[04:06]]></duration>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2011-09-09 01:58:08]]></date>
+    <duration><![CDATA[07:21]]></duration>
     <rating><![CDATA[4.00]]></rating>
     <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
     <uploader_id><![CDATA[62]]></uploader_id>
     <avatar><![CDATA[]]></avatar>
     <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[beginners,guitar,lesson,guitar,tutorial,videos,guitar,beginners,online,guitar,lesson,electric,guitar,lessons,guitar,instruction,online]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[102]]></id>
-    <videotitle><![CDATA[Coleccionista de Canciones Camila Guitarra Como tocar tutorial]]></videotitle>
-    <videocode><![CDATA[IReM0_iifZs]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-102.jpg]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[1]]></category_id>
-    <description><![CDATA[Si te sirve Suscribe es lo menos que puedes hacer ^^.  Link de version http://www.megaupload.com/?d=D63NFALF 
-Aprende Mas Canciones Con Oceanlifez:
-
-Como tocar Coleccionista de Canciones de Camila  http://www.youtube.com/watch?v=IReM0_iifZs 
-Como tocar Love the way you lie R &#38; E   http://www.youtube.com/watch?v=W5CS_pyIPRo
-Como tocar Lamento Boliviano de Enanitos Verdes  http://www.youtube.com/watch?v=2zTLbV4O5O8
-Como tocar Grenade de Bruno Mars   http://www.youtube.com/watch?v=ivWNgxV8J4g
-Como tocar Mientes de Camila    http://www.youtube.com/watch?v=3j1zuXhQN_M
-Como tocar Yerbatero de Juanes    http://www.youtube.com/watch?v=TtmJvtdigT8
-Como tocar Wonderwall de Oasis    http://www.youtube.com/watch?v=0bQ7ffuWgFI
-Como tocar Colgando en tus manos Carlos Baute &#38; Marta Sanchez  http://www.youtube.com/watch?v=_Z2vnwUQilU
-Como tocar The way you are de Bruno Mars  http://www.youtube.com/watch?v=yzNM3y3kIcU
-Como tocar Mariposa Traicionera  de Mana ...]]></description>
-    <views><![CDATA[1]]></views>
-    <date><![CDATA[2011-09-11 04:33:17]]></date>
-    <duration><![CDATA[06:01]]></duration>
-    <rating><![CDATA[0.00]]></rating>
-    <uploader><![CDATA[_HWDVIDS_INFO_GUEST]]></uploader>
-    <uploader_id><![CDATA[67]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[Coleccionista, de, Canciones, Camila, Guitarra, Como, tocar, tutorial]]></tags>
+    <tags><![CDATA[maroon,misery,how,to,play,guitar,mahalocom]]></tags>
   </track>
 
 </trackList>

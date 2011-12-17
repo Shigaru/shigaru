@@ -552,7 +552,7 @@ class hwdvids_HTML
                 {
                         $selected = $row->category_id;
                 }
-                $smartyvs->assign( "categorylist", hwd_vs_tools::categoryList(_HWDVIDS_INFO_CHOOSECAT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
+                $smartyvs->assign( "categorylist", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
 		$smartyvs->assign( "title", str_replace('"', "&#34;", stripslashes($row->title)) );
                 if ($c->multiple_cats == "1")
                 {

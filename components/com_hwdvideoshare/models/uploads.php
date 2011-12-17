@@ -992,7 +992,7 @@ class hwd_vs_uploads
 
 		$videotype = JRequest::getCmd( 'videotype' );
 		$fylePath = JRequest::getCmd( 'myFile' );
-		$videourl = JRequest::getCmd( 'videourl' );
+		$videourl = JRequest::getVar( 'videourl' );
 		
 		
 
@@ -1007,6 +1007,7 @@ class hwd_vs_uploads
 
   		$thirdpartycount = $db->loadResult();
 		echo $db->getErrorMsg();
+
 
 		$checksecurity = "0";
 		if ((empty($videotype)) && ($thirdpartycount > 0) && ($c->disablelocupld == 0) && $localUploadAccess) {
@@ -1092,6 +1093,8 @@ class hwd_vs_uploads
 		if ($c->disablecaptcha == "1")
 		{
 			$checksecurity = "0";
+			$my = & JFactory::getUser();
+					
 		}
 		else
 		{
@@ -1112,13 +1115,13 @@ class hwd_vs_uploads
 
 		$requestarray = JRequest::get( 'default', 2 );
 		$embeddump = $requestarray['embeddump'];
+		$infoPassed = Jrequest::getVar('infopassed','');
 		$remote_verified = null;
 
 		$parsedurl = parse_url($embeddump);
 		if (empty($parsedurl['host'])) { $parsedurl['host'] = ''; }
 		preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $parsedurl['host'], $regs);
 		if (empty($regs['domain'])) { $regs['domain'] = ''; }
-
 		if ($j16)
 		{
 			if ($regs['domain'] == 'youtube.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube'.DS.'youtube.php'))
@@ -1205,13 +1208,22 @@ class hwd_vs_uploads
 				}
 
 				$tp = new hwd_vs_tp_remote();
-				$ext_v_code  = $tp->remoteProcessCode($embeddump);
-				$ext_v_title = $tp->remoteProcessTitle($embeddump, @$ext_v_code[1]);
-				$ext_v_descr = $tp->remoteProcessDescription($embeddump, @$ext_v_code[1]);
-				$ext_v_keywo = $tp->remoteProcessKeywords($embeddump, @$ext_v_code[1]);
-				$ext_v_durat = $tp->remoteProcessDuration($embeddump, @$ext_v_code[1]);
+				if($infoPassed == 'true' ){
+					$ext_v_code  = Jrequest::getVar( 'video_id', '' );
+					$ext_v_title = Jrequest::getVar( 'videotitle', '' );
+					$ext_v_descr = Jrequest::getVar( 'description', '' );
+					$ext_v_keywo = Jrequest::getVar( 'tags', '' );
+					$ext_v_durat = Jrequest::getVar( 'video_length', '' );
+					}else{
+							$ext_v_code  = $tp->remoteProcessCode($embeddump);
+							$ext_v_title = $tp->remoteProcessTitle($embeddump, @$ext_v_code[1]);
+							$ext_v_descr = $tp->remoteProcessDescription($embeddump, @$ext_v_code[1]);
+							$ext_v_keywo = $tp->remoteProcessKeywords($embeddump, @$ext_v_code[1]);
+							$ext_v_durat = $tp->remoteProcessDuration($embeddump, @$ext_v_code[1]);
+						}
 
 				if ($ext_v_code[0] == "0") {
+					
 					hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_INFO_TPPROCESSFAIL, "exclamation.png", 0);
 					return;
 				}
@@ -1249,7 +1261,10 @@ class hwd_vs_uploads
 		$allow_comments 	= JRequest::getInt( "allow_comments", $c->shareoption2, "post" );
 		$allow_embedding 	= JRequest::getInt( "allow_embedding", $c->shareoption3, "post" );
 		$allow_ratings 		= JRequest::getInt( "allow_ratings", $c->shareoption4, "post" );
-
+		
+		//song_id band_id	language_id	category_id	genre_id	intrument_id	level_id
+		
+		
 		if ($c->multiple_cats == "1")
 		{
 			$categoryid = JRequest::getVar( "category_id", "0", "post" );                   
@@ -1261,6 +1276,19 @@ class hwd_vs_uploads
                 }
 
 		//$checkform = hwd_vs_tools::checkFormComplete($title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings);
+		
+		//band and songs stuff
+		$band = Jrequest::getVar( 'originalband', '' );
+		$band_id = hwd_vs_tools::checkBand($band);
+		$song = Jrequest::getVar( 'songtitle', '' );
+		$song_id = hwd_vs_tools::checkSong($song);
+		if($band_id==null){
+				$band_id = hwd_vs_tools::addBand($band);
+			}
+		if($song_id==null){
+				$song_id = hwd_vs_tools::addSong($song,$band_id);
+			}
+
 
 		$row = new hwdvids_video($db);
 
@@ -1283,6 +1311,18 @@ class hwd_vs_uploads
 		$_POST['allow_ratings'] 	= $allow_ratings;
 		$_POST['video_length'] 		= $ext_v_durat[1];
 		$_POST['date_uploaded'] 	= date('Y-m-d H:i:s');
+		$_POST['video_length'] 		= $ext_v_durat[1];
+		$_POST['song_id'] 			= $song_id;
+		$_POST['band_id'] 			= $band_id;
+		$_POST['language_id'] 		= Jrequest::getVar( 'language_id', '' );
+		$_POST['level_id'] 			= Jrequest::getVar( 'level_id', '' );
+		$_POST['genre_id'] 			= Jrequest::getVar( 'genre_id', '' );
+		$_POST['intrument_id'] 		= Jrequest::getVar( 'intrument_id', '' );
+		$_POST['ip_added'] 			= Jrequest::getVar( 'ip_added', '' );
+		var_dump(Jrequest::getVar( 'ip_added', '' ));
+		$_POST['original_autor'] 	= Jrequest::getVar( 'original_autor', '' );
+		
+								
 
 		if ($admin_import)
 		{

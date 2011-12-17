@@ -3,11 +3,15 @@ jQuery(function() {
 	number of fieldsets
 	*/
 	var fieldsetCount = jQuery('#formElem').children().length;
-	console.log(fieldsetCount);
 	/*
 	current position of fieldset / navigation link
 	*/
 	var current 	= 1;
+	
+	/*
+	json array with invalid fields
+	*/
+	var oInvalids 	= [];
     
 	/*
 	sum and save the widths of each one of the fieldsets
@@ -96,6 +100,37 @@ jQuery(function() {
 				FormErrors = true;
 		}
 		jQuery('#formElem').data('errors',FormErrors);	
+	
+	}
+	
+	
+	/*
+	checks if the field is already in oInvalids array
+	*/
+	function inInvalidsList(oElement){
+		var inList= [false,0];
+		for(var o=0;o<oInvalids.length;o++){
+			if(oInvalids[o].name == oElement.name)	{
+				inList = [true,o];
+				}
+			}
+			return inList;	
+		}
+		
+	
+	/*
+	manages the array of invalid fields
+	*/
+	function manageInvalids(oElement,action){
+		
+		var oInInvalidsList = inInvalidsList(oElement);
+		if(action=='add' && !oInInvalidsList[0]){
+				oInvalids[oInvalids.length]={ide:oElement.name,name:oElement.name}
+			}else if(action=='remove' && oInInvalidsList[0]){
+					oInvalids = oInvalids.splice(oInInvalidsList[1],oInInvalidsList[1]+1);
+			}
+		
+			
 	}
 	
 	/*
@@ -109,35 +144,46 @@ jQuery(function() {
 		var hasError = false;
 		jQuery('#formElem').children(':nth-child('+ parseInt(step) +')').find(':input:not(button)').each(function(){
 			var $this 		= jQuery(this);
-			var valueLength = jQuery.trim($this.val()).length;
-			
-			if(valueLength == ''){
-				hasError = true;
-				$this.css('background-color','#FFEDEF');
-			}
-			else
-				$this.css('background-color','#FFFFFF');	
+			if(!document.formvalidator.validate(this)){
+				manageInvalids(this,'add');
+				}else{
+					manageInvalids(this,'remove');
+					}
 		});
 		var $link = jQuery('#navigations li:nth-child(' + parseInt(step) + ') a');
 		$link.parent().find('.error,.checked').remove();
 		
 		var valclass = 'checked';
-		if(hasError){
+		if(oInvalids.length>0){
 			error = -1;
 			valclass = 'error';
 		}
-		jQuery('<span class="'+valclass+'"></span>').insertAfter($link);
 		
+		jQuery('<span class="'+valclass+'"></span>').insertAfter($link);
+		oInvalids = [];
 		return error;
+	}
+	
+	function stopEvent(e) {
+		if (e.stopPropagation) e.stopPropagation();
+		else e.cancelBubble = true;
+
+		if (e.preventDefault) e.preventDefault();
+		else e.returnValue = false;
 	}
 	
 	/*
 	if there are errors don't allow the user to submit
 	*/
-	jQuery('#registerButton').bind('click',function(){
-		if(jQuery('#formElem').data('errors')){
-			alert('Please correct the errors in the Form');
-			return false;
-		}	
+	jQuery('#registerButton').bind('click',function(e){
+		var oSubmitInvalids = jQuery('#formElem .invalid');
+		if(oSubmitInvalids.length >0){
+				jQuery('#navigations li:nth-child(' + (parseInt(jQuery(oSubmitInvalids[0]).closest('.step').index())+1) + ') a').click();
+				jQuery(oSubmitInvalids[0]).blur();
+				stopEvent(e);
+		}
 	});
+	
+	
+
 });

@@ -6,14 +6,14 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<div class="headerText">{$smarty.const._HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU}</div>
+<div class="headerText mtop12">{$smarty.const._HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU}</div>
 {include file='header.tpl'}
-<div class="f100">{$smarty.const._HWDVIDS_SHIGARU_THANKYOU} <span class="boldred">{$username}</span> {$smarty.const._HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING}</div>
+<div class="f100 f120">{$smarty.const._HWDVIDS_SHIGARU_THANKYOU} <span class="boldred">{$username}</span> {$smarty.const._HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING}</div>
 <script type="text/javascript">
 	{literal}
 		jQuery(document).ready(function(){
 			jQuery(".inputtext").click(function () {
-				  jQuery("#videouploadwrap ol li").removeClass("active");
+				  jQuery("#videouploadwrap ul li").removeClass("active");
 				  jQuery(this).parents('.upoptions').get(0).addClass("active",1500); 	
 			});
 		});
@@ -22,8 +22,23 @@
 	
 
 <div id="videouploadwrap">
-  <div id="twooptions" class="fontbold f15em">{$smarty.const._HWDVIDS_SHIGARU_SUBMIT_OPTIONS}</div>
-	<ol>
+	<ul>
+		<li class="upoptions"><span class="fontbold mbot12">{$smarty.const._HWDVIDS_SHIGARU_SUBMIT_URL}</span>
+			<br />
+			<div  class="mtop24 tright">
+				<form name="videoupload" action="{$form_upload}" method="post">
+
+					  {$smarty.const._HWDVIDS_VURL} <input name="videourl" value="" class="inputtext mbot12" size="42" />
+					  <br />
+					  <span class="mright6">{$smarty.const._HWDVIDS_TITLE_SUPWEB}</span>
+					  {$supported_websites}
+					  <br class="clear"/>
+					  <input type="submit" name="send"  class="button fnone mtop12" value="{$smarty.const._HWDVIDS_SHIGARU_SUBMITURL}" />
+					  <input type="hidden" name="videotype" value="thirdparty" />
+					</form>
+				</div>
+			
+		</li>		
 		<li class="upoptions">
 				<span class="fontbold mbot12">{$smarty.const._HWDVIDS_SHIGARU_SUBMIT_UPLOADPC}</span>
 				<br />
@@ -59,24 +74,9 @@
 		 
 		
 		</li>
-		<div id="orOptions" ><span class="fontbold f15em">{$smarty.const._HWDVIDS_SHIGARU_OR}</span><div></div></div>			
-		<li class="upoptions"><span class="fontbold mbot12">{$smarty.const._HWDVIDS_SHIGARU_SUBMIT_URL}</span>
-			<br />
-			<div  class="mtop24 tright">
-				<form name="videoupload" action="{$form_upload}" method="post">
-
-					  {$smarty.const._HWDVIDS_VURL} <input name="videourl" value="" class="inputtext mbot12" size="42" />
-					  <br />
-					  <span class="mright6">{$smarty.const._HWDVIDS_TITLE_SUPWEB}</span>
-					  {$supported_websites}
-					  <br class="clear"/>
-					  <input type="submit" name="send"  class="button fnone mtop12" value="{$smarty.const._HWDVIDS_SHIGARU_SUBMITURL}" />
-					  <input type="hidden" name="videotype" value="thirdparty" />
-					</form>
-				</div>
-			
-		</li>
-	</ol>
+		
+		
+	</ul>
 
 
         <!--<select name="videotype">
