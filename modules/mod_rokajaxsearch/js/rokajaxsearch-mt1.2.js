@@ -8,6 +8,841 @@
  * @author RocketTheme, LLC
  *
  */
-
-
-eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('8 5U=O 5R({5Q:"2.0 (5O 1.2)",5N:[5M,5L],Q:{\'1j\':1a,\'1Q\':1a,\'4g\':1P,\'4f\':1P,\'4e\':1P,\'5D\':1P,\'4c\':\'5B\',\'4b\':\'5z\',\'1i\':1a,\'2T\':1a,\'2U\':1a,\'2V\':1a,\'2X\':1a,\'2R\':1a,\'1e\':1a,\'3X\':1a,\'2P\':1a,\'2j\':1a,\'1l\':1a,\'31\':1a,\'2g\':1a,\'3L\':1K,\'2H\':1a,\'3b\':1a,\'2y\':1a,\'3y\':1a,\'3v\':1K,\'3t\':1K,\'3o\':1K,\'3q\':1K,\'2a\':1K,\'3r\':1P},59:T(b){6.56(b);6.29=1a;6.1N=[\'53\',\'52\'];6.3k=6.Q.2g;6.19=1q.1p(\'4X\').1o(\'4V\',\'4U\');8 c=6.19.2E();6.1j=1q.1p(\'1O\').26({\'2K\':\'34\',\'1H\':c.1H+c.1W,\'X\':6.2c()}).R(1q.43);6.2e=O 38.47(6.1j).Z(\'1S\',0);6.1r=0;8 d=6;3a.1D(\'4z\',T(){d.1j.1m(\'X\',d.2c())});6.15=\'1J\';8 e=6.Q.1l;N(6.Q.4g||6.Q.4f||6.Q.4e){$$(\'#21 .4x 3n[15=4y]\').1z(T(a){a.1D(\'1u\',T(){6.15=a.1E;N(6.15==\'3m\'||6.15==\'2w\'||6.15==\'3e\'||6.15==\'2B\'){6.Q.1l=4;N(6.15==\'3m\')6.Y=O Y.1i.4B();11 N(6.15==\'2w\')6.Y=O Y.1i.4C();11 N(6.15==\'3e\'){6.Q.1l=3;6.Y=O Y.1i.30();6.Y.4w(Y.1i.30.4D,Y.1i.30[\'4E\'+6.Q.4c])}11 N(6.15==\'2B\'){6.Q.1l=3;6.Y=O Y.1i.4F()}N(6.15!=\'2w\'&&6.15!=\'2B\')6.Y.4w(Y.1i.2Y.4G,Y.1i.2Y[\'4H\'+6.Q.4b]);6.Y.4I(Y.1i.2Y.4J);6.Y.4K();6.Y.4L(6,6.3Z)}11 6.Q.1l=e}.1v(6))},6)};6.2m();6.3W()},2c:T(){8 a=6.19.2E(),x=1q.1p(\'1O\').33().x;8 b=1q.1p(3a).33(),X;N(b.x/2<a.X+a.1w){X=a.X+a.1w-x}11{X=a.X}N(X<0)X=a.X;1G X},3R:T(){N(!6.19.2q(\'1I\'))6.19.13(\'1I\');6.Y.4P(6.19.1E)},3Z:T(){8 n=6.Y.1j;8 o=1q.1p(\'2J\');8 p=O P(\'3I\',{\'S\':\'3G\'}).R(o);N(6.15==\'3m\'){n.1z(T(a){8 b=O P(\'2h\');8 c=O P(\'a\',{\'1c\':a.4R}).1o(\'1C\',\'1A\').Z(\'12\',a.2z);8 d=O P(\'2x\').R(b).2v(c);8 e=O P(\'p\').Z(\'12\',\'<1L><a 1c="\'+a.2f+\'" 1C="1A">\'+a.3u+\'</a></1L>\').R(b);8 f=a.3p;f=f.1R(\'<b>\',\'<1f S="2b">\').1R(\'</b>\',\'</1f>\');8 g=O P(\'U\',{\'S\':\'2s\'}).Z(\'12\',f).R(b);b.R(p)})}11 N(6.15==\'2w\'){n.1z(T(a){8 b=O P(\'2h\');8 c=O P(\'a\',{\'1c\':a.5e}).1o(\'1C\',\'1A\').Z(\'12\',a.2z);8 d=O P(\'2x\').R(b).2v(c);8 e=O P(\'p\').Z(\'12\',\'<1L>3l \'+a.5f+\' - <a 1c="\'+a.3x+\'" 1C="1A">\'+a.3x+\'</a></1L>\').R(b);8 f=a.3p;f=f.1R(\'<b>\',\'<1f S="2b">\').1R(\'</b>\',\'</1f>\');8 g=O P(\'U\',{\'S\':\'2s\'}).Z(\'12\',f).R(b);b.R(p)})}11 N(6.15==\'3e\'){n.1z(T(b){8 c=O P(\'2h\');8 d=O P(\'a\',{\'1c\':b.2f}).1o(\'1C\',\'1A\').Z(\'12\',b.2z);8 e=O P(\'2x\').R(c).2v(d);8 f=O P(\'p\').Z(\'12\',\'<1L><a 1c="\'+b.5g+\'" 1C="1A">\'+b.3u+\'</a></1L>\').R(c);8 g=b.3p;g=g.1R(\'<b>\',\'<1f S="2b">\').1R(\'</b>\',\'</1f>\');8 h=O P(\'U\',{\'S\':\'2s\'}).Z(\'12\',g).R(c);8 i=O P(\'U\',{\'S\':\'Y-3z-2A 1I\'}).R(h);i.26({\'1w\':b.2C.1t(),\'1W\':b.2F.1t()});8 a=O P(\'a\',{\'1c\':b.2f,\'1C\':\'1A\'}).R(i);8 j=O P(\'2A\',{1w:b.2C.1t(),1W:b.2F.1t(),3B:b.3C}).R(a);c.R(p)})}11 N(6.15==\'2B\'){n.1z(T(b){8 c=O P(\'2h\');8 d=O P(\'a\',{\'1c\':b.5j}).1o(\'1C\',\'1A\').Z(\'12\',b.2z);8 e=O P(\'2x\').R(c).2v(d);8 f=b.3D.1t();8 g=\'5l:\'+((f<10)?\'0\'+f:f);N(f>=2l){8 m=f/2l;8 s=f-(m*2l);m=m.1t();s=s.1t();N(m<10)m=\'0\'+m;N(s<10)s=\'0\'+s;g=m+\':\'+s;N(m>=2l){8 h=m/2l;h=h.1t();N(h<10)h=\'0\'+h;g=h+g}}8 i=O P(\'p\').Z(\'12\',\'<1f S="\'+b.3V.5n()+\'">5q: \'+(5r(b.5s)).5t(2)+\' | 5u: \'+g+\' <1L>\'+b.3V+\'</1L></1f>\').R(c);8 j=O P(\'U\',{\'S\':\'2s\'}).Z(\'12\',\'\').R(c);8 k=O P(\'U\',{\'S\':\'Y-3z-2A 1I\'}).R(j);k.26({\'1w\':b.2C.1t(),\'1W\':b.2F.1t(),\'2d-5w\':\'5x\'});8 a=O P(\'a\',{\'1c\':b.2f,\'1C\':\'1A\'}).R(k);8 l=O P(\'2A\',{3B:b.3C,1w:b.2C.1t(),1W:b.2F.1t()}).R(a);c.R(p)})}6.1j.20().14(\'1O\').1m(\'1M\',\'1Y\');6.1g=1a;6.1k=1a;6.W=-1;6.1x=[];6.35();o.20().1m(\'1M\',\'1Y\');6.19.14(\'1I\');8 q=6.19.2E(),2I=6;6.1j.26({\'1H\':q.1H+q.1W,\'X\':2I.2c()});6.2e.2i(\'1S\',1);6.1n(\'3c\')},2m:T(){6.19.2m({\'1u\':T(){N(6.19.1T(\'1E\')==6.Q.1i)6.19.1E=\'\'}.1v(6),\'5J\':T(){N(6.19.1T(\'1E\')==\'\')6.19.1E=6.Q.1i}.1v(6),\'5K\':T(e){e=O 1Z(e);$4j(6.29);N(e.1h==\'2o\')e.22()},\'24\':T(e){e=O 1Z(e);N(e.3j==17||e.3j==18||e.3j==5T||e.3s||e.3O||e.4k)1G 1P;N(e.3s||e.3O||e.4k||e.1h==\'3i\'||e.1h==\'3h\'||e.1h==\'3f\'||e.1h==\'X\'||e.1h==\'1d\')1G 1K;N(e.1h==\'2o\')e.22();N(e.1h==\'2o\'&&6.W!=-1){N(6.W||6.W==0)4i.1c=6.1x[6.W].3d(\'a\');1G 1P};$4j(6.29);8 j=6.Q.2X.2k("?")[0];j=j.1R(6.Q.2P,\'\');j=(j)?j:"4h.5I";8 k=6.Q.2P+j;N(6.Q.3r)k=6.Q.2P+6.Q.2X;N(6.19.1E==\'\'){8 l=6.Q.2H.2k(" ");6.1j.20().14(\'1O\').1m(\'1M\',\'36\');N(l.16>0&&l!=\'\')l.1z(T(a){1q.1p(a).1m(\'1M\',\'1Y\')})}11{N(6.15==\'1J\'){8 m=6.19.1E.2k(\'"\');N(m.16>=3){6.Q.2g=\'5H\'}11{6.Q.2g=6.3k}8 n=O 5F({2f:k,5E:\'1T\',2O:5C,5A:T(){6.19.13(\'1I\')}.1v(6),5y:T(d,b,c){8 e=O P(\'U\',{\'45\':{\'2S\':\'5v\'}}).Z(\'12\',d);8 f=1q.1p(\'2J\');8 g=e.28(\'.2W\');N(g){e.23().1z(T(a){N(a.32(\'S\')==\'2W\'&&a.1p!=\'1e\'){f.Z(\'12\',a.2p)}})}11{e.R(1q.43);e.26({\'2S\':\'3U\',\'2K\':\'34\',\'1H\':-5m});g=e.28(\'U[1p=1e]\');e.5i();N(g){8 h=g.28(\'.1j\');f.Z(\'12\',(h)?h.2p:\'\')}}6.1j.20().14(\'1O\').1m(\'1M\',\'1Y\');6.1g=1a;6.1k=1a;6.W=-1;6.1x=[];N(e.28(\'.2W\'))6.3A();11 6.35();f.20().1m(\'1M\',\'1Y\');6.19.14(\'1I\');8 i=6.19.2E(),2I=6;6.1j.26({\'1H\':i.1H+i.1W,\'X\':2I.2c()});6.2e.2i(\'1S\',1);6.1n(\'3c\')}.1v(6)});N(6.Q.3r){6.29=n.1T.2O(3g,n,[{\'s\':6.19.1E.1R(/\\"/g,\'\'),\'5h\':\'1i\',\'5d\':\'21\',\'r\':$42()}])}11{6.29=n.1T.2O(3g,n,[{\'15\':\'5c\',\'5a\':\'58\',\'54\':\'1i\',\'3k\':6.Q.2g,\'31\':6.Q.31,\'2j\':6.Q.2j,\'51\':6.19.1E.1R(/\\"/g,\'\'),\'4T\':\'4S\',\'r\':$42()}])}}11 N(6.15!=\'1J\'){6.29=6.3R.2O(3g,6)}}1G 1K}.1v(6)});1G 6},3W:T(){8 b={\'24\':T(e){e=O 1Z(e);N(e.1h==\'X\'||e.1h==\'1d\'||e.1h==\'3h\'||e.1h==\'3f\'||e.1h==\'2o\'||e.1h==\'3i\'){e.22();8 a=1P;N(e.1h==\'X\'&&6.1g)6.1g.1n(\'1u\');11 N(e.1h==\'1d\'&&6.1k)6.1k.1n(\'1u\');11 N(e.1h==\'3i\'&&6.1Q)6.1Q.1n(\'1u\',e);11 N(e.1h==\'3f\'){a=6.W;N(6.W==-1)6.W=(6.Q.1l)*6.1r;11 N(6.W+1<6.1x.16)6.W++;11 1G;N(a!=-1)6.1x[a].1n(\'1U\');N((6.W/6.Q.1l).1t()>6.1r)6.1k.1n(\'1u\',1K);N(6.W||6.W==0)6.1x[6.W].1n(\'2G\')}11 N(e.1h==\'3h\'){a=6.W;N(6.W==-1)6.W=(6.Q.1l)*6.1r;11 N(6.W-1>=0)6.W--;11 1G;N(a!=-1)6.1x[a].1n(\'1U\');N((6.W/6.Q.1l).1t()<6.1r)6.1g.1n(\'1u\',1K);N(6.W||6.W==0)6.1x[6.W].1n(\'2G\')}11 N(e.1h==\'2o\'){N(6.W||6.W==0)3a.4i=6.1x[6.W].28(\'a\')}}}.1v(6)};N(6.Q.3L){6.1D(\'3c\',T(){1q.1D(\'24\',b.24)});6.1D(\'39\',T(){1q.4Q(\'24\',b.24)})}},3A:T(){8 r=6;8 s=O P(\'U\',{\'S\':\'3F\'}).R(6.1j);8 t=O P(\'U\',{\'S\':\'3H\'}).R(s);8 u=O P(\'U\',{\'S\':\'3J\'}).R(t);8 v=O P(\'U\',{\'S\':\'3K\'}).R(u);8 w=O P(\'U\',{\'S\':\'3M 1s\'}).Z(\'12\',6.Q.1j).1y(v);6.1Q=O P(\'a\',{\'1p\':\'3N\',\'S\':\'1s\'}).1o(\'1c\',\'#\').Z(\'12\',6.Q.1Q).3P(w);8 x=6.Q.2H.2k(" ");6.1Q.1D(\'1u\',T(e){6.1n(\'39\');O 1Z(e).22();6.19.1E=6.Q.1i;8 b=6;6.2e.2i(\'1S\',0).3Q(T(){b.1j.20().14(\'1O\')});N(x.16>0&&x!=\'\')x.1z(T(a){1q.1p(a).1m(\'1M\',\'1Y\')})}.1v(6));N(x.16>0&&x!=\'\')x.1z(T(a){1q.1p(a).1m(\'1M\',\'36\')});6.1j.13(\'1O\');8 y=$$(\'#2J 4O\');N(y.16>0){8 z=O P(\'U\',{\'S\':\'25-3S\'}).R(v);8 A=O P(\'U\',{\'S\':\'25-2n\'}).R(z);y.1z(T(p,i){8 q=\'\';q=p.23();N(q.16>0){q.1z(T(a,j){N(a.1T(\'4N\')=="U"){N(a.23().16>2&&!a.4M()){8 b=a.3d().2Z().32(\'1c\');8 c=O P(\'U\',{\'S\':6.1N[i%2]+\' 1s\'});8 d=O P(\'a\').1o(\'1c\',b).1y(c);8 e=O P(\'2Q\').Z(\'12\',a.3d().2Z().1T(\'2d\')).1y(d);6.1x.2N(c);c.2m({\'2G\':T(){6.13(r.1N[i%2]+\'-2L\');r.W=i},\'1U\':T(){6.14(r.1N[i%2]+\'-2L\');N(r.W==i)r.W=-1}});8 f=\'\';N(6.Q.2a)f=a.2Z().2p;8 g=O P(\'1f\').Z(\'12\',f).1F(d);N(6.Q.3o){8 h=O P(\'1f\',{\'S\':\'1L\'}).Z(\'12\',a.23().4A().1T(\'2d\')).1F(d);8 k=O P(\'2t\').1F(h)}N(6.Q.3q){d=O P(\'a\',{\'S\':\'4o\'}).1o(\'1c\',b).Z(\'12\',6.Q.2T).1F(g);N(6.Q.2a)k=O P(\'2t\').1F(g)}8 l=O P(\'U\',{\'S\':\'4p 1s\'}).R(A);8 m=O P(\'U\',{\'S\':\'4t 1s\'}).R(l);8 n=O P(\'U\',{\'S\':\'4u 1s\'}).R(m);8 o=O P(\'U\',{\'S\':\'4v 1s\'}).R(n);c.R(o)}}},6)}},6);8 B=A.23();8 C=1V.4a(6.Q.1l,B.16);8 D=1V.4s(6.Q.1l,B.16);8 E=6.Q.1l;6.1e=[];(1V.4q(C/D)).4m(T(i){N(B[i])6.1e.2N(O P(\'U\',{\'S\':\'1e 1e-\'+i}).R(A).1m(\'1w\',A.2M(\'1w\')));4d(j=0,l=E;j<l;j++){N(B[i*E+j])B[i*E+j].R(6.1e[i])}}.1v(6));A.1m(\'1w\',z.2M(\'1w\').1t()*1V.49(C/D)+48)}N(!y.16){8 F=O P(\'U\',{\'S\':6.1N[0]});8 G=O P(\'2Q\').Z(\'12\',6.Q.2U).1y(F);8 H=O P(\'a\').1o(\'1c\',6.Q.2R).1F(G);G=O P(\'1f\',{\'S\':\'44-1i\'}).Z(\'12\',6.Q.2V).1y(H);F.R(v)}11{N(6.Q.3b){8 I=$$(\'#21 3n[41=2j]\')[0];6.1X=O P(\'U\',{\'S\':"40 1s"});8 J=O P(\'a\').1o(\'1c\',"#").1y(6.1X);G=O P(\'1f\').Z(\'12\',6.Q.2y).1y(J);J.1D(\'1u\',T(e){O 1Z(e).22();1q.1p(\'21\').3T()});6.1X.R(v);N(B.16>6.Q.1l){6.27=O P(\'U\',{\'S\':\'25-3E\'}).R(6.1X,\'1H\');6.1g=O P(\'U\',{\'S\':\'V-X-1b\'}).R(6.27);6.1k=O P(\'U\',{\'S\':\'V-1d\'}).R(6.27);6.37(z)}}}},35:T(){8 p=6;8 q=O P(\'U\',{\'S\':\'3F\'}).R(6.1j);8 r=O P(\'U\',{\'S\':\'3H\'}).R(q);8 s=O P(\'U\',{\'S\':\'3J\'}).R(r);8 t=O P(\'U\',{\'S\':\'3K\'}).R(s);8 u=O P(\'U\',{\'S\':\'3M 1s\'}).Z(\'12\',6.Q.1j).1y(t);N(6.15!=\'1J\'){t.13(\'Y-1i\').13(\'Y-1i-\'+6.15);8 v=\'<1f S="3w-3l-Y">(3w 3l <a 1c="4W://Y.4Y" 1C="1A">4Z</a>)</1f>\';u.Z(\'12\',6.Q.1j+v)};6.1Q=O P(\'a\',{\'1p\':\'3N\',\'S\':\'1s\'}).1o(\'1c\',\'#\').Z(\'12\',6.Q.1Q).3P(u);8 w=6.Q.2H.2k(" ");6.1Q.1D(\'1u\',T(e){6.1n(\'39\');O 1Z(e).22();6.19.1E=6.Q.1i;8 b=6;6.2e.2i(\'1S\',0).3Q(T(){b.1j.20().14(\'1O\')});N(w.16>0&&w!=\'\')w.1z(T(a){1q.1p(a).1m(\'1M\',\'1Y\')})}.1v(6));N(w.16>0&&w!=\'\')w.1z(T(a){1q.1p(a).1m(\'1M\',\'36\')});6.1j.13(\'1O\');8 x=$$(\'#2J 3I.3G 2h\');N(x.16>0){8 y=O P(\'U\',{\'S\':\'25-3S\'}).R(t);8 z=O P(\'U\',{\'S\':\'25-2n\'}).R(y);x.1z(T(a,i){8 b=\'\';b=a.23();N(b.16>0){8 c=a.28(\'a\').32(\'1c\');8 d=O P(\'U\',{\'S\':6.1N[i%2]+\' 1s\'});8 e=O P(\'a\').1o(\'1c\',c).1y(d);N(6.15!=\'1J\')e.1o(\'1C\',\'1A\');8 f=O P(\'2Q\').Z(\'12\',b[0].1T(\'2d\')).1y(e);6.1x.2N(d);d.2m({\'2G\':T(){6.13(p.1N[i%2]+\'-2L\');p.W=i},\'1U\':T(){6.14(p.1N[i%2]+\'-2L\');N(p.W==i)p.W=-1}});8 g=\'\';N(6.Q.2a)g=b[2].2p;8 h=O P(\'1f\').Z(\'12\',g).1F(e);N(6.Q.3o){8 j=O P(\'1f\',{\'S\':\'1L\'}).Z(\'12\',b[1].2p).1F(e);8 k=O P(\'2t\').1F(j)}N(6.Q.3q){e=O P(\'a\',{\'S\':\'4o\'}).1o(\'1c\',c).Z(\'12\',6.Q.2T).1F(h);N(6.15!=\'1J\')e.1o(\'1C\',\'1A\');N(6.Q.2a)k=O P(\'2t\').1F(h)}8 l=O P(\'U\',{\'S\':\'4p 1s\'}).R(z);8 m=O P(\'U\',{\'S\':\'4t 1s\'}).R(l);8 n=O P(\'U\',{\'S\':\'4u 1s\'}).R(m);8 o=O P(\'U\',{\'S\':\'4v 1s\'}).R(n);d.R(o)}},6);8 A=z.23();8 B=1V.4a(6.Q.1l,A.16);8 C=1V.4s(6.Q.1l,A.16);8 D=6.Q.1l;6.1e=[];(1V.4q(B/C)).4m(T(i){N(A[i])6.1e.2N(O P(\'U\',{\'S\':\'1e 1e-\'+i}).R(z).1m(\'1w\',z.2M(\'1w\')));4d(j=0,l=D;j<l;j++){N(A[i*D+j])A[i*D+j].R(6.1e[i])}}.1v(6));N(6.15!=\'1J\'){8 E=6.1e[0].33();6.1e[0].1m(\'2K\',\'50\');6.2u=O P(\'U\',{\'S\':\'21-55\',\'45\':{\'1w\':E.x,\'1W\':E.y,\'2K\':\'34\',\'X\':0,\'1H\':0,\'2S\':\'3U\',\'z-4h\':5}}).R(6.1e[0],\'1H\');8 F=O 38.47(6.2u,{3D:57}).Z(\'1S\',0.9)}z.1m(\'1w\',y.2M(\'1w\').1t()*1V.49(B/C)+48)}N(!x.16){8 G=O P(\'U\',{\'S\':6.1N[0]});8 H=O P(\'2Q\').Z(\'12\',6.Q.2U).1y(G);8 I=O P(\'a\').1o(\'1c\',6.Q.2R).1F(H);H=O P(\'1f\',{\'S\':\'44-1i\'}).Z(\'12\',6.Q.2V).1y(I);G.R(t)}11{N(6.Q.3b){8 J=$$(\'#21 3n[41=2j]\')[0];6.1X=O P(\'U\',{\'S\':"40 1s"});8 K=O P(\'a\',{\'S\':\'2y\'}).1o(\'1c\',"#").1y(6.1X);H=O P(\'1f\').Z(\'12\',6.Q.2y).1y(K);N(6.15!=\'1J\'){K.5b({\'1c\':6.Y.1B.5k,\'1C\':\'1A\'});N(6.Q.3v)8 L=O P(\'1f\',{\'S\':\'5o\'}).Z(\'2d\',\'(\'+6.Y.1B.5p+\' \'+6.Q.3y+\')\').R(K,\'3Y\');N(6.Q.3t){6.46=O P(\'U\',{\'S\':\'5G\'}).R(L||K,\'3Y\');6.46.Z(\'12\',6.Q.1e+\' \'+\'<1f S="2b">\'+(6.Y.1B.2r+1)+\'</1f>\'+\' \'+6.Q.3X+\' \'+\'<1f S="2b">\'+6.Y.1B.2D.16+\'</1f>\')}}11{K.1D(\'1u\',T(e){O 1Z(e).22();1q.1p(\'21\').3T()})}6.1X.R(t);N(A.16>6.Q.1l||((6.15!=\'1J\')&&6.Y.1B.2D.16>1)){6.27=O P(\'U\',{\'S\':\'25-3E\'}).R(6.1X,\'1H\');6.1g=O P(\'U\',{\'S\':\'V-X-1b\'}).R(6.27);6.1k=O P(\'U\',{\'S\':\'V-1d\'}).R(6.27);N(6.15!=\'1J\'){N(6.Y.1B){8 M=6.Y.1B.2r;N(M>0)6.1g.14(\'V-X-1b\').13(\'V-X\');N(M==7)6.1k.14(\'V-1d\').13(\'V-1d-1b\')}6.4l(y);F.2i(\'1S\',0)}11 6.37(y)}}}},4l:T(c){6.1g.1D(\'1u\',T(a){N(!a&&6.W>=0)6.1x[6.W].1n(\'1U\');N(!a)6.W=-1;8 b=(6.Y.1B)?6.Y.1B.2r:1a;N(b-1<=0){6.1g.14(\'V-X\').13(\'V-X-1b\');6.1k.14(\'V-1d-1b\').13(\'V-1d\')}11{6.1g.14(\'V-X-1b\').13(\'V-X\');6.1k.14(\'V-1d-1b\').13(\'V-1d\')}N(!b)1G;11{N(!6.19.2q(\'1I\'))6.19.13(\'1I\');6.2u.1m(\'1S\',0.9);6.Y.4n(b-1)}}.1v(6));6.1k.1D(\'1u\',T(a){N(!a&&6.W>=0)6.1x[6.W].1n(\'1U\');N(!a)6.W=-1;8 b=(6.Y.1B)?6.Y.1B.2r:1a;N(b+1>=6.Y.1B.2D.16){6.1g.14(\'V-X-1b\').13(\'V-X\');6.1k.14(\'V-1d\').13(\'V-1d-1b\')}11{6.1g.14(\'V-X\').13(\'V-X-1b\');6.1k.14(\'V-1d-1b\').13(\'V-1d\')}N(b>=6.Y.1B.2D.16-1)1G;11{N(6.1g.2q(\'V-X-1b\'))6.1g.14(\'V-X-1b\').13(\'V-X\');N(!6.19.2q(\'1I\'))6.19.13(\'1I\');6.2u.1m(\'1S\',0.9);6.Y.4n(b+1)}}.1v(6))},37:T(b){6.2n=O 38.5P(b,{5S:1P});6.1g.1D(\'1u\',T(a){N(!a&&6.W>=0)6.1x[6.W].1n(\'1U\');N(!a)6.W=-1;N(6.1r-1<=0){6.1g.14(\'V-X\').13(\'V-X-1b\');6.1k.14(\'V-1d-1b\').13(\'V-1d\')}11{6.1g.14(\'V-X-1b\').13(\'V-X\');6.1k.14(\'V-1d-1b\').13(\'V-1d\')}N(!6.1r)1G;11{N(6.1r<0)6.1r=0;11 6.1r-=1;6.2n.4r(6.1e[6.1r])}}.1v(6));6.1k.1D(\'1u\',T(a){N(!a&&6.W>=0)6.1x[6.W].1n(\'1U\');N(!a)6.W=-1;N(6.1r+1>=6.1e.16-1){6.1g.14(\'V-X-1b\').13(\'V-X\');6.1k.14(\'V-1d\').13(\'V-1d-1b\')}11{6.1g.14(\'V-X\').13(\'V-X-1b\');6.1k.14(\'V-1d-1b\').13(\'V-1d\')}N(6.1r>=6.1e.16)1G;11{N(6.1g.2q(\'V-X-1b\'))6.1g.14(\'V-X-1b\').13(\'V-X\');N(6.1r>=6.1e.16-1)6.1r=6.1e.16-1;11 6.1r+=1;6.2n.4r(6.1e[6.1r])}}.1v(6))}});',62,367,'||||||this||var|||||||||||||||||||||||||||||||||||||||||if|new|Element|options|inject|class|function|div|arrow|selectedEl|left|google|set||else|html|addClass|removeClass|type|length|||inputBox|null|disabled|href|right|page|span|arrowleft|key|search|results|arrowright|perpage|setStyle|fireEvent|setProperty|id|document|current|png|toInt|click|bind|width|els|injectInside|each|_blank|cursor|target|addEvent|value|injectAfter|return|top|loading|local|true|small|visibility|rows|roksearch_results|false|close|replace|opacity|get|mouseleave|Math|height|bottombar|visible|Event|empty|rokajaxsearch|stop|getChildren|keyup|container|setStyles|arrowDiv|getElement|timer|showdescription|highlight|getLeft|text|fx|url|phrase|li|start|limit|split|60|addEvents|scroller|enter|innerHTML|hasClass|currentPageIndex|description|br|layer|adopt|blog|h4|viewall|title|image|videos|tbWidth|pages|getCoordinates|tbHeight|mouseenter|hidedivs|self|rokajaxsearch_tmp|position|hover|getStyle|push|delay|uribase|h3|advsearchlink|display|readmore|noresults|advsearch|contentpaneopen|searchlink|Search|getNext|ImageSearch|ordering|getProperty|getSize|absolute|outputTableless|hidden|arrowsInit|Fx|unloaded|window|includelink|loaded|getFirst|images|down|500|up|esc|code|searchphrase|by|web|input|showcategory|content|showreadmore|wordpress|alt|showpagination|visibleUrl|showestimated|powered|blogUrl|estimated|thumb|outputTable|src|tbUrl|duration|arrows|roksearch_wrapper1|list|roksearch_wrapper2|ol|roksearch_wrapper3|roksearch_wrapper4|keyevents|roksearch_header|roksearch_link|control|injectBefore|chain|googleStart|wrapper|submit|block|videoType|keyEvents|page_of|after|googleComplete|roksearch_row_btm|name|time|body|advanced|styles|pagination|Tween|1000|round|max|safesearch|imagesize|for|imagesearch|blogsearch|websearch|index|location|clear|meta|arrowsGoogleInit|times|gotoPage|clr|roksearch_result_wrapper1|abs|toElement|min|roksearch_result_wrapper2|roksearch_result_wrapper3|roksearch_result_wrapper4|setRestriction|search_options|radio|resize|getLast|WebSearch|BlogSearch|RESTRICT_IMAGESIZE|IMAGESIZE_|VideoSearch|RESTRICT_SAFESEARCH|SAFESEARCH_|setResultSetSize|SMALL_RESULTSET|setNoHtmlGeneration|setSearchCompleteCallback|getPrevious|tag|fieldset|execute|removeEvent|unescapedUrl|component|tmpl|off|autocomplete|http|roksearch_search_str|com|Google|relative|searchword|roksearch_even|roksearch_odd|view|overlay|setOptions|300|com_search|initialize|option|setProperties|raw|action|postUrl|author|originalContextUrl|task|dispose|playUrl|moreResultsUrl|00|10000|toLowerCase|estimated_res|estimatedResultCount|Rating|parseFloat|rating|toFixed|Duration|none|align|center|onSuccess|MODERATE|onRequest|MEDIUM|200|videosearch|method|Request|pagination_res|exact|php|blur|keydown|Events|Options|Implements|mt|Scroll|version|Class|wait|224|RokAjaxSearch'.split('|'),0,{}))
+var RokAjaxSearch = new Class({
+    version: "2.0 (mt 1.2)",
+    Implements: [Options, Events],
+    options: {
+        'results': null,
+        'close': null,
+        'websearch': false,
+        'blogsearch': false,
+        'imagesearch': false,
+        'videosearch': false,
+        'imagesize': 'MEDIUM',
+        'safesearch': 'MODERATE',
+        'search': null,
+        'readmore': null,
+        'noresults': null,
+        'advsearch': null,
+        'searchlink': null,
+        'advsearchlink': null,
+        'page': null,
+        'page_of': null,
+        'uribase': null,
+        'limit': null,
+        'perpage': null,
+        'ordering': null,
+        'phrase': null,
+        'keyevents': true,
+        'hidedivs': null,
+        'includelink': null,
+        'viewall': null,
+        'estimated': null,
+        'showestimated': true,
+        'showpagination': true,
+        'showcategory': true,
+        'showreadmore': true,
+        'showdescription': true,
+        'wordpress': false
+    },
+    initialize: function (b) {
+        this.setOptions(b);
+        this.timer = null;
+        this.rows = ['roksearch_odd', 'roksearch_even'];
+        this.searchphrase = this.options.phrase;
+        this.inputBox = document.id('roksearch_search_str').setProperty('autocomplete', 'off');
+        var c = this.inputBox.getCoordinates();
+        this.results = document.id('roksearch_results').setStyles({
+            'position': 'absolute',
+            'top': c.top + c.height,
+            'left': this.getLeft()
+        }).inject(document.body);
+        this.fx = new Fx.Tween(this.results).set('opacity', 0);
+        this.current = 0;
+        var d = this;
+        window.addEvent('resize', function () {
+            d.results.setStyle('left', d.getLeft())
+        });
+        this.type = 'local';
+        var e = this.options.perpage;
+        if (this.options.websearch || this.options.blogsearch || this.options.imagesearch) {
+            $$('#rokajaxsearch .search_options input[type=radio]').each(function (a) {
+                a.addEvent('click', function () {
+                    this.type = a.value;
+                    if (this.type == 'web' || this.type == 'blog' || this.type == 'images' || this.type == 'videos') {
+                        this.options.perpage = 4;
+                        if (this.type == 'web') this.google = new google.search.WebSearch();
+                        else if (this.type == 'blog') this.google = new google.search.BlogSearch();
+                        else if (this.type == 'images') {
+                            this.options.perpage = 3;
+                            this.google = new google.search.ImageSearch();
+                            this.google.setRestriction(google.search.ImageSearch.RESTRICT_IMAGESIZE, google.search.ImageSearch['IMAGESIZE_' + this.options.imagesize])
+                        } else if (this.type == 'videos') {
+                            this.options.perpage = 3;
+                            this.google = new google.search.VideoSearch()
+                        }
+                        if (this.type != 'blog' && this.type != 'videos') this.google.setRestriction(google.search.Search.RESTRICT_SAFESEARCH, google.search.Search['SAFESEARCH_' + this.options.safesearch]);
+                        this.google.setResultSetSize(google.search.Search.SMALL_RESULTSET);
+                        this.google.setNoHtmlGeneration();
+                        this.google.setSearchCompleteCallback(this, this.googleComplete)
+                    } else this.options.perpage = e
+                }.bind(this))
+            }, this)
+        };
+        this.addEvents();
+        this.keyEvents()
+    },
+    getLeft: function () {
+        var a = this.inputBox.getCoordinates(),
+            x = document.id('roksearch_results').getSize().x;
+        var b = document.id(window).getSize(),
+            left;
+        if (b.x / 2 < a.left + a.width) {
+            left = a.left + a.width - x
+        } else {
+            left = a.left
+        }
+        if (left < 0) left = a.left;
+        return left
+    },
+    googleStart: function () {
+        if (!this.inputBox.hasClass('loading')) this.inputBox.addClass('loading');
+        this.google.execute(this.inputBox.value)
+    },
+    googleComplete: function () {
+        var n = this.google.results;
+        var o = document.id('rokajaxsearch_tmp');
+        var p = new Element('ol', {
+            'class': 'list'
+        }).inject(o);
+        if (this.type == 'web') {
+            n.each(function (a) {
+                var b = new Element('li');
+                var c = new Element('a', {
+                    'href': a.unescapedUrl
+                }).setProperty('target', '_blank').set('html', a.title);
+                var d = new Element('h4').inject(b).adopt(c);
+                var e = new Element('p').set('html', '<small><a href="' + a.url + '" target="_blank">' + a.visibleUrl + '</a></small>').inject(b);
+                var f = a.content;
+                f = f.replace('<b>', '<span class="highlight">').replace('</b>', '</span>');
+                var g = new Element('div', {
+                    'class': 'description'
+                }).set('html', f).inject(b);
+                b.inject(p)
+            })
+        } else if (this.type == 'blog') {
+            n.each(function (a) {
+                var b = new Element('li');
+                var c = new Element('a', {
+                    'href': a.postUrl
+                }).setProperty('target', '_blank').set('html', a.title);
+                var d = new Element('h4').inject(b).adopt(c);
+                var e = new Element('p').set('html', '<small>by ' + a.author + ' - <a href="' + a.blogUrl + '" target="_blank">' + a.blogUrl + '</a></small>').inject(b);
+                var f = a.content;
+                f = f.replace('<b>', '<span class="highlight">').replace('</b>', '</span>');
+                var g = new Element('div', {
+                    'class': 'description'
+                }).set('html', f).inject(b);
+                b.inject(p)
+            })
+        } else if (this.type == 'images') {
+            n.each(function (b) {
+                var c = new Element('li');
+                var d = new Element('a', {
+                    'href': b.url
+                }).setProperty('target', '_blank').set('html', b.title);
+                var e = new Element('h4').inject(c).adopt(d);
+                var f = new Element('p').set('html', '<small><a href="' + b.originalContextUrl + '" target="_blank">' + b.visibleUrl + '</a></small>').inject(c);
+                var g = b.content;
+                g = g.replace('<b>', '<span class="highlight">').replace('</b>', '</span>');
+                var h = new Element('div', {
+                    'class': 'description'
+                }).set('html', g).inject(c);
+                var i = new Element('div', {
+                    'class': 'google-thumb-image loading'
+                }).inject(h);
+                i.setStyles({
+                    'width': b.tbWidth.toInt(),
+                    'height': b.tbHeight.toInt()
+                });
+                var a = new Element('a', {
+                    'href': b.url,
+                    'target': '_blank'
+                }).inject(i);
+                var j = new Element('image', {
+                    width: b.tbWidth.toInt(),
+                    height: b.tbHeight.toInt(),
+                    src: b.tbUrl
+                }).inject(a);
+                c.inject(p)
+            })
+        } else if (this.type == 'videos') {
+            n.each(function (b) {
+                var c = new Element('li');
+                var d = new Element('a', {
+                    'href': b.playUrl
+                }).setProperty('target', '_blank').set('html', b.title);
+                var e = new Element('h4').inject(c).adopt(d);
+                var f = b.duration.toInt();
+                var g = '00:' + ((f < 10) ? '0' + f : f);
+                if (f >= 60) {
+                    var m = f / 60;
+                    var s = f - (m * 60);
+                    m = m.toInt();
+                    s = s.toInt();
+                    if (m < 10) m = '0' + m;
+                    if (s < 10) s = '0' + s;
+                    g = m + ':' + s;
+                    if (m >= 60) {
+                        var h = m / 60;
+                        h = h.toInt();
+                        if (h < 10) h = '0' + h;
+                        g = h + g
+                    }
+                }
+                var i = new Element('p').set('html', '<span class="' + b.videoType.toLowerCase() + '">Rating: ' + (parseFloat(b.rating)).toFixed(2) + ' | Duration: ' + g + ' <small>' + b.videoType + '</small></span>').inject(c);
+                var j = new Element('div', {
+                    'class': 'description'
+                }).set('html', '').inject(c);
+                var k = new Element('div', {
+                    'class': 'google-thumb-image loading'
+                }).inject(j);
+                k.setStyles({
+                    'width': b.tbWidth.toInt(),
+                    'height': b.tbHeight.toInt(),
+                    'text-align': 'center'
+                });
+                var a = new Element('a', {
+                    'href': b.url,
+                    'target': '_blank'
+                }).inject(k);
+                var l = new Element('image', {
+                    src: b.tbUrl,
+                    width: b.tbWidth.toInt(),
+                    height: b.tbHeight.toInt()
+                }).inject(a);
+                c.inject(p)
+            })
+        }
+        this.results.empty().removeClass('roksearch_results').setStyle('visibility', 'visible');
+        this.arrowleft = null;
+        this.arrowright = null;
+        this.selectedEl = -1;
+        this.els = [];
+        this.outputTableless();
+        o.empty().setStyle('visibility', 'visible');
+        this.inputBox.removeClass('loading');
+        var q = this.inputBox.getCoordinates(),
+            self = this;
+        this.results.setStyles({
+            'top': q.top + q.height,
+            'left': self.getLeft()
+        });
+        this.fx.start('opacity', 1);
+        this.fireEvent('loaded')
+    },
+    addEvents: function () {
+        this.inputBox.addEvents({
+            'click': function () {
+                if (this.inputBox.get('value') == this.options.search) this.inputBox.value = ''
+            }.bind(this),
+            'blur': function () {
+                if (this.inputBox.get('value') == '') this.inputBox.value = this.options.search
+            }.bind(this),
+            'keydown': function (e) {
+                e = new Event(e);
+                $clear(this.timer);
+                if (e.key == 'enter') e.stop()
+            },
+            'keyup': function (e) {
+                e = new Event(e);
+                if (e.code == 17 || e.code == 18 || e.code == 224 || e.alt || e.control || e.meta) return false;
+                if (e.alt || e.control || e.meta || e.key == 'esc' || e.key == 'up' || e.key == 'down' || e.key == 'left' || e.key == 'right') return true;
+                if (e.key == 'enter') e.stop();
+                if (e.key == 'enter' && this.selectedEl != -1) {
+                    if (this.selectedEl || this.selectedEl == 0) location.href = this.els[this.selectedEl].getFirst('a');
+                    return false
+                };
+                $clear(this.timer);
+                var j = this.options.searchlink.split("?")[0];
+                j = j.replace(this.options.uribase, '');
+                j = (j) ? j : "index.php";
+                var k = this.options.uribase + j;
+                if (this.options.wordpress) k = this.options.uribase + this.options.searchlink;
+                if (this.inputBox.value == '') {
+                    var l = this.options.hidedivs.split(" ");
+                    this.results.empty().removeClass('roksearch_results').setStyle('visibility', 'hidden');
+                    if (l.length > 0 && l != '') l.each(function (a) {
+                        document.id(a).setStyle('visibility', 'visible')
+                    })
+                } else {
+                    if (this.type == 'local') {
+                        var m = this.inputBox.value.split('"');
+                        if (m.length >= 3) {
+                            this.options.phrase = 'exact'
+                        } else {
+                            this.options.phrase = this.searchphrase
+                        }
+                        var n = new Request({
+                            url: k,
+                            method: 'get',
+                            delay: 200,
+                            onRequest: function () {
+                                this.inputBox.addClass('loading')
+                            }.bind(this),
+                            onSuccess: function (d, b, c) {
+                                var e = new Element('div', {
+                                    'styles': {
+                                        'display': 'none'
+                                    }
+                                }).set('html', d);
+                                var f = document.id('rokajaxsearch_tmp');
+                                var g = e.getElement('.contentpaneopen');
+                                if (g) {
+                                    e.getChildren().each(function (a) {
+                                        if (a.getProperty('class') == 'contentpaneopen' && a.id != 'page') {
+                                            f.set('html', a.innerHTML)
+                                        }
+                                    })
+                                } else {
+                                    e.inject(document.body);
+                                    e.setStyles({
+                                        'display': 'block',
+                                        'position': 'absolute',
+                                        'top': -10000
+                                    });
+                                    g = e.getElement('div[id=page]');
+                                    e.dispose();
+                                    if (g) {
+                                        var h = g.getElement('.results');
+                                        f.set('html', (h) ? h.innerHTML : '')
+                                    }
+                                }
+                                console.log(f);
+                                this.results.empty().removeClass('roksearch_results').setStyle('visibility', 'visible');
+                                this.arrowleft = null;
+                                this.arrowright = null;
+                                this.selectedEl = -1;
+                                this.els = [];
+                                if (e.getElement('.contentpaneopen')) this.outputTable();
+                                else this.outputTableless();
+                                f.empty().setStyle('visibility', 'visible');
+                                this.inputBox.removeClass('loading');
+                                var i = this.inputBox.getCoordinates(),
+                                    self = this;
+                                this.results.setStyles({
+                                    'top': i.top + i.height,
+                                    'left': self.getLeft()
+                                });
+                                this.fx.start('opacity', 1);
+                                this.fireEvent('loaded')
+                            }.bind(this)
+                        });
+                        if (this.options.wordpress) {
+                            this.timer = n.get.delay(500, n, [{
+                                's': this.inputBox.value.replace(/\"/g, ''),
+                                'task': 'search',
+                                'action': 'rokajaxsearch',
+                                'r': $time()
+                            }])
+                        } else {
+                            this.timer = n.get.delay(500, n, [{
+                                'type': 'raw',
+                                'option': 'com_search',
+                                'view': 'search',
+                                'searchphrase': this.options.phrase,
+                                'ordering': this.options.ordering,
+                                'limit': this.options.limit,
+                                'searchword': this.inputBox.value.replace(/\"/g, ''),
+                                'tmpl': 'component',
+                                'r': $time()
+                            }])
+                        }
+                    } else if (this.type != 'local') {
+                        this.timer = this.googleStart.delay(500, this)
+                    }
+                }
+                return true
+            }.bind(this)
+        });
+        return this
+    },
+    keyEvents: function () {
+        var b = {
+            'keyup': function (e) {
+                e = new Event(e);
+                if (e.key == 'left' || e.key == 'right' || e.key == 'up' || e.key == 'down' || e.key == 'enter' || e.key == 'esc') {
+                    e.stop();
+                    var a = false;
+                    if (e.key == 'left' && this.arrowleft) this.arrowleft.fireEvent('click');
+                    else if (e.key == 'right' && this.arrowright) this.arrowright.fireEvent('click');
+                    else if (e.key == 'esc' && this.close) this.close.fireEvent('click', e);
+                    else if (e.key == 'down') {
+                        a = this.selectedEl;
+                        if (this.selectedEl == -1) this.selectedEl = (this.options.perpage) * this.current;
+                        else if (this.selectedEl + 1 < this.els.length) this.selectedEl++;
+                        else return;
+                        if (a != -1) this.els[a].fireEvent('mouseleave');
+                        if ((this.selectedEl / this.options.perpage).toInt() > this.current) this.arrowright.fireEvent('click', true);
+                        if (this.selectedEl || this.selectedEl == 0) this.els[this.selectedEl].fireEvent('mouseenter')
+                    } else if (e.key == 'up') {
+                        a = this.selectedEl;
+                        if (this.selectedEl == -1) this.selectedEl = (this.options.perpage) * this.current;
+                        else if (this.selectedEl - 1 >= 0) this.selectedEl--;
+                        else return;
+                        if (a != -1) this.els[a].fireEvent('mouseleave');
+                        if ((this.selectedEl / this.options.perpage).toInt() < this.current) this.arrowleft.fireEvent('click', true);
+                        if (this.selectedEl || this.selectedEl == 0) this.els[this.selectedEl].fireEvent('mouseenter')
+                    } else if (e.key == 'enter') {
+                        if (this.selectedEl || this.selectedEl == 0) window.location = this.els[this.selectedEl].getElement('a')
+                    }
+                }
+            }.bind(this)
+        };
+        if (this.options.keyevents) {
+            this.addEvent('loaded', function () {
+                document.addEvent('keyup', b.keyup)
+            });
+            this.addEvent('unloaded', function () {
+                document.removeEvent('keyup', b.keyup)
+            })
+        }
+    },
+    outputTable: function () {
+        var r = this;
+        var s = new Element('div', {
+            'class': 'roksearch_wrapper1'
+        }).inject(this.results);
+        var t = new Element('div', {
+            'class': 'roksearch_wrapper2'
+        }).inject(s);
+        var u = new Element('div', {
+            'class': 'roksearch_wrapper3'
+        }).inject(t);
+        var v = new Element('div', {
+            'class': 'roksearch_wrapper4'
+        }).inject(u);
+        var w = new Element('div', {
+            'class': 'roksearch_header png'
+        }).set('html', this.options.results).injectInside(v);
+        this.close = new Element('a', {
+            'id': 'roksearch_link',
+            'class': 'png'
+        }).setProperty('href', '#').set('html', this.options.close).injectBefore(w);
+        var x = this.options.hidedivs.split(" ");
+        this.close.addEvent('click', function (e) {
+            this.fireEvent('unloaded');
+            new Event(e).stop();
+            this.inputBox.value = this.options.search;
+            var b = this;
+            this.fx.start('opacity', 0).chain(function () {
+                b.results.empty().removeClass('roksearch_results')
+            });
+            if (x.length > 0 && x != '') x.each(function (a) {
+                document.id(a).setStyle('visibility', 'visible')
+            })
+        }.bind(this));
+        if (x.length > 0 && x != '') x.each(function (a) {
+            document.id(a).setStyle('visibility', 'hidden')
+        });
+        this.results.addClass('roksearch_results');
+        var y = $$('#rokajaxsearch_tmp fieldset');
+        if (y.length > 0) {
+            var z = new Element('div', {
+                'class': 'container-wrapper'
+            }).inject(v);
+            var A = new Element('div', {
+                'class': 'container-scroller'
+            }).inject(z);
+            y.each(function (p, i) {
+                var q = '';
+                q = p.getChildren();
+                if (q.length > 0) {
+                    q.each(function (a, j) {
+                        if (a.get('tag') == "div") {
+                            if (a.getChildren().length > 2 && !a.getPrevious()) {
+                                var b = a.getFirst().getNext().getProperty('href');
+                                var c = new Element('div', {
+                                    'class': this.rows[i % 2] + ' png'
+                                });
+                                var d = new Element('a').setProperty('href', b).injectInside(c);
+                                var e = new Element('h3').set('html', a.getFirst().getNext().get('text')).injectInside(d);
+                                this.els.push(c);
+                                c.addEvents({
+                                    'mouseenter': function () {
+                                        this.addClass(r.rows[i % 2] + '-hover');
+                                        r.selectedEl = i
+                                    },
+                                    'mouseleave': function () {
+                                        this.removeClass(r.rows[i % 2] + '-hover');
+                                        if (r.selectedEl == i) r.selectedEl = -1
+                                    }
+                                });
+                                var f = '';
+                                if (this.options.showdescription) f = a.getNext().innerHTML;
+                                var g = new Element('span').set('html', f).injectAfter(d);
+                                if (this.options.showcategory) {
+                                    var h = new Element('span', {
+                                        'class': 'small'
+                                    }).set('html', a.getChildren().getLast().get('text')).injectAfter(d);
+                                    var k = new Element('br').injectAfter(h)
+                                }
+                                if (this.options.showreadmore) {
+                                    d = new Element('a', {
+                                        'class': 'clr'
+                                    }).setProperty('href', b).set('html', this.options.readmore).injectAfter(g);
+                                    if (this.options.showdescription) k = new Element('br').injectAfter(g)
+                                }
+                                var l = new Element('div', {
+                                    'class': 'roksearch_result_wrapper1 png'
+                                }).inject(A);
+                                var m = new Element('div', {
+                                    'class': 'roksearch_result_wrapper2 png'
+                                }).inject(l);
+                                var n = new Element('div', {
+                                    'class': 'roksearch_result_wrapper3 png'
+                                }).inject(m);
+                                var o = new Element('div', {
+                                    'class': 'roksearch_result_wrapper4 png'
+                                }).inject(n);
+                                c.inject(o)
+                            }
+                        }
+                    }, this)
+                }
+            }, this);
+            var B = A.getChildren();
+            var C = Math.max(this.options.perpage, B.length);
+            var D = Math.min(this.options.perpage, B.length);
+            var E = this.options.perpage;
+            this.page = [];
+            (Math.abs(C / D)).times(function (i) {
+                if (B[i]) this.page.push(new Element('div', {
+                    'class': 'page page-' + i
+                }).inject(A).setStyle('width', A.getStyle('width')));
+                for (j = 0, l = E; j < l; j++) {
+                    if (B[i * E + j]) B[i * E + j].inject(this.page[i])
+                }
+            }.bind(this));
+            A.setStyle('width', z.getStyle('width').toInt() * Math.round(C / D) + 1000)
+        }
+        if (!y.length) {
+            var F = new Element('div', {
+                'class': this.rows[0]
+            });
+            var G = new Element('h3').set('html', this.options.noresults).injectInside(F);
+            var H = new Element('a').setProperty('href', this.options.advsearchlink).injectAfter(G);
+            G = new Element('span', {
+                'class': 'advanced-search'
+            }).set('html', this.options.advsearch).injectInside(H);
+            F.inject(v)
+        } else {
+            if (this.options.includelink) {
+                var I = $$('#rokajaxsearch input[name=limit]')[0];
+                this.bottombar = new Element('div', {
+                    'class': "roksearch_row_btm png"
+                });
+                var J = new Element('a').setProperty('href', "#").injectInside(this.bottombar);
+                G = new Element('span').set('html', this.options.viewall).injectInside(J);
+                J.addEvent('click', function (e) {
+                    new Event(e).stop();
+                    document.id('rokajaxsearch').submit()
+                });
+                this.bottombar.inject(v);
+                if (B.length > this.options.perpage) {
+                    this.arrowDiv = new Element('div', {
+                        'class': 'container-arrows'
+                    }).inject(this.bottombar, 'top');
+                    this.arrowleft = new Element('div', {
+                        'class': 'arrow-left-disabled'
+                    }).inject(this.arrowDiv);
+                    this.arrowright = new Element('div', {
+                        'class': 'arrow-right'
+                    }).inject(this.arrowDiv);
+                    this.arrowsInit(z)
+                }
+            }
+        }
+    },
+    outputTableless: function () {
+        var p = this;
+        var q = new Element('div', {
+            'class': 'roksearch_wrapper1'
+        }).inject(this.results);
+        var r = new Element('div', {
+            'class': 'roksearch_wrapper2'
+        }).inject(q);
+        var s = new Element('div', {
+            'class': 'roksearch_wrapper3'
+        }).inject(r);
+        var t = new Element('div', {
+            'class': 'roksearch_wrapper4'
+        }).inject(s);
+        var u = new Element('div', {
+            'class': 'roksearch_header png'
+        }).set('html', this.options.results).injectInside(t);
+        if (this.type != 'local') {
+            t.addClass('google-search').addClass('google-search-' + this.type);
+            var v = '<span class="powered-by-google">(powered by <a href="http://google.com" target="_blank">Google</a>)</span>';
+            u.set('html', this.options.results + v)
+        };
+        this.close = new Element('a', {
+            'id': 'roksearch_link',
+            'class': 'png'
+        }).setProperty('href', '#').set('html', this.options.close).injectBefore(u);
+        var w = this.options.hidedivs.split(" ");
+        this.close.addEvent('click', function (e) {
+            this.fireEvent('unloaded');
+            new Event(e).stop();
+            this.inputBox.value = this.options.search;
+            var b = this;
+            this.fx.start('opacity', 0).chain(function () {
+                b.results.empty().removeClass('roksearch_results')
+            });
+            if (w.length > 0 && w != '') w.each(function (a) {
+                document.id(a).setStyle('visibility', 'visible')
+            })
+        }.bind(this));
+        if (w.length > 0 && w != '') w.each(function (a) {
+            document.id(a).setStyle('visibility', 'hidden')
+        });
+        this.results.addClass('roksearch_results');
+        var x = $$('#rokajaxsearch_tmp ol.list li');
+        if (x.length > 0) {
+            var y = new Element('div', {
+                'class': 'container-wrapper'
+            }).inject(t);
+            var z = new Element('div', {
+                'class': 'container-scroller'
+            }).inject(y);
+            x.each(function (a, i) {
+                var b = '';
+                b = a.getChildren();
+                if (b.length > 0) {
+                    var c = a.getElement('a').getProperty('href');
+                    var d = new Element('div', {
+                        'class': this.rows[i % 2] + ' png'
+                    });
+                    var e = new Element('a').setProperty('href', c).injectInside(d);
+                    if (this.type != 'local') e.setProperty('target', '_blank');
+                    var f = new Element('h3').set('html', b[0].get('text')).injectInside(e);
+                    this.els.push(d);
+                    d.addEvents({
+                        'mouseenter': function () {
+                            this.addClass(p.rows[i % 2] + '-hover');
+                            p.selectedEl = i
+                        },
+                        'mouseleave': function () {
+                            this.removeClass(p.rows[i % 2] + '-hover');
+                            if (p.selectedEl == i) p.selectedEl = -1
+                        }
+                    });
+                    var g = '';
+                    if (this.options.showdescription) g = b[2].innerHTML;
+                    var h = new Element('span').set('html', g).injectAfter(e);
+                    if (this.options.showcategory) {
+                        var j = new Element('span', {
+                            'class': 'small'
+                        }).set('html', b[1].innerHTML).injectAfter(e);
+                        var k = new Element('br').injectAfter(j)
+                    }
+                    if (this.options.showreadmore) {
+                        e = new Element('a', {
+                            'class': 'clr'
+                        }).setProperty('href', c).set('html', this.options.readmore).injectAfter(h);
+                        if (this.type != 'local') e.setProperty('target', '_blank');
+                        if (this.options.showdescription) k = new Element('br').injectAfter(h)
+                    }
+                    var l = new Element('div', {
+                        'class': 'roksearch_result_wrapper1 png'
+                    }).inject(z);
+                    var m = new Element('div', {
+                        'class': 'roksearch_result_wrapper2 png'
+                    }).inject(l);
+                    var n = new Element('div', {
+                        'class': 'roksearch_result_wrapper3 png'
+                    }).inject(m);
+                    var o = new Element('div', {
+                        'class': 'roksearch_result_wrapper4 png'
+                    }).inject(n);
+                    d.inject(o)
+                }
+            }, this);
+            var A = z.getChildren();
+            var B = Math.max(this.options.perpage, A.length);
+            var C = Math.min(this.options.perpage, A.length);
+            var D = this.options.perpage;
+            this.page = [];
+            (Math.abs(B / C)).times(function (i) {
+                if (A[i]) this.page.push(new Element('div', {
+                    'class': 'page page-' + i
+                }).inject(z).setStyle('width', z.getStyle('width')));
+                for (j = 0, l = D; j < l; j++) {
+                    if (A[i * D + j]) A[i * D + j].inject(this.page[i])
+                }
+            }.bind(this));
+            if (this.type != 'local') {
+                var E = this.page[0].getSize();
+                this.page[0].setStyle('position', 'relative');
+                this.layer = new Element('div', {
+                    'class': 'rokajaxsearch-overlay',
+                    'styles': {
+                        'width': E.x,
+                        'height': E.y,
+                        'position': 'absolute',
+                        'left': 0,
+                        'top': 0,
+                        'display': 'block',
+                        'z-index': 5
+                    }
+                }).inject(this.page[0], 'top');
+                var F = new Fx.Tween(this.layer, {
+                    duration: 300
+                }).set('opacity', 0.9)
+            }
+            z.setStyle('width', y.getStyle('width').toInt() * Math.round(B / C) + 1000)
+        }
+        if (!x.length) {
+            var G = new Element('div', {
+                'class': this.rows[0]
+            });
+            var H = new Element('h3').set('html', this.options.noresults).injectInside(G);
+            var I = new Element('a').setProperty('href', this.options.advsearchlink).injectAfter(H);
+            H = new Element('span', {
+                'class': 'advanced-search'
+            }).set('html', this.options.advsearch).injectInside(I);
+            G.inject(t)
+        } else {
+            if (this.options.includelink) {
+                var J = $$('#rokajaxsearch input[name=limit]')[0];
+                this.bottombar = new Element('div', {
+                    'class': "roksearch_row_btm png"
+                });
+                var K = new Element('a', {
+                    'class': 'viewall'
+                }).setProperty('href', "#").injectInside(this.bottombar);
+                H = new Element('span').set('html', this.options.viewall).injectInside(K);
+                if (this.type != 'local') {
+                    K.setProperties({
+                        'href': this.google.cursor.moreResultsUrl,
+                        'target': '_blank'
+                    });
+                    if (this.options.showestimated) var L = new Element('span', {
+                        'class': 'estimated_res'
+                    }).set('text', '(' + this.google.cursor.estimatedResultCount + ' ' + this.options.estimated + ')').inject(K, 'after');
+                    if (this.options.showpagination) {
+                        this.pagination = new Element('div', {
+                            'class': 'pagination_res'
+                        }).inject(L || K, 'after');
+                        this.pagination.set('html', this.options.page + ' ' + '<span class="highlight">' + (this.google.cursor.currentPageIndex + 1) + '</span>' + ' ' + this.options.page_of + ' ' + '<span class="highlight">' + this.google.cursor.pages.length + '</span>')
+                    }
+                } else {
+                    K.addEvent('click', function (e) {
+                        new Event(e).stop();
+                        document.id('rokajaxsearch').submit()
+                    })
+                }
+                this.bottombar.inject(t);
+                if (A.length > this.options.perpage || ((this.type != 'local') && this.google.cursor.pages.length > 1)) {
+                    this.arrowDiv = new Element('div', {
+                        'class': 'container-arrows'
+                    }).inject(this.bottombar, 'top');
+                    this.arrowleft = new Element('div', {
+                        'class': 'arrow-left-disabled'
+                    }).inject(this.arrowDiv);
+                    this.arrowright = new Element('div', {
+                        'class': 'arrow-right'
+                    }).inject(this.arrowDiv);
+                    if (this.type != 'local') {
+                        if (this.google.cursor) {
+                            var M = this.google.cursor.currentPageIndex;
+                            if (M > 0) this.arrowleft.removeClass('arrow-left-disabled').addClass('arrow-left');
+                            if (M == 7) this.arrowright.removeClass('arrow-right').addClass('arrow-right-disabled')
+                        }
+                        this.arrowsGoogleInit(y);
+                        F.start('opacity', 0)
+                    } else this.arrowsInit(y)
+                }
+            }
+        }
+    },
+    arrowsGoogleInit: function (c) {
+        this.arrowleft.addEvent('click', function (a) {
+            if (!a && this.selectedEl >= 0) this.els[this.selectedEl].fireEvent('mouseleave');
+            if (!a) this.selectedEl = -1;
+            var b = (this.google.cursor) ? this.google.cursor.currentPageIndex : null;
+            if (b - 1 <= 0) {
+                this.arrowleft.removeClass('arrow-left').addClass('arrow-left-disabled');
+                this.arrowright.removeClass('arrow-right-disabled').addClass('arrow-right')
+            } else {
+                this.arrowleft.removeClass('arrow-left-disabled').addClass('arrow-left');
+                this.arrowright.removeClass('arrow-right-disabled').addClass('arrow-right')
+            }
+            if (!b) return;
+            else {
+                if (!this.inputBox.hasClass('loading')) this.inputBox.addClass('loading');
+                this.layer.setStyle('opacity', 0.9);
+                this.google.gotoPage(b - 1)
+            }
+        }.bind(this));
+        this.arrowright.addEvent('click', function (a) {
+            if (!a && this.selectedEl >= 0) this.els[this.selectedEl].fireEvent('mouseleave');
+            if (!a) this.selectedEl = -1;
+            var b = (this.google.cursor) ? this.google.cursor.currentPageIndex : null;
+            if (b + 1 >= this.google.cursor.pages.length) {
+                this.arrowleft.removeClass('arrow-left-disabled').addClass('arrow-left');
+                this.arrowright.removeClass('arrow-right').addClass('arrow-right-disabled')
+            } else {
+                this.arrowleft.removeClass('arrow-left').addClass('arrow-left-disabled');
+                this.arrowright.removeClass('arrow-right-disabled').addClass('arrow-right')
+            }
+            if (b >= this.google.cursor.pages.length - 1) return;
+            else {
+                if (this.arrowleft.hasClass('arrow-left-disabled')) this.arrowleft.removeClass('arrow-left-disabled').addClass('arrow-left');
+                if (!this.inputBox.hasClass('loading')) this.inputBox.addClass('loading');
+                this.layer.setStyle('opacity', 0.9);
+                this.google.gotoPage(b + 1)
+            }
+        }.bind(this))
+    },
+    arrowsInit: function (b) {
+        this.scroller = new Fx.Scroll(b, {
+            wait: false
+        });
+        this.arrowleft.addEvent('click', function (a) {
+            if (!a && this.selectedEl >= 0) this.els[this.selectedEl].fireEvent('mouseleave');
+            if (!a) this.selectedEl = -1;
+            if (this.current - 1 <= 0) {
+                this.arrowleft.removeClass('arrow-left').addClass('arrow-left-disabled');
+                this.arrowright.removeClass('arrow-right-disabled').addClass('arrow-right')
+            } else {
+                this.arrowleft.removeClass('arrow-left-disabled').addClass('arrow-left');
+                this.arrowright.removeClass('arrow-right-disabled').addClass('arrow-right')
+            }
+            if (!this.current) return;
+            else {
+                if (this.current < 0) this.current = 0;
+                else this.current -= 1;
+                this.scroller.toElement(this.page[this.current])
+            }
+        }.bind(this));
+        this.arrowright.addEvent('click', function (a) {
+            if (!a && this.selectedEl >= 0) this.els[this.selectedEl].fireEvent('mouseleave');
+            if (!a) this.selectedEl = -1;
+            if (this.current + 1 >= this.page.length - 1) {
+                this.arrowleft.removeClass('arrow-left-disabled').addClass('arrow-left');
+                this.arrowright.removeClass('arrow-right').addClass('arrow-right-disabled')
+            } else {
+                this.arrowleft.removeClass('arrow-left').addClass('arrow-left-disabled');
+                this.arrowright.removeClass('arrow-right-disabled').addClass('arrow-right')
+            }
+            if (this.current >= this.page.length) return;
+            else {
+                if (this.arrowleft.hasClass('arrow-left-disabled')) this.arrowleft.removeClass('arrow-left-disabled').addClass('arrow-left');
+                if (this.current >= this.page.length - 1) this.current = this.page.length - 1;
+                else this.current += 1;
+                this.scroller.toElement(this.page[this.current])
+            }
+        }.bind(this))
+    }
+});

@@ -2,7 +2,7 @@
 <playlist version="1">
 <title>hwdVideoShare mostviewed_thisweek Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2011-12-17 17:06:17</date>
+<date>2012-01-01 20:11:11</date>
 <trackList>
 
   <track>
@@ -14,9 +14,9 @@
     <category><![CDATA[]]></category>
     <category_id><![CDATA[3]]></category_id>
     <description><![CDATA[&#60;p&#62;http://www.virtuosso.com Aprende a tocar el solo de la famosa canci&#243;n Higway to hell de AC/DC. Los mejores cursos de guitarra en DVD los tiene Virtuosso. S&#237;guenos en Twitter: http://www.twitter.com/Virtuosso&#60;/p&#62;]]></description>
-    <views><![CDATA[6]]></views>
-    <numfavoured><![CDATA[7]]></numfavoured>
-    <views><![CDATA[6]]></views>
+    <views><![CDATA[71]]></views>
+    <numfavoured><![CDATA[27]]></numfavoured>
+    <views><![CDATA[71]]></views>
     <date><![CDATA[2011-12-10 18:52:23]]></date>
     <duration><![CDATA[06:52]]></duration>
     <rating><![CDATA[4.50]]></rating>
@@ -28,91 +28,52 @@
   </track>
 
   <track>
-    <id><![CDATA[124]]></id>
-    <videotitle><![CDATA[Pin Pon es un mu&#241;eco...]]></videotitle>
-    <videocode><![CDATA[B6lbqdKC5NQ]]></videocode>
+    <id><![CDATA[134]]></id>
+    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LAS SIETE DE LA TARDE&#34; DE BARRICADA (PARTE 1)]]></videotitle>
+    <videocode><![CDATA[RFMfW9NExZs]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-124.jpg]]></thumbnail>
+    <thumbnail><![CDATA[tp-134.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
     <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[rondas infantiles]]></description>
-    <views><![CDATA[1]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[1]]></views>
-    <date><![CDATA[2011-12-10 18:33:44]]></date>
-    <duration><![CDATA[02:27]]></duration>
-    <rating><![CDATA[0.00]]></rating>
+    <description><![CDATA[En esta primera parte del v&#237;deo est&#225;n las explicaciones. En la segunda el tema completo. Espero que os guste.
+
+Equipo:
+-Gibson SG&#180;61 Reissue de 2009
+- Fender Super Champ XD en voice 8 del canal 2
+- Pedal Morpheus Drop-tune en la funci&#243;n de octavador]]></description>
+    <views><![CDATA[19]]></views>
+    <numfavoured><![CDATA[15]]></numfavoured>
+    <views><![CDATA[19]]></views>
+    <date><![CDATA[2011-12-18 22:28:59]]></date>
+    <duration><![CDATA[06:55]]></duration>
+    <rating><![CDATA[4.50]]></rating>
     <uploader><![CDATA[murcialito]]></uploader>
     <uploader_id><![CDATA[67]]></uploader_id>
     <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[rondas, infantiles]]></tags>
+    <comments><![CDATA[2]]></comments>
+    <tags><![CDATA[Las siete de la tarde, Barricada, La tierra está sorda, rock]]></tags>
   </track>
 
   <track>
-    <id><![CDATA[126]]></id>
-    <videotitle><![CDATA[zxzx]]></videotitle>
-    <videocode><![CDATA[ffbnia6pckhxx5]]></videocode>
-    <videotype><![CDATA[local]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
+    <id><![CDATA[136]]></id>
+    <videotitle><![CDATA[TANAKA VS  PICOLO  king of figth (round I)]]></videotitle>
+    <videocode><![CDATA[xwJks3dHYLU]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-136.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
-    <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[xzxzx]]></description>
-    <views><![CDATA[1]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[1]]></views>
-    <date><![CDATA[2011-12-10 18:55:17]]></date>
-    <duration><![CDATA[0:01:54]]></duration>
-    <rating><![CDATA[0.00]]></rating>
-    <uploader><![CDATA[pichica]]></uploader>
-    <uploader_id><![CDATA[63]]></uploader_id>
-    <avatar><![CDATA[63_4bdfddeadd3b6.jpg]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[fdsfsdf]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[127]]></id>
-    <videotitle><![CDATA[Unknown]]></videotitle>
-    <videocode><![CDATA[hwd7k58egta2sm]]></videocode>
-    <videotype><![CDATA[local]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[_HWDVIDS_UNKNOWN]]></description>
-    <views><![CDATA[1]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[1]]></views>
-    <date><![CDATA[2011-12-10 19:32:13]]></date>
-    <duration><![CDATA[0:00:07]]></duration>
-    <rating><![CDATA[0.00]]></rating>
-    <uploader><![CDATA[murcialito]]></uploader>
-    <uploader_id><![CDATA[67]]></uploader_id>
-    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[fsdfsdf]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[128]]></id>
-    <videotitle><![CDATA[Unknown]]></videotitle>
-    <videocode><![CDATA[k24gzqxuw5ut7k]]></videocode>
-    <videotype><![CDATA[local]]></videotype>
-    <thumbnail><![CDATA[]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[_HWDVIDS_UNKNOWN]]></description>
-    <views><![CDATA[1]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[1]]></views>
-    <date><![CDATA[2011-12-10 19:34:48]]></date>
-    <duration><![CDATA[0:00:05]]></duration>
-    <rating><![CDATA[0.00]]></rating>
-    <uploader><![CDATA[murcialito]]></uploader>
-    <uploader_id><![CDATA[67]]></uploader_id>
-    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[fdsdfsdf]]></tags>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[&#60;p&#62;En el mundo de los dragones, el debil debe perecer, as&#237; se purifica la dinast&#237;a....es lo que llamamos, SELECCI&#211;N NATURAL, rosendo, los suaves, que pasa colega, acho socio&#60;/p&#62;]]></description>
+    <views><![CDATA[572]]></views>
+    <numfavoured><![CDATA[14]]></numfavoured>
+    <views><![CDATA[572]]></views>
+    <date><![CDATA[2011-12-27 12:32:38]]></date>
+    <duration><![CDATA[03:03]]></duration>
+    <rating><![CDATA[4.50]]></rating>
+    <uploader><![CDATA[rae]]></uploader>
+    <uploader_id><![CDATA[80]]></uploader_id>
+    <avatar><![CDATA[]]></avatar>
+    <comments><![CDATA[1]]></comments>
+    <tags><![CDATA[mira la sangre, picolo tanaka, acho,socio, uzirecords, znp, bop 241, brilly marcha, vente conmigo, deja que mi voz, mafia 98]]></tags>
   </track>
 
   <track>
@@ -131,17 +92,68 @@ www.shigaru.com es una comunidad nueva para amantes de la m&#250;sica, donde los
 ---------------------------------------
 
 Por favor dejad comentarios y si puedes subir una versi&#243;n mejor por favor subirla a http://www.shigaru.com. Pero please no seais ofensivos porque es muy f&#225;cil criticar. No prentendemos ser m&#250;sicos profesionales, s&#243;lo queremos...]]></description>
-    <views><![CDATA[1]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[1]]></views>
+    <views><![CDATA[17]]></views>
+    <numfavoured><![CDATA[6]]></numfavoured>
+    <views><![CDATA[17]]></views>
     <date><![CDATA[2011-12-10 19:47:19]]></date>
     <duration><![CDATA[02:33]]></duration>
-    <rating><![CDATA[0.00]]></rating>
+    <rating><![CDATA[4.50]]></rating>
     <uploader><![CDATA[pichica]]></uploader>
     <uploader_id><![CDATA[63]]></uploader_id>
     <avatar><![CDATA[63_4bdfddeadd3b6.jpg]]></avatar>
-    <comments><![CDATA[0]]></comments>
+    <comments><![CDATA[1]]></comments>
     <tags><![CDATA[tutorial, rock, español, lección, leccion, clase, aprender, tocar, sting, Dolores se llamaba lola, lesson, explanation, explicacion, teacher, how, to, play, ]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[132]]></id>
+    <videotitle><![CDATA[C&#211;MO TOCAR &#34;ESTA NOCHE&#34; DE BARRICADA]]></videotitle>
+    <videocode><![CDATA[ySvhxXHMd80]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-132.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[Pertenece al disco &#34;Rojo&#34; de Barricada, un cl&#225;sico. Espero que os guste!
+Equipo:
+Fender Telecaster Standard USA
+Fender Super Champ en Canal 1
+Pedal Brunetti Mercury Box]]></description>
+    <views><![CDATA[8]]></views>
+    <numfavoured><![CDATA[5]]></numfavoured>
+    <views><![CDATA[8]]></views>
+    <date><![CDATA[2011-12-18 22:26:51]]></date>
+    <duration><![CDATA[05:16]]></duration>
+    <rating><![CDATA[4.50]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[Barricada, Rock]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[137]]></id>
+    <videotitle><![CDATA[No somos nada - La polla records guitar cover]]></videotitle>
+    <videocode><![CDATA[56Imys75ot0]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-137.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[1]]></category_id>
+    <description><![CDATA[Yo tocando no somos nada en la guitarra, hay algun fallo pero bueno.
+
+Guitarra: Jackson DX10D
+Ampli: Line 6 Spider 3 15 w]]></description>
+    <views><![CDATA[3]]></views>
+    <numfavoured><![CDATA[3]]></numfavoured>
+    <views><![CDATA[3]]></views>
+    <date><![CDATA[2011-12-27 12:51:29]]></date>
+    <duration><![CDATA[02:29]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[rae]]></uploader>
+    <uploader_id><![CDATA[80]]></uploader_id>
+    <avatar><![CDATA[]]></avatar>
+    <comments><![CDATA[2]]></comments>
+    <tags><![CDATA[guitar, cover, no, somos, nada, la, polla, record, records, evaristo, jackson, dinky, reverse, dx, 10d, dx10d, line, spider, 15, watts]]></tags>
   </track>
 
   <track>
@@ -159,12 +171,12 @@ y en el cambio:
 
 (te arrastras al labavo...)
 D   A   F#m   B]]></description>
-    <views><![CDATA[1]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[1]]></views>
+    <views><![CDATA[6]]></views>
+    <numfavoured><![CDATA[2]]></numfavoured>
+    <views><![CDATA[6]]></views>
     <date><![CDATA[2011-12-11 13:11:39]]></date>
     <duration><![CDATA[02:37]]></duration>
-    <rating><![CDATA[4.00]]></rating>
+    <rating><![CDATA[4.33]]></rating>
     <uploader><![CDATA[murcialito]]></uploader>
     <uploader_id><![CDATA[67]]></uploader_id>
     <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
@@ -173,27 +185,78 @@ D   A   F#m   B]]></description>
   </track>
 
   <track>
-    <id><![CDATA[131]]></id>
-    <videotitle><![CDATA[Como tocar &#34;Agradecido&#34; con guitarra (Rosendo) y como preparar un bizcocho f&#225;cil]]></videotitle>
-    <videocode><![CDATA[eQ01w00JN8M]]></videocode>
+    <id><![CDATA[133]]></id>
+    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LA SILLA EL&#201;CTRICA&#34; DE BARRICADA (PARTE 1)]]></videotitle>
+    <videocode><![CDATA[ofPtUW_xsuQ]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-131.jpg]]></thumbnail>
+    <thumbnail><![CDATA[tp-133.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
     <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[-- GuitarFiero.com --
-
-En &#233;sta ocasi&#243;n y con motivo del v&#237;deo 100 os ense&#241;ar&#233; una manera f&#225;cil de hacer un bizcocho y mientras se hace veremos como tocar el tema &#34;Agradecido&#34; de Rosendo. Y como ta sab&#233;is todo el material lo encontrar&#233;is gratis en guitarfiero.com]]></description>
-    <views><![CDATA[1]]></views>
+    <description><![CDATA[Este v&#237;deo tiene 2 partes, ya que era muy largo. En la primera, las explicaciones, y en la segunda, el tema completo. He elegido la versi&#243;n del disco en directo &#34;Salud y rocanrol&#34;, que se parece m&#225;s a la que hacen ahora (es un poco diferente).Salud y ca&#241;a!
+Equipo:
+- Gibson Les Paul Studio 93
+- Fender Super Champ XD en voice 8]]></description>
+    <views><![CDATA[11]]></views>
     <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[1]]></views>
-    <date><![CDATA[2011-12-11 17:07:01]]></date>
-    <duration><![CDATA[20:33]]></duration>
-    <rating><![CDATA[4.00]]></rating>
+    <views><![CDATA[11]]></views>
+    <date><![CDATA[2011-12-18 22:27:56]]></date>
+    <duration><![CDATA[07:12]]></duration>
+    <rating><![CDATA[4.50]]></rating>
     <uploader><![CDATA[murcialito]]></uploader>
     <uploader_id><![CDATA[67]]></uploader_id>
     <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
     <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[como, tocar, agradecido, rosendo, guitarra, tabs, riffs, bizcocho, hacer, facil, yogur, guitar, guitarfiero, español, castellano, spanish, rock, lesson, lecc]]></tags>
+    <tags><![CDATA[La silla eléctrica, Barricada, Salud y rocanrol, Rock]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[135]]></id>
+    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LAS SIETE DE LA TARDE&#34; DE BARRICADA (PARTE 2)]]></videotitle>
+    <videocode><![CDATA[N_vDtZOYkAY]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-135.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[Segunda parte del video, con el tema completo. Ver parte 1 para las explicaciones.
+Equipo:
+-Gibson SG&#180;61 Reissue de 2009
+- Fender Super Champ XD en voice 8 del canal 2
+- Pedal Morpheus Drop-tune en la funci&#243;n de octavador]]></description>
+    <views><![CDATA[1]]></views>
+    <numfavoured><![CDATA[1]]></numfavoured>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2011-12-18 22:33:36]]></date>
+    <duration><![CDATA[03:49]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[Las, siete, de, la, tarde, Barricada, La, tierra, está, sorda, rock]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[138]]></id>
+    <videotitle><![CDATA[la polla records - ya no quiero ser yo (version)]]></videotitle>
+    <videocode><![CDATA[DqgVVCPUpa4]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-138.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[qu&#233; grandes...
+
+&#34;voy a ser un rico triste o el psiquiatra de la virgen cuando tuvo que contarlo lo del ni&#241;o a san jos&#233;...&#34;]]></description>
+    <views><![CDATA[1]]></views>
+    <numfavoured><![CDATA[1]]></numfavoured>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2011-12-27 12:56:13]]></date>
+    <duration><![CDATA[03:02]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[rae]]></uploader>
+    <uploader_id><![CDATA[80]]></uploader_id>
+    <avatar><![CDATA[]]></avatar>
+    <comments><![CDATA[1]]></comments>
+    <tags><![CDATA[la, polla, records, ya, no, quiero, ser, yo, cover, version, skamaniak, guitarra, guitar, epiphone]]></tags>
   </track>
 
 </trackList>

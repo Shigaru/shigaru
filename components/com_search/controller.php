@@ -81,7 +81,36 @@ class SearchController extends JController
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
 
-
+		
+		var_dump(SearchController::getLatestSearchs());
 		$this->setRedirect(JRoute::_('index.php'.$uri->toString(array('query', 'fragment')), false));
 	}
+	
+	function getLatestSearchs() {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT search_term FROM #__core_log_searches'; 
+		$query .= ' WHERE 1  ORDER BY hits  DESC';
+		$query .= ' LIMIT 0,4';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		
+		$wordList = $db->loadResultArray();
+		$wordListFormat = '';
+		$counter = 0;
+		foreach ($wordList as &$value) {
+			if($counter === 0)
+				$wordListFormat .= SearchController::getAnchor($value);
+				else
+					$wordListFormat .= ', '.SearchController::getAnchor($value);
+			$counter++;
+		}
+		return $wordListFormat;
+		}
+		
+
+		
+	function getAnchor($word) {
+			$searchLink = '<a href="'.JURI::base().'index.php?option=com_search&view=search&searchphrase=any&ordering=category&limit=10&searchword='.$word.'&tmpl=component&r='.rand().'" title="'.JText::_('View results for ').$word.'">'.$word.'</a>';
+			return $searchLink ;
+		}
 }

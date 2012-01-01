@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+	<name>Karma</name>
+	<author>Tony Korologos</author>
+	<creationDate>May 2009</creationDate>
+	<copyright>(C) 2006 - 2009 Tony Korologos. All rights reserved.</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>admin@tkserver.com</authorEmail>
+	<authorUrl>www.tkserver.com</authorUrl>
+	<version>1.5.0</version>
+	<description>A Joomla! 1.5.x user rating component which integrates with Community Builder (CB) 1.2.x.
+	Other files in this series include the Karma CB Plugin and several Karma modules.
+	Written by MediaGuru at http://www.tkserver.com with inspiration by M. Galang.
+	Please go to www.tkserver.com and donate if you find this system useful and would like to support further Karma develpment, and development of other systems.
+	</description>
+	
+  <install>
+    <sql folder="admin/">
+      <file driver="mysql" charset="utf8">install.mysql.sql</file>
+    </sql>
+  </install>
+	
+  <install>
+    <sql folder="admin/">
+      <file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
+    </sql>
+  </install>
+
+	
+	<files>
+		<filename>karma.class.php</filename>
+		<filename>karma.html.php</filename>
+		<filename>karma.php</filename>
+	</files>
+	
+	<administration>
+		<menu>Karma</menu>
+		
+		<files folder="admin">
+			<filename>install.mysql.sql</filename>
+			<filename>uninstall.mysql.sql</filename>
+			<filename>admin.karma.php</filename>
+			<filename>admin.karma.html.php</filename>
+			<filename>controller.php</filename>
+			<filename>LICENSE</filename>
+			<filename>tables/karmatb.php</filename>
+			<filename>tables/karmaconfiguration.php</filename>
+		</files>
+		
+	</administration>
+	
+</install>

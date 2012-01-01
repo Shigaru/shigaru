@@ -1,0 +1,12 @@
+/* CSS Document */
+div.mind_wrapper {border:1px solid #AAAAAA;width:100%;background:#F0F0F0;}
+
+div.mind_inner {display:inline;width:25%;padding:3px 3px 3px 3px;}
+
+div.mind_text {display:inline;width:75%;text-align:right;}
+
+div.mind_button {text-align:right;}
+
+div.mind_gif {border:1px solid #AAAAAA;width:100%;background:#F0F0F0;width:100%;display:none;text-align:center;}
+
+textarea.mind_text {width:78%;}

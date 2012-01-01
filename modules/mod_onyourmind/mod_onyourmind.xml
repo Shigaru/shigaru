@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<install type="module" version="1.5.0">
+	<name>What's on your mind</name>
+	<author>grVulture AXXIS.gr</author>
+	<creationDate>01/07/2009</creationDate>
+	<copyright>www.axxis.gr</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>grvulture@yahoo.com</authorEmail>
+	<authorUrl>http://www.axxis.gr</authorUrl>
+	<version>1.6</version>
+	<description> This module will ask what's on your mind, and it will display it on the Super Activity Feed </description>
+
+	<files>
+		<filename module="mod_onyourmind">mod_onyourmind.php</filename>
+		<filename module="mod_onyourmind">share.php</filename>
+		<filename module="mod_onyourmind">ajax.js</filename>
+		<filename module="mod_onyourmind">index.html</filename>
+		<filename module="mod_onyourmind">9.gif</filename>
+		<filename >css/index.html</filename>
+		<filename >css/default.css</filename>
+	</files>
+
+  <params>
+  	<param name="start_text" type="text" default="What's on your mind?" label="Starting Text:" description="Enter your language specific starting text"></param>
+    <param name="start_button" type="text" default="Share" label="Button Text?" description="Enter your language specific button text"></param>
+  </params>
+	<params group="advanced">
+    	<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module, this allows individual module styling" />
+  </params>
+</install>
+

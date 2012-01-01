@@ -40,7 +40,7 @@ $this->assignRef("results", $this->get("Results"));
                 <button type="submit" class="sphinx-search-button">Search</button>
 	</div>
 </form>
-
+dsadasdasdasd
 	<?php if ($this->get("Total") > 0) : ?>
 	<div class="sphinx-total-results"><?php echo JText::sprintf("About %s results found in %s seconds.", $this->get("Total"), $this->get("Time")); ?></div>
 	<?php endif; ?>

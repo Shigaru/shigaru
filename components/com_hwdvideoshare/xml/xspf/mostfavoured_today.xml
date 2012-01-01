@@ -1,15 +1,15 @@
 <playlist version="1" xmlns="http://xspf.org/ns/0/" xmlns:jwplayer="http://developer.longtailvideo.com/ns/1">
 <title>hwdVideoShare Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2011-12-09 10:37:57</date>
+<date>2012-01-01 00:13:45</date>
 <trackList>
 
   <track>
-    <location><![CDATA[http://www.youtube.com/watch?v=qug8Upt3nnA]]></location>
-    <image><![CDATA[http://i.ytimg.com/vi/qug8Upt3nnA/0.jpg]]></image>
-    <title><![CDATA[How to Play Creeping Death by Metallica Guitar Lesson (w/ Tabs!!)]]></title>
-    <annotation><![CDATA[http://www.ObeyYourMATTster.com]]></annotation>
-	<meta rel='type'>youtube</meta>
+    <location><![CDATA[http://localhost/shigaru/hwdvideos/uploads/ffbnia6pckhxx5.flv]]></location>
+    <image><![CDATA[http://localhost/shigaru/hwdvideos/thumbs/l_ffbnia6pckhxx5.jpg]]></image>
+    <title><![CDATA[zxzx]]></title>
+    <annotation><![CDATA[xzxzx]]></annotation>
+	<meta rel='type'>http</meta>
   </track>
 
 </trackList>

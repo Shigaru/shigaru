@@ -131,29 +131,6 @@ CBTxt::addStrings( array(
 'Vote %s stars' => '投下 %s 個星星',
 'Cancel Rating' => '取消評分',
 'Average Profile Rating by other users' => '由其他使用者投下的個人資料評分平均值'
-// 1.2.1:
-'Title' => '稱呼',
-'Title is Required!' => '稱呼是必須的!',
-'NEW' => '新',
-'Mark Read' => '已讀做記號',
-'Mark Unread' => '未讀做記號',
-'You have %s new %s post' => '您有 %s 個新的 %s 文章',
-'You have %s new %s posts' => '您有 %s 個新的 %s 文章',
-'Add new blog entry' => '新增部落格項目',
-'Wall entry' => '牆的項目',
-'Write on the wall' => '在牆上寫下',
-'Entry' => '項目',
-'Blog text' => '部落格文字',
-'Save Blog Entry' => '儲存部落格項目',
-'Video' => '視訊',
-'Video: [video type=youtube]id[/video] - Hint: id is only the embedding id of the video' => '視訊: [video type=youtube]id[/video] - 秘訣: id 只需要內嵌視訊的 id',
-// module:
-'%s added a new guestbook entry to %s' => '%s 新增了一個留言板項目至 %s',
-'%s wrote a new blog "%s"' => '%s 寫了一個新的部落格 "%s"',
-'%s wrote a new blog' => '%s 寫了一個新的部落格',
-'%s added a new wall entry to %s' => '%s 新增了一個牆的項目至 %s',
-'%s added a new wall entry' => '%s 新增了一個牆的項目',
-'No entries have been made!' => '沒有新增任何項目!'
 ) );
 
 // Profile Gallery plugin: (new method: UTF8 encoding here):
@@ -309,7 +286,6 @@ CBTxt::addStrings( array(
  * %4$d ~ Maximum KB of uploaded items allowed
  * %5$s ~ access mode setting
  * %6$s ~ display format setting
- * %7$s ~ single upload size
  */
 '<font color=red>Moderator data:<br />'
 .'Items - %1$d<br />'
@@ -319,29 +295,28 @@ CBTxt::addStrings( array(
 .'Access Mode - %5$s<br />'
 .'Display Mode - %6$s<br /></font>'
 =>
-'<font color=red>版主資料:<br />'
-.'項目 - %1$d<br />'
-.'項目限額 - %2$d<br />'
-.'儲存 - %3$d<br />'
-.'儲存額度 - %4$d<br />'
-.'存取模式 - %5$s<br />'
-.'顯示模式 - %6$s<br /></font>',
-.'單一上傳大小 - %7$s<br /></font>',
+'<font color=red>Moderator data:<br />'
+.'Items - %1$d<br />'
+.'Item Quota - %2$d<br />'
+.'Storage - %3$d<br />'
+.'Storage Quota - %4$d<br />'
+.'Access Mode - %5$s<br />'
+.'Display Mode - %6$s<br /></font>',
 
-'Image ' => '影像 ',
-' of ' => ' 及 ',
-'Image {x} of {y}' => '影像 {x} 及 {y}',
+'Image ' => 'Image ',
+' of ' => ' of ',
+'Image {x} of {y}' => 'Image {x} of {y}',
 /**
  * Following section defines language strings used in CB Gallery Module
  */
-'No Viewable Items' => '無可瀏覽項目',
-'No items rendered' => '無提出項目',
+'No Viewable Items' => 'No Viewable Items',
+'No items rendered' => 'No items rendered',
 
-'Edit Gallery Item' => '編輯圖庫項目',
-'Edit' => '編輯',
-'Update' => '更新',
+'Edit Gallery Item' => 'Edit Gallery Item',
+'Edit' => 'Edit',
+'Update' => 'Update',
 
-'Bad File - Item rejected' => '檔案損壞 - 項目已被駁回'
+'Bad File - Item rejected' => 'Bad File - Item rejected'
 ) );
 
 // Privacy plugin: (new method: UTF8 encoding here):

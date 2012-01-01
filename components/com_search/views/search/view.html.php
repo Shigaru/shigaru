@@ -32,7 +32,9 @@ class SearchViewSearch extends JView
 		global $mainframe;
 
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php' );
-
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php');
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'initialise.php');
+		hwdvsInitialise::language();
 		// Initialize some variables
 		$pathway  =& $mainframe->getPathway();
 		$uri      =& JFactory::getURI();
@@ -156,9 +158,14 @@ class SearchViewSearch extends JView
 			    $result->count		= $i + 1;
 			}
 		}
-
+		
+		$instrumentsCombo = SearchViewSearch::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		
+		$levelsCombo = SearchViewSearch::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);		
+		$languagesCombo = SearchViewSearch::generateVideoCombos('code as a, code as b','languages','id','language_id',true,false,true);	
+		$genresCombo = SearchViewSearch::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);		
+		
 		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $total );
-
+		
 		$this->assignRef('pagination',  $pagination);
 		$this->assignRef('results',		$results);
 		$this->assignRef('lists',		$lists);
@@ -168,11 +175,104 @@ class SearchViewSearch extends JView
 		$this->assign('searchword',		$searchword);
 		$this->assign('searchphrase',	$state->get('match'));
 		$this->assign('searchareas',	$areas);
+		$this->assign('instrumentsCombo',	$instrumentsCombo);
+		$this->assign('levelsCombo',	$levelsCombo);
+		$this->assign('languagesCombo',	$languagesCombo);
+		$this->assign('genresCombo',	$genresCombo);
 
 		$this->assign('total',			$total);
 		$this->assign('error',			$error);
 		$this->assign('action', 	    $uri->toString());
-
+			
 		parent::display($tpl);
 	}
+	
+	function getLatestSearchs() {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT search_term FROM #__core_log_searches'; 
+		$query .= ' WHERE 1  ORDER BY hits  DESC';
+		$query .= ' LIMIT 0,6';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		
+		$wordList = $db->loadResultArray();
+		$wordListFormat = '';
+		$counter = 0;
+		foreach ($wordList as &$value) {
+		 if($value!='' && $value!=' '){	
+			if($counter === 0)
+				$wordListFormat .= SearchViewSearch::getAnchor($value);
+				else
+					$wordListFormat .= ', '.SearchViewSearch::getAnchor($value);
+			$counter++;		
+			}		
+			
+			
+		}
+		return $wordListFormat;
+		}
+		
+
+		
+	function getAnchor($word) {
+		$searchLink = '<a href="'.JURI::base().'index.php?option=com_search&searchphrase=all&ordering=newest&limit=10&searchword='.$word.'&r='.rand().'" title="'.JText::_('View results for ').$word.'">'.$word.'</a>';
+			return $searchLink ;
+		}
+		
+	function getGruopAndBandNames() {
+		$db = & JFactory::getDBO(); 
+		$query = 'SELECT label as song FROM #__hwdvidssongs'; 
+		$query .= ' WHERE 1 ORDER BY label';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$arrSongs = $db->loadResultArray();
+		$query = 'SELECT label as band FROM #__hwdvidsbands'; 
+		$query .= ' WHERE 1 ORDER BY label';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$arrBands = $db->loadResultArray();
+		$wordList = array_merge($arrSongs, $arrBands);
+		$i 	= 0;
+		$autocomplete='[';
+		foreach($wordList as $item => $string){
+			if($i === 0)
+				$autocomplete .= "'".$string."'";
+				else
+					$autocomplete .= ",'".$string."'";
+			$i++;
+		}
+		$autocomplete.=']';
+		return $autocomplete;
+		}	
+		
+		/**
+     * Generates an HTML select simple for an object list
+     * @param string $fields fields to be selected (fields a and b mandatory)
+     * @param string $tablename table to query
+     * @param string $orderby order column
+     * @return       $code 
+     */
+    function generateVideoCombos($fields,$tablename,$orderby,$elementid, $selectquestion=true,$others=false,$required=true){
+		$db =& JFactory::getDBO();
+		$db->setQuery("SELECT DISTINCT ".$fields." from #__".$tablename." ORDER BY ".$orderby.";"
+		                );
+		if($selectquestion)                
+			$options[] = JHTML::_('select.option', '', constant('_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT'));                
+		$mitems = $db->loadObjectList();
+		  foreach($mitems as $mitem) :
+			$options[] = JHTML::_('select.option', $mitem->a, constant($mitem->b));
+		  endforeach;
+		if($others)
+			$options[] = JHTML::_('select.option', 'OTHER', constant('_HWDVIDS_SHIGARU_SHIGAR_COMBO_OTHER'));      
+		$classCombo;
+		if($required)
+			$classCombo = 'class="inputbox required"';
+			else
+				$classCombo='class="inputbox"';
+			
+		  ## Create <select name="month" class="inputbox"></select> ##
+		  $code = JHTML::_('select.genericlist', $options, $elementid, $classCombo, 'value', 'text', $default);
+		
+		return $code;
+		}
 }

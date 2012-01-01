@@ -42,10 +42,7 @@ class SphinxSearchController extends JController
 {
     function search()
     {
-		var_dump('ddddddddddddddddddddddddd');
 	$model = $this->getModel("search");
-	var_dump('dddddddddddd');
-	var_dump($model->buildQueryURL($_POST));
 	$this->setRedirect($model->buildQueryURL($_POST));
     }
     /**

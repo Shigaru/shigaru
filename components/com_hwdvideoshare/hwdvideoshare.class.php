@@ -3177,7 +3177,7 @@ $app = & JFactory::getApplication();
 			$details = explode('~',$word);
 			$percent = round(($details[0] - $smallest) / $difference,1);
 			$fontSize = round($minSize + ($fontDifference*$percent));			
-			$url = JRoute::_("index.php?option=com_hwdvideoshare&task=search&Itemid=".$Itemid."&pattern=".$details[1]."&category_id=0");
+			$url = JRoute::_("index.php?searchword=".$details[1]."&ordering=newest&searchphrase=all&Itemid=29&option=com_search&lang=en");
 			$code.= '<a href="'.$url.'" style="display:inline-block; padding-right:'.rand(1,7).'px; padding-bottom:'.rand(1,7).'px; font-size:'.$fontSize.'px;">'.$details[1].'</a>';
 		}
 		$code .= '</div>';
@@ -4724,6 +4724,9 @@ $app = & JFactory::getApplication();
 		}
 		return $code;
 	}
+	
+	
+	
     /**
      * Generates the rating star image for current rating
      *
@@ -4825,7 +4828,7 @@ $app = & JFactory::getApplication();
 
 		$location = hwd_vs_tools::generateVideoLocations($row, $quality);
 		$thumb_url = hwd_vs_tools::generateThumbnailURL($row->id, @$row->video_id, $row->video_type, @$row->thumbnail, "large");
-
+		var_dump($row->video_type);
 		if ($row->video_type == "local" || $row->video_type == "mp4" || $row->video_type == "swf")
 		{
 			// temporary html5 player fix
@@ -5018,6 +5021,7 @@ $app = & JFactory::getApplication();
 				{
 					$preparevid = preg_replace("/[^a-zA-Z0-9s_-]/", "", $row->video_type)."PrepareVideo";
 					$code.= $preparevid($row, $width, $height, $autostart);
+					var_dump(preg_replace("/[^a-zA-Z0-9s_-]/", "", $row->video_type)."PrepareVideo");
 				}
 				else
 				{

@@ -1,28 +1,93 @@
 <playlist version="1" xmlns="http://xspf.org/ns/0/" xmlns:jwplayer="http://developer.longtailvideo.com/ns/1">
 <title>hwdVideoShare Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2011-12-08 12:38:58</date>
+<date>2011-12-24 12:53:46</date>
 <trackList>
 
   <track>
-    <location><![CDATA[http://www.youtube.com/watch?v=1-GoLE1jtk8]]></location>
-    <image><![CDATA[http://i.ytimg.com/vi/1-GoLE1jtk8,http://img.youtube.com/vi/1-GoLE1jtk8/default.jpg/0.jpg]]></image>
-    <title><![CDATA[How to Play Misery by Maroon 5 on Guitar]]></title>
-    <annotation><![CDATA[How to do the Steve Martin dance: http://bitly.com/stevemartindance
-http://www.mahalo.com/how-to-play-misery-by-maroon-5-on-guitar
-
-Learn how to play Misery by Maroon 5 on Guitar!
-
-Learn more songs at these Mahalo pages:
-
-How to Play Misery by Maroon 5 on Guitar: http://www.mahalo.com/how-to-play-misery-by-maroon-5-on-guitar
-How to Play Your Love is My Drug by Kesha on Guitar: http://www.mahalo.com/how-to-play-your-love-is-my-drug-by-kesha-on-guitar
-How to Play Magic by B.O.B. Ft. Rivers Cuomo on Guitar: http://www.mahalo.com/how-to-play-magic-by-b-o-bftrivers-cuomo-on-guitar
-How to Play If I Had You by Adam Lambert on Guitar: http://www.mahalo.com/how-to-play-if-i-had-you-by-adam-lambert-on-guitar
-How to Play Ridin' Solo by Jason Derulo on Guitar: http://www.mahalo.com/how-to-play-ridin-solo-by-jason-derulo-on-guitar
-How to Play Rhythm of Love by Plain White T's on Guitar: http://www.mahalo.com/how-to-play-rhythm-of-love-by-plain-white-ts-on-guitar
-How to Play Makes Me Wonder...]]></annotation>
+    <location><![CDATA[http://www.youtube.com/watch?v=ofPtUW_xsuQ]]></location>
+    <image><![CDATA[http://i.ytimg.com/vi/ofPtUW_xsuQ/0.jpg]]></image>
+    <title><![CDATA[C&#211;MO TOCAR "LA SILLA EL&#201;CTRICA" DE BARRICADA (PARTE 1)]]></title>
+    <annotation><![CDATA[Este v&#237;deo tiene 2 partes, ya que era muy largo. En la primera, las explicaciones, y en la segunda, el tema completo. He elegido la versi&#243;n del disco en directo "Salud y rocanrol", que se parece m&#225;s a la que hacen ahora (es un poco diferente).Salud y ca&#241;a!
+Equipo:
+- Gibson Les Paul Studio 93
+- Fender Super Champ XD en voice 8]]></annotation>
 	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=ofPtUW_xsuQ]]></location>
+    <image><![CDATA[http://i.ytimg.com/vi/ofPtUW_xsuQ/0.jpg]]></image>
+    <title><![CDATA[C&#211;MO TOCAR "LA SILLA EL&#201;CTRICA" DE BARRICADA (PARTE 1)]]></title>
+    <annotation><![CDATA[Este v&#237;deo tiene 2 partes, ya que era muy largo. En la primera, las explicaciones, y en la segunda, el tema completo. He elegido la versi&#243;n del disco en directo "Salud y rocanrol", que se parece m&#225;s a la que hacen ahora (es un poco diferente).Salud y ca&#241;a!
+Equipo:
+- Gibson Les Paul Studio 93
+- Fender Super Champ XD en voice 8]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=iemRWowVeOc]]></location>
+    <image><![CDATA[http://i.ytimg.com/vi/iemRWowVeOc/0.jpg]]></image>
+    <title><![CDATA[SIEMPRE IGUAL  *  LOS SUAVES  *  ACORDES PARA GUITARRA]]></title>
+    <annotation><![CDATA[(ocho de la ma&#241;ana...)
+E5(5 CUERDA)   A   F#m    B
+
+y en el cambio:
+
+(te arrastras al labavo...)
+D   A   F#m   B]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=iemRWowVeOc]]></location>
+    <image><![CDATA[http://i.ytimg.com/vi/iemRWowVeOc/0.jpg]]></image>
+    <title><![CDATA[SIEMPRE IGUAL  *  LOS SUAVES  *  ACORDES PARA GUITARRA]]></title>
+    <annotation><![CDATA[(ocho de la ma&#241;ana...)
+E5(5 CUERDA)   A   F#m    B
+
+y en el cambio:
+
+(te arrastras al labavo...)
+D   A   F#m   B]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=iemRWowVeOc]]></location>
+    <image><![CDATA[http://i.ytimg.com/vi/iemRWowVeOc/0.jpg]]></image>
+    <title><![CDATA[SIEMPRE IGUAL  *  LOS SUAVES  *  ACORDES PARA GUITARRA]]></title>
+    <annotation><![CDATA[(ocho de la ma&#241;ana...)
+E5(5 CUERDA)   A   F#m    B
+
+y en el cambio:
+
+(te arrastras al labavo...)
+D   A   F#m   B]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://www.youtube.com/watch?v=iemRWowVeOc]]></location>
+    <image><![CDATA[http://i.ytimg.com/vi/iemRWowVeOc/0.jpg]]></image>
+    <title><![CDATA[SIEMPRE IGUAL  *  LOS SUAVES  *  ACORDES PARA GUITARRA]]></title>
+    <annotation><![CDATA[(ocho de la ma&#241;ana...)
+E5(5 CUERDA)   A   F#m    B
+
+y en el cambio:
+
+(te arrastras al labavo...)
+D   A   F#m   B]]></annotation>
+	<meta rel='type'>youtube</meta>
+  </track>
+
+  <track>
+    <location><![CDATA[http://localhost/shigaru/hwdvideos/uploads/ffbnia6pckhxx5.flv]]></location>
+    <image><![CDATA[http://localhost/shigaru/hwdvideos/thumbs/l_ffbnia6pckhxx5.jpg]]></image>
+    <title><![CDATA[zxzx]]></title>
+    <annotation><![CDATA[xzxzx]]></annotation>
+	<meta rel='type'>http</meta>
   </track>
 
 </trackList>

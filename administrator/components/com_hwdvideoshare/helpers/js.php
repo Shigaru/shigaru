@@ -667,34 +667,44 @@ class hwd_vs_javascript
 	?>
 	<script language='javascript' type='text/javascript'>
 	//Browser Support Code
+	var instance = null;
+	
 	function ajaxFunctionRate(rate, id, rand){
-		var ajaxRequest;  // The variable that makes Ajax possible!
-
-		try{
-			// Opera 8.0+, Firefox, Safari
-			ajaxRequest = new XMLHttpRequest();
-		} catch (e){
-			// Internet Explorer Browsers
-			try{
-				ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-			} catch (e) {
-				try{
-					ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-				} catch (e){
-					// Something went wrong
-					alert("<?php echo _HWDVIDS_AJAX_BBROKE; ?>");
-					return false;
-				}
-			}
-		}
-		// Create a function that will receive data sent from the server
-		ajaxRequest.onreadystatechange = function(){
-			if(ajaxRequest.readyState == 4){
-				document.getElementById('hwdvsrb'+rand).innerHTML = ajaxRequest.responseText;
-			}
-		}
-		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_rate&videoid="; ?>" + id + "<?php echo "&rating="; ?>" + rate, true);
-		ajaxRequest.send(null);
+		jQuery('#hwdvsrb'+rand).block({ 
+						message: '<div class="loadingMessage">Processing</div>', 
+						showOverlay: false,
+						css: { "background-image": "url(\"templates/rhuk_milkyway/images/loading.gif\")", border:'none',backgroundColor: 'transparent','background-repeat':'no-repeat'} 
+					}); 
+		jQuery.ajax({
+			  url: "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_rate&videoid="; ?>" + id + "<?php echo "&rating="; ?>" + rate,
+			  context: document.body,
+			  success: function(data){
+					jQuery('#hwdvsrb'+rand).unblock(); 
+					jQuery.blockUI({ 
+						message: data, 
+						fadeIn: 700, 
+						fadeOut: 700, 
+						timeout: 5000, 
+						showOverlay: false, 
+						centerY: false, 
+						css: { 
+							width: '350px', 
+							top: '40px', 
+							left: '20%',  
+							border: 'none', 
+							padding: '5px', 
+							backgroundColor: '#000', 
+							'border-radius': '10px', 
+							'-webkit-border-radius': '10px', 
+							'-moz-border-radius': '10px', 
+							opacity: .9, 
+							color: '#fff' 
+						} 
+					});	
+				
+			  }
+			});
+		
 	}
 
 		//-->

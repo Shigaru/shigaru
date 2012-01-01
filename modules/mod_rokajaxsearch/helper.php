@@ -148,11 +148,13 @@ class modRokajaxsearchHelper {
 		$wordListFormat = '';
 		$counter = 0;
 		foreach ($wordList as &$value) {
-			if($counter === 0)
+			if($value!='' && $value!=' '){	
+				if($counter === 0)
 				$wordListFormat .= modRokajaxsearchHelper::getAnchor($value);
 				else
 					$wordListFormat .= ', '.modRokajaxsearchHelper::getAnchor($value);
 			$counter++;
+			}
 		}
 		return $wordListFormat;
 		}

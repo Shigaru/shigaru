@@ -53,6 +53,7 @@ class SearchModelSearch extends JModel
 	 * @var object
 	 */
 	var $_pagination = null;
+	
 
 	/**
 	 * Constructor
@@ -77,7 +78,7 @@ class SearchModelSearch extends JModel
 		$match			= JRequest::getWord('searchphrase', 'all');
 		$ordering		= JRequest::getWord('ordering', 'newest');
 		$this->setSearch($keyword, $match, $ordering);
-
+		
 		//Set the search areas
 		$areas = JRequest::getVar('areas');
 		$this->setAreas($areas);
@@ -212,4 +213,6 @@ class SearchModelSearch extends JModel
 
 		return $this->_areas;
 	}
+	
+	
 }

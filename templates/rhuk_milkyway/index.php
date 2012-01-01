@@ -24,9 +24,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/<?php echo $this->params->get('backgroundVariation'); ?>_bg.css" type="text/css" />
 <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.min.js"></script>
 <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jcarousel.min.js"></script>
-  <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-ui.min.js"></script>
-  <link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
-  <link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/skin.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-ui.min.js"></script>
+<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.js"></script>
+<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.js"></script>
+<link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/skin.css" rel="stylesheet" type="text/css"/>
 
 <!--[if lte IE 6]>
 <link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
@@ -34,80 +36,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <?php if($this->direction == 'rtl') : ?>
 	<link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
-<script>
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-
-
-	jQuery.noConflict();
-  jQuery(document).ready(function() {
-    jQuery("#tabs,#tabs-tags,#comments-tabs").tabs({ fx: { opacity: 'toggle'} });
-    jQuery('.jcarousel-skin-tango').jcarousel({
-        auto: 3,scroll:3, animation: 1500, easing:'swing' 
-    });
-    
-    
-    
-    // Login Form
-
-		 jQuery(function() {
-			var button =  jQuery('#loginButton');
-			var box =  jQuery('#loginBox');
-			var form =  jQuery('#mod_loginform');
-			button.removeAttr('href');
-			button.mouseup(function(login) {
-				box.toggle();
-				button.toggleClass('active');
-			});
-			form.mouseup(function() { 
-				return false;
-			});
-			 jQuery(this).mouseup(function(login) {
-				if(!( jQuery(login.target).parent('#loginButton').length > 0)) {
-					button.removeClass('active');
-					box.hide();
-				}
-			});
-		});
-
-    
-  });
-  function langMenu(){
-        		if (jQuery('#langDropMenu').css('display') == 'none'){
-        			document.getElementById('langDropMenu').style.display = 'block';
-        			jQuery("#langTab").addClass('openLangMenu');
-
-        			var centerBoxHeight = jQuery("#langBoxCenter").height()
-					document.getElementById('langBoxLeft').style.height = (centerBoxHeight + 5) +"px";
-					document.getElementById('langBoxRight').style.height = (centerBoxHeight + 5) +"px";
-
-        		}else{
-        			document.getElementById('langDropMenu').style.display = 'none';
-        			jQuery("#langTab").removeClass('openLangMenu');
-        			document.getElementById('langBoxLeft').style.height = "30px";
-					document.getElementById('langBoxRight').style.height = "30px";
-        		}
-        	}
-
-        	function hoverFuncAdd(el){
-        		jQuery(el).addClass('hover');
-        	}
-
-        	function hoverFuncRemove(el){
-        		jQuery(el).removeClass('hover');
-        	}
-        	
-        	
-
-
-  </script>
-
 </head>
 <body id="page_bg"  class="color_<?php echo $this->params->get('colorVariation'); ?> bg_<?php echo $this->params->get('backgroundVariation'); ?> width_<?php echo $this->params->get('widthStyle'); ?>">
 <a name="up" id="up"></a>	

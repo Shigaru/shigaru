@@ -148,7 +148,10 @@ class SphinxSearchModelSearch extends JModel
             $this->total = $result['total'];
             $this->time = $result['time'];
             $ids = array_keys($result['matches']);
+            var_dump('************');
+            
 var_dump($result);
+var_dump('************');
             $db =& JFactory::getDBO();
 
             $query = 'SELECT id, a.title AS title, a.user_id AS created, a.tags, a.video_id,'
@@ -183,7 +186,7 @@ var_dump($result);
 
             return $results;
         } catch(Exception $e){  
-			var_dump($e->getMessage());          
+			//var_dump($e->getMessage());          
             $log->addEntry(array("c-ip"=>"", "comment"=>$e->getMessage()));
         }
     }

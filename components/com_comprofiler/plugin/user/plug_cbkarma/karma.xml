@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Joomla Community Builder User Plugin: plug_karma
+* @version 1.5.0
+* @package plug_karma
+* @subpackage karma.xml
+* @author Anthony Korologos with inspiration by M. Galang
+* @copyright (C) 2006-2009 Tony Korologos at www.tkserver.com
+* @license Limited  http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* @final 1.5
+*/
+-->
+<cbinstall version="1.2.0" type="plugin" group="user">
+	<name>CB Karma</name>
+	<author>MediaGuru a.k.a. Tony Korologos</author>
+	<creationDate>2009-05</creationDate>
+	<copyright>(C) 2006-2009 Tony Korologos @ http://www.tkserver.com</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>info@tkserver.com</authorEmail>
+	<authorUrl>www.tkserver.com</authorUrl>
+	<version>1.2</version>
+	<description>
+		A simple user rating plugin for Community Builder 1.2 and Joomla! 1.5.x.  This plugin requires Karma Component, com_karma, be installed.  Visit http://www.tkserver.com for more information.
+	</description>
+	<files>
+		<filename plugin="karma">karma.php</filename>
+		<filename>index.html</filename>
+		<filename>js/karma.js</filename>
+		<filename>js/moo.ajax.js</filename>
+		<filename>js/prototype.lite.js</filename>
+		<filename>image/thumbup.gif</filename>
+		<filename>image/thumbdown.gif</filename>
+	</files>
+	<params>
+		<param	name="@spacer" type="spacer" label="Credits:" default="Created by MediaGuru a.k.a. Tony Korologos with inspiration from M. Galang.  Visit http://www.tkserver.com for more information." description="" />
+		<param	name="@spacer" type="spacer" label="License:" default="This plugin is distributed under a limited GNU/GPL license and cannot be modified to work with anything else outside of the Community Builder suite supported by the Joomlapolis.com site" description="" />
+		<param	name="@spacer" type="spacer" label="Parameters:" default="Please look at the relevant tab for additional parameters" description="" />
+	</params>
+	<tabs>
+		<tab name="Karma" description="Karma Rating" class="getkarmaTab" fields="0" position="cb_tabmain" displaytype="tab">
+			<params>
+				<param name="hwTabMessage" type="text" label="" default="" description="" />
+			</params>
+			<fields>
+			</fields>
+		</tab>
+	</tabs>
+	<install>
+		<queries>
+		</queries>
+	</install>
+	<uninstall>
+	</uninstall>
+</cbinstall>

@@ -1,37 +1,8 @@
 <playlist version="1" xmlns="http://xspf.org/ns/0/" xmlns:jwplayer="http://developer.longtailvideo.com/ns/1">
 <title>hwdVideoShare Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2011-12-09 10:37:57</date>
+<date>2012-01-01 20:11:11</date>
 <trackList>
-
-  <track>
-    <location><![CDATA[http://www.youtube.com/watch?v=DKHN5rPzFcM]]></location>
-    <image><![CDATA[http://i.ytimg.com/vi/DKHN5rPzFcM/0.jpg]]></image>
-    <title><![CDATA[MI SUE&#209;O Picolo & Amel 2011 uzirecords]]></title>
-    <annotation><![CDATA[otro tema del maestro]]></annotation>
-	<meta rel='type'>youtube</meta>
-  </track>
-
-  <track>
-    <location><![CDATA[http://www.youtube.com/watch?v=qug8Upt3nnA]]></location>
-    <image><![CDATA[http://i.ytimg.com/vi/qug8Upt3nnA/0.jpg]]></image>
-    <title><![CDATA[How to Play Creeping Death by Metallica Guitar Lesson (w/ Tabs!!)]]></title>
-    <annotation><![CDATA[http://www.ObeyYourMATTster.com]]></annotation>
-	<meta rel='type'>youtube</meta>
-  </track>
-
-  <track>
-    <location><![CDATA[http://www.youtube.com/watch?v=zwSfc4rWAwk]]></location>
-    <image><![CDATA[http://i.ytimg.com/vi/zwSfc4rWAwk/0.jpg]]></image>
-    <title><![CDATA[Sweet Child O\' Mine - Guns N\' Roses - Guitar Lesson With Danny Gill Licklibrary]]></title>
-    <annotation><![CDATA[http://www.licklibrary.com/lessons/471/guns-n-roses/sweet-child-o-mine
-Check Out this Sweet Child O' Mine Guitar lesson with Danny Gill. 
-In this guitar lesson you will learn how to play the intro riff to the song Sweet Child O' Mine by Guns N Roses.
-To watch the full web lesson follow the link  http://www.licklibrary.com/lessons/471/guns-n-roses/sweet-child-o-mine
-
-This guitar lesson is also available on Learn To Play Guns N' Roses DVD. All lessons are taught by Danny Gill. This DVD will teach you how to play Sweet Child O Mine on guitar, how to play welcome to the jungle on guitar,  how to play November Rain, Paradise City, Don't Cry all on guitar. Head here to view the dvd: http://www.licklibrary.com/store/Danny-Gill/11104/Learn-To-Play-Guns-N-Roses---2-DVD-Set]]></annotation>
-	<meta rel='type'>youtube</meta>
-  </track>
 
 </trackList>
 </playlist>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install type="module" version="1.5.0">
+	<name>Karma Ratings</name>
+	<author>MediaGuru a.k.a. Tony Korologos</author>
+	<creationDate>May 2009</creationDate>
+	<copyright>(C) 2006-2009 Tony Korologos</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>tony@thegolfspace.com</authorEmail>
+	<authorUrl>www.tkserver.com</authorUrl>
+	<version>1.5.0</version>
+	<description>Shows the best and worst karma ratings from cbkarma plugin.  </description>
+	<files>
+		<filename module="mod_karma">mod_karma.php</filename>
+	</files>
+	<params>
+		<param name="moduleclass_sfx" type="text" size="20" default="" label="Module Class Suffix: " description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+		<param name="ratinglist" type="list" default="both" label="Show Rating:" description="Select which rating list do you want to show">
+			<option value="best">best</option>
+			<option value="worst">worst</option>
+			<option value="both">both</option>
+		</param> 
+		<param name="users" type="list" default="name" label="Show User:" description="Select to show either the Name or the Username">
+			<option value="username">Username</option>
+			<option value="name">Name</option>
+		</param>
+		<param name="maxbest" type="text" default="5" label="Maximum Best: " description="Set the maximum number of users to be shown on a list" />
+		<param name="maxworst" type="text" default="5" label="Maximum Worst: " description="Set the maximum number of users to be shown on a list" />
+		<param name="footer" type="textarea" rows="5" cols="30" default="" label="Footer Text: " description="Add an extra message below the module" />
+	</params>
+</install>
