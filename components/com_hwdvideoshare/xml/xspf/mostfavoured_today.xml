@@ -1,16 +1,8 @@
 <playlist version="1" xmlns="http://xspf.org/ns/0/" xmlns:jwplayer="http://developer.longtailvideo.com/ns/1">
 <title>hwdVideoShare Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-01-01 00:13:45</date>
+<date>2012-01-01 23:13:35</date>
 <trackList>
-
-  <track>
-    <location><![CDATA[http://localhost/shigaru/hwdvideos/uploads/ffbnia6pckhxx5.flv]]></location>
-    <image><![CDATA[http://localhost/shigaru/hwdvideos/thumbs/l_ffbnia6pckhxx5.jpg]]></image>
-    <title><![CDATA[zxzx]]></title>
-    <annotation><![CDATA[xzxzx]]></annotation>
-	<meta rel='type'>http</meta>
-  </track>
 
 </trackList>
 </playlist>

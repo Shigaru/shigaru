@@ -245,42 +245,59 @@ form#searchForm td {
 #whitebox .whiteboxHeader{
     border-radius: 9px 9px 0 0;
     margin: 0 10px;
-    padding: 4px 4px 4px 50px;
-    background: url(../images/mail_envelope.png) 3% 0 no-repeat Lavender;
-    border:1px solid #ccc;
+    background:
+        -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.09, rgb(240,240,240)),
+        color-stop(0.55, rgb(227,227,227)),
+        color-stop(0.78, rgb(240,240,240))
+        );
+    background:
+        -moz-linear-gradient(
+        center bottom,
+        rgb(240,240,240) 9%,
+        rgb(227,227,227) 55%,
+        rgb(240,240,240) 78%
+        );
+       
     border-bottom:none;
 }
 
 
-#whitebox .facefans{
-background:url("../images/small_facebook_icon.png") no-repeat scroll 4% 52% Lavender;
+#whitebox .facefans div h6{
+background:url("../images/small_facebook_icon.png") no-repeat scroll 4% 52%;
+}
+ 
+#whitebox .beingwatched div h6{
+background:url("../images/face-glasses.png") no-repeat scroll 4% 52%;
 }
 
-#whitebox .beingwatched{
-background:url("../images/face-glasses.png") no-repeat scroll 4% 52% Lavender;
+#whitebox .adverts div h6{
+background:url("../images/megaphone.png") no-repeat scroll 4% 52%;
 }
 
-#whitebox .adverts{
-background:url("../images/megaphone.png") no-repeat scroll 4% 52% Lavender;
+#whitebox .tweeter div h6{
+background:url("../images/tweeter-icon.png") no-repeat scroll 4% 52%;
 }
 
-#whitebox .tweeter{
-background:url("../images/tweeter-icon.png") no-repeat scroll 4% 52% Lavender;
+#whitebox .donate div h6{
+background:url("../images/donate.png") no-repeat scroll 4% 52%;
 }
 
-#whitebox .donate{
-background:url("../images/donate.png") no-repeat scroll 4% 52% Lavender;
+#whitebox .random div h6{
+background:url("../images/random.png") no-repeat scroll 4% 50%;
 }
 
-#whitebox .random{
-background:url("../images/random.png") no-repeat scroll 4% 50% Lavender;
+#whitebox .followus div h6{
+background:url("../images/followus.png") no-repeat scroll 4% 50%;
 }
-
-#whitebox .followus{
-background:url("../images/followus.png") no-repeat scroll 4% 50% Lavender;
+#whitebox .community div h6{
+background:url("../images/communityicon.png") no-repeat scroll 4% 50%;
 }
-#whitebox .community{
-background:url("../images/communityicon.png") no-repeat scroll 4% 50% Lavender;
+#whitebox .subscribe div h6{
+background: url(../images/mail_envelope.png) 3% 0 no-repeat;
 }
 
 
@@ -292,11 +309,12 @@ background:url("../images/communityicon.png") no-repeat scroll 4% 50% Lavender;
 }
 
 #whitebox .whiteboxHeader div h6{
-	font-size: 110%;
+	font-size: 115%;
     font-weight: normal;
     margin: 0;
     padding: 0;
     text-shadow: 2px 2px #CCCCCC;
+    padding: 4px 4px 10px 50px;
 }
 
 #whitebox div {
@@ -304,39 +322,30 @@ background:url("../images/communityicon.png") no-repeat scroll 4% 50% Lavender;
 }
 
 #whitebox_t {
-	background: #fff url(../images/mw_content_t.png) 0 0 repeat-x;
 }
 
 #whitebox_tl {
-	background: url(../images/mw_content_t_l.png) 0 0 no-repeat;
 }
 
 #whitebox_tr {
 	height: 10px;
 	overflow: hidden;
-	background: url(../images/mw_content_t_r.png) 100% 0 no-repeat;
 }
 
 #whitebox_m {
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-top: 1px solid #ccc;
 	width: auto;
 	padding: 12px 8px 1px 8px;
 }
 
 #whitebox_b {
 	margin-top: -5px;
-	background: url(../images/mw_content_b.png) 0 100% repeat-x;
 }
 
 #whitebox_bl {
-	background: url(../images/mw_content_b_l.png) 0 100% no-repeat;
 }
 
 #whitebox_br {
 	height: 13px;
-	background: url(../images/mw_content_b_r.png) 100% 100% no-repeat;
 }
 
 
@@ -1711,6 +1720,7 @@ border: none;}
     -moz-box-shadow:0px 0px 3px #aaa;
     -webkit-box-shadow:0px 0px 3px #aaa;
     box-shadow:0px 0px 3px #aaa;
+    font-size:.9em;
     background:
         -webkit-gradient(
         linear,

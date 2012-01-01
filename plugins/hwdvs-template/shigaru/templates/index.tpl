@@ -305,7 +305,7 @@
 		
 		
 		<div id="whitebox">
-				<div class="whiteboxHeader">
+				<div class="whiteboxHeader subscribe">
 					<div>
 							<h6>
 							{$smarty.const._HWDVIDS_SUBSCRIBE}
