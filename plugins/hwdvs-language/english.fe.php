@@ -675,6 +675,7 @@ DEFINE("_HWDVIDS_SHIGARU_ONEOFTWO","Upload a video (Step 1 of 2)");
 DEFINE("_HWDVIDS_SHIGARU_MANDATORYFIELDS","Fields marked <span class=\"required\">*</span> are required.");
 DEFINE("_HWDVIDS_SHIGARU_TYPEVIDEO","Type of video:");
 DEFINE("_HWDVIDS_SHIGARU_TITLEVIDEO","Title of video:");
+DEFINE("_HWDVIDS_SHIGARU_VIDEOTITLE","Video Title");
 DEFINE("_HWDVIDS_SHIGARU_ORIGINBAND","Original artist/band:");
 DEFINE("_HWDVIDS_SHIGARU_SONGTITLE","Song title:");
 DEFINE("_HWDVIDS_SHIGARU_SHIGARUUSER","Shigaru user:");

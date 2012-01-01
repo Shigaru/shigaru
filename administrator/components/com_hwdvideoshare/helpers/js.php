@@ -350,67 +350,22 @@ class hwd_vs_javascript
 	<script language='javascript' type='text/javascript'>
 	//Browser Support Code
 	function ajaxFunctionATF(){
-		var ajaxRequest;  // The variable that makes Ajax possible!
-
-		try{
-			// Opera 8.0+, Firefox, Safari
-			ajaxRequest = new XMLHttpRequest();
-		} catch (e){
-			// Internet Explorer Browsers
-			try{
-				ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-			} catch (e) {
-				try{
-					ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-				} catch (e){
-					// Something went wrong
-					alert("<?php echo _HWDVIDS_AJAX_BBROKE; ?>");
-					return false;
-				}
-			}
-		}
-		// Create a function that will receive data sent from the server
-		ajaxRequest.onreadystatechange = function(){
-			if(ajaxRequest.readyState == 4){
-				document.getElementById('ajaxresponse').style.overflow = "hidden";
-				document.getElementById('ajaxresponse').innerHTML = ajaxRequest.responseText;
-				document.getElementById('addremfav').innerHTML = '<?php echo $rff ?>';
-			}
-		}
-		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addtofavourites&userid=".$my->id."&videoid=".$row->id; ?>", true);
-		ajaxRequest.send(null);
+		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addtofavourites&userid=".$my->id."&videoid=".$row->id; ?>";
+		var _elementToBlock = jQuery('#addremfav').parent();
+		shigaruAjax(_url,_elementToBlock);	
+		jQuery('#addremfav').fadeOut(1000, function () {
+		  jQuery('#addremfav').html('<?php echo $rff ?>');
+		  jQuery(this).fadeIn('slow');
+		  });
 	}
 	function ajaxFunctionRFF(){
-		var ajaxRequest;  // The variable that makes Ajax possible!
-
-		try{
-			// Opera 8.0+, Firefox, Safari
-			ajaxRequest = new XMLHttpRequest();
-		} catch (e){
-			// Internet Explorer Browsers
-			try{
-				ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-			} catch (e) {
-				try{
-					ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-				} catch (e){
-					// Something went wrong
-					alert("<?php echo _HWDVIDS_AJAX_BBROKE; ?>");
-					return false;
-				}
-			}
-		}
-		// Create a function that will receive data sent from the server
-		ajaxRequest.onreadystatechange = function(){
-			if(ajaxRequest.readyState == 4){
-				document.getElementById('ajaxresponse').style.overflow = "hidden";
-				document.getElementById('ajaxresponse').innerHTML = ajaxRequest.responseText;
-				document.getElementById('addremfav').innerHTML = '<?php echo $atf ?>';
-			}
-		}
-
-		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_removefromfavourites&userid=".$my->id."&videoid=".$row->id; ?>", true);
-		ajaxRequest.send(null);
+		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_removefromfavourites&userid=".$my->id."&videoid=".$row->id; ?>";
+		var _elementToBlock = jQuery('#addremfav').parent();
+		shigaruAjax(_url,_elementToBlock);	
+		jQuery('#addremfav').fadeOut(1000, function () {
+		  jQuery('#addremfav').html('<?php echo $atf ?>');
+		  jQuery(this).fadeIn('slow');
+		  });
 	}
 	//-->
 	</script>
@@ -581,33 +536,10 @@ class hwd_vs_javascript
 	function ajaxFunctionA2PL(){
 		var box = document.add2playlist.playlistid.options;
 		var chosen_value = box[box.selectedIndex].value;
-		var ajaxRequest;  // The variable that makes Ajax possible!
-
-		try{
-			// Opera 8.0+, Firefox, Safari
-			ajaxRequest = new XMLHttpRequest();
-		} catch (e){
-			// Internet Explorer Browsers
-			try{
-				ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-			} catch (e) {
-				try{
-					ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-				} catch (e){
-					// Something went wrong
-					alert("<?php echo _HWDVIDS_AJAX_BBROKE; ?>");
-					return false;
-				}
-			}
-		}
-		// Create a function that will receive data sent from the server
-		ajaxRequest.onreadystatechange = function(){
-			if(ajaxRequest.readyState == 4){
-				document.getElementById('add2playlistresponse').innerHTML = ajaxRequest.responseText;
-			}
-		}
-		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addvideotoplaylist&videoid=".$row->id."&playlistid=" ?>"+ chosen_value , true);
-		ajaxRequest.send(null);
+		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addvideotoplaylist&videoid=".$row->id."&playlistid=" ?>"+ chosen_value;
+		var _elementToBlock = jQuery('#add2playlistresponse').parent().parent();
+		shigaruAjax(_url,_elementToBlock);	
+		
 	}
 	//-->
 	</script>
@@ -623,34 +555,9 @@ class hwd_vs_javascript
 	<script language='javascript' type='text/javascript'>
 	//Browser Support Code
 	function ajaxFunctionRV(){
-		var ajaxRequest;  // The variable that makes Ajax possible!
-
-		try{
-			// Opera 8.0+, Firefox, Safari
-			ajaxRequest = new XMLHttpRequest();
-		} catch (e){
-			// Internet Explorer Browsers
-			try{
-				ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-			} catch (e) {
-				try{
-					ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-				} catch (e){
-					// Something went wrong
-					alert("<?php echo _HWDVIDS_AJAX_BBROKE; ?>");
-					return false;
-				}
-			}
-		}
-		// Create a function that will receive data sent from the server
-		ajaxRequest.onreadystatechange = function(){
-			if(ajaxRequest.readyState == 4){
-				document.getElementById('ajaxresponse').style.overflow = "hidden";
-				document.getElementById('ajaxresponse').innerHTML = ajaxRequest.responseText;
-			}
-		}
-		ajaxRequest.open("GET", "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_reportvideo&userid=".$my->id."&videoid=".$row->id."&userid=".$my->id ?>", true);
-		ajaxRequest.send(null);
+		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_reportvideo&userid=".$my->id."&videoid=".$row->id."&userid=".$my->id ?>";
+		var _elementToBlock = jQuery('#reportvidbutton').parent().parent().parent();
+		shigaruAjax(_url,_elementToBlock);	
 	}
 
 	//-->
@@ -667,44 +574,11 @@ class hwd_vs_javascript
 	?>
 	<script language='javascript' type='text/javascript'>
 	//Browser Support Code
-	var instance = null;
 	
 	function ajaxFunctionRate(rate, id, rand){
-		jQuery('#hwdvsrb'+rand).block({ 
-						message: '<div class="loadingMessage">Processing</div>', 
-						showOverlay: false,
-						css: { "background-image": "url(\"templates/rhuk_milkyway/images/loading.gif\")", border:'none',backgroundColor: 'transparent','background-repeat':'no-repeat'} 
-					}); 
-		jQuery.ajax({
-			  url: "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_rate&videoid="; ?>" + id + "<?php echo "&rating="; ?>" + rate,
-			  context: document.body,
-			  success: function(data){
-					jQuery('#hwdvsrb'+rand).unblock(); 
-					jQuery.blockUI({ 
-						message: data, 
-						fadeIn: 700, 
-						fadeOut: 700, 
-						timeout: 5000, 
-						showOverlay: false, 
-						centerY: false, 
-						css: { 
-							width: '350px', 
-							top: '40px', 
-							left: '20%',  
-							border: 'none', 
-							padding: '5px', 
-							backgroundColor: '#000', 
-							'border-radius': '10px', 
-							'-webkit-border-radius': '10px', 
-							'-moz-border-radius': '10px', 
-							opacity: .9, 
-							color: '#fff' 
-						} 
-					});	
-				
-			  }
-			});
-		
+		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_rate&videoid="; ?>" + id + "<?php echo "&rating="; ?>" + rate;
+		var _elementToBlock = jQuery('#hwdvsrb'+rand).parent();
+		shigaruAjax(_url,_elementToBlock);	
 	}
 
 		//-->

@@ -172,7 +172,7 @@ class hwd_vs_Config{
   var $gtree_plyr = '-2';
   var $initialise_now = '0';
   var $hwdvids_videoplayer_path = 'hwdvs-videoplayer';
-  var $hwdvids_videoplayer_file = 'jwflv';
+  var $hwdvids_videoplayer_file = 'flow';
   var $accesslevel_main = '0,1';
   var $accesslevel_upld = '0,1';
   var $accesslevel_plyr = '0,1';
@@ -190,7 +190,7 @@ class hwd_vs_Config{
   var $mailreportnotification = '0';
   var $sharedlibrarypath = '';
   var $standaloneswf = '1';
-  var $playlocal = '0';
+  var $playlocal = '1';
   var $frontpage_watched = '1';
   var $frontpage_viewed = 'alltime';
   var $frontpage_favoured = 'alltime';
@@ -272,8 +272,8 @@ class hwd_vs_Config{
   var $cnvt_fsize_hd = '640x360';
   var $cnvt_hd_preset = '0';
   var $keep_ar = '0';
-  var $warpAccountKey = '';
-  var $warpSecretKey = '';
+  var $warpAccountKey = 'admin2';
+  var $warpSecretKey = 'secret';
   var $cpp = '50';
   var $ipod320 = '';
   var $ipod640 = '';

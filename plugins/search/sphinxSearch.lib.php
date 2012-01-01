@@ -1,5 +1,7 @@
 <?php
-
+require_once('./components/com_hwdvideoshare/hwdvideoshare.class.php');
+require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'config.hwdvideoshare.php');
+require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'initialise.php');
 class PlgSphinxSearch
 {
     /**
@@ -36,12 +38,12 @@ class PlgSphinxSearch
      */
     function PlgSphinxSearch($hostname, $port, $index)
     {
-		var_dump('dsadasddsad');
         $this->_index = $index;
 
         $this->_sphinx = new SphinxClient();
         $this->_sphinx->SetServer($hostname, (int) $port);
         $this->_sphinx->SetMatchMode(SPH_MATCH_EXTENDED2);
+		hwdvsInitialise::language();
     }
 
     /**
@@ -66,12 +68,13 @@ class PlgSphinxSearch
     function search($query)
     {
         $this->_query = $query;
-        echo '<pre>';
-			print_r($this);
-        echo '</pre>';
+        
 
         $result = $this->_sphinx->Query($query, $this->_index);
-
+        /*echo '<pre>';
+			print_r($result);
+        echo '</pre>';
+*/
         if ( $result === false ) {
             //echo "Query failed: " . $this->_sphinx->GetLastError() . ".\n";\
             return false;
@@ -120,19 +123,19 @@ class PlgSphinxSearch
     {
         switch ($order) {
             case 'newest':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'created');
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'date_added');
                 break;
             case 'oldest':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'created');
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'date_added');
                 break;
             case 'popular':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'hits');
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'date_added');
                 break;
             case 'category':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'catid');
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'date_added');
                 break;
             case 'alpha':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'title');
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'date_added');
                 break;
             default:
                 break;

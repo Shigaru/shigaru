@@ -55,3 +55,6 @@
 2011-09-10	21:40:54	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
 2011-09-10	21:41:14	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
 2011-11-30	16:46:09	-		-	connection to localhost:9312 failed (errno=111, msg=Connection refused)
+2011-12-18	21:21:59	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
+2011-12-18	21:22:47	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)
+2011-12-18	21:23:00	-		-	searchd error: client version is higher than daemon version (client is v.1.23, daemon is v.1.22)

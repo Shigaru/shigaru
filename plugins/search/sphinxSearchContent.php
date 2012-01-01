@@ -54,7 +54,8 @@ function plgSphinxSearchContent( $text, $phrase='', $ordering='', $areas=null )
     $sphinxPlugin->search($text);
 
     $results = $sphinxPlugin->getResults();
-var_dump($results);
+    
+
     // return results back to Joomla
     return $results;
 }
