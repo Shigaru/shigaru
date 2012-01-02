@@ -1237,6 +1237,7 @@ class hwd_vs_tools {
 			$v_height = intval($v_width*$c->var_fb)+20;
 
 			$code = null;
+			
 			$code.= '<a href="'.$link.'" class="'.$lightbox.'" id="mb'.$video_id.'" title="" rel="[images],width:'.$v_width.',height:'.$v_height.'">';
 			$code.= hwd_vs_tools::generateThumbnail( $video_id, $video_code, $video_type, $video_thumbnail, $k, $width, $height, $class, $tooltip_data, $video_duration );
 			$code.= '</a>';
@@ -1245,6 +1246,12 @@ class hwd_vs_tools {
 		}
 
 		$code = null;
+		
+		$code.= '<div class="song_options">
+						<a title="Add to Favorites" class="collection  textToggle"></a>
+						<a class="options" title="Options" class="options selectbox"></a>
+					</div>
+					<a rel="1" class="play paused"></a>';
 		$code.= "<a href=\"".$link."\" ".$onclick_txt.">";
 		$code.= hwd_vs_tools::generateThumbnail( $video_id, $video_code, $video_type, $video_thumbnail, $k, $width, $height, $class, $tooltip_data, $video_duration );
 		$code.= "</a>";
@@ -4310,6 +4317,27 @@ $app = & JFactory::getApplication();
 		$grows = $db->loadObjectList();
 		return $grows[0]->label;
 	}	
+	
+	/**
+     * Retrieves the song information stored in DB
+     *
+     * @return       $srows
+     */
+    
+    function getSongInfo($song_id){
+		
+		$db = & JFactory::getDBO();
+		$db->SetQuery( 'SELECT s.id,s.label,s.description,s.band_id,s.externallink,s.tiny_url,s.tiny_id,b.label as band_name, b.tiny_id as tinyband'
+								. ' FROM #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id'
+								. ' WHERE s.id = '.$song_id
+								);
+								
+		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		$srows = $db->loadObjectList();
+		return $srows;
+	}
+	
     /**
      * Generates multilanguage text for Video Genre
      *
@@ -4342,6 +4370,40 @@ $app = & JFactory::getApplication();
 		$oDetails->language = constant($row->language_id);
 		return $oDetails;
 		}
+    
+    function getSongPlayer($song_id) {
+	  $songinfo = hwd_vs_tools::getSongInfo($song_id);			
+	  $oPlayer = '<object width="250" height="40" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+					id="gsSong'.$songinfo[0]->tiny_id.'" name="gsSong'.$songinfo[0]->tiny_id.'">
+					<param name="movie" value="http://grooveshark.com/songWidget.swf" />
+					<param name="wmode" value="window" />
+					<param name="allowScriptAccess" value="always" />
+					<param name="flashvars" value="hostname=cowbell.grooveshark.com&songIDs='.$songinfo[0]->tiny_id.'&style=metal&p=0" />
+					<object type="application/x-shockwave-flash" data="http://grooveshark.com/songWidget.swf" width="250" height="40">
+						<param name="wmode" value="window" />
+						<param name="allowScriptAccess" value="always" />
+						<param name="flashvars" value="hostname=cowbell.grooveshark.com&songIDs='.$songinfo[0]->tiny_id.'&style=metal&p=0" />
+						<span>'.$songinfo[0]->label.'
+							<a href="http://grooveshark.com/artist/Barricada/'.$songinfo[0]->tinyband.'" title="Barricada">'.$songinfo[0]->band_name.'</a> on Grooveshark</span>
+					</object>
+				</object>';
+	   return $oPlayer;
+	 }
+
+
+	 function searchTinySong($query, $limit = 10, $format = "json") {
+		
+	  
+	  $apibase = "http://tinysong.com/s";
+	  $apikey = '6b0984927cf2c46c8d527a419b5f2347';	 
+	  $result = file_get_contents($apibase."/".urlencode($query)."?format=$format&limit=$limit&key=".$apikey);
+	  if ($result) {
+	   if ($format == "json") { return json_decode($result); }
+	   else { return $result; }
+	  } else {
+	   return false;
+	  }
+	 }
     
     /**
      * Generates the human readable allowed video formats string
@@ -4828,7 +4890,7 @@ $app = & JFactory::getApplication();
 
 		$location = hwd_vs_tools::generateVideoLocations($row, $quality);
 		$thumb_url = hwd_vs_tools::generateThumbnailURL($row->id, @$row->video_id, $row->video_type, @$row->thumbnail, "large");
-		var_dump($row->video_type);
+		//var_dump($row->video_type);
 		if ($row->video_type == "local" || $row->video_type == "mp4" || $row->video_type == "swf")
 		{
 			// temporary html5 player fix
@@ -5021,7 +5083,7 @@ $app = & JFactory::getApplication();
 				{
 					$preparevid = preg_replace("/[^a-zA-Z0-9s_-]/", "", $row->video_type)."PrepareVideo";
 					$code.= $preparevid($row, $width, $height, $autostart);
-					var_dump(preg_replace("/[^a-zA-Z0-9s_-]/", "", $row->video_type)."PrepareVideo");
+					//var_dump(preg_replace("/[^a-zA-Z0-9s_-]/", "", $row->video_type)."PrepareVideo");
 				}
 				else
 				{

@@ -2,7 +2,7 @@
 <playlist version="1">
 <title>hwdVideoShare mostviewed_thisweek Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-01-01 23:13:35</date>
+<date>2012-01-02 22:18:50</date>
 <trackList>
 
   <track>
@@ -14,12 +14,12 @@
     <category><![CDATA[]]></category>
     <category_id><![CDATA[3]]></category_id>
     <description><![CDATA[&#60;p&#62;http://www.virtuosso.com Aprende a tocar el solo de la famosa canci&#243;n Higway to hell de AC/DC. Los mejores cursos de guitarra en DVD los tiene Virtuosso. S&#237;guenos en Twitter: http://www.twitter.com/Virtuosso&#60;/p&#62;]]></description>
-    <views><![CDATA[75]]></views>
-    <numfavoured><![CDATA[28]]></numfavoured>
-    <views><![CDATA[75]]></views>
+    <views><![CDATA[81]]></views>
+    <numfavoured><![CDATA[37]]></numfavoured>
+    <views><![CDATA[81]]></views>
     <date><![CDATA[2011-12-10 18:52:23]]></date>
     <duration><![CDATA[06:52]]></duration>
-    <rating><![CDATA[4.50]]></rating>
+    <rating><![CDATA[4.33]]></rating>
     <uploader><![CDATA[admin]]></uploader>
     <uploader_id><![CDATA[79]]></uploader_id>
     <avatar><![CDATA[]]></avatar>
@@ -36,9 +36,9 @@
     <category><![CDATA[]]></category>
     <category_id><![CDATA[2]]></category_id>
     <description><![CDATA[&#60;p&#62;En el mundo de los dragones, el debil debe perecer, as&#237; se purifica la dinast&#237;a....es lo que llamamos, SELECCI&#211;N NATURAL, rosendo, los suaves, que pasa colega, acho socio&#60;/p&#62;]]></description>
-    <views><![CDATA[577]]></views>
-    <numfavoured><![CDATA[16]]></numfavoured>
-    <views><![CDATA[577]]></views>
+    <views><![CDATA[587]]></views>
+    <numfavoured><![CDATA[34]]></numfavoured>
+    <views><![CDATA[587]]></views>
     <date><![CDATA[2011-12-27 12:32:38]]></date>
     <duration><![CDATA[03:03]]></duration>
     <rating><![CDATA[4.50]]></rating>
@@ -50,30 +50,57 @@
   </track>
 
   <track>
-    <id><![CDATA[134]]></id>
-    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LAS SIETE DE LA TARDE&#34; DE BARRICADA (PARTE 1)]]></videotitle>
-    <videocode><![CDATA[RFMfW9NExZs]]></videocode>
+    <id><![CDATA[130]]></id>
+    <videotitle><![CDATA[SIEMPRE IGUAL  *  LOS SUAVES  *  ACORDES PARA GUITARRA]]></videotitle>
+    <videocode><![CDATA[iemRWowVeOc]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-134.jpg]]></thumbnail>
+    <thumbnail><![CDATA[tp-130.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[1]]></category_id>
+    <description><![CDATA[(ocho de la ma&#241;ana...)
+E5(5 CUERDA)   A   F#m    B
+
+y en el cambio:
+
+(te arrastras al labavo...)
+D   A   F#m   B]]></description>
+    <views><![CDATA[24]]></views>
+    <numfavoured><![CDATA[20]]></numfavoured>
+    <views><![CDATA[24]]></views>
+    <date><![CDATA[2011-12-11 13:11:39]]></date>
+    <duration><![CDATA[02:37]]></duration>
+    <rating><![CDATA[4.33]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
+    <comments><![CDATA[1]]></comments>
+    <tags><![CDATA[siempre, igual, los, suaves, suave, guitarra, heavy, acordes]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[135]]></id>
+    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LAS SIETE DE LA TARDE&#34; DE BARRICADA (PARTE 2)]]></videotitle>
+    <videocode><![CDATA[N_vDtZOYkAY]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-135.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
     <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[En esta primera parte del v&#237;deo est&#225;n las explicaciones. En la segunda el tema completo. Espero que os guste.
-
+    <description><![CDATA[Segunda parte del video, con el tema completo. Ver parte 1 para las explicaciones.
 Equipo:
 -Gibson SG&#180;61 Reissue de 2009
 - Fender Super Champ XD en voice 8 del canal 2
 - Pedal Morpheus Drop-tune en la funci&#243;n de octavador]]></description>
-    <views><![CDATA[19]]></views>
-    <numfavoured><![CDATA[10]]></numfavoured>
-    <views><![CDATA[19]]></views>
-    <date><![CDATA[2011-12-18 22:28:59]]></date>
-    <duration><![CDATA[06:55]]></duration>
-    <rating><![CDATA[4.50]]></rating>
+    <views><![CDATA[8]]></views>
+    <numfavoured><![CDATA[8]]></numfavoured>
+    <views><![CDATA[8]]></views>
+    <date><![CDATA[2011-12-18 22:33:36]]></date>
+    <duration><![CDATA[03:49]]></duration>
+    <rating><![CDATA[4.00]]></rating>
     <uploader><![CDATA[murcialito]]></uploader>
     <uploader_id><![CDATA[67]]></uploader_id>
     <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
-    <comments><![CDATA[2]]></comments>
-    <tags><![CDATA[Las siete de la tarde, Barricada, La tierra está sorda, rock]]></tags>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[Las, siete, de, la, tarde, Barricada, La, tierra, está, sorda, rock]]></tags>
   </track>
 
   <track>
@@ -106,6 +133,30 @@ Por favor dejad comentarios y si puedes subir una versi&#243;n mejor por favor s
   </track>
 
   <track>
+    <id><![CDATA[131]]></id>
+    <videotitle><![CDATA[Como tocar &#34;Agradecido&#34; con guitarra (Rosendo) y como preparar un bizcocho f&#225;cil]]></videotitle>
+    <videocode><![CDATA[eQ01w00JN8M]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-131.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[-- GuitarFiero.com --
+
+En &#233;sta ocasi&#243;n y con motivo del v&#237;deo 100 os ense&#241;ar&#233; una manera f&#225;cil de hacer un bizcocho y mientras se hace veremos como tocar el tema &#34;Agradecido&#34; de Rosendo. Y como ta sab&#233;is todo el material lo encontrar&#233;is gratis en guitarfiero.com]]></description>
+    <views><![CDATA[25]]></views>
+    <numfavoured><![CDATA[5]]></numfavoured>
+    <views><![CDATA[25]]></views>
+    <date><![CDATA[2011-12-11 17:07:01]]></date>
+    <duration><![CDATA[20:33]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[como, tocar, agradecido, rosendo, guitarra, tabs, riffs, bizcocho, hacer, facil, yogur, guitar, guitarfiero, español, castellano, spanish, rock, lesson, lecc]]></tags>
+  </track>
+
+  <track>
     <id><![CDATA[132]]></id>
     <videotitle><![CDATA[C&#211;MO TOCAR &#34;ESTA NOCHE&#34; DE BARRICADA]]></videotitle>
     <videocode><![CDATA[ySvhxXHMd80]]></videocode>
@@ -119,7 +170,7 @@ Fender Telecaster Standard USA
 Fender Super Champ en Canal 1
 Pedal Brunetti Mercury Box]]></description>
     <views><![CDATA[8]]></views>
-    <numfavoured><![CDATA[5]]></numfavoured>
+    <numfavoured><![CDATA[3]]></numfavoured>
     <views><![CDATA[8]]></views>
     <date><![CDATA[2011-12-18 22:26:51]]></date>
     <duration><![CDATA[05:16]]></duration>
@@ -157,106 +208,76 @@ Ampli: Line 6 Spider 3 15 w]]></description>
   </track>
 
   <track>
-    <id><![CDATA[130]]></id>
-    <videotitle><![CDATA[SIEMPRE IGUAL  *  LOS SUAVES  *  ACORDES PARA GUITARRA]]></videotitle>
-    <videocode><![CDATA[iemRWowVeOc]]></videocode>
+    <id><![CDATA[139]]></id>
+    <videotitle><![CDATA[How to play Sweet Child O Mine - Easy Guitar Lesson (Intro)]]></videotitle>
+    <videocode><![CDATA[I-3-esh4B6E]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-130.jpg]]></thumbnail>
+    <thumbnail><![CDATA[tp-139.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
     <category_id><![CDATA[1]]></category_id>
-    <description><![CDATA[(ocho de la ma&#241;ana...)
-E5(5 CUERDA)   A   F#m    B
+    <description><![CDATA[http://www.nailguitar.com/lessondownloads.html download the tab + backing for this lesson and become a VIP for free goodies!
 
-y en el cambio:
+Free mp3 drum tracks like those used in this video at: http://www.givemedrums.com 
 
-(te arrastras al labavo...)
-D   A   F#m   B]]></description>
-    <views><![CDATA[6]]></views>
-    <numfavoured><![CDATA[2]]></numfavoured>
-    <views><![CDATA[6]]></views>
-    <date><![CDATA[2011-12-11 13:11:39]]></date>
-    <duration><![CDATA[02:37]]></duration>
-    <rating><![CDATA[4.33]]></rating>
-    <uploader><![CDATA[murcialito]]></uploader>
-    <uploader_id><![CDATA[67]]></uploader_id>
-    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
-    <comments><![CDATA[1]]></comments>
-    <tags><![CDATA[siempre, igual, los, suaves, suave, guitarra, heavy, acordes]]></tags>
-  </track>
+Sweet Child O Mine intro lead guitar by Guns N Roses. Best suited learning on electric guitar, this lesson is designed for beginners to intermediates.
 
-  <track>
-    <id><![CDATA[133]]></id>
-    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LA SILLA EL&#201;CTRICA&#34; DE BARRICADA (PARTE 1)]]></videotitle>
-    <videocode><![CDATA[ofPtUW_xsuQ]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-133.jpg]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[Este v&#237;deo tiene 2 partes, ya que era muy largo. En la primera, las explicaciones, y en la segunda, el tema completo. He elegido la versi&#243;n del disco en directo &#34;Salud y rocanrol&#34;, que se parece m&#225;s a la que hacen ahora (es un poco diferente).Salud y ca&#241;a!
-Equipo:
-- Gibson Les Paul Studio 93
-- Fender Super Champ XD en voice 8]]></description>
-    <views><![CDATA[11]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[11]]></views>
-    <date><![CDATA[2011-12-18 22:27:56]]></date>
-    <duration><![CDATA[07:12]]></duration>
-    <rating><![CDATA[4.50]]></rating>
-    <uploader><![CDATA[murcialito]]></uploader>
-    <uploader_id><![CDATA[67]]></uploader_id>
-    <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
+Cheers, Andy
+
+P.S. Enjoy this lesson? Subscribe so you don&#39;t miss any awesome new lessons!
+
+Check out my other channels:
+http://www.youtube.com/NailGuitarLicks
+http://www.youtube.com/NailGuitarSkills
+
+Enjoy Nail Guitar lessons? Click below to tweet it!
+http://bit.ly/ClickToTweetNailGuitarYoutube
+
+Details on guitar gear I use:
+&#8234;http://www.nailguitar.com/links.html&#8236;
+
+Twitter: http://www.twitter.com/NailGuitar
+Facebook: http://www.facebook.com/NailGuitar
+
+P.S. Looking for a complete step-by-step guitar learning system? I recommend Jamorama, it&#39;s huge and very affordable! 
+Check it out at...]]></description>
+    <views><![CDATA[3]]></views>
+    <numfavoured><![CDATA[3]]></numfavoured>
+    <views><![CDATA[3]]></views>
+    <date><![CDATA[2012-01-01 23:13:49]]></date>
+    <duration><![CDATA[09:16]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[rae]]></uploader>
+    <uploader_id><![CDATA[80]]></uploader_id>
+    <avatar><![CDATA[]]></avatar>
     <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[La silla eléctrica, Barricada, Salud y rocanrol, Rock]]></tags>
+    <tags><![CDATA[Sweet, Child, Mine, intro, lead, Guns, Roses, slash, tab, tabs, chords, strumming, picking, easy, lesson, tutorial, instructional, learn, how, to, play, alon]]></tags>
   </track>
 
   <track>
-    <id><![CDATA[135]]></id>
-    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LAS SIETE DE LA TARDE&#34; DE BARRICADA (PARTE 2)]]></videotitle>
-    <videocode><![CDATA[N_vDtZOYkAY]]></videocode>
+    <id><![CDATA[134]]></id>
+    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LAS SIETE DE LA TARDE&#34; DE BARRICADA (PARTE 1)]]></videotitle>
+    <videocode><![CDATA[RFMfW9NExZs]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-135.jpg]]></thumbnail>
+    <thumbnail><![CDATA[tp-134.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
     <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[Segunda parte del video, con el tema completo. Ver parte 1 para las explicaciones.
+    <description><![CDATA[En esta primera parte del v&#237;deo est&#225;n las explicaciones. En la segunda el tema completo. Espero que os guste.
+
 Equipo:
 -Gibson SG&#180;61 Reissue de 2009
 - Fender Super Champ XD en voice 8 del canal 2
 - Pedal Morpheus Drop-tune en la funci&#243;n de octavador]]></description>
-    <views><![CDATA[1]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[1]]></views>
-    <date><![CDATA[2011-12-18 22:33:36]]></date>
-    <duration><![CDATA[03:49]]></duration>
-    <rating><![CDATA[0.00]]></rating>
+    <views><![CDATA[19]]></views>
+    <numfavoured><![CDATA[2]]></numfavoured>
+    <views><![CDATA[19]]></views>
+    <date><![CDATA[2011-12-18 22:28:59]]></date>
+    <duration><![CDATA[06:55]]></duration>
+    <rating><![CDATA[4.50]]></rating>
     <uploader><![CDATA[murcialito]]></uploader>
     <uploader_id><![CDATA[67]]></uploader_id>
     <avatar><![CDATA[67_4ee0b1b583dd6.jpg]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[Las, siete, de, la, tarde, Barricada, La, tierra, está, sorda, rock]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[138]]></id>
-    <videotitle><![CDATA[la polla records - ya no quiero ser yo (version)]]></videotitle>
-    <videocode><![CDATA[DqgVVCPUpa4]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-138.jpg]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[2]]></category_id>
-    <description><![CDATA[qu&#233; grandes...
-
-&#34;voy a ser un rico triste o el psiquiatra de la virgen cuando tuvo que contarlo lo del ni&#241;o a san jos&#233;...&#34;]]></description>
-    <views><![CDATA[1]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[1]]></views>
-    <date><![CDATA[2011-12-27 12:56:13]]></date>
-    <duration><![CDATA[03:02]]></duration>
-    <rating><![CDATA[4.00]]></rating>
-    <uploader><![CDATA[rae]]></uploader>
-    <uploader_id><![CDATA[80]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
-    <comments><![CDATA[1]]></comments>
-    <tags><![CDATA[la, polla, records, ya, no, quiero, ser, yo, cover, version, skamaniak, guitarra, guitar, epiphone]]></tags>
+    <comments><![CDATA[2]]></comments>
+    <tags><![CDATA[Las siete de la tarde, Barricada, La tierra está sorda, rock]]></tags>
   </track>
 
 </trackList>

@@ -160,7 +160,7 @@ class modRokajaxsearchHelper {
 		}
 		
 		function getAnchor($word) {
-				$searchLink = '<a href="'.JURI::base().'index.php?option=com_search&view=search&searchphrase=any&ordering=category&limit=10&searchword='.$word.'&tmpl=component&r='.rand().'" title="'.JText::_('View results for ').$word.'">'.$word.'</a>';
+				$searchLink = '<a href="'.JURI::base().'index.php?option=com_search&view=search&searchphrase=any&ordering=category&limit=10&searchword='.$word.'&r='.rand().'" title="'.JText::_('View results for ').$word.'">'.$word.'</a>';
 				return $searchLink ;
 			}
 	

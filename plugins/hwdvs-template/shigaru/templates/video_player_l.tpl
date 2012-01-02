@@ -11,6 +11,7 @@
 
 <script type="text/javascript" src="{$link_home}/plugins/hwdvs-template/default/js/tabber.js"></script>
 
+
 {if $print_nextprev or $print_videourl or $print_embedcode or $print_uservideolist or $print_relatedlist}
 <div class="sic-container">
   
@@ -41,6 +42,8 @@
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}</span><br />{$videoplayer->language}</div>
 		  <div><span>{$smarty.const._HWDVIDS_SELECT_RATING}</span><br />{$videoplayer->ratingsystem}</div>
 		  <div><span>{$smarty.const._HWDVIDS_INFO_NOCOMM}</span><br />{$videoplayer->commentsNum}</div>
+		  <div>{$songPlayer}</div>
+		  
 		  <div>
 				  {if $print_nextprev}
 					{$videoplayer->nextprev}

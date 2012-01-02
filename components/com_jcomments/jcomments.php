@@ -583,7 +583,7 @@ class JComments
 				."\nORDER BY c.date " . $config->get('comments_order')
 				.(($comments_per_page > 0) ? "\nLIMIT $limitstart, $comments_per_page" : "")
 				;
-			var_dump($query);	
+			//var_dump($query);	
 			$dbo->setQuery($query);
 			$rows = $dbo->loadObjectList();
 		} else {

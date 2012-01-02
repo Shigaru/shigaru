@@ -34,6 +34,64 @@
  {/literal}   
 <div class="headerText mtop12">{$smarty.const._HWDVIDS_SHIGARU_ONEOFTWO}</div>
 {include file='header.tpl'}
+{literal}
+<script>
+	jQuery(document).ready(function() {	
+			var lastData;
+			jQuery( "#songtitle" ).autocomplete({
+					
+					//define callback to format results
+					source: function(req, add){
+					
+						//pass request to server
+						jQuery.getJSON("http://localhost/shigaru/index.php?option=com_hwdvideoshare&task=ajax_tinysong&callback=", req, function(data) {
+							
+							//create array for response objects
+							var suggestions = [];
+							
+							//process response
+							jQuery.each(data, function(i, val){
+								suggestions.push(val.SongName+' ('+val.ArtistName+')');
+							});
+							
+							//pass array to callback
+							add(suggestions);
+							lastData = data;
+						});
+					},
+					
+					//define select handler
+					select: function(e, ui) {
+						
+						//create formatted friend
+						var friend = ui.item.value,
+							span = jQuery("<span>").text(friend),
+							a = jQuery("<a>").addClass("remove").attr({
+								href: "javascript:",
+								title: "Remove " + friend
+							}).text("x").appendTo(span);
+						
+						//add friend to friend div
+						span.insertBefore("#songtitle");
+					},
+					
+					//define select handler
+					change: function() {
+						
+						//prevent 'to' field being updated and correct position
+						jQuery("#songtitle").val("").css("top", 2);
+					}
+				});
+				
+				
+				//add live handler for clicks on remove links
+				jQuery(".remove").live("click", function(){
+					//remove current
+					jQuery(this).parent().remove();		
+				});	
+		});
+</script>
+{/literal}
 <div class="f100 f120">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
 
 <div id="contentSliderForm" class="clear">

@@ -15,7 +15,13 @@
         auto: 3,scroll:3, animation: 1500, easing:'swing' 
     });
     
-    
+     var options1 = [
+    	{title:"Menu Item 1 - Go TO www.google.com", action:{type:"gourl",url:"http://www.google.com/"}},
+    	{title:"Menu Item 2 - do <b style='color:red;'>nothing</b>"},
+    	{title:"Menu Item 3 - submenu", type:"sub", src:[{title:"Submenu 1"},{title:"Submenu 2"},{title:"Submenu 3"}, {title:"Submenu 4 - submenu", type:"sub", src:[{title:"SubSubmenu 1"},{title:"SubSubmenu 2"}]}]},
+    	{title:"Menu Item 4 - Js function", action:{type:"fn",callback:"(function(){ alert('THIS IS THE TEST'); })"}}
+      ];
+    jQuery("div.song_options a.options").jjmenu("click", options1, {}, {show:"fadeIn", xposition:"left", yposition:"auto", "orientation":"auto"});
     
     // Login Form
 

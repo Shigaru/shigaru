@@ -1319,7 +1319,7 @@ class hwd_vs_uploads
 		$_POST['genre_id'] 			= Jrequest::getVar( 'genre_id', '' );
 		$_POST['intrument_id'] 		= Jrequest::getVar( 'intrument_id', '' );
 		$_POST['ip_added'] 			= Jrequest::getVar( 'ip_added', '' );
-		var_dump(Jrequest::getVar( 'ip_added', '' ));
+		//var_dump(Jrequest::getVar( 'ip_added', '' ));
 		$_POST['original_autor'] 	= Jrequest::getVar( 'original_autor', '' );
 		
 								

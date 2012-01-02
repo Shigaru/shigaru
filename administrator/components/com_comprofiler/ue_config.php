@@ -8,7 +8,7 @@ $ueConfig['allow_email_replyto']='1';
 $ueConfig['allow_email']='1';
 $ueConfig['allow_website']='1';
 $ueConfig['allow_onlinestatus']='1';
-$ueConfig['icons_display']='7';
+$ueConfig['icons_display']='0';
 $ueConfig['login_type']='0';
 $ueConfig['reg_admin_allowcbregistration']='1';
 $ueConfig['emailpass']='0';
@@ -19,7 +19,7 @@ $ueConfig['reg_email_checker']='0';
 $ueConfig['reg_show_login_on_page']='0';
 $ueConfig['reg_email_name']='User Registration';
 $ueConfig['reg_email_from']='';
-$ueConfig['reg_email_replyto']='registration@whatever';
+$ueConfig['reg_email_replyto']='no-reply@shigaru.com';
 $ueConfig['reg_pend_appr_sub']='Your Registration is Pending Approval';
 $ueConfig['reg_pend_appr_msg']='Greetings [NAME],
 Thank you for applying for registration with us. We have
@@ -44,7 +44,7 @@ we will grow.
 Enjoy the experience!
 Kind Regards,
 Website Administration Team';
-$ueConfig['reg_show_icons_explain']='3';
+$ueConfig['reg_show_icons_explain']='0';
 $ueConfig['reg_intro_msg']='';
 $ueConfig['reg_conclusion_msg']='';
 $ueConfig['reg_enable_toc']='1';
@@ -66,7 +66,7 @@ $ueConfig['emptyFieldsText']='-';
 $ueConfig['nesttabs']='0';
 $ueConfig['xhtmlComply']='1';
 $ueConfig['frontend_userparams']='1';
-$ueConfig['use_divs']='0';
+$ueConfig['use_divs']='1';
 $ueConfig['html_filter_allowed_tags']='';
 $ueConfig['im_path']='auto';
 $ueConfig['netpbm_path']='auto';
@@ -91,7 +91,7 @@ $ueConfig['allowConnections']='1';
 $ueConfig['connectionDisplay']='0';
 $ueConfig['connectionPath']='1';
 $ueConfig['useMutualConnections']='1';
-$ueConfig['conNotifyType']='0';
+$ueConfig['conNotifyType']='2';
 $ueConfig['autoAddConnections']='1';
 $ueConfig['connection_categories']='Friend
 Co Worker';

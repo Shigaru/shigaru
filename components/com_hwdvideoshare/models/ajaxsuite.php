@@ -201,6 +201,29 @@ class hwd_vs_ajax
 
 		exit;
 	}
+	
+	/**
+     * Outputs frontpage HTML
+     *
+     * @return       Nothing
+     */
+	function searchTinySong(){
+		header('Content-type: text/html; charset=utf-8');
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+
+		if (!$my->id) {
+			echo _HWDVIDS_AJAX_LOG2FAV1;
+			exit;
+		}
+		$term = JRequest::getVar( 'term', '' );
+		$code = hwd_vs_tools::searchTinySong($term);
+		//var_dump($code);
+		echo json_encode($code);
+		exit;
+		}
+	
     /**
      * Outputs frontpage HTML
      *

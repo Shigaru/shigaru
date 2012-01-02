@@ -886,6 +886,10 @@ class hwd_vs_html
 
 		return;
     }
+    
+    
+    
+    
     /**
      *
      */
@@ -993,14 +997,21 @@ class hwd_vs_html
 		{
 			$smartyvs->assign("categoryvideolist", "There are no more videos in this category.");
 		}
-
+		$songPlayer = hwd_vs_tools::getSongPlayer($row->song_id);
+		/*
+		echo '<pre>';
+		var_dump($searchSong);
+		echo '</pre>';
+		*/ 
 		//$params = array();
 		//$limitstart = 0;
 		//$article->text = $smartyvs->fetch('video_player.tpl');
 		//JPluginHelper::importPlugin('content');
 		//$dispatcher =& JDispatcher::getInstance();
 		//$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
-
+		
+		$smartyvs->assign("songPlayer", $songPlayer);
+		
 		$smartyvs->assign("showMoreButton", 1);
 
 		$smartyvs->display('video_player.tpl');
