@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: languages.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: languages.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage languages
  *
 */
 
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -53,7 +53,7 @@ class LanguagesController extends JController  {
 	 */
 	function display( )
 	{
-		$this->view = & $this->getView("languages");
+		$this->view =  $this->getView("languages");
 		parent::display();
 	}
 	
@@ -124,16 +124,16 @@ class LanguagesController extends JController  {
 	 * Method to manage the language params
 	 */
 	function displayLanguageConfig() {
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$viewType	= $document->getType();
 		$viewName	= JRequest::getCmd( 'view', $this->getName() );
 		$viewLayout	= JRequest::getCmd( 'layout', 'languageConfig' );
 
-		$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
+		$view =  $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
 
 		// Get/Create the model
-		if ($model = & $this->getModel('languageConfig')) {
+		if ($model =  $this->getModel('languageConfig')) {
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
@@ -173,15 +173,15 @@ class LanguagesController extends JController  {
 	 *
 	 */
 	function translateConfig(){
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$viewName	= JRequest::getCmd( 'view', $this->getName() );
 		$viewLayout	= JRequest::getCmd( 'layout', 'translateConfig' );
 
-		$view = & $this->getView( $viewName );
+		$view =  $this->getView( $viewName );
 
 		// Get/Create the model
-		if ($model = & $this->getModel('languageConfig')) {
+		if ($model =  $this->getModel('languageConfig')) {
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
@@ -204,7 +204,7 @@ class LanguagesController extends JController  {
 		}
 
 		// Default Text handled 'manually'
-		$config =& JComponentHelper::getParams( 'com_joomfish' );
+		$config = JComponentHelper::getParams( 'com_joomfish' );
 		$view->defaulttext = $config->getValue("defaultText");		
 		$view->trans_defaulttext = $view->translations->get("defaulttext","");
 		
@@ -214,7 +214,7 @@ class LanguagesController extends JController  {
 		$view->jf_siteconfig=$jf_siteconfig;
 
 		// Need to load com_config language strings!
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$lang->load( 'com_config' );
 
 		$jconf = new JConfig();

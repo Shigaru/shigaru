@@ -5,9 +5,9 @@
 	<author>Joom!Fish Project</author>
 	<authorEmail>support@joomfish.net</authorEmail>
 	<authorUrl>http://www.joomfish.net</authorUrl>
-	<creationDate>24 October 2009</creationDate>
-	<copyright>2003 - 2009, Think Network GmbH, Munich</copyright>
-	<version>2.0.4</version>
+	<creationDate>2011-04-16</creationDate>
+	<copyright>2003 - 2011, Think Network GmbH, Munich</copyright>
+	<version>2.1.7</version>
 	<description>When activated this bot provides language determination and basic routing. Must be enabled unless you are using a SEF plugin that performs the same tasks.</description>
 	<files>
 		<filename plugin="jfrouter">jfrouter.php</filename>
@@ -40,12 +40,12 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="sefordomain" type="radio" default="sefprefix" label="Use SEF prefix or Subdomains?" description="TBD">
+		<param name="sefordomain" type="radio" default="sefprefix" label="Use SEF prefix or domains?" description="TBD">
 			<option value="sefprefix">SEF Prefix</option>
-			<option value="subdomain">Sub-Domain</option>
+			<option value="domain">Domain</option>
 		</param>
 		<param name="sefprefixes" type="sefprefix" default="lang-" label="Sef prefix" description="Sef prefix Description" />
-		<param name="sefsubdomain" type="sefsubdomain" default="" label="Sef subdomain" description="Sef Subdomain Description" />
+		<param name="sefsubdomain" type="sefsubdomain" default="" label="Sef domain" description="Sef domain Description" />
 
 	</params>
 </install>

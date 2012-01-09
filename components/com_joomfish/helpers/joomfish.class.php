@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,69 +25,20 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: joomfish.class.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: joomfish.class.php 1551 2011-03-24 13:03:07Z akede $
  *
 */
 
 /**
 * @package joomfish
  * @subpackage frontend.includes
- * @copyright 2003-2009 Think Network GmbH
+ * @copyright 2003 - 2011, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1298 $
- * @author Alex Kempkens <Alex@JoomFish.net>
+ * @version $Revision: 1551 $
 */
 
 // ensure this file is being included by a parent file
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
-
-// backwards compatability hack!
-global $mambelfishWarnedAdmin;
-$mambelfishWarnedAdmin=false;
-class MambelFish{
-	function warnAdmin(){
-		global $adminEmail,$mambelfishWarnedAdmin;
-		$privateWarning=false;
-		if (!$mambelfishWarnedAdmin) {
-			$bt = debug_backtrace();
-			if (count($bt)>=2){
-				$subject = "Deprecated use of Mambelfish Translation";
-				$content = "Deprecated use of Mambelfish. Request URL : ".$_SERVER['REQUEST_URI']."\n\n";
-				$content .= "Please contact the author of this component/module/mambot with the details in this message.\n\n";
-				$content .= "In the meantime the following function reference can be commented out and translation should not be affected.\n";
-				$content .= "File : ".basename(dirname($bt[1]["file"]))."\\".basename($bt[1]["file"])."\n";
-				$content .= "Line : ".$bt[1]["line"]."\n";
-				$content .= "Function : ".$bt[1]["function"]."\n\n";
-				if ( $privateWarning) {
-					global  $my ;
-					$db =& JFactory::getDBO();
-
-					require_once( mosMainFrame::getBasePath() .'/components/com_messages/messages.class.php' );
-
-					$query = "SELECT id"
-					. "\n FROM #__users"
-					. "\n WHERE sendEmail = 1"
-					;
-					$db->setQuery( $query );
-					$users = $db->loadResultArray(false);
-					foreach ($users as $user_id) {
-						$msg = new mosMessage( $db );
-						// send message from admin
-						$msg->send( $user_id, $user_id, $subject, $content);
-					}
-				}
-
-				else {
-					$content = str_replace("\n","<br/>",$content);
-					echo "$content";
-				}
-			}
-		}
-		$mambelfishWarnedAdmin=true;
-	}
-	function translate( $content, $reference_table, $language, $tableArray=array())	{ MambelFish::warnAdmin(); return $content;}
-	function translateList( $rows, $reference_table, $language , $tableArray) {	  MambelFish::warnAdmin(); return $rows;}
-}
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * The joom fish change the text information in the supported
@@ -104,24 +55,33 @@ class MambelFish{
  */
 class JoomFish {
 
-	function translateListCached ($rows,  $language , $tableArray) {
+	/**
+	 * Translates a list based on cached values
+	 * @param array $rows
+	 * @param JFLanguage $language
+	 * @param array $tableArray
+	 */
+	public function translateListCached ($rows,  $language , $tableArray) {
 		JoomFish::translateList($rows,  $language , $tableArray);
 		return $rows;
 	}
 
 	/**
-	 * Translate a list
-	 **/
-	function translateList( &$rows, $language , $tableArray) {
+	 * Translates a list of items
+	 * @param array $rows
+	 * @param JFLanguage $language
+	 * @param array $tableArray
+	 */
+	public function translateList( &$rows, $language , $tableArray) {
 		if (!isset($rows) || !is_array($rows)) return $rows;
 
-		global  $_JOOMFISH_MANAGER;
+		$jfManager = JoomFishManager::getInstance();
 
-		$registry =& JFactory::getConfig();
+		$registry = JFactory::getConfig();
 		$defaultLang = $registry->getValue("config.defaultlang");
 
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$querySQL = $db->_sql;
 
 		// do not try to translate if I have no fields!!!
@@ -141,7 +101,7 @@ class JoomFish {
 				if (!$db->translatedContentAvailable($reftable)) continue;
 
 				// get primary key for tablename
-				$idkey = $_JOOMFISH_MANAGER->getPrimaryKey( trim($reftable) );
+				$idkey = $jfManager->getPrimaryKey( trim($reftable) );
 
 				// I actually need to check the primary key against the alias list!
 
@@ -167,7 +127,7 @@ class JoomFish {
 				$idstring = "";
 				$idlist = array(); // temp variable to make sure all ids in idstring are unique (for neatness more than performance)
 				foreach( array_keys( $rows) as $key ) {
-					$content =& $rows[$key];
+					$content = $rows[$key];
 
 
 					if (isset($content->$idkey) && !in_array($content->$idkey,$idlist)) {
@@ -184,26 +144,34 @@ class JoomFish {
 	}
 
 	/**
-	  * Function to translate a section object
-	  */
-	function translateListWithIDs( &$rows, $ids, $reference_table, $language, $refTablePrimaryKey="id", & $tableArray, $querySQL, $allowfallback=true )
+	 * Function to translate a section object
+	 * @param array $rows
+	 * @param array $ids
+	 * @param string $reference_table
+	 * @param JFLanguage $language
+	 * @param string $refTablePrimaryKey
+	 * @param array $tableArray
+	 * @param string $querySQL
+	 * @param boolean $allowfallback
+	 */
+	public function translateListWithIDs( &$rows, $ids, $reference_table, $language, $refTablePrimaryKey="id", & $tableArray, $querySQL, $allowfallback=true )
 	{
 		//print " translateListWithIDs for ids=$ids refTablePrimaryKey=$refTablePrimaryKey<br>" ;
-		$config	=& JFactory::getConfig();
+		$config	= JFactory::getConfig();
 		$debug = $config->get("dbprefix");
 
-		global $_JOOMFISH_MANAGER;
-		$registry =& JFactory::getConfig();
+		$registry = JFactory::getConfig();
 		$defaultLang = $registry->getValue("config.defaultlang");
-		$db =& JFactory::getDBO();
+		$language = (isset($language) && $language!='') ? $language : $defaultLang; 
+		
+		$db = JFactory::getDBO();
 
 		// setup Joomfish pluginds
-		$dispatcher	   =& JDispatcher::getInstance();
+		$dispatcher	   = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('joomfish');
 
 		if ($reference_table == "jf_content" ) {
 			return;					// I can't translate myself ;-)
-
 		}
 
 		$results = $dispatcher->trigger('onBeforeTranslation', array (&$rows, &$ids, $reference_table, $language, $refTablePrimaryKey, & $tableArray, $querySQL, $allowfallback));
@@ -249,21 +217,22 @@ class JoomFish {
 		}
 
 		// process fallback language
+		$fallbacklanguage = false;
 		$fallbackrows=array();
 		$idarray = explode(",",$ids);
 		$fallbackids=array();
-		if ($languages[$language]->fallback_code==""){
-			$allowfallback=false;
-		}
-		else {
+		if (isset($languages[$language]) && $languages[$language]->fallback_code!="") {
 			$fallbacklanguage = $languages[$language]->fallback_code;
 			if (!array_key_exists($fallbacklanguage, $languages)){
 				$allowfallback=false;
 			}
 		}
+		if (!$fallbacklanguage) {
+			$allowfallback=false;
+		}
 
 		if (isset($ids) && $reference_table!='') {
-			$user =& JFactory::getUser();
+			$user = JFactory::getUser();
 			$published = ($user->gid<21)?"\n	AND jf_content.published=1":"";
 			//$published = "\n	AND jf_content.published=1";
 			$sql = "SELECT jf_content.reference_field, jf_content.value, jf_content.reference_id, jf_content.original_value "
@@ -278,7 +247,7 @@ class JoomFish {
 			if (count($translations)>0){
 				$fieldmap = null;
 				foreach( array_keys( $rows) as $key ) {
-					$row_to_translate =& $rows[$key];
+					$row_to_translate = $rows[$key];
 					$rowTranslationExists=false;
 					//print_r ($row_to_translate); print"<br>";
 					if( isset( $row_to_translate->$refTablePrimaryKey ) ) {
@@ -315,7 +284,7 @@ class JoomFish {
 						}
 						if (!$rowTranslationExists){
 							if ($allowfallback && isset($rows[$key]->$refTablePrimaryKey)){
-								$fallbackrows[$key] =& $rows[$key];
+								$fallbackrows[$key] = $rows[$key];
 								$fallbackids[$key] = $rows[$key]->$refTablePrimaryKey;
 							}
 							else {
@@ -330,7 +299,7 @@ class JoomFish {
 			else {
 				foreach( array_keys( $rows ) as $key ) {
 					if ($allowfallback && isset($rows[$key]->$refTablePrimaryKey)){
-						$fallbackrows[$key] =& $rows[$key];
+						$fallbackrows[$key] = $rows[$key];
 						$fallbackids[$key] = $rows[$key]->$refTablePrimaryKey;
 					}
 					else {
@@ -355,12 +324,10 @@ class JoomFish {
 	 * this cached version is shared between pages and hence makes a big improvement to load times
 	 * for newly visited pages in a cached scenario
 	 *
-	 * private function
-	 *
 	 * @param string $reference_table
-	 * @return unknown
+	 * @return value
 	 */
-	function _contentElementFields($reference_table){
+	public function contentElementFields($reference_table){
 		static $info;
 		if (!isset($info)){
 			$info = array();
@@ -373,10 +340,10 @@ class JoomFish {
 				$info[$reference_table] = unserialize($cacheFileContent);
 			}
 			else {
-				$jfm =& JoomFishManager::getInstance();
+				$jfm = JoomFishManager::getInstance();
 				$contentElement = $jfm->getContentElement( $reference_table );
 				// The language is not relevant for this function so just use the current language
-				$registry =& JFactory::getConfig();
+				$registry = JFactory::getConfig();
 				$lang = $registry->getValue("config.jflang");
 
 				include_once( JPATH_ADMINISTRATOR.DS."components".DS."com_joomfish".'/models/ContentObject.php');
@@ -405,9 +372,8 @@ class JoomFish {
 	/**
 	  * Version information of the component
 	  *
-	  * @author	Alex Kempkens
 	  */
-	function version() {
+	public function version() {
 		return JoomFishManager :: getVersion();
 	}
 }

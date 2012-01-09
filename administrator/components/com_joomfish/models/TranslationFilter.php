@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,11 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: TranslationFilter.php 1391 2009-08-10 12:40:55Z geraint $
+ * $Id: TranslationFilter.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 function getTranslationFilters($catid, $contentElement)
 {
 	if (!$contentElement) return array();
@@ -134,7 +136,7 @@ class translationFrontpageFilter extends translationFilter
 		if (!$this->filterField) return "";
 		$filter="";
 		if ($this->filter_value!=$this->filterNullValue){
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$sql = "SELECT content_id FROM #__content_frontpage order by ordering";
 			$db->setQuery($sql);
 			$ids = $db->loadResultArray();
@@ -161,7 +163,7 @@ class translationFrontpageFilter extends translationFilter
  * @return unknown
  */
 	function _createfilterHTML(){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (!$this->filterField) return "";
 
@@ -211,7 +213,7 @@ class translationArchiveFilter extends translationFilter
  * @return unknown
  */
 	function _createfilterHTML(){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (!$this->filterField) return "";
 
@@ -252,7 +254,7 @@ class translationCategoryFilter extends translationFilter
 		}
 
 		if ($this->section_filter_value!=-1 and $this->filter_value>=0){
-			$cat = & JTable::getInstance('category');
+			$cat =  JTable::getInstance('category');
 			$cat->load($this->filter_value);
 			if ($cat->section != $this->section_filter_value) {
 				$this->filter_value=-1;
@@ -273,7 +275,7 @@ class translationCategoryFilter extends translationFilter
  * @return unknown
  */
 	function _createfilterHTML(){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (!$this->filterField) return "";
 
@@ -322,7 +324,7 @@ class translationAuthorFilter extends translationFilter
 
 
 	function _createfilterHTML(){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (!$this->filterField) return "";
 		$AuthorOptions=array();
@@ -363,7 +365,7 @@ class translationKeywordFilter extends translationFilter
 		if (!$this->filterField) return "";
 		$filter="";
 		if ($this->filter_value!=""){
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$filter =  "LOWER(c.".$this->filterField." ) LIKE '%".$db->getEscaped( $this->filter_value, true )."%'";
 		}
 		return $filter;
@@ -377,7 +379,7 @@ class translationKeywordFilter extends translationFilter
  * @return unknown
  */
 	function _createfilterHTML(){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (!$this->filterField) return "";
 		$Keywordlist=array();
@@ -428,7 +430,7 @@ class translationMenutypeFilter  extends translationFilter
 	}
 
 	function _createfilterHTML(){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (!$this->filterField) return "";
 		$MenutypeOptions=array();
@@ -484,7 +486,7 @@ class translationChangedFilter extends translationFilter
 
 
 	function _createfilterHTML(){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (!$this->filterField) return "";
 		$ChangedOptions=array();
@@ -564,7 +566,7 @@ class translationPublishedFilter extends translationFilter
 	}
 
 	function _createfilterHTML(){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if (!$this->filterField) return "";
 
@@ -743,7 +745,7 @@ class JFMenuParams extends JObject{
 		// SLIDERS WON'T WORK :( they don't operate independently
 		/*
 		// Add slider pane
-		$pane =& JPane::getInstance('sliders');
+		$pane = JPane::getInstance('sliders');
 		$params .= $pane->startPane($type."pane");
 		*/
 		//echo 'urlparams<br/>';
@@ -787,13 +789,13 @@ class TranslateParams_menu extends TranslateParams_xml
 	var $trans_menuModelItem;
 
 	function TranslateParams_menu($original, $translation, $fieldname, $fields=null){
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$lang->load("com_menus", JPATH_ADMINISTRATOR);
 
 		$cid =  JRequest::getVar( 'cid', array(0) );
 		$oldcid = $cid;
 		$translation_id = 0;
-		if( strpos($cid[0], '|') >= 0 ) {
+		if( strpos($cid[0], '|') !== false ) {
 			list($translation_id, $contentid, $language_id) = explode('|', $cid[0]);
 		}
 
@@ -803,26 +805,26 @@ class TranslateParams_menu extends TranslateParams_xml
 		$this->orig_menuModelItem = new MenusModelItem();
 
 		/*
-		$app	= &JFactory::getApplication();
-		$menu	= &$app->getMenu('site');
+		$app	= JFactory::getApplication();
+		$menu	= $app->getMenu('site');
 		if (is_object( $menu ))
 		{
-		$params	=& $menu->getParams($contentid);
+		$params	= $menu->getParams($contentid);
 		// Set Default State Data
 		$this->orig_menuModelItem->setState( 'parameters.menu', $params );
 		}
 		*/
 
 		// Get The Original State Data
-		$item	=&$this->orig_menuModelItem->getItem();
+		$item	=$this->orig_menuModelItem->getItem();
 
 		// NOW GET THE TRANSLATION - IF AVAILABLE
 		$this->trans_menuModelItem = new JFMenusModelItem();
-		$item	=&$this->trans_menuModelItem->getItem($translation);
+		$item	=$this->trans_menuModelItem->getItem($translation);
 
 		// NOW GET THE Default- IF AVAILABLE
 		$this->default_menuModelItem = new JFDefaultMenusModelItem();
-		$item	=&$this->default_menuModelItem->getItem();
+		$item	=$this->default_menuModelItem->getItem();
 
 		$this->origparams = new JFMenuParams($this->orig_menuModelItem);
 		$this->transparams = new JFMenuParams($this->trans_menuModelItem);
@@ -888,7 +890,7 @@ class TranslateParams_modules extends TranslateParams_xml
 			echo JText::_("PROBLEMS WITH CONTENT ELEMENT FILE");
 			exit();
 		}
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$lang->load($module, JPATH_SITE);
 
 		// xml file for module
@@ -981,7 +983,7 @@ class TranslateParams_content extends TranslateParams_xml
 			echo JText::_("PROBLEMS WITH CONTENT ELEMENT FILE");
 			exit();
 		}
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$lang->load("com_content", JPATH_SITE);
 
 		$this->origparams = new  JParameter( $original, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.DS.'models'.DS.'article.xml');
@@ -1046,7 +1048,7 @@ class TranslateParams_components extends TranslateParams_xml
 	var $trans_menuModelItem;
 
 	function TranslateParams_components($original, $translation, $fieldname, $fields=null){
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$lang->load("com_config", JPATH_ADMINISTRATOR);
 
 		$this->fieldname = $fieldname;
@@ -1124,7 +1126,7 @@ class JFMenusModelItem extends MenusModelItem {
 		if ($table->type == 'component'){
 
 			// Note that to populate the initial value of the urlparams
-			$conf =& JFactory::getConfig();
+			$conf = JFactory::getConfig();
 			$elementTable = $conf->getValue('joomfish.elementTable',false);
 			foreach ($elementTable->Fields as $efield) {
 				if ($efield->Name=="link" && isset($efield->translationContent->value) && $efield->translationContent->value!==""){
@@ -1145,7 +1147,7 @@ class JFMenusModelItem extends MenusModelItem {
 			
 			parse_str($url, $table->linkparts);
 
-			$db = &$this->getDBO();
+			$db = $this->getDBO();
 			if ($component = @$table->linkparts['option']) {
 				$query = 'SELECT `id`' .
 				' FROM `#__components`' .
@@ -1172,19 +1174,19 @@ class JFDefaultMenusModelItem extends MenusModelItem {
 			return $item;
 		}
 
-		$table = & parent::getItem();
+		$table =  parent::getItem();
 		$clone = clone($table);
 		// get an empty version for the defalut
 		JRequest::setVar("edit",false);
 		$table = null;
 		JRequest::setVar( 'cid',array(0));
-		$table = & parent::getItem();
+		$table =  parent::getItem();
 		$item = clone($table);
 		$item->componentid = $clone->componentid;
 		$item->type = $clone->type;
 		$item->menutype = $clone->menutype;
 
-		$component		= &$this->getComponent();
+		$component		= $this->getComponent();
 
 		// restore original
 		$table = $clone;

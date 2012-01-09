@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: view.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: view.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Views
  *
 */
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'views.default.view',JOOMFISH_ADMINPATH);
 
@@ -56,7 +56,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 		$langActive = $this->get('Languages');		// all languages even non active once
 		$defaultLang = $this->get('DefaultLanguage');
 		$params = JComponentHelper::getParams('com_joomfish');
-		$showDefaultLanguageAdmin = $params->get("showDefaultLanguageAdmin", true);
+		$showDefaultLanguageAdmin = $params->get("showDefaultLanguageAdmin", false);
 
 		if ( count($langActive)>0 ) {
 			foreach( $langActive as $language )
@@ -71,11 +71,8 @@ class TranslateViewTranslate extends JoomfishViewDefault
 		}
 		else {
 			$confirm="";
-			if ($this->actContentObject->language_id!=0){
-				$confirm="onchange=\"confirmChangeLanguage('".$this->actContentObject->language."','".$this->actContentObject->language_id."')\"";
-			}
 
-			$langlist = JHTML::_('select.genericlist', $langOptions, 'language_id', 'class="inputbox" size="1" '.$confirm, 'value', 'text', $this->actContentObject->language_id );
+			$langlist = JHTML::_('select.genericlist', $langOptions, 'language_id', 'class="inputbox" size="1" '.$confirm, 'value', 'text', $this->select_language_id );
 		}
 		$this->assignRef('langlist'   , $langlist);
 	}
@@ -86,7 +83,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 	 */
 	function display($tpl = null)
 	{
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('TITLE_TRANSLATION'));
 
 		// Set  page title
@@ -109,7 +106,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 	function overview($tpl = null)
 	{
 		// browser title
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('TRANSLATE'));
 
 		// set page title
@@ -136,7 +133,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 	function edit($tpl = null)
 	{
 		// browser title
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('Translate'));
 
 		// set page title
@@ -145,7 +142,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 		// Set toolbar items for the page
 		if (JRequest::getVar("catid","")=="content"){
 			//JToolBarHelper::preview('index.php?option=com_joomfish',true);
-			$bar = & JToolBar::getInstance('toolbar');
+			$bar =  JToolBar::getInstance('toolbar');
 			// Add a special preview button by hand
 			$live_site = JURI::base();
 			$bar->appendButton( 'Popup', 'preview', 'Preview', JRoute::_("index.php?option=com_joomfish&task=translate.preview&tmpl=component"), "800","550");
@@ -161,7 +158,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 	function orphans($tpl = null)
 	{
 		// browser title
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('CLEANUP ORPHANS'));
 
 		// set page title
@@ -185,7 +182,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 	function orphandetail($tpl = null)
 	{
 		// browser title
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('CLEANUP ORPHANS'));
 
 		// set page title
@@ -199,7 +196,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 
 		// hide the sub menu
 		// This won't work
-		$submenu = & JModuleHelper::getModule("submenu");
+		$submenu =  JModuleHelper::getModule("submenu");
 		$submenu->content = "\n";
 
 		JRequest::setVar('hidemainmenu',1);

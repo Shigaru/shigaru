@@ -1,8 +1,33 @@
 <?php
 /**
- * @version		$Id: install.php 1344 2009-06-18 11:50:09Z akede $
+ * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ *
+ * All rights reserved.  The Joom!Fish project is a set of extentions for
+ * the content management system Joomla!. It enables Joomla!
+ * to manage multi lingual sites especially in all dynamic information
+ * which are stored in the database.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,USA.
+ *
+ * The "GNU General Public License" (GPL) is available at
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * -----------------------------------------------------------------------------
+ * @version		$Id: install.php 1579 2011-04-16 17:05:48Z akede $
  * @package		joomfish
- * @copyright	2003-2009 Think Network GmbH, Munich
+ * @copyright	2003 - 2011, Think Network GmbH, Munich
  * @license		GNU General Public License
  * 
  * This is the special installer addon created by Andrew Eddie and the team of jXtended.
@@ -24,7 +49,7 @@ $status->plugins = array();
 * ---------------------------------------------------------------------------------------------
 ***********************************************************************************************/
 
-$modules = &$this->manifest->getElementByPath('modules');
+$modules = $this->manifest->getElementByPath('modules');
 if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 
 	foreach ($modules->children() as $module)
@@ -68,7 +93,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 		}
 
 		// Copy all necessary files
-		$element = &$module->getElementByPath('files');
+		$element = $module->getElementByPath('files');
 		if ($this->parent->parseFiles($element, -1) === false) {
 			// Install failed, roll back changes
 			$this->parent->abort();
@@ -76,7 +101,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 		}
 
 		// Copy language files
-		$element = &$module->getElementByPath('languages');
+		$element = $module->getElementByPath('languages');
 		if ($this->parent->parseLanguages($element, $mclient->id) === false) {
 			// Install failed, roll back changes
 			$this->parent->abort();
@@ -84,7 +109,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 		}
 
 		// Copy media files
-		$element = &$module->getElementByPath('media');
+		$element = $module->getElementByPath('media');
 		if ($this->parent->parseMedia($element, $mclient->id) === false) {
 			// Install failed, roll back changes
 			$this->parent->abort();
@@ -97,7 +122,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 
 		if ($mtitle && $mposition) {
 			// if module already installed do not create a new instance
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = 'SELECT `id` FROM `#__modules` WHERE module = '.$db->Quote( $mname);
 			$db->setQuery($query);
 			if (!$db->Query()) {
@@ -108,7 +133,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 			$id = $db->loadResult();
 
 			if (!$id){
-				$row = & JTable::getInstance('module');
+				$row =  JTable::getInstance('module');
 				$row->title		= $mtitle;
 				$row->ordering	= $morder;
 				$row->position	= $mposition;
@@ -154,7 +179,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 * ---------------------------------------------------------------------------------------------
 ***********************************************************************************************/
 
-$plugins = &$this->manifest->getElementByPath('plugins');
+$plugins = $this->manifest->getElementByPath('plugins');
 if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 
 	foreach ($plugins->children() as $plugin)
@@ -196,7 +221,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 		}
 
 		// Copy all necessary files
-		$element = &$plugin->getElementByPath('files');
+		$element = $plugin->getElementByPath('files');
 		if ($this->parent->parseFiles($element, -1) === false) {
 			// Install failed, roll back changes
 			$this->parent->abort();
@@ -204,7 +229,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 		}
 
 		// Copy all necessary files
-		$element = &$plugin->getElementByPath('languages');
+		$element = $plugin->getElementByPath('languages');
 		if ($this->parent->parseLanguages($element, 1) === false) {
 			// Install failed, roll back changes
 			$this->parent->abort();
@@ -212,7 +237,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 		}
 
 		// Copy media files
-		$element = &$plugin->getElementByPath('media');
+		$element = $plugin->getElementByPath('media');
 		if ($this->parent->parseMedia($element, 1) === false) {
 			// Install failed, roll back changes
 			$this->parent->abort();
@@ -224,7 +249,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 		 * Database Processing Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Check to see if a plugin by the same name is already installed
 		$query = 'SELECT `id`' .
@@ -250,7 +275,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 			}
 
 		} else {
-			$row =& JTable::getInstance('plugin');
+			$row = JTable::getInstance('plugin');
 			$row->name = JText::_(ucfirst($pgroup)).' - '.JText::_(ucfirst($pname));
 			$row->ordering = $porder;
 			$row->folder = $pgroup;
@@ -289,27 +314,45 @@ if(!is_null($componentID) && $componentID > 0) {
 	$query = 'UPDATE #__components SET params = '
 		. $db->Quote("noTranslation=2\n"
 		. "defaultText=\n"
-		. "overwriteGlobalConfig=1\n"
+		. "overwriteGlobalConfig=0\n"
+		. "directory_flags=components/com_joomfish/images\n"
 		. "storageOfOriginal=md5\n"
 		. "frontEndPublish=1\n"
 		. "frontEndPreview=1\n"
-		. "showPanelNews=1\n"
-		. "showPanelUnpublished=1\n"
-		. "showPanelState=1\n"
+		. "showDefaultLanguageAdmin=0\n"
 		. "copyparams=1\n"
 		. "transcaching=0\n"
 		. "cachelife=180\n"
 		. "qacaching=1\n"
-		. "qalogging=0\n")
+		. "qalogging=0")
 		. 'WHERE id = ' . $componentID;
 	$db->setQuery($query);
 		
 	if (!$db->Query()) {
-		// Install failed, roll back changes
-		$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
-		return false;
+		// Missing update is not nice but no fail
 	}
 }
+
+// Update parameters for mod_translate
+$query = 'SELECT `id`' .
+' FROM `#__modules`' .
+' WHERE module=' .$db->Quote('mod_translate');
+$db->setQuery($query);
+$moduleID = $db->loadResult();
+
+if(!is_null($moduleID) && $moduleID > 0) {
+	$query = 'UPDATE #__modules SET params = '
+		. $db->Quote("linktype=squeezebox\n"
+		. "components=com_content#content#cid#task#!edit|com_frontpage#content#cid#task#!edit|com_sections#sections#cid#task#!edit|com_categories#categories#cid#task#!edit|com_contact#contact_details#cid#!edit|com_menus#menu#cid#task#!edit|com_modules#modules#cid#task#!edit#client#!1|com_newsfeeds#newsfeeds#cid#task#!edit|com_poll#polls#cid#task#!edit||||||||||")
+		. 'WHERE id = ' . $moduleID;
+	$db->setQuery($query);
+		
+	if (!$db->Query()) {
+		// Missing update is not nice but no fail
+	}
+}
+
+
 
 // Insert the default lanauage if no language exist
 $query = 'SELECT count(*) FROM #__languages';

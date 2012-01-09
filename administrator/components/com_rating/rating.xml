@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
+<install type="component" version="1.5.0">
+	<name>Rating</name>
+	<author>H.Lindlbauer</author>
+	<creationDate>Apr 2010</creationDate>
+	<copyright>2008,2009,2010 lbm-services.de</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>info@lbm-services.de</authorEmail>
+	<authorUrl>www.lbm-services.de</authorUrl>
+	<version>2.1</version>
+	<description><![CDATA[
+	<strong><font face="Verdana, Arial, Helvetica, sans-serif" color="red">CB Rating Component</font></strong><br /><br />	An ebay-like user rating component for the Community Builder Joomla extension<br/>
+		<p><b>Version:</b> 2.1 : Multi-Language Support.</p>
+		<p><b>Version:</b> 2.0 : Native J!1.5.x-Version.</p>
+		<p><b>Version:</b> 1.3 : New admin section - ratings management allows deletion of unwanted ratings.</p>
+		<p><b>Version:</b> 1.2 : Configuration of ratings per page enabled.</p>
+		<p>You need the CB rating plugin as well to see a Rating tab in CB profiles.<br/>
+		There is a CB module available to show a list of top rated users on any page. 
+		See my <a href="http://lbm-services.de/joomla/index.php?option=com_remository&Itemid=49&func=select&id=5" target="_blank">download page</a>.
+		</p>
+		<p><b>Author:</b> Horst Lindlbauer 2008, 2009, 2010 http://www.lbm-services.de<br/>
+		<b>Credits:</b> Based on CB Karma by (C) 2007 by Tony Korologos and Marc Galang</p>
+		]]>
+	</description>
+	<files folder="site">
+		<filename>rating.php</filename>
+		<filename>rating.class.php</filename>
+		<filename>rating.html.php</filename>
+	</files>
+	<languages folder="language">
+                        <language tag="en-GB">en-GB/en-GB.com_rating.ini</language>
+                        <language tag="de-DE">de-DE/de-DE.com_rating.ini</language>
+                </languages>
+	<install>
+		<queries>
+			<query>
+				CREATE TABLE IF NOT EXISTS `#__rating_tb` (
+				`user_id` INT NOT NULL,
+				`var_rating` INT DEFAULT 0,
+				`total_rating` INT DEFAULT 0
+				);
+			</query>
+			<query>
+				CREATE TABLE IF NOT EXISTS `#__rating_log` (
+					 `id` INT NOT NULL auto_increment,
+					  `user_id` INT NOT NULL,
+					  `my_id` INT NOT NULL,
+					  `my_name` varchar(100) NOT NULL,
+					  `type` tinyint(4) NOT NULL,
+					  `timestamp` datetime NOT NULL,
+					  `ip` varchar(100) default NULL,
+					  `text` varchar(255) NOT NULL,
+					  `reply` varchar(255) default NULL,
+					  PRIMARY KEY  (`id`)
+				);				
+			</query>
+			<query>
+				CREATE TABLE IF NOT EXISTS `#__rating_conf` (
+				`name` TEXT,
+				`value` TEXT
+				);
+			</query>
+			<query>
+				TRUNCATE TABLE `#__rating_conf`;
+			</query>
+			<query>
+				INSERT INTO `#__rating_conf` values ('daylock', '0');
+			</query>
+			<query>
+				INSERT INTO `#__rating_conf` values ('limit', '0');
+			</query>				
+		</queries>
+	</install>
+	<uninstall>
+	</uninstall>
+	<administration>
+		<menu>CB Rating</menu>
+		<submenu>
+			<menu task="config">Configuration</menu>
+			<menu task="management">Management</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>admin.rating.php</filename>
+			<filename>admin.rating.html.php</filename>
+			<filename>tmpl/admin.html</filename>
+			<filename>toolbar.rating.php</filename>
+			<filename>toolbar.rating.html.php</filename>
+		</files>
+		 
+	</administration>
+</install>
+

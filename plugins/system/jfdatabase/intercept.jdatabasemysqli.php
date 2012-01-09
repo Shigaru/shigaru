@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: intercept.jdatabasemysqli.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: intercept.jdatabasemysqli.php 1579 2011-04-16 17:05:48Z akede $
  * @package joomfish
  * @subpackage jfdatabase
  * @version 2.0
@@ -44,8 +44,11 @@ class interceptDB extends JDatabaseMySQLi   {
 	 * @param unknown_type $options
 	 */
 	function __construct($options){
-		$db = & JFactory::getDBO();
+		$db =  JFactory::getDBO();
 		
+		// support for recovery of existing connections (Martin N. Brampton)
+		if (isset($this->_options)) $this->_options = $options;
+				
 		$select		= array_key_exists('select', $options)	? $options['select']	: true;
 		$database	= array_key_exists('database',$options)	? $options['database']	: '';
 
@@ -57,7 +60,7 @@ class interceptDB extends JDatabaseMySQLi   {
 		}
 
 		// connect to the server
-		$this->_resource = & $db->_resource;
+		$this->_resource =  $db->_resource;
 
 		// finalize initialization
 		JDatabase::__construct($options);
@@ -93,16 +96,17 @@ class interceptDB extends JDatabaseMySQLi   {
 		}
 		
 		// Before joomfish manager is created since we can't translate so skip this anaylsis
-		global $_JOOMFISH_MANAGER;
-		if (!$_JOOMFISH_MANAGER) return;
+		$jfManager = JoomFishManager::getInstance();
+		if (!$jfManager) return;
 
 		// only needed for selects at present - possibly add for inserts/updates later
-		if (strpos(strtoupper($this->_sql),"SELECT")===false) {		
+		$tempsql = $this->_sql;
+		if (strpos(strtoupper(trim($tempsql)),"SELECT")!==0) {
 			$pfunc = $this->_profile($pfunc);
 			return;
 		}
 	
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 
 		// get column metadata
 		$fields = $this->_getFieldCount();
@@ -125,7 +129,7 @@ class interceptDB extends JDatabaseMySQLi   {
 		for ($i = 0; $i < $fields; ++$i) {
 			$meta = $this->_getFieldMetaData($i);
 			if (!$meta) {
-				echo "No information available<br />\n";
+				echo JText::_("No information available<br />\n");
 			}
 			else {
 				$tempTable =  $meta->table;

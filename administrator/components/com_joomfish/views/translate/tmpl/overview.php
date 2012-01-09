@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: overview.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: overview.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Views
  *
@@ -33,10 +33,30 @@
 
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$user =& JFactory::getUser();
-$db =& JFactory::getDBO();
+$message = $this->get('message');
+$state			= $this->get('state');
+$message1		= $state->get('message') == null ? $message : $state->get('message');
+$message2		= $state->get('extension.message');
+?>
+<table class="adminform">
+	<tbody>
+		<?php if($message1) : ?>
+		<tr>
+			<th><?php echo JText::_($message1) ?></th>
+		</tr>
+		<?php endif; ?>
+		<?php if($message2) : ?>
+		<tr>
+			<td><?php echo $message2; ?></td>
+		</tr>
+		<?php endif; ?>
+	</tbody>
+</table>
+
+$user = JFactory::getUser();
+$db = JFactory::getDBO();
 $filterOptions = '<table align="right"><tr>';
 $filterOptions .= '<td  nowrap="nowrap" align="center">' .JText::_('Languages'). ':<br/>' .$this->langlist. '</td>';
 $filterOptions .= '<td  nowrap="nowrap" align="center">' .JText::_('Content elements'). ':<br/>' .$this->clist. '</td>';

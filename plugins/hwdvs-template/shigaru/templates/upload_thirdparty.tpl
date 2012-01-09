@@ -34,8 +34,10 @@
  {/literal}   
 <div class="headerText mtop12">{$smarty.const._HWDVIDS_SHIGARU_ONEOFTWO}</div>
 {include file='header.tpl'}
-{literal}
+
 <script>
+	var domain = "{$domain}";
+	{literal}
 	jQuery(document).ready(function() {	
 			var lastData;
 			jQuery( "#songtitle" ).autocomplete({
@@ -44,7 +46,7 @@
 					source: function(req, add){
 					
 						//pass request to server
-						jQuery.getJSON("http://localhost/shigaru/index.php?option=com_hwdvideoshare&task=ajax_tinysong&callback=", req, function(data) {
+						jQuery.getJSON(domain+"index.php?option=com_hwdvideoshare&task=ajax_tinysong&callback=", req, function(data) {
 							
 							//create array for response objects
 							var suggestions = [];
@@ -80,6 +82,10 @@
 						
 						//prevent 'to' field being updated and correct position
 						jQuery("#songtitle").val("").css("top", 2);
+					},
+					delay: 700,
+					search: function(event, ui) { 
+						jQuery(ui.item).block();
 					}
 				});
 				
@@ -135,7 +141,7 @@
                             </p>
                             <p>
                                 <label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
-                                <input type="text" value="" id="songtitle" name="songtitle" size="40" placeholder="Enter Song Title..." class="required" minlength="2"/>
+                                <input type="text" value="" id="songtitle" name="songtitle" size="40" placeholder="Enter Song Title..."/>
                                 <br />
                                <span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
                             </p>

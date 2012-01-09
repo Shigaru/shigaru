@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Joomla Community Builder User Plugin: plug_rating
+* @version 2.1
+* @package plug_rating
+* @subpackage rating.xml
+* @author H.Lindlbauer
+* @copyright (C) 2009, 2010 H.Lindlbauer
+* @license Limited  http://www.gnu.org/copyleft/gpl.html GNU/GPL
+*/
+-->
+<cbinstall version="1.0.0" type="plugin" group="user">
+	<name>CB Rating</name>
+	<author>H.Lindlbauer</author>
+	<creationDate>2010-04</creationDate>
+	<copyright>(C) 2009, 2010 www.lbm-services.de</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>info@lbm-services.de</authorEmail>
+	<authorUrl>http://www.lbm-services.de</authorUrl>
+	<version>1.2</version>
+	<description>
+		A ebay-like user rating tab plugin
+	</description>
+	<files>
+		<filename plugin="rating">rating.php</filename>
+		<filename>index.html</filename>
+		<filename>js/rating.js</filename>
+		<filename>js/moo.ajax.js</filename>
+		<filename>js/prototype.lite.js</filename>
+		<filename>image/thumbup.gif</filename>
+		<filename>image/thumbdown.gif</filename>
+		<filename>image/thumbup_grey.gif</filename>
+		<filename>image/thumb.gif</filename>
+		<filename>language/default_language.php</filename>
+		<filename>language/de-DE.php</filename>
+	</files>
+	<params>
+		<param	name="@spacer" type="spacer" label="Credits:" default="This plugin is created by H. Lindlbauer, based on CB Karma created by A. Korologos and M. Galang" description="" />
+		<param	name="@spacer" type="spacer" label="License:" default="This plugin is distributed under a limited GNU/GPL license" description="" />
+		<param	name="@spacer" type="spacer" label="Parameters:" default="See CB Rating Component configuration for additional parameters" description="" />
+	</params>
+	<tabs>
+		<tab name="Rating" description="CB User Rating" class="getratingTab" fields="0" position="cb_tabmain" displaytype="tab">
+			<params>
+				<param name="hwTabMessage" type="text" label="" default="" description="" />
+			</params>
+			<fields>
+			</fields>
+		</tab>
+	</tabs>
+	<install>
+		<queries>
+		</queries>
+	</install>
+	<uninstall>
+	</uninstall>
+</cbinstall>

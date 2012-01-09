@@ -659,10 +659,12 @@ class hwd_vs_html
 			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);		
 			$captcha = hwd_vs_tools::generateCaptcha();
 			$editor =& JFactory::getEditor();
+			$domain = JURI::root();
 			$smartyvs->assign( "description", $editor->display("description",$oThirdPartyVideoInfo->description,350,200,20,20,1) );
 			$smartyvs->assign("videoInfo", $oThirdPartyVideoInfo);
 			$smartyvs->assign("infoPassed", 'true');
 			$smartyvs->assign("captcha", $captcha);
+			$smartyvs->assign("domain", $domain);
 			$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
 			$smartyvs->assign("levelsCombo", $levelsCombo);
 			$smartyvs->assign("languagesCombo", $languagesCombo);

@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,14 +25,14 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: controllerHelper.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: controllerHelper.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage controllerHelper
  *
 */
 
 
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
 class  JoomfishControllerHelper  {
@@ -50,13 +50,13 @@ class  JoomfishControllerHelper  {
 		// clear out existing data
 		$db->setQuery( "DELETE FROM `#__jf_tableinfo`");
 		$db->query();
-		$joomfishManager =& JoomFishManager::getInstance();
+		$joomfishManager = JoomFishManager::getInstance();
 		$contentElements = $joomfishManager->getContentElements(true);
 		$sql = "INSERT INTO `#__jf_tableinfo` (joomlatablename,tablepkID) VALUES ";
 		$firstTime = true;
-		foreach ($contentElements as $contentElement){
-			$tablename = $contentElement->getTableName();
-			$refId = $contentElement->getReferenceID();
+		foreach ($contentElements as $key => $jfElement){
+			$tablename = $jfElement->getTableName();
+			$refId = $jfElement->getReferenceID();
 			$sql .= $firstTime?"":",";
 			$sql .= " ('".$tablename."', '".$refId."')";
 			$firstTime = false;
@@ -90,7 +90,7 @@ class  JoomfishControllerHelper  {
 
 		JCacheStorageJfdb::setupDB();
 
-		$db = & JFactory::getDBO();
+		$db =  JFactory::getDBO();
 		$sql = "SHOW COLUMNS FROM #__dbcache LIKE 'value'";
 		$db->setQuery($sql);
 		$data = $db->loadObject();
@@ -105,7 +105,7 @@ class  JoomfishControllerHelper  {
 
 	function _checkDBStructure (){
 
-		$db = & JFactory::getDBO();
+		$db =  JFactory::getDBO();
 		$sql = "show index from #__jf_content";// where key_name = 'jfContent'";
 		$db->setQuery($sql);
 		$data = $db->loadObjectList("Key_name");
@@ -122,6 +122,23 @@ class  JoomfishControllerHelper  {
 			$db->setQuery($sql);
 			$db->query();
 			
+		}
+		if (!isset($data['reference_id'])){
+			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `reference_id` (`reference_id`)" ;
+			$db->setQuery($sql);
+			$db->query();
+
+			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `language_id` (`language_id`)" ;
+			$db->setQuery($sql);
+			$db->query();
+
+			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `reference_table` (`reference_table`)" ;
+			$db->setQuery($sql);
+			$db->query();
+
+			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `reference_field` (`reference_field`)" ;
+			$db->setQuery($sql);
+			$db->query();
 		}
 
 		$sql = "ALTER TABLE `#__jf_content` CHANGE COLUMN `value` `value` mediumtext NOT NULL " ;

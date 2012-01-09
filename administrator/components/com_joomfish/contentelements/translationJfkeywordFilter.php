@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -32,19 +32,19 @@
 */
 
 // Don't allow direct linking
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class translationJfkeywordFilter extends translationFilter
 {
-	function translationJfkeywordFilter ($contentElement){
+	public function __construct ($contentElement){
 		$this->filterNullValue="";
 		$this->filterType="jfkeyword";
 		$params = $contentElement->getFilter("jfkeyword");		
 		list($this->filterField,$this->label) = explode("|",$params);
-		parent::translationFilter($contentElement);
+		parent::__construct($contentElement);
 	}
 
-	function _createFilter(){
+	public function createFilter(){
 		if (!$this->filterField) return "";
 		$filter="";
 		if ($this->filter_value!=""){
@@ -61,7 +61,7 @@ class translationJfkeywordFilter extends translationFilter
  * @param unknown_type $contentElement
  * @return unknown
  */
-	function _createfilterHTML(){
+	public function createFilterHTML(){
 		$db = JFactory::getDBO();
 
 		if (!$this->filterField) return "";

@@ -1,7 +1,7 @@
 <?
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -26,7 +26,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: CHANGELOG.php 1420 2009-10-25 17:02:02Z akede $
+ * $Id: CHANGELOG.php 1580 2011-04-16 17:11:41Z akede $
  *
 */
 
@@ -39,7 +39,7 @@ defined( 'JPATH_BASE' ) or die( 'Restricted access' );
 This application is opensource software released under a variant of the GPL.
 Please see source code and the LICENSE file for more details.
 
-Copyright 2003-2008 Think Network GmbH, Munich
+Copyright (C) 2003 - 2011, Think Network GmbH, Munich
 - All Rights Reserved.
 
 
@@ -62,21 +62,170 @@ Legend:
 ! -> Note
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-==== 24 October 2009 Joom!Fish 2.0.4 Stable release =====
 
-2009-10-24 Alex Kempkens
- # Secured the reading of XML file against system error messages
+==== 16 April 2011 Joom!Fish 2.1.7 Stable release =====
+2011-04-16 Alex Kempkens
+ # Fixed SQL create table statement for MySQL 5.5
+ # [#24270] JF fails to change current language on visitor first visit
+ # Correcting spelling mistakes in the help screen
+ # Correcting credits on the help screen pages
+ # re-integrating 2.2 help screen design to 2.1
+ - removed not needed postinstallation and information text
+ # Correcting default values for component parameters
+ + Update of the module parameter while installing
+ # Fixed inconsistent usage of path / directory for flags 
+ ! Parameter values for the image path of the flags is expected to start without a leading / 
+ # Updated all versioning information, final packageing activities
+
+2011-04-16 Geraint Edwards
+ # Ensure insert/select type subquery doesn't trigger setreftables
+ # ensure profile data is not processed if it isn't an array
+ # ensure content items marked as non-default language don't trigger the creation of inappropriate translations in the frontend when updating content
+
+==== 24 March 2011 Joom!Fish 2.1.6 Stable release =====
+
+2011-03-24 Alex Kempkens
+ ! preparing for 2.1.6 stable release
+ # Fixed problem for manage translations http://www.joomfish.net/forum/viewtopic.php?f=28&t=7541
+
+2011-03-24 Geraint Edwards
+ # Fixed notice issues with fallback language
+
+2011-01-19 Geraint Edwards
+ # Reinstate fallback language support
+ 
+2010-12-22 Geraint Edwards
+ # Missing clone when creating introtext translation out of fulltext
+ # Allow for non-numeric primary key values in translation
+
+==== 23 November 2010 Joom!Fish 2.1.5 Stable release =====
+
+2010-11-23 Alex Kempkens
+ # preparing for 2.1.5 public release
+ # re-integrating changes that are important based on the 2.2 release changes
+ # re-integrated the flags to the component directory for compatiblity reasons
+
+2010-10-26 Alex Kempkens
+ # Changed versioning information in all files
+ # preparing for public release of 2.1.3
+
+2010-10-26 Geraint Edwards
+ # Replaced correct language string reference for default language in content languages page
+ # changed error messages to not show "failed to get table info" regardless of the error
+ # remove bad reference to order lists in elements overview
+ # Add missing database indexes
+ # Correct handling of introtext and fulltext when only one has been translated
+
+2010-08-22 Alex Kempkens
+ # corrected problem with extensionHelper called without JFile being imported
+ 
+2010-08-18 Alex Kempkens
+ # Changed presentation of long fields in translation overview. The text cut's off now and a tooltip shows the full text 
+ # double checked all files to include JEXEC checks - thx to Andrew for the jscan script.
+   
+2010-08-16 Alex Kempkens
+ # Fixed problem with mod_jflanguageselection and URL's including array definitions
+ # [#19541] Error 500 with joomfish and joomla 1.5.15 with debug activated resolved - thx simon gendrin
+ # [#21802] Some flags - thx Andrew McCarthy
+ # [#12752] The dropdown view of the module should allways be in the dropdown even if there is only one language
+
+2010-06-22 Alex Kempkens
+ # Refactoring of performance status check -> moved checks into generic system check
+ - removed tab for performance tests in cpanel
+ - removed special performance test methods
+ # changed cpanel module class methods to reflect correct access attributes in PHP 5
+ # Corrected copyright dates in various files
+ # Updated frontend language file to include only tags used by the core Joomfish frontend
+ # Updated admin language file to include new performance check tags
+ 
+2010-06-11 Alex Kempkens
+ # Frontend language file for the component cleaned from all unneeded tags
+ # Frontend language file changed to 1.6 tag format and changed output for component view
+ # Frontend helper changed to PHP 5 scope format
+ ! Method _contentElementFields changed to contentElementFields and public access (needed in missing translation plugin)
+ # changed missing translation plugin to use public method
+ 
+2010-05-18 Alex Kempkens
+ # updating tests to fit to new structure and optimization for tests within ZendEclipse or without
+ ! The ModuleHTMLTests are still incomplete which is known
+
+2010-05-10 Alex Kempkens
+ # Removed duplicated image detection methods
+ + new extensionHelper for generic Joomfish supporting methods
+ # refactored jflanguageselection module to use the new extensionHelper instead of duplicated implementation for image/flag detection
+ # Updated tests to reflect new classes and structures
+
+2010-04-18 Alex Kempkens
+ # support for recovery of existing connections (Martin N. Brampton)
+
+2010-04-15 Alex Kempkens
+ # Fixed problem in JFRouter with not defined language parameters in com_content
+
+2010-04-09 Alex Kempkens
+ # Moved all flags to the media/com_joomfish/default directory
+ # Introduced new parameter to allow specification of default directory for media files
+ ! To create new flag set's make sure they are all stored in one directory having the short ISO codes as their name
+ ! flag images are expected to be gif files
+ ! it is possible to place flags now in your template, assumed location is /templates/<your_template>/ the further path depends on your image path or shortcode
+ ! if you use the short code of a language instead of a selected image it is always assumed that the images are located in the subfolder flags/<iso>.gif
+ # changed mod_languageselection to recognice the new media directory for flags
+ # Update of version information in preparation for 2.1 release
+ 
+
+2010-03-16 Alex Kempkens
+ # fixing even more PHP ereg usage files
+ # changed translation of jfrouter configuration to make sure it refers to domains rather than subdomains
+ # Fixed a little issue with the JError integratin
+ # [215] integrated RSS supported in Joomfish broken, thx gruz
+ # Changed copyright years and text
+ # Changed SVN properties
+ # Fixed problem with showing messages from the controler
+
+2010-03-15 Alex Kempkens
+ # Fixing error reporting to use JError methods
+
+2010-02-12 Alex Kempkens
+ # fixed copy button in all other editors ;-)
+ # changed cpanel display and rendering of templates
+
+2010-01-15 Geraint Edwards
+ # Fix JCE copy button
+
+2009-12-16 Alex Kempkens
+ # 254: Bug: Button to go back to the Control Panel doesn't work in the Content Elements subsections
+
+2009-12-15 Alex Kempkens
+ # correcting default value for default language view
+ # packaging second pre-release for club members
+ 
+2009-11-22 Alex Kempkens
+ # fixed weblinks field length of url 
+ ! http://www.joomfish.net/forum/viewtopic.php?f=16&t=5466&p=23374#p23191
 
 2009-10-23 Alex Kempkens
- # Fixed XSS vulnerability in language switching module
- # Preparations for 2.0.4 release
+ # Fixed XXS vulnerability in language switching module
 
 2009-10-06 Geraint Edwards
- # [18198] Fix modified date for translations to take account of server offsets
+ # Fix modified date for translations to take account of server offsets
+ 
+2009-10-01 Alex Kempkens
+ # fixed little reference issue within jfdatabase
+ - removed decorator tests in jfdatabase
+ # replacing mldatabase with JFLegacyDatabase to make sure old usage of MambelFish classes breaks
+ - removing _JOOMFISH_MANAGER global variable completely; use JoomFishManager::getInstance() instead
 
-2009-09-22 Geraint Edwards
- + adding Taiwan flag
+2009-09-26 Alex Kempkens
+ # removing all old PHP references from PHP4 to be complaint with PHP 5
+ 
+2009-09-20 Alex Kempkens
+ # Replacing deprecated use of regular expressions for PHP5.3 compability
 
+2009-09-08 Geraint Edwards
+ # PHP 5.3 compatability changes
+
+2009-09-07 Geraint Edwards
+ ^ Replace Domit xml libraries with built in PHP5 xml functions
+ 
 2009-08-10 Geraint Edwards
  + Add prehandler function to ContentElementTableField.php to support external menu link translation
  + Add more filters for content elements

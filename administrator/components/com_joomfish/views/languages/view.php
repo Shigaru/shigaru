@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: view.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: view.php 1579 2011-04-16 17:05:48Z akede $
  * @package joomfish
  * @subpackage Views
  *
 */
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'views.default.view',JOOMFISH_ADMINPATH);
 jimport( 'joomla.filesystem.file');
@@ -57,7 +57,7 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 	{
 		global $mainframe;
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('Language Title'));
 
 		// Set toolbar items for the page
@@ -85,8 +85,8 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
 		$search				= JString::strtolower( $search );
 
-		$languages	= &$this->get('data');
-		$defaultLanguage = &$this->get('defaultLanguage');
+		$languages	= $this->get('data');
+		$defaultLanguage = $this->get('defaultLanguage');
 
 		$this->assignRef('items', $languages);
 		$this->assignRef('defaultLanguage', $defaultLanguage);
@@ -113,7 +113,7 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 	 */
 	function translateConfig($tpl = null) {
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		// this already includes administrator
 		$livesite = JURI::base();
 		$document->addStyleSheet($livesite.'components/com_joomfish/assets/css/joomfish.css');
@@ -131,6 +131,8 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 
 		parent::display($tpl);
 	}
+	
+	
 	/**
 	 * Method to determine the correct image path for language flags.
 	 * The works as the standard JHTMLImage method except that it uses always the live site basic as URL
@@ -140,19 +142,28 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 	 * @param unknown_type $altFolder
 	 * @param unknown_type $alt
 	 * @param unknown_type $attribs
-	 * @return unknown
+	 * @return string	image path
 	 */
-	function languageImage($language, $folder, $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $attribs = null) {
+	function languageImage($language, $alt=NULL, $attribs='') {
+		$src = JoomfishExtensionHelper::getLanguageImageSource($language);
+		return '<img src="'.  JURI::root() . $src .'" alt="'. html_entity_decode( $alt ) .'" '.$attribs.' />';
+	}
+	
+	function _languageImage($language, $alt=NULL, $attribs='') {
 		static $paths;
 		global $mainframe;
+		
+		//$folder, $altFile=NULL, $altFolder='/components/com_joomfish/images/flags',
+		$params = JComponentHelper::getParams('com_joomfish');
+		$folder = $params->get('directory_flags', '/components/com_joomfish/images/flags');
 
 		$file = '';
 		if(!empty($language->image)) {
 			//$file = 'flags/' . JFile::makeSafe(  $language->image);
 			$file =  $language->image;
-			$folder = "/images/";
+			
 		} elseif (!empty( $language->shortcode)) {
-			$file = 'flags/' . $language->shortcode . '.gif';
+			$file = $language->shortcode . '.gif';
 		}
 
 		if (!$paths) {
@@ -164,29 +175,17 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 		}
 
 		$cur_template = $mainframe->getTemplate();
-
-		if ( $altFile )
+		$path = JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file;
+		if (!isset( $paths[$path] ))
 		{
-			// $param allows for an alternative file to be used
-			$src = $altFolder . $altFile;
-		}
-		else if ( $altFile == -1 )
-		{
-			// Comes from an image list param field with 'Do not use' selected
-			return '';
-		} else {
-			$path = JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file;
-			if (!isset( $paths[$path] ))
-			{
-				if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
-					$paths[$path] = 'templates/'. $cur_template .'/images/'. $file;
-				} else {
-					// outputs only path to image
-					$paths[$path] = $folder . $file;
-				}
+			if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
+				$paths[$path] = 'templates/'. $cur_template .'/images/'. $file;
+			} else {
+				// outputs only path to image
+				$paths[$path] = $folder .'/'. $file;
 			}
-			$src = $paths[$path];
 		}
+		$src = $paths[$path];
 
 		if (substr($src, 0, 1 ) == "/") {
 			$src = substr_replace($src, '', 0, 1);

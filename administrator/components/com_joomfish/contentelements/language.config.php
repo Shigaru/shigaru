@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -31,7 +31,7 @@
  *
 */
 
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * Configutation file to control site language specific config 

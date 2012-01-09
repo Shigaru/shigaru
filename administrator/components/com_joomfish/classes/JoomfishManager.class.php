@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: JoomfishManager.class.php 1420 2009-10-25 17:02:02Z akede $
+ * $Id: JoomfishManager.class.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage classes
  *
@@ -43,9 +43,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003-2009 Think Network GmbH
+ * @copyright 2003 - 2011, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version 1.0, 2009-01-07 $Revision: 1251 $
+ * @version 2.1, $Revision: 1551 $
  * @author Alex Kempkens <joomfish@thinknetwork.com>
 */
 class JoomFishManager {
@@ -97,7 +97,7 @@ class JoomFishManager {
 		$this->_cacheLanguages($langlist);
 
 		// Must get the config here since if I do so dynamically it could be within a translation and really mess things up.
-		$this->componentConfig =& JComponentHelper::getParams( 'com_joomfish' );
+		$this->componentConfig = JComponentHelper::getParams( 'com_joomfish' );
 	}
 
 	function & getInstance($adminPath=null){
@@ -138,7 +138,7 @@ class JoomFishManager {
 	 */
 	function _loadPrimaryKeyData() {
 		if ($this->_primaryKeys==null){
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$db->setQuery( "SELECT joomlatablename,tablepkID FROM `#__jf_tableinfo`");
 			$rows = $db->loadObjectList("",false);
 			$this->_primaryKeys = array();
@@ -172,7 +172,6 @@ class JoomFishManager {
 	*/
 	function _loadContentElements() {
 		// XML library
-		require_once(JPATH_SITE . "/includes/domit/xml_domit_lite_include.php" );
 
 		// Try to find the XML file
 		$filesindir = JFolder::files(JOOMFISH_ADMINPATH ."/contentelements" ,".xml");
@@ -181,17 +180,17 @@ class JoomFishManager {
 			$this->_contentElements = array();
 			foreach($filesindir as $file)
 			{
-				$xmlDoc =& new DOMIT_Lite_Document();
-				$xmlDoc->resolveErrors( true );
-				if ($xmlDoc->loadXML(JOOMFISH_ADMINPATH . "/contentelements/" . $file, false, true )) {
-					$element = &$xmlDoc->documentElement;
-					if (isset($element) && $element->getTagName() == 'joomfish') {
+				unset($xmlDoc);
+				$xmlDoc = new DOMDocument();
+				if ($xmlDoc->load(JOOMFISH_ADMINPATH . "/contentelements/" . $file)) {
+					$element = $xmlDoc->documentElement;
+					if ($element->nodeName == 'joomfish') {
 						if ( $element->getAttribute('type')=='contentelement' ) {
-							$nameElements =& $element->getElementsByTagName('name', 1);
-							$nameElement =& $nameElements->item(0);
-							$name = strtolower( trim($nameElement->getText()) );
-							$contentElement =& new ContentElement( $xmlDoc );
-							$this->_contentElements[$contentElement->getTableName()] =& $contentElement;
+							$nameElements = $element->getElementsByTagName('name');
+							$nameElement = $nameElements->item(0);
+							$name = strtolower( trim($nameElement->textContent) );
+							$contentElement = new ContentElement( $xmlDoc );
+							$this->_contentElements[$contentElement->getTableName()] = $contentElement;
 						}
 					}
 				}
@@ -209,22 +208,20 @@ class JoomFishManager {
 		if (array_key_exists($tablename,$this->_contentElements)){
 			return;
 		}
-		// XML library
-		require_once(JPATH_SITE . "/includes/domit/xml_domit_lite_include.php" );
 
 		$file = JOOMFISH_ADMINPATH .'/contentelements/'.$tablename.".xml";
 		if (file_exists($file)){
-			$xmlDoc =& new DOMIT_Lite_Document();
-			$xmlDoc->resolveErrors( true );
-			if ($xmlDoc->loadXML( $file, false, true )) {
-				$element = &$xmlDoc->documentElement;
-				if ($element->getTagName() == 'joomfish') {
+			unset($xmlDoc);
+			$xmlDoc = new DOMDocument();
+			if ($xmlDoc->load( $file)) {
+				$element = $xmlDoc->documentElement;
+				if ($element->nodeName == 'joomfish') {
 					if ( $element->getAttribute('type')=='contentelement' ) {
-						$nameElements =& $element->getElementsByTagName('name', 1);
-						$nameElement =& $nameElements->item(0);
-						$name = strtolower( trim($nameElement->getText()) );
-						$contentElement =& new ContentElement( $xmlDoc );
-						$this->_contentElements[$contentElement->getTableName()] =& $contentElement;
+						$nameElements = $element->getElementsByTagName('name');
+						$nameElement = $nameElements->item(0);
+						$name = strtolower( trim($nameElement->textContent) );
+						$contentElement = new ContentElement( $xmlDoc );
+						$this->_contentElements[$contentElement->getTableName()] = $contentElement;
 						return $contentElement;
 					}
 				}
@@ -274,7 +271,7 @@ class JoomFishManager {
 	* @param mixed The value of the configuration variable
 	*/
 	function setCfg( $varname, $newValue) {
-		$config =& JComponentHelper::getParams( 'com_joomfish' );
+		$config = JComponentHelper::getParams( 'com_joomfish' );
 		$config->setValue($varname, $newValue);
 	}
 
@@ -288,7 +285,7 @@ class JoomFishManager {
 			$this->_cacheLanguages($langList);
 		}
 		/* if signed in as Manager or above include inactive languages too */
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ( isset($this) && $this->getCfg("frontEndPreview") && isset($user) && (strtolower($user->usertype)=="manager" || strtolower($user->usertype)=="administrator" || strtolower($user->usertype)=="super administrator")) {
 			if (isset($this) && isset($this->allLanguagesCache)) return $this->allLanguagesCache;
 		}
@@ -304,7 +301,7 @@ class JoomFishManager {
 	 * @return	Array of languages
 	 */
 	function getLanguages( $active=true ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$langActive=null;
 
 		$sql = 'SELECT * FROM #__languages';
@@ -395,11 +392,13 @@ class JoomFishManager {
 	 * @return	int 	Database id of this language
 	 */
 	function getLanguageID( $codeLangName="" ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$langID = -1;
 		if ($codeLangName != "" ) {
-			if (isset($this) && isset($this->activeLanguagesCache) && array_key_exists($codeLangName,$this->activeLanguagesCache))
-			return $this->activeLanguagesCache[$codeLangName]->id;
+			// Should check all languages not just active languages
+			if (isset($this) && isset($this->allLanguagesCache) && array_key_exists($codeLangName,$this->allLanguagesCache)){
+				return $this->allLanguagesCache[$codeLangName]->id;
+			}
 			else {
 				$db->setQuery( "SELECT id FROM #__languages WHERE active=1 and code = '$codeLangName' order by ordering" );
 				$langID = $db->loadResult(false);
@@ -414,7 +413,7 @@ class JoomFishManager {
 	 * @return	int 	Database id of this language
 	 */
 	function getLanguageCode( $codeLangName="" ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$langID = -1;
 		if ($codeLangName != "" ) {
 			if (isset($this) && isset($this->activeLanguagesCache) && array_key_exists($codeLangName,$this->activeLanguagesCache))
@@ -428,7 +427,7 @@ class JoomFishManager {
 	}
 
 	function & getCache($lang=""){
-		$conf =& JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		if ($lang===""){
 			$lang=$conf->getValue('config.language');
 		}
@@ -460,7 +459,7 @@ class JoomFishManager {
 			'storage'		=> $storage
 		);
 
-		$this->_cache[$lang] =& JCache::getInstance( "callback", $options );
+		$this->_cache[$lang] = JCache::getInstance( "callback", $options );
 		return $this->_cache[$lang];
 	}
 

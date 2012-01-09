@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,19 +25,21 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: JFLanguage.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: JFLanguage.php 1580 2011-04-16 17:11:41Z akede $
  * @package joomfish
  * @subpackage Tables
  *
 */
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 /**
  * Database class for handling the languages within the component
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003-2009 Think Network GmbH
+ * @copyright 2003 - 2011, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1251 $
+ * @version $Revision: 1580 $
  * @author Alex Kempkens <joomfish@thinknetwork.com>
  */
 class TableJFLanguage extends JTable  {
@@ -95,7 +97,7 @@ class TableJFLanguage extends JTable  {
 	 *	@return object new language instance or null
 	 */
 	function createByJoomla( $code, $active=true ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$lang = new TableJFLanguage($db);
 		$jfm = JoomFishManager::getInstance();
@@ -126,7 +128,7 @@ class TableJFLanguage extends JTable  {
 	 * @return object	language class or null
 	 */
 	function createByShortcode( $shortcode, $active=true ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if ($shortcode === null || $shortcode=='') {
 			return null;
 		}
@@ -147,7 +149,7 @@ class TableJFLanguage extends JTable  {
 	 *	@return any result from the database operation
 	 */
 	function createByISO( $iso, $active=true ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if ($iso === null) {
 			return false;

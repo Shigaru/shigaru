@@ -141,7 +141,7 @@ class modRokajaxsearchHelper {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT search_term FROM #__core_log_searches'; 
 		$query .= ' WHERE 1  ORDER BY hits  DESC';
-		$query .= ' LIMIT 0,4';
+		$query .= ' LIMIT 0,6';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();

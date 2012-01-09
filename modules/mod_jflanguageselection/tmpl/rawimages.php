@@ -1,7 +1,7 @@
 <?php 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: rawimages.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: rawimages.php 1579 2011-04-16 17:05:48Z akede $
  * @package joomfish
  * @subpackage mod_jflanguageselection
  *
@@ -45,23 +45,18 @@ foreach( $langActive as $language )
 	}
 
 	$href = JFModuleHTML::_createHRef ($language, $params);
-
-	if( isset($language->image) && $language->image!="" ) {
-		$langImg = '/images/' .$language->image;
-	} else {
-		$langImg = '/components/com_joomfish/images/flags/' .$language->getLanguageCode() .".gif";
-	}
-
+	$langImg = JFModuleHTML::getLanguageImageSource($language);
+	
 	if (isset($language->disabled) && $language->disabled){
-		if( file_exists( JPATH_ROOT . $langImg ) ) {
-			$outString .= '<span' .$langActive. ' style="opacity:0.5" class="opaque"><img src="' .JURI::base(true) . $langImg. '" alt="' .$language->name. '" title="' .$language->name. '" /></span>';
+		if( file_exists( JPATH_ROOT .DS. $langImg ) ) {
+			$outString .= '<span' .$langActive. ' style="opacity:0.5" class="opaque"><img src="' .JURI::base(false) . $langImg. '" alt="' .$language->name. '" title="' .$language->name. '" /></span>';
 		} else {
 			$outString .= '<span' .$langActive. ' style="opacity:0.5" class="opaque">' .$language->name. '</span>';
 		}
 	}
 	else {
-		if( file_exists( JPATH_ROOT . $langImg ) ) {
-			$outString .= '<span' .$langActive. '><a href="' .$href. '"><img src="' .JURI::base(true) . $langImg. '" alt="' .$language->name. '" title="' .$language->name. '" /></a></span>';
+		if( file_exists( JPATH_ROOT .DS. $langImg ) ) {
+			$outString .= '<span' .$langActive. '><a href="' .$href. '"><img src="' .JURI::base(false) . $langImg. '" alt="' .$language->name. '" title="' .$language->name. '" /></a></span>';
 		} else {
 			$outString .= '<span' .$langActive. '><a href="' .$href. '">' .$language->name. '</a></span>';
 		}
@@ -72,6 +67,6 @@ $outString .= '</div></div>';
 echo $outString;
 
 if( $inc_jf_css && JFile::exists(JPATH_ROOT.DS.'modules'.DS.'mod_jflanguageselection'.DS.'tmpl'.DS.'mod_jflanguageselection.css') ) {
-	$document =& JFactory::getDocument();
+	$document = JFactory::getDocument();
 	$document->addStyleSheet(JURI::base(true).'/modules/mod_jflanguageselection/tmpl/mod_jflanguageselection.css');
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,11 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: ContentObject.php 1416 2009-10-23 21:33:17Z akede $
+ * $Id: ContentObject.php 1580 2011-04-16 17:11:41Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 include_once(dirname(__FILE__).DS."JFContent.php");
 
 /**
@@ -43,9 +45,9 @@ include_once(dirname(__FILE__).DS."JFContent.php");
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003-2009 Think Network GmbH
+ * @copyright 2003 - 2011, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1296 $
+ * @version $Revision: 1580 $
  * @author Alex Kempkens <joomfish@thinknetwork.com>
  */
 class ContentObject {
@@ -102,14 +104,14 @@ class ContentObject {
 	 * @param	elementTable	Reference to the ContentElementTable object
 	 */
 	function ContentObject( $languageID,& $contentElement, $id=-1 ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if($id>0) $this->id = $id;
 		$this->language_id = $languageID;
-		// active languages are cached in $_JOOMFISH_MANAGER - use these if possible
-		global $_JOOMFISH_MANAGER;
-		if (isset($_JOOMFISH_MANAGER) && $_JOOMFISH_MANAGER->activeLanguagesCacheByID && array_key_exists($languageID,$_JOOMFISH_MANAGER->activeLanguagesCacheByID)){
-			$lang = $_JOOMFISH_MANAGER->activeLanguagesCacheByID[$languageID];
+		// active languages are cached in JoomFishManager - use these if possible
+		$jfManager = JoomFishManager::getInstance();
+		if (isset($jfManager) && $jfManager->activeLanguagesCacheByID && array_key_exists($languageID,$jfManager->activeLanguagesCacheByID)){
+			$lang = $jfManager->activeLanguagesCacheByID[$languageID];
 		}
 		else {
 			$lang = new TableJFLanguage($db);
@@ -122,7 +124,7 @@ class ContentObject {
 	/** Loads the information based on a certain content ID
 	 */
 	function loadFromContentID( $id=null ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if( $id!=null && isset($this->_contentElement) && $this->_contentElement!==false ) {
 			$db->setQuery( $this->_contentElement->createContentSQL( $this->language_id, $id ) );
 			$row=null;
@@ -143,8 +145,8 @@ class ContentObject {
 	 * @param 	boolean	store original values too
 	 */
 	function bind( $formArray, $prefix="", $suffix="", $tryBind=true, $storeOriginalText=false ) {
-		$user =& JFactory::getUser();
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+		$db = JFactory::getDBO();
 
 		if( $tryBind ) {
 			$this->_jfBindArrayToObject( $formArray, $this );
@@ -152,10 +154,10 @@ class ContentObject {
 		if( $this->published=="" ) $this->published=0;
 
 		// Go thru all the fields of the element and try to copy the content values
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
+			$field = $elementTable->Fields[$i];
 			$fieldName=$field->Name;
 			if( isset($formArray[$prefix ."refField_". $fieldName .$suffix]) ) {
 
@@ -267,7 +269,7 @@ class ContentObject {
 			$menuid = JRequest::getInt("reference_id",0);
 			if ($menuid==0) return;
 			include_once( JPATH_SITE.DS.'includes'.DS.'application.php');
-			$menu =& JSite::getMenu();
+			$menu = JSite::getMenu();
 			$item = $menu->getItem($menuid);
 			if ($item->type=="menulink"){
 				$urlparams = JRequest::getVar("refField_params",array(),'post',"array");
@@ -316,8 +318,15 @@ class ContentObject {
 		 * fields separated by the {readmore} tag, so lets do that now.
 		 */
 		if (array_key_exists("fulltext",$translationFields)){
-			$fulltext = $translationFields["fulltext"]->value;
-			$introtext = $translationFields["introtext"]->value;
+			if (isset($translationFields["introtext"])){
+				$fulltext = $translationFields["fulltext"]->value;
+				$introtext = $translationFields["introtext"]->value;
+			}
+			else {
+				$translationFields["introtext"] = clone $translationFields["fulltext"];
+				$translationFields["fulltext"]->value = "";
+				$fulltext = "";
+			}
 			if (JString::strlen($fulltext) > 1) {
 				$translationFields["introtext"]->value =  $introtext . "<hr id=\"system-readmore\" />" . $fulltext;
 				$translationFields["fulltext"]->value = "";
@@ -356,7 +365,7 @@ class ContentObject {
 	 * @param	object	instance of an mosDBTable object
 	 */
 	function updateMLContent( &$dbObject ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if( $dbObject === null ) return;
 
 		if( $this->published=="" ) $this->published=0;
@@ -380,17 +389,17 @@ class ContentObject {
 	 * @param object $origObject original values based on the db for reference
 	 */
 	function copyContentToTranslation( &$dbObject, $origObject ) {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Go thru all the fields of the element and try to copy the content values
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
+			$field = $elementTable->Fields[$i];
 			$fieldName=$field->Name;
 			if( isset($dbObject->$fieldName) && $field->Translate ) {
 				$translationValue = $dbObject->$fieldName;
-				$fieldContent =& $field->translationContent;
+				$fieldContent = $field->translationContent;
 
 				$fieldContent->value = $translationValue;
 				$dbObject->$fieldName = $origObject->$fieldName;
@@ -422,10 +431,10 @@ class ContentObject {
 		if( isset($row->checked_out) ) $this->checked_out = $row->checked_out;
 
 		// Go thru all the fields of the element and try to copy the content values
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 		$fieldContent = new jfContent($db);
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
+			$field = $elementTable->Fields[$i];
 			$fieldName = $field->Name;
 			if( isset($row->$fieldName) ) {
 				$field->originalValue = $row->$fieldName;
@@ -448,7 +457,7 @@ class ContentObject {
 	 *
 	 */
 	function _loadContent() {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$elementTable = $this->getTable();
 		$sql = "select * "
@@ -462,14 +471,16 @@ class ContentObject {
 		//echo "load sql=>$sql<<br />";
 		$db->setQuery( $sql );
 		$rows = $db->loadObjectList(false);
-		echo $db->getErrorMsg();
+		if($db->getErrorNum() != 0) {
+			JError::raiseWarning( 400,JTEXT::_('No valid table information: ') .$db->getErrorMsg());
+		}
 
 		$translationFields=null;
 		if( count($rows) > 0 ) {
 			foreach( $rows as $row ) {
 				$fieldContent = new jfContent($db);
 				if( !$fieldContent->bind( $row ) ) {
-					echo $fieldContent->getError();
+					JError::raiseWarning( 200, JText::_('Problems binding object to fields: ' .$fieldContent->getError()));
 				}
 				$translationFields[$fieldContent->reference_field] = $fieldContent;
 			}
@@ -477,7 +488,7 @@ class ContentObject {
 
 		// Check fields and their state
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
+			$field = $elementTable->Fields[$i];
 			
 			if ($field->prehandlertranslation!=""){
 				if (method_exists($this,$field->prehandlertranslation)){
@@ -532,11 +543,11 @@ class ContentObject {
 	 * @return	array	of fieldnames
 	 */
 	function getTextFields( $translation = true ) {
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 		$textFields = null;
 
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
+			$field = $elementTable->Fields[$i];
 			$fieldType = $field->Type;
 			if( $field->Translate == $translation && ($fieldType=="htmltext" || $fieldType=="text") ) {
 				$textFields[] = $field->Name;
@@ -552,7 +563,7 @@ class ContentObject {
 	 * @param string $fieldname
 	 */
 	function getFieldType($fieldname){
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 		$textFields = null;
 
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
@@ -564,10 +575,10 @@ class ContentObject {
 	/** Sets all fields of this content object to a certain published state
 	*/
 	function setPublished( $published ) {
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
-			$fieldContent =& $field->translationContent;
+			$field = $elementTable->Fields[$i];
+			$fieldContent = $field->translationContent;
 			$fieldContent->published = $published;
 		}
 	}
@@ -580,10 +591,10 @@ class ContentObject {
 	function updateReferenceID( $referenceID ) {
 		if( intval($referenceID) <= 0 ) return;
 
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
-			$fieldContent =& $field->translationContent;
+			$field = $elementTable->Fields[$i];
+			$fieldContent = $field->translationContent;
 			$fieldContent->reference_id = $referenceID;
 		}
 	}
@@ -591,10 +602,10 @@ class ContentObject {
 	/** Stores all fields of the content element
 	 */
 	function store() {
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
-			$fieldContent =& $field->translationContent;
+			$field = $elementTable->Fields[$i];
+			$fieldContent = $field->translationContent;
 
 			if( $field->Translate ) {
 				if( isset($fieldContent->reference_id) ) {
@@ -616,15 +627,15 @@ class ContentObject {
 	/** Checkouts all fields of this content element
 	*/
 	function checkout( $who, $oid=null ) {
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
-			$fieldContent =& $field->translationContent;
+			$field = $elementTable->Fields[$i];
+			$fieldContent = $field->translationContent;
 
 			if( $field->Translate ) {
 				if( isset($fieldContent->reference_id) ) {
 					$fieldContent->checkout( $who, $oid );
-					echo $fieldContent->getError();
+					JError::raiseWarning( 200, JText::_('Problems binding object to fields: ' .$fieldContent->getError()));
 				}
 			}
 		}
@@ -633,15 +644,15 @@ class ContentObject {
 	/** Checkouts all fields of this content element
 	*/
 	function checkin( $oid=null ) {
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
-			$fieldContent =& $field->translationContent;
+			$field = $elementTable->Fields[$i];
+			$fieldContent = $field->translationContent;
 
 			if( $field->Translate ) {
 				if( isset($fieldContent->reference_id) ) {
 					$fieldContent->checkin( $oid );
-					echo $fieldContent->getError();
+					JError::raiseWarning( 200, JText::_('Problems binding object to fields: ' .$fieldContent->getError()));
 				}
 			}
 		}
@@ -650,10 +661,10 @@ class ContentObject {
 	/** Delets all translations (fields) of this content element
 	*/
 	function delete( $oid=null ) {
-		$elementTable =& $this->_contentElement->getTable();
+		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-			$field =& $elementTable->Fields[$i];
-			$fieldContent =& $field->translationContent;
+			$field = $elementTable->Fields[$i];
+			$fieldContent = $field->translationContent;
 			if( $field->Translate ) {
 				if( isset($fieldContent->reference_id) ) {
 					if( !$fieldContent->delete( $oid ) ) {

@@ -2,9 +2,9 @@
 <joomfish type="contentelement">
   <name>Newsfeeds</name>
   <author>A. Kempkens</author>
-  <version>2.0.4</version>
+  <version>2.1.5</version>
   <description>Definition for the core news feeds component</description>
-  <copyright>2003 - 2009, Think Network GmbH, Munich</copyright>
+  <copyright>2003 - 2011, Think Network GmbH, Munich</copyright>
   <reference>
   	<table name="newsfeeds">
   		<field type="referenceid" name="id" translate="0">ID</field>
@@ -13,6 +13,9 @@
   		<field type="checked_out_by" name="checked_out" translate="0">Check out by</field>
   		<field type="checked_out_date" name="checked_out_time" translate="0">Check out date</field>
   	</table>
+  	<component>
+  		<form>com_newsfeeds#newsfeeds#cid#task#!edit</form>
+  	</component>
   </reference>
   <translationfilters>
   	  <category>catid</category>

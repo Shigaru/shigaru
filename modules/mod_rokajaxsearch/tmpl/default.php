@@ -28,9 +28,8 @@ $app =& JFactory::getApplication();
 $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg('list_limit'), 'int');
 
 ?>
-<dl id="blue">
 <form name="rokajaxsearch" id="rokajaxsearch" class="<?php echo $theme; ?>" action="<?php echo JURI::Base()?>" method="get">
-<dt><div class="rokajaxsearch <?php echo $params->get('moduleclass_sfx'); ?>">
+<div class="rokajaxsearch <?php echo $params->get('moduleclass_sfx'); ?>">
 	<div class="roksearch-wrapper">
 		<input id="roksearch_search_str" name="searchword" type="text" class="inputbox" value="<?php echo JText::_('SEARCH'); ?>" />
 	</div>
@@ -40,7 +39,6 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 	<input type="hidden" name="view" value="search" />
 	<input type="hidden" name="Itemid" value="99999999" />
 	<input type="hidden" name="option" value="com_search" />
-	<input id="searchgo" class="button fnone" type="submit" onclick="this.form.rokajaxsearch.focus();" value="<?php echo JText::_('Go'); ?>" name="Submit">
 	<?php if (($websearch || $blogsearch || $imagesearch || $videosearch) && $api): ?>
 		<div class="search_options">
 			<label style="float: left; margin-right: 8px">
@@ -78,6 +76,7 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 </div>
 <div id="rokajaxsearch_tmp" style="visibility:hidden;display:none;"></div>
 </form>
-</dt>
-<dd><?php echo JText::_('Recently searched >>'); ?> <?php echo $params->latestSearchs; ?></dd>
-</dl>
+<div class="clear tleft mleft6">
+<span class="twhite"><?php echo JText::_('Recently searched >>'); ?></span> <?php echo $params->latestSearchs; ?>
+</div>
+

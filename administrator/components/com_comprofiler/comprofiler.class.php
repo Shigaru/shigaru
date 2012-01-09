@@ -330,6 +330,7 @@ class moscomprofilerHTML {
 			} else {
 				$isReq="";
 			}
+			
 			$html[] = "<input type=\"radio\" name=\"$tag_name\" $isReq $tag_attribs value=\"" . htmlspecialchars( $k ) . "\"$extra /> <label for=\"" . $id . "\">" . getLangDefinition($t) . "</label>";
 		}
 		return $html;

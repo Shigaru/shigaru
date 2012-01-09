@@ -2,7 +2,7 @@
 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich, 2007-2009 GWE Systems Ltd
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich, 2007-2009 GWE Systems Ltd
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -26,7 +26,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: sefprefix.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: sefprefix.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage jfrouter
  * @version 2.0
@@ -35,7 +35,7 @@
 
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class JElementSefprefix extends JElement
 {
@@ -62,7 +62,7 @@ class JElementSefprefix extends JElement
 
 			$indexedvalues = array();
 			foreach ($value as $val) {
-					list($key,$val) = split("::",$val,2);
+					list($key,$val) = explode("::",$val,2);
 					$indexedvalues[$key] = $val; 
 			}
 			

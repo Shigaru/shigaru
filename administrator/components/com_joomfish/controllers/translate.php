@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: translate.php 1362 2009-06-22 20:08:29Z akede $
+ * $Id: translate.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage translate
  *
 */
 
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -77,7 +77,7 @@ class TranslateController extends JController   {
 			$this->cid = array(0);
 		}
 		$this->fileCode =  JRequest::getVar( 'fileCode', '' );
-		$this->_joomfishManager =& JoomFishManager::getInstance();
+		$this->_joomfishManager = JoomFishManager::getInstance();
 
 		$this->registerTask( 'overview', 'showTranslate' );
 		$this->registerTask( 'edit', 'editTranslation' );
@@ -102,8 +102,8 @@ class TranslateController extends JController   {
 
 		// Populate common data used by view
 		// get the view
-		$this->view = & $this->getView("translate");
-		$model =& $this->getModel('translate');
+		$this->view =  $this->getView("translate");
+		$model = $this->getModel('translate');
 		$this->view->setModel($model, true);
 
 		// Assign data for view
@@ -137,7 +137,7 @@ class TranslateController extends JController   {
 	/** Presentation of the content's that must be translated
 	 */
 	function showTranslationOverview( $language_id, $catid) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		global $mainframe;
 
 		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
@@ -167,7 +167,7 @@ class TranslateController extends JController   {
 			$db->setQuery( $contentElement->createContentSQL( $language_id, null, $limitstart, $limit,$tranFilters ) );
 			$rows = $db->loadObjectList();
 			if ($db->getErrorNum()) {
-				echo $db->stderr();
+				JError::raiseWarning( 200,JTEXT::_('No valid database connection: ') .$db->stderr());
 				// should not stop the page here otherwise there is no way for the user to recover
 				$rows = array();
 			}
@@ -203,7 +203,7 @@ class TranslateController extends JController   {
 		$clist = JHTML::_('select.genericlist', $elementNames, 'catid', 'class="inputbox" size="1" onchange="if(document.getElementById(\'select_language_id\').value>=0) document.adminForm.submit();"', 'value', 'text', $catid );
 
 		// get the view
-		$this->view = & $this->getView("translate","html");
+		$this->view =  $this->getView("translate","html");
 
 		// Set the layout
 		$this->view->setLayout('default');
@@ -237,8 +237,8 @@ class TranslateController extends JController   {
 		$catid=$this->_catid;
 
 		global  $mainframe;
-		$user =& JFactory::getUser();
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+		$db = JFactory::getDBO();
 
 		$actContentObject=null;
 
@@ -262,13 +262,13 @@ class TranslateController extends JController   {
 		$tranFilters = getTranslationFilters($catid,$contentElement);
 
 		// get the view
-		$this->view = & $this->getView("translate");
+		$this->view =  $this->getView("translate");
 
 		// Set the layout
 		$this->view->setLayout('edit');
 
 		// Need to load com_config language strings!
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$lang->load( 'com_config' );
 
 		// Assign data for view - should really do this as I go along
@@ -305,7 +305,7 @@ class TranslateController extends JController   {
 			$actContentObject->bind( $_POST, '', '', true,  $storeOriginalText);
 			if ($actContentObject->store() == null)	{
 				JPluginHelper::importPlugin('joomfish');
-				$dispatcher =& JDispatcher::getInstance();
+				$dispatcher = JDispatcher::getInstance();
 				$dispatcher->trigger('onAfterTranslationSave', array($_POST));
 				$this->view->message = JText::_('Translation saved');
 			}
@@ -314,10 +314,10 @@ class TranslateController extends JController   {
 			}
 
 			// Clear Translation Cache
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$lang = new TableJFLanguage($db);
 			$lang->load( $language_id );
-			$cache = & $this->_joomfishManager->getCache($lang->code);
+			$cache =  $this->_joomfishManager->getCache($lang->code);
 			$cache->clean();
 		}
 		else {
@@ -346,7 +346,7 @@ class TranslateController extends JController   {
 		}
 
 
-		$model =& $this->view->getModel();
+		$model = $this->view->getModel();
 		$model->_removeTranslation( $this->_catid, $this->cid );
 		// redirect to overview
 		$this->showTranslate();
@@ -360,7 +360,7 @@ class TranslateController extends JController   {
 		$catid = $this->_catid;
 		$publish = $this->_task=="publish" ? 1 : 0;
 		$cid =  JRequest::getVar( 'cid', array(0) );
-		$model =& $this->view->getModel();
+		$model = $this->view->getModel();
 		if( strpos($cid[0], '|') >= 0 ) {
 			list($translation_id, $contentid, $language_id) = explode('|', $cid[0]);
 		}
@@ -388,7 +388,7 @@ class TranslateController extends JController   {
 	 */
 	function previewTranslation(){
 		// get the view
-		$this->view = & $this->getView("translate");
+		$this->view =  $this->getView("translate");
 
 		// Set the layout
 		$this->view->setLayout('preview');
@@ -407,7 +407,7 @@ class TranslateController extends JController   {
 		$cid =  trim(JRequest::getVar( 'cid', "" ));
 		$language_id =  JRequest::getInt( 'lang', 0 );
 		if ($cid=="" ){
-			echo JText::_("Invalid paramaters");
+			JError::raiseWarning(200, JText::_("Invalid paramaters"));
 			return;
 		}
 		$translation_id = 0;
@@ -415,8 +415,8 @@ class TranslateController extends JController   {
 		$catid=$this->_catid;
 
 		global  $mainframe;
-		$user =& JFactory::getUser();
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+		$db = JFactory::getDBO();
 
 		$actContentObject=null;
 
@@ -430,7 +430,7 @@ class TranslateController extends JController   {
 		$fieldname = JRequest::getString('field','');
 
 		// get the view
-		$this->view = & $this->getView('translate');
+		$this->view =  $this->getView('translate');
 
 		// Set the layout
 		$this->view->setLayout('originalvalue');
@@ -449,7 +449,7 @@ class TranslateController extends JController   {
 		$catid = $this->_catid;
 
 		global  $mainframe;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 
 		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
@@ -469,7 +469,7 @@ class TranslateController extends JController   {
 			$db->setQuery( $contentElement->createOrphanSQL( $language_id, null, $limitstart, $limit,$tranFilters ) );
 			$rows = $db->loadObjectList();
 			if ($db->getErrorNum()) {
-				echo $db->stderr();
+				JError::raiseError( 200,JTEXT::_('No valid database connection: ') .$db->stderr());
 				return false;
 			}
 
@@ -518,7 +518,7 @@ class TranslateController extends JController   {
 		$clist = JHTML::_('select.genericlist', $elementNames, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $catid );
 
 		// get the view
-		$this->view = & $this->getView("translate");
+		$this->view =  $this->getView("translate");
 
 		// Set the layout
 		$this->view->setLayout('orphans');
@@ -552,7 +552,7 @@ class TranslateController extends JController   {
 		$contentElement = $this->_joomfishManager->getContentElement( $this->_catid );
 		$tablename = $contentElement->getTableName();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// read details of orphan translation
 		//$sql = "SELECT * FROM #__jf_content WHERE id=$mbfc_id AND reference_id=$contentid AND reference_table='".$tablename."'";
@@ -562,7 +562,7 @@ class TranslateController extends JController   {
 		$rows=$db->loadObjectList();
 
 		// get the view
-		$this->view = & $this->getView("translate");
+		$this->view =  $this->getView("translate");
 
 		// Set the layout
 		$this->view->setLayout('orphandetail');
@@ -582,7 +582,7 @@ class TranslateController extends JController   {
 			$this->cid = array(0);
 		}
 
-		$model = & $this->view->getModel();
+		$model =  $this->view->getModel();
 		$model->_removeTranslation( $this->_catid, $this->cid );
 
 		$this->view->message = JText::_('Orphan Translation(s) deleted');

@@ -386,6 +386,10 @@ DEFINE('_UE_EMAILFORMWARNING','IMPORTANT:<ol>'
 		.'</ol>');
 DEFINE('_UE_EMAILFORMSUBJECT','Subject:');
 DEFINE('_UE_EMAILFORMMESSAGE','Message:');
+DEFINE('_UE_YOUREMAIL','Your Email address');
+DEFINE('_UE_SELECTUNAME','Select your Shigaru username');
+DEFINE('_UE_SELECTCONFIRMPASS','Confirm %s');
+DEFINE('_UE_SELECTPASS','Select a password');
 DEFINE('_UE_EMAILFORMTITLE','Send a message via email to %s');
 DEFINE('_UE_GENERAL','General');
 DEFINE('_UE_SENDEMAILNOTICE',"------- This is a message from %s at %s ( %s ) to you: -------\r\n\r\n");
@@ -1168,7 +1172,15 @@ DEFINE('_UE_LOST_PASSWORD_EMAIL_ONLY_DESC','If you <strong>lost your password</s
 // 1.4 Stable:
 DEFINE('_UE_ENABLESPOOFCHECK','Enable anti-spoofing sessions checks');
 DEFINE('_UE_ENABLESPOOFCHECK_DESC','Choose if you want spoof checking enabled on sessions (highly recommended unless you have difficulty with session expired and cookie errors when enabled). Disabled by default for best stability and usability.');
-
+//SHigaru
+DEFINE('_UE_AFGHANISTAN','Afghanistan');
+DEFINE('_UE_LANGUAGE','Language');
+DEFINE('_UE_ENGLISH','English');
+DEFINE('_UE_YOURAGEGROUP','Your age group'); 
+DEFINE('_UE_SEX','Sex'); 
+DEFINE('_UE_SEXMALE','Male');
+DEFINE('_UE_SEXFEMALE','Female');
+DEFINE('_UE_SEXYESPLEASE','Yes please!');
 // IMPORTANT WARNING: The closing tag, "?" and ">" has been intentionally omitted - CB works fine without it.
 // This was done to avoid errors caused by custom strings being added after the closing tag. ]
 // With such tags, always watchout to NOT add any line or space or anything after the "?" and the ">".

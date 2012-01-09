@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: cpanel.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: cpanel.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
@@ -41,28 +41,28 @@ jimport( 'joomla.application.component.model' );
  */
 class CPanelModelCPanel extends JModel
 {
-	var $_modelName = 'cpanel';
+	protected $_modelName = 'cpanel';
 
 	/**
 	 * return the model name
 	 */
-	function getName() {
+	public function getName() {
 		return $this->_modelName;
 	}
 
 	/**
 	 * Get a list of panel state information
 	 */
-	function getPanelStates() {
+	public function getPanelStates() {
 		$panelStates = array();
 		$systemState = $this->_checkSystemState();
 		$panelStates['directory_state'] = $systemState['directory_state'];
 		$panelStates['directory'] = $systemState['directory'];
 		$panelStates['extension_state'] = $systemState['extension_state'];
 		$panelStates['extension'] = $systemState['extension'];
-
-		//$panelStates['mbfInstall'] = $this->_testOldInstall();
-		$panelStates['system'] = $this->_getSystemInfo();
+		$panelStates['performance_state'] = $systemState['performance_state'];
+		$panelStates['performance'] = $systemState['performance'];
+		//$panelStates['system'] = $this->_getSystemInfo();
 
 		return $panelStates;
 	}
@@ -70,57 +70,16 @@ class CPanelModelCPanel extends JModel
 	/**
 	 * Get a list of content informations
 	 */
-	function getContentInfo() {
+	public function getContentInfo() {
 		$contentInfo = array();
 		$contentInfo['unpublished'] = $this->_testUnpublisedTranslations();
 		return $contentInfo;
 	}
 
 	/**
-	 * Get a list of performance information for optimal installation
-	 */
-	function getPerformanceInfo() {
-		$performanceInfo = array();
-		
-		// DB Driver
-		$db =& JFactory::getDBO();
-		$performanceInfo['driver'] = array();
-		$performanceInfo['driver']["current"] = $db->name;
-		$performanceInfo['driver']["best"] = function_exists("mysqli_connect")?"mysqli":"mysql";
-		
-		if ($performanceInfo['driver']["best"]=="mysqli" && $performanceInfo['driver']["best"]!=$performanceInfo['driver']["current"]){
-			$performanceInfo['driver']["optimal"]=false;
-		}
-		else {
-			$performanceInfo['driver']["optimal"]=true;
-		}
-		
-		// Translation Caching
-		if (version_compare(phpversion(),"5.0.0",">=")){
-			$jfm =& JoomFishManager::getInstance();
-			$performanceInfo['cache']["best"]=JText::_("on");
-			if ($jfm->getCfg("transcaching",1)){
-				$performanceInfo['cache']["optimal"]=true;
-				$performanceInfo['cache']["current"]=JText::_("on");
-			}			
-			else {
-				$performanceInfo['cache']["optimal"]=false;
-				$performanceInfo['cache']["current"]=JText::_("off");
-			}
-		}
-		else {
-			$performanceInfo['cache']["best"]=JText::_("n/a");
-			$performanceInfo['cache']["optimal"]=false;
-			$performanceInfo['cache']["current"]=JText::_("off");
-
-		}
-		return $performanceInfo;
-	}
-
-	/**
 	 * Get the list of published tabs, based on the ID
 	 */
-	function getPublishedTabs() {
+	public function getPublishedTabs() {
 		$tabs = array();
 
 		$pane = new stdClass();
@@ -130,6 +89,7 @@ class CPanelModelCPanel extends JModel
 		$tabs[] = $pane;
 
 		// Validating other tabs based on extension configuration
+		// JFTODO Move all panels to their own administrator module
 		$params = JComponentHelper::getParams('com_joomfish');
 		if( $params->get('showPanelNews', 1) ) {
 			$pane = new stdClass();
@@ -152,13 +112,6 @@ class CPanelModelCPanel extends JModel
 			$pane->alert = false;
 			$tabs[] = $pane;
 		}
-		if( $params->get('PerformanceInfo', 1) ) {
-			$pane = new stdClass();
-			$pane->title = 'Performance Information';
-			$pane->name = 'PerformanceInfo';
-			$pane->alert = false;
-			$tabs[] = $pane;
-		}
 
 		return $tabs;
 	}
@@ -168,30 +121,29 @@ class CPanelModelCPanel extends JModel
 	 * @return array with rows of the different component states
 	 *
 	 */
-	function _checkSystemState() {
-		$db =& JFactory::getDBO();
+	private function _checkSystemState() {
+		$db = JFactory::getDBO();
 
-		require_once( JPATH_SITE . "/includes/domit/xml_domit_lite_include.php" );
 		$checkResult = array();
 
 		// Read the file to see if it's a valid template XML file
-		$xmlDoc =& new DOMIT_Lite_Document();
-		$xmlDoc->resolveErrors( true );
+		$xmlDoc = new DOMDocument();
+
 		$xmlfile = JOOMFISH_ADMINPATH .DS. 'manifest.xml';
-		if (!$xmlDoc->loadXML( $xmlfile, false, true )) {
+		if (!$xmlDoc->load( $xmlfile)) {
 			return $checkResult;
 		}
 
-		$element = &$xmlDoc->documentElement;
+		$element = $xmlDoc->documentElement;
 
 		// Joomla 1.5 uses install
-		if ($element->getTagName() != 'install') {
+		if ($element->nodeName != 'install') {
 			return $checkResult;
 		}
 		if ($element->getAttribute( "type" ) != "component") {
 			return $checkResult;
 		}
-		$checkElements = $xmlDoc->getElementsByPath('check', 1);
+		$checkElements = $xmlDoc->getElementsByTagName('check')->item(0);
 		if (!isset($checkElements) || !$checkElements->hasChildNodes()){
 			return $checkResult;
 		}
@@ -199,13 +151,14 @@ class CPanelModelCPanel extends JModel
 		// Default values of different master states
 		$checkResult['directory_state'] = true;
 		$checkResult['extension_state'] = true;
+		$checkResult['performance_state'] = true;
 
 		foreach ($checkElements->childNodes as $child){
 			$type = $child->nodeName;
 			$check = new stdClass();
 			switch ($type) {
-				case "directory":
-					$check->description = $child->getText();
+				case 'directory':
+					$check->description = $child->textContent;
 					$check->result = is_writable(JPATH_SITE .DS. $check->description) ? true : false;
 					$check->resultText = $check->result ? JText::_('writable') : JText::_('not writable');
 					$check->link = '';
@@ -213,22 +166,22 @@ class CPanelModelCPanel extends JModel
 					$checkResult[$type. '_state'] = $checkResult[$type. '_state'] & $check->result;
 					break;
 
-				case "extension":
+				case 'extension':
 					$check->description = JText::_($child->getAttribute('name'));
 					$table = $child->getAttribute('type');
 					$field = $child->getAttribute('field');
 					$value = $child->getAttribute('value');
 					$name = $child->getAttribute('name');
-					$condition = $child->getText();
+					$condition = $child->textContent;
 
-					if ($field=="ordering"){
+					if ($field=='ordering'){
 						$sql = "SELECT id, element, ordering FROM #__$table  WHERE $condition ORDER BY ordering";
 						$db->setQuery($sql);
 						$resultValues = $db->loadObjectList();
 						if (array_key_exists($value,$resultValues) && $resultValues[$value]->element==$name){
 							$check->result = true ;
 							$check->resultText = JText::_($field);
-							$check->link = JURI::root().'administrator/index2.php?option=com_'.$table.'&client=&task=editA&hidemainmenu=1&id='.$resultValues[$value]->id;
+							$check->link = JURI::root().'administrator/index2.php?option=com_'.$table.'&client=task=editA&hidemainmenu=1&id='.$resultValues[$value]->id;
 						}
 						else {
 							$sql = "SELECT $field, id FROM #__$table WHERE $condition";
@@ -236,7 +189,7 @@ class CPanelModelCPanel extends JModel
 							$resultValue = $db->loadRow();
 							$check->result = false;
 							$check->resultText = JText::_('un'.$field);
-							$check->link = JURI::root().'administrator/index2.php?option=com_'.$table.'&client=&task=editA&hidemainmenu=1&id='.$resultValue[1];
+							$check->link = JURI::root().'administrator/index2.php?option=com_'.$table.'&client=task=editA&hidemainmenu=1&id='.$resultValue[1];
 						}
 					}
 					else {
@@ -248,7 +201,7 @@ class CPanelModelCPanel extends JModel
 							$check->result = ($value == $resultValue[0]) ? true : false;
 							$check->resultText = $check->result ? JText::_($field) : JText::_('un'.$field);
 
-							$check->link = JURI::root().'administrator/index2.php?option=com_'.$table.'&client=&task=editA&hidemainmenu=1&id='.$resultValue[1];
+							$check->link = JURI::root().'administrator/index2.php?option=com_'.$table.'&client=task=editA&hidemainmenu=1&id='.$resultValue[1];
 						} else {
 							$check->result = false;
 							$check->resultText = JText::_('not installed');
@@ -260,26 +213,82 @@ class CPanelModelCPanel extends JModel
 					$checkResult[$type][] = $check;
 					$checkResult[$type. '_state'] = $checkResult[$type. '_state'] & $check->result;
 					break;
+					
+				case 'performance':
+					$check->description = JText::_($child->getAttribute('name'));
+					$check->name = $child->getAttribute('name');
+					$check->type = $child->getAttribute('type');
+					$check->link = $child->getAttribute('link');
+					$check->link = ($check->link != '' && preg_match('/http:/i', $check->link)) ? JURI::root() .$check->link : $check->link;
+					
+					if($check->type=='database') {
+						$checkfunction = $child->getAttribute('check_function');
+						$check_true = $child->getAttribute('check_true');
+						$check_false = $child->getAttribute('check_false');
+						$optimal_value = $child->getAttribute('optimal_value');
+						$check->current = $db->name;
+						$check->available = function_exists($checkfunction) ? $check_true : $check_false;
+						$check->optimal = $optimal_value;
+						if($check->available==$optimal_value && $check->available != $check->current) {
+							$check->result = false;
+							$check->resultText = JText::sprintf('JF_PERFORMANCE_NOT_OPTIMAL', $check->current, $check->optimal);
+						} else {
+							$check->result = true;
+							$check->resultText = JText::sprintf('JF_PERFORMANCE_OPTIMAL', $check->current, $check->optimal);
+						}
+					} elseif ($check->type=='php') {
+						$check->required = $child->getAttribute('required');
+						$check->optimal = $child->getAttribute('optimal_value');
+						$check->current = phpversion();
+						if (version_compare($check->current,$check->required,"<")){
+							$check->result = false;
+							$check->resultText = JText::sprintf('JF_PERFORMANCE_LESS_REQUIRED', $check->current, $check->required);
+						} elseif(version_compare($check->current,$check->required,">=") && version_compare($check->current,$check->optimal,"<")) {
+							$check->result = true;
+							$check->resultText = JText::sprintf('JF_PERFORMANCE_NOT_OPTIMAL', $check->current, $check->optimal);
+						} else {
+							$check->result = true;
+							$check->resultText = JText::sprintf('JF_PERFORMANCE_OPTIMAL', $check->current, $check->optimal);
+						}
+					} elseif ($check->type=='config') {
+						$check->value = $child->getAttribute('value');
+						$check->optimal = $child->getAttribute('optimal_value');
+						$jfm = JoomFishManager::getInstance();
+						$check->current = $jfm->getCfg($check->value);
+						if($check->current == $check->optimal) {
+							$check->result = true;
+							$check->resultText = JText::sprintf('JF_PERFORMANCE_CONFIG_OPTIMAL', JText::_($check->value), $check->current);
+						} else {
+							$check->result = false;
+							$check->resultText = JText::sprintf('JF_PERFORMANCE_CONFIG_NOT_OPTIMAL', JText::_($check->value), $check->current, $check->optimal);
+						}
+					}
+					
+					
+					$checkResult[$type][] = $check;
+					$checkResult[$type. '_state'] = $checkResult[$type. '_state'] & $check->result;
+					break;
 			}
 		}
 		return $checkResult;
 	}
 
-
+	
 	/**
 	 * Testing if old installation is found and upgraded?
+	 * This method is rebuild and checks now for old JoomFish installations not MambelFish anymore!
 	 * @return int		0 := component not installed, 1 := installed but not upgraded, 2 := installed and upgraded
 	 */
-	function _testOldInstall()
+	private function _testOldInstall()
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$oldInstall = 0;
 
-		$db->setQuery( "SHOW TABLES LIKE '%mbf_%'" );
+		$db->setQuery( "SHOW TABLES LIKE '%jf_%'" );
 		$db->query();
 		$rows = $db->loadResultArray();
 		foreach ($rows as $row) {
-			if( ereg( 'mbf_content', $row ) ) {
+			if( preg_match( '/mbf_content/i', $row ) ) {
 				$oldInstall = 1;
 				break;
 			}
@@ -297,8 +306,8 @@ class CPanelModelCPanel extends JModel
 	 * This method gethers certain information of the system which can be used for presenting
 	 * @return array with inforation about the system
 	 */
-	function _getSystemInfo() {
-		$db =& JFactory::getDBO();
+	private function _getSystemInfo() {
+		$db = JFactory::getDBO();
 
 		$db->setQuery( 'SELECT count(DISTINCT reference_id, reference_table) FROM #__jf_content');
 		$db->query();
@@ -313,12 +322,12 @@ class CPanelModelCPanel extends JModel
 	 *
 	 * @return array of orphan tables or nothing if no orphans found
 	 */
-	function _testOrphans( ) {
+	private function _testOrphans( ) {
 		global  $mainframe;
 
-		$config	=& JFactory::getConfig();
+		$config	= JFactory::getConfig();
 		$dbprefix = $config->get("dbprefix");
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$orphans = array();
 		$tranFilters=array();
@@ -370,9 +379,9 @@ class CPanelModelCPanel extends JModel
 	 * @param array		$languages	array of availabe languages
 	 * @return array	with resulting rows
 	 */
-	function _testOriginalStatus($originalStatus, &$phase, &$statecheck_i, &$message, $languages) {
+	private function _testOriginalStatus($originalStatus, &$phase, &$statecheck_i, &$message, $languages) {
 		$dbprefix = $config->get("dbprefix");
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$tranFilters=array();
 		$filterHTML=array();
 		$sql = '';
@@ -439,7 +448,7 @@ class CPanelModelCPanel extends JModel
 			case 2:
 				if( is_array($originalStatus) && count ($originalStatus)>0 ) {
 					if( $statecheck_i>=0 && $statecheck_i<count($originalStatus)) {
-						$stateRow =& $originalStatus[$statecheck_i];
+						$stateRow = $originalStatus[$statecheck_i];
 
 						foreach ($languages as $lang) {
 							$sql = "SELECT * FROM #__jf_content as jfc" .
@@ -481,8 +490,8 @@ class CPanelModelCPanel extends JModel
 	 * @param string	$statecheck_i	running row number starting with -1!
 	 * @param string	$message	system message
 	 */
-	function _testTranslationStatus( $translationStatus, &$phase, &$statecheck_i, &$message ) {
-		$db =& JFactory::getDBO();
+	private function _testTranslationStatus( $translationStatus, &$phase, &$statecheck_i, &$message ) {
+		$db = JFactory::getDBO();
 
 		$sql = '';
 
@@ -537,7 +546,7 @@ class CPanelModelCPanel extends JModel
 				if( is_array($translationStatus) && count ($translationStatus)>0 ) {
 
 					for ($i=0; $i<count($translationStatus); $i++) {
-						$stateRow =& $translationStatus[$i];
+						$stateRow = $translationStatus[$i];
 						$sql = "select *" .
 						"\n from #__jf_content as jfc" .
 						"\n where published=1" .
@@ -561,7 +570,7 @@ class CPanelModelCPanel extends JModel
 			case 3:
 				if( is_array($translationStatus) && count ($translationStatus)>0 ) {
 					if( $statecheck_i>=0 && $statecheck_i<count($translationStatus)) {
-						$stateRow =& $translationStatus[$statecheck_i];
+						$stateRow = $translationStatus[$statecheck_i];
 
 						$contentElement = $this->_joomfishManager->getContentElement( $stateRow['catid'] );
 						$filters = array();
@@ -619,8 +628,8 @@ class CPanelModelCPanel extends JModel
 	 * This method creates an overview of unpublished translations independed of the content element
 	 * @return array 	of unpublished translations or null
 	 */
-	function _testUnpublisedTranslations() {
-		$db =& JFactory::getDBO();
+	private function _testUnpublisedTranslations() {
+		$db = JFactory::getDBO();
 		$unpublishedTranslations = null;
 
 		$sql = "select jfc.reference_table, jfc.reference_id, jfc.language_id, jfl.name as language" .

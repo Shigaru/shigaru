@@ -1,0 +1,59 @@
+/*style for profile bar completeness box*/
+
+div#pro-comp-container{
+		padding:5px 40px 5px 0px;
+		border-top:solid 1px #99cce6;
+		background:transparent url(images/pro-box-bg.png) repeat-x left top;
+		clear:both;
+		border-bottom:solid 1px #cccccc;
+}
+
+/*style for process bar cover*/
+
+div#box{
+	/*width:100%;*/
+	height:12px;
+	color:#fff;
+	text-align:right;
+	padding:0px; 
+	border:solid 1px #000;
+	
+	
+}
+
+/*style for process bar*/
+
+div#bar{		
+	background:transparent url(images/pro-comp.png) repeat-x left top;
+	line-height:12px;
+	border-right:solid 1px #005b8e;
+	color:#000;
+	font-size:9px;
+}
+
+div#bar a{		
+	color:#000;
+	font-size:9px;
+	line-height:12px;
+}
+
+div#bar a:hover{		
+	color:#000;
+	font-size:9px;
+	line-height:12px;
+}
+
+/*style for profile username */
+
+div.pro-uname{
+		float:left;
+		margin-left:10px;
+}
+
+/*style for profile completeness display */
+
+div.pro-comp-ness{
+		padding:5px 0px 10px 0px;
+		
+}
+

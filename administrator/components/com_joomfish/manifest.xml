@@ -5,9 +5,9 @@
 	<author>Joom!Fish Project</author>
 	<authorEmail>support@joomfish.net</authorEmail>
 	<authorUrl>http://www.joomfish.net</authorUrl>
-	<creationDate>24 October 2009</creationDate>
-	<copyright>2003 - 2009, Think Network GmbH, Munich</copyright>
-	<version>2.0.4</version>
+	<creationDate>2011-04-16</creationDate>
+	<copyright>2003 - 2011, Think Network GmbH, Munich</copyright>
+	<version>2.1.7</version>
 	<description>
 		Multilingual extention and translation manager for Joomla! 1.5.x
 	</description>
@@ -34,8 +34,6 @@
 	<languages folder="site/language">
 		<language tag="en-GB">en-GB.com_joomfish.ini</language>
    	</languages>
-
-	<media />
 
 	<administration>
 		<menu img="components/com_joomfish/assets/images/icon-16-joomfish.png">Joom!Fish</menu>
@@ -275,5 +273,8 @@
 		<extension name="jfalternative"  type="plugins" field="published" value="1">element='jfalternative'</extension>
 		<extension name="mod_jflanguageselection"  type="modules" field="published" value="1">module='mod_jflanguageselection'</extension>
 	 	<extension name="mod_translate"  type="modules" field="published" value="1">module='mod_translate'</extension>
+	 	<performance name="mySQL Driver" type="database" check_function="mysqli_connect" check_true="mysqli" check_false="mysql" optimal_value="mysqli" link="index.php?option=com_config" />
+	 	<performance name="PHP Version" type="php" required="5.0.0" optimal_value="5.3.0" link="index.php?option=com_admin&amp;task=sysinfo" />
+	 	<performance name="Cache" type="config" value="transcaching" optimal_value="1" link="index.php?option=com_joomfish" />
 	</check>
 </install>

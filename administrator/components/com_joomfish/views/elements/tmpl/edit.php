@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,31 +25,31 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: edit.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: edit.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Views
  *
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 	global  $act, $task, $option;
-	$user =& JFactory::getUser();
-	$db =& JFactory::getDBO();
+	$user = JFactory::getUser();
+	$db = JFactory::getDBO();
 	//$this->_JoomlaHeader( JText::_('Content elements'), 'extensions', '', false );
 	$contentElement = $this->joomfishManager->getContentElement( $this->id );
 ?>
 <?php if ($this->showMessage) : ?>
 <?php echo $this->loadTemplate('message'); ?>
 <?php endif; ?>
+<form action="index.php" method="post" name="adminForm">
 <?php
 	jimport('joomla.html.pane');
-	$tabs = & JPane::getInstance('tabs');
+	$tabs =  JPane::getInstance('tabs');
 	echo $tabs->startPane("contentelements");
 	echo $tabs->startPanel(JText::_('CONFIGURATION'),"ElementConfig-page");
 	?>
-<form action="index.php" method="post" name="adminForm">
   <table class="adminList" cellspacing="1">
     <tr>
       <th colspan="3"><?php echo JText::_('General information');?></th>
@@ -189,4 +189,9 @@ defined('_JEXEC') or die();
 echo $tabs->endPanel();
 echo $tabs->endPane();
 	?>
+	<input type="hidden" name="option" value="com_joomfish" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 </form>

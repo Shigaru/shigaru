@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: ContentElementTable.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: ContentElementTable.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Models
  *
@@ -34,7 +34,7 @@
 
 
 // Don't allow direct linking
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 include_once(dirname(__FILE__).DS."ContentElementTableField.php");
 
@@ -43,9 +43,9 @@ include_once(dirname(__FILE__).DS."ContentElementTableField.php");
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003-2009 Think Network GmbH
+ * @copyright 2003 - 2011, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1251 $
+ * @version $Revision: 1551 $
  * @author Alex Kempkens <joomfish@thinknetwork.com>
  */
 class ContentElementTable {
@@ -59,7 +59,6 @@ class ContentElementTable {
 		$this->Name = trim( $tableElement->getAttribute( 'name' ) );
 
 		$tableFields = $tableElement->getElementsByTagName( 'field' );
-		$tableFields = $tableFields->toArray();
 		$this->Fields =array();
 		$this->IndexedFields =array();
 		foreach( $tableFields as $tablefieldElement ) {
@@ -68,9 +67,9 @@ class ContentElementTable {
 			$this->IndexedFields[$field->Name] = $field;
 		}
 
-		$filterElement = $tableElement->getElementsByPath('filter', 1);
-		if( $filterElement ) {
-			$this->Filter = $filterElement->getText();
+		$filterElement = $tableElement->getElementsByTagName('filter');
+		if( $filterElement && $filterElement->length>0 ) {
+			$this->Filter = $filterElement->item(0)->textContent;
 		}
 	}
 

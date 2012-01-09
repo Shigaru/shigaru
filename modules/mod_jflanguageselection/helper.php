@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,14 +25,16 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: helper.php 1416 2009-10-23 21:33:17Z akede $
+ * $Id: helper.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage mod_jflanguageselection
  *
 */
-
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+
+jimport('joomla.filesystem.file');
+
 
 // Prevent redifinition of class, when module is used in two separate locations
 if( !defined( 'JFMODULE_CLASS' ) ) {
@@ -99,14 +101,17 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 	 */
 		function _createHRef( $language , $modparams) {
 			// NB I pass the language in order to ensure I use the standard language cache files
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$pfunc = $db->_profile();
 
+			$uri = JURI::getInstance();
+			$currenturl = $uri->toString();
+			
 			$code = $language->getLanguageCode();
-			$app	= &JFactory::getApplication();
-			$router = &$app->getRouter();
-			$vars = $router->getVars();
+			$app	= JFactory::getApplication();
+			$router = $app->getRouter();
 
+			$vars = $router->getVars();
 			$href= "index.php";
 			$hrefVars = '';
 
@@ -118,22 +123,29 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 				if( $hrefVars != "" ) {
 					$hrefVars .= "&";
 				}
-				$hrefVars .= $k.'='.$filter->clean($v);
+				if(is_array($v)) {
+					$arrayValue = $filter->clean($v, 'array');
+					$arrayVars = '';
+					foreach (array_keys($arrayValue) as $akey) {
+						if( $arrayVars != '' ) {
+							$arrayVars .= "&";
+						}
+						$arrayVars .= $k.'['.$akey.']='.$filter->clean($arrayValue[$akey]);
+					}
+					$hrefVars .= $arrayVars;
+				} else {
+					$hrefVars .= $k.'='.$filter->clean($v);
+				}
 			}
 
 			// Add the existing variables
 			if( $hrefVars != "" ) {
 				$href .= '?' .$hrefVars;
 			}
-
-			$app	= &JFactory::getApplication();
-			$router = &$app->getRouter();
-			$uri = &JURI::getInstance();
-			$currenturl = $uri->toString();
 			
-			$params =& JComponentHelper::getParams("com_joomfish");
+			$params = JComponentHelper::getParams("com_joomfish");
 			if ($modparams->get("cache_href",1) && $params->get("transcaching",1)){
-				$jfm =& JoomFishManager::getInstance();
+				$jfm = JoomFishManager::getInstance();
 				$cache = $jfm->getCache($language->code);
 
 				$url = $cache->get( array("JFModuleHTML", '_createHRef2'), array($currenturl,$href, $code));
@@ -147,7 +159,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 		
 		function _createHRef2($currenturl,$href, $code) {
 			// Treat change of language specially because of problems if menu alias is translated
-			$registry =& JFactory::getConfig();
+			$registry = JFactory::getConfig();
 			$language = $registry->getValue("joomfish.language",null);
 			if($language != null) {
 				$jfLang = $language->getLanguageCode();
@@ -156,19 +168,19 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 			}
 
 			if ( !is_null($code) && $code != $jfLang){
-				$registry =& JFactory::getConfig();
+				$registry = JFactory::getConfig();
 				$sefLang = TableJFLanguage::createByShortcode($code, false);
 				$registry->setValue("joomfish.sef_lang", $sefLang->code);
 
 				// Should really do this with classes and clones - this is a proof of concept
-				$menu =& JSite::getMenu();
+				$menu = JSite::getMenu();
 				$menu->_items = JFModuleHTML::getJFMenu($sefLang->code, false, $menu->_items);
 				$url = JFModuleHTML::_route( $href, $sefLang);
 				$menu->_items = JFModuleHTML::getJFMenu($language->code, true);
 				$registry->setValue("joomfish.sef_lang", false);
 
 				/*
-				$menu  =& JSite::getMenu(true);
+				$menu  = JSite::getMenu(true);
 				if (version_compare(phpversion(), '5.0') >= 0) {
 				$keepmenu = clone($menu);
 				}
@@ -190,13 +202,13 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 		}
 
 		function _route($href,$sefLang){
-			$jfm =& JoomFishManager::getInstance();
-			$conf =& JFactory::getConfig();
+			$jfm = JoomFishManager::getInstance();
+			$conf = JFactory::getConfig();
 			$code = $sefLang->code;
 			if ($jfm->getCfg("transcaching",1) && $code!==$conf->getValue('config.defaultlang')){
 				$cache = $jfm->getCache($code);
 				// add ssl flag into cache determination
-				$uri = &JURI::getInstance();
+				$uri = JURI::getInstance();
 				$url = $cache->get( array("JFModuleHTML", 'getRoute'), array($href,$code,$uri->isSSL()));
 			}
 			else {
@@ -212,7 +224,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 			// Make secure to force router to add schema and host
 			// TODO watch that Joomla if introduces a new https host in the config that it is handled correctly
 			$ssl = 1; 
-			$registry =& JFactory::getConfig();
+			$registry = JFactory::getConfig();
 			$registry->setValue("joomfish.sef_host", false);
 			// Annoying thing is that this 'caches' the prefix as a static so we can't change the domain easily
 			$url  = JRoute::_( $href, true, $ssl);
@@ -222,7 +234,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 				$url = str_replace($currenthost, $sefhost, $url);
 			}
 			// if not secure then return url to unsecure state
-			$uri = &JURI::getInstance();
+			$uri = JURI::getInstance();
 			if (!$uri->isSSL()){
 				$url = str_replace("https://", "http://", $url);
 			}
@@ -239,7 +251,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 					JError::raiseWarning('SOME_ERROR_CODE', "Error translating Menus - missing currentLangMenuItems");
 					return false;
 				}
-				$db		= & JFactory::getDBO();
+				$db		=  JFactory::getDBO();
 
 				$sql	= 'SELECT m.*, c.`option` as component' .
 				' FROM #__menu AS m' .
@@ -250,7 +262,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 
 				// get untranslated menus first
 				// run through the translation code so that we get the correct reftablearray
-				$registry =& JFactory::getConfig();
+				$registry = JFactory::getConfig();
 				$defLang = $registry->getValue("config.defaultlang");
 				// done as array of one item so that joomla core menu code will work with it
 				if (!($menu = $db->loadObjectList('id',true, $defLang))) {
@@ -338,6 +350,19 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 			if ($a->sublevel==$b->sublevel) return 0;
 			return ($a->sublevel>$b->sublevel)?+1:-1;
 			
+		}
+
+		/**
+		 * Returns the language image based on the standard media folder (as configured in the component) or template information
+		 * The component parameters will be used as folder path within the template or starting with the root directory of your site
+		 * If the image is found in the current template + folder this reference is returned. Otherwise the reference from
+		 * JPATH_SITE + folder. The reference is not verified if the image exists!
+		 *  
+		 * @param	$language	JFLnaguage language object including the detailed information
+		 * @return	string		Path to the image found
+		 */
+		function getLanguageImageSource($language) {
+			return JoomfishExtensionHelper::getLanguageImageSource($language);
 		}
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,23 +25,23 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: ContentElementTableField.php 1391 2009-08-10 12:40:55Z geraint $
+ * $Id: ContentElementTableField.php 1580 2011-04-16 17:11:41Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
 
 // Don't allow direct linking
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * Description of a table field
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003-2009 Think Network GmbH
+ * @copyright 2003 - 2011, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1296 $
+ * @version $Revision: 1580 $
  * @author Alex Kempkens <joomfish@thinknetwork.com>
  */
 class ContentElementTablefield {
@@ -82,7 +82,7 @@ class ContentElementTablefield {
 	function ContentElementTablefield( $tablefieldElement ) {
 		$this->Type = trim( $tablefieldElement->getAttribute( 'type' ) );
 		$this->Name = trim( $tablefieldElement->getAttribute( 'name' ) );
-		$this->Lable = trim( $tablefieldElement->getText() );
+		$this->Lable = trim( $tablefieldElement->textContent );
 		$this->Translate = trim( $tablefieldElement->getAttribute( 'translate' ) );
 		$this->Option = trim( $tablefieldElement->getAttribute( 'option' ) );
 		$this->Length = intval( $tablefieldElement->getAttribute( 'length' ) );

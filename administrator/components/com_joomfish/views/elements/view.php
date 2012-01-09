@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,14 +25,14 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: view.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: view.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Views
  *
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'views.default.view',JOOMFISH_ADMINPATH);
 
@@ -48,7 +48,7 @@ class ElementsViewElements extends JoomfishViewDefault
 {
 	function display($tpl = null)
 	{
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		// browser title
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('Content elements'));
 		// set page title
@@ -95,7 +95,7 @@ class ElementsViewElements extends JoomfishViewDefault
 	function installer($tpl = null)
 	{
 		// browser title
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('CONTENT ELEMENT INSTALLER'));
 		
 		// set page title

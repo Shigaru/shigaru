@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: ContentElement.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: ContentElement.php 1580 2011-04-16 17:11:41Z akede $
  * @package joomfish
  * @subpackage Models
  *
@@ -33,7 +33,7 @@
 
 
 // Don't allow direct linking
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 include_once(dirname(__FILE__).DS."ContentElementTable.php");
 
@@ -42,9 +42,9 @@ include_once(dirname(__FILE__).DS."ContentElementTable.php");
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003-2009 Think Network GmbH
+ * @copyright 2003 - 2011, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1251 $
+ * @version $Revision: 1580 $
  * @author Alex Kempkens <joomfish@thinknetwork.com>
  */
 class ContentElement {
@@ -71,17 +71,17 @@ class ContentElement {
 		$this->_xmlFile = $xmlDoc;
 
 		if( isset($this->_xmlFile) ) {
-			$valueElement = $this->_xmlFile->getElementsByPath('name', 1);
-			$this->Name = trim($valueElement->getText());
+			$valueElement = $this->_xmlFile->getElementsByTagName('name')->item(0);
+			$this->Name = trim($valueElement->textContent);
 
-			$valueElement = $this->_xmlFile->getElementsByPath('author', 1);
-			$this->Author = trim($valueElement->getText());
+			$valueElement = $this->_xmlFile->getElementsByTagName('author')->item(0);
+			$this->Author = trim($valueElement->textContent);
 
-			$valueElement = $this->_xmlFile->getElementsByPath('version', 1);
-			$this->Version = trim($valueElement->getText());
+			$valueElement = $this->_xmlFile->getElementsByTagName('version')->item(0);
+			$this->Version = trim($valueElement->textContent);
 
-			$valueElement = $this->_xmlFile->getElementsByPath('description', 1);
-			$this->Description = trim($valueElement->getText());
+			$valueElement = $this->_xmlFile->getElementsByTagName('description')->item(0);
+			$this->Description = trim($valueElement->textContent);
 		}
 	}
 
@@ -89,7 +89,7 @@ class ContentElement {
 	*/
 	function getReferenceType() {
 		if( !isset($this->referenceInformation["type"]) && isset($this->_xmlFile) ) {
-			$tableElement = $this->_xmlFile->getElementsByPath('reference', 1);
+			$tableElement = $this->_xmlFile->getElementsByTagName('reference')->item(0);
 			$tableName = trim($tableElement->getAttribute( 'type' ));
 			$this->referenceInformation["type"] = $tableName;
 		}
@@ -103,14 +103,14 @@ class ContentElement {
 	function getAllFilters(){
 		$allFilters = array();
 		if(isset($this->_xmlFile) ) {
-			$fElement = $this->_xmlFile->getElementsByPath('translationfilters', 1);
+			$fElement = $this->_xmlFile->getElementsByTagName('translationfilters')->item(0);
 			if (!isset($fElement) || !$fElement->hasChildNodes()){
 				return $allFilters;
 			}
 			foreach ($fElement->childNodes as $child){
 				$type = $child->nodeName;
 				$filter = "_$type"."Filter";
-				$this->$filter=$child->getText();
+				$this->$filter=$child->textContent;
 				$allFilters[$type]=trim($this->$filter);
 			}
 		}
@@ -125,12 +125,13 @@ class ContentElement {
 	function getFilter($type){
 		$filter = "_$type"."Filter";
 		if( !isset($this->$filter) && isset($this->_xmlFile) ) {
-			$fElement = $this->_xmlFile->getElementsByPath('translationfilters/'.$type, 1);
+			$xpath = new DOMXPath($this->_xmlFile);
+			$fElement = $xpath->query('//translationfilters/'.$type);
 			if (!isset($fElement)){
 				$this->$filter=false;
 				return $this->$filter;
 			}
-			$this->$filter=trim($fElement->getText());
+			$this->$filter=trim($fElement->textContent);
 		}
 		return $this->$filter;
 
@@ -161,7 +162,9 @@ class ContentElement {
 	*/
 	function getTableName() {
 		if( !isset($this->referenceInformation["tablename"]) && isset($this->_xmlFile) ) {
-			$tableElement = $this->_xmlFile->getElementsByPath('reference/table', 1);
+			$xpath = new DOMXPath($this->_xmlFile);
+			$tableElement = $xpath->query('//reference/table')->item(0);
+
 			$tableName = trim($tableElement->getAttribute( 'name' ));
 			$this->referenceInformation["tablename"] = strtolower($tableName);
 		}
@@ -174,9 +177,9 @@ class ContentElement {
 	 */
 	function getReferenceId() {
 		if( isset($this->referenceInformation["tablename"]) && isset($this->_xmlFile) ) {
-			$tableElement = $this->_xmlFile->getElementsByPath('reference/table', 1);
+			$xpath = new DOMXPath($this->_xmlFile);
+			$tableElement = $xpath->query('//reference/table')->item(0);
 			$tableFields = $tableElement->getElementsByTagName('field');
-			$tableFields = $tableFields->toArray();
 
 			foreach ($tableFields as $field) {
 				if (trim($field->getAttribute('type'))=="referenceid") {
@@ -194,7 +197,8 @@ class ContentElement {
 	*/
 	function & getTable() {
 		if( !isset($this->referenceInformation["table"]) && isset($this->_xmlFile) ) {
-			$tableElement = $this->_xmlFile->getElementsByPath('reference/table', 1);
+			$xpath = new DOMXPath($this->_xmlFile);
+			$tableElement = $xpath->query('//reference/table')->item(0);
 
 			$this->referenceInformation["table"] = new ContentElementTable( $tableElement );
 		}
@@ -206,6 +210,7 @@ class ContentElement {
 	 * from the database
 	 */
 	function createContentSQL( $idLanguage=-1, $contentid=null, $limitStart=-1, $maxRows=-1 , $filters=array()) {
+		$db = JFactory::getDBO();
 		$sqlFields=null;
 		$where=array();
 		$order=null;
@@ -222,7 +227,7 @@ class ContentElement {
 					$contentid_exist = (isset($contentid) && $contentid!=-1 );
 					if( strtolower($tableField->Name) != "id" ) {
 						$sqlFields[] = 'c.' .$tableField->Name. ' as id';
-						if( $contentid_exist) $where[] = 'c.' .$tableField->Name. '=' .$contentid ;
+						if( $contentid_exist) $where[] = 'c.' .$tableField->Name. '=' .$db->Quote($contentid) ;
 					}
 					else {
 						if( $contentid_exist ) $where[] = 'c.id=' .$contentid ;
@@ -436,7 +441,7 @@ class ContentElement {
 	 * @return total number of elements
 	 */
 	function countReferences( $idLanguage=-1, $filters=array() ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		/*
 		$db->setQuery( $this->countContentSQL($idLanguage, $filters) );

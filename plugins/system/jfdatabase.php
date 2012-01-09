@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfdatabase.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: jfdatabase.php 1561 2011-04-16 09:10:26Z geraint $
  * @package joomfish
  * @subpackage jfdatabase
  * @version 2.0
@@ -81,7 +81,7 @@ class plgSystemJFDatabase extends JPlugin{
 		parent::__construct($subject, $config);
 
 		// put params in registry so I have easy access to them later
-		$conf =& JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		$conf->setValue("jfdatabase.params",$this->params);
 
 		$this->_config = array(
@@ -111,9 +111,12 @@ class plgSystemJFDatabase extends JPlugin{
 
 	function onAfterRender()
 	{
+		$db = JFactory::getDBO();
+		if (!is_array($db->profileData))	{
+			return;
+		}
 		$buffer = JResponse::getBody();
 		$info = "";
-		$db =& JFactory::getDBO();
 		$info .=  "<div style='font-size:11px'>";
 		uasort($db->profileData,array($this,"sortprofile"));
 		foreach ($db->profileData as $func=>$data) {
@@ -134,59 +137,39 @@ class plgSystemJFDatabase extends JPlugin{
 	 * @return void
 	 */
 	function _setupJFDatabase(){
-		if ($this->_config["adapter"] == "decorator") {
-			if (file_exists( JPATH_ADMINISTRATOR .DS. 'components' .DS. 'com_joomfish' .DS. 'jfdatabase_decorator.class.php' )) {
-				require_once( JPATH_ADMINISTRATOR .DS. 'components' .DS. 'com_joomfish' .DS. 'jfdatabase_decorator.class.php' );
+		if (file_exists( dirname(__FILE__).DS.'jfdatabase'.DS.'jfdatabase_inherit.php' )) {
+			require_once( dirname(__FILE__).DS.'jfdatabase'.DS.'jfdatabase_inherit.php' );
 
-				$db = & JFactory::getDBO();
-				$db = new JFDatabase();
+			$conf = JFactory::getConfig();
 
+			$host 		= $conf->getValue('config.host');
+			$user 		= $conf->getValue('config.user');
+			$password 	= $conf->getValue('config.password');
+			$db   		= $conf->getValue('config.db');
+			$dbprefix 	= $conf->getValue('config.dbprefix');
+			$dbtype 	= $conf->getValue('config.dbtype');
+			$debug 		= $conf->getValue('config.debug');
+			$driver 	= $conf->getValue('config.dbtype');
 
-				$conf =& JFactory::getConfig();
-				$conf->setValue('config.mbf_content', 1 );
-				$conf->setValue('config.multilingual_support', 1 );
+			$options = array("driver"=>$driver, "host"=>$host, "user"=>$user, "password"=>$password, "database"=>$db, "prefix"=>$dbprefix,"select"=>true);
 
-				// TODO: check on legacy mode on or off
-				$GLOBALS['database'] = $db;
+			$db = & JFactory::getDBO();
+			$db = new JFDatabase($options);
+			$debug = $conf->getValue('config.debug');
+			$db->debug($debug);
+
+			if ($db->getErrorNum() > 2) {
+				JError::raiseError('joomla.library:'.$db->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $db->getErrorMsg() );
 			}
-		}
-		else {
-			if (file_exists( dirname(__FILE__).DS.'jfdatabase'.DS.'jfdatabase_inherit.php' )) {
-				require_once( dirname(__FILE__).DS.'jfdatabase'.DS.'jfdatabase_inherit.php' );
 
-				$conf =& JFactory::getConfig();
+			$conf->setValue('config.mbf_content', 1 );
+			$conf->setValue('config.multilingual_support', 1 );
 
-				$host 		= $conf->getValue('config.host');
-				$user 		= $conf->getValue('config.user');
-				$password 	= $conf->getValue('config.password');
-				$db   		= $conf->getValue('config.db');
-				$dbprefix 	= $conf->getValue('config.dbprefix');
-				$dbtype 	= $conf->getValue('config.dbtype');
-				$debug 		= $conf->getValue('config.debug');
-				$driver 	= $conf->getValue('config.dbtype');
-
-				$options = array("driver"=>$driver, "host"=>$host, "user"=>$user, "password"=>$password, "database"=>$db, "prefix"=>$dbprefix,"select"=>true);
-
-				$db = & JFactory::getDBO();
-				$db = new JFDatabase($options);
-				$debug = $conf->getValue('config.debug');
-				$db->debug($debug);
-
-				if ($db->getErrorNum() > 2) {
-					JError::raiseError('joomla.library:'.$db->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $db->getErrorMsg() );
-				}
-
-				$conf->setValue('config.mbf_content', 1 );
-				$conf->setValue('config.multilingual_support', 1 );
-
-				// legacy mode only
-				// check on legacy mode on/off by testing existence of $database global
-				if (defined('_JLEGACY')  && array_key_exists('database',$GLOBALS)){
-					$GLOBALS['database'] = new mldatabase($options);
-					$GLOBALS['database']->debug($conf->getValue('config.debug'));
-				}
-
-				//echo phpinfo();
+			// legacy mode only
+			// check on legacy mode on/off by testing existence of $database global
+			if (defined('_JLEGACY')  && array_key_exists('database',$GLOBALS)){
+				$GLOBALS['database'] = new JFLegacyDatabase($options);
+				$GLOBALS['database']->debug($conf->getValue('config.debug'));
 			}
 		}
 
@@ -197,10 +180,5 @@ class plgSystemJFDatabase extends JPlugin{
 	  * @access private
 	  */
 	function _jfInitialize ( ) {
-		/* ToDo: check if we really need this any longer. Should be removed latest with 2.1
-		* @deprecated
-		*/
-		$GLOBALS[ '_JOOMFISH_MANAGER'] 	 =&  JoomFishManager::getInstance();
 	}
 }
-

@@ -47,7 +47,7 @@ class JConfig {
 	var $smtphost = 'localhost';
 	var $MetaAuthor = '1';
 	var $MetaTitle = '1';
-	var $lifetime = '9999';
+	var $lifetime = '1000';
 	var $session_handler = 'none';
 	var $password = 'vector2005';
 	var $sitename = 'Shigaru.com';

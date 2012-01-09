@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,12 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: manage.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: manage.php 1553 2011-03-24 14:26:25Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
@@ -56,13 +55,18 @@ class ManageModelManage extends JModel
 	function getLanguageList() {
 		$jfManager = JoomFishManager::getInstance();
 		$languages = $jfManager->getLanguages( false );		// all languages even non active once
+		$defaultLang = $this->get('DefaultLanguage');
+		$params = JComponentHelper::getParams( 'com_joomfish' );
+		$showDefaultLanguageAdmin = $params->get("showDefaultLanguageAdmin", false);
 		$langOptions = array();
 		$langOptions[] = array('value' => -1, 'text' => JText::_('Do not copy') );
 
 		if ( count($languages)>0 ) {
 			foreach( $languages as $language )
 			{
-				$langOptions[] = array('value' => $language->id, 'text' => $language->name );
+				if($language->code != $defaultLang || $showDefaultLanguageAdmin) {
+					$langOptions[] = array('value' => $language->id, 'text' => $language->name );
+				}
 			}
 		}
 		return $langOptions;
@@ -78,7 +82,7 @@ class ManageModelManage extends JModel
 	 * @return array	Information result array
 	 */
 	function copyOriginalToLanguage($original2languageInfo, &$phase, &$state_catid, $language_id, $overwrite, &$message) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$jfManager = JoomFishManager::getInstance();
 		$sql = '';
 
@@ -158,7 +162,7 @@ class ManageModelManage extends JModel
 
 							$rows = $db->loadObjectList();
 							if ($db->getErrorNum()) {
-								echo $db->stderr();
+								JError::raiseError( 500,JTEXT::_('Invalid Content SQL : ') .$db->getErrorMsg());
 								return false;
 							} else {
 								for( $i=0; $i<count($rows); $i++ ) {

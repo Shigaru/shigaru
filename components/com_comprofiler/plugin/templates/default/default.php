@@ -218,7 +218,10 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 			echo '</div></div></div><div id="cb_comp_register">';
 		}
 ?>
-<div class="componentheading"><?php echo $this->registerTitle; ?></div><div class="contentpaneopen"><div class="cb_comp_outer"><div class="cb_comp_inner cbHtmlEdit cbRegistration">
+<div class="componentheading"><?php echo JText::_('Sign Up with Shigaru.com'); ?></div><div class="f100 f120"><?php echo JText::_('Sign up now and start uploading and sharing your music tutorials with a worldwide audience, create your own profile, rate and add comments to videos and promote yourself! Become part of the fast growing shigaru.com community now!') ?> </div><div class="contentpaneopen"><div class="cb_comp_outer"><div class="cb_comp_inner cbHtmlEdit cbRegistration">
+<div id="contentSliderForm" class="clear">
+	<div id="wrapperSliderForm">
+		<div id="steps">
 <?php
 		if ( $this->topIcons ) {
 			echo '<div id="cbIconsTop">';
@@ -226,6 +229,8 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 			echo '</div>';
 		}
 		echo $this->regFormTag;		// '<form...>'
+		echo '<fieldset class="step">
+						<legend>'.JText::_('Sign Up with Shigaru.com').'<div class="f80 tblack fright">'.JText::_('Fields marked * are required.').'</div></legend>';
 	}
 	/**
 	 * Renders by ECHO the Registration form view NEW DIVs view:
@@ -304,7 +309,9 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 	 * here typically if you prefer to include a view-type php-html file you would include it.
 	 */
 	function _renderRegistrationFooter( ) {
-		echo '</form>';
+		echo '</fieldset></form></div>
+		</div>
+	</div>';
 		if ( $this->bottomIcons ) {
 			echo '<div id="cbIconsBottom">';
 			echo $this->bottomIcons;

@@ -1,12 +1,38 @@
 <?php
 /**
- * @version		$Id: uninstall.php 1344 2009-06-18 11:50:09Z akede $
- * @package		jXZine
- * @copyright	2005-2008 New Life in IT Pty Ltd.  All rights reserved.
+ * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ *
+ * All rights reserved.  The Joom!Fish project is a set of extentions for
+ * the content management system Joomla!. It enables Joomla!
+ * to manage multi lingual sites especially in all dynamic information
+ * which are stored in the database.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,USA.
+ *
+ * The "GNU General Public License" (GPL) is available at
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * -----------------------------------------------------------------------------
+ * @version		$Id: uninstall.php 1551 2011-03-24 13:03:07Z akede $
+ * @package		joomfish
+ * @copyright	2003 - 2011, Think Network GmbH, Munich
  * @license		GNU General Public License
  * 
  * This is the special installer addon created by Andrew Eddie and the team of jXtended.
  * We thank for this cool idea of extending the installation process easily
+ * copyright	2005-2008 New Life in IT Pty Ltd.  All rights reserved.
  */
 
 // no direct access
@@ -25,7 +51,7 @@ $status->plugins = array();
  * ---------------------------------------------------------------------------------------------
  ***********************************************************************************************/
 
-$modules = &$this->manifest->getElementByPath('modules');
+$modules = $this->manifest->getElementByPath('modules');
 if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 
 	foreach ($modules->children() as $module)
@@ -47,7 +73,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 		 * Database Processing Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Lets delete all the module copies for the type we are uninstalling
 		$query = 'SELECT `id`' .
@@ -86,18 +112,18 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
 		 */
 
 		// Remove all necessary files
-		$element = &$module->getElementByPath('files');
+		$element = $module->getElementByPath('files');
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			$this->parent->removeFiles($element, -1);
 		}
 
 		// Remove all necessary files
-		$element = &$module->getElementByPath('media');
+		$element = $module->getElementByPath('media');
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			$this->parent->removeFiles($element, -1);
 		}
 
-		$element = &$module->getElementByPath('languages');
+		$element = $module->getElementByPath('languages');
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			$this->parent->removeFiles($element, $mclient->id);
 		}
@@ -116,7 +142,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children())) {
  * ---------------------------------------------------------------------------------------------
  ***********************************************************************************************/
 
-$plugins = &$this->manifest->getElementByPath('plugins');
+$plugins = $this->manifest->getElementByPath('plugins');
 if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 
 	foreach ($plugins->children() as $plugin)
@@ -137,7 +163,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 		 * Database Processing Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Delete the plugins in the #__plugins table
 		$query = 'DELETE FROM #__plugins WHERE element = '.$db->Quote($pname).' AND folder = '.$db->Quote($pgroup);
@@ -154,12 +180,12 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children())) {
 		 */
 
 		// Remove all necessary files
-		$element = &$plugin->getElementByPath('files');
+		$element = $plugin->getElementByPath('files');
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			$this->parent->removeFiles($element, -1);
 		}
 
-		$element = &$plugin->getElementByPath('languages');
+		$element = $plugin->getElementByPath('languages');
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			$this->parent->removeFiles($element, 1);
 		}

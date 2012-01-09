@@ -219,7 +219,6 @@ class hwd_vs_ajax
 		}
 		$term = JRequest::getVar( 'term', '' );
 		$code = hwd_vs_tools::searchTinySong($term);
-		//var_dump($code);
 		echo json_encode($code);
 		exit;
 		}

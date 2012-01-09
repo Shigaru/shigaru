@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,12 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: statistics.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: statistics.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
@@ -62,7 +61,7 @@ class StatisticsModelStatistics extends JModel
 	 * @param string	$message	system message
 	 */
 	function testTranslationStatus( $translationStatus, &$phase, &$statecheck_i, &$message ) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$jfManager = JoomFishManager::getInstance();
 
 		$sql = '';
@@ -118,7 +117,7 @@ class StatisticsModelStatistics extends JModel
 				if( is_array($translationStatus) && count ($translationStatus)>0 ) {
 
 					for ($i=0; $i<count($translationStatus); $i++) {
-						$stateRow =& $translationStatus[$i];
+						$stateRow = $translationStatus[$i];
 						$sql = "select *" .
 						"\n from #__jf_content as jfc" .
 						"\n where published=1" .
@@ -142,7 +141,7 @@ class StatisticsModelStatistics extends JModel
 			case 3:
 				if( is_array($translationStatus) && count ($translationStatus)>0 ) {
 					if( $statecheck_i>=0 && $statecheck_i<count($translationStatus)) {
-						$stateRow =& $translationStatus[$statecheck_i];
+						$stateRow = $translationStatus[$statecheck_i];
 
 						$contentElement = $jfManager->getContentElement( $stateRow['catid'] );
 						$filters = array();
@@ -218,8 +217,8 @@ class StatisticsModelStatistics extends JModel
 	 * @return array	with resulting rows
 	 */
 	function testOriginalStatus($originalStatus, &$phase, &$statecheck_i, &$message, $languages) {
-		$db =& JFactory::getDBO();
-		$jfManager =& JoomFishManager::getInstance();
+		$db = JFactory::getDBO();
+		$jfManager = JoomFishManager::getInstance();
 		$tranFilters=array();
 		$filterHTML=array();
 		$sql = '';
@@ -286,7 +285,7 @@ class StatisticsModelStatistics extends JModel
 			case 2:
 				if( is_array($originalStatus) && count ($originalStatus)>0 ) {
 					if( $statecheck_i>=0 && $statecheck_i<count($originalStatus)) {
-						$stateRow =& $originalStatus[$statecheck_i];
+						$stateRow = $originalStatus[$statecheck_i];
 
 						foreach ($languages as $lang) {
 							$sql = "SELECT * FROM #__jf_content as jfc" .

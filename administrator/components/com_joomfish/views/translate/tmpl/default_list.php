@@ -2,7 +2,7 @@
 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -26,14 +26,14 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: default_list.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: default_list.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Views
  *
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $user =& JFactory::getUser();
 $db =& JFactory::getDBO();
@@ -89,10 +89,34 @@ if (isset($this->filterlist) && count($this->filterlist)>0){
         <?php		} ?>
       </td>
       <td>
-      	<a href="#edit" onclick="hideMainMenu(); return listItemTask('cb<?php echo $i;?>','translate.edit');"><?php echo $row->title; ?></a>
+      	<?php
+      	$title = $row->title;
+      	if(strlen($title) > 75) {
+      		$title = '<span title="' .$title. '">';
+      		$title .= substr($row->title,0, 75) .' ...';
+      		$title .= '</span>';
+      	}
+      	?>
+      	<a href="#edit" onclick="hideMainMenu(); return listItemTask('cb<?php echo $i;?>','translate.edit');"">
+      	<?php
+      	// Cutting the tile to a max number in order to support long title fields
+      	 echo $title; 
+      	?></a>
 			</td>
       <td nowrap><?php echo $row->language ? $row->language : JText::_('NOTRANSLATIONYET') ; ?></td>
-      <td><?php echo $row->titleTranslation ? $row->titleTranslation : '&nbsp;'; ?></td>
+      <td><?php
+      	$translation = $row->titleTranslation ? $row->titleTranslation : '&nbsp;';
+      	$output = '';
+      	if(strlen($translation) > 75) {
+      		$output = '<span title="' .$translation. '">';
+      		$output .= substr($translation,0, 75) .' ...';
+      		$output .= '</span>';
+      	} else {
+      		$output = $translation;
+      	}
+      
+       echo $output; 
+       ?></td>
 	  <td><?php echo $row->lastchanged ? JHTML::_('date', $row->lastchanged, JText::_('DATE_FORMAT_LC2')):"" ;?></td>
 				<?php
 				switch( $row->state ) {

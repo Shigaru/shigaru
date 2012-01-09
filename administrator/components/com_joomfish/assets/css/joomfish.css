@@ -1,6 +1,6 @@
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -24,7 +24,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: joomfish.css 1344 2009-06-18 11:50:09Z akede $
+ * $Id: joomfish.css 1571 2011-04-16 10:50:06Z akede $
  * @package joomfish
  * @subpackage joomfish
  *
@@ -116,3 +116,30 @@ table.adminform a.toolbar span {
 	margin: 0 auto; 
 	display: block;
 }
+
+a.jfclublogo {
+	float: right;
+	display: block;
+	position: relative;
+	top: -20px;
+}
+
+#jfToggleSidebarContainer {clear:both;text-align:right;}
+#jfToggleSidebar {
+	border:1px solid #ccc;
+	padding: 2px 4px 1px 20px;
+	text-decoration:none;
+	background: url("../images/sidebar.png") no-repeat scroll 0 0 #F6F6F6;
+	-moz-border-radius: 4px 4px 4px 4px;
+}
+#adminJFSidebar {vertical-align:top; padding-left:15px;padding-top:55px;width:300px;float:left;}
+#adminJFSidebar .jfSidebarInformation {border: 1px dashed #ccc;padding:0;width:100%;margin-bottom:10px;}
+#adminJFSidebar table thead th { 
+	background:none repeat scroll 0 0 #F0F0F0;
+	border-bottom:1px solid #999999;
+	border-left:1px solid #FFFFFF;
+	color:#666666;
+	text-align:center;
+	padding: 3px 4px 3px 4px;
+}
+div#jfcontent {}

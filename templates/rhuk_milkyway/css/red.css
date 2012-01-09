@@ -1,11 +1,5 @@
 /* red */
-a:link, a:visited {
-	color: #1188AA;
-}
 
-a:hover {
-	color: #eb1b25;
-}
 
 #pillmenu a:hover {
   color: #a10f15;

@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich, 2007-2009 GWE Systems Ltd
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich, 2007-2009 GWE Systems Ltd
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: contact.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: contact.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage jfrouter
  * @version 2.0
@@ -50,7 +50,7 @@ function JFRouterHelperContact ($router,&$uri){
 	$alias = $uri->getVar("alias",false);
 	$catalias = $uri->getVar("catalias",false);
 	
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	if ($id>0 && !$alias ){
 		if (!array_key_exists($id,$aliases)){
 			$sql = "SELECT c.alias FROM #__contact_details as c WHERE id=".$id;

@@ -20,8 +20,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/system.css" type="text/css" />
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/general.css" type="text/css" />
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
-<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/<?php echo $this->params->get('colorVariation'); ?>.css" type="text/css" />
-<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/<?php echo $this->params->get('backgroundVariation'); ?>_bg.css" type="text/css" />
 <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.min.js"></script>
 <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jcarousel.min.js"></script>
 <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-ui.min.js"></script>
@@ -42,7 +40,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <body id="page_bg"  class="color_<?php echo $this->params->get('colorVariation'); ?> bg_<?php echo $this->params->get('backgroundVariation'); ?> width_<?php echo $this->params->get('widthStyle'); ?>">
 <a name="up" id="up"></a>	
 <div id="totatwrapper">
-<div id="headerwrapper">
+
+<div class="center" align="center" id="center">
+	<div id="wrapper">
+		<div id="wrapper_r">
+			<div id="headerwrapper">
 <div id="header">
 				<div id="header_l">
 				<div id="logo"><a title="<?php echo JText::_('Shigaru.com Home page') ?>" href="<?php echo $this->baseurl ?>"><span><?php echo JText::_('The community for sharing musical knowledge') ?></span></a></div>
@@ -52,30 +54,26 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			</div>
 
 <div id="topNavBar">
-<?php
-	/**
-	$user =& JFactory::getUser();
-	
-	if (!$user->guest){
-			echo '<div id="grettings">';
-			echo JText::sprintf( 'LOGIN_GREETING', $user->name );
-			echo '</div>';
-		}
-		 
-	**/ 
-?>
-<jdoc:include type="modules" name="top" />
-
-<div id="search">
-				<jdoc:include type="modules" name="user4" />
-</div>
-
+		<?php
+			/**
+			$user =& JFactory::getUser();
+			
+			if (!$user->guest){
+					echo '<div id="grettings">';
+					echo JText::sprintf( 'LOGIN_GREETING', $user->name );
+					echo '</div>';
+				}
+				 
+			**/ 
+		?>
+		<jdoc:include type="modules" name="top" />
+		<jdoc:include type="modules" name="user4" />
 </div>			
+<div id="searchmod">
+		<jdoc:include type="modules" name="search" />		
+</div>
 </div>			
 <div class="clr"></div>
-<div class="center" align="center" id="center">
-	<div id="wrapper">
-		<div id="wrapper_r">
 			<div id="tabarea">
 				<div id="tabarea_l">
 					<div id="tabarea_r">
@@ -86,12 +84,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 						</div>
 					</div>
 				</div>
-			</div>
-
-			
-
-			<div id="pathway">
-				<jdoc:include type="modules" name="breadcrumb" />
 			</div>
 
 			<div class="clr"></div>
@@ -141,7 +133,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 							</table>
 							<div class="tcenter">
 								<?php echo JText::_('Think you can play better?') ?> 
-								<a href="<?php echo $this->baseurl ?>/index.php?option=com_hwdvideoshare&task=upload&Itemid=66&lang=en" title="<?php echo JText::_('Submit') ?>"><?php echo JText::_('Submit') ?> </a>
+								<a href="<?php echo $this->baseurl ?>/index.php?option=com_hwdvideoshare&task=upload&Itemid=66&lang=en" title="<?php echo JText::_('Submit') ?>"><b><?php echo JText::_('Submit') ?></b> </a>
 								<?php echo JText::_(' your videos now then! Or submit video tutorials you have found on other websites. What are you waiting for? Share your musical knowledge!') ?>
 							</div>
 						</div>
@@ -160,33 +152,35 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<div id="footerspacer"></div>
 		</div>
 
-		<div id="footer">
-			<div id="redbox">
-				<div id="redbox_t">
-					<div id="redbox_tl">
-						<div id="redbox_tr"></div>
-					</div>
-				</div>
-				<div id="redbox_m">
-					<jdoc:include type="modules" name="pagefooter" />
-					<div class="clr"></div>
-				</div>
-
-				<div id="redbox_b">
-					<div id="redbox_bl">
-						<div id="redbox_br"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="legalcopy">
-			<span class="red">&reg; 2008 www.shigaru.com.&copy; All Rights Reserved.&nbsp;Contact:&nbsp;</span>
-			<a id="direc" href="mailto:info@shigaru.com">info@shigaru.com</a>
-			
-		</div>
+		
 	</div>
 </div>
 </div>
+
+
+
+
+
+
+
+<div id="footer">
+            <div class="footer_links">
+				<div class="mtop6">
+					<strong>&reg; 2008 www.shigaru.com &copy; All Rights Reserved.</span>
+				&nbsp;Contact:&nbsp;<a id="direc" href="mailto:info@shigaru.com">info@shigaru.com</a></strong>
+				</div>
+            </div>
+            <div class="emboss" id="toggle_reasons">
+                <div class="lip"></div>
+                <div class="shadow"></div>
+                <div class="words">
+					<div class="footer_links">
+				<jdoc:include type="modules" name="pagefooter" />  
+				 </div> 		
+                    <p><a href="<?php echo $this->baseurl ?>/index.php?option=com_hwdvideoshare&task=upload&Itemid=66&lang=en" title="<?php echo JText::_('Submit a video now!') ?>"><?php echo JText::_('Submit a video now!') ?> </a></p>
+                </div>
+            </div>
+        </div>
 <jdoc:include type="modules" name="debug" />
 <jdoc:include type="modules" name="chat" />
 </body>

@@ -1,7 +1,7 @@
 <?php 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: dropdown.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: dropdown.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage mod_jflanguageselection
  *
@@ -78,6 +78,6 @@ if ( count($langActive)>0 ) {
 }
 
 if( $inc_jf_css && JFile::exists(JPATH_ROOT.DS.'modules'.DS.'mod_jflanguageselection'.DS.'tmpl'.DS.'mod_jflanguageselection.css') ) {
-	$document =& JFactory::getDocument();
+	$document = JFactory::getDocument();
 	$document->addStyleSheet(JURI::base(true).'/modules/mod_jflanguageselection/tmpl/mod_jflanguageselection.css');
 }

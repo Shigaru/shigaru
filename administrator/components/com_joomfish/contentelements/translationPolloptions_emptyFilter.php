@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -32,18 +32,18 @@
 */
 
 // Don't allow direct linking
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class translationPolloptions_emptyFilter extends translationFilter
 {
-	function translationPolloptions_emptyFilter ($contentElement){
+	public function __construct ($contentElement){
 		$this->filterNullValue=-1;
 		$this->filterType="polloptions_empty";
 		$this->filterField = $contentElement->getFilter("polloptions_empty");
-		parent::translationFilter($contentElement);
+		parent::__construct($contentElement);
 	}
 	
-	function _createFilter(){
+	public function createFilter(){
 		$db = JFactory::getDBO();
 		if (!$this->filterField ) return "";
 		// always hide empty poll options
@@ -59,7 +59,7 @@ class translationPolloptions_emptyFilter extends translationFilter
  * @param unknown_type $contentElement
  * @return unknown
  */
-	function _createfilterHTML(){
+	public function createFilterHTML(){
 		return "";
 	}
 

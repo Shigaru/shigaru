@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfalternative.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: jfalternative.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage jfalternative
  *
@@ -92,7 +92,6 @@ function botJoomfishAlternative(  &$row, &$params, $page=0 ) {
 		$row->text = preg_replace( $regex, $alttext, $row->text );
 	}
 	else {
-		global $_JOOMFISH_MANAGER;
 		$alttext = "<div class='jf_altlanguages'>";
 		$alttext .= JText::_('NO TRANSLATION AVAILABLE');
 		$alttext .= "</div>";

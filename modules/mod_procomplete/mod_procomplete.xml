@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>Profile Completeness</name> 
+	<author>Gouri Pawar - Techjoomla.com</author>
+	<creationDate>8th July 2009</creationDate>
+	<copyright>(C) 2009 Tekdi Eco Services</copyright>
+	<license> GNU/GPL</license>
+	<authorEmail>extensions@techjoomla.com</authorEmail>
+	<authorUrl>www.techjoomla.com</authorUrl>
+	<version>1.5.0</version>
+	<description>
+	<![CDATA[
+	<h2>Profile Completeness Plugin for Community Builder</h2>
+	<h3>Techjoomla.com. For All things Joomla ! </h3>
+	Thank You for downloading this module from <a href="http://www.techjoomla.com">www.techjoomla.com</a>
+	]]>	
+	</description>
+	<files>
+		<filename module="mod_procomplete">mod_procomplete.php</filename>
+		<filename module="mod_procomplete">english.php</filename>
+		<folder>element</folder>
+		<folder>assets</folder>
+	</files>
+	
+	<params addpath="/modules/mod_procomplete/element">
+		<param name="fields" type="cbfields" default="" label="Select fields : " description="Select fields For profile completeness bar" />
+		
+		<param name="name" type="radio" default="1" label="Name : " description="Show/Hide the name ">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+       	</param>   
+	
+		<param name="bars" type="radio" default="2" label="Profile Bar : " description="Show Bar/ Numeric / Both  ">
+			<option value="0">Bar</option>
+			<option value="1">Numeric</option>
+			<option value="2">Both</option>
+       	</param>     
+	
+		<param name="image" type="radio" default="1" label="Image :" description="Show/Hide the image ">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+       		</param>
+	</params>
+</install>

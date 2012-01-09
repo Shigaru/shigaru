@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,14 +25,14 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: edit.php 1391 2009-08-10 12:40:55Z geraint $
+ * $Id: edit.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Views
  *
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
 	* @return void
 	* @param object $this->actContentObject
@@ -41,11 +41,15 @@ defined('_JEXEC') or die();
 	* @desc Shows the dialog for the content translation
 	*/
 
+if ($this->showMessage) {
+	echo $this->loadTemplate('message');
+}
+
 $act=$this->act;
 $task=$this->task;
 $select_language_id = $this->select_language_id;
-$user =& JFactory::getUser();
-$db =& JFactory::getDBO();
+$user = JFactory::getUser();
+$db = JFactory::getDBO();
 $elementTable = $this->actContentObject->getTable();
 
 // Should use CSS for image waps - in the meantime to this.
@@ -56,7 +60,7 @@ $mainframe->addCustomHeadTag( $jsfile );
 //$this->_JoomlaHeader( JText::_('TITLE_TRANSLATION'), 'joomfish', '', false );
 
 jimport( 'joomla.html.editor' );
-$wysiwygeditor =& JFactory::getEditor();
+$wysiwygeditor = JFactory::getEditor();
 
 $editorFields=null;
 foreach ($this->tranFilters as $filter) {
@@ -64,8 +68,8 @@ foreach ($this->tranFilters as $filter) {
 }
 
 // check system and user editor and load appropriate copying script
-$user =& JFactory::getUser();
-$conf =& JFactory::getConfig();
+$user = JFactory::getUser();
+$conf = JFactory::getConfig();
 $editor = $conf->getValue('config.editor');
 
 // Place a reference to the element Table in the config so that it can be used in translation of urlparams !!!
@@ -115,13 +119,13 @@ else {
 		var toLang = selections[selection].text;
 		var toValue = selection = document.getElementsByName("language_id")[0].value;
 		if (fromIndex!=toValue){
-			answer = confirm("<?php echo ereg_replace( '<br />', '\n', JText::_('JS_CHANGE_TRANSLATION_LANGUAGE')); ?>");
+			answer = confirm("<?php echo preg_replace( '#<br\s*/>#', '\n', JText::_('JS_CHANGE_TRANSLATION_LANGUAGE')); ?>");
 			if (!answer) {
 				document.getElementsByName("language_id")[0].selectedIndex=fromIndex;
 			}
 		}
 		else {
-			alert("<?php echo ereg_replace( '<br />', '\n', JText::_('JS_REINSTATE_TRANSLATION_LANGUAGE')); ?>");
+			alert("<?php echo preg_replace( '#<br\s*/>#', '\n', JText::_('JS_REINSTATE_TRANSLATION_LANGUAGE',true)); ?>");
 		}
 	}
     </script>
@@ -133,7 +137,7 @@ else {
 			<?php
 			$k=1;
 			for( $i=0; $i<count($elementTable->Fields); $i++ ) {
-				$field =& $elementTable->Fields[$i];
+				$field = $elementTable->Fields[$i];
 				
 				$field->preHandle($elementTable);
 				$originalValue = $field->originalValue;
@@ -171,7 +175,7 @@ else {
 		      <td align="left" valign="top"><?php echo JText::_('ORIGINAL');?></td>
 		      <td align="left" valign="top" id="original_value_<?php echo $field->Name?>">
 		      <?php
-		      if (eregi("<form",$field->originalValue)){
+		      if (preg_match("/<form/i",$field->originalValue)){
 		      	$ovhref = JRoute::_("index3.php?option=com_joomfish&task=translate.originalvalue&field=".$field->Name."&cid=".$this->actContentObject->id."&lang=".$select_language_id);
 		      	echo '<a class="modal" rel="{handler: \'iframe\', size: {x: 700, y: 500}}" href="'.$ovhref.'" >'.JText::_("Content contains form - click here to view in popup window").'</a>';
 		      }
@@ -239,10 +243,11 @@ else {
 		    </tr>
 	      	<?php
 	      	}
+	      	// else if params
 	      	else {
 	      		// Special Params handling
 	      		// if translated value is blank then we always copy across the original value
-	      		$joomFishManager = & JoomFishManager::getInstance();
+	      		$joomFishManager =  JoomFishManager::getInstance();
 	      		if ($joomFishManager->getCfg('copyparams',1) &&  $translationContent->value==""){
 		      		$translationContent->value = $field->originalValue;
 	      		}
@@ -271,7 +276,6 @@ else {
 			      $transparams = new $tpclass($field->originalValue,$translationContent->value, $field->Name,$elementTable->Fields);
 			      $transparams->showOriginal();
 			      $transparams->showDefault();
-
 			      ?>
 			      </td>
 			      <td align="left" valign="top" class="translateparams">
@@ -302,7 +306,7 @@ else {
 	  <td valign="top" width="30%">
 		<?php
 		jimport('joomla.html.pane');
-		$tabs = & JPane::getInstance('tabs');
+		$tabs =  JPane::getInstance('tabs');
 		echo $tabs->startPane("translation");
 		echo $tabs->startPanel(JText::_('PUBLISHING'),"ItemInfo-page");
 	  ?>

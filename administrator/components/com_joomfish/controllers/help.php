@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: help.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: help.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage help
  *
 */
 
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -59,7 +59,7 @@ class HelpController extends JController  {
 	 */
 	function display( )
 	{
-		$this->view = & $this->getView("help");
+		$this->view =  $this->getView("help");
 		parent::display();
 	}
 	
@@ -70,7 +70,7 @@ class HelpController extends JController  {
 	
 	function postinstall() {
 		// get the view
-		$this->view = & $this->getView("help");
+		$this->view =  $this->getView("help");
 
 		// Set the layout
 		$this->view->setLayout('postinstall');
@@ -79,7 +79,7 @@ class HelpController extends JController  {
 	
 	function information() {
 		// get the view
-		$this->view = & $this->getView("help");
+		$this->view =  $this->getView("help");
 
 		// Set the layout
 		$this->view->setLayout('information');

@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
 	`params` text NOT NULL default '',
 	`ordering` int(11) NOT NULL default '0',
 	PRIMARY KEY  (`id`)
-	) TYPE=MyISAM AUTO_INCREMENT=2;
+	) ENGINE=MyISAM AUTO_INCREMENT=2;
 
 CREATE TABLE IF NOT EXISTS `#__jf_content` (
 	`id` int(10) unsigned NOT NULL auto_increment,
@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS `#__jf_content` (
 	PRIMARY KEY  (`id`),
 	INDEX `combo` (`reference_id` , `reference_field` , `reference_table`)
 
-	) TYPE=MyISAM AUTO_INCREMENT=1;
+	) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `#__jf_tableinfo` (
 	`id` int(11) NOT NULL auto_increment,
 	`joomlatablename` varchar(100) NOT NULL default '',
 	`tablepkID` varchar(100) NOT NULL default '',
 	PRIMARY KEY  (`id`)
-	) TYPE=MyISAM AUTO_INCREMENT=1;
+	) ENGINE=MyISAM AUTO_INCREMENT=1;

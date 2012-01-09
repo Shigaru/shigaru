@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: JCacheStorageJFDB.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: JCacheStorageJFDB.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage cache
  *
@@ -33,7 +33,7 @@
 
 
 // Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 //Register class that don't follow one file per class naming conventions
 JLoader::register('JCacheStorage' , JPATH_LIBRARIES .DS. 'joomla'.DS.'cache' .DS.'storage.php');
@@ -62,20 +62,20 @@ class JCacheStorageJfdb extends JCacheStorage
 	{
 		static $expiredCacheCleaned;
 
-		$this->profile_db = & JFactory::getDBO();
+		$this->profile_db =  JFactory::getDBO();
 		$this->db = clone ($this->profile_db);		
 
 		$this->_language	= (isset($options['language'])) ? $options['language'] : 'en-GB';
 		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : 60;
 		$this->_now		= (isset($options['now'])) ? $options['now'] : time();
 
-		$config			=& JFactory::getConfig();
+		$config			= JFactory::getConfig();
 		$this->_hash	= $config->getValue('config.secret');
 
 		// if its not the first instance of the joomfish db cache then check if it should be cleaned and otherwise garbage collect
 		if (!isset($expiredCacheCleaned)) {
 			// check a file in the 'file' cache to check if we should remove all our db cache entries since cache manage doesn't handle anything other than file caches
-			$conf =& JFactory::getConfig();
+			$conf = JFactory::getConfig();
 			$cachebase = $conf->getValue('config.cache_path',JPATH_ROOT.DS.'cache');
 			$cachepath = $cachebase.DS."joomfish-cache";
 			if (!JFolder::exists($cachepath)){
@@ -98,7 +98,7 @@ class JCacheStorageJfdb extends JCacheStorage
 	 *
 	 */
 	function setupDB() {
-		$db = & JFactory::getDBO();
+		$db =  JFactory::getDBO();
 		$charset = ($db->hasUTF()) ? 'CHARACTER SET utf8 COLLATE utf8_general_ci' : '';
 		$sql = "CREATE TABLE IF NOT EXISTS `#__dbcache` ("
 		. "\n `id` varchar ( 32 )  NOT NULL default '',"
@@ -111,8 +111,8 @@ class JCacheStorageJfdb extends JCacheStorage
 		. "\n ) $charset";
 		$db->setQuery( $sql );
 		if (!$db->query()){
-			echo $db->getErrorMsg()."<br/>";
-			echo $db->_sql;
+			JError::raiseError(500, $db->getErrorMsg());
+			//echo $db->_sql;
 		}
 	}
 
@@ -167,7 +167,7 @@ class JCacheStorageJfdb extends JCacheStorage
 	 */
 	function store($id, $group, $data)
 	{
-		//$this->db =& JFactory::getDBO();
+		//$this->db = JFactory::getDBO();
 		if (method_exists($this->profile_db,"_profile")) $pfunc = $this->profile_db->_profile();
 
 		$hashedid = md5($id.'-'.$this->_hash.'-'.$this->_language);
@@ -192,7 +192,7 @@ class JCacheStorageJfdb extends JCacheStorage
 	 */
 	function remove($id, $group)
 	{
-		//$this->db =& JFactory::getDBO();
+		//$this->db = JFactory::getDBO();
 		if (method_exists($this->profile_db,"_profile")) $pfunc = $this->profile_db->_profile();
 		$sql = "DELETE FROM `#__dbcache` WHERE id=".$this->db->quote($id)." AND groupname=".$this->db->quote($group);
 		$this->db->_skipSetRefTables=true;
@@ -216,7 +216,7 @@ class JCacheStorageJfdb extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
-		//$this->db =& JFactory::getDBO();
+		//$this->db = JFactory::getDBO();
 		if (method_exists($this->profile_db,"_profile")) $pfunc = $this->profile_db->_profile();
 		$result = false;
 		switch (trim($mode))
@@ -245,7 +245,7 @@ class JCacheStorageJfdb extends JCacheStorage
 	 */
 	function cleanCache()
 	{
-		//$this->db =& JFactory::getDBO();
+		//$this->db = JFactory::getDBO();
 		if (method_exists($this->profile_db,"_profile")) $pfunc = $this->profile_db->_profile();
 		$result = false;
 		$sql = "DELETE FROM `#__dbcache` ";
@@ -265,7 +265,7 @@ class JCacheStorageJfdb extends JCacheStorage
 	 */
 	function gc()
 	{
-		//$this->db =& JFactory::getDBO();
+		//$this->db = JFactory::getDBO();
 		if (method_exists($this->profile_db,"_profile")) $pfunc = $this->profile_db->_profile();
 		$sql = "DELETE FROM `#__dbcache` WHERE expire< FROM_UNIXTIME(".$this->db->quote($this->_now).")";
 		$this->db->setQuery($sql);

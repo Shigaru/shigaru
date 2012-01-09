@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfdatabase_inherit.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: jfdatabase_inherit.php 1559 2011-04-16 08:57:43Z geraint $
  * @package joomfish
  * @subpackage jfdatabase
  * @version 2.0
@@ -47,9 +47,9 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
  *
  * @package joomfish
  * @subpackage database
- * @copyright 2003-2009 Think Network GmbH
+ * @copyright 2003 - 2011, Think Network GmbH, Munich
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @version 1.0, 2009-01-07 $Revision: 1251 $
+ * @version 2.1, 2009-01-07 $Revision: 1559 $
  * @author Geraint Edwards
 */
 
@@ -76,9 +76,13 @@ class JFDatabase extends interceptDB {
 
 		$query = "select distinct reference_table from #__jf_content";
 		$this->setQuery( $query );
+		$this->_skipSetRefTables = true;
 		$this->_mlTableList = $this->loadResultArray(0,false);
+		$this->_skipSetRefTables = false;
 		if( !$this->_mlTableList ){
-			echo $this->getErrorMsg();
+			if ($this->getErrorNum()>0){
+				JError::raiseWarning( 200, JTEXT::_('No valid table list:') .$this->getErrorMsg());
+			}
 		}
 
 		$pfunc = $this->_profile($pfunc);
@@ -143,7 +147,7 @@ class JFDatabase extends interceptDB {
 		if (!$translate) return $count;
 
 		// setup Joomfish plugins
-		$dispatcher	   =& JDispatcher::getInstance();
+		$dispatcher	   = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('joomfish');
 
 		// must allow fall back for contnent table localisation to work
@@ -151,22 +155,22 @@ class JFDatabase extends interceptDB {
 		$refTablePrimaryKey = "";
 		$reference_table = "";
 		$ids="";
-		$jfm =& JoomFishManager::getInstance();
+		$jfm = JoomFishManager::getInstance();
 		$this->_setLanguage($language);
-		$registry =& JFactory::getConfig();
+		$registry = JFactory::getConfig();
 		$defaultLang = $registry->getValue("config.defaultlang");
 		if ($defaultLang == $language){
 			$rows = array($count);	
-			$dispatcher->trigger('onBeforeTranslation', array (&$rows, $ids, $reference_table, $language, $refTablePrimaryKey, $this->_getRefTables(), $this->_sql, $allowfallback));
+			$dispatcher->trigger('onBeforeTranslation', array (&$rows, &$ids, $reference_table, $language, $refTablePrimaryKey, $this->_getRefTables(), $this->_sql, $allowfallback));
 			$count = $rows[0];
 			return $count;
 		}
 
 		$rows = array($count);
 		
-		$dispatcher->trigger('onBeforeTranslation', array (&$rows, $ids, $reference_table, $language, $refTablePrimaryKey, $this->_getRefTables(), $this->_sql, $allowfallback));
+		$dispatcher->trigger('onBeforeTranslation', array (&$rows, &$ids, $reference_table, $language, $refTablePrimaryKey, $this->_getRefTables(), $this->_sql, $allowfallback));
 		
-		$dispatcher->trigger('onAfterTranslation', array (&$rows, $ids, $reference_table, $language, $refTablePrimaryKey, $this->_getRefTables(), $this->_sql, $allowfallback));
+		$dispatcher->trigger('onAfterTranslation', array (&$rows, &$ids, $reference_table, $language, $refTablePrimaryKey, $this->_getRefTables(), $this->_sql, $allowfallback));
 		$count = $rows[0];
 		return $count;
 	}
@@ -318,7 +322,7 @@ class JFDatabase extends interceptDB {
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
 	function loadObjectList( $key='', $translate=true, $language=null ) {
-		global $_JOOMFISH_MANAGER;
+		$jfManager = JoomFishManager::getInstance();
 
 		if (!$translate) {
 			$this->_skipSetRefTables=true;
@@ -329,7 +333,7 @@ class JFDatabase extends interceptDB {
 
 		$result = parent::loadObjectList( $key );
 
-		if( isset($_JOOMFISH_MANAGER)) {
+		if( isset($jfManager)) {
 			$this->_setLanguage($language);
 		}
 
@@ -337,14 +341,14 @@ class JFDatabase extends interceptDB {
 		// It does stop Joomfish plugins from working on missing translations e.g. regional content so disable for now
 		// Don't do it for now since translation caching is so effective
 		/*
-		$registry =& JFactory::getConfig();
+		$registry = JFactory::getConfig();
 		$defaultLang = $registry->getValue("config.defaultlang");
 		if ($defaultLang == $language){
 		$translate = false;
 		}
 		*/
 
-		if( isset($_JOOMFISH_MANAGER)) {
+		if( isset($jfManager)) {
 			$doTranslate=false;
 			$tables =$this->_getRefTables();
 			if ($tables == null) return $result; // an unstranslatable query to return result as is
@@ -360,11 +364,11 @@ class JFDatabase extends interceptDB {
 			}
 			if ($doTranslate ) {
 				$pfunc = $this->_profile();
-				if ($_JOOMFISH_MANAGER->getCfg("transcaching",1)){
+				if ($jfManager->getCfg("transcaching",1)){
 					// cache the results
 					// TODO call based on config
-					//$cache = &JFactory::getCache('jfquery');
-					$cache = $_JOOMFISH_MANAGER->getCache($language);
+					//$cache = JFactory::getCache('jfquery');
+					$cache = $jfManager->getCache($language);
 					$this->orig_limit	= $this->_limit;
 					$this->orig_offset	= $this->_offset;
 					$result = $cache->get( array("JoomFish", 'translateListCached'), array($result, $language, $this->_getRefTables() ));
@@ -464,17 +468,17 @@ class JFDatabase extends interceptDB {
 	* @param	boolean	passthru without storing information in a translation table
 	*/
 	function insertObject( $table, &$object, $keyName = NULL, $verbose=false , $passthru=false) {
-		global $_JOOMFISH_MANAGER;
-		if( isset($_JOOMFISH_MANAGER)) {
+		$jfManager = JoomFishManager::getInstance();
+		if( isset($jfManager)) {
 			$this->_setLanguage($language);
 		}
-		$conf	=& JFactory::getConfig();
+		$conf	= JFactory::getConfig();
 		$default_lang	= $conf->getValue('config.defaultlang');
 
 		// if the currect language is the site default language the translations will not be updated!
 		$passthru = $language == $default_lang;
 
-		if( !$passthru && isset($_JOOMFISH_MANAGER)) {
+		if( !$passthru && isset($jfManager)) {
 			//Must insert parent first to get reference id !
 			$parentInsertReturn = parent::insertObject( $table, $object, $keyName, $verbose);
 
@@ -482,16 +486,12 @@ class JFDatabase extends interceptDB {
 
 			$actContentObject=null;
 			if( isset($table) && $table!="" ) {
-				$tableName = ereg_replace( '^#__', '', $table);
+				$tableName = preg_replace( '/^#__/', '', $table);
 				if ($table != "#__jf_content" ){
-					// *** QUESTION ***//
-					// IS THIS TEST APPROPRIATE HERE - I THINK IT MEANS YOU CAN'T DO A FIRST TRANSLATION FOR A TABLE VIA THE FRONT END
-					// ** TEST BEFORE 1.8 **//
-					//if ($this->translatedContentAvailable($table)) {
-					$contentElement = $_JOOMFISH_MANAGER->getContentElement( $tableName );
+					$contentElement = $jfManager->getContentElement( $tableName );
 					if( isset( $contentElement ) ) {
 						include_once(JPATH_ADMINISTRATOR."/components/com_joomfish/models/ContentObject.php");
-						$actContentObject = new ContentObject( $_JOOMFISH_MANAGER->getLanguageID($language), $contentElement );
+						$actContentObject = new ContentObject( $jfManager->getLanguageID($language), $contentElement );
 						if( isset( $object->$keyName ) ) {
 							$actContentObject->loadFromContentID( $object->$keyName );
 							$actContentObject->updateMLContent( $object );
@@ -501,8 +501,8 @@ class JFDatabase extends interceptDB {
 								$actContentObject->published = ($object->published == 1) ? true : false;
 							}
 							if ($actContentObject->published){
-								if ( $_JOOMFISH_MANAGER->getCfg("frontEndPublish")){
-									$user =& JFactory::getUser();
+								if ( $jfManager->getCfg("frontEndPublish")){
+									$user = JFactory::getUser();
 									$access = new stdClass();
 									$access->canPublish =  $user->authorize('com_content', 'publish', 'content', 'all');
 									if ($access->canPublish) $actContentObject->setPublished($actContentObject->published);
@@ -510,9 +510,9 @@ class JFDatabase extends interceptDB {
 							}
 							$actContentObject->store();
 
-							if ($_JOOMFISH_MANAGER->getCfg("transcaching",1)){
+							if ($jfManager->getCfg("transcaching",1)){
 								// clean the cache!
-								$cache = $_JOOMFISH_MANAGER->getCache($language);
+								$cache = $jfManager->getCache($language);
 								$cache->clean();
 							}
 						}
@@ -549,30 +549,40 @@ class JFDatabase extends interceptDB {
 
 		$pfunc = $this->_profile();
 
-		global $_JOOMFISH_MANAGER;
+		$jfManager = JoomFishManager::getInstance();
 
-		if( isset($_JOOMFISH_MANAGER)) {
+		if( isset($jfManager)) {
 			$this->_setLanguage($language);
 		}
-		$conf	=& JFactory::getConfig();
+		$conf	= JFactory::getConfig();
 		$default_lang	= $conf->getValue('config.defaultlang');
 
+		// check if marked langage of content is the detaul language:
+		if ($table=='#__content' && isset($object->id) &&$object->id>0 ){
+			$test = JTable::getInstance("Content");
+			$test->load($object->id);
+			if ($test){
+				jimport('joomla.html.parameter');
+				$testparams = new JParameter($test->attribs);
+				$testlang = $testparams->get('language',false);
+				if ($testlang == $language){
+					// no translation should be created
+					$language = $default_lang;
+				}
+			}
+		}
 		// if the currect language is the site default language the translations will not be updated!
 		$passthru = $language == $default_lang;
 
-		if( !$passthru && isset($_JOOMFISH_MANAGER)) {
+		if( !$passthru && isset($jfManager)) {
 			$actContentObject=null;
 			if( isset($table) && $table!="") {
-				$tableName = ereg_replace( '^#__', '', $table);
+				$tableName = preg_replace( '/^#__/', '', $table);
 				if ($table != "#__jf_content" ){
-					// *** QUESTION ***//
-					// IS THIS TEST APPROPRIATE HERE - I THINK IT MEANS YOU CAN'T DO A FIRST TRANSLATION FOR A TABLE VIA THE FRONT END
-					// ** TEST BEFORE 1.8 **//
-					//if ($this->translatedContentAvailable($table)) {
-					$contentElement = $_JOOMFISH_MANAGER->getContentElement( $tableName );
+					$contentElement = $jfManager->getContentElement( $tableName );
 					if( isset( $contentElement ) ) {
 						include_once(JPATH_ADMINISTRATOR."/components/com_joomfish/models/ContentObject.php");
-						$actContentObject = new ContentObject( $_JOOMFISH_MANAGER->getLanguageID($language), $contentElement );
+						$actContentObject = new ContentObject( $jfManager->getLanguageID($language), $contentElement );
 						if( isset( $object->$keyName ) ) {
 							$actContentObject->loadFromContentID( $object->$keyName );
 							$actContentObject->updateMLContent( $object );
@@ -581,8 +591,8 @@ class JFDatabase extends interceptDB {
 							} else if ( isset( $object->published ) ) {
 								$actContentObject->published = ($object->published == 1) ? true : false;
 							}
-							if ( $_JOOMFISH_MANAGER->getCfg("frontEndPublish")){
-								$user =& JFactory::getUser();
+							if ( $jfManager->getCfg("frontEndPublish")){
+								$user = JFactory::getUser();
 								$access = new stdClass();
 								$access->canPublish =  $user->authorize('com_content', 'publish', 'content', 'all');
 								if ($access->canPublish) $actContentObject->setPublished($actContentObject->published);
@@ -590,15 +600,14 @@ class JFDatabase extends interceptDB {
 
 							$actContentObject->store();
 
-							if ($_JOOMFISH_MANAGER->getCfg("transcaching",1)){
+							if ($jfManager->getCfg("transcaching",1)){
 								// clean the cache!
-								$cache = $_JOOMFISH_MANAGER->getCache($language);
+								$cache = $jfManager->getCache($language);
 								$cache->clean();
 							}
 						}
 					}
 				}
-				//}
 			}
 
 			$pfunc = $this->_profile($pfunc);
@@ -621,7 +630,7 @@ class JFDatabase extends interceptDB {
 
 		$pfunc = $this->_profile();
 
-		$conf	=& JFactory::getConfig();
+		$conf	= JFactory::getConfig();
 		$dbprefix 	= $conf->getValue('config.dbprefix');
 
 		$posFrom = strpos( strtoupper($this->_sql), 'FROM ') + 5; // after 'FROM '
@@ -630,8 +639,8 @@ class JFDatabase extends interceptDB {
 		if( strpos( $table, ' ' ) !== false ) {
 			$table = substr( $table, 0, strpos( $table, ' ' ) );
 		}
-		if (isset($dbprefix) && strlen($dbprefix)>0) $table = ereg_replace( $dbprefix, '', $table);
-		$table = ereg_replace( "\n", "", $table) ;
+		if (isset($dbprefix) && strlen($dbprefix)>0) $table = preg_replace( '/'.$dbprefix.'/', '', $table);
+		$table = preg_replace( "/\n/", "", $table) ;
 
 		$pfunc = $this->_profile($pfunc);
 
@@ -644,8 +653,8 @@ class JFDatabase extends interceptDB {
 	 * @return n/a
 	 */
 	function query() {
-		parent::query();
-		if (!$this->_skipSetRefTables){
+		$success= parent::query();
+		if ($success && !$this->_skipSetRefTables){
 			$this->setRefTables();
 		}
 		return $this->_cursor;
@@ -668,19 +677,19 @@ class JFDatabase extends interceptDB {
 		$pfunc = $this->_profile();
 
 		// first priority to passed in language
-		if (!is_null($language)){
+		if (!is_null($language) && $language!=''){
 			return;
 		}
 		// second priority to language for build route function in other language
 		// ie so that module can translate the SEF URL
-		$registry =& JFactory::getConfig();
+		$registry = JFactory::getConfig();
 		$sefLang = $registry->getValue("joomfish.sef_lang", false);
 		if ($sefLang){
 			//$jfLang = TableJFLanguage::createByShortcode($sefLang, false);
 			$language = $sefLang;
 		}
 		else {
-			$jlang =& JFactory::getLanguage();
+			$jlang = JFactory::getLanguage();
 			$language = $jlang->getTag();
 		}
 
@@ -718,9 +727,9 @@ class JFDatabase extends interceptDB {
 	// function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
 }
 
-class mldatabase extends JFDatabase
+class JFLegacyDatabase extends JFDatabase
 {
-	function mldatabase($options){
+	function JFLegacyDatabase($options){
 		parent::JFDatabase( $options);
 	}
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: missing_translation.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: missing_translation.php 1551 2011-03-24 13:03:07Z akede $
  *
 */
 
@@ -53,22 +53,31 @@ class plgJoomfishMissing_Translation extends JPlugin
 	 * @param string $reference_table
 	 */
 	function onMissingTranslation(&$row_to_translate, $language, $reference_table, $tableArray){
-		global   $_JOOMFISH_MANAGER;
-		$conf	=& JFactory::getConfig();
+		$jfManager = JoomFishManager::getInstance();
+		$conf	= JFactory::getConfig();
 		$default_lang	= $conf->getValue('config.defaultlang');
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
-		$noTranslationBehaviour = $_JOOMFISH_MANAGER->getCfg( 'noTranslation' );
+		$noTranslationBehaviour = $jfManager->getCfg( 'noTranslation' );
+		// special case for reference_table == content if the original is in the language then don't mark as missing translation
+		if ($reference_table=="content" && isset($row_to_translate->attribs)){
+			$params = new JParameter($row_to_translate->attribs);			
+			$lang = $params->get("language","");
+			if ($language==$lang) {
+				$noTranslationBehaviour=0;
+			}
+		}
+
 		if( $noTranslationBehaviour  >= 1 && $language != $default_lang ) {
 			// don't even think about translations if none exist for the table
 			if ($db->translatedContentAvailable($reference_table)) {
 				// only offer alternatives for table == content
-				if( $reference_table == $_JOOMFISH_MANAGER->DEFAULT_CONTENTTYPE ) {
+				if( $reference_table == $jfManager->DEFAULT_CONTENTTYPE ) {
 					// get default text from joomfish language (if present)
-					$jflang =&  $conf->getValue("joomfish.language");
+					$jflang =  $conf->getValue("joomfish.language");
 					$langParams = new JParameter( $jflang->params );
-					$defaultText = $langParams->get('defaulttext',$_JOOMFISH_MANAGER->getCfg('defaultText'));
+					$defaultText = $langParams->get('defaulttext',$jfManager->getCfg('defaultText'));
 
 					if ($defaultText=="") {
 						$defaultText = '<div class="jfdefaulttext">' .JText::_('There are no translations available.'). '</div>';
@@ -81,11 +90,8 @@ class plgJoomfishMissing_Translation extends JPlugin
 					// since the contentelement files are loaded unnecessarily even when the content is cached!!
 
 					// cache this burdonsome analysis of field types
-					$cache = & JFactory::getCache('com_content');
-					$fieldInfo = $cache->call("JoomFish::_contentElementFields",$reference_table, $language);
-					//$contentElement = $_JOOMFISH_MANAGER->getContentElement( $reference_table );
-					//$contentObject = new ContentObject( $_JOOMFISH_MANAGER->getLanguageID($language), $contentElement );
-					//$textFields = $contentObject->getTextFields();
+					$cache =  JFactory::getCache('com_content');
+					$fieldInfo = $cache->call("JoomFish::contentElementFields",$reference_table, $language);
 					$textFields = $fieldInfo["textFields"];
 					if( $textFields !== null ) {
 						$defaultSet = false;

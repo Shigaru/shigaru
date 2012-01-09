@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: intercept.jdatabasemysql.php 1394 2009-08-10 13:41:11Z geraint $
+ * $Id: intercept.jdatabasemysql.php 1558 2011-04-16 08:51:55Z geraint $
  * @package joomfish
  * @subpackage jfdatabase
  * @version 2.0
@@ -44,7 +44,10 @@ class interceptDB extends JDatabaseMySQL {
 	 * @param unknown_type $options
 	 */
 	function __construct($options){
-		$db = & JFactory::getDBO();
+		$db =  JFactory::getDBO();
+		
+		// support for recovery of existing connections (Martin N. Brampton)
+		if (isset($this->_options)) $this->_options = $options;
 
 		$select		= array_key_exists('select', $options)	? $options['select']	: true;
 		$database	= array_key_exists('database',$options)	? $options['database']	: '';
@@ -57,7 +60,7 @@ class interceptDB extends JDatabaseMySQL {
 		}
 
 		// connect to the server
-		$this->_resource = & $db->_resource;
+		$this->_resource =  $db->_resource;
 
 		// finalize initialization
 		JDatabase::__construct($options);
@@ -73,10 +76,8 @@ class interceptDB extends JDatabaseMySQL {
 		if (!is_resource($this->_cursor)){
 			// This is a serious problem since we do not have a valid db connection
 			// or there is an error in the query
-			if ($this->getErrorNum()>0){
-				echo JText::_("No valid database connection")." ".$this->getErrorMsg()."<br/>";
-			}
-			return 0;
+			$error = JError::raiseError( 500, JTEXT::_('No valid database connection:') .$this->getErrorMsg());
+			return $error;
 		}
 
 		$fields = mysql_num_fields($this->_cursor);
@@ -114,7 +115,7 @@ class interceptDB extends JDatabaseMySQL {
 				$file = "$cacheDir/$file";
 				if (JFile::exists($file) && @filemtime($file) < $this->cacheExpiry) {
 					if (!JFile::delete($file)) {
-						echo "problems clearing cache file $file";
+						JError::raiseWarning ( 200, JText::_('problems clearing cache file ' .$file));
 					}
 				}
 			}
@@ -151,13 +152,13 @@ class interceptDB extends JDatabaseMySQL {
 		$pfunc = $this->_profile();
 
 		// Before joomfish manager is created since we can't translate so skip this anaylsis
-		global $_JOOMFISH_MANAGER;
-		if (!$_JOOMFISH_MANAGER) return;
+		$jfManager = JoomFishManager::getInstance();
+		if (!$jfManager) return;
 
 		// This could be speeded up by the use of a cache - but only of benefit is global caching is off
 		$tempsql = $this->_sql;
 		// only needed for selects at present - possibly add for inserts/updates later
-		if (strpos(strtoupper($tempsql),"SELECT")===false) {
+		if (strpos(strtoupper(trim($tempsql)),"SELECT")!==0) {
 			$pfunc = $this->_profile($pfunc);
 			return;
 		}
@@ -168,12 +169,12 @@ class interceptDB extends JDatabaseMySQL {
 			return;
 		}
 	
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 	
 		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		// we won't use this caching if FTP layer ie enabled
-		if ($_JOOMFISH_MANAGER->getCfg("qacaching",1) && $FTPOptions['enabled'] == 1){
+		if ($jfManager->getCfg("qacaching",1) && $FTPOptions['enabled'] == 1){
 			$cachepath = JPATH_CACHE;
 			$cachetime = $config->getValue('config.cachetime',0);
 			// remove time formats (assume all numbers are not necessay - this is experimental
@@ -199,7 +200,7 @@ class interceptDB extends JDatabaseMySQL {
 				$cacheFileContent = JFile::read($cacheFile);
 				$this->_refTables = unserialize($cacheFileContent);
 
-				if ($_JOOMFISH_MANAGER->getCfg("qalogging",0)){
+				if ($jfManager->getCfg("qalogging",0)){
 					$this->_logSetRefTablecache("r",$tempsql,$sql_exNos,$sqlHash);
 				}
 		
@@ -209,7 +210,7 @@ class interceptDB extends JDatabaseMySQL {
 			}
 
 			if($this->_cursor===true || $this->_cursor===false) {
-				if ($_JOOMFISH_MANAGER->getCfg("qalogging",0)){
+				if ($jfManager->getCfg("qalogging",0)){
 					$this->_logSetRefTablecache("wtf",$tempsql,$sql_exNos,$sqlHash);
 				}
 				$this->fillRefTableCache($cacheDir,$cacheFile);
@@ -225,9 +226,9 @@ class interceptDB extends JDatabaseMySQL {
 
 		//print "<br> $tempsql $this->_cursor $fields";
 
-		if ($_JOOMFISH_MANAGER->getCfg("qacaching",1) && $FTPOptions['enabled'] == 1){
+		if ($jfManager->getCfg("qacaching",1) && $FTPOptions['enabled'] == 1){
 			if ($fields<=0) {
-				if ($_JOOMFISH_MANAGER->getCfg("qalogging",0)){
+				if ($jfManager->getCfg("qalogging",0)){
 					$this->_logSetRefTablecache("w0f",$tempsql,$sql_exNos,$sqlHash);
 				}
 				$this->fillRefTableCache($cacheDir,$cacheFile);
@@ -257,7 +258,7 @@ class interceptDB extends JDatabaseMySQL {
 		for ($i = 0; $i < $fields; ++$i) {
 			$meta = $this->_getFieldMetaData($i);
 			if (!$meta) {
-				echo "No information available<br />\n";
+				echo JText::_("No information available<br />\n");
 			}
 			else {
 				$tempTable =  $meta->table;
@@ -325,8 +326,8 @@ class interceptDB extends JDatabaseMySQL {
 
 			}
 		}
-		if ($_JOOMFISH_MANAGER->getCfg("qacaching",1) && $fields>1 && $FTPOptions['enabled'] == 1){
-			if ($_JOOMFISH_MANAGER->getCfg("qalogging",0)){
+		if ($jfManager->getCfg("qacaching",1) && $fields>1 && $FTPOptions['enabled'] == 1){
+			if ($jfManager->getCfg("qalogging",0)){
 				$this->_logSetRefTablecache("wn",$tempsql,$sql_exNos,$sqlHash);
 			}
 			$this->fillRefTableCache($cacheDir,$cacheFile);

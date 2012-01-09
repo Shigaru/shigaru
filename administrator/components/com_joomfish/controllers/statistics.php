@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: statistics.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: statistics.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage statistics
  *
 */
 
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -71,7 +71,7 @@ class StatisticsController extends JController  {
 	 */
 	function display( )
 	{
-		$this->view = & $this->getView("statistics");
+		$this->view =  $this->getView("statistics");
 		parent::display();
 	}
 
@@ -85,8 +85,8 @@ class StatisticsController extends JController  {
 		$htmlResult = JText::_('MANAGEMENT_INTRO');
 		$link = '';
 		// get the view
-		$this->_view = & $this->getView("statistics");
-		$this->_model = & $this->getModel('statistics');
+		$this->_view =  $this->getView("statistics");
+		$this->_model =  $this->getModel('statistics');
 
 		switch ($type) {
 			case 'translation_status':

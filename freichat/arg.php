@@ -150,12 +150,12 @@
         /* Data base details */
         $con='mysql';
         $username='root';
-        $password='';
+        $password='vector2005';
         $client_db_name='shigaru';
         $host='localhost';
         $driver='JCB';
         $db_prefix='jos_';
-        $uid='4e5bacc35ca90';
+        $uid='4f0413a737926';
 
 
  /* NOTE:= Below setting only applies to users using custom driver*/

@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: view.php 1363 2009-06-23 06:17:04Z akede $
+ * $Id: view.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage Views
  *
 */
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::import( 'views.default.view',JOOMFISH_ADMINPATH);
 
@@ -49,7 +49,7 @@ class StatisticsViewStatistics extends JoomfishViewDefault
 	{
 		JHTML::stylesheet( 'joomfish.css', 'administrator/components/com_joomfish/assets/css/' );
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('TITLE_Statistics'));
 
 		// Set toolbar items for the page
@@ -66,9 +66,9 @@ class StatisticsViewStatistics extends JoomfishViewDefault
 		JSubMenuHelper::addEntry(JText::_('Content elements'), 'index2.php?option=com_joomfish&amp;task=elements.show', false);
 		JSubMenuHelper::addEntry(JText::_('HELP AND HOWTO'), 'index2.php?option=com_joomfish&amp;task=help.show', false);
 
-		$this->panelStates	= &$this->get('PanelStates');
-		$this->contentInfo	= &$this->get('ContentInfo');
-		$this->publishedTabs	= &$this->get('PublishedTabs');
+		$this->panelStates	= $this->get('PanelStates');
+		$this->contentInfo	= $this->get('ContentInfo');
+		$this->publishedTabs	= $this->get('PublishedTabs');
 
 		$this->assignRef('panelStates', $this->panelStates);
 		$this->assignRef('contentInfo', $this->contentInfo);

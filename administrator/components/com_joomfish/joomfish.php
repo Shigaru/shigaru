@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: joomfish.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: joomfish.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage joomfish
  *
 */
 
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.filesystem.path');
 
@@ -43,6 +43,7 @@ jimport('joomla.filesystem.path');
 /** required standard extentions **/
 require_once( JPATH_SITE .DS. 'components' .DS. 'com_joomfish' .DS. 'helpers' .DS. 'defines.php' );
 JLoader::register('JoomfishManager', JOOMFISH_ADMINPATH .DS. 'classes' .DS. 'JoomfishManager.class.php' );
+JLoader::register('JoomfishExtensionHelper', JOOMFISH_ADMINPATH .DS. 'helpers' .DS. 'extensionHelper.php' );
 JLoader::register('JoomFishVersion', JOOMFISH_ADMINPATH .DS. 'version.php' );
 $joomFishManager = JoomFishManager::getInstance( dirname( __FILE__ ) );
 
@@ -76,12 +77,10 @@ if (class_exists($controllerClass)) {
 	JError::raiseError(500, 'Invalid Controller Class - '.$controllerClass );
 }
 
-$config	=& JFactory::getConfig();
+$config	= JFactory::getConfig();
 
 // Perform the Request task
 $controller->execute($task);
 
 // Redirect if set by the controller
 $controller->redirect();
-$version = new JoomFishVersion();
-?><div align="center"><span class="smallgrey">Joom!Fish Version <?php echo $version->getVersion() .', '. $version->getCopyright();?> Copyright by <a href="http://www.ThinkNetwork.com" target="_blank" class="smallgrey">Think Network</a> and <a href="http://www.joomfish.net/en/the-project/the-team" target="_blank" class="smallgrey">other contributors</a>, all rights reserved.</span></div>

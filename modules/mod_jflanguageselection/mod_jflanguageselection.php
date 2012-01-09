@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: mod_jflanguageselection.php 1396 2009-08-20 09:25:19Z geraint $
+ * $Id: mod_jflanguageselection.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage mod_jflanguageselection
  *
@@ -34,11 +34,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$db =& JFactory::getDBO();
-if (!is_a($db,"JFDatabase")){
+JLoader::register('JoomfishExtensionHelper', JOOMFISH_ADMINPATH .DS. 'helpers' .DS. 'extensionHelper.php' );
+if (!JoomfishExtensionHelper::isJoomFishActive()){
 	echo JText::_("Joomfish System Plugin not enabled");
 	return;
 }
+$db = JFactory::getDBO();
 $db->_profile("langmod",true);
 
 // Include the helper functions only once
@@ -58,7 +59,7 @@ $jfManager = JoomFishManager::getInstance();
 $langActive = $jfManager->getActiveLanguages(true);
 
 // setup Joomfish plugins
-$dispatcher	   =& JDispatcher::getInstance();
+$dispatcher	   = JDispatcher::getInstance();
 JPluginHelper::importPlugin('joomfish');
 $dispatcher->trigger('onAfterModuleActiveLanguages', array (&$langActive));
 
@@ -75,7 +76,7 @@ if (!array_key_exists($curLanguage->getTag(),$langActive)){
 	//$currentlang = current($langActive);
 	//global $mainframe;
 	//$mainframe->redirect(JRoute::_("index.php?lang=".$currentlang->iso));
-	$registry =& JFactory::getConfig();
+	$registry = JFactory::getConfig();
 	$deflang = $registry->getValue("config.defaultlang");
 	global $mainframe;
 	$mainframe->redirect(JRoute::_("index.php?lang=".$deflang));
@@ -89,3 +90,6 @@ require($layout);
 $db->_profile("langlayout");
 $version = new JoomFishVersion();
 ?>
+<!--JoomFish <?php echo $version->getVersion();?>-->
+<!-- <?php echo $version->getCopyright();?> Think Network, released under the GPL. -->
+<!-- More information: at http://www.joomfish.net -->

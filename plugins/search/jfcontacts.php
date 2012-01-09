@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011 Think Network GmbH, Munich
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfcontacts.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: jfcontacts.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage jfcontacts
  *
@@ -46,10 +46,10 @@ JPlugin::loadLanguage( 'plg_search_jfcontacts' );
 */
 function plgSearchJFContacts( $text, $phrase='', $ordering='', $areas=null )
 {
-	$db		=& JFactory::getDBO();
-	$user	=& JFactory::getUser();
+	$db		= JFactory::getDBO();
+	$user	= JFactory::getUser();
 
-	$registry =& JFactory::getConfig();
+	$registry = JFactory::getConfig();
 	$lang = $registry->getValue("config.jflang");
 
 	if (is_array( $areas )) {
@@ -59,7 +59,7 @@ function plgSearchJFContacts( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'jfcontacts');
+ 	$plugin = JPluginHelper::getPlugin('search', 'jfcontacts');
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );

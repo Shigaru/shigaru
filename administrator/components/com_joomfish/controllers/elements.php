@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: elements.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: elements.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage elements
  *
 */
 
-defined( 'JPATH_BASE' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -77,7 +77,7 @@ class ElementsController extends JController   {
 			$this->cid = array(0);
 		}
 		$this->fileCode =  JRequest::getVar( 'fileCode', '' );
-		$this->_joomfishManager =& JoomFishManager::getInstance();
+		$this->_joomfishManager = JoomFishManager::getInstance();
 
 		$this->registerTask( 'show', 'showCElementConfig' );
 		$this->registerTask( 'detail', 'showElementConfiguration' );
@@ -95,7 +95,7 @@ class ElementsController extends JController   {
 		
 		// Populate common data used by view
 		// get the view
-		$this->view = & $this->getView("elements");
+		$this->view =  $this->getView("elements");
 
 		// Assign data for view 
 		$this->view->assignRef('catid'   , $this->_catid);
@@ -106,7 +106,7 @@ class ElementsController extends JController   {
 
 	// DONE
 	function showCElementConfig() {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		JoomfishControllerHelper::_setupContentElementCache();
 
@@ -125,10 +125,10 @@ class ElementsController extends JController   {
 				$msg = JText::_('Fileupload successful');
 			}
 			else {
-				JError::raiseError('SOME_ERROR_CODE', JText::_('Fileupload not successful'));
+				JError::raiseError(417, JText::_('Fileupload not successful'));
 			}
 		} else {
-			JError::raiseError('SOME_ERROR_CODE', JText::_('Fileupload not successful'));
+			JError::raiseError(418, JText::_('Fileupload not successful'));
 		}
 		$this->setRedirect('index.php?option=com_joomfish&task=elements.installer', $msg);;	
 	}
@@ -167,7 +167,7 @@ class ElementsController extends JController   {
 	 */
 	//DONE
 	function showElementOverview() {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		global  $mainframe;
 
 		$limit = $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', 10 );
@@ -178,7 +178,7 @@ class ElementsController extends JController   {
 		$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 		// get the view
-		$view = & $this->getView("elements");
+		$view =  $this->getView("elements");
 
 		// Set the layout
 		$view->setLayout('default');
@@ -198,7 +198,7 @@ class ElementsController extends JController   {
 			$id = $cid[0];
 		}
 		// get the view
-		$view = & $this->getView("elements");
+		$view =  $this->getView("elements");
 
 		// Set the layout
 		$view->setLayout('edit');
@@ -218,7 +218,7 @@ class ElementsController extends JController   {
 	function showContentElementsInstaller() {
 		$cElements = $this->_joomfishManager->getContentElements(true);
 		// get the view
-		$view = & $this->getView("elements");
+		$view =  $this->getView("elements");
 
 		// Set the layout
 		$view->setLayout('installer');

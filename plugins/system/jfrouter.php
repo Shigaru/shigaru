@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfrouter.php 1395 2009-08-20 09:21:32Z geraint $
+ * $Id: jfrouter.php 1567 2011-04-16 09:47:46Z akede $
  * @package joomfish
  * @subpackage jfrouter
  * @version 2.0
@@ -79,19 +79,19 @@ class plgSystemJFRouter extends JPlugin{
 		parent::__construct($subject, $config);
 
 		// put params in registry so I have easy access to them later
-		$conf =& JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		$conf->setValue("jfrouter.params",$this->params);
 
 		// Must do this here in case other plugins instantiate language!
 		// Get the router
-		$app	= &JFactory::getApplication();
-		$router = &$app->getRouter();
+		$app	= JFactory::getApplication();
+		$router = $app->getRouter();
 
 		// atttach build rules for language
 		$router->attachBuildRule("routeJFRule");
 
 		// This gets the language from the router before any other part of Joomla can load the language !!
-		$uri = &JURI::getInstance();
+		$uri = JURI::getInstance();
 		$this->parseJFRule($router, $uri);
 	}
 
@@ -103,7 +103,7 @@ class plgSystemJFRouter extends JPlugin{
 		}
 		$discovered=true;
 
-		$registry =& JFactory::getConfig();
+		$registry = JFactory::getConfig();
 
 		// Find language without loading strings		
 		$locale	= $registry->getValue('config.language');
@@ -111,7 +111,8 @@ class plgSystemJFRouter extends JPlugin{
 		// Attention - we need to access the site default values
 		// #12943 explains that a user might overwrite the orignial settings based on his own profile
 		$langparams = JComponentHelper::getParams('com_languages');
-		$registry->setValue("config.defaultlang",$langparams->get("site"));
+		$defLanguage = $langparams->get("site");
+		$registry->setValue("config.defaultlang", (isset($defLanguage) && $defLanguage!='') ? $defLanguage : $locale);
 
 		// get params from registry in case function called statically
 		$params = $registry->getValue("jfrouter.params");
@@ -122,7 +123,7 @@ class plgSystemJFRouter extends JPlugin{
 		$enableCookie			= $params->get( 'enableCookie', 1 );
 
 		// get instance of JoomFishManager to obtain active language list and config values
-		$jfm =&  JoomFishManager::getInstance();
+		$jfm =  JoomFishManager::getInstance();
 	
 		$client_lang = '';
 		$lang_known = false;
@@ -132,7 +133,7 @@ class plgSystemJFRouter extends JPlugin{
 			$lang_known = true;
 		}
 
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		if ($requestlang = JRequest::getVar('lang', null ,"REQUEST")){
 			if( $requestlang != '' ) {
 				$client_lang = $requestlang;
@@ -143,7 +144,7 @@ class plgSystemJFRouter extends JPlugin{
 		// no language choosen - Test plugin e.g. IP lookup tool
 		if ( !$lang_known)	{
 			// setup Joomfish pluginds
-			$dispatcher	   =& JDispatcher::getInstance();
+			$dispatcher	   = JDispatcher::getInstance();
 			$iplang="";
 			JPluginHelper::importPlugin('joomfish');
 			$dispatcher->trigger('onDiscoverLanguage', array (& $iplang));
@@ -185,8 +186,8 @@ class plgSystemJFRouter extends JPlugin{
 
 					foreach ($activeLanguages as $alang) {
 						$active_iso[] = $alang->iso;
-						if( eregi('[_-]', $alang->iso) ) {
-							$isocountry = split('[_-]',$alang->iso);
+						if( preg_match('/[_-]/i', $alang->iso) ) {
+							$isocountry = preg_split('[_-]',$alang->iso);
 							$active_isocountry[] = $isocountry[0];
 						}
 						$active_code[] = $alang->shortcode;
@@ -235,7 +236,7 @@ class plgSystemJFRouter extends JPlugin{
 				$vars = explode( "&", $queryString );
 				if( count($vars) > 0 && $queryString) {
 					foreach ($vars as $var) {
-						if( eregi('=', $var ) ) {
+						if( preg('/=/i', $var ) ) {
 							list($key, $value) = explode( "=", $var);
 							if( $key != "lang" ) {
 								if( $hrefVars != "" ) {
@@ -333,7 +334,7 @@ class plgSystemJFRouter extends JPlugin{
 		$registry->setValue("joomfish.language",$jfLang);
 
 		// Force factory static instance to be updated if necessary
-		$lang =& JFactory::getLanguage();
+		$lang = & JFactory::getLanguage();
 		if ($jfLang->code != $lang->getTag()){
 			// Must not assign by reference in order to overwrite the existing reference to the static instance of the language
 			$lang = JFactory::_createLanguage();
@@ -379,20 +380,20 @@ class plgSystemJFRouter extends JPlugin{
 		//echo "got here too lang = ".$uri->getVar("lang","")."<br/>";
 		$route = $uri->getPath();
 
-		$conf =& JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		$params = $conf->getValue("jfrouter.params");
 
 		$sefordomain = $params->get("sefordomain","sefprefix");
 
-		if ($sefordomain == "subdomain"){
+		if ($sefordomain == "domain"){
 			$host = $uri->getHost();
 			// TODO cache the indexed array
 			$rawsubdomains = $params->getValue("sefsubdomain",array());
 			$subdomains = array();
-			$jfm =&  JoomFishManager::getInstance();
+			$jfm =  JoomFishManager::getInstance();
 			$langs = $jfm->getLanguagesIndexedById();
 			foreach ($rawsubdomains as $domain) {
-				list($langid,$domain) = split("::",$domain,2);
+				list($langid,$domain) = explode("::",$domain,2);
 				// if you have inactive languages and are not logged in then skip inactive language
 				if (!array_key_exists($langid, $langs)) continue;
 				$domain = strtolower(str_replace("http://","",$domain));
@@ -408,7 +409,7 @@ class plgSystemJFRouter extends JPlugin{
 				JRequest::setVar('lang', $lang );
 				// I need to discover language here since menu is loaded in router
 				plgSystemJFRouter::_discoverJFLanguage();
-				$config =& JFactory::getConfig();
+				$config = JFactory::getConfig();
 				// TODO fix this for HTTPS
 				$config->setValue('config.live_site',"http://".$host);
 				$config->setValue("joomfish.current_host",$host);
@@ -425,7 +426,7 @@ class plgSystemJFRouter extends JPlugin{
 			$route = str_replace($livesite_path,"",$route);
 			*/
 
-			$jfm =&  JoomFishManager::getInstance();
+			$jfm =  JoomFishManager::getInstance();
 			$langs = $jfm->getLanguagesIndexedById();
 
 			$sefprefixes = $params->getValue("sefprefixes",array());
@@ -436,7 +437,7 @@ class plgSystemJFRouter extends JPlugin{
 			}
 			if (count($sefprefixes)<count($langs)){
 				foreach ($sefprefixes as $prefix) {
-					list($langid,$prefix) = split("::",$prefix,2);
+					list($langid,$prefix) = explode("::",$prefix,2);
 					if (array_key_exists($langid,$langs)){
 						$langs[$langid]->hasprefix = true;
 					}
@@ -456,8 +457,8 @@ class plgSystemJFRouter extends JPlugin{
 					continue;
 				}
 				foreach ($sefprefixes as $prefix) {
-					list($langid,$prefix) = split("::",$prefix,2);
-					// split off any suffix
+					list($langid,$prefix) = explode("::",$prefix,2);
+					// explode off any suffix
 					if (strpos($segments[$seg],".")>0){
 						$segcompare = substr($segments[$seg],0, strpos($segments[$seg],"."));
 						// Trap for pdf, feed of html info in the extension
@@ -470,6 +471,19 @@ class plgSystemJFRouter extends JPlugin{
 					else {
 						$segcompare = $segments[$seg];
 					}
+					// including fix for suffix based url's and feeds
+					if ($conf->getValue('sef_suffix')==1 && $conf->getValue('sef_rewrite')==1 && $conf->getValue('sef') ) {
+						for ($l=0; $l<count($segments);$l++) {
+							if (!empty ($segments[$l]) ) {
+								$format = explode (".",$segments[$l]);
+								if (!empty($format[1]) && trim($format[1])!=="" && trim($format[1])!=="php") {
+									$uri->setVar("format",$format[1]);
+									JRequest::setVar('format', $format[1]);
+									break;
+								}
+							}
+						}
+					}
 					// does the segment match the prefix
 					if ($segcompare==$prefix){
 																				
@@ -481,8 +495,8 @@ class plgSystemJFRouter extends JPlugin{
 							if (strlen($segment)>0) $homepage = false;
 						}
 						if ($homepage){
-							$current =& JURI::current();
-							$uri	 = & JURI::getInstance();
+							$current = JURI::current();
+							$uri	 =  JURI::getInstance();
 							$current = $uri->toString( array('scheme', 'host', 'port', 'path'));
 						}
 
@@ -510,7 +524,7 @@ class plgSystemJFRouter extends JPlugin{
 }
 
 function routeJFRule($router, &$uri){
-	$registry =& JFactory::getConfig();
+	$registry = JFactory::getConfig();
 	$multilingual_support= $registry->getValue("config.multilingual_support",false);
 	$jfLang = $registry->getValue("joomfish.language", false);
 	if ($multilingual_support && $jfLang){
@@ -520,28 +534,28 @@ function routeJFRule($router, &$uri){
 		// this is dependent on Joomfish router being first!!
 		$lang=$uri->getVar("lang","");
 
-		$conf =& JFactory::getConfig();
+		$conf = JFactory::getConfig();
 
 		// This may not ready at this stage
 		$params = $conf->getValue("jfrouter.params");
 
 		// so load plugin parameters directly
 		if (is_null($params)){
-			$params =& JPluginHelper::getPlugin("system", "jfrouter");
+			$params = JPluginHelper::getPlugin("system", "jfrouter");
 			$params = new JParameter($params->params);
 		}
 		
 		$sefordomain = $params->get("sefordomain","sefprefix");
 
-		if ($sefordomain == "subdomain"){
+		if ($sefordomain == "domain"){
 			// If I set config_live_site I actually don't need this function at all let alone this logic ?  Apart from language switcher.
 			// TODO cache the indexed array
 			$rawsubdomains = $params->getValue("sefsubdomain",array());
 			$subdomains = array();
-			$jfm =&  JoomFishManager::getInstance();
+			$jfm =  JoomFishManager::getInstance();
 			$langs = $jfm->getLanguagesIndexedById();
 			foreach ($rawsubdomains as $domain) {
-				list($langid,$domain) = split("::",$domain,2);
+				list($langid,$domain) = explode("::",$domain,2);
 				$domain = strtolower(str_replace("http://","",$domain));
 				$domain = str_replace("https://","",$domain);
 				$domain = preg_replace("#/$#","",$domain);
@@ -565,7 +579,7 @@ function routeJFRule($router, &$uri){
 			//Add the suffix to the uri
 			if($router->_mode == JROUTER_MODE_SEF && $route && !$lang!==""){
 
-				$jfm =&  JoomFishManager::getInstance();
+				$jfm =  JoomFishManager::getInstance();
 				$jfLang = $jfm->getLanguageByShortcode($lang);
 				if (!$jfLang) return;
 
@@ -578,7 +592,7 @@ function routeJFRule($router, &$uri){
 				}
 				if (count($sefprefixes)<count($langs)){
 					foreach ($sefprefixes as $prefix) {
-						list($langid,$prefix) = split("::",$prefix,2);
+						list($langid,$prefix) = explode("::",$prefix,2);
 						if (array_key_exists($langid,$langs)){
 							$langs[$langid]->hasprefix = true;
 						}
@@ -591,7 +605,7 @@ function routeJFRule($router, &$uri){
 				}
 
 				foreach ($sefprefixes as $prefix) {
-					list($langid,$prefix) = split("::",$prefix,2);
+					list($langid,$prefix) = explode("::",$prefix,2);
 					if ($jfLang->id == $langid){
 						$uri->setPath($uri->getPath()."/".$prefix);
 						$uri->delVar("lang");

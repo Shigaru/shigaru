@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: mod_translate.php 1361 2009-06-22 20:06:09Z akede $
+ * $Id: mod_translate.php 1551 2011-03-24 13:03:07Z akede $
  * @package joomfish
  * @subpackage mod_translate
  *
@@ -88,7 +88,7 @@ foreach ($components as $component){
 }
 // Add the standard style to the site
 JHTML::stylesheet("mod_translate.css","administrator/modules/mod_translate/");
-$joomFishManager = & JoomFishManager::getInstance();// JoomFishManager(JPATH_ADMINISTRATOR."/components/com_joomfish");
+$joomFishManager =  JoomFishManager::getInstance();// JoomFishManager(JPATH_ADMINISTRATOR."/components/com_joomfish");
 
 if ($mapping!=null){
 
@@ -114,7 +114,7 @@ if ($mapping!=null){
 	$langActive = $model->getLanguages();		// all languages even non active once
 	$defaultLang = $model->getDefaultLanguage();
 	$params = JComponentHelper::getParams('com_joomfish');
-	$showDefaultLanguageAdmin = $params->get("showDefaultLanguageAdmin", true);
+	$showDefaultLanguageAdmin = $params->get("showDefaultLanguageAdmin", false);
 	$langOptions[] = JHTML::_('select.option', -1, JText::_("SELECT LANGUAGE") );
 
 	if ( count($langActive)>0 ) {
@@ -164,7 +164,7 @@ function translateItem(linktype){
 			//alert("you want to edit item "+(i+1)+" content item id = "+checkboxes[i].value);
 			// second part is language id 1=Cymraeg,5=German etc!
 		<?php
-		$targetURL = JURI::root()."administrator/index2.php?task=translate.edit&boxchecked=1&catid=\"+option+\"&cid[]=0|\"+checkboxes[i].value+\"|\"+langCode+\"&option=com_joomfish";
+		$targetURL = JURI::root()."administrator/index2.php?task=translate.edit&boxchecked=1&catid=\"+option+\"&cid[]=0|\"+checkboxes[i].value+\"|\"+langCode+\"&option=com_joomfish&select_language_id=\"+langCode+\"";
 		?>
 			targetURL = "<?php echo $targetURL;?>";
 			openTranslationDialog(targetURL, linktype);
