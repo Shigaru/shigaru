@@ -1456,7 +1456,8 @@ class hwd_vs_tools {
 			if ($hwdvsTemplateOverride['show_timesince']) {            $code[$i]->timesince = hwd_vs_tools::generateTimeSinceUpload($row->date_uploaded); }
 			$code[$i]->upload_date = strftime("%l%P - %b %e, %Y", strtotime($row->date_uploaded));
 			if ($hwdvsTemplateOverride['show_tags']) {                 $code[$i]->tags	= hwd_vs_tools::generateTagListString($row->tags); }
-
+			$code[$i]->titleplain = htmlspecialchars(strip_tags(stripslashes($row->title)));
+			$code[$i]->descriptiontrunc = hwd_vs_tools::truncateText(htmlspecialchars(strip_tags(stripslashes($row->description))), 90);
 			$code[$i]->deletevideo = hwd_vs_tools::generateDeleteVideoLink($row);
 			$code[$i]->editvideo = hwd_vs_tools::generateEditVideoLink($row);
 			$code[$i]->publishvideo = hwd_vs_tools::generatePublishVideoLink($row);
@@ -1569,6 +1570,8 @@ class hwd_vs_tools {
 			if ($hwdvsTemplateOverride['show_upload_date']) {          $code[$i]->upload_date = strftime("%l%P - %b %e, %Y", strtotime($rows[$i]["date"])); }
 			if ($hwdvsTemplateOverride['show_tags']) {                 $code[$i]->tags	= hwd_vs_tools::generateTagListString($rows[$i]["tags"]); }
 			
+			$code[$i]->titleplain = addslashes(strip_tags($rows[$i]["videotitle"]));
+			$code[$i]->descriptiontrunc = addslashes(hwd_vs_tools::truncateText(strip_tags($rows[$i]["description"]), 90));
 			
 			if($rows[$i]["numfavoured"]){
 				$code[$i]->numfavoured	= $rows[$i]["numfavoured"]; 

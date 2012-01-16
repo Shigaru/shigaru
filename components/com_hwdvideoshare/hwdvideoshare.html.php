@@ -133,7 +133,9 @@ class hwd_vs_html
 					$nowlist = hwd_vs_tools::generateVideoListFromSql($rowsnow, null, $thumbwidth);
 				}
 				$smartyvs->assign("nowlist", $nowlist);
-
+				/*echo '<pre>';
+				var_dump($nowlist);
+				echo '</pre>';*/
 				if ($c->loadmootools == "on") {
 					JHTML::_('behavior.mootools');
 				}

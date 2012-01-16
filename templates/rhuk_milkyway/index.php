@@ -21,12 +21,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/general.css" type="text/css" />
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
 <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.min.js"></script>
-<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jcarousel.min.js"></script>
 <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-ui.min.js"></script>
 <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jjmenu.js"></script>
 <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.js"></script>
-<link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/skin.css" rel="stylesheet" type="text/css"/>
 
 

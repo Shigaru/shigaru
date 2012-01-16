@@ -77,6 +77,6 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 <div id="rokajaxsearch_tmp" style="visibility:hidden;display:none;"></div>
 </form>
 <div class="clear tleft mleft6">
-<span class="twhite"><?php echo JText::_('Recently searched >>'); ?></span> <?php echo $params->latestSearchs; ?>
+<span class=""><?php echo JText::_('Recently searched >>'); ?></span> <?php echo $params->latestSearchs; ?>
 </div>
 

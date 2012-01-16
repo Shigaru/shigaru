@@ -29,7 +29,7 @@
 	</ul>
 
 	{if $print_mostpopular}
-    <div id="tabs-1" class="standard">
+    <div id="tabs-1" ">
       <div class="scoller">
       <div class="list">
         <div class="box">
@@ -46,7 +46,7 @@
     
     {/if}
     
-    <div id="tabs-2" class="standard">
+    <div id="tabs-2" >
       <div class="scoller">
       <div class="list">
         <div class="box">
@@ -74,7 +74,7 @@
     </div>
  
 
-    <div id="tabs-3" class="standard">
+    <div id="tabs-3" >
       <div class="scoller">
       <div class="list">
         <div class="box">
@@ -89,10 +89,10 @@
     </div>
 
 
-    {if $print_ads}{if $advert4}<div class="standard"><div class="padding"><div id="hwdadverts-nopadding">{$advert4}</div></div></div>{/if}{/if}
+    {if $print_ads}{if $advert4}<div ><div class="padding"><div id="hwdadverts-nopadding">{$advert4}</div></div></div>{/if}{/if}
     
     {if $print_mostfavoured}
-    <div id="tabs-4" class="standard">
+    <div id="tabs-4" >
       <div class="scoller">
       <div class="list">
         <div class="box">
@@ -107,7 +107,7 @@
     </div>
     {/if}
     
-    <div id="tabs-5" class="standard">
+    <div id="tabs-5" >
       <div class="scoller">
       <div class="list">
         <div class="box">
@@ -177,7 +177,7 @@
 		<li><a href="#comments-tabs-5">{$smarty.const._HWDVIDS_TOPPOSTERS}</a></li>
 	</ul>
 	
-	<div id="comments-tabs-1" class="standard">
+	<div id="comments-tabs-1" >
       <div class="scoller h250">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_LATESTCOMMINTRO}
@@ -190,7 +190,7 @@
       </div>
     </div>
 				
-	<div id="comments-tabs-2" class="standard">
+	<div id="comments-tabs-2" >
       <div class="scoller h250">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_POPUCOMMINTRO}
@@ -203,7 +203,7 @@
       </div>
     </div>
     
-    <div id="comments-tabs-3" class="standard">
+    <div id="comments-tabs-3" >
       <div class="scoller h250">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_RECENTUPDATESINTRO}
@@ -216,7 +216,7 @@
       </div>
     </div>
     
-    <div id="comments-tabs-4" class="standard">
+    <div id="comments-tabs-4" >
       <div class="scoller h250">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_RECENTACTVITYINTRO}
@@ -229,7 +229,7 @@
       </div>
     </div>
     
-    <div id="comments-tabs-5" class="standard">
+    <div id="comments-tabs-5" >
       <div class="scoller h250">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_TOPPOSTERSINTRO}
@@ -352,7 +352,7 @@
       </div>
     {/if}
 
-    {if $print_ads}{if $advert3}<div class="standard"><div class="padding"><div id="hwdadverts-nopadding">{$advert3}</div></div></div>{/if}{/if}
+    {if $print_ads}{if $advert3}<div ><div class="padding"><div id="hwdadverts-nopadding">{$advert3}</div></div></div>{/if}{/if}
     
     {if $print_nowlist}
       <div class="hwdmodule-h4">
@@ -374,7 +374,7 @@
 		<li><a href="#tabs-tags-3">{$smarty.const._HWDVIDS_POP_GENRES}</a></li>
 	</ul>
     
-    <div id="tabs-tags-1" class="standard">
+    <div id="tabs-tags-1" >
       <div class="scoller miniscoller">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_SHIGARU_TAGSBANDSINTRO}
@@ -391,7 +391,7 @@
     
     
     
-    <div id="tabs-tags-2" class="standard">
+    <div id="tabs-tags-2" >
       <div class="scoller miniscoller">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_SHIGARU_TAGSINTRO}
@@ -406,7 +406,7 @@
      </div>
      
         
-    <div id="tabs-tags-3" class="standard">
+    <div id="tabs-tags-3" >
       <div class="scoller miniscoller">
       <div class="introtext">
 		{$smarty.const._HWDVIDS_SHIGARU_TAGSGENREINTRO}
