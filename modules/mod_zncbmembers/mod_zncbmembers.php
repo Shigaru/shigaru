@@ -20,6 +20,7 @@ require_once( dirname(__FILE__).DS.'helper.php' );
 	jimport('joomla.enviroment.uri');
 	$live_path = JURI::base(true) . '/'; // define live site path
 	$loadCssStyle = modzncbmembersHelper::loadCssStyle($live_path); // load CSS stylesheet
+	
 	$zncbmembers = modzncbmembersHelper::zngetusers($params);
 	require( JModuleHelper::getLayoutPath( 'mod_zncbmembers' ) );
 

@@ -286,7 +286,7 @@
 	border: none;
 }
 #hwdvids .ui-state-default a {
-	color: #c0c0c0;
+	color: gray;
 }
 #hwdvids .ui-state-active a {
 	color: #000;
@@ -431,10 +431,10 @@ div#footer ul li{padding-right:20px;border-right:1px solid #fff;list-style:none;
 div#footer ul a:hover{box-shadow: 0px 0px 10px #ccc;}	
 div#footer ul li a span{ font-weight:bold;}
 div#footer ul li:last-child{border-right:none;}
-.footer_links{color:#c7ced6;font-family:'Lucida Grande',Arial,Helvetica,sans-serif;font-size:11px;text-align:center;text-shadow:0 -1px 1px rgba(0,0,0,0.3);position:relative;z-index:3;cursor:default}
+.footer_links{color:#000;font-family:'Lucida Grande',Arial,Helvetica,sans-serif;font-size:11px;text-align:center;text-shadow:0 -1px 1px rgba(0,0,0,0.3);position:relative;z-index:3;cursor:default}
 .footer_links.under_reasons{margin-top:20px}
-.footer_links a{color:#c7ced6;text-decoration:none;margin:0 0 0 15px;cursor:pointer}
-.footer_links a:hover{color:#fff}.footer_links .languages{margin:0 0 0 20px}
+.footer_links a{color:#000;text-decoration:none;margin:0 0 0 15px;cursor:pointer}
+.footer_links a:hover{color:#ccc}.footer_links .languages{margin:0 0 0 20px}
 .footer_links .languages a{margin:0 8px 0 0;cursor:default}
 .footer_links .languages a:hover{color:#c7ced6}
 .footer_links .languages a.inactive_language{color:#8798ab;text-shadow:0 -1px 1px rgba(0,0,0,0.2);cursor:pointer}
@@ -1351,6 +1351,7 @@ z-index:9999;}
 	cursor:pointer;
 	border-top:1px solid #ebebe9;
 	padding:3px 10px 3px 4px;
+	text-align: left;
 }
 #langDropMenu ul li.grey a span{background-color:#f9f9f8; color: red !important;}
 #langDropMenu ul li.hover a span{background-color:#ffffdf;}
@@ -1808,9 +1809,6 @@ padding:20px 0 0 40px;
 #randonvideoautor{padding:12px 0 12px 40px;}
 .ui-tabs .ui-tabs-nav li { font-size:90%;}
 #topNavBar li a span { font-weight:bold;}
-.zncbmimg {
-	margin: 4px;
-}
 .listfavoured{
 	background: url("../images/favorite.png") no-repeat scroll left bottom transparent;
     height: 14px;
@@ -2296,13 +2294,11 @@ div#totatwrapper div#header{float:left;margin: 0 0 0 28px;}
 }
 .cn_wrapper h1{
 	font-size:20px;
-	text-transform:uppercase;
 }
 .cn_wrapper h2{
 	font-size:12px;
 	border-bottom:1px solid #000;
 	padding-bottom:4px;
-	text-transform:uppercase;
 }
 .cn_preview, .cn_list{
 	width:180px;
@@ -2532,6 +2528,94 @@ a.cn_prev{
 }
 
 
+.videolist {
+overflow: hidden;
+background: #DEE0E3 url(../images/sprite-main.png) 0 -550px repeat-x;
+border-image: initial;
+}
 
+
+
+
+.videolist h3 {
+padding: 4px 0 0 60px;
+font-weight: normal;
+text-shadow: 1px 1px 0 white;
+color: #45494D;
+border-bottom: 1px solid #D7DADD;
+}
+
+.videolist h4 {
+border-bottom: 1px solid #CCCFD3;
+padding: 0 0 4px 60px;
+letter-spacing: -.01em;
+text-shadow: 1px 1px 0 white;
+color: #95989C;
+}
+
+.videolist ul {
+margin: 0 0 -1px;
+}
+
+.listitem{
+border-top: 1px solid white;
+border-bottom: 1px solid #CCCFD3;
+padding: 6px 8px 10px;
+}
+
+.listitem:hover {
+background:#fff;
+}
+
+.videolist .entry-title {
+text-shadow: 1px 1px 0 white;
+height:57px;
+}
+
+.videolist .entry-title a,.entry-meta a{
+}
+
+.videolist .entry-meta {
+margin: 3px 0 0;
+line-height: 11px;
+height: 11px;
+border: 0;
+background: 0;
+border-image: initial;
+color:#8D959D;
+text-shadow: 1px 1px 0 white;
+}
+
+
+.videolist .listthumb{
+float: left;
+width: 105px;
+height: 78px;
+margin: 0 8px 0 0;
+padding: 2px;
+}
+.videolist .entry-meta .author {
+position: relative;
+float:left;
+}
+.videolist .entry-meta .sideinfo {
+position: relative;
+float:right;
+text-align: right !important;
+}
+
+.videolist .entry-meta .sideinfo span{
+color:red;
+margin: 9px 5px 0 9px;
+}
+
+.videolist .entry-meta span.photo {
+margin-top: -21px;
+}
+
+.videolist .entry-meta .separator,.videolist .author-meta .separator, .videolist .comment-meta .separator {
+color: #CACED4;
+padding: 0 6px;
+}
 
 

@@ -39,7 +39,6 @@
                 if (jQuery("div[id^=jjmenu_main]").length) return false;
             }			
 		}
-		console.log(clickEvent);
 		if ( clickEvent == "click" || clickEvent == "both" )
 		{
 			global.click( 

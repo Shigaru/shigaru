@@ -22,7 +22,8 @@ function loadCssStyle($live_path)
  
 function AddmodScript($live_path)
     {
-      
+	  $document = &JFactory::getDocument();	
+      $document->addScript(($live_path . "modules/mod_zncbmembers/tmpl/js/shiggymembers.js"));
     }
 
 function zngetusers($params) {

@@ -620,8 +620,8 @@ DEFINE("_HWDVIDS_SHIGARU_TAGSBANDSINTRO","Here is a list of the most popular ban
 DEFINE("_HWDVIDS_SHIGARU_TAGSGENREINTRO","Here is a list of the most popular genres that appear in the Shigaru video Library. Click to view a list:");
 DEFINE("_HWDVIDS_SHIGARU_TAGSINTRO","Here is a list of the most popular tags that appear in the Shigaru video Library. Click to view a list:");
 DEFINE("_HWDVIDS_SHIGARU_PROMOFOOT","Think you can play better? Submit your videos now then! Or submit video tutorials you have found on other websites. What are you waiting for? Share your musical knowledge!");
-DEFINE("_HWDVIDS_LATESTCOMM","Latest <br /> Video Comments");
-DEFINE("_HWDVIDS_POPUCOMM","Most Popular Video Comments");
+DEFINE("_HWDVIDS_LATESTCOMM","Latest <br /> Video <br /> Comments");
+DEFINE("_HWDVIDS_POPUCOMM","Most Popular <br /> Video <br /> Comments");
 DEFINE("_HWDVIDS_RECENTUPDATES","Recent <br /> Status <br /> Updates");
 DEFINE("_HWDVIDS_RECENTACTVITY","Recent <br /> Profile <br /> Activity");
 DEFINE("_HWDVIDS_TOPPOSTERS","Top <br /> Video <br /> Posters");

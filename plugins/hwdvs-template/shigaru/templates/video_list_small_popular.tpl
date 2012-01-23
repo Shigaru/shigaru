@@ -9,15 +9,15 @@
 
 
 
-<div class="box">
-<div class="listthumb">{$data->thumbnail}</div>
-<div >
-
-<div class="listtitle">{$data->title} {$data->editvideo} {$data->deletevideo}</div>
-<div class="listshared">{$smarty.const._HWDVIDS_INFO_SHARED}  {$data->uploader} </div>
-<div class="listviews">{$data->rating}({$data->views})</div>
-     
-</div>
+<div class="box listitem">
+	<div class="listthumb">{$data->thumbnail}</div>
+	<div>
+		<div class="entry-meta">
+			<div class="entry-title">{$data->title} {$data->editvideo} {$data->deletevideo}</div>
+			<div class="author">{$smarty.const._HWDVIDS_INFO_SHARED}  {$data->uploader} </div>
+			<div class="sideinfo fontred"> {$data->rating}({$data->views})</div>
+		</div>    
+	</div>
 <div style="clear:both;"></div>
 </div>
 

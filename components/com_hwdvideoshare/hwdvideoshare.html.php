@@ -427,10 +427,11 @@ class hwd_vs_html
 		$smartyvs->assign("socialmedialinks", $socialmedialinks); 
 		
 			
-		/* tweeter box*/
+		/* tweeter box
 		$tweetdisplay = JModuleHelper::getModule('tweetdisplay_1901');
 		$tweetdisplay = JModuleHelper::renderModule($tweetdisplay);
-		$smartyvs->assign("tweetdisplay", $tweetdisplay);
+		$smartyvs->assign("tweetdisplay", $tweetdisplay);*/
+
 		
 		 /* members box*/
 		$zncbmembers = JModuleHelper::getModule('zncbmembers');

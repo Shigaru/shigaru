@@ -151,13 +151,6 @@
 			float:left;
 		}
 
-		#hwdvids .box {
-			padding: 5px;
-			background: #f5f5f5 !important;
-			font-size: 97%;
-			border-bottom: 1px solid #eaeaea;
-			
-		}
 		
 
 		#hwdvids .scoller {
@@ -281,14 +274,6 @@
 		}
 
 		#hwdvids h3 {
-			background: url(images/button_bg.gif) repeat-x;
-			text-align: left;
-			font-size: 1em;
-			font-weight: bold;
-			margin: 1px;
-			padding: 5px 0 5px 10%;
-			line-height: 100%;
-			width: auto;
 		}
 		
 		#hwdvids .listtitle {

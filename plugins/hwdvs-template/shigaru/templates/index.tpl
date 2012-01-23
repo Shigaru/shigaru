@@ -32,7 +32,7 @@
     <div id="tabs-1" ">
       <div class="scoller">
       <div class="list">
-        <div class="box">
+        <div class="box videolist">
 			{foreach name=outer item=data from=$mostviewedlist}
 	  {include file="video_list_small_viewed.tpl"}
 	  <div style="clear:both;"></div>
@@ -49,13 +49,11 @@
     <div id="tabs-2" >
       <div class="scoller">
       <div class="list">
-        <div class="box">
+        <div class="box videolist">
 		{if $print_videolist}
 
           {foreach name=outer item=data from=$list}
-			  <div class="videoBox">
 			  {include file="video_list_full_small_recent.tpl"}
-			  </div>
 			  {if $smarty.foreach.outer.last}
 				 <div style="clear:both;"></div>
 			  {elseif $smarty.foreach.outer.index % $vpr-($vpr-1) == 0}
@@ -77,7 +75,7 @@
     <div id="tabs-3" >
       <div class="scoller">
       <div class="list">
-        <div class="box">
+        <div class="box videolist">
           {foreach name=outer item=data from=$mostpopularlist}
 	  {include file="video_list_small_popular.tpl"}
 	  <div style="clear:both;"></div>
@@ -95,7 +93,7 @@
     <div id="tabs-4" >
       <div class="scoller">
       <div class="list">
-        <div class="box">
+        <div class="box videolist">
           {foreach name=outer item=data from=$mostfavouredlist}
 	  {include file="video_list_small_favoured.tpl"}
 	  <div style="clear:both;"></div>
@@ -110,13 +108,11 @@
     <div id="tabs-5" >
       <div class="scoller">
       <div class="list">
-        <div class="box">
+        <div class="box videolist">
 		{if $print_videolist}
 
           {foreach name=outer item=data from=$mostcommented}
-			  <div class="videoBox">
 			  {include file="video_list_full_small_comments.tpl"}
-			  </div>
 			  {if $smarty.foreach.outer.last}
 				 <div style="clear:both;"></div>
 			  {elseif $smarty.foreach.outer.index % $vpr-($vpr-1) == 0}
@@ -260,11 +256,8 @@
 				</div>
 				
 
-				<div id="whitebox_m">
   
 					{$zncbmembers}
-  
-				</div>
 
 				<div id="whitebox_b">
 					<div id="whitebox_bl">

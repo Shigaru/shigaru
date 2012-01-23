@@ -17,8 +17,6 @@
 </div>
 
 {else}
-		<script src="templates/rhuk_milkyway/js/cufon-yui.js" type="text/javascript"></script>
-		<script src="templates/rhuk_milkyway/js/Bebas_400.font.js" type="text/javascript"></script>
 		<script type="text/javascript" src="templates/rhuk_milkyway/jquery.easing.1.3.js"></script>
 		{literal}
 			<style type="text/css">
@@ -45,9 +43,6 @@
 			}
       </style>
       <script type="text/javascript">
-			Cufon('.cn_wrapper h1,h2', {
-				textShadow: '-1px 1px black'
-			});
 			
 			window.setInterval(event, 5000);
 			function event() {

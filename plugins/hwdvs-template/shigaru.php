@@ -111,10 +111,7 @@ $css = "#hwdvs_navcontainer
 	width: ".$nav_width."px;
 }
 
-#hwdvs_navcontainer ul li, #hwdvs_navcontainer ul, #hwdvids ul.tabbernav, #hwdvids ul.tabbernav li, #hwdvids .box {
-	list-style-image: url('".JURI::root( true )."/images/blank.png')!important;
-	background-image: url('".JURI::root( true )."/images/blank.png')!important;
-}
+
 
 #hwdvs_navcontainer ul li
 {
@@ -131,10 +128,7 @@ $css = "#hwdvs_navcontainer
 	background: url('".$templateDirectoryUrl."images/button_nav_hover.png') no-repeat top center!important;
 }
 
-#hwdvids .box
-{
-	background: transparent url('".JURI::root( true )."/images/blank.png') no-repeat top center!important;
-}
+
 
 #hwdvids .videoBox {
 	width: ".$psvboxwidth ."%;

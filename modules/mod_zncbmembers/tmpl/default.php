@@ -17,7 +17,7 @@ $mw = $module_width . 'px';
 $mh = $module_height . 'px';
 
 
-echo	"<div >";
+echo	"<div class=\"pe-container\"><ul id=\"pe-thumbs\" class=\"pe-thumbs\">";
 foreach ( $zncbmembers as $row ) {
 	// Check if user has an avatar	
 	if ($row->avatar != NULL) {
@@ -27,7 +27,7 @@ foreach ( $zncbmembers as $row ) {
         } 
 	else {
 	  
-        $img = "<img width=\"$width_thumbcb\"  height=\"$height_thumbcb\" class=\"zncbmimg\" src=\"components/com_comprofiler/plugin/language/default_language/images/tnnophoto.jpg\"   t=\"#a".$row->id."\" border=\"0\"/>";
+        $img = "<img width=\"61\"  height=\"85\" class=\"zncbmimg\" src=\"components/com_comprofiler/plugin/language/default_language/images/tnnophoto.jpg\"   t=\"#a".$row->id."\" border=\"0\"/>";
 		$imgrel = "components/com_comprofiler/plugin/language/default_language/images/tnnophoto.jpg\" ";
         }
 			
@@ -56,15 +56,13 @@ foreach ( $zncbmembers as $row ) {
 		$titleimg = 'Username: '.$znname.'<br/> Status: '.$zngender.'<br /> Age: '.$years.'<br /> Location: '.$znlocation.'<br /> Gender: '.$znlocation;
 	
 	if ($imagelinked == 1) {
-		echo "<a href=\"index.php?option=com_comprofiler&task=userprofile&user=$row->id\" >";
-		echo '<span class="hasTip" title="'.$titleimg.'">';
+		echo "<li><a href=\"index.php?option=com_comprofiler&task=userprofile&user=$row->id\" >";
 		echo $img;
-		echo '</span>';
-		echo "</a>";	
+		echo "<div class=\"pe-description\"><h3>".$znname."</h3><p>Status: ".constant($zngender)."<br /> Age: ".$years."<br /> Location: ".constant($znlocation)."<br /></p></div></a></li>	";	
 		}
 	else {
 	echo $img;
 	}
 				}
-	echo "</div>";
+	echo "</ul></div>";
 				?>
