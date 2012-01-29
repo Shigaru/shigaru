@@ -782,7 +782,7 @@ function tabClass( $option, $task, $uid ) {
 	}
 	if ( $result === false ) {
 	 	if( $_PLUGINS->is_errors() ) {
-			echo "<script type=\"text/javascript\">alert(\"" . $_PLUGINS->getErrorMSG() . "\"); </script>\n";
+			echo "<script type=\"text/javascript\">shigaruMessages(\"" . $_PLUGINS->getErrorMSG() . "\"); </script>\n";
 	 	}
 	} elseif ( $result !== null ) {
 		echo $result;
@@ -939,7 +939,7 @@ function registerForm( $option, $emailpass, $regErrorMSG = null ) {
 
 	$results							=	$_PLUGINS->trigger( 'onBeforeRegisterForm', array( $option, $emailpass, &$regErrorMSG, $fieldsQuery ) );
 	if($_PLUGINS->is_errors()) {
-		echo "<script type=\"text/javascript\">alert('".addslashes($_PLUGINS->getErrorMSG(" ; "))."'); </script>\n";
+		echo "<script type=\"text/javascript\">shigaruMessages('".addslashes($_PLUGINS->getErrorMSG(" ; "))."'); </script>\n";
 		echo $_PLUGINS->getErrorMSG("<br />");
 		return;
 	}
@@ -983,7 +983,7 @@ function saveRegistration( $option ) {
 	$_PLUGINS->loadPluginGroup('user');
 	$_PLUGINS->trigger( 'onStartSaveUserRegistration', array() );
 	if( $_PLUGINS->is_errors() ) {
-		echo "<script type=\"text/javascript\">alert('".addslashes($_PLUGINS->getErrorMSG())."'); </script>\n";
+		echo "<script type=\"text/javascript\">shigaruMessages('".addslashes($_PLUGINS->getErrorMSG())."'); </script>\n";
 		$oldUserComplete				=	new moscomprofilerUser( $_CB_database );
 		$userComplete->bindSafely( $_POST, $_CB_framework->getUi(), 'register', $oldUserComplete );
 		HTML_comprofiler::registerForm( $option, $ueConfig['emailpass'], $userComplete, $_POST, $_PLUGINS->getErrorMSG("<br />") );
@@ -1005,7 +1005,7 @@ function saveRegistration( $option ) {
 			return;
 		} else {
 			$msg						=	sprintf( _UE_USERNAME_ALREADY_EXISTS, $username );
-			echo "<script type=\"text/javascript\">alert('" . addslashes( $msg ) . "'); </script>\n";
+			echo "<script type=\"text/javascript\">shigaruMessages('" . addslashes( $msg ) . "'); </script>\n";
 			$oldUserComplete				=	new moscomprofilerUser( $_CB_database );
 			$userComplete->bindSafely( $_POST, $_CB_framework->getUi(), 'register', $oldUserComplete );
 			HTML_comprofiler::registerForm( $option, $ueConfig['emailpass'], $userComplete, $_POST, htmlspecialchars( $msg ) );
@@ -1023,7 +1023,7 @@ function saveRegistration( $option ) {
 
 	if($ueConfig['reg_enable_toc']) {
 		if ( $userComplete->acceptedterms != 1 ) {
-			echo "<script type=\"text/javascript\">alert('" . addslashes( cbUnHtmlspecialchars( _UE_TOC_REQUIRED ) ) ."'); </script>\n";
+			echo "<script type=\"text/javascript\">shigaruMessages('" . addslashes( cbUnHtmlspecialchars( _UE_TOC_REQUIRED ) ) ."'); </script>\n";
 			$oldUserComplete				=	new moscomprofilerUser( $_CB_database );
 			$userComplete->bindSafely( $_POST, $_CB_framework->getUi(), 'register', $oldUserComplete );
 			HTML_comprofiler::registerForm( $option, $ueConfig['emailpass'], $userComplete, $_POST, _UE_TOC_REQUIRED . '<br />' );
@@ -1116,7 +1116,7 @@ function performCheckUsername( $username, $function ) {
 			if ( $function == 'testexists' ) {
 				echo ( '<span class="cb_result_error">' . sprintf( ISOtoUtf8( _UE_USERNAME_DOES_NOT_EXISTS_ON_SITE ), htmlspecialchars( $username ) ) . '</span>' );
 			} else {
-				echo ( '<span class="cb_result_ok">' . sprintf( ISOtoUtf8( _UE_USERNAME_DOESNT_EXISTS ), htmlspecialchars( $username ) ) . '</span>' );
+				echo ( sprintf( ISOtoUtf8( _UE_USERNAME_DOESNT_EXISTS ), htmlspecialchars( $username ) ) .'<script>shigaruMessages(' . sprintf( ISOtoUtf8( _UE_USERNAME_DOESNT_EXISTS ), htmlspecialchars( $username ) ) . ');</script><span class="cb_result_ok">' . sprintf( ISOtoUtf8( _UE_USERNAME_DOESNT_EXISTS ), htmlspecialchars( $username ) ) . '</span>' );
 			}
 		}
 	} else {

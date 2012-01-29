@@ -56,6 +56,16 @@
 				</if>
 			</params>
 		</field>
+		<field type="shigarucaptcha" label="shigarucaptcha">
+			<data name="" nametype="namesuffix" type="sql:mediumtext" />
+			<params>
+				<param name="field_display_style" type="list" default="0" label="Display on profiles as" description="How to display the values of this multi-valued field">
+					<option value="0">Comma ","-separated line</option>
+					<option value="1">Unnumbered list "ul"</option>
+					<option value="2">Ordered list "ol"</option>
+				</param>
+			</params>
+		</field>
 		<field type="integer" label="Integer Number">
 			<database version="1">
 				<table name="#__comprofiler" class="moscomprofiler" maintable="true" strict="false" drop="never" shared="true">

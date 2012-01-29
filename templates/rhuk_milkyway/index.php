@@ -15,15 +15,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
+<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.min.js"></script>
+<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-ui.min.js"></script>
+<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jjmenu.js"></script>	
 <jdoc:include type="head" />
 
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/system.css" type="text/css" />
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/general.css" type="text/css" />
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
-<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.min.js"></script>
-<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-ui.min.js"></script>
-<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.js"></script>
-<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jjmenu.js"></script>
+
 <script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.js"></script>
 <link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/skin.css" rel="stylesheet" type="text/css"/>
 

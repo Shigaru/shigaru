@@ -17,7 +17,6 @@
 </div>
 
 {else}
-		<script type="text/javascript" src="templates/rhuk_milkyway/jquery.easing.1.3.js"></script>
 		{literal}
 			<style type="text/css">
           span.reference a{
@@ -43,18 +42,29 @@
 			}
       </style>
       <script type="text/javascript">
-			
-			window.setInterval(event, 5000);
-			function event() {
-			  /*if(((getCurrentIndex()+1(<jQuery(".cn_item").length) && ){
+			function intervalTrigger() {
+			  return window.setInterval( function() {
 			  
-			  }*/
-			  if((getCurrentIndex()+1)<jQuery(".cn_item").length)
+				if((getCurrentIndex()+1)<jQuery(".cn_item").length)
 				jQuery(jQuery(".cn_item")[getCurrentIndex()+1]).trigger('click');
 					else
 						jQuery(jQuery(".cn_item")[0]).trigger('click');
-			}
+						
+			  }, 5000 );
+			};
+			jQuery(document).ready(function() {
+			var _id = intervalTrigger();
 			
+			
+			jQuery('.cn_wrapper').mouseout(function() {
+				  _id = intervalTrigger();
+				});
+			
+			jQuery('.cn_wrapper').mouseover(function() {
+				  window.clearInterval(_id);
+				});
+			
+			});
 			function getCurrentIndex(){
 				var _currentBeing = 0;
 				jQuery(".cn_item").each(function(index,value){

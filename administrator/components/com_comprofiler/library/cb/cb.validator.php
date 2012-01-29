@@ -27,7 +27,7 @@ class cbValidator {
 	static function renderGenericJs( ) {
 		cbimport( 'language.cbteamplugins' );
 ?>
-$.extend(jQuery.validator.messages, {
+jQuery.extend(jQuery.validator.messages, {
 		required: "<?php echo addslashes( CBTxt::T("This field is required.") ); ?>",
 		remote: "<?php echo addslashes( CBTxt::T("Please fix this field.") ); ?>",
 		email: "<?php echo addslashes( CBTxt::T("Please enter a valid email address.") ); ?>",
@@ -39,35 +39,35 @@ $.extend(jQuery.validator.messages, {
 		creditcard: "<?php echo addslashes( CBTxt::T("Please enter a valid credit card number.") ); ?>",
 		equalTo: "<?php echo addslashes( CBTxt::T("Please enter the same value again.") ); ?>",
 		accept: "<?php echo addslashes( CBTxt::T("Please enter a value with a valid extension.") ); ?>",
-		maxlength: $.validator.format("<?php echo addslashes( CBTxt::T("Please enter no more than {0} characters.") ); ?>"),
-		minlength: $.validator.format("<?php echo addslashes( CBTxt::T("Please enter at least {0} characters.") ); ?>"),
-		rangelength: $.validator.format("<?php echo addslashes( CBTxt::T("Please enter a value between {0} and {1} characters long.") ); ?>"),
-		range: $.validator.format("<?php echo addslashes( CBTxt::T("Please enter a value between {0} and {1}.") ); ?>"),
-		max: $.validator.format("<?php echo addslashes( CBTxt::T("Please enter a value less than or equal to {0}.") ); ?>"),
-		min: $.validator.format("<?php echo addslashes( CBTxt::T("Please enter a value greater than or equal to {0}.") ); ?>")
+		maxlength: jQuery.validator.format("<?php echo addslashes( CBTxt::T("Please enter no more than {0} characters.") ); ?>"),
+		minlength: jQuery.validator.format("<?php echo addslashes( CBTxt::T("Please enter at least {0} characters.") ); ?>"),
+		rangelength: jQuery.validator.format("<?php echo addslashes( CBTxt::T("Please enter a value between {0} and {1} characters long.") ); ?>"),
+		range: jQuery.validator.format("<?php echo addslashes( CBTxt::T("Please enter a value between {0} and {1}.") ); ?>"),
+		max: jQuery.validator.format("<?php echo addslashes( CBTxt::T("Please enter a value less than or equal to {0}.") ); ?>"),
+		min: jQuery.validator.format("<?php echo addslashes( CBTxt::T("Please enter a value greater than or equal to {0}.") ); ?>")
 });
 
 {
 	var firstInvalidFieldFound	=	0;
 
-	$('#cbcheckedadminForm').validate( {
+	jQuery('#cbcheckedadminForm').validate( {
 		ignoreTitle : true,
 		errorClass: 'cb_result_warning',
 		// debug: true,
 		cbIsOnKeyUp: false,
 		highlight: function( element, errorClass ) {
-			$( element ).parents('.fieldCell').parent().addClass( 'cbValidationError' );		// tables
-			$( element ).parents('.cb_field,.cb_form_line').addClass( 'cbValidationError' );	// divs
-			$( element ).addClass( 'cbValidationError' + $(element).attr('type') );
-			$( element ).parents('.tab-page').addClass('cbValidationErrorTab')
+			jQuery( element ).parents('.fieldCell').parent().addClass( 'cbValidationError' );		// tables
+			jQuery( element ).parents('.cb_field,.cb_form_line').addClass( 'cbValidationError' );	// divs
+			jQuery( element ).addClass( 'cbValidationError' + jQuery(element).attr('type') );
+			jQuery( element ).parents('.tab-page').addClass('cbValidationErrorTab')
 			.each( function() {
-				$(this).siblings('.tab-row')
-				.find('h2:nth-child(' + $(this).index() + ')')
+				jQuery(this).siblings('.tab-row')
+				.find('h2:nth-child(' + jQuery(this).index() + ')')
 				.addClass('cbValidationErrorTabTip');
 			})
 			.filter(':not(:visible)').each( function() {
 				if ( ! firstInvalidFieldFound++ ) {
-					showCBTab( $(this).attr('id').substr(5) );
+					showCBTab( jQuery(this).attr('id').substr(5) );
 				}
 			});;
 		},
@@ -75,22 +75,39 @@ $.extend(jQuery.validator.messages, {
 			if ( this.errorList.length == 0 ) {
 				firstInvalidFieldFound = 0;
 			}
-			$( element ).parents('.fieldCell').parent().removeClass( 'cbValidationError' );		// tables
-			$( element ).parents('.cb_field,.cb_form_line').removeClass( 'cbValidationError' );	// divs
-			$( element ).removeClass( 'cbValidationError' + $(element).attr('type') );
-			$( element ).parents('.tab-page')
+			jQuery( element ).parents('.fieldCell').parent().removeClass( 'cbValidationError' );		// tables
+			jQuery( element ).parents('.cb_field,.cb_form_line').removeClass( 'cbValidationError' );	// divs
+			jQuery( element ).removeClass( 'cbValidationError' + jQuery(element).attr('type') );
+			jQuery( element ).parents('.tab-page')
 			.each( function() {
-				if ( $(this).find('.cbValidationError').size() == 0 ) {
-					$(this).removeClass('cbValidationErrorTab')
+				if ( jQuery(this).find('.cbValidationError').size() == 0 ) {
+					jQuery(this).removeClass('cbValidationErrorTab')
 					.siblings('.tab-row')
-					.find('h2:nth-child(' + $(this).index() + ')')
+					.find('h2:nth-child(' + jQuery(this).index() + ')')
 					.removeClass('cbValidationErrorTabTip');
 				}
 			});
 		},
 		errorElement: 'div',
+		
 		errorPlacement: function(error, element) {
-			element.closest('.fieldCell, .cb_field').append( error[0] );		// .fieldCell : tables, .cb_field : div
+			var promptTopPosition, promptleftPosition, marginTopSize;
+			var element = jQuery(element);
+			var fieldWidth = element.width();
+			var promptHeight = 25;
+			var offset = element.position();
+			jQuery("input[name=cb_sex]").parent().parent().append('<div id="sexmessage"></div>');
+			promptTopPosition = offset.top;
+			promptleftPosition = offset.left;
+			promptleftPosition += fieldWidth;
+			promptTopPosition += -promptHeight -2;
+			element.closest('.fieldCell, .cb_field').append( error[0] ).children('.cb_result_warning').click(function(){
+				jQuery(this).fadeOut();
+				});		// .fieldCell : tables, .cb_field : div
+			error.css('position', 'absolute');
+			error.css('cursor', 'pointer');
+            error.css('left', promptleftPosition);
+            error.css('top', promptTopPosition);
 		},
 		onkeyup: function(element) {
 			if ( element.name in this.submitted || element == this.lastElement ) {
@@ -157,10 +174,23 @@ $.extend(jQuery.validator.messages, {
 ?>
         }
 	} );
-	$('#cbcheckedadminForm input:checkbox,#cbcheckedadminForm input:radio').click( function() {
-		$('#cbcheckedadminForm').validate().element( $(this) );
+	jQuery('#cbcheckedadminForm input:checkbox,#cbcheckedadminForm input:radio').click( function() {
+		jQuery('#cbcheckedadminForm').validate().element( jQuery(this) );
 	} );
 }
+var sexRadios = jQuery("input[name=cb_sex]");
+jQuery.validator.addMethod("sexTexts", function(value, element) {
+    if(jQuery(sexRadios[2]).attr('checked')){
+			jQuery('#sexmessage').html('Come on, be serious now, select your sex ;-)');
+			return false;
+		}else{
+			jQuery('#sexmessage').html('Congratulations on deciding!');
+			return true;
+			}
+},'We appreciate your efforts, but this is not the best place for that...');
+sexRadios.rules("add", {
+ sexTexts: true
+});
 <?php
 		echo implode( "\n", self::$methods ) . "\n";
 		echo self::$rules;

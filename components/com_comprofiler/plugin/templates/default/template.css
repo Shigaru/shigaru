@@ -18,8 +18,18 @@
 	padding:3px 3px 4px 6px;
 }
 .titleCell {
-	width:125px;
+	display: block;
+float: left;
+width: 28%;
+font-weight: bold;
+vertical-align: top;
+padding: 10px 4px 5px 23px;
+text-align:right;
 }
+.cbRegistration .cb_button_wrapper input{float:right;margin:0 2% 12px 0;}
+.acymailing_checkbox{width:auto !important;}
+.acymailwrapper{margin:0 0 12px 29%;}
+
 .fieldCell , table.content_table td.fieldCell, .fieldCell td, .tab_Description {
 	font-weight:normal;
 	text-align:	left;
@@ -541,6 +551,7 @@ div.cbclearboth {display: block;}
 	border: 1px transparent;
 	color: green;
 	background: transparent url("images/mini-icons/icon-16-tick.png") no-repeat;
+	margin-left: -90px;
 }
 .cb_result_info {
 	border: 1px transparent;
@@ -548,16 +559,20 @@ div.cbclearboth {display: block;}
 	background: transparent url("images/mini-icons/icon-16-info.png") no-repeat;
 }
 .cb_result_warning {
-	border: 1px solid #883300;
-	color: #dd7700;
-	font-weight: bold;
-	background: #ffffcc url("images/mini-icons/icon-16-warning.png") no-repeat;
+    border: 2px solid #DDDDDD;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 0 6px #000000;
+    color: #FFFFFF;
+    padding: 4px 10px 4px 30px;
+    position: relative;
+    z-index: 5001;
+	background: #EE0101 url("images/mini-icons/icon-16-warning.png") no-repeat 5px 2px;
 }
 .cb_result_error {
-	border: 1px solid #cc0000;
 	color: red;
 	font-weight: bold;
-	background: #ffffcc url("images/mini-icons/icon-16-error.png") no-repeat;
+	background: transparent url("images/mini-icons/icon-16-error.png") no-repeat;
+	margin-left: -90px;
 }
 
 .cb_online {

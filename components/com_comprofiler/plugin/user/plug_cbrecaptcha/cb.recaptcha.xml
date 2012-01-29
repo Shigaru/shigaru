@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0.0" type="plugin" group="user">
+	<name>CB reCAPTCHA</name>
+	<author>Mr. Ayan Debnath (aka: iosoft)</author>
+	<creationDate>2008-07-30</creationDate>
+	<copyright>(C) 2008 Future iOsoft Technology, INDIA</copyright>
+	<license>http://creativecommons.org/licenses/by-nc-nd/2.5/in/</license>
+	<authorEmail>futureiosoft@yahoo.co.uk</authorEmail>
+	<authorUrl>www.gigahertz.net.in</authorUrl>
+	<version>1.0</version>
+	<description>Provides CB with a reCAPTCHA Tab that during the registration process generates a security image along with verification logic.</description>
+	<files>
+		<filename plugin="cb.recaptcha">cb.recaptcha.php</filename>
+		<filename>recaptchalib.php</filename>
+		<filename>index.html</filename>
+	</files>
+    <params>
+    	<param name="@spacer" type="spacer" default="1.0.0 (compatible with CB 1.0.2 and above)" label="Version:" description="" />
+    	<param name="@spacer" type="spacer" default="2008-07-30" label="Release Date:" description="" />
+    	<param name="@spacer" type="spacer" default="This plugin was created by Mr. Ayan Debnath (aka: iosoft)." label="Credits:" description="" />
+		<param name="@spacer" type="spacer" default="This plugin is distributed under a Creative Commons Noncommercial-No Derivative Works 2.5 India License." label="License:" description="" />
+        
+		<param name="@spacer" type="spacer" default="" label=" " description="" />
+        
+		<param name="@spacer" type="spacer" default="reCAPTCHA Generation Parameters" label=" " description="get the Keys from - http://recaptcha.net/api/getkey" />
+			<param name="recaptchaPubKey" type="text" size="50" default="" label="Public Key"  description="Enter reCAPTCHA Public Key"  />
+			<param name="recaptchaPrvKey" type="text" size="50" default="" label="Private Key" description="Enter reCAPTCHA Private Key" />
+		
+		<param name="@spacer" type="spacer" default="" label=" " description="" />
+		
+		<param name="@spacer" type="spacer" default="reCAPTCHA Style Parameters" label=" " description="" />
+			<param name="recaptchaLang" type="list" default="0" label="Language" description="">
+				<option value="en">English</option>
+				<option value="nl">Dutch</option>
+				<option value="fr">French</option>
+				<option value="de">German</option>
+				<option value="pt">Portuguese</option>
+				<option value="ru">Russian</option>
+				<option value="es">Spanish</option>
+				<option value="tr">Turkish</option>                                     
+			</param>
+			<param name="recaptchaTheme" type="list" default="red" label="Theme" description="For Custom colors, use Custom-Theme.">
+				<option value="red">Red</option>
+				<option value="white">White</option>
+				<option value="blackglass">Black Glass</option>
+				<option value="clean">Transparent</option>
+				<option value="custom">Custom</option>
+			</param>
+		
+		<param name="@spacer" type="spacer" default="reCAPTCHA Custom-Theme" label=" " description="" />
+			<param name="recaptchaBackgroundRGB" type="text" size="12" default="#156c94" label="Background color"      description="reCAPTCHA widget Background color." />
+			<param name="recaptchaBorderRGB"     type="text" size="12" default="#ffffff" label="Border color"          description="reCAPTCHA widget Border color." />
+			<param name="recaptchaTextBackRGB"   type="text" size="12" default="#ffffff" label="Input Text Back color" description="reCAPTCHA widget Input Text Background color." />
+
+        <param name="@spacer" type="spacer" default="" label=" " description="" />
+		
+        <param name="@spacer" type="spacer" default="reCAPTCHA Placement Parameters" label=" " description="" />
+			<param name="captchaRegistration" type="radio" default="1" label="Include reCAPTCHA in Registration Process" description="Specify Yes to include Captcha image during registration.">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</param>
+			<param name="captchaNewPassword" type="radio" default="1" label="Include reCAPTCHA in New Password Request Process" description="Specify Yes to include Captcha image during registration.">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</param>
+			<param name="captchaEmailUser" type="radio" default="0" label="Include reCAPTCHA in User Emailing Process" description="Specify Yes to include Captcha image during user emailing process.">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</param>
+
+	</params>
+    <tabs>
+    	<tab name="CB reCAPTCHA" description="This CB Captcha Tab placeholder is used to move captcha image placement in relation to other CB tabs that contain registration fields." class="getReCAPTCHAtab" fields="0">
+			<params>
+			</params>
+			<fields>
+			</fields>
+		</tab>
+    </tabs>   
+    <install>
+    	<queries>
+    	</queries>
+    </install>
+    <uninstall>
+        <queries>
+    	</queries>
+    </uninstall>       
+</cbinstall>

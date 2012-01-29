@@ -1257,6 +1257,7 @@ function getFieldValue( $oType, $oValue=null, $user=null, $prefix=null, $imgMode
 				}
 			}
 		break;
+		
 		CASE 'primaryemailaddress':
 			if ($ueConfig['allow_email_display']==3 || $imgMode != 0) {
 				$oValueText = _UE_SENDEMAIL;
@@ -1872,7 +1873,6 @@ function initToolTip( $obsoleteUi = 0, $width='250' ) {
 						.	'TEXTFONTCLASS,\'cb-tips-font\',FGCLASS,\'cb-tips-fg\',BGCLASS,\'cb-tips-bg\''
 						.	',CAPTIONFONTCLASS,\'cb-tips-capfont\', CLOSEFONTCLASS, \'cb-tips-closefont\');'
 						;
-		$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/overlib_all_mini.js', false, null, $postScript );
 		$outputed		=	true;
 	}
 	return null;
@@ -5189,6 +5189,7 @@ class cbFields {
 			}
 			$value = $this->clean( $badHtmlFilter, $value );
 		break;
+		
 		case 'radio':
 			$value = array( $value );
 		// intentionally no break: fall through:

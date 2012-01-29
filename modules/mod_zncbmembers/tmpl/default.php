@@ -27,7 +27,7 @@ foreach ( $zncbmembers as $row ) {
         } 
 	else {
 	  
-        $img = "<img width=\"61\"  height=\"85\" class=\"zncbmimg\" src=\"components/com_comprofiler/plugin/language/default_language/images/tnnophoto.jpg\"   t=\"#a".$row->id."\" border=\"0\"/>";
+        $img = "<img width=\"$width_thumbcb\"  height=\"$height_thumbcb\"  class=\"zncbmimg\" src=\"components/com_comprofiler/plugin/language/default_language/images/tnnophoto.jpg\"   t=\"#a".$row->id."\" border=\"0\"/>";
 		$imgrel = "components/com_comprofiler/plugin/language/default_language/images/tnnophoto.jpg\" ";
         }
 			

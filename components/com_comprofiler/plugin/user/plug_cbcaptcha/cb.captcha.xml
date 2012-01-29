@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Joomla/Mambo Community Builder User Plugin: cb.captcha
+* @version $Id$
+* @package plug_cbcaptcha
+* @subpackage cb.captcha.xml
+* @author Nant and Beat
+* @copyright (C) Nant, JoomlaJoe and Beat, www.joomlapolis.com
+* @license Limited  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL v2
+* @final 2.0
+*/
+-->
+<cbinstall version="1.0.3" type="plugin" group="user">
+	<name>CB Captcha</name>
+	<author>Nant and Beat</author>
+	<creationDate>2007-09-07</creationDate>
+	<copyright>(C) 2007 joomlapolis.com</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>beat@joomlapolis.com</authorEmail>
+	<authorUrl>www.joomlapolis.com</authorUrl>
+	<version>1.1</version>
+	<description>
+		Version 2.0 provides CB with a Captcha Tab that can support the registration, lost password and 
+		email to member and CB contact form processes with a security image, audio playback and an input field 
+		along with verification logic. 
+		This work (estimated effort 2 man-months, including research, design, implementation and testing) has been released 
+		only to CB Documentation subscribers in order to support further development of CB related projects. 
+		The authors also encourage website administrators to support further development of CB Team released plugins 
+		by subscribing to the yearly documentation service (described here: http://www.joomlapolis.com/content/view/2542/37/). 
+		Even Free Beer requires some effort!
+	</description>
+	<files>
+		<filename plugin="cb.captcha">cb.captcha.php</filename>
+		<filename>captchasecurityimages.php</filename>
+		<filename>captchaindex.php</filename>
+		<filename>fonts/index.html</filename>
+		<filename>fonts/monofont.ttf</filename>
+		<filename>fonts/stilltim.ttf</filename>
+		<filename>fonts/sayso chic.ttf</filename>
+		<filename>fonts/EARWIGFA.ttf</filename>
+		<filename>fonts/CUOMOTYP.ttf</filename>
+		<filename>fonts/PRIMER.ttf</filename>
+		<filename>fonts/PRIMERB.ttf</filename>
+		<filename>fonts/INTERPLA.ttf</filename>
+		<filename>fonts/monofont_read_me.txt</filename>
+		<filename>images/sound.png</filename>
+		<filename>images/index.html</filename>
+		<filename>audio/a.mp3</filename>
+		<filename>audio/b.mp3</filename> 
+		<filename>audio/c.mp3</filename> 
+		<filename>audio/d.mp3</filename> 
+		<filename>audio/e.mp3</filename> 
+		<filename>audio/f.mp3</filename> 
+		<filename>audio/g.mp3</filename> 
+		<filename>audio/h.mp3</filename> 
+		<filename>audio/i.mp3</filename> 
+		<filename>audio/j.mp3</filename> 
+		<filename>audio/k.mp3</filename> 
+		<filename>audio/l.mp3</filename> 
+		<filename>audio/m.mp3</filename>
+		<filename>audio/n.mp3</filename> 
+		<filename>audio/o.mp3</filename> 
+		<filename>audio/p.mp3</filename> 
+		<filename>audio/q.mp3</filename> 
+		<filename>audio/r.mp3</filename> 
+		<filename>audio/s.mp3</filename> 
+		<filename>audio/t.mp3</filename> 
+		<filename>audio/u.mp3</filename>
+		<filename>audio/v.mp3</filename> 
+		<filename>audio/w.mp3</filename> 
+		<filename>audio/x.mp3</filename> 
+		<filename>audio/y.mp3</filename>
+		<filename>audio/z.mp3</filename>
+		<filename>audio/0.mp3</filename>
+		<filename>audio/1.mp3</filename>
+		<filename>audio/2.mp3</filename>
+		<filename>audio/3.mp3</filename>
+		<filename>audio/4.mp3</filename>
+		<filename>audio/5.mp3</filename>
+		<filename>audio/6.mp3</filename>
+		<filename>audio/7.mp3</filename>
+		<filename>audio/8.mp3</filename>
+		<filename>audio/9.mp3</filename>
+		<filename>audio/README</filename>
+		<filename>audio/LICENSE</filename>
+		<filename>audio/index.html</filename> 
+		<filename>js/captchapopup.js</filename>
+		<filename>js/index.html</filename>
+		<filename>index.html</filename>
+	</files>
+    <params>
+		<param name="@spacer" type="spacer" default="2.0 (compatible with CB 1.1 and above)" label="Version:" description="" />
+		<param name="@spacer" type="spacer" default="07.Sep.2007" label="Release Date:" description="" />
+		<param name="@spacer" type="spacer" default="This plugin was created by Nant and Beat. Captcha image code is based on script http://www.white-hat-web-design.co.uk/articles/php-captcha.php - audio sounds taken from http://www.chimeric.de/projects/npa project." label="Credits:" description="" />
+		<param name="@spacer" type="spacer" default="This plugin is distributed under a limited GNU/GPL v2 license and cannot be modified to work with anything else outside of the Community Builder suite supported by the Joomlapolis.com site" label="License:" description="" />
+		<param name="@spacer" type="spacer" default="" label=" " description="" />
+		<param name="@spacer" type="spacer" default="Plugin Prerequisites" label=" " description="" />
+    	<param name="Captcha Requirements" type="custom" class="getcaptchaTab" method="showReqAndTest" default="" label="" description="If all prerequisites are satisfied you should see a sample representation of the captcha security image and sound." />		
+		<param name="@spacer" type="spacer" default="" label=" " description="" />
+		<param name="@spacer" type="spacer" default="Captcha Security Mode Parameters" label=" " description="" />
+		<param name="captchaSecurityMode" type="radio" default="0" label="Captcha Security Mode" description="Specify desired security mode (default: Image and Sound).">
+			<option value="0">Image and Sound</option>
+			<option value="1">Image only</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="Captcha Image Generation Parameters" label=" " description="" />
+
+		<param name="captchaWidth" type="text" size="25" default="95" label="Captcha Width" description="Enter width in pixels for the captcha image (Default is 95)" />
+		<param name="captchaHeight" type="text" size="25" default="30" label="Captcha Height" description="Enter height in pixels for captcha image (Default is 30)" />
+		<param name="captchaNumChars" type="text" size="25" default="5" label="Captcha Characters" description="Enter number of captcha characters to generate (Default is 5)" />
+		<param name="captchaCharSet" 
+			type="textarea" 
+			cols="20" 
+			rows="5" 
+			default="abcdefhijklmnopqrstuvwxyz" 
+			label="Captcha Char Set" 
+			description="Character set to use to generate random captcha image. Default set is a-z (lowercase) because these sound segments are supported by Nato phonetic library. If you add other chars (uppercase) then audio playback will break. However non-Nato phonetic digit sounds exist in the sound repository so digits may be added without breaking captcha sound playback."/>
+
+		<param name="captchaFont" type="list" default="0" label="Captcha Font" description="Font to use for Captcha (default: monofont)">
+			<option value="0">monofont</option>
+			<option value="1">EARWIGFA</option>
+			<option value="2">stilltim</option>
+			<option value="3">sayso chic</option>
+			<option value="4">CUOMOTYP</option>
+			<option value="5">PRIMER</option>
+			<option value="6">PRIMERB</option>
+			<option value="7">INTERPLA</option>                                     
+		</param>
+
+		<param name="captchaBackgroundRGB" type="text" size="25" default="255,255,255" label="Captcha Background Color" description="Enter color composition (in Red, Green, Blue dimensions - 0 to 255) for captcha image background (Default is 255,255,255)" />
+		<param name="captchaTextRGB" type="text" size="25" default="20,40,100" label="Captcha Text Color" description="Enter color composition (in Red, Green, Blue dimensions - 0 to 255) for captcha image text (Default is 20,40,100)" />
+		<param name="captchaNoiseRGB" type="text" size="25" default="100,120,180" label="Captcha Noise Color" description="Enter color composition (in Red, Green, Blue dimensions - 0 to 255) for captcha image noise (Default is 100,120,180)" />
+		
+        <param name="@spacer" type="spacer" default="" label=" " description="" />
+        <param name="@spacer" type="spacer" default="Captcha Placement Parameters" label=" " description="" />
+		<param name="captchaRegistration" type="radio" default="1" label="Include Captcha in Registration Process" description="Specify Yes to include Captcha image (and sound if specified) during registration or No not to (default: Yes).">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="captchaNewPassword" type="radio" default="1" label="Include Captcha in New Password Request Process" description="Specify Yes to include Captcha image (and sound if specified) during password reset process or No not to (default: Yes).">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="captchaEmailUser" type="radio" default="1" label="Include Captcha in User Emailing Process" description="Specify Yes to include Captcha image (and sound if specified) during user emailing process or No not to (default: Yes).">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="captchaContactForm" type="radio" default="1" label="Include Captcha in CB Contact component" description="Specify Yes to include Captcha image (and sound if specified) during website CB Contact component form process for everybody (Yes) or only for not logged in guests (Yes only for guests) or No not to (default: Yes).">
+			<option value="1">Yes</option>
+			<option value="2">Yes only for guests</option>
+			<option value="0">No</option>
+		</param>
+		<param name="captchaLoginForm" type="radio" default="0" label="Include Captcha check in CB Login" description="Specify Yes to include Captcha image (and sound if specified) during user login process or No not to (default: No). You must also enable CB Plugins integration in CB login module settings. Captcha on login function is not recommended, but in some cases needed.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="captchaLoginFormIncludeSecurityFieldTitle" type="radio" default="1" label="Include title for security input box on CB Login form" description="Specify Yes to include title for security input box in CB Login form (default: Yes).">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="captchaLoginFormSecurityFieldTitle" type="text" size="25" default="_UE_CAPTCHA_Enter_Label" label="Login Form Security Input Field Title" description="Should contain the field title that should be used for the security input field in the CB Login module (default: _UE_CAPTCHA_Enter_Label)." />
+		<param name="captchaOtherUses" type="radio" default="1" label="Include Captcha in other uses" description="Specify Yes to include Captcha image (and sound if specified) in other usages or No not to (default: Yes).">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+
+	</params>
+    <tabs>
+    	<tab name="CB Captcha" description="This CB Captcha Tab placeholder is used to move captcha image placement in relation to other CB tabs that contain registration fields." class="getcaptchaTab" fields="0">
+			<params>
+			</params>
+			<fields>
+			</fields>
+		</tab>
+    </tabs>   
+    <install>
+    	<queries>
+    	</queries>
+    </install>
+    <uninstall>
+        <queries>
+    	</queries>
+    </uninstall>       
+</cbinstall>

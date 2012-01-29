@@ -2,29 +2,8 @@
 <playlist version="1">
 <title>hwdVideoShare bwn Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-01-23 19:05:40</date>
+<date>2012-01-28 22:41:47</date>
 <trackList>
-
-  <track>
-    <id><![CDATA[125]]></id>
-    <videotitle><![CDATA[Highway to hell, AC/DC, como tocar higway to hell]]></videotitle>
-    <videocode><![CDATA[rqzSONKwZlo]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-125.jpg]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[&#60;p&#62;http://www.virtuosso.com Aprende a tocar el solo de la famosa canci&#243;n Higway to hell de AC/DC. Los mejores cursos de guitarra en DVD los tiene Virtuosso. S&#237;guenos en Twitter: http://www.twitter.com/Virtuosso&#60;/p&#62;]]></description>
-    <views><![CDATA[244]]></views>
-    <views><![CDATA[244]]></views>
-    <date><![CDATA[2011-12-10 18:52:23]]></date>
-    <duration><![CDATA[06:52]]></duration>
-    <rating><![CDATA[4.33]]></rating>
-    <uploader><![CDATA[admin]]></uploader>
-    <uploader_id><![CDATA[79]]></uploader_id>
-    <avatar><![CDATA[]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[highway to hell, ACDC, AC DC, como tocar higway to hell, cómo tocar higwall to hell, acdc, acdc, solos en la guitarra]]></tags>
-  </track>
 
   <track>
     <id><![CDATA[136]]></id>
@@ -35,8 +14,8 @@
     <category><![CDATA[]]></category>
     <category_id><![CDATA[2]]></category_id>
     <description><![CDATA[&#60;p&#62;En el mundo de los dragones, el debil debe perecer, as&#237; se purifica la dinast&#237;a....es lo que llamamos, SELECCI&#211;N NATURAL, rosendo, los suaves, que pasa colega, acho socio&#60;/p&#62;]]></description>
-    <views><![CDATA[724]]></views>
-    <views><![CDATA[724]]></views>
+    <views><![CDATA[758]]></views>
+    <views><![CDATA[758]]></views>
     <date><![CDATA[2011-12-27 12:32:38]]></date>
     <duration><![CDATA[03:03]]></duration>
     <rating><![CDATA[4.50]]></rating>
@@ -45,6 +24,27 @@
     <avatar><![CDATA[gallery/car.gif]]></avatar>
     <comments><![CDATA[1]]></comments>
     <tags><![CDATA[mira la sangre, picolo tanaka, acho,socio, uzirecords, znp, bop 241, brilly marcha, vente conmigo, deja que mi voz, mafia 98]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[125]]></id>
+    <videotitle><![CDATA[Highway to hell, AC/DC, como tocar higway to hell]]></videotitle>
+    <videocode><![CDATA[rqzSONKwZlo]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-125.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[&#60;p&#62;http://www.virtuosso.com Aprende a tocar el solo de la famosa canci&#243;n Higway to hell de AC/DC. Los mejores cursos de guitarra en DVD los tiene Virtuosso. S&#237;guenos en Twitter: http://www.twitter.com/Virtuosso&#60;/p&#62;]]></description>
+    <views><![CDATA[278]]></views>
+    <views><![CDATA[278]]></views>
+    <date><![CDATA[2011-12-10 18:52:23]]></date>
+    <duration><![CDATA[06:52]]></duration>
+    <rating><![CDATA[4.33]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[79]]></uploader_id>
+    <avatar><![CDATA[]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[highway to hell, ACDC, AC DC, como tocar higway to hell, cómo tocar higwall to hell, acdc, acdc, solos en la guitarra]]></tags>
   </track>
 
 </trackList>

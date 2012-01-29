@@ -80,7 +80,7 @@ function cbFrmChksubmitbutton() {
 		}
 	}	
 	if(iserror==1) {
-		alert(errorMSG);
+		shigaruMessages(errorMSG);
 		return false;
 	} else {
 		return true;
@@ -316,7 +316,7 @@ if ($version == 1) {
 		}
 	}
 	if(iserror==1) {
-		alert(errorMSG);
+		shigaruMessages(errorMSG);
 		return false;
 	} else {
 		return true;
@@ -1144,7 +1144,7 @@ $('#checkusername,#checkemail').change( function() {
 
 		$results = $_PLUGINS->trigger( 'onBeforeRegisterFormDisplay', array( &$user, $regErrorMSG ) );
 		if ($_PLUGINS->is_errors()) {
-			echo "<script type=\"text/javascript\">alert(\"".$_PLUGINS->getErrorMSG()."\"); window.history.go(-1); </script>\n";
+			echo "<script type=\"text/javascript\">shigaruMessages(\"".$_PLUGINS->getErrorMSG()."\"); window.history.go(-1); </script>\n";
 			exit();
 		}
 
