@@ -149,7 +149,7 @@ class hwd_vs_Config{
   var $ajaxfavmeth = '1';
   var $ajaxrepmeth = '1';
   var $ajaxa2gmeth = '1';
-  var $cbitemid = '0';
+  var $cbitemid = '53';
   var $applywmvfix = '1';
   var $tpfunc = '1';
   var $diable_nav_user1 = '1';

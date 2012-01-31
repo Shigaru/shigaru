@@ -3935,6 +3935,7 @@ class getPageTitleTab  extends cbTabHandler {
 	function getPageTitleTab() {
 		$this->cbTabHandler();
 	}
+	
 	/**
 	* Generates the HTML to display the user profile tab
 	* @param  moscomprofilerTab   $tab       the tab database entry
@@ -3944,13 +3945,40 @@ class getPageTitleTab  extends cbTabHandler {
 	*/
 	function getDisplayTab($tab,$user,$ui) {
 		global $ueConfig;
+		$db = & JFactory::getDBO();
 		// Display user's name + "Profile Page"
 		$params	=	$this->params;
-		$title	=	cbReplaceVars( $params->get( 'title', '_UE_PROFILE_TITLE_TEXT' ), $user );
+		$title	=	_PROMPT_UNAME;
 		$name	=	getNameFormat( $user->name, $user->username, $ueConfig['name_format'] );
-		$return	=	'<div class="contentheading" id="cbProfileTitle">' . sprintf( $title, $name ) . "</div>\n";
+		$pageURL = 'http://www.shigaru.com/'.$user->username;
 		
-		$return	.=	$this->_writeTabDescription( $tab, $user );
+		 // get video count
+        $db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video WHERE user_id='.$user->id
+					 );
+        $total = $db->loadResult();
+        echo $db->getErrorMsg();
+        $cbUser		=&	CBuser::getInstance( $user->id );
+		$return	=	'<div class="contentheading" id="cbProfileTitle">' 
+						.'<div class="profileheaderitem w70">'
+							.'<label>'.$title.' </label>'
+							.'<span class="boldred f15em">'.$name.'</span>'
+						.'</div>'
+						.'<div class="profileheaderitem w30pc fright">'
+							.'<label>'._UE_PROFILEVIEWS.': </label>'
+							.'<span class="w227">'.$user->hits.'</span>'
+						.'</div>'
+						.'<div class="profileheaderitem w70">'
+							.'<label>'._UE_URL.': </label>'
+							.'<a href="'.$pageURL.'" title="'._UE_VIEWPROFILE.'">'.$pageURL.'</a>'
+						.'</div>'
+						.'<div class="profileheaderitem w30pc fright">'
+							.'<label>'._UE_VIDEOSUBMITED.': </label>'
+							.'<span class="w227">'.$total.'</span>'
+						.'</div>'
+					.'</div>';
+		
+		//$return	.=	$this->_writeTabDescription( $tab, $user );
 		
 		return $return;
 	}

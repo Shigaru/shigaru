@@ -373,14 +373,12 @@ class CBListView_html_default extends cbListView {
 		// List title:
 ?>
 
-		<div class="contentheading cbUserListTitle"><?php echo $this->listTitleHtml; ?></div>
 <?php
 		if ( TRUE && trim( $this->listDescription ) ) {		// to remove description from front-end display as was before CB 1.2: change TRUE to FALSE.
 
 		// List description:
 ?>
 
-   		<div class="contentdescription cbUserListDescription"><?php echo $this->listDescription; ?></div>
 <?php
 		}
 		
@@ -432,29 +430,27 @@ class CBListView_html_default extends cbListView {
 	 */
 	function _renderBody( ) {
 ?>
-	<hr class="cbUserListHrTop" size="1" />
-	<table id="cbUserTable" class="cbUserListTable cbUserListT_<?php echo $this->listid ?>">
-	  <thead>
-		<tr class="sectiontableheader">
 <?php
 		// table headers:
 	
 			$colsNbr = count( $this->columns );
 			foreach ( $this->columns as $column ) {
-				echo "\t\t\t<th><b>" . $column->titleRendered . "</b></th>\n";
+				echo "<b>" . $column->titleRendered . "</b>\n";
 			}
 ?>
+<div id="cbUserTable" class="cbUserListTable cbUserListT_<?php echo $this->listid ?>">
+	<ul id="pe-thumbs" class="pe-thumbs">
+					<?php
 
-		</tr>
-	  </thead>
-	  <tbody>
-<?php
-
+		
+		
 		// table content:
 
 		$i = 0;
 		if ( is_array( $this->users ) && count( $this->users ) > 0 ) {
+			
 			foreach ( $this->users as $userIdx => $user) {
+				
 				$class = "sectiontableentry" . ( 1 + ( $i % 2 ) );		// evenodd class
 
 				if ( $this->allow_profilelink ) {
@@ -464,29 +460,32 @@ class CBListView_html_default extends cbListView {
 					$style = "";
 				}
 				if ( $user->banned ) {
-					echo "\t\t<tr class=\"$class\"><td colspan=\"".$colsNbr."\"><span class=\"error\" style=\"color:red;\">"._UE_BANNEDUSER." ("._UE_VISIBLE_ONLY_MODERATOR.") :</span></td></tr>\n";
+					echo "\t\t<div class=\"$class\">"._UE_BANNEDUSER." ("._UE_VISIBLE_ONLY_MODERATOR.") :</span></div>\n";
 				}
-				echo "\t\t<tr class=\"$class\" ".$style.">\n";
-	
+				/*
 				foreach ( array_keys( $this->columns ) as $colIdx ) {
-					echo "\t\t\t<td valign=\"top\" class=\"cbUserListCol" . $colIdx . "\">" . $this->_getUserListCell( $this->tableContent[$userIdx][$colIdx] ) . "\t\t\t</td>\n";
+					echo "\t\t\t<li><div class=\"cbUserListCol" . $colIdx . "\">" . $this->_getUserListCell( $this->tableContent[$userIdx][$colIdx] ) . "\t\t\t</div></li>\n";
 				}
-				echo "\t\t</tr>\n";
+				*/
+					
+					echo "\t\t\t<li>" . getFieldValue('image',$user->avatar,$user) . "\t\t\t</li>\n";
+				
 				$i++;
 			}
 		} else {
-			echo "\t\t<tr class=\"sectiontableentry1\"><td colspan=\"".$colsNbr."\">"._UE_NO_USERS_IN_LIST."</td></tr>\n";
+			echo "\t\t<div class=\"sectiontableentry1\">"._UE_NO_USERS_IN_LIST."</div>\n";
 		}
 ?>
-	  </tbody>
-	</table>	
-
+	</ul>	
+</div>
 	<hr class="cbUserListHrBottom" size="1" />
 <?php
 	}
 	function _getUserListCell( &$cellFields ) {
 		$html				=	array();		
+		
 		foreach ( $cellFields as $fieldView ) {
+			
 			if ( $fieldView->value !== null ) {
 				if  ( $fieldView->title ) {
 					$title	=	'<span class="cbUserListFieldTitle cbUserListFT_' . $fieldView->name . '">'

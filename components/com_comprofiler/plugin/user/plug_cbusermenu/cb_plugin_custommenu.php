@@ -54,12 +54,17 @@ $link_cb = $grRoute->_("$link&amp;task=userProfile&amp;user=".$user->id.$cb_item
     $userid = $dat->id;
     if ($s == "u.name") {$usernames = $dat->name;}
     else {$usernames = $dat->username;}
-    $echo = "<div id='custommenu' style='text-align:center;'>";
-    if ($user->id == $myid OR $user->id == 0) {
-      $echo.= '<a href="'.$linkmyphoto.'">'._custommenu_CHANGE_MY_PHOTO.'</a>&nbsp;|&nbsp;';
-      $echo.= '<a href="'.$linkremphoto.'">'._custommenu_REMOVE_MY_PHOTO.'</a>&nbsp;|&nbsp;';
-      $echo.= '<a href="'.$linkeditprofile.'">'._custommenu_EDIT_MY_PROFILE.'</a>';
-    } else {
+    $echo = "<div id='custommenu'>";
+    //if ($user->id == $myid OR $user->id == 0) {
+      $echo.= '<a href="#" class="current">'._UE_ABOUTME.'</a>&nbsp;|&nbsp;';
+      $echo.= '<a href="#">'._UE_VIDEOSUBMITED.'</a>&nbsp;|&nbsp;';
+      $echo.= '<a href="#">'._UE_FAVOURITES.'</a>&nbsp;|&nbsp;';
+      $echo.= '<a href="#">'._UE_COMMENTS.'</a>&nbsp;|&nbsp;';
+      $echo.= '<a href="#">'._UE_MYBAND.'</a>&nbsp;|&nbsp;';
+      $echo.= '<a href="#">'._UE_MYOTHERBAND.'</a>';
+    //} 
+    
+    /*else {
       if ($online) $echo.= $this->newOnline($user->id).'&nbsp;&nbsp;';
       if ($shownames) $echo.= '<BIG><b>'.$usernames.'</b></BIG>&nbsp;|&nbsp;';
       $sql = "select a.* FROM #__comprofiler_members a  WHERE a.referenceid=".$myid." and a.memberid=".$user->id;
@@ -102,7 +107,7 @@ $link_cb = $grRoute->_("$link&amp;task=userProfile&amp;user=".$user->id.$cb_item
           if ($text) $echo.= "&nbsp;"._custommenu_REPORT_USER;
           $echo.= "</a>";
       }
-    }    
+    } */   
     $echo.= "</div>";
   return $echo;
 }

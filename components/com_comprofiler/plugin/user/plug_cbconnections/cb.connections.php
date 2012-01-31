@@ -241,14 +241,13 @@ class getConnectionTab extends cbTabHandler {
 		
 		if ( $con_ShowTitle ) {
 			if ( $_CB_framework->myId() == $user->id ) {
-				$return		.=	"<h3 class=\"cbConTitle\">" . _UE_YOURCONNECTIONS . "</h3>";
+				$return		.=	"<h3 class=\"cbConTitle\">" . _UE_YOURCONNECTIONS .' ('.$contotal.')'. "</h3>";
 			} else {
-				$return		.=	"<h3 class=\"cbConTitle\">" . sprintf( _UE_USERSNCONNECTIONS, getNameFormat( $user->name, $user->username, $ueConfig['name_format'] ) ) . "</h3>";
+				$return		.=	"<h3 class=\"cbConTitle\">" . sprintf( _UE_USERSNCONNECTIONS, getNameFormat( $user->name, $user->username, $ueConfig['name_format'] ) ) .' ('.$contotal.')'. "</h3>";
 			}
 		}
 		
 		$return				.=	$this->_writeTabDescription( $tab, $user );
-		
 		$live_site			=	$_CB_framework->getCfg( 'live_site' );
 		
 		$boxHeight			=	$ueConfig['thumbHeight'] + 46;

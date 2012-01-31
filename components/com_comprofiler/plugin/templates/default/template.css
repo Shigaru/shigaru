@@ -29,7 +29,65 @@ text-align:right;
 .cbRegistration .cb_button_wrapper input{float:right;margin:0 2% 12px 0;}
 .acymailing_checkbox{width:auto !important;}
 .acymailwrapper{margin:0 0 12px 29%;}
-
+.pe-thumbs{
+	width: 97%;
+	height: 300px;
+	position: relative;
+	background: transparent url(../../../../../modules/mod_zncbmembers/tmpl/images/2.jpg) center center;
+	border: 5px solid #fff;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+	list-style:none;
+}
+.pe-thumbs:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background: rgba(54, 82, 176, 0.1)
+}
+.pe-thumbs li{
+	float:left;
+	position: relative;
+}
+.pe-thumbs li a,
+.pe-thumbs li a img{
+	display: block;
+	position: relative;
+}
+.pe-thumbs li a img{
+	width:100px;
+	opacity: 0.6;
+}
+.pe-thumbs li a div.pe-description{
+	width: 200px;
+	height: 100px;
+	background: rgba(54, 145, 176, 0.8);
+	position: absolute;
+	top: 0px;
+	left: -200px;
+	color: white;
+	display: none;
+	z-index: 1001;
+	text-align: left;
+}
+.pe-description h3{
+	padding: 10px 10px 0px 10px;
+	line-height: 20px;
+	font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
+	font-size: 22px;
+	margin: 0px;
+}
+.pe-description p{
+	padding: 10px 0px;
+	margin: 10px;
+	font-size: 11px;
+	font-style: italic;
+	border-top: 1px solid rgba(255,255,255,0.3);
+	text-decoration:none;
+}
 .fieldCell , table.content_table td.fieldCell, .fieldCell td, .tab_Description {
 	font-weight:normal;
 	text-align:	left;
@@ -113,7 +171,7 @@ div.cbSideSetting { text-align: right; margin: 6px 2%; }
 */
 
 /* For tableless forms */
-form.cb_form							, .cb_tab_content								{	width: 100%;	margin: 0px;	padding: 0px;	border-width: 0px;	}
+form.cb_form							{	width: 100%;	margin: 0px;	padding: 0px;	border-width: 0px;	}
 form.cb_form .cb_form_instructions		, .cb_tab_content .cb_form_instructions			{	width: 98%;	text-align: left;	clear: both;	padding:8px 3px 8px 6px;	}
 form.cb_form .cb_form_line				, .cb_tab_content .cb_form_line					{	width: 98%;	text-align: left;	clear: both;	padding:3px 3px 4px 6px;	}
 form.cb_form .cb_form_line label		, .cb_tab_content .cb_form_line label			{	display: block;	float: left;	width: 28%;		font-weight:bold;	vertical-align: top;	}
@@ -809,3 +867,54 @@ ul.cbMenuULlist li.cbMenu_UE_VIEWUSERREPORTS a:hover {background:#dee1e3 url(ima
 
 ul.cbMenuULlist li.cbMenu_UE_STATISTICS a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -5400px; display:block;}
 ul.cbMenuULlist li.cbMenu_UE_STATISTICS a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -5500px;}
+
+
+
+
+
+/* shigaru profile*/
+
+#cb_tabid_20{float:right;width:26%;}
+#cb_tabid_20 img{ -webkit-box-shadow: 1px 1px 4px #222;
+box-shadow: 1px 1px 4px #222;
+-moz-border-radius: 0 0 5px 5px;
+-webkit-border-radius: 0 0 5px 5px;
+border-radius: 0 0 5px 5px;}
+#cb_tabid_20 .cbft_image{}
+#cb_tabid_19{float:left;width:77%;margin-left: -50px;}
+#cb_tabid_39{width:70%;}
+#cb_tabid_11{margin-top:0px;}
+#custommenu{background: #E4F2F4;padding: 10px; margin:20px 0 0 0;
+-webkit-box-shadow: 1px 1px 4px #222;
+box-shadow: 1px 1px 4px #222;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;}
+#custommenu a{margin:0 6px 0 6px;color:#74748e;}
+#custommenu a.current{font-weight:bold;font-size:120%;color:#18A;cursor:default;text-decoration:none;}
+.tab_Description{display:none;}
+.profileheaderitem{float:left;margin: 20px 0 0 0;font-size:1.1em;}
+.profileheaderitem label{font-weight:bold;color:#000;width: 122px;text-align:right;display:block;float:left;margin-right: 6px;}
+.cbMenuList li{display:inline-block;}
+.cbPosTabMain .cb_tab_div .contentheading{font-weight:bold;color:red;background: #E4F2F4;
+-moz-border-radius: 5px 5px 0 0;
+-webkit-border-radius: 5px 5px 0 0;
+border-radius: 5px 5px 0 0;
+padding: 12px 12px 0 12px;
+display: inline;
+border:1px solid #d3d3d4;border-bottom:none;}
+.cbPosTabMain .cb_tab_div{margin:40px 0 0 0;}
+.cbPosTabMain .cb_tab_div .contentpaneopen{background: #E4F2F4;-webkit-box-shadow: 1px 1px 4px #222;
+box-shadow: 1px 1px 4px #222;
+-moz-border-radius: 0 0 5px 5px;
+-webkit-border-radius: 0 0 5px 5px;
+border-radius: 0 0 5px 5px;
+margin: -0.9px 0 0 1px;
+padding: 12px;}
+.cbPosUnderAll .cb_tab_content {background: #E4F2F4;-webkit-box-shadow: 1px 1px 4px #222;
+box-shadow: 1px 1px 4px #222;
+-moz-border-radius: 0 0 5px 5px;
+-webkit-border-radius: 0 0 5px 5px;
+border-radius: 0 0 5px 5px;
+margin: 12px 0 0 1px;
+padding: 12px;}}

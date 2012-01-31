@@ -460,7 +460,7 @@ $('#cbbtncancel').click( function() {
 
 			echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $user, 'Profile', 'drawProfile', array( &$user, &$userViewTabs ), $output );
 
-			echo "</div><div class=\"cbClr\"></div></div>\n" . "<div class=\"cbClr\"></div>";		// end of cbProfile floating div
+			echo "</div></div>\n" . "";		// end of cbProfile floating div
 
 			$tab = null;
 			if ( isset( $_GET['tab'] ) ) {

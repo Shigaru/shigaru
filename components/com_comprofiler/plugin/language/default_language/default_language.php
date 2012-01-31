@@ -15,6 +15,54 @@ if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' 
 
 //Field Labels
 DEFINE('_UE_HITS','Hits');
+DEFINE('_UE_PROFILEVIEWS','Profile views');
+DEFINE('_UE_VIDEOSUBMITED','Videos submitted');
+DEFINE('_UE_URL','URL');
+DEFINE('_UE_ABOUTME','About me');
+DEFINE('_UE_WHEREINWORLD','WHERE IN THE WORLD');
+DEFINE('_UE_COUNTRYIAM','Country I am from');
+DEFINE('_UE_COUNTRYILIVE','Country where I live');
+DEFINE('_UE_CITYREGION','City/Region');
+DEFINE('_UE_NATIVELANG','Native language');
+DEFINE('_UE_OTHERLANG','Other languages');
+DEFINE('_UE_PERSONALSITES','PERSONAL SITES');
+DEFINE('_UE_MYWEB1','My website (1)');
+DEFINE('_UE_MYWEB2','My website (2)');
+DEFINE('_UE_MYWEBDESC','Description');
+DEFINE('_UE_CATCHUP','Catch up with me on');
+DEFINE('_UE_INSTRUMIPLAY','INSTRUMENTS I PLAY');
+DEFINE('_UE_INSTRUMPLAY','Instruments play');
+DEFINE('_UE_INSTRPICS','Pictures of these');
+DEFINE('_UE_INSTRUEQUIP','Gear/equipment');
+DEFINE('_UE_INSTRUMLEARN','Instruments I would like to learn');
+DEFINE('_UE_INSTRUSING','Do I sing?');
+DEFINE('_UE_INSTRUTEACH','Do I teach music?');
+DEFINE('_UE_FAVMUSICGENRE','My favourite musical genres');
+DEFINE('_UE_MUSICALINTERESTS','MUSICAL INTERESTS');
+DEFINE('_UE_MUSICALINFLU','My musical influences');
+DEFINE('_UE_FAVARTISTS','My favourite musical artists');
+DEFINE('_UE_ARTBANDRECOMEND','New bands/artists I recommend');
+DEFINE('_UE_MUSICSITESRECOMMEND','MUSIC SITES I RECOMMEND');
+DEFINE('_UE_FAVSONGS','MY FAVOURITE SONGS');
+DEFINE('_UE_FAVALBUMS','MY FAVOURITE ALBUMS');
+DEFINE('_UE_FAVSITES','Favourite music-related websites');
+DEFINE('_UE_FAVOURITES','Favourites');
+DEFINE('_UE_COMMENTS','Comments');
+DEFINE('_UE_MYBAND','My Band');
+DEFINE('_UE_MYOTHERBAND','My Other Band');
+
+DEFINE('_UE_OTHERINTERINFO','OTHER INTERESTING INFO');
+DEFINE('_UE_PHILOSOLIFE','My philosophy on life:');
+DEFINE('_UE_ILIKE','Likes');
+DEFINE('_UE_IDISLIKE','Disikes');
+DEFINE('_UE_COUNTRIESTRAVELD','Countries travelled to');
+DEFINE('_UE_COUNTRIESTOTRAVEL','Countries would love to travel to');
+DEFINE('_UE_WHOTOMET','Who I would most like to meet');
+DEFINE('_UE_FAVBOOKS','Favourite books:');
+DEFINE('_UE_FAVMOVIES','Favourite movies');
+DEFINE('_UE_FAVTV','Favourite tv');
+DEFINE('_UE_HOBBIES','HobbieS');
+
 DEFINE('_UE_USERNAME','Username');
 DEFINE('_UE_Address','Address');
 DEFINE('_UE_City','City');
@@ -51,15 +99,18 @@ DEFINE('_UE_ALLOW_EMAIL_USERCONTR_DESC','"Yes" will allow the user to be able to
 DEFINE('_UE_USERAPPROVAL_SUCCESSFUL','User(s) was succesfully approved!');
 
 //Front End Profile Lables
-DEFINE('_UE_MEMBERSINCE','Member Since');
-DEFINE('_UE_LASTONLINE','Last Online');
+DEFINE('_UE_MEMBERSINCE','Signed up');
+DEFINE('_UE_LASTONLINE','Last Login');
+DEFINE('_UE_TAGS','Tags');
+DEFINE('_UE_IAM','I am');
+
 DEFINE('_UE_ONLINESTATUS','Online Status');
 DEFINE('_UE_ISONLINE','ONLINE');
 DEFINE('_UE_ISOFFLINE','OFFLINE');
 DEFINE('_UE_PROFILE_TITLE',' Profile Page');
 DEFINE('_UE_UPDATEPROFILE','Update Your Profile');
 DEFINE('_UE_UPDATEAVATAR','Update Your Image');
-DEFINE('_UE_CONTACT_INFO_HEADER','Contact Info');
+DEFINE('_UE_CONTACT_INFO_HEADER','GENERAL INFO');
 DEFINE('_UE_ADDITIONAL_INFO_HEADER','Additional Information');
 DEFINE('_UE_REQUIRED_ERROR','This field is required!');
 DEFINE('_UE_FIELD_REQUIRED',' Required!');
@@ -215,6 +266,7 @@ DEFINE ('_UE_NAME','Name');
 DEFINE ('_UE_UL_USERNAME','Username');
 DEFINE ('_UE_USERTYPE','Usertype');
 DEFINE ('_UE_VIEWPROFILE','View Profile');
+DEFINE ('_UE_VIEWPROFILE','Profile URL');
 DEFINE ('_UE_LIST_ALL','List all');
 DEFINE ('_UE_PAGE','Page');
 DEFINE ('_UE_RESULTS','Results');
