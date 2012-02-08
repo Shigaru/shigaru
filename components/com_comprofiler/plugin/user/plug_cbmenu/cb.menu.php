@@ -1314,7 +1314,7 @@ class getMenuTab  extends cbTabHandler {
 				$tableContent					=	$this->menuBar->displayMenu($idCounter);
 				if ( $tableContent != '' ) {
 					$_CB_OneTwoRowsStyleToggle	=	($idCounter&1 ? 2 : 1);
-					$return						.=	'<div class="cbMenuList">' . $tableContent . '</div>';
+					$return						.=	'<div class="cbMenuList"><div class="graybar"><div class="fleft cbusermenubutton mleft6">'._UE_INBOX.'</div><div class="fright"><div class="cbusermenubutton mright6">'._UE_PROFILEOPTIONS.'</div><div class="dispnon">' . $tableContent . '</div></div></div></div><div class="clear"></div>';
 				}
 				break;
 			case "menuList":

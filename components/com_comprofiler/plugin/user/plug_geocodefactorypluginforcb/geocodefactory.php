@@ -36,16 +36,12 @@ class getgeocodefactoryTab extends cbTabHandler {
 		$f_lng = $user->cb_plug_lng;
 
 		if (!$f_lat OR !$f_lng)
-			return "No coordinates in this profile !";
+			return false;
 	
 		if (!strlen($this->params->get('apiKey')))
-			return "No google Apikey!";
+			return false;
 
 		$return = "";
-		$pro = false;
-		// Yes, if you want not buy the pro version an just be unscrupulous, delete the 2 folowing lines.
-		if (!$pro)
-			$return.= '<a style="font-size:.75em; float:right;" title="this dont appairs in pro version" href="http://www.pelloquin.com/index.php/Downloads.html" target="_blank">&copy; pelloquin.com</a>';	
 		$return.= $this->getMap($f_lat, $f_lng, false);
 		
 		return $return;
@@ -108,7 +104,7 @@ class getgeocodefactoryTab extends cbTabHandler {
 		
 		$return = "" ;
 		$return.= '<script src="http://maps.google.com/maps?file=api&v=2&key='.$this->params->get('apiKey').'" type="text/javascript"></script>';
-		$return.= '<div id="ggmap" style="width:'.$this->getParam('width').'px; height:'.$this->getParam('height').'px;" class="pecCbMaps"></div>'."\n";
+		$return.= '<div id="ggmap" style="width:'.$this->getParam('width').'px; height:'.$this->getParam('height').'px;float: right;" class="pecCbMaps"></div>'."\n";
 		$return.= '<script type="text/javascript">';
 		$return.= '//<![CDATA['."\n";
 		$return.= 'var map ; '."\n";

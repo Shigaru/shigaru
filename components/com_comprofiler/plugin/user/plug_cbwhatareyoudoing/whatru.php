@@ -1,197 +1,76 @@
 <?php
-
-
-
 /**
-
 * Joomla Community Builder User Plugin: plug_cbwhatru
-
 * @version 1.1
-
 * @package plug_cbwhatru
-
 * @subpackage whatru.php
-
 * @author Chatura Dilan Perera
-
 * @copyright (C) Chatura Dilan Perera
-
 * @license Limited  http://www.gnu.org/copyleft/gpl.html GNU/GPL
-
 * @final 1.0
-
 */
-
-
-
-
-
-
-
-
-
 /** ensure this file is being included by a parent file */
-
 if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' ) ) ) { die( 'Direct Access to this location is not allowed.' ); }
-
-
-  
+ 
  //avoid the error in installation
   if(!strpos($_SERVER['PHP_SELF'],"administrator")){
-
-
 require_once("components/com_comprofiler/plugin/user/plug_cbwhatareyoudoing/Sajax.php");
-
-  
-
   function whatru($id ,$uname, $status, $defaulttext) {
-     
-      
+   
       global $_CB_framework;
          if($id != $_CB_framework->myId()){
             return;
          }
-
          global $_CB_database;        
-
-        
-         
          $status = strip_tags($status);
-
-
-
          $htmlsatus =  $status;
-
-
-
          $status = mysql_escape_string($status);  
-           
-
          if($status=="is"){
-
-
-
             $status= "";
-
-
-
          }        
         $query = "UPDATE #__comprofiler SET cb_rustatus = '$status', cb_rustatustime='".date("Y-m-d H:i:s")."' WHERE id='$id'";                
-
-
-
-        $_CB_database->setQuery($query);
-
-
-
-        if (!$_CB_database->query()) die($_CB_database->stderr(true));
-
-
-
-        if($status == NULL or $status == ""){
-
-
-
-              return '<h5 onclick="javascript:wrugetTextBox();">'.$defaulttext.'</h5>' ;
-
-
-
-        }else{
-
-
-
+       $_CB_database->setQuery($query);
+       if (!$_CB_database->query()) die($_CB_database->stderr(true));
+       if($status == NULL or $status == ""){
+			return '<h5 onclick="javascript:wrugetTextBox();">'.$defaulttext.'</h5>' ;
+		}else{
              return '<h3 onclick="javascript:wrugetTextBox();">'.$uname.' '.stripslashes($htmlsatus) .'</h3>' ;
-
-
-
         }
-
-
-
     } 
-
-	
-
     sajax_init(); 
-
-
-
-    //$sajax_debug_mode = 1;
-
-
-
     sajax_export("whatru");
-
-
-
     sajax_handle_client_request();
-
-
-
  echo '<script language="JavaScript" charset="utf-8">';
-
  sajax_show_javascript(); 
-
 ?>
   
-
 	function do_save(status) {
-
-
-
         document.getElementById('whatrudiv2').innerHTML = status;
-
-
-
     }
-
 
 
     function wrugetTextBox() {
-
-
-
         document.getElementById("whatrudiv2").style.display = 'none'; 
-
         document.getElementById("whatrudiv1").style.display = ''; 
-
     }
 
-
-
     function wrusaveStatus(id, uname, defaulttext){
-
         var status;
-
         document.getElementById("whatrudiv1").style.display = 'none';
-
         document.getElementById("whatrudiv2").style.display = '';
-
-        status = document.getElementById("statusText").value; 
-        
+        status = document.getElementById("statusText").value;   
         //uncomment  the line below to enable utf8 encoding, you also need to adjust the field length of cb_rustatus in comprofiler table of your joomla database because it is limited to 255 characters
-        //status = convertChar2CP(status);
-               
+        //status = convertChar2CP(status);       
         x_whatru(id, uname, status, defaulttext, do_save);         
-
     }       
 
-
-
     function wruclearStatus(id, uname, defaulttext){
-
         var status;
-
         document.getElementById("whatrudiv1").style.display = 'none';
-
         document.getElementById("whatrudiv2").style.display = '';       
-
         document.getElementById("statusText").value = 'is';
-
-        status = document.getElementById("statusText").value;
-       
+        status = document.getElementById("statusText").value; 
         x_whatru(id, uname, status, defaulttext, do_save);
-
     }
     
     
@@ -239,237 +118,65 @@ require_once("components/com_comprofiler/plugin/user/plug_cbwhatareyoudoing/Saja
     
         return convertCP2DecNCR(CPstring) ;   
   }
-  
   function dec2hex ( textString ) {
  return (textString+0).toString(16).toUpperCase();
  }
-   
-  
-  
-  
-
-    
-    
 
 </script>
 
 <link rel="stylesheet" type="text/css" href="components/com_comprofiler/plugin/user/plug_cbwhatareyoudoing/whatru.css">
-
 <?php 
   }
 
 class getWhatruTab extends cbTabHandler {
-
-
-
 	/**
 
 	 * Construnctor
 
 	 */
-
 	function getWhatruTab() {
-
 		$this->cbTabHandler();
-
 	}
 
-
-
 	function getDisplayTab($tab,$user,$ui) {       
-
         $params = $this->params;        
-
         $defaulttext = $params->get('wrutext', "");
-
-		
-
 		global $_CB_framework;
-
-
-
         $return = null; 
-
-
-
         if($user->username == $_CB_framework->myUsername()){
-
-
-
 	    			$return .= "\t\t<div class=\"whatru\">";
-
-
-
-                    $return .='<div id="whatrudiv2" style="border:none;">';
-
-
-
-                    
-
-
+					$return .='<div id="whatrudiv2" style="border:none;">';
 
 					if($user->cb_rustatus == NULL || $user->cb_rustatus == ''){                    
-
-
-
-                        $return .='<h5 onclick="javascript:wrugetTextBox();">'.$defaulttext.'</h5>';
-
-
-
-                        $return .='</div>'; 
-
-
-
-                        $return .='<div id="whatrudiv1" style="display:none;border:none;">';
-
-
-
-                        $return .='<h3>'.$user->username.' <input type="text" name="statusText" size="'.$params->get('wrutextboxsize', "").'" maxlength="'.$params->get('wrutextboxmax', "").'" id="statusText" value="is"/>';
-
-
-
-                    
-
-
-
+						$return .='</div>'; 
+						$return .='<div id="whatrudiv1">';
+						$return .=' <input type="text" name="statusText" maxlength="'.$params->get('wrutextboxmax', "").'" id="statusText" placeholder="' ._UE_ONYOURMIND.'"/>';                                      
+						
                     }else{                    
-
-
-
                     
-
-
-
-                    $return .='<h3 style="display:inline;" onclick="javascript:wrugetTextBox();">'.$user->username. ' ' .stripslashes($user->cb_rustatus). '</h3><h5 style="display:inline;"> - '.getWhatruTab::dateTimeDiff($user->cb_rustatustime).'</h5>';
-
-
-
                     $return .='</div>'; 
-
-
-
-                    $return .='<div id="whatrudiv1" style="display:none;border:none;">';
-
-
-
-                    $return .='<h3>'.$user->username.' <input type="text" name="statusText" size="'.$params->get('wrutextboxsize', "").'" maxlength="'.$params->get('wrutextboxmax', "").'" id="statusText" value="' .stripslashes($user->cb_rustatus).'"/>';                                      
-
-
-
-                    
-
-
-
+                    $return .='<div id="whatrudiv1">';
+                    $return .=' <input type="text" name="statusText" maxlength="'.$params->get('wrutextboxmax', "").'" id="statusText" placeholder="' ._UE_ONYOURMIND.'"/>';                                      
+                    $return .='<div id="lastupdated"><span>'._UE_LASTSTATUSUPDATE. ': <i>' .stripslashes($user->cb_rustatus). '</i></span><span> - '.getWhatruTab::dateTimeDiff($user->cb_rustatustime).'</span></div>';
                     }
-
-					$return .='<input onclick="javascript:wrusaveStatus(\''.$user->id.'\', \''.$user->username.'\' , \''.$defaulttext.'\');" type="button" value="'.$params->get('wrutextgo', "").'"/><input onclick="javascript:wruclearStatus(\''.$user->id.'\', \''.$user->username.'\', \''.$defaulttext.'\');" type="button" value="'.$params->get('wrutextclear', "").'"/></h3>';    
-
+					//$return .='<input onclick="javascript:wrusaveStatus(\''.$user->id.'\', \''.$user->username.'\' , \''.$defaulttext.'\');" type="button" value="'.$params->get('wrutextgo', "").'"/><input onclick="javascript:wruclearStatus(\''.$user->id.'\', \''.$user->username.'\', \''.$defaulttext.'\');" type="button" value="'.$params->get('wrutextclear', "").'"/></h3>';    
                     $return .='</div>';
-
-					
-
-					
-
 			$return .="</div>\n";  
-
-
-
-
-
-
-
         }else{
-
-
-
-            
-
-
-
             if($user->cb_rustatus == NULL || $user->cb_rustatus == ''){                   
-
-
-
-           
-
-
-
-                    
-
-
-
             }else{                  
-
-
-
-
-
-
-
-            $return .='<div id="whatrudiv2" style="border:none;">';
-
-
-
-            $return .='<div id="whatrudiv2" style="border:none;">'; 
-
-
-
-            $return .='<h3>'.$user->username. ' ' .stripslashes($user->cb_rustatus). '</h3><h5> - '.getWhatruTab::dateTimeDiff($user->cb_rustatustime).'</h5>';
-
-
-
-            $return .='</div>';
-
-
-
-            $return .="</div>\n";                       
-
-
-
-                    
-
-
-
+				$return .='<div id="whatrudiv2" style="border:none;">'; 
+				$return .='<div id="withoutMusic"><span id="lastupdated">'._UE_LASTSTATUSUPDATE. ':</span>
+					<blockquote cite="'.$user->username.'">
+						<p>
+						' .stripslashes($user->cb_rustatus). '
+						</p>
+					</blockquote>
+					<p id="explainLink">'.getWhatruTab::dateTimeDiff($user->cb_rustatustime).'</p>';
+				$return .='</div>';
             }
-
-
-
-        
-
-
-
         }		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		return $return;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	} // end of function 
 
 
@@ -539,46 +246,7 @@ class getWhatruTab extends cbTabHandler {
     }
 }
 
-
-    
-
-
-
-    
-
-
-
-    
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
 } // end of class
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>
 

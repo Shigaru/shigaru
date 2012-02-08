@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install type="module" version="1.5.0" method="upgrade">
     <name>What Are You Doing Module</name>
     <author>Chatura Dilan Perera</author>
-    <version>1.0.0</version>
-    <description>What Are You Doing Module</description>
+	<creationDate>November 2009</creationDate>
+	<copyright>(C) Chatura Dilan Perera 2009</copyright>
+    <version>1.5.0b</version>
+    <description>L_WHATRU_DESC</description>
     <files>
         <filename>mod_whatru.xml</filename>
         <filename module="mod_whatru">mod_whatru.php</filename>
@@ -12,15 +14,26 @@
         <filename>tmpl/default.php</filename>
         <filename>tmpl/index.html</filename>
     </files>
+	<languages>
+		<language tag="de-DE">language/de-DE.mod_whatru.ini</language>
+		<language tag="en-GB">language/en-GB.mod_whatru.ini</language>
+	</languages>
     <params>
-	<param name="whatru_users_params" type="text" size="5" default="5" label="Users To Display" description="Maximum users to display in the module"/>
-	<param name="whatru_users_sort_order" type="list" default="ascending" label="Users Sort Order" description="Users sort order by status added time">
-		<option value="random">Random</option>
-		<option value="ascending">Ascending</option>
-		<option value="descending">Descending</option>
+    <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	<param name="@spacer" type="spacer" default="" label="L_BASIC" description="L_BASIC_DESC" />
+	<param name="whatru_users_params" type="text" size="5" default="5" label="L_MU" description="L_MU_DESC"/>
+	<param name="whatru_users_sort_order" type="list" default="ascending" label="ORDERINGLABEL" description="ORDERINGDESC">
+		<option value="random">L_RANDOM</option>
+		<option value="ascending">L_ASC</option>
+		<option value="descending">L_DESC</option>
 	</param>
-	<param name="whatru_max_char" type="text" size="5" default="1000" label="Limit Text" description="Maximum characters for a status to display"/>
-	<param name="whatru_space" type="text" size="5" default="5" label="Space Between Messages(px)" description="Space between two messages"/>
+	<param name="@spacer" type="spacer" default="" label="L_BASIC" description="L_BASIC_DESC" />
+	<param name="whatru_timeframeswitch" type="radio" default="0" label="L_TFS"  description="L_TFS_DESC">
+	  <option value="0">L_ACTIV</option>
+	  <option value="1">L_INACTIV</option>
+	</param>
+	<param name="whatru_timeframe" type="text" default="24" label="L_TF" description="L_TF_DESC" />
+	<param name="@spacer" type="spacer" default="" label="L_BASIC" description="L_BASIC_DESC" />
+	<param name="whatru_max_char" type="text" size="5" default="1000" label="L_TXTLI" description="L_TXTLI_DESC"/>
     </params>
 </install>
-

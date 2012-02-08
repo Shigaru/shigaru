@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.2" type="plugin" group="user">
+<name>CB My Videos</name>
+<author>Kinshuk Kulshreshtha</author>
+<creationDate>September 2007 - 2007.09.10</creationDate>
+<copyright>(C) 2007 www.kulshreshtha.net</copyright>
+<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+<authorEmail>ceo@anshisolutions.com</authorEmail>
+<authorUrl>www.anshisolutions.com</authorUrl>
+<version>1.2.1</version>
+<description>Share Youtube and Google videos in CB Profiles. Provided by Kinshuk Kulshreshtha</description>
+
+<files>
+<filename plugin="cb.video">cb.video.php</filename>
+<filename plugin="cb.video">cb.video.js</filename>
+<filename>language/english.php</filename>
+<filename>index.html</filename>
+</files>
+
+<tabs>
+<tab name="My Videos" description="" class="getvideoTab" fields="0"
+position="cb_tabmain" displaytype="tab">
+<params>
+<param name="AnnounceVideo" type="list" default="0" label="Announce Video" description="Announce Video addition by users in Shoutbox?">
+<option value="1">Yes</option>
+<option value="0">No</option>
+</param>
+<param name="Videoperpage" type="text" default="2" label="Videos per Page" description="Number of videos to be displayed per page"/>
+<param name="Videolimit" type="text" default="5" label="Videos per User" description="Max number of videos that can be uploaded by a user"/>
+</params>
+</tab>
+
+
+</tabs>
+<install>
+<queries>
+<query>
+CREATE TABLE IF NOT EXISTS `#__comprofiler_plug_video` (
+`id` int(11) unsigned NOT NULL auto_increment,
+`userid` int(11) unsigned default NULL,
+`detail` varchar(255) NOT NULL default '',
+`video` varchar(255) NOT NULL default '',
+`videotype` varchar(255) NOT NULL default '',
+PRIMARY KEY (`id`)
+) TYPE=MyISAM
+</query>
+</queries>
+</install>
+
+</cbinstall>

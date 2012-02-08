@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user">
+	<name>CB Gallary Tab</name>
+	<author>JoomlaJoe</author>
+	<creationDate>2009-01-26</creationDate>
+	<copyright>(C) 2005-2009 joomlapolis.com</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+	<authorEmail>beat@joomlapolis.com</authorEmail>
+	<authorUrl>www.joomlapolis.com</authorUrl>
+	<version>1.2</version>
+	<description>Provides an User Tab that shows article Gallary.</description>
+	<files>
+		
+		<filename plugin="cb.gallary">cb.gallary.php</filename>
+		<filename>index.html</filename>
+	</files>
+    <params>	
+    </params>	
+    <tabs>
+    	<tab name=" Gallary " description="" class="getgallaryTab" cbfields="0">
+			<params>
+			</params>
+			<fields>
+			</fields>
+		</tab>
+    </tabs>   
+    <install>
+    	<queries>
+		<query>
+	CREATE TABLE IF NOT EXISTS `jos_cb_gallary` (
+  `id` int(50) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `fileName` varchar(255) NOT NULL,
+  `uploadBy` int(50) NOT NULL,
+  `date` date NOT NULL,
+  `location` varchar(100) NOT NULL,  
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM; 
+		</query>		
+		</queries>
+    </install>
+    <uninstall>
+        <queries>		
+    	</queries>
+    </uninstall>
+	<database>
+	</database>
+</cbinstall>
