@@ -709,7 +709,7 @@ if ( $_CB_framework->myId() ) {
 	 */
 	 
 	/* registration link */
-	echo '<div id="mod_login_noaccount'.$class_sfx.'">';
+	echo '<li id="register">';
 		
 		if ( ( ! $compact ) && ( $show_remind_register_icons == 0 ) ) {
 			//echo _UE_NO_ACCOUNT . " ";
@@ -721,24 +721,19 @@ if ( $_CB_framework->myId() ) {
 			}
 			$loginPostReg = str_replace("http://","https://",$loginPostReg);
 		}
-		echo '<a href="'.$loginPostReg.'" class="mod_login'.$class_sfx.'">';
+		echo '<a href="'.$loginPostReg.'" title=' . _UE_REGISTER . '">';
 		if ( $show_remind_register_icons >= 1 ) {
 			echo '<img src="' . $urlImgPath . 'register.png" alt="' . _UE_REGISTER . '" title="' . _UE_REGISTER . '" width="25px" height="20px" style="border-width:0px;cursor:pointer;" /> ';
 		}
 		if ( $show_remind_register_icons <= 1 ) {
 			echo ( ( ( checkJversion() == -1 ) && ! $compact ) ? _UE_CREATE_ACCOUNT : _UE_REGISTER );
 		}
-		echo '</a>';
-		
-		echo "</div>\n"; 
+		echo '</a></li>'; 
 	 
 	 
-	echo '
-	
-	 <div id="loginContainer">
-                <a href="#" id="loginButton"><span>'._UE_BUTTON_LOGIN.'</span><em></em></a>
-                <div style="clear:both"></div>
-                <div id="loginBox">                
+	echo '<li id="login"><a href="#" title="'._UE_BUTTON_LOGIN.'"><span>'._UE_BUTTON_LOGIN.'</span></a><span class="arrow"></span>
+               
+                <div id="loginBox" style="display:none;">                
 				
 	<form action="'.$loginPost.'" method="post" id="' . $idFormLogin . '" class="cbLoginForm"';
 	echo ' style="margin:0px;">'."\n <fieldset id=\"body\">";
@@ -928,7 +923,7 @@ if ( $_CB_framework->myId() ) {
 		if ($horizontal || ( $show_remind_register_icons == 2 ) ) {
 			echo '&nbsp;<span id="mod_login_noaccount'.$id_sfx.'">';
 		} elseif ( $jVersion != 2 ) {
-			echo "<tr><td>";
+			echo "";
 		}
 		//	if ( ( ! $compact ) && ( $show_remind_register_icons == 0 ) ) {
 		//		echo _UE_NO_ACCOUNT . " ";
@@ -978,7 +973,7 @@ if ( $_CB_framework->myId() ) {
 	
 	
 	
-		echo "</form></div></div>";
+		echo "</form></div></li>";
 	
 }
 ?>

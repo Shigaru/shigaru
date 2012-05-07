@@ -14,7 +14,6 @@ if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' 
  
  //avoid the error in installation
   if(!strpos($_SERVER['PHP_SELF'],"administrator")){
-require_once("components/com_comprofiler/plugin/user/plug_cbwhatareyoudoing/Sajax.php");
   function whatru($id ,$uname, $status, $defaulttext) {
    
       global $_CB_framework;
@@ -27,6 +26,7 @@ require_once("components/com_comprofiler/plugin/user/plug_cbwhatareyoudoing/Saja
          $status = mysql_escape_string($status);  
          if($status=="is"){
             $status= "";
+            return;
          }        
         $query = "UPDATE #__comprofiler SET cb_rustatus = '$status', cb_rustatustime='".date("Y-m-d H:i:s")."' WHERE id='$id'";                
        $_CB_database->setQuery($query);
@@ -37,91 +37,23 @@ require_once("components/com_comprofiler/plugin/user/plug_cbwhatareyoudoing/Saja
              return '<h3 onclick="javascript:wrugetTextBox();">'.$uname.' '.stripslashes($htmlsatus) .'</h3>' ;
         }
     } 
-    sajax_init(); 
-    sajax_export("whatru");
-    sajax_handle_client_request();
  echo '<script language="JavaScript" charset="utf-8">';
- sajax_show_javascript(); 
+ echo 'var _whatruurl="'.cbSef($_SERVER["REQUEST_URI"]).'"';
 ?>
   
 	function do_save(status) {
         document.getElementById('whatrudiv2').innerHTML = status;
     }
-
-
-    function wrugetTextBox() {
-        document.getElementById("whatrudiv2").style.display = 'none'; 
-        document.getElementById("whatrudiv1").style.display = ''; 
-    }
-
-    function wrusaveStatus(id, uname, defaulttext){
-        var status;
-        document.getElementById("whatrudiv1").style.display = 'none';
-        document.getElementById("whatrudiv2").style.display = '';
-        status = document.getElementById("statusText").value;   
-        //uncomment  the line below to enable utf8 encoding, you also need to adjust the field length of cb_rustatus in comprofiler table of your joomla database because it is limited to 255 characters
-        //status = convertChar2CP(status);       
-        x_whatru(id, uname, status, defaulttext, do_save);         
-    }       
-
-    function wruclearStatus(id, uname, defaulttext){
-        var status;
-        document.getElementById("whatrudiv1").style.display = 'none';
-        document.getElementById("whatrudiv2").style.display = '';       
-        document.getElementById("statusText").value = 'is';
-        status = document.getElementById("statusText").value; 
-        x_whatru(id, uname, status, defaulttext, do_save);
-    }
-    
-    
-    
-  function convertCP2DecNCR ( textString ) {
-  var outputString = "";
-  textString = textString.replace(/^\s+/, '');
-  if (textString.length == 0) { return ""; }
-  textString = textString.replace(/\s+/g, ' ');
-  var listArray = textString.split(' ');
-  for ( var i = 0; i < listArray.length; i++ ) {
-    var n = parseInt(listArray[i], 16);
-    outputString += ('&#' + n + ';');
-  }
-  return( outputString );
-  }
-  
-  function convertChar2CP ( textString ) { 
-    var haut = 0;
-    var n = 0;
-    CPstring = '';
-    for (var i = 0; i < textString.length; i++) {
-        var b = textString.charCodeAt(i); 
-        if (b < 0 || b > 0xFFFF) {
-            CPstring += 'Error ' + dec2hex(b) + '!';
-        }
-        if (haut != 0) {
-            if (0xDC00 <= b && b <= 0xDFFF) {
-                CPstring += dec2hex(0x10000 + ((haut - 0xD800) << 10) + (b - 0xDC00)) + ' ';
-                haut = 0;
-                continue;
-            }else {
-                CPstring += '!erreur ' + dec2hex(haut) + '!';
-                haut = 0;
-            }
-        }
-        if (0xD800 <= b && b <= 0xDBFF) {
-            haut = b;
-        }
-        else {
-            CPstring += dec2hex(b) + ' ';
-        }
-    }
-        CPstring = CPstring.substring(0, CPstring.length-1);
-    
-        return convertCP2DecNCR(CPstring) ;   
-  }
-  function dec2hex ( textString ) {
- return (textString+0).toString(16).toUpperCase();
- }
-
+    jQuery(document).ready(function() {
+			jQuery('#whatrudiv1 input[name=statusText]').keypress(function(e)
+			{
+				code= (e.keyCode ? e.keyCode : e.which);
+				if (code == 13){
+						shigaruAjax(_whatruurl,'div.whatru',null, null,true,false)
+					}
+				e.preventDefault();
+			});
+		});
 </script>
 
 <link rel="stylesheet" type="text/css" href="components/com_comprofiler/plugin/user/plug_cbwhatareyoudoing/whatru.css">

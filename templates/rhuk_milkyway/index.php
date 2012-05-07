@@ -11,176 +11,165 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+/*
+$jHeader = $this->getHeadData();
+$jHeader['scripts'] = array();
+$this->setHeadData($jHeader);
+*/
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
-<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.min.js"></script>
-<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-ui.min.js"></script>
-<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jjmenu.js"></script>	
-<jdoc:include type="head" />
-
-<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/system.css" type="text/css" />
-<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/general.css" type="text/css" />
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
-
-<script src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.js"></script>
-<link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/skin.css" rel="stylesheet" type="text/css"/>
-
-
-<!--[if lte IE 6]>
-<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
-<![endif]-->
-<?php if($this->direction == 'rtl') : ?>
-	<link href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template_rtl.css" rel="stylesheet" type="text/css" />
-<?php endif; ?>
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery.qtip.css" />
+<link href='http://fonts.googleapis.com/css?family=Ubuntu:light' rel='stylesheet' type='text/css'/>
+<jdoc:include type="head" />
 </head>
-<body id="page_bg"  class="color_<?php echo $this->params->get('colorVariation'); ?> bg_<?php echo $this->params->get('backgroundVariation'); ?> width_<?php echo $this->params->get('widthStyle'); ?>">
-<a name="up" id="up"></a>	
-<div id="totatwrapper">
-
-<div class="center" align="center" id="center">
-	<div id="wrapper">
-		<div id="wrapper_r">
-			<div id="headerwrapper">
-<div id="header">
-				<div id="header_l">
-				<div id="logo"><a title="<?php echo JText::_('Shigaru.com Home page') ?>" href="<?php echo $this->baseurl ?>"><span><?php echo JText::_('The community for sharing musical knowledge') ?></span></a></div>
-				<p><?php echo JText::_('The community for sharing musical knowledge') ?></p>
-				</div>
-				
+<body id="page_bg">
+<a name="up" id="up"></a>
+<div id="head">
+	<div id="head_content">
+		<div id="head_logo">
+			<a class="fleft" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+				<img height="140" width="145" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
+			</a>
+			<a id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+				<h1>SHIGARU</h1>
+			</a>
+			<span id="head_comm_text"><?php echo JText::_('The community for sharing musical knowledge') ?></span>
+			<div id="topnavmenu">
+				<?php
+					$user =& JFactory::getUser();
+					
+					if (!$user->guest){
+							echo '<div id="grettings">';
+							echo JText::sprintf( 'LOGIN_GREETING', $user->name );
+							echo '</div>';
+						}
+						 
+					
+				?>
+				<ul>
+					<jdoc:include type="modules" name="top" />
+					<li id="upload"><a href="#" title="<?php echo JText::_('Click on this link to upload a video!') ?>">UPLOAD</a></li>
+				</ul>
+					
 			</div>
+		</div>	
+	</div>	
+</div>	
 
-<div id="topNavBar">
-		<?php
-			/**
-			$user =& JFactory::getUser();
-			
-			if (!$user->guest){
-					echo '<div id="grettings">';
-					echo JText::sprintf( 'LOGIN_GREETING', $user->name );
-					echo '</div>';
-				}
-				 
-			**/ 
-		?>
-		<jdoc:include type="modules" name="top" />
-		<jdoc:include type="modules" name="user4" />
-</div>			
-<div id="searchmod">
-		<jdoc:include type="modules" name="search" />		
+<div id="nav_browse">
+	<div id="nav_browse_content">
+		<div id="nav_browse_search">
+			<jdoc:include type="modules" name="search" />		
+		</div>	
+	</div>
 </div>
-</div>			
-<div class="clr"></div>
-			<div id="tabarea">
-				<div id="tabarea_l">
-					<div id="tabarea_r">
-						<div id="tabmenu">
-						<div id="navigation">
-									<jdoc:include type="modules" name="user3" />
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+</div>
+<div id="nav_tabs">	
+		<jdoc:include type="modules" name="user3" />
+</div>
+<div class="clear"></div>
+<jdoc:include type="message" />
 
-			<div class="clr"></div>
-
-			<div id="redbox">
-				<div id="redbox_t">
-					<div id="redbox_tl">
-						<div id="redbox_tr"></div>
-					</div>
-				</div>
-
-				<div id="redbox_m">
-					<div id="area">
-									<jdoc:include type="message" />
-
-						<div id="leftcolumn">
-						<?php if($this->countModules('left')) : ?>
 							<jdoc:include type="modules" name="left" style="rounded" />
-						<?php endif; ?>
-						</div>
 
-						<?php if($this->countModules('left')) : ?>
-						<div id="maincolumn">
-						<?php else: ?>
-						<div id="maincolumn_full">
-						<?php endif; ?>
-												
-								
-							
 
-							<table class="nopad">
-								<tr valign="top">
-									<td>
+	
 										
 										<jdoc:include type="component" />
 										
 										<jdoc:include type="modules" name="footer" style="xhtml"/>
-									</td>
-									<?php if($this->countModules('right') and JRequest::getCmd('layout') != 'form') : ?>
-										<td class="greyline">&nbsp;</td>
-										<td width="170">
+								
 											
 											<jdoc:include type="modules" name="right" style="xhtml"/>
-										</td>
-									<?php endif; ?>
-								</tr>
-							</table>
-							<div class="tcenter">
-								<?php echo JText::_('Think you can play better?') ?> 
+									
+				
+								
+
+
+<div class="workarea">
+  <div class="workarea_odd">
+	<div class="workarea_wrapper">
+		<div class="content_box">
+
+<?php echo JText::_('Think you can play better?') ?> 
 								<a href="<?php echo $this->baseurl ?>/index.php?option=com_hwdvideoshare&task=upload&Itemid=66&lang=en" title="<?php echo JText::_('Submit') ?>"><b><?php echo JText::_('Submit') ?></b> </a>
 								<?php echo JText::_(' your videos now then! Or submit video tutorials you have found on other websites. What are you waiting for? Share your musical knowledge!') ?>
-							</div>
-						</div>
-						<div class="clr"></div>
-					</div>
-					<div class="clr"></div>
-				</div>
+							
 
-				<div id="redbox_b">
-					<div id="redbox_bl">
-						<div id="redbox_br"></div>
-					</div>
-				</div>
-			</div>
-
-			<div id="footerspacer"></div>
-		</div>
-
-		
+</div>
 	</div>
+  </div>	
 </div>
-</div>
 
-
-
-
-
-
-
-<div id="footer">
-            <div class="footer_links">
-				<div class="mtop6">
-					<strong>&reg; 2008 www.shigaru.com &copy; All Rights Reserved.</span>
-				&nbsp;Contact:&nbsp;<a id="direc" href="mailto:info@shigaru.com">info@shigaru.com</a></strong>
-				</div>
-            </div>
-            <div class="emboss" id="toggle_reasons">
-                <div class="lip"></div>
-                <div class="shadow"></div>
-                <div class="words">
-					<div class="footer_links">
-				<jdoc:include type="modules" name="pagefooter" />  
-				 </div> 		
-                    <p><a href="<?php echo $this->baseurl ?>/index.php?option=com_hwdvideoshare&task=upload&Itemid=66&lang=en" title="<?php echo JText::_('Submit a video now!') ?>"><?php echo JText::_('Submit a video now!') ?> </a></p>
-                </div>
-            </div>
-        </div>
 <jdoc:include type="modules" name="debug" />
 <jdoc:include type="modules" name="chat" />
+<div id="footer_topborder"></div>
+<div id="footer">
+	<div id="footer_content">
+		<div id="leftcolumn">
+			<h3>What we're tweeting...</h3>
+			<div>
+				<ul>
+					<li>
+						<p><span>@shigaru</span>Thank you very much for your feedback and nice words. Been working hard to improve it all.</p>
+						<span class="tItalic">About 2 days ago</span>
+					</li>
+					<li>
+						<p><span>@pichondeclatrava</span>Niiiiice! keep it up guys! here you have a follower! :-)</p>
+						<span class="tItalic">About 4 days ago</span>
+					</li>
+				</ul>
+				<div class="fright">
+					<input value="Follow us" class="submit fleft" type="submit" />
+				</div>
+			</div>
+		</div>
+		<div id="rightcolmn">
+			<div>
+				<h3>Sign up for our Newsletters</h3>
+				<input type="text" value="" class="fleft search" placeholder="Enter email address to subscribe" />			
+				<input value="Subscribe" class="submit fleft" type="submit" />
+			</div>
+			<div class="clear">
+				<h3>Stay in touch</h3>
+				<div>
+					<ul>
+						<li>
+							<div class="facebook"><span class="dispnon">Facebook</span></div>
+						</li>
+						<li>
+							<div class="twitter"><span class="dispnon">Twitter</span></div>
+						</li>
+						<li>
+							<div class="google"><span class="dispnon">Google</span></div>
+						</li>
+						<li>
+							<div class="stumbleupon"><span class="dispnon">Stumbleupon</span></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="w75">
+				<p>"Without music, live would be a mistake."</p>
+				<span class="fright tItalic">Friedrich Nietzsche</span>
+			</div>
+		</div>
+		<div class="clear">
+			<div class="shigarulogo"></div>
+			<div class="footer_links">
+				<jdoc:include type="modules" name="pagefooter" /> 
+			</div>
+			<div class="copyright">&reg; 2012 Shigaru.com. &copy; All rights reserved. Contact: <a href="mailto:info@shigaru.com">info@shigaru.com</a></div>
+		</div>
+	</div>
+</div>
 </body>
 </html>

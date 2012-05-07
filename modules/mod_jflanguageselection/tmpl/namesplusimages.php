@@ -32,20 +32,11 @@
 */
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-$outString = '<div id="langTab" class="headAccountCont" onmouseover="langMenu();" onmouseout="langMenu();" >
-						<div id="langBoxLeft" class="leftSide" style="height: 30px;">
-							<div class="topLeftCorner">&nbsp;</div>
-							<div class="bottomLeftCorner">&nbsp;</div>
-						</div>';
+$titleString= constant('Click on this linkf to display the language options');
+$outString = '<li id="lang"><a href="#" title="'.$titleString.'"><span>'.$curLanguage->getName().'</span></a><span class="arrow"></span>';
 $curLangImg = '/images/' .$curLanguage->get( 'image' );						
 //<img src="' .JURI::base(true). $curLangImg. '" alt="' .$curLanguage->getName(). '" title="' .$curLanguage->getName(). '" border="0" class="langImg"/>
-$outString .= '<div id="langBoxCenter" class="centerSide">
-						<p class="currentLang">
-						   <a class="lang" title="" href="javascript:;">
-						   
-						   '.$curLanguage->getName().'</a>
-						   
-						<div id="langDropMenu" style="display: none;">
+$outString .= '<div id="langDropMenu" style="display: none;">
 						  <ul class="jflanguageselection">';
 $countryCount =0;					  
 foreach( $langActive as $language )
@@ -93,16 +84,6 @@ foreach( $langActive as $language )
 	$outString .= '</li>';
 	$countryCount++;
 }
-$outString .= '</ul><div class="clr"></div></div><div class="clr"></div></div>
-					<div id="langBoxRight" class="rightSide" style="height: 30px;">
-						<div class="topRightCorner">&nbsp;</div>
-						<div class="bottomRightCorner">&nbsp;</div>
-					</div></div>';
+$outString .= '</ul></li>';
 
 echo $outString;
-
-if( $inc_jf_css && JFile::exists(JPATH_ROOT.DS.'modules'.DS.'mod_jflanguageselection'.DS.'tmpl'.DS.'mod_jflanguageselection.css') ) {
-	$document =& JFactory::getDocument();
-	$document->addStyleSheet(JURI::base(true).'/modules/mod_jflanguageselection/tmpl/mod_jflanguageselection.css');
-}
-

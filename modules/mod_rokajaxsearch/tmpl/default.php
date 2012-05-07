@@ -31,7 +31,7 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 <form name="rokajaxsearch" id="rokajaxsearch" class="<?php echo $theme; ?>" action="<?php echo JURI::Base()?>" method="get">
 <div class="rokajaxsearch <?php echo $params->get('moduleclass_sfx'); ?>">
 	<div class="roksearch-wrapper">
-		<input id="roksearch_search_str" name="searchword" type="text" class="inputbox" value="<?php echo JText::_('SEARCH'); ?>" />
+		<input id="roksearch_search_str" name="searchword" type="text" placeholder="Search bands, songs, authors, we have 3.500 videos" class="inputbox search" value="<?php echo JText::_('SEARCH'); ?>" />
 	</div>
 	<input type="hidden" name="searchphrase" value="<?php echo $params->get("searchphrase")?>"/>
 	<input type="hidden" name="limit" value="<?php echo $limit; ?>" />
@@ -77,6 +77,9 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 <div id="rokajaxsearch_tmp" style="visibility:hidden;display:none;"></div>
 </form>
 <div class="clear tleft mleft6">
-<span class=""><?php echo JText::_('Recently searched >>'); ?></span> <?php echo $params->latestSearchs; ?>
+<div id="nav_browse_search_recently">
+	<div>	
+		<span class=""><?php echo JText::_('Recently searched >>'); ?></span> <?php echo $params->latestSearchs; ?>
+	</div>
 </div>
 

@@ -124,22 +124,22 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 		// cases are slightly different
 		case 1 :
 			// open in a new window
-			$txt .= '<a href="' . $mitem->url . '" target="_blank" class="' . $menuclass . '" ' . $id . '><span class="homeicon"><span>' . $mitem->name . '</span></span></a>';
+			$txt .= '<a href="' . $mitem->url . '" target="_blank" class="' . $menuclass . '" ' . $id . '>' . $mitem->name . '</a>';
 			break;
 
 		case 2 :
 			// open in a popup window
-			$txt .= "<a href=\"#\" onclick=\"javascript: window.open('" . $mitem->url . "', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\" " . $id . "><span class=\"homeicon\"><span>" . $mitem->name . "</span></span></a>\n";
+			$txt .= "<a href=\"#\" onclick=\"javascript: window.open('" . $mitem->url . "', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\" " . $id . "></a>\n";
 			break;
 
 		case 3 :
 			// don't link it
-			$txt .= '<span class="' . $menuclass . ' homeicon" ' . $id . '><span>' . $mitem->name . '</span></span>';
+			$txt .= '' . $mitem->name . '';
 			break;
 
 		default : // formerly case 2
 			// open in parent window
-			$txt .= '<a href="' . $mitem->url . '" class="' . $menuclass . '" ' . $id . '><span class="homeicon"><span>' . $mitem->name . '</span></span></a>';
+			$txt .= '<a href="' . $mitem->url . '" class="' . $menuclass . '" ' . $id . '>' . $mitem->name . '</a>';
 			break;
 	}
 
@@ -370,8 +370,8 @@ function mosShowHFMenu(& $params, $style = 0)
 			case 1 :
 				echo '<ul id="' . $menuclass . '">';
 				foreach ($links as $link) {
-					if($counter == count($links)-1)$lastchild = 'class="lastmaintab"';
-					echo '<li '.$lastchild.' id="tab'.$counter.'" >' . $link . '</li>';
+					if($counter == count($links)-1)$lastchild = 'class="last"';
+					echo '<li '.$lastchild.' id="tab'.$counter.'" ><span class="fleft"></span><span class="fright">' . $link . '</span><span class="clear nonvis"></span></li>';
 					$counter++;
 					$lastchild = '';
 				}

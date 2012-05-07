@@ -213,7 +213,7 @@ class hwd_vs_Config{
   var $showrevi = '1';
   var $revi_no = '10';
   var $fvid_w = '0';
-  var $fvid_h = '266';
+  var $fvid_h = '400';
   var $var_c = '1';
   var $var_fb = '0.75';
   var $tar_fb = '0.75';
