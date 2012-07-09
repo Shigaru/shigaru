@@ -2908,7 +2908,7 @@ $app = & JFactory::getApplication();
 		$db = & JFactory::getDBO();
 		$query = 'SELECT genre FROM #__hwdvidsgenres AS a, #__hwdvidsvideos as b'; 
 		$query .= ' WHERE a.Id = b.genre_id';
-		$query .= ' LIMIT 0,30';
+		$query .= ' LIMIT 0,10';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -3032,7 +3032,7 @@ $app = & JFactory::getApplication();
 		$db = & JFactory::getDBO();
 		$query = 'SELECT label FROM #__hwdvidsbands AS a, #__hwdvidsvideos as b'; 
 		$query .= ' WHERE a.id = b.band_id';
-		$query .= ' LIMIT 0,30';
+		$query .= ' LIMIT 0,10';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -3049,7 +3049,7 @@ $app = & JFactory::getApplication();
 		$db = & JFactory::getDBO();
 		$query = 'SELECT instrument FROM #__hwdvidsinstruments AS a, #__hwdvidsvideos as b'; 
 		$query .= ' WHERE a.Id = b.intrument_id';
-		$query .= ' LIMIT 0,30';
+		$query .= ' LIMIT 0,10';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -3177,20 +3177,23 @@ $app = & JFactory::getApplication();
 		$smallest = $smallest[0];
 		$difference = $biggest - $smallest;
 		$fontDifference = $maxSize-$minSize;
-
+		/*echo '<pre>';
+		echo var_dump($array);
+		echo '</pre>';*/
 		//randomizes the content
 		shuffle($array);
-		$code = '<div id="tagsCloud">';
+		$code = '<ul>';
 		foreach ($array as $word)
-		{
-			//var_dump($word);
+		{			
 			$details = explode('~',$word);
+			if(trim($details[0]) != ''){
 			$percent = round(($details[0] - $smallest) / $difference,1);
 			$fontSize = round($minSize + ($fontDifference*$percent));			
 			$url = JRoute::_("index.php?searchword=".$details[1]."&ordering=newest&searchphrase=all&Itemid=29&option=com_search&lang=en");
-			$code.= '<a href="'.$url.'" style="display:inline-block; padding-right:'.rand(1,7).'px; padding-bottom:'.rand(1,7).'px; font-size:'.$fontSize.'px;">'.$details[1].'</a>';
+			$code.= '<li><a href="'.$url.'" style="display:inline-block; padding-right:'.rand(1,7).'px; padding-bottom:'.rand(1,7).'px; font-size:'.$fontSize.'px;"><span class="fleft">'.$details[1].'</span><span class="hits">'.floor($details[0]).'</span></a></li>';
+			}
 		}
-		$code .= '</div>';
+		$code .= '</ul>';
 		return $code;
 
 	}

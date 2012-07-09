@@ -33,10 +33,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 $titleString= constant('Click on this linkf to display the language options');
-$outString = '<li id="lang"><a href="#" title="'.$titleString.'"><span>'.$curLanguage->getName().'</span></a><span class="arrow"></span>';
+$outString = '<div class="topbuttons" id="lang"><a href="#" title="'.$titleString.'"><span>'.$curLanguage->getName().'</span><span class="arrow"></span></a>';
 $curLangImg = '/images/' .$curLanguage->get( 'image' );						
 //<img src="' .JURI::base(true). $curLangImg. '" alt="' .$curLanguage->getName(). '" title="' .$curLanguage->getName(). '" border="0" class="langImg"/>
-$outString .= '<div id="langDropMenu" style="display: none;">
+$outString .= '<div id="langDropMenu" class="floatingBox">
 						  <ul class="jflanguageselection">';
 $countryCount =0;					  
 foreach( $langActive as $language )
@@ -84,6 +84,6 @@ foreach( $langActive as $language )
 	$outString .= '</li>';
 	$countryCount++;
 }
-$outString .= '</ul></li>';
+$outString .= '</ul></div></div>';
 
 echo $outString;

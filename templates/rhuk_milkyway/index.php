@@ -44,20 +44,37 @@ $this->setHeadData($jHeader);
 			<span id="head_comm_text"><?php echo JText::_('The community for sharing musical knowledge') ?></span>
 			<div id="topnavmenu">
 				<?php
-					$user =& JFactory::getUser();
+					global $_CB_framework, $ueConfig, $mainframe;
 					
-					if (!$user->guest){
+					if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
+						if ( ! file_exists( JPATH_ADMINISTRATOR . '/components/com_comprofiler/plugin.foundation.php' ) ) {
+							echo 'CB not installed!';
+							return;
+						}
+						include_once( JPATH_ADMINISTRATOR . '/components/com_comprofiler/plugin.foundation.php' );
+					} else {
+						if ( ! file_exists( $mainframe->getCfg( 'absolute_path' ) . '/administrator/components/com_comprofiler/plugin.foundation.php' ) ) {
+							echo 'CB not installed!';
+							return;
+						}
+						include_once( $mainframe->getCfg( 'absolute_path' ) . '/administrator/components/com_comprofiler/plugin.foundation.php' );
+					}
+					cbimport( 'cb.tabs' );
+					$user =& JFactory::getUser();
+					$cbUser = CBuser::getInstance( $user->id );
+					
+					
+					if ($user && !$user->guest){
 							echo '<div id="grettings">';
-							echo JText::sprintf( 'LOGIN_GREETING', $user->name );
+							echo $cbUser->getField( 'avatar' , null, 'html', 'div', 'profile' );
+							echo JText::sprintf( 'LOGIN_GREETING', $user->username );
 							echo '</div>';
 						}
 						 
 					
 				?>
-				<ul>
 					<jdoc:include type="modules" name="top" />
-					<li id="upload"><a href="#" title="<?php echo JText::_('Click on this link to upload a video!') ?>">UPLOAD</a></li>
-				</ul>
+					<div class="topbuttons mustardbutton" id="upload"><a href="#" title="<?php echo JText::_('Click on this link to upload a video!') ?>">UPLOAD</a></div>
 					
 			</div>
 		</div>	
@@ -73,42 +90,14 @@ $this->setHeadData($jHeader);
 </div>
 </div>
 <div id="nav_tabs">	
-		<jdoc:include type="modules" name="user3" />
+	<jdoc:include type="modules" name="user3" />
 </div>
 <div class="clear"></div>
 <jdoc:include type="message" />
-
-							<jdoc:include type="modules" name="left" style="rounded" />
-
-
-	
-										
-										<jdoc:include type="component" />
-										
-										<jdoc:include type="modules" name="footer" style="xhtml"/>
-								
-											
-											<jdoc:include type="modules" name="right" style="xhtml"/>
-									
-				
-								
-
-
-<div class="workarea">
-  <div class="workarea_odd">
-	<div class="workarea_wrapper">
-		<div class="content_box">
-
-<?php echo JText::_('Think you can play better?') ?> 
-								<a href="<?php echo $this->baseurl ?>/index.php?option=com_hwdvideoshare&task=upload&Itemid=66&lang=en" title="<?php echo JText::_('Submit') ?>"><b><?php echo JText::_('Submit') ?></b> </a>
-								<?php echo JText::_(' your videos now then! Or submit video tutorials you have found on other websites. What are you waiting for? Share your musical knowledge!') ?>
-							
-
-</div>
-	</div>
-  </div>	
-</div>
-
+<jdoc:include type="modules" name="left" style="rounded" />
+<jdoc:include type="component" />
+<jdoc:include type="modules" name="footer" style="xhtml"/>
+<jdoc:include type="modules" name="right" style="xhtml"/>
 <jdoc:include type="modules" name="debug" />
 <jdoc:include type="modules" name="chat" />
 <div id="footer_topborder"></div>

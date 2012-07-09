@@ -6,15 +6,17 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-
-<div class="box listitem">
-	<div class="listthumb">{$data->thumbnail}</div>
-	<div>
-		<div class="entry-meta">
-			<div class="entry-title">{$data->title} {$data->editvideo} {$data->deletevideo}</div>
-			<div class="author">{$smarty.const._HWDVIDS_INFO_SHARED}  {$data->uploader} </div>
-			<div class="sideinfo"> {$smarty.const._HWDVIDS_INFO_PLAYS} <br /> <span>{$data->views}</span></div>
-		</div>    
+<li>
+	<div class="fleft thumb">{$data->thumbnail}</div>
+	<div class="fleft">
+		<h6>{$data->title} {$data->editvideo} {$data->deletevideo}</h6>
+		<span class="fleft">{$smarty.const._HWDVIDS_INFO_SHARED} </span>{$data->uploader}
+		<span> - 4:31 min</span>
 	</div>
-<div style="clear:both;"></div>
-</div>
+	<div class="plays">
+		<div class="fright">
+			<span>{$data->views}</span>
+			<span class="fright playstext">{$smarty.const._HWDVIDS_INFO_PLAYS}</span>
+		</div>
+	</div>
+</li>

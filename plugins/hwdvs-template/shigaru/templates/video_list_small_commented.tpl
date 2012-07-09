@@ -7,14 +7,19 @@
 //////
 *}
 
-<div class="box">
-<div style="float:left;">{$data->thumbnail}</div>
-<div >
+<li>
+	<div class="fleft thumb">{$data->thumbnail}</div>
+	<div class="fleft">
+		<h6>{$data->title} {$data->editvideo} {$data->deletevideo}</h6>
+		<span class="fleft">{$smarty.const._HWDVIDS_INFO_SHARED} </span>{$data->uploader}
+		<span> - 4:31 min</span>
+	</div>
+	<div class="plays">
+		<div class="fright">
+			<span>{$data->views}</span>
+			<span class="fright playstext">{$smarty.const._HWDVIDS_INFO_PLAYS}</span>
+		</div>
+	</div>
+</li>
 
-<div class="listtitle">{$data->title} {$data->editvideo} {$data->deletevideo}</div>
-<div class="listshared">{$smarty.const._HWDVIDS_INFO_SHARED}  {$data->uploader} </div>
-<div class="listviews"> {$smarty.const._HWDVIDS_INFO_PLAYS} <br /> <span class="fontred">{$data->views}</span></div>
-     
-</div>
-<div style="clear:both;"></div>
-</div>
+

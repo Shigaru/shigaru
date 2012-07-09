@@ -709,7 +709,7 @@ if ( $_CB_framework->myId() ) {
 	 */
 	 
 	/* registration link */
-	echo '<li id="register">';
+	echo '<div class="topbuttons" id="register">';
 		
 		if ( ( ! $compact ) && ( $show_remind_register_icons == 0 ) ) {
 			//echo _UE_NO_ACCOUNT . " ";
@@ -728,12 +728,11 @@ if ( $_CB_framework->myId() ) {
 		if ( $show_remind_register_icons <= 1 ) {
 			echo ( ( ( checkJversion() == -1 ) && ! $compact ) ? _UE_CREATE_ACCOUNT : _UE_REGISTER );
 		}
-		echo '</a></li>'; 
+		echo '</a></div>'; 
 	 
 	 
-	echo '<li id="login"><a href="#" title="'._UE_BUTTON_LOGIN.'"><span>'._UE_BUTTON_LOGIN.'</span></a><span class="arrow"></span>
-               
-                <div id="loginBox" style="display:none;">                
+	echo '<div class="topbuttons" id="login"><a href="#" title="'._UE_BUTTON_LOGIN.'"><span>'._UE_BUTTON_LOGIN.'</span><span class="arrow"></span></a>
+                <div class="floatingBox" id="loginBox" style="display:none;">                
 				
 	<form action="'.$loginPost.'" method="post" id="' . $idFormLogin . '" class="cbLoginForm"';
 	echo ' style="margin:0px;">'."\n <fieldset id=\"body\">";
@@ -829,7 +828,7 @@ if ( $_CB_framework->myId() ) {
 			$buttonValue	=	_UE_BUTTON_LOGIN;
 			break;
 	}
-	echo '<input type="submit" id="login" name="Submit" class="button'.$class_sfx.'" value="' . $buttonValue . '"' . $buttonStyle . ' />';
+	echo '<input type="submit" id="login" name="Submit" class="mustardbutton '.$class_sfx.'" value="' . $buttonValue . '"' . $buttonStyle . ' />';
 
 	
 	// "Remember me?":
@@ -973,7 +972,7 @@ if ( $_CB_framework->myId() ) {
 	
 	
 	
-		echo "</form></div></li>";
+		echo "</form></div></div>";
 	
 }
 ?>

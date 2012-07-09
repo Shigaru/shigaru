@@ -7,6 +7,30 @@ jQuery(document).ready(function(){
 	jQuery('.leftcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.leftcolumn .slidesWrapper'});
 	jQuery('.rightcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.rightcolumn .slidesWrapper'});
 	jQuery('.workarea_odd .video_activity .video_activity_header').shigaruTabs({slidesWrapper:'.workarea_odd .video_activity .slidesWrapper'});
+	
+	// Login Form	
+	jQuery('#login a,#lang a').click(function(e) {
+                e.preventDefault();
+                if(!jQuery(this).parent(".topbuttons").hasClass("menu-open")){
+					jQuery(".menu-open .floatingBox").hide();
+					jQuery(".menu-open").removeClass("menu-open");
+                }
+                jQuery(e.target).parent("a").siblings(".floatingBox").toggle();
+                jQuery(e.target).parent("a").parent(".topbuttons").toggleClass("menu-open");
+            });
+
+            jQuery(".topbuttons").mouseup(function() {
+                return false;
+            });
+            jQuery(document).mouseup(function(e) {
+                if(jQuery(e.target).parent("a").parent(".topbuttons").length==0) {
+                    jQuery(e.target).parent("a").parent(".topbuttons").removeClass("menu-open");
+                    jQuery(e.target).parent("a").siblings(".floatingBox").hide();
+                }
+            });        
+
+	
+	
 	/* Adding a colortip to any tag with a title attribute: */
 		
 	jQuery('.workarea [title]').qtip({position: {
