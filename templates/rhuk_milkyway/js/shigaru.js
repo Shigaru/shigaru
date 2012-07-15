@@ -1,4 +1,5 @@
-jQuery(document).ready(function(){
+var $jq = jQuery.noConflict();
+jQuery(document).ready(function($){
 	/* Scroll bars */
 	jQuery('#the_most .tab_wrapper').jScrollPane({showArrows:true});
 	/* Tabs */

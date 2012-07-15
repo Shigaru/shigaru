@@ -16,10 +16,12 @@ $jHeader = $this->getHeadData();
 $jHeader['scripts'] = array();
 $this->setHeadData($jHeader);
 */
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
+<jdoc:include type="head" />
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.js"></script>
@@ -28,7 +30,7 @@ $this->setHeadData($jHeader);
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery.qtip.css" />
 <link href='http://fonts.googleapis.com/css?family=Ubuntu:light' rel='stylesheet' type='text/css'/>
-<jdoc:include type="head" />
+
 </head>
 <body id="page_bg">
 <a name="up" id="up"></a>
@@ -62,20 +64,25 @@ $this->setHeadData($jHeader);
 					cbimport( 'cb.tabs' );
 					$user =& JFactory::getUser();
 					$cbUser = CBuser::getInstance( $user->id );
-					
-					
+					if ($user && !$user->guest)
+					echo '<div class="greetinguser">'.JText::sprintf( 'LOGIN_GREETING', $user->username ).'</div>';
+					?>
+					<jdoc:include type="modules" name="top" />
+					<div class="topbuttons mustardbutton" id="upload"><a href="#" title="<?php echo JText::_('Click on this link to upload a video!') ?>">UPLOAD</a></div>
+					<?php					
 					if ($user && !$user->guest){
 							echo '<div id="grettings">';
+							
 							echo $cbUser->getField( 'avatar' , null, 'html', 'div', 'profile' );
-							echo JText::sprintf( 'LOGIN_GREETING', $user->username );
+							
+							echo '</div>';
+							echo '<div class="userzone">';
+								//echo '<a href="index.php?option=com_comprofiler&task=logout"><img src="./images/logout.png" width="86" height="20" alt="logout button" /></a>';
 							echo '</div>';
 						}
 						 
 					
 				?>
-					<jdoc:include type="modules" name="top" />
-					<div class="topbuttons mustardbutton" id="upload"><a href="#" title="<?php echo JText::_('Click on this link to upload a video!') ?>">UPLOAD</a></div>
-					
 			</div>
 		</div>	
 	</div>	

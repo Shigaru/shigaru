@@ -183,10 +183,10 @@ if ( $_CB_framework->myId() ) {
 
 	$avatarDisplayed = false;
 	if ($show_avatar == 0) {
-		if ($greeting) echo '<span id="mod_login_greeting'.$id_sfx.'">'.$cbUser->replaceUserVars(sprintf( _UE_HI_NAME, $name )).'</span>'.($horizontal ? "&nbsp;" : "");
+		//if ($greeting) echo '<span id="mod_login_greeting'.$id_sfx.'">'.$cbUser->replaceUserVars(sprintf( _UE_HI_NAME, $name )).'</span>'.($horizontal ? "&nbsp;" : "");
 	} else {
 		
-		if (($avatar_position=="default") and ($greeting)) echo '<span id="mod_login_greeting'.$id_sfx.'">'.$cbUser->replaceUserVars(sprintf( _UE_HI_NAME, $name )).'</span>';
+		//if (($avatar_position=="default") and ($greeting)) echo '<span id="mod_login_greeting'.$id_sfx.'">'.$cbUser->replaceUserVars(sprintf( _UE_HI_NAME, $name )).'</span>';
 
 		$oValue		=	$cbUser->avatarFilePath( $show_avatar );
 		if ($oValue) {
@@ -268,7 +268,7 @@ if ( $_CB_framework->myId() ) {
 			echo $cbUser->replaceUserVars(sprintf( _UE_HI_NAME, '<br />'.$name ));
 			echo $postDiv;
 		} else {
-			echo '<span id="mod_login_greeting'.$id_sfx.'">'.$cbUser->replaceUserVars(sprintf( _UE_HI_NAME, $name )).'</span>';
+			//echo '<span id="mod_login_greeting'.$id_sfx.'">'.$cbUser->replaceUserVars(sprintf( _UE_HI_NAME, $name )).'</span>';
 		}
 	}
 	
@@ -488,7 +488,7 @@ if ( $_CB_framework->myId() ) {
 			$buttonValue	=	_UE_BUTTON_LOGOUT;
 			break;
 	}
-	echo '<div id="logoutanchor"><a href="'.$logoutPost.'" title="' . $buttonValue . '"><span>(' . $buttonValue . ')</span></a></div>';
+	//echo '<div id="logoutanchor"><a href="'.$logoutPost.'" title="' . $buttonValue . '"><span>(' . $buttonValue . ')</span></a></div>';
 	echo '<span class="cbLogoutButtonSpan">';
 	echo '<input id="logoutbutton" type="submit" name="Submit" class="button'.$class_sfx.'" value="' . $buttonValue . '"' . $buttonStyle . ' />';
 	echo '</span>';
