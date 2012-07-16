@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5" client="site" method="upgrade">
+    <name>s4j New Users</name>
+    <author>Software4Joomla</author>
+    <creationDate>2007-06-14</creationDate>
+    <copyright>(C) 2007 - 2012 Software4Joomla.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <authorEmail>Software4Joomla@gmail.com</authorEmail>
+    <authorUrl>www.Software4Joomla.com</authorUrl>
+    <version>1.7.3</version>
+    <description><![CDATA[S4J New Users is a module that displays new users in Community Builder
+	 	Note: Community Builder is required. <br />
+		More modules from S4J can be found at <a href="http://www.software4joomla.com" target="_blank">www.software4joomla.com</a>
+		]]>
+    </description>
+    <files>
+        <filename module="mod_s4jnewusers">mod_s4jnewusers.php</filename>
+        <filename>helper.php</filename>
+        <!-- image files -->
+        <filename>images/accept.png</filename>
+        <filename>images/add.png</filename>
+        <filename>images/anchor.png</filename>
+        <filename>images/application_home.png</filename>
+        <filename>images/arrow_right.png</filename>
+        <filename>images/attach.png</filename>
+        <filename>images/award_star_bronze_3.png</filename>
+        <filename>images/award_star_gold_3.png</filename>
+        <filename>images/award_star_silver_3.png</filename>
+        <filename>images/bell.png</filename>
+        <filename>images/bin_closed.png</filename>
+        <filename>images/bomb.png</filename>
+        <filename>images/book_open.png</filename>
+        <filename>images/bug.png</filename>
+        <filename>images/building.png</filename>
+        <filename>images/cake.png</filename>
+        <filename>images/calculator.png</filename>
+        <filename>images/calendar.png</filename>
+        <filename>images/camera.png</filename>
+        <filename>images/cancel.png</filename>
+        <filename>images/car.png</filename>
+        <filename>images/chat.gif</filename>
+        <filename>images/clock.png</filename>
+        <filename>images/cog.png</filename>
+        <filename>images/coins.png</filename>
+        <filename>images/comment.png</filename>
+        <filename>images/comments.png</filename>
+        <filename>images/computer.png</filename>
+        <filename>images/connect.png</filename>
+        <filename>images/controller.png</filename>
+        <filename>images/delete.png</filename>
+        <filename>images/drink.png</filename>
+        <filename>images/email.png</filename>
+        <filename>images/email_edit.png</filename>
+        <filename>images/email_open_image.png</filename>
+        <filename>images/emoticon_evilgrin.png</filename>
+        <filename>images/emoticon_grin.png</filename>
+        <filename>images/emoticon_happy.png</filename>
+        <filename>images/emoticon_smile.png</filename>
+        <filename>images/emoticon_surprised.png</filename>
+        <filename>images/emoticon_tongue.png</filename>
+        <filename>images/emoticon_unhappy.png</filename>
+        <filename>images/emoticon_waii.png</filename>
+        <filename>images/emoticon_wink.png</filename>
+        <filename>images/error.png</filename>
+        <filename>images/exclamation.png</filename>
+        <filename>images/eye.png</filename>
+        <filename>images/female.png</filename>
+        <filename>images/film.png</filename>
+        <filename>images/find.png</filename>
+        <filename>images/group.png</filename>
+        <filename>images/heart.png</filename>
+        <filename>images/heart_add.png</filename>
+        <filename>images/heart_delete.png</filename>
+        <filename>images/help.png</filename>
+        <filename>images/hourglass.png</filename>
+        <filename>images/house.png</filename>
+        <filename>images/images.png</filename>
+        <filename>images/joystick.png</filename>
+        <filename>images/key.png</filename>
+        <filename>images/keyboard.png</filename>
+        <filename>images/lightbulb.png</filename>
+        <filename>images/lightbulb_off.png</filename>
+        <filename>images/link.png</filename>
+        <filename>images/lock.png</filename>
+        <filename>images/magnifier.png</filename>
+        <filename>images/male.png</filename>
+        <filename>images/map.png</filename>
+        <filename>images/money.png</filename>
+        <filename>images/money_dollar.png</filename>
+        <filename>images/money_euro.png</filename>
+        <filename>images/money_pound.png</filename>
+        <filename>images/money_yen.png</filename>
+        <filename>images/monitor.png</filename>
+        <filename>images/mouse.png</filename>
+        <filename>images/music.png</filename>
+        <filename>images/newspaper.png</filename>
+        <filename>images/note.png</filename>
+        <filename>images/online.gif</filename>
+        <filename>images/offline.gif</filename>
+        <filename>images/other.gif</filename>
+        <filename>images/palette.png</filename>
+        <filename>images/pencil.png</filename>
+        <filename>images/phone.png</filename>
+        <filename>images/photo.png</filename>
+        <filename>images/picture.png</filename>
+        <filename>images/pms.gif</filename>
+        <filename>images/rainbow.png</filename>
+        <filename>images/report.png</filename>
+        <filename>images/rosette.png</filename>
+        <filename>images/ruby.png</filename>
+        <filename>images/sound.png</filename>
+        <filename>images/sport_8ball.png</filename>
+        <filename>images/sport_basketball.png</filename>
+        <filename>images/sport_football.png</filename>
+        <filename>images/sport_golf.png</filename>
+        <filename>images/sport_raquet.png</filename>
+        <filename>images/sport_shuttlecock.png</filename>
+        <filename>images/sport_soccer.png</filename>
+        <filename>images/sport_tennis.png</filename>
+        <filename>images/star.png</filename>
+        <filename>images/status_away.png</filename>
+        <filename>images/status_busy.png</filename>
+        <filename>images/status_offline.png</filename>
+        <filename>images/status_online.png</filename>
+        <filename>images/stop.png</filename>
+        <filename>images/tag_pink.png</filename>
+        <filename>images/tag_purple.png</filename>
+        <filename>images/tag_red.png</filename>
+        <filename>images/telephone.png</filename>
+        <filename>images/television.png</filename>
+        <filename>images/text.txt</filename>
+        <filename>images/thumb_down.png</filename>
+        <filename>images/thumb_up.png</filename>
+        <filename>images/tick.png</filename>
+        <filename>images/time.png</filename>
+        <filename>images/user.png</filename>
+        <filename>images/user_comment.png</filename>
+        <filename>images/user_female.png</filename>
+        <filename>images/user_gray.png</filename>
+        <filename>images/user_green.png</filename>
+        <filename>images/user_orange.png</filename>
+        <filename>images/user_red.png</filename>
+        <filename>images/user_suit.png</filename>
+        <filename>images/vcard.png</filename>
+        <filename>images/webcam.png</filename>
+        <filename>images/world.png</filename>
+        <filename>images/wrench.png</filename>
+        <filename>images/zoom.png</filename>
+        <!-- Javascript files -->
+        <filename>js/overlib_mini.js</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB.mod_s4jnewusers.ini</language>
+        <language tag="de-DE">language/de-DE.mod_s4jnewusers.ini</language>
+    </languages>
+
+    <params>
+	
+        <!-- Integration Settings -->
+        <param name="@spacer" type="spacer" default="" label="--- INTEGRATION SETTINGS ---" description="" />
+        <!--
+        <param name="cb_system" type="radio" default="0" label="Community Builder System" description="Choose Community Builder System">
+            <option value="0">Community Builder</option>
+            <option value="1">Community Builder Enhanced</option>
+        </param>
+        -->
+        <param name="pms_link" type="list" default="0" label="Private Messaging System" description="Choose one of the supported PM systems from the list">
+            <option value="0">No System installed</option>
+            <option value="1">PMS Open Source</option>
+            <option value="2">PMS Pro</option>
+            <option value="3">uddeIM</option>
+            <option value="4">PMS Enhanced 2.x</option>
+            <option value="5">JIM</option>
+            <option value="6">Missus</option>
+            <option value="7">Primezilla</option>
+            <option value="8">Clexus</option>
+        </param>
+	
+        <param name="chat_system" type="list" default="0" label="Chat System" description="Choose one of the supported Chat systems from the list">
+            <option value="0">No System installed</option>
+            <option value="1">FlashChat</option>
+        </param>
+	
+
+        <!-- General Settings -->
+        <param name="@spacer" type="spacer" default="" label="--- GENERAL SETTINGS ---" description="" />
+        <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+        <param name="displayusers" type="list" default="0" label="Display Users" description="Choose how you want to display users">
+            <option value="0">All users</option>
+            <option value="1">Only users with picture</option>
+        </param>
+        <param name="cb_filter" type="list" default="0" label="Filter by" description="Choose filter">
+            <option value="0">No Filter</option>
+            <option value="1">Gender</option>
+            <option value="2">Custom field 1</option>
+            <option value="3">Custom field 2</option>
+            <option value="4">Custom field 3</option>
+            <option value="5">Custom field 4</option>
+            <option value="6">Custom field 5</option>
+        </param>
+        <param name="cb_filter_value" type="text" default="" label="Enter filter value" description="Enter filter value. If you don't want to filter, leave this field empty" />
+        <param name="exclude_users" type="text" default="0" size="60" label="Hidden User IDs" description="Enter user ID list (seperated by commas) to be hidden." />
+
+        <param name="date_format" type="list" default="%Y-%m-%d" label="Date Format" description="Choose which date format you would like your date fields to be dispayed in.">
+            <option value="%Y/%m/%d">yyyy/mm/dd</option>
+            <option value="%y/%m/%d">yy/mm/dd</option>
+            <option value="%m/%d/%Y">mm/dd/yyyy</option>
+            <option value="%m/%d/%y">mm/dd/yy</option>
+            <option value="%d/%m/%Y">dd/mm/yyyy</option>
+            <option value="%d/%m/%y">dd/mm/yy</option>
+            <!--  -->
+            <option value="%Y-%m-%d">yyyy-mm-dd</option>
+            <option value="%y-%m-%d">yy-mm-dd</option>
+            <option value="%m-%d-%Y">mm-dd-yyyy</option>
+            <option value="%m-%d-%y">mm-dd-yy</option>
+            <option value="%d-%m-%Y">dd-mm-yyyy</option>
+            <option value="%d-%m-%y">dd-mm-yy</option>
+            <!--  -->
+            <option value="%Y.%m.%d">yyyy.mm.dd</option>
+            <option value="%y.%m.%d">yy.mm.dd</option>
+            <option value="%m.%d.%Y">mm.dd.yyyy</option>
+            <option value="%m.%d.%y">mm.dd.yy</option>
+            <option value="%d.%m.%Y">dd.mm.yyyy</option>
+            <option value="%d.%m.%y">dd.mm.yy</option>
+        </param>
+	
+        <param name="enable_custom_dateformat" type="radio" default="0" label="Enable custom date format" description="Enable custom date format">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="custom_dateformat" type="text" default="%Y-%m-%d" label="Custom date format" description="Choose which date format you would like your date fields to be dispayed in." />
+	
+        <!-- Module Settings -->
+        <param name="@spacer" type="spacer" default="" label="--- MODULE SETTINGS ---" description="" />
+    
+        <param name="max_user_shown" type="text" default="3" label="Display users" description="Insert the number of users to be displayed in this module" />
+        <param name="columns_count" type="text" default="5" label="Display columns" description="Insert the number of columns  be used in the module" />
+
+        <!-- Optional Community Builder Fields -->
+        <param name="@spacer" type="spacer" default="" label="--- OPTIONAL COMMUNITY BUILDER FIELDS ---" description="" />
+        <param name="cb_gender_field" type="text" default="cb_gender" label="CB Gender Field" description="Type in here the name of the gender field used by CB Community Builder. If you dont have a gender field, you can create one with CB." />
+        <param name="cb_gender_male" type="text" default="male" label="Male value" description="Used to identify a user as male. You will have to create this field in CB" />
+        <param name="cb_gender_male_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_none="true" hide_default="true" default="male.png" label="Male Gender - Image" description="Choose the image to be used for male" />
+        <param name="cb_gender_female" type="text" default="female" label="Female value" description="Used to identify a user as female. You will have to create this field in CB." />
+        <param name="cb_gender_female_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_none="true" hide_default="true" default="female.png" label="Female Gender - Image" description="Choose the image to be used for female" />
+        <param name="cb_age_field" type="text" default="cb_birthday" label="CB Birthday Field" description="Type in the birthday field name used in CB." />
+        <param name="cb_age_minagetohide" type="text" default="13" label="Min age to hide" description="Hide birthday and age when lower than this value." />
+        <param name="cb_age_maxagetohide" type="text" default="100" label="Max age to hide" description="Hide birthday and age when higher than this value." />
+        <param name="cb_custom1" type="text" default="cb_" label="Custom CB Field 1" description="Optional community builder field." />
+        <param name="cb_custom1_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" default="-1" label="Custom CB Field 1 - Image" description="Choose the image to be used for this field" />
+        <param name="cb_custom2" type="text" default="cb_" label="Custom CB Field 2" description="Optional Community Builder Field to be displayed." />
+        <param name="cb_custom2_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" default="-1" label="Custom CB Field 2 - Image" description="Choose the image to be used for this field" />
+        <param name="cb_custom3" type="text" default="cb_" label="Custom CB Field 3" description="Optional Community Builder Field to be displayed." />
+        <param name="cb_custom3_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" default="-1" label="Custom CB Field 3 - Image" description="Choose the image to be used for this field" />
+        <param name="cb_custom4" type="text" default="cb_" label="Custom CB Field 4" description="Optional Community Builder Field to be displayed." />
+        <param name="cb_custom4_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" default="-1" label="Custom CB Field 4 - Image" description="Choose the image to be used for this field" />
+        <param name="cb_custom5" type="text" default="cb_" label="Custom CB Field 5" description="Optional Community Builder Field to be displayed." />
+        <param name="cb_custom5_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" default="-1" label="Custom CB Field 5 - Image" description="Choose the image to be used for this field" />
+
+        <!-- Detail Settings -->
+        <param name="@spacer" type="spacer" default="" label="--- DETAIL SETTINGS ---" description="" />
+        <param name="format_name" type="list" default="0" label="Name Format" description="Select the format of the name display from the following options">
+            <option value="0">Username Only</option>
+            <option value="1">Username (Name)</option>
+            <option value="2">Name Only</option>
+            <option value="3">Name (username)</option>
+        </param>
+    
+        <param name="cb_avatar" type="list" default="0" label="Show avatar" description="Show/Hide avatar.">
+            <option value="0">Hide</option>
+            <option value="1">Show Always</option>
+            <option value="2">Show only if available</option>
+        </param>
+	
+        <param name="cb_avatar_image" type="radio" default="0" label="Avatar image" description="Select which image will be displayed.">
+            <option value="0">Thumbnail</option>
+            <option value="1">Original</option>
+        </param>
+	
+        <param name="cb_set_avatar_size" type="list" default="2" label="Set avatar size" description="Select avatar size format.">
+            <option value="0">No</option>
+            <option value="1">Height</option>
+            <option value="2">Width</option>
+            <option value="3">Height and Width</option>
+        </param>
+        <param name="cb_avatar_height" type="text" default="100" label="Avatar height" description="Set the height (in pixels) of the avatar in this field" />
+        <param name="cb_avatar_width" type="text" default="100" label="Avatar width" description="Set the width (in pixels) of the avatar in this field" />
+  
+	
+        <param name="cb_gender" type="list" default="0" label="Enable gender support?" description="Set this value to 'No' if you don't want to display the gender field. Otherwise select the format for the gender field to be displayed in.">
+            <option value="0">No</option>
+            <option value="1">Show Image</option>
+            <option value="2">Show Value</option>
+            <option value="3">Show Image and Value</option>
+        </param>
+        <param name="cb_age" type="list" default="0" label="Enable Birthday and Age support?" description="Set this value to 'No' if you don't want to display the birthday field. Otherwise select the format for the birthday field to be displayed in.">
+            <option value="0">No</option>
+            <option value="1">Birthday</option>
+            <option value="2">Age</option>
+            <option value="3">Birthday and Age</option>
+        </param>
+        <param name="show_online" type="radio" default="1" label="Show online status" description="Show/Hide user onnline status">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="show_hits" type="radio" default="0" label="Display Hits" description="Show/Hide profile counter">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="show_register" type="radio" default="1" label="Display registration date" description="Show/Hide registration date">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="show_lastupdatedate" type="radio" default="0" label="Display last update date" description="Show/Hide last update date">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="cb_show_custom1" type="list" default="0" label="Display Custom CB Field 1" description="Show/Hide Custom CB Field 1">
+            <option value="0">Hide</option>
+            <option value="1">Show Value</option>
+            <option value="2">Show Image and Value</option>
+        </param>
+        <param name="cb_show_custom2" type="list" default="0" label="Display Custom CB Field 2" description="Show/Hide Custom CB Field 2">
+            <option value="0">Hide</option>
+            <option value="1">Show Value</option>
+            <option value="2">Show Image and Value</option>
+        </param>
+        <param name="cb_show_custom3" type="list" default="0" label="Display Custom CB Field 3" description="Show/Hide Custom CB Field 3">
+            <option value="0">Hide</option>
+            <option value="1">Show Value</option>
+            <option value="2">Show Image and Value</option>
+        </param>
+        <param name="cb_show_custom4" type="list" default="0" label="Display Custom CB Field 4" description="Show/Hide Custom CB Field 4">
+            <option value="0">Hide</option>
+            <option value="1">Show Value</option>
+            <option value="2">Show Image and Value</option>
+        </param>
+        <param name="cb_show_custom5" type="list" default="0" label="Display Custom CB Field 5" description="Show/Hide Custom CB Field 5">
+            <option value="0">Hide</option>
+            <option value="1">Show Value</option>
+            <option value="2">Show Image and Value</option>
+        </param>
+        
+	<!-- Tooltip Settings -->
+        <param name="@spacer" type="spacer" default="" label="--- TOOLTIP SETTINGS ---" description="" />
+        <param name="show_tooltip" type="radio" default="1" label="Show tooltip?" description="Choose: tooltip or plain link.">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="format_name_tooltip" type="list" default="1" label="Name Format Tooltip" description="Choose which format you would like the Name/Username fields to be displayed in.">
+            <option value="0">Username Only</option>
+            <option value="1">Username (Name)</option>
+            <option value="2">Name Only</option>
+            <option value="3">Name (username)</option>
+        </param>
+        <param name="cb_avatar_tooltip" type="list" default="1" label="Show avatar" description="Show/Hide avatar.">
+            <option value="0">Hide</option>
+            <option value="1">Show Always</option>
+            <option value="2">Show only if available</option>
+        </param>
+	
+        <param name="cb_avatar_tooltip_image" type="radio" default="0" label="Avatar image" description="Select which image will be displayed.">
+            <option value="0">Thumbnail</option>
+            <option value="1">Original</option>
+        </param>
+	
+        <param name="cb_set_avatar_tooltip_size" type="list" default="0" label="Set avatar size" description="Select avatar size format.">
+            <option value="0">No</option>
+            <option value="1">Height</option>
+            <option value="2">Width</option>
+            <option value="3">Height and Width</option>
+        </param>
+        <param name="cb_avatar_tooltip_height" type="text" default="100" label="Avatar height" description="Set the height (in pixels) of the avatar in this field" />
+        <param name="cb_avatar_tooltip_width" type="text" default="100" label="Avatar width" description="Set the width (in pixels) of the avatar in this field" />
+  
+	
+        <param name="cb_gender_tooltip" type="list" default="0" label="Enable gender support?" description="Set this value to 'No' if you don't want to display the gender field. Otherwise select the format for the gender field to be displayed in.">
+            <option value="0">No</option>
+            <option value="1">Show Image</option>
+            <option value="2">Show Value</option>
+            <option value="3">Show Image and Value</option>
+        </param>
+        <param name="cb_age_tooltip" type="list" default="0" label="Enable Birthday and Age support?" description="Set this value to 'No' if you don't want to display the birthday field. Otherwise select the format for the birthday field to be displayed in.">
+            <option value="0">No</option>
+            <option value="1">Birthday</option>
+            <option value="2">Age</option>
+            <option value="3">Birthday and Age</option>
+        </param>
+        <param name="show_online_tooltip" type="radio" default="1" label="Show online status" description="Show/Hide user online status.">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="show_hits_tooltip" type="radio" default="0" label="Display hits" description="Choose yes if you want to display hits">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="show_register_tooltip" type="radio" default="0" label="Display registration date" description="Show/Hide registration date">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="show_lastupdatedate_tooltip" type="radio" default="0" label="Display last update date" description="Show/Hide last update date">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="cb_show_custom1_tooltip" type="list" default="0" label="Display Custom CB Field 1" description="Show/Hide Custom CB Field 1">
+            <option value="0">Hide</option>
+            <option value="1">Show Value</option>
+            <option value="2">Show Image and Value</option>
+        </param>
+        <param name="cb_show_custom2_tooltip" type="list" default="0" label="Display Custom CB Field 2" description="Show/Hide Custom CB Field 2">
+            <option value="0">Hide</option>
+            <option value="1">Show Value</option>
+            <option value="2">Show Image and Value</option>
+        </param>
+        <param name="cb_show_custom3_tooltip" type="list" default="0" label="Display Custom CB Field 3" description="Show/Hide Custom CB Field 3">
+            <option value="0">Hide</option>
+            <option value="1">Show Value</option>
+            <option value="2">Show Image and Value</option>
+        </param>
+        <param name="cb_show_custom4_tooltip" type="list" default="0" label="Display Custom CB Field 4" description="Show/Hide Custom CB Field 4">
+            <option value="0">Hide</option>
+            <option value="1">Show Value</option>
+            <option value="2">Show Image and Value</option>
+        </param>
+        <param name="cb_show_custom5_tooltip" type="list" default="0" label="Display Custom CB Field 5" description="Show/Hide Custom CB Field 5">
+            <option value="0">Hide</option>
+            <option value="1">Show Value</option>
+            <option value="2">Show Image and Value</option>
+        </param>
+	
+	<!-- Usericon Settings -->
+        <param name="@spacer" type="spacer" default="" label="--- USER - ICON SETTINGS ---" description="" />
+        <param name="cb_image_other" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user.png" label="Other - user - icon" description="Choose the user icon to be used for this field" />
+        <param name="cb_image_registered" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user.png" label="Registered - user - icon" description="Choose the user icon to be used for this field" />
+        <param name="cb_image_author" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_suit.png" label="Author - user - icon" description="Choose the user icon to be used for this field" />
+        <param name="cb_image_editor" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_suit.png" label="Editor - user - icon" description="Choose the user icon to be used for this field" />
+        <param name="cb_image_publisher" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_suit.png" label="Publisher - user - icon" description="Choose the user icon to be used for this field" />
+        <param name="cb_image_manager" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_suit.png" label="Manager - user - icon" description="Choose the user icon to be used for this field" />
+        <param name="cb_image_administrator" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_gray.png" label="Administrator - user - icon" description="Choose the user icon to be used for this field" />
+        <param name="cb_image_superadministrator" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_gray.png" label="Super Administrator - user - icon" description="Choose the user icon to be used for this field" />
+    
+        <!-- Layout Settings -->
+        <param 
+            name="@spacer" type="spacer" default="" 
+            label="--- LAYOUT SETTINGS --- &lt;br /&gt; TAGS: &lt;br /&gt; A% = Avatar &lt;br /&gt; B% = Birthday &lt;br /&gt; C% Chat &lt;br /&gt; U% = Username &lt;br /&gt; I% = Icon &lt;br /&gt; G% = Gender &lt;br /&gt; O% = Online status &lt;br /&gt; H% = Hits (Profile Views) &lt;br /&gt; P% = PMS &lt;br /&gt; R% = Registration date &lt;br /&gt; L% = Last update date &lt;br /&gt; C1% C2% C3% C4% C5% = Custom fields 1-5" 
+            description="Change the positions of the properties in this text box." 
+        />
+        <param
+            name="out_format" type="textarea" rows="10" cols="60" 
+            default="&lt;table&gt;&lt;br /&gt;&lt;tr&gt;&lt;td&gt;A%&lt;/td&gt;&lt;/tr&gt;&lt;br /&gt;&lt;tr&gt;&lt;td&gt;I% G% U% B% O% H% P% R% L% C%&lt;/td&gt;&lt;/tr&gt;&lt;br /&gt;&lt;tr&gt;&lt;td&gt;C1% C2% C3% C4% C5%&lt;/td&gt;&lt;/tr&gt;&lt;br /&gt;&lt;/table&gt;" 
+            label="Details layout" description="Change the positions of the properties in this text box." 
+        />
+        <param 
+            name="out_format_tooltip" type="textarea"  rows="10" cols="60" 
+            default="&lt;table&gt; &lt;br /&gt;&lt;tr&gt;&lt;td rowspan='6'&gt;A%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;tr&gt;&lt;td nowrap='nowrap'&gt;I% U% O%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;tr&gt;&lt;td&gt;H% P% R% L% C%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;tr&gt;&lt;td&gt;G%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;tr&gt;&lt;td nowrap='nowrap'&gt;B%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;tr&gt;&lt;td&gt;C1% C2% C3% C4% C5%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;/table&gt;" 
+            label="Tooltip layout" description="Change the positions of the properties in this text box."
+        />
+
+    </params>
+  
+    <!-- J1.6/J1.7 of course doesn't understand the above so let it repeat once more: -->
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+            <!-- Integration Settings -->
+                <field name="integration-settings-spacer" type="spacer" default="" label="--- INTEGRATION SETTINGS ---" description="" />
+                <!--
+                <field name="cb_system" type="radio" default="0" label="Community Builder System" description="Choose Community Builder System">
+                    <option value="0">Community Builder</option>
+                    <option value="1">Community Builder Enhanced</option>
+                </field>
+                -->
+                <field name="pms_link" type="list" default="0" label="Private Messaging System" description="Choose one of the supported PM systems from the list">
+                    <option value="0">No System installed</option>
+                    <option value="1">PMS Open Source</option>
+                    <option value="2">PMS Pro</option>
+                    <option value="3">uddeIM</option>
+                    <option value="4">PMS Enhanced 2.x</option>
+                    <option value="5">JIM</option>
+                    <option value="6">Missus</option>
+                    <option value="7">Primezilla</option>
+                    <option value="8">Clexus</option>
+                </field>
+	
+                <field name="chat_system" type="list" default="0" label="Chat System" description="Choose one of the supported Chat systems from the list">
+                    <option value="0">No System installed</option>
+                    <option value="1">FlashChat</option>
+                </field>
+	
+
+                <!-- General Settings -->
+                <field name="general-settings-spacer" type="spacer" default="" label="--- GENERAL SETTINGS ---" description="" />
+                <field name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+                <field name="displayusers" type="list" default="0" label="Display Users" description="Choose how you want to display users">
+                    <option value="0">All users</option>
+                    <option value="1">Only users with picture</option>
+                </field>
+                <field name="cb_filter" type="list" default="0" label="Filter by" description="Choose filter">
+                    <option value="0">No Filter</option>
+                    <option value="1">Gender</option>
+                    <option value="2">Custom field 1</option>
+                    <option value="3">Custom field 2</option>
+                    <option value="4">Custom field 3</option>
+                    <option value="5">Custom field 4</option>
+                    <option value="6">Custom field 5</option>
+                </field>
+                <field name="cb_filter_value" type="text" default="" label="Enter filter value" description="Enter filter value. If you don't want to filter, leave this field empty" />
+                <field name="exclude_users" type="text" default="0" size="60" label="Hidden User IDs" description="Enter user ID list (seperated by commas) to be hidden." />
+
+                <field name="date_format" type="list" default="%Y-%m-%d" label="Date Format" description="Choose which date format you would like your date fields to be dispayed in.">
+                    <option value="%Y/%m/%d">yyyy/mm/dd</option>
+                    <option value="%y/%m/%d">yy/mm/dd</option>
+                    <option value="%m/%d/%Y">mm/dd/yyyy</option>
+                    <option value="%m/%d/%y">mm/dd/yy</option>
+                    <option value="%d/%m/%Y">dd/mm/yyyy</option>
+                    <option value="%d/%m/%y">dd/mm/yy</option>
+                    <!--  -->
+                    <option value="%Y-%m-%d">yyyy-mm-dd</option>
+                    <option value="%y-%m-%d">yy-mm-dd</option>
+                    <option value="%m-%d-%Y">mm-dd-yyyy</option>
+                    <option value="%m-%d-%y">mm-dd-yy</option>
+                    <option value="%d-%m-%Y">dd-mm-yyyy</option>
+                    <option value="%d-%m-%y">dd-mm-yy</option>
+                    <!--  -->
+                    <option value="%Y.%m.%d">yyyy.mm.dd</option>
+                    <option value="%y.%m.%d">yy.mm.dd</option>
+                    <option value="%m.%d.%Y">mm.dd.yyyy</option>
+                    <option value="%m.%d.%y">mm.dd.yy</option>
+                    <option value="%d.%m.%Y">dd.mm.yyyy</option>
+                    <option value="%d.%m.%y">dd.mm.yy</option>
+                </field>
+	
+                <field name="enable_custom_dateformat" type="radio" default="0" label="Enable custom date format" description="Enable custom date format">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="custom_dateformat" type="text" default="%Y-%m-%d" label="Custom date format" description="Choose which date format you would like your date fields to be dispayed in." />
+	
+                <!-- Module Settings -->
+                <field name="module-settings-spacer" type="spacer" default="" label="--- MODULE SETTINGS ---" description="" />
+    
+                <field name="max_user_shown" type="text" default="3" label="Display users" description="Insert the number of users to be displayed in this module" />
+                <field name="columns_count" type="text" default="5" label="Display columns" description="Insert the number of columns  be used in the module" />
+
+                <!-- Optional Community Builder Fields -->
+                <field name="optional-cb-fields-spacer" type="spacer" default="" label="--- OPTIONAL COMMUNITY BUILDER FIELDS ---" description="" />
+                <field name="cb_gender_field" type="text" default="cb_gender" label="CB Gender Field" description="Type in here the name of the gender field used by CB Community Builder. If you dont have a gender field, you can create one with CB." />
+                <field name="cb_gender_male" type="text" default="male" label="Male value" description="Used to identify a user as male. You will have to create this field in CB" />
+                <field name="cb_gender_male_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_none="true" hide_default="true" default="male.png" label="Male Gender - Image" description="Choose the image to be used for male" />
+                <field name="cb_gender_female" type="text" default="female" label="Female value" description="Used to identify a user as female. You will have to create this field in CB." />
+                <field name="cb_gender_female_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_none="true" hide_default="true" default="female.png" label="Female Gender - Image" description="Choose the image to be used for female" />
+                <field name="cb_age_field" type="text" default="cb_birthday" label="CB Birthday Field" description="Type in the birthday field name used in CB." />
+                <field name="cb_age_minagetohide" type="text" default="13" label="Min age to hide" description="Hide birthday and age when lower than this value." />
+                <field name="cb_age_maxagetohide" type="text" default="100" label="Max age to hide" description="Hide birthday and age when higher than this value." />
+                <field name="cb_custom1" type="text" default="cb_" label="Custom CB Field 1" description="Optional community builder field." />
+                <field name="cb_custom1_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" default="-1" label="Custom CB Field 1 - Image" description="Choose the image to be used for this field" />
+                <field name="cb_custom2" type="text" default="cb_" label="Custom CB Field 2" description="Optional Community Builder Field to be displayed." />
+                <field name="cb_custom2_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" default="-1" label="Custom CB Field 2 - Image" description="Choose the image to be used for this field" />
+                <field name="cb_custom3" type="text" default="cb_" label="Custom CB Field 3" description="Optional Community Builder Field to be displayed." />
+                <field name="cb_custom3_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" default="-1" label="Custom CB Field 3 - Image" description="Choose the image to be used for this field" />
+                <field name="cb_custom4" type="text" default="cb_" label="Custom CB Field 4" description="Optional Community Builder Field to be displayed." />
+                <field name="cb_custom4_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" default="-1" label="Custom CB Field 4 - Image" description="Choose the image to be used for this field" />
+                <field name="cb_custom5" type="text" default="cb_" label="Custom CB Field 5" description="Optional Community Builder Field to be displayed." />
+                <field name="cb_custom5_image" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" default="-1" label="Custom CB Field 5 - Image" description="Choose the image to be used for this field" />
+
+                <!-- Detail Settings -->
+                <field name="detail-settings-spacer" type="spacer" default="" label="--- DETAIL SETTINGS ---" description="" />
+                <field name="format_name" type="list" default="0" label="Name Format" description="Select the format of the name display from the following options">
+                    <option value="0">Username Only</option>
+                    <option value="1">Username (Name)</option>
+                    <option value="2">Name Only</option>
+                    <option value="3">Name (username)</option>
+                </field>
+    
+                <field name="cb_avatar" type="list" default="0" label="Show avatar" description="Show/Hide avatar.">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Always</option>
+                    <option value="2">Show only if available</option>
+                </field>
+	
+                <field name="cb_avatar_image" type="radio" default="0" label="Avatar image" description="Select which image will be displayed.">
+                    <option value="0">Thumbnail</option>
+                    <option value="1">Original</option>
+                </field>
+	
+                <field name="cb_set_avatar_size" type="list" default="2" label="Set avatar size" description="Select avatar size format.">
+                    <option value="0">No</option>
+                    <option value="1">Height</option>
+                    <option value="2">Width</option>
+                    <option value="3">Height and Width</option>
+                </field>
+                <field name="cb_avatar_height" type="text" default="100" label="Avatar height" description="Set the height (in pixels) of the avatar in this field" />
+                <field name="cb_avatar_width" type="text" default="100" label="Avatar width" description="Set the width (in pixels) of the avatar in this field" />
+  
+	
+                <field name="cb_gender" type="list" default="0" label="Enable gender support?" description="Set this value to 'No' if you don't want to display the gender field. Otherwise select the format for the gender field to be displayed in.">
+                    <option value="0">No</option>
+                    <option value="1">Show Image</option>
+                    <option value="2">Show Value</option>
+                    <option value="3">Show Image and Value</option>
+                </field>
+                <field name="cb_age" type="list" default="0" label="Enable Birthday and Age support?" description="Set this value to 'No' if you don't want to display the birthday field. Otherwise select the format for the birthday field to be displayed in.">
+                    <option value="0">No</option>
+                    <option value="1">Birthday</option>
+                    <option value="2">Age</option>
+                    <option value="3">Birthday and Age</option>
+                </field>
+                <field name="show_online" type="radio" default="1" label="Show online status" description="Show/Hide user onnline status">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_hits" type="radio" default="0" label="Display Hits" description="Show/Hide profile counter">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_register" type="radio" default="1" label="Display registration date" description="Show/Hide registration date">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_lastupdatedate" type="radio" default="0" label="Display last update date" description="Show/Hide last update date">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="cb_show_custom1" type="list" default="0" label="Display Custom CB Field 1" description="Show/Hide Custom CB Field 1">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Value</option>
+                    <option value="2">Show Image and Value</option>
+                </field>
+                <field name="cb_show_custom2" type="list" default="0" label="Display Custom CB Field 2" description="Show/Hide Custom CB Field 2">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Value</option>
+                    <option value="2">Show Image and Value</option>
+                </field>
+                <field name="cb_show_custom3" type="list" default="0" label="Display Custom CB Field 3" description="Show/Hide Custom CB Field 3">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Value</option>
+                    <option value="2">Show Image and Value</option>
+                </field>
+                <field name="cb_show_custom4" type="list" default="0" label="Display Custom CB Field 4" description="Show/Hide Custom CB Field 4">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Value</option>
+                    <option value="2">Show Image and Value</option>
+                </field>
+                <field name="cb_show_custom5" type="list" default="0" label="Display Custom CB Field 5" description="Show/Hide Custom CB Field 5">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Value</option>
+                    <option value="2">Show Image and Value</option>
+                </field>
+        
+                <!-- Tooltip Settings -->
+                <field name="tooltip-settings-spacer" type="spacer" default="" label="--- TOOLTIP SETTINGS ---" description="" />
+                <field name="show_tooltip" type="radio" default="1" label="Show tooltip?" description="Choose: tooltip or plain link.">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="format_name_tooltip" type="list" default="1" label="Name Format Tooltip" description="Choose which format you would like the Name/Username fields to be displayed in.">
+                    <option value="0">Username Only</option>
+                    <option value="1">Username (Name)</option>
+                    <option value="2">Name Only</option>
+                    <option value="3">Name (username)</option>
+                </field>
+                <field name="cb_avatar_tooltip" type="list" default="1" label="Show avatar" description="Show/Hide avatar.">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Always</option>
+                    <option value="2">Show only if available</option>
+                </field>
+	
+                <field name="cb_avatar_tooltip_image" type="radio" default="0" label="Avatar image" description="Select which image will be displayed.">
+                    <option value="0">Thumbnail</option>
+                    <option value="1">Original</option>
+                </field>
+	
+                <field name="cb_set_avatar_tooltip_size" type="list" default="0" label="Set avatar size" description="Select avatar size format.">
+                    <option value="0">No</option>
+                    <option value="1">Height</option>
+                    <option value="2">Width</option>
+                    <option value="3">Height and Width</option>
+                </field>
+                <field name="cb_avatar_tooltip_height" type="text" default="100" label="Avatar height" description="Set the height (in pixels) of the avatar in this field" />
+                <field name="cb_avatar_tooltip_width" type="text" default="100" label="Avatar width" description="Set the width (in pixels) of the avatar in this field" />
+  
+	
+                <field name="cb_gender_tooltip" type="list" default="0" label="Enable gender support?" description="Set this value to 'No' if you don't want to display the gender field. Otherwise select the format for the gender field to be displayed in.">
+                    <option value="0">No</option>
+                    <option value="1">Show Image</option>
+                    <option value="2">Show Value</option>
+                    <option value="3">Show Image and Value</option>
+                </field>
+                <field name="cb_age_tooltip" type="list" default="0" label="Enable Birthday and Age support?" description="Set this value to 'No' if you don't want to display the birthday field. Otherwise select the format for the birthday field to be displayed in.">
+                    <option value="0">No</option>
+                    <option value="1">Birthday</option>
+                    <option value="2">Age</option>
+                    <option value="3">Birthday and Age</option>
+                </field>
+                <field name="show_online_tooltip" type="radio" default="1" label="Show online status" description="Show/Hide user online status.">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_hits_tooltip" type="radio" default="0" label="Display hits" description="Choose yes if you want to display hits">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_register_tooltip" type="radio" default="0" label="Display registration date" description="Show/Hide registration date">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_lastupdatedate_tooltip" type="radio" default="0" label="Display last update date" description="Show/Hide last update date">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="cb_show_custom1_tooltip" type="list" default="0" label="Display Custom CB Field 1" description="Show/Hide Custom CB Field 1">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Value</option>
+                    <option value="2">Show Image and Value</option>
+                </field>
+                <field name="cb_show_custom2_tooltip" type="list" default="0" label="Display Custom CB Field 2" description="Show/Hide Custom CB Field 2">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Value</option>
+                    <option value="2">Show Image and Value</option>
+                </field>
+                <field name="cb_show_custom3_tooltip" type="list" default="0" label="Display Custom CB Field 3" description="Show/Hide Custom CB Field 3">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Value</option>
+                    <option value="2">Show Image and Value</option>
+                </field>
+                <field name="cb_show_custom4_tooltip" type="list" default="0" label="Display Custom CB Field 4" description="Show/Hide Custom CB Field 4">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Value</option>
+                    <option value="2">Show Image and Value</option>
+                </field>
+                <field name="cb_show_custom5_tooltip" type="list" default="0" label="Display Custom CB Field 5" description="Show/Hide Custom CB Field 5">
+                    <option value="0">Hide</option>
+                    <option value="1">Show Value</option>
+                    <option value="2">Show Image and Value</option>
+                </field>
+	
+                <!-- Usericon Settings -->
+                <field name="user-icon-settings-spacer" type="spacer" default="" label="--- USER - ICON SETTINGS ---" description="" />
+                <field name="cb_image_other" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user.png" label="Other - user - icon" description="Choose the user icon to be used for this field" />
+                <field name="cb_image_registered" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user.png" label="Registered - user - icon" description="Choose the user icon to be used for this field" />
+                <field name="cb_image_author" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_suit.png" label="Author - user - icon" description="Choose the user icon to be used for this field" />
+                <field name="cb_image_editor" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_suit.png" label="Editor - user - icon" description="Choose the user icon to be used for this field" />
+                <field name="cb_image_publisher" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_suit.png" label="Publisher - user - icon" description="Choose the user icon to be used for this field" />
+                <field name="cb_image_manager" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_suit.png" label="Manager - user - icon" description="Choose the user icon to be used for this field" />
+                <field name="cb_image_administrator" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_gray.png" label="Administrator - user - icon" description="Choose the user icon to be used for this field" />
+                <field name="cb_image_superadministrator" type="imagelist" directory="modules/mod_s4jnewusers/images/" hide_default="true" hide_none="true" default="user_gray.png" label="Super Administrator - user - icon" description="Choose the user icon to be used for this field" />
+    
+                <!-- Layout Settings -->
+                <field 
+                    name="layout-settings-spacer" type="spacer" default="" 
+                    label="--- LAYOUT SETTINGS --- &lt;br /&gt; TAGS: &lt;br /&gt; A% = Avatar &lt;br /&gt; B% = Birthday &lt;br /&gt; C% Chat &lt;br /&gt; U% = Username &lt;br /&gt; I% = Icon &lt;br /&gt; G% = Gender &lt;br /&gt; O% = Online status &lt;br /&gt; H% = Hits (Profile Views) &lt;br /&gt; P% = PMS &lt;br /&gt; R% = Registration date &lt;br /&gt; L% = Last update date &lt;br /&gt; C1% C2% C3% C4% C5% = Custom fields 1-5" 
+                    description="Change the positions of the properties in this text box." 
+                />
+                <field
+                    name="out_format" type="textarea" filter="raw" rows="10" cols="60" 
+                    default="&lt;table&gt;&lt;br /&gt;&lt;tr&gt;&lt;td&gt;A%&lt;/td&gt;&lt;/tr&gt;&lt;br /&gt;&lt;tr&gt;&lt;td&gt;I% G% U% B% O% H% P% R% L% C%&lt;/td&gt;&lt;/tr&gt;&lt;br /&gt;&lt;tr&gt;&lt;td&gt;C1% C2% C3% C4% C5%&lt;/td&gt;&lt;/tr&gt;&lt;br /&gt;&lt;/table&gt;" 
+                    label="Details layout" description="Change the positions of the properties in this text box." 
+                />
+                <field 
+                    name="out_format_tooltip" type="textarea" filter="raw" rows="10" cols="60" 
+                    default="&lt;table&gt; &lt;br /&gt;&lt;tr&gt;&lt;td rowspan='6'&gt;A%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;tr&gt;&lt;td nowrap='nowrap'&gt;I% U% O%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;tr&gt;&lt;td&gt;H% P% R% L% C%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;tr&gt;&lt;td&gt;G%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;tr&gt;&lt;td nowrap='nowrap'&gt;B%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;tr&gt;&lt;td&gt;C1% C2% C3% C4% C5%&lt;/td&gt;&lt;/tr&gt; &lt;br /&gt;&lt;/table&gt;" 
+                    label="Tooltip layout" description="Change the positions of the properties in this text box."
+                />
+       
+            </fieldset>
+        </fields>
+    </config>
+
+</install>

@@ -380,8 +380,9 @@ class hwd_vs_html
 		$latestcomments = JModuleHelper::renderModule($latestmodule);
 		$smartyvs->assign("latestcomments", $latestcomments);
 		
-		
-		
+		$s4jnewusersm = JModuleHelper::getModule( 's4jnewusers' );
+		$s4jnewusersc = JModuleHelper::renderModule($s4jnewusersm);
+		$smartyvs->assign("s4jnewusers", $s4jnewusersc);
 		// link to thn reasons
 		
 		jimport( 'joomla.methods' ); 
@@ -390,6 +391,9 @@ class hwd_vs_html
 		$tenreasonsurl = JRoute::_($tenreasonstemp);
 		$smartyvs->assign("tenreasonstext", $tenreasonstext);
 		$smartyvs->assign("tenreasonsurl", $tenreasonsurl);
+		$shiggymemberssurl = $live_path . "modules/mod_zncbmembers/tmpl/js/shiggymembers.js";
+		$smartyvs->assign("shiggymemberssurl", $shiggymemberssurl);
+		
 		
 		
 		
@@ -406,26 +410,26 @@ class hwd_vs_html
 		$recentactivity = JModuleHelper::renderModule($actmodule);
 		$smartyvs->assign("recentactivity", $recentactivity);
 		
-		/* subscribe box*/
+		/* subscribe box
 		$mailingmodule = JModuleHelper::getModule('acymailing');
 		$subscribe = JModuleHelper::renderModule($mailingmodule);
 		$smartyvs->assign("subscribe", $subscribe);
-		
-		/* donate box*/
+		*/
+		/* donate box
 		$donatemodule = JModuleHelper::getModule('paypal_donate');
 		$donate = JModuleHelper::renderModule($donatemodule);
 		$smartyvs->assign("donate", $donate); 
-		
-		/* google_adsense box*/
+		*/
+		/* google_adsense box
 		$google_adsensemodule = JModuleHelper::getModule('j_google_adsense');
 		$google_adsense = JModuleHelper::renderModule($google_adsensemodule);
 		$smartyvs->assign("google_adsense", $google_adsense); 
-		
-		/* follow us box*/
+		*/
+		/* follow us box
 		$socialmedialinks = JModuleHelper::getModule('socialmedialinks');
 		$socialmedialinks = JModuleHelper::renderModule($socialmedialinks);
 		$smartyvs->assign("socialmedialinks", $socialmedialinks); 
-		
+		*/
 			
 		/* tweeter box
 		$tweetdisplay = JModuleHelper::getModule('tweetdisplay_1901');

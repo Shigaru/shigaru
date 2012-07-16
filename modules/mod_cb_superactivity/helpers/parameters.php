@@ -205,15 +205,7 @@ $group = ".".substr('the group ',4,2);
 $link = "index.php?option=com_comprofiler";
 $cb_itemid = newItemID($link,'','');
 
-// Move this CSS link into your index.php header to make this module valid XHTML 
-// *********************************************
-// Define CSS Styling
-// *********************************************
-if ($templating) {
-  echo '<link href="'.$grsite.'/modules/mod_cb_superactivity/css/dark.css" rel="stylesheet" type="text/css" />';
-} else {
-  echo '<link href="'.$grsite.'/modules/mod_cb_superactivity/css/default.css" rel="stylesheet" type="text/css" />';
-}
+
 // *********************************************
 
 

@@ -129,13 +129,13 @@
 	</div>			
 </div>
 
-
-
+</div>
  {if $print_nowlist}
         {include file="video_beingwatched.tpl"}
     {/if}
 
 <div class="clear"></div>
+<div class="workarea_wrapper">
 <div class="workarea">
 	<div class="workarea_wrapper">
 		<div class="leftcolumn">
@@ -250,30 +250,11 @@
 							</div>
 							<div class="slidesWrapper">
 								<div id="newusers" class="tab_wrapper community bwhite">
-									<ul>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_5.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_6.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_7.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_8.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_9.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_10.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_11.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_12.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_14.jpg" alt="Shigaru.com" /></a></li>
-									</ul>
+									{$s4jnewusers}
 								</div>
 								<div id="recently" class="tab_wrapper community bwhite">
-									<ul>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_5.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_6.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_7.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_8.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_9.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_10.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_11.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_12.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_14.jpg" alt="Shigaru.com" /></a></li>
-									</ul>
+									<script type="text/javascript" src="{$shiggymemberssurl}"></script>
+									{$zncbmembers}
 								</div>
 								<div id="topvideo" class="tab_wrapper community bwhite">
 									<ul>
@@ -289,30 +270,10 @@
 									</ul>
 								</div>
 								<div id="recentstatus" class="tab_wrapper community bwhite">
-									<ul>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_5.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_6.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_7.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_8.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_9.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_10.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_11.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_12.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_14.jpg" alt="Shigaru.com" /></a></li>
-									</ul>
+									{$whatareyou}
 								</div>
 								<div id="recentprofile" class="tab_wrapper community bwhite">
-									<ul>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_5.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_6.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_7.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_8.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_9.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_10.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_11.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_12.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_14.jpg" alt="Shigaru.com" /></a></li>
-									</ul>
+									{$recentactivity}
 								</div>
 							</div>	
 					</div>

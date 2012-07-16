@@ -8,7 +8,7 @@
 */
 // Direct Acess not allowed!
 defined('_JEXEC') or die(dirname(__FILE__).DS.'Restricted access');
-$output .= "<table class=\"activity_table\"><tr>";
+$output .= "<ul>";
   $receiver = "";
   $tempid = $userid;
 // *********************************************  
@@ -71,5 +71,5 @@ $output .= "</span>";
 
   $output .= $receiver; // for profilebook entries
 }
-$output .= "</td></tr></table>";
+$output .= "</ul>";
 ?>

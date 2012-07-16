@@ -242,8 +242,8 @@ jQuery(function() {
 								// also, show the description container
 								if( scaleVal === settings.maxScale ) {
 									
-									$li.css( 'z-index', 1000 );
-									
+									$li.css( 'z-index', 10000 );
+									$li.css( 'position', 'relative' );
 									if( $desc.offset().left + $desc.width() > listL + listW ) {
 										
 										$desc.css( 'left', -$desc.width() - $desc.data( 'space_l' ) );
