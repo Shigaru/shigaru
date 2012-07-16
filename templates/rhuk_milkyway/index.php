@@ -100,6 +100,8 @@ $this->setHeadData($jHeader);
 	<jdoc:include type="modules" name="user3" />
 </div>
 <div class="clear"></div>
+<div class="workarea">
+	<div class="workarea_wrapper">
 <jdoc:include type="message" />
 <jdoc:include type="modules" name="left" style="rounded" />
 <jdoc:include type="component" />
@@ -107,6 +109,8 @@ $this->setHeadData($jHeader);
 <jdoc:include type="modules" name="right" style="xhtml"/>
 <jdoc:include type="modules" name="debug" />
 <jdoc:include type="modules" name="chat" />
+</div>
+</div>
 <div id="footer_topborder"></div>
 <div id="footer">
 	<div id="footer_content">

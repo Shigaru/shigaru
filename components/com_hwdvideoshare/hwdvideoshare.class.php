@@ -3190,7 +3190,7 @@ $app = & JFactory::getApplication();
 			$percent = round(($details[0] - $smallest) / $difference,1);
 			$fontSize = round($minSize + ($fontDifference*$percent));			
 			$url = JRoute::_("index.php?searchword=".$details[1]."&ordering=newest&searchphrase=all&Itemid=29&option=com_search&lang=en");
-			$code.= '<li><a href="'.$url.'" style="display:inline-block; padding-right:'.rand(1,7).'px; padding-bottom:'.rand(1,7).'px; font-size:'.$fontSize.'px;"><span class="fleft">'.$details[1].'</span><span class="hits">'.floor($details[0]).'</span></a></li>';
+			$code.= '<li><a href="'.$url.'"><span class="fleft">'.$details[1].'</span><span class="hits">'.floor($details[0]).'</span></a></li>';
 			}
 		}
 		$code .= '</ul>';

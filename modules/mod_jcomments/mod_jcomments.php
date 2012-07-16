@@ -158,16 +158,6 @@ if ( !defined( '_JCOMMENTS_MODULE' ) ) {
 
 			ob_start();
 			?>
-ul.jclist<?php echo $moduleclass_sfx;?> { padding: 0; list-style-image: none; list-style-type: none; }
-ul.jclist<?php echo $moduleclass_sfx;?> li {background-image: none; list-style: none; list-style-image: none; margin-left: 5px !important; margin-left: 0; display: block; overflow: hidden; }
-<?php 
-			if ($showgravatars == 1) {
-?>
-ul.jclist<?php echo $moduleclass_sfx;?> img { width: <?php echo $avatar_size; ?>px; height: <?php echo $avatar_size; ?>px; margin: 0 5px 5px 0;	float: left;}
-<?php 
-			}
-?>
-ul.jclist<?php echo $moduleclass_sfx;?> span img {width: auto; height: auto; float: none;}
 <?php
 			$_css = ob_get_contents();
 			ob_end_clean();
@@ -179,7 +169,6 @@ ul.jclist<?php echo $moduleclass_sfx;?> span img {width: auto; height: auto; flo
 				$document = & JFactory::getDocument();
 				$document->addStyleDeclaration($_css);
 			} else {
-				echo '<style type="text/css">' . $_css . '</style>';
 			}
 		}
 	}
@@ -393,7 +382,6 @@ ul.jclist<?php echo $moduleclass_sfx;?> span img {width: auto; height: auto; flo
 
 				$title = JCommentsText::cleanText($title);
 				$title = JCommentsText::substr($title, $maxlen);
-
 				$link_title = str_replace( '"', '', $title );
 				$link_text = $title;
 
@@ -412,6 +400,9 @@ ul.jclist<?php echo $moduleclass_sfx;?> span img {width: auto; height: auto; flo
 					if ($row->avatar == '') {
 						echo '<img src="http://www.gravatar.com/avatar.php?gravatar_id='. md5( $row->email ) .'&amp;default=' . urlencode($mainframe->getCfg( 'live_site' ) . '/components/com_jcomments/images/no_avatar.png') . '&amp;size=' . $avatar_size . '"  alt="" border="0" />';
 					} else {
+						//echo '<pre>';
+						//var_dump($row);
+						//echo '</pre>';
 						echo $row->avatar;
 					}
 				}
@@ -421,25 +412,28 @@ ul.jclist<?php echo $moduleclass_sfx;?> span img {width: auto; height: auto; flo
 					$title = JCommentsText::substr($title, $limit_object_title);
 					$title = str_replace( '"', '', $title );
 
-					echo '<a class="jcl_objtitle" href="'.$link.'#comment-'.$row->id.'" title="'.$title.'">'.$title.'</a><br />';
+					//echo '<a class="jcl_objtitle" href="'.$link.'#comment-'.$row->id.'" title="'.$title.'">'.$title.'</a><br />';
+				}
+				
+				if ($show_date == 1) {//profileLink
+					echo 	'<div style="width:94%"><div><div class="fleft mtop12"><a href="'.$row->profileLink.'" title="'.$row->name.'">'.$row->name.'</a>';
+					echo	'</div><div class="fright mtop12"><span class="jcl_date">' . JCommentsText::formatDate( $row->date, $dateformat ) . '</span></div></div>';
 				}
 
 				switch( $show_comment_text ) {
 					case 0:
-						echo '<span class="jcl_comment">'.$link_text.'</span>';
+						echo '<div style="width:70%" class="fleft mtop12 mbot20"><span class="jcl_comment">'.$link_text.'</span></div>';
 						break;
 					case 1:
-						echo '<a class="jcl_comment" href="'.$link.'#comment-'.$row->id.'" title="'.$link_title.'">'.$link_text.'</a>';
+						echo '<div style="width:70%" class="fleft mtop12 mbot20"> <a class="jcl_comment" href="'.$link.'#comment-'.$row->id.'" title="'.$link_title.'">'.$link_text.'</a></div>';
 						break;
 					case 2:
-						echo '<span class="jcl_comment">'.$link_text.'</span> ';
-						echo '<a class="jcl_readmore" href="'.$link.'#comment-'.$row->id.'">'.$label4more.'</a>';
+						echo '<div style="width:70%" class="fleft mtop12 mbot20"><span class="jcl_comment">'.$link_text.'</span> </div>';
+						//echo '<a class="jcl_readmore" href="'.$link.'#comment-'.$row->id.'">'.$label4more.'</a>';
 						break;
 				}
 
-				if ($show_date == 1) {
-					echo '<br /><span class="jcl_date">' . JCommentsText::formatDate( $row->date, $dateformat ) . '</span>';
-				}
+				
 
 				switch( $show_author ) {
 					case 0:
@@ -451,7 +445,9 @@ ul.jclist<?php echo $moduleclass_sfx;?> span img {width: auto; height: auto; flo
 						echo '<br />' . ($label4author != '' ?  $label4author . ' ' : '') . ($row->username ? $row->username : $row->name);
 						break;
 				}
-
+				if ($show_date == 1) {
+					echo '</div>';
+				}
 				echo '</li>'."\n";
 			}
 			echo '</ul>'."\n";

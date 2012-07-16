@@ -152,7 +152,7 @@ div.cbSideSetting { text-align: right; margin: 6px 2%; }
 .subFieldSpan { position: absolute; top: 0px; left: 9em; }
 
 /* For positioning user profile div positions: trick needed to workaround templates with floating uncleared divs */
-.cbPageOuter, .cbProfile, .cbEditProfile, .cbUsersList	 {	margin: 0px;	border-width: 0px;	padding: 0px;	float: left;	width:99.6%;	}
+.cbPageOuter, .cbProfile, .cbEditProfile, .cbUsersList	 {	margin: 0px;	border-width: 0px;	padding: 0px;		width:99.6%;	}
 .cbPageInner, #cbProfileInner, #cbEditProfileInner, #cbUsersListInner	 {	margin: 0px;	border-width: 0px;	padding: 8px;	float: none;	width:auto;		}
 .cbPosHead, .cbPosTop, .cbPosLeft, .cbPosMiddle, .cbPosRight, .cbPosTabMain, .cbPosUnderAll {
 				margin: 0px 0px 10px 0px;	border-width: 0px;	padding: 0px;	}

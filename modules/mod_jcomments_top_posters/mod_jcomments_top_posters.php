@@ -111,33 +111,8 @@ if ( !defined( '_JCOMMENTS_TOP_POSTERS_MODULE' ) ) {
 
 		        ob_start();
 ?>
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> {padding: 0; list-style-image: none; list-style-type: none;}
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> li {background-image: none !important; list-style: none; list-style-image: none !important; margin-left: 5px !important; margin-left: 0; padding: 0 !important; display: block; overflow: hidden; line-height: 1.2em;}
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> li div {margin: 0; padding: 5px 0 0 0;}
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> li div .cmtcnt {font: bold 0.9em Verdana, Arial, Sans-Serif;}
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> li.odd {background-color: #f4f4f4;}
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> li.even {}
-<?php
-			if ($showvotes != '') {
-?>
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> span.votes {font: bold 0.8em Verdana, Arial, Sans-Serif; color: #A9A9A9; margin:0;padding:0;}
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> span.vote-none {color: #A9A9A9;}
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> span.vote-good {color: #339900;}
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> span.vote-poor {color: #CC0000;}
 <?php 
-                        }
-
-			if ($showavatars == 1) {
-				if ($showvotes == '') {
-?>
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> li {vertical-align: middle; line-height: <?php echo $avatar_size; ?>px;}
-<?php
-				}
-?>
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> div {margin: 0 0 0 <?php echo $avatar_size; ?>px;}
-ul.jc_top_posters<?php echo $moduleclass_sfx;?> img { width: <?php echo $avatar_size; ?>px; height: <?php echo $avatar_size; ?>px; margin: 5px;	float: left;}
-<?php 
-			}
+			
 
 			$_css = ob_get_contents();
 			ob_end_clean();
@@ -149,7 +124,6 @@ ul.jc_top_posters<?php echo $moduleclass_sfx;?> img { width: <?php echo $avatar_
 				$document = & JFactory::getDocument();
 				$document->addStyleDeclaration($_css);
 			} else {
-				echo '<style type="text/css">' . $_css . '</style>';
 			}
 		}
 	}

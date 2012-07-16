@@ -1,13 +1,17 @@
 var $jq = jQuery.noConflict();
 jQuery(document).ready(function($){
 	/* Scroll bars */
-	jQuery('#the_most .tab_wrapper').jScrollPane({showArrows:true});
+	if(jQuery('#the_most .tab_wrapper').length>0){
+		console.log(jQuery('#the_most .tab_wrapper'));
+	jQuery('#the_most .tab_wrapper, .workarea div.video_activity div.tab_wrapper').jScrollPane({showArrows:true});
 	/* Tabs */
 	jQuery('#the_most_title').shigaruTabs({slidesWrapper:'#the_most_wrapper',effect:'fade'});
 	//jQuery('.beingwatched_header').shigaruTabs({slidesWrapper:'#beingwatched .slidesWrapper',controls:true,hideTabs:true,directionOfSorting:'right'});
 	jQuery('.leftcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.leftcolumn .slidesWrapper'});
 	jQuery('.rightcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.rightcolumn .slidesWrapper'});
 	jQuery('.workarea_odd .video_activity .video_activity_header').shigaruTabs({slidesWrapper:'.workarea_odd .video_activity .slidesWrapper'});
+	
+	}
 	
 	// Login Form	
 	jQuery('#login a,#lang a').click(function(e) {

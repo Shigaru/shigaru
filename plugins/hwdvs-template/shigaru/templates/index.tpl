@@ -183,13 +183,13 @@
 					</div>
 					<div class="slidesWrapper">
 						<div id="comments-tabs-1" class="tab_wrapper comments">
-							{$smarty.const._HWDVIDS_LATESTCOMMINTRO}
+							<!--{$smarty.const._HWDVIDS_LATESTCOMMINTRO}-->		
 							 {$latestcomments}
 						</div>
 					</div>  
 					<div class="slidesWrapper">			
 						<div id="comments-tabs-2" class="tab_wrapper comments">
-							{$smarty.const._HWDVIDS_POPUCOMMINTRO}
+							<!--{$smarty.const._HWDVIDS_POPUCOMMINTRO}-->		
 							{$mostpopularcomments}
 						</div>
 					</div>
