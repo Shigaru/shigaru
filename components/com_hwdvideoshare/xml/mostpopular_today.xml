@@ -2,7 +2,7 @@
 <playlist version="1">
 <title>hwdVideoShare mostpopular_today Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-07-17 19:25:13</date>
+<date>2012-07-18 00:15:10</date>
 <trackList>
 
   <track>
@@ -32,6 +32,28 @@ Por favor dejad comentarios y si puedes subir una versi&#243;n mejor por favor s
     <avatar><![CDATA[63_4f2af929ab374.jpg]]></avatar>
     <comments><![CDATA[1]]></comments>
     <tags><![CDATA[tutorial, rock, español, lección, leccion, clase, aprender, tocar, sting, Dolores se llamaba lola, lesson, explanation, explicacion, teacher, how, to, play, ]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[124]]></id>
+    <videotitle><![CDATA[Pin Pon es un mu&#241;eco...]]></videotitle>
+    <videocode><![CDATA[B6lbqdKC5NQ]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-124.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[rondas infantiles]]></description>
+    <views><![CDATA[11]]></views>
+    <numfavoured><![CDATA[1]]></numfavoured>
+    <views><![CDATA[11]]></views>
+    <date><![CDATA[2011-12-10 18:33:44]]></date>
+    <duration><![CDATA[02:27]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4f2856bc37049.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[rondas, infantiles]]></tags>
   </track>
 
 </trackList>

@@ -18,7 +18,7 @@
 
 
 
-        <div id="videoTitle" class="fleft">
+        <div id="videoTitle" class="fleft mbot20">
 				  <div>
 					 <div class="fleft titleText">
 					 {$videoplayer->titleText} {$videoplayer->editvideo} {$videoplayer->deletevideo}
@@ -28,6 +28,52 @@
 					</div>
 				  </div>
 				  <div class="padding clear"><center>{$videoplayer->player}</center></div>
+				  <div class="padding mtop24">
+					  
+						
+						<div id="circle-mod" class="w20pc">
+						  <div id="container-circle">
+							<div id="button-1" class="btn">
+							  <div><span>Like</span></div>
+							</div>
+							<div id="button-2" class="btn">
+							  <div><span>+1</span></div>
+							</div>
+							<div id="button-3" class="btn">
+							  <div><span>Tweet</span></div>
+							</div>
+							<div id="button-4" class="btn">
+							  <div><span>Email</span></div>
+							</div>
+							<div id="button-5" class="btn">
+							  <div><span>&hearts;</span></div>
+							</div>
+							{if $print_videourl}
+								<div id="button-6" class="btn">
+								  <div><span>Link</span></div>
+								</div>
+<!--
+
+
+
+
+								 <form name="vlink" action="#"><input type="text" value="{$videoplayer->videourl}" name="vlink" /></form>
+	-->						  {/if}
+							<div id="base-button" class="mleft30">
+							  <div><span>Share</span></div>
+							</div>
+						  </div>
+						</div>
+						<div class="fleft w70pc">  
+							<span class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_DESC}</span><br />
+							<p id="truncateMe" class="mtop12 mbot6">{$videoplayer->description}</p>
+							 <span class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_TAGS}</span><br />
+							<p id="truncateMe" class="mtop12"> {$videoplayer->tags}</p>
+							
+						</div>
+						 <div class="clear">   </div>  
+				</div>
+			
 				 
       </div>  
       
@@ -41,17 +87,6 @@
 		  <div><span>{$smarty.const._HWDVIDS_SELECT_RATING}</span><br />{$videoplayer->ratingsystem}</div>
 		  <div><span>{$smarty.const._HWDVIDS_INFO_NOCOMM}</span><br />{$videoplayer->commentsNum}</div>
 		  <div>{$songPlayer}</div>
-		  
-		  <div>
-				  {if $print_nextprev}
-					{$videoplayer->nextprev}
-				  {/if}
-		  </div>
-		  <div>		  
-				  {if $print_videourl}
-					 <form name="vlink" action="#">{$smarty.const._HWDVIDS_TITLE_PERMALINK}<input type="text" value="{$videoplayer->videourl}" name="vlink" /></form>
-				  {/if}
-		  </div>		  
 		</div>
 		<div>
 		</div>
@@ -59,23 +94,23 @@
 
       
         <div class="clear">   </div>  
-			<div class="padding"><strong>{$smarty.const._HWDVIDS_DESC}</strong><br /><p id="truncateMe">{$videoplayer->description}</p></div>
 			
 
 
 	<div class="standard">
 	  <div class="padding">
+		  <!--
             <div id="addremfav">{$videoplayer->favourties}</div>
             <div>{$videoplayer->reportmedia}</div>
           
-         <!-- <div>{$videoplayer->vieworiginal}</div> -->
+         <!-- <div>{$videoplayer->vieworiginal}</div> 
           <div style="padding: 5px 0;">{$videoplayer->switchquality}</div>
           <div class="padding">{$videoplayer->socialbmlinks}</div> 
 		  <div class="padding">{if $print_addtogroup}{$videoplayer->addtogroup}<div id="add2groupresponse"></div>{/if}</div>
 		  <div class="padding">{if $print_addtoplaylist}{$videoplayer->addtoplaylist}<div id="add2playlistresponse"></div>{/if}</div>
 		  <span>{$smarty.const._HWDVIDS_SHIGARU_SEE_MORE_CATEGORY}</span>
 		  
-		  {$videoplayer->category}
+		  {$videoplayer->category}-->
           <div style="clear:both;"></div>
 	    <div id="ajaxresponse"></div>
           <div style="clear:both;"></div>	
@@ -114,7 +149,29 @@
 	    }
 	  }
 	   jQuery(document).ready(function() {
-			jQuery('.sic-right .video_activity_header').shigaruTabs({slidesSelector:'.tab_wrapper',slidesWrapper:'.sic-right'});	
+		jQuery('.sic-right .video_activity_header').shigaruTabs({slidesSelector:'.tab_wrapper',slidesWrapper:'.sic-right'});	
+		jQuery('.workarea div.video_activity div.scoller').jScrollPane({showArrows:true});
+        var delay = 40, delayTime, btns = jQuery('.btn');
+        jQuery('#base-button').toggle(function(){
+          jQuery(this).addClass('open');
+          btns.each(function(i){
+            delayTime = i * delay;
+            var ele = jQuery(this);
+            window.setTimeout(function(){
+              ele.addClass('open');
+            }, delayTime);
+          });
+        }, function(){
+          jQuery(this).removeClass('open');
+          var ii = 0;
+          jQuery(jQuery(btns).get().reverse()).each(function(i){
+            delayTime = i * delay;
+            var ele = jQuery(this);
+            window.setTimeout(function(){
+              ele.removeClass('open');
+            }, delayTime);
+          });
+        });
 		});
 	  </script>
 	  {/literal}
@@ -138,13 +195,14 @@
 </div>
 {/if}
 <div id="hwdvids">
-<div class="sic-container workarea f80">
+<div class="sic-container workarea f80 mbot20">
   <div class="standard workarea_wrapper">
   <div class="sic-right slidesWrapper">
 	  
 	   
 			<div id="tabs" class="content_box video_activity">
 			<div class="video_activity_header">
+				<h3>More videos</h3>
 				<div>
 				<ul>
 					<li class="selected"><a href="#more-tabs-1">{$smarty.const._HWDVIDS_RELATED}</a></li>
@@ -200,20 +258,19 @@
    </div>	  
 	  
 	  
-</div>
+
   
-  <div class="sic-center">
+  <div class="sic-center mbot20">
 <div class="standard">
       <div class="list">
-        <div class="box">   
+        <div class="content_box">   
 	<div id="comments-tabs">
-	<ul>
-		<li><a href="#comments-tabs-1">{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</a></li>
-		<li><a href="#comments-tabs-2">{$smarty.const._HWDVIDS_TAGS}</a></li>
-	</ul>
+
+		<h3>{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</h3>
+	
 	
 	<div id="comments-tabs-1" class="standard">
-      <div class="scoller">
+      <div class="">
       <div class="list">
         <div class="box">
           {if $print_comments}
@@ -223,17 +280,7 @@
       </div>  
       </div>
     </div>
-    
-    <div id="comments-tabs-2" class="standard">
-      <div class="scoller">
-      <div class="list">
-        <div class="box">
-			  {$videoplayer->tags}
-	 
-        </div>
-      </div>  
-      </div>
-    </div>
+
     
     
     
@@ -243,3 +290,4 @@
 </div>   
 </div>
 <div style="clear:both;"></div>
+</div>

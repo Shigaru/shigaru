@@ -206,7 +206,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', end
 #the_most div.tab_wrapper ul li div.thumb,
 #hwdvids div.tab_wrapper ul li div.thumb{width:100px; height:75px;border:1px solid #8d808d; margin-right:8px;}
 #the_most div.tab_wrapper ul li div.fright,
-#hwdvids div.tab_wrapper ul li div.fright{width:20%;}
+#the_most div.tab_wrapper ul li div.fright{width:20%;}
 div.tab_wrapper .plays div.fright{margin-top: -45px;background:#f6eadc; padding:10px 8px;color:#9c5352; font-weight:bold;}
 div.tab_wrapper .plays div.fright span{display:block;text-align:right;}
 div.tab_wrapper .plays span.playstext{color:#666666; font-size:70%; padding-top:4px;}
@@ -319,7 +319,7 @@ padding: 10px;-moz-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 
 #viewvideo{background: url(../images/viewvideo.png) no-repeat scroll 0 0 transparent; height: 58px;margin: -20px 0 0;width: 120px;}
 #viewvideotext{font-size: 1.2em;font-weight: bold;margin: 21px 0 0 64px;}
 #tabs,#whitebox,#comments-tabs,#tabs-tags {margin-bottom:18px;}
-#videoTitle{}
+#videoTitle{width: 65%;}
 #videoTitle div div.titleText{width:488px;font-size:1.5em; color:#909090; font-weight:bold;line-height:1em;margin-bottom:24px;}
 #videoTitle div div.right{}
 #infocontext{padding-left:20px;}
@@ -397,6 +397,8 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .mbot12{margin-bottom:12px;}
 .mbot6{margin-bottom:6px;}
 .mleft6{margin-left:6px;}
+.mleft12{margin-left:12px;}
+.mleft30{margin-left:30px;}
 .mright6{margin-right:6px;}
 .mright24{margin-right:24px;}
 .ml35pt{margin-left:35%;}
