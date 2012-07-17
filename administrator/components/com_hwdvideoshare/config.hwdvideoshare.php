@@ -198,7 +198,7 @@ class hwd_vs_Config{
   var $jaclint = '0';
   var $loadmootools = 'on';
   var $loadprototype = 'on';
-  var $loadscriptaculous = 'on';
+  var $loadscriptaculous = '';
   var $loadswfobject = 'on';
   var $tpwidth = '427';
   var $embedreturnlink = '0';

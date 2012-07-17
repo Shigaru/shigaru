@@ -12,7 +12,7 @@
 					</span>
 					-->
 					
-					<div class='searchResultInfo'>	
+					<div class='searchResultInfo f80'>	
 							<div class="fleft mright24 mtopl6">
 								<div>
 										<label for="plays" class="searchLabels">

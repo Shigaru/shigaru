@@ -9,11 +9,9 @@
 
 {include file='header.tpl'}
 
-<script type="text/javascript" src="{$link_home}/plugins/hwdvs-template/default/js/tabber.js"></script>
-
 
 {if $print_nextprev or $print_videourl or $print_embedcode or $print_uservideolist or $print_relatedlist}
-<div class="sic-container">
+<div class="f80 mtop24 sic-container">
   
   <div>
 {/if}  
@@ -25,7 +23,7 @@
 					 <div class="fleft titleText">
 					 {$videoplayer->titleText} {$videoplayer->editvideo} {$videoplayer->deletevideo}
 					 </div>
-					 <div class="fright">
+					 <div class="fright mbot12">
 							<div class="fleft mright6">{$smarty.const._HWDVIDS_INFO_SHARED}<br />{$videoplayer->username}</div><div class="fleft">{$videoplayer->avatar}</div>
 					</div>
 				  </div>
@@ -115,7 +113,9 @@
 	      p.innerHTML = trunc;
 	    }
 	  }
-	   
+	   jQuery(document).ready(function() {
+			jQuery('.sic-right .video_activity_header').shigaruTabs({slidesSelector:'.tab_wrapper',slidesWrapper:'.sic-right'});	
+		});
 	  </script>
 	  {/literal}
 	  
@@ -138,62 +138,64 @@
 </div>
 {/if}
 <div id="hwdvids">
-<div class="sic-container">
-  
-  <div class="sic-right">
+<div class="sic-container workarea f80">
+  <div class="standard workarea_wrapper">
+  <div class="sic-right slidesWrapper">
 	  
-	  <div class="standard">
-      <div class="list">
-        <div class="box">   
-			<div id="tabs">
+	   
+			<div id="tabs" class="content_box video_activity">
+			<div class="video_activity_header">
+				<div>
 				<ul>
-					<li><a href="#more-tabs-1">{$smarty.const._HWDVIDS_RELATED}</a></li>
+					<li class="selected"><a href="#more-tabs-1">{$smarty.const._HWDVIDS_RELATED}</a></li>
 					<li><a href="#more-tabs-2">{$smarty.const._HWDVIDS_TITLE_MOREBYUSR} {$videoplayer->uploader}</a></li>
 					<li><a href="#more-tabs-3">{$smarty.const._HWDVIDS_MORECATVIDS}</a></li>
 				</ul>
-	
-	<div id="more-tabs-1" class="standard">
+				</div>
+			</div>
+	<div id="more-tabs-1" class="tab_wrapper">
       <div class="scoller">
       <div class="list">
         <div class="box">
+			<ul>
           {foreach name=outer item=data from=$listrelated}
 	  {include file="video_list_small.tpl"}
-	  <div style="clear:both;"></div>
           {/foreach}
+          </ul>
         </div>
       </div>  
       </div>
     </div>
     
-    <div id="more-tabs-2" class="standard">
+    <div id="more-tabs-2" class="tab_wrapper">
       <div class="scoller">
       <div class="list">
         <div class="box">
+			<ul>
           {foreach name=outer item=data from=$userlist}
 	  {include file="video_list_small.tpl"}
-	  <div style="clear:both;"></div>
-          {/foreach}
+	      {/foreach}
+			</ul>
         </div>
       </div>  
       </div>
     </div>
     
-    <div id="more-tabs-3" class="standard">
+    <div id="more-tabs-3" class="tab_wrapper">
       <div class="scoller">
       <div class="list">
         <div class="box">
+			<ul>
           {foreach name=outer item=data from=$categoryvideolist}
 	  {include file="video_list_small.tpl"}
-	  <div style="clear:both;"></div>
           {/foreach}
+			</ul>
         </div>
       </div>  
       </div>
     </div>
     
     
-   </div> 
-   </div>
 </div> 
    </div>	  
 	  
@@ -239,5 +241,5 @@
    </div>
  </div> 
 </div>   
-
+</div>
 <div style="clear:both;"></div>

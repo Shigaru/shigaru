@@ -130,7 +130,6 @@
 
 		#hwdvids .sic-container {
 			width:100%;
-			margin:0!important;
 			padding:0!important;
 		}
 
@@ -245,7 +244,6 @@
 		/*----------------------------------------------------------------------------*/
 
 		#hwdvids .standard {
-			border:1px solid #ccc;
 		}
 
 		#hwdvids .standard .padding {

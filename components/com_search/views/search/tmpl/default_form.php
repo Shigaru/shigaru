@@ -1,19 +1,21 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <script>
 	jQuery(document).ready(function() {	
-			var availableTags =  <?php echo $this->getGruopAndBandNames(); ?>;
+			/*var availableTags =  <?php echo $this->getGruopAndBandNames(); ?>;
 			jQuery( "#searchinputcat" ).autocomplete({
 					source: availableTags
-				});
+				});*/
+			jQuery('#searchtabs').shigaruTabs({slidesWrapper:'.searchtabs',slidesSelector:'.quicksearch',effect:'fade'});	
 		});
 </script>
+<div class="f90">
 <div id="searchtabs">
 	<ul>
-		<li><a href="#tabs-1"><?php echo JText::_( 'Quick Search' ); ?></a></li>
-		<li><a href="#tabs-2"><?php echo JText::_( 'Category Search' ); ?></a></li>
+		<li class="selected"><a href="#quicksearch"><?php echo JText::_( 'Quick Search' ); ?></a></li>
+		<li><a href="#catsearch"><?php echo JText::_( 'Category Search' ); ?></a></li>
 	</ul>
-	<div id="tabs-1">
-		<div id="quicksearch">
+	<div class="searchtabs" id="tabs-1">
+		<div id="quicksearch" class="quicksearch">
 			<span class="mtop12"><?php echo JText::_('Type at least the first 3 letters of the name of a band or song and watch how the system suggests stuff for you to watch. Or simply click "Go" if you know what you’re looking for!'); ?></span>
 			<form class="mtop12 mbot12" id="searchForm" action="<?php echo JRoute::_( 'index.php?option=com_search' );?>" method="post" name="searchForm">
 					<input type="text" name="searchword" id="searchinput" size="30" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox w70pc" />
@@ -23,8 +25,8 @@
 			<?php echo JText::_('Recently searched >>'); ?> <?php echo $this->getLatestSearchs(); ?></dd>
 		</div>
     </div>
-    <div id="tabs-2">
-		<div id="quicksearch">
+    <div class="searchtabs" id="tabs-2">
+		<div id="catsearch" class="quicksearch">
 			<span class="mtop12"><?php echo JText::_('Search our growing multi-lingual video library for music tutorials. Various instruments, levels, styles and genres.'); ?></span>
 			<form class="mtop12 mbot12" id="searchForm" action="<?php echo JRoute::_( 'index.php?option=com_search' );?>" method="post" name="searchForm">
 				<div class="">
@@ -78,7 +80,9 @@
 			
     </div>
 </div>    
-<?php echo $this->lists['searchphrase']; ?>
+<?php if(strlen($this->escape($this->searchword))> 0) : ?>
+
+<!--<?php echo $this->lists['searchphrase']; ?>-->
 					<?php echo JText::_( 'Search Keyword' ) .' <b>'. $this->escape($this->searchword) .'</b>'; ?>
 					<?php echo $this->result; ?>
 			<br />
@@ -95,3 +99,5 @@
 				</div>
 			</div>
 			<?php endif; ?>
+<?php endif; ?>
+</div> 
