@@ -4,7 +4,7 @@ class hwd_vs_Config{
   var $instanceConfig = null;
 
   // Member variables
-  var $vpp = '20';
+  var $vpp = '10';
   var $fpfeaturedvids = '10';
   var $gpp = '5';
   var $fpfeaturedgroups = '3';

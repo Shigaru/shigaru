@@ -65,10 +65,12 @@
 						  </div>
 						</div>
 						<div class="fleft w70pc">  
-							<span class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_DESC}</span><br />
-							<p id="truncateMe" class="mtop12 mbot6">{$videoplayer->description}</p>
+							<div class="mbot12">  
+								<span class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_DESC}</span><br />
+								<p id="truncateMe" class="mtop12">{$videoplayer->description}</p>
+							</div>	
 							 <span class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_TAGS}</span><br />
-							<p id="truncateMe" class="mtop12"> {$videoplayer->tags}</p>
+							<p class="mtop12"> {$videoplayer->tags}</p>
 							
 						</div>
 						 <div class="clear">   </div>  

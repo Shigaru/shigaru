@@ -342,7 +342,15 @@ class cbMenuBest extends cbMenu {			// later: extends mosMenu
 
 class cbBestMenuHandler  extends cbMenuHandler {
 	/** @var string text to output at begin of menu */
-	var $htmlBegin = "<div id=\"conteneurmenu\">\n<script type=\"text/javascript\">preChargement();</script>
+	var $htmlBegin = "<div id=\"conteneurmenu\">\n<script type=\"text/javascript\">preChargement();
+	jQuery(document).ready(function($){
+		jQuery('#profileopts').click(function(e) {
+		var othis = jQuery(this);
+		jQuery(\".profileoptswrapper\").slideToggle();
+			othis.toggleClass(\"profileoptsopen\");
+	});
+		});
+	</script>
 <ul class=\"cbpMenu\" id=\"cbMenuNav\">";
 	/** @var string text to output at end of menu */
 	var $htmlEnd = "  </ul>\n</div>
@@ -1314,7 +1322,17 @@ class getMenuTab  extends cbTabHandler {
 				$tableContent					=	$this->menuBar->displayMenu($idCounter);
 				if ( $tableContent != '' ) {
 					$_CB_OneTwoRowsStyleToggle	=	($idCounter&1 ? 2 : 1);
-					$return						.=	'<div class="cbMenuList"><div class="graybar"><div class="fleft cbusermenubutton mleft6">'._UE_INBOX.'</div><div class="fright"><div class="cbusermenubutton mright6">'._UE_PROFILEOPTIONS.'</div><div class="dispnon">' . $tableContent . '</div></div></div></div><div class="clear"></div>';
+					$return						.=	'<div class="cbMenuList">
+														<div class="cbusermenubutton mright6" id="profileopts">'.
+																	_UE_PROFILEOPTIONS.
+														'</div>
+														<div class="graybar">
+															<div>
+																<div id="profileoptswrapper" class="dispnon">' . $tableContent . 
+																'</div>
+															</div>
+														 </div>
+														</div><div class="clear"></div>';
 				}
 				break;
 			case "menuList":

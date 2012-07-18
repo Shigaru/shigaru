@@ -72,12 +72,7 @@ $this->setHeadData($jHeader);
 					<?php					
 					if ($user && !$user->guest){
 							echo '<div id="grettings">';
-							
 							echo $cbUser->getField( 'avatar' , null, 'html', 'div', 'profile' );
-							
-							echo '</div>';
-							echo '<div class="userzone">';
-								//echo '<a href="index.php?option=com_comprofiler&task=logout"><img src="./images/logout.png" width="86" height="20" alt="logout button" /></a>';
 							echo '</div>';
 						}
 						 
@@ -89,6 +84,31 @@ $this->setHeadData($jHeader);
 </div>	
 
 <div id="nav_browse">
+	<?php					
+					if ($user && !$user->guest){
+						echo '<div class="userzone f80">';
+								echo '<div class="userzoneitem">';
+									echo '<a href="index.php?option=com_comprofiler&task=logout">Logout</a>';
+								echo '</div>';
+								echo '<div class="userzoneitem">';
+									echo '<a href="index.php?option=com_comprofiler&task=logout">Friends</a>';
+								echo '</div>';
+								echo '<div class="userzoneitem">';
+									echo '<a href="index.php?option=com_comprofiler&task=logout">Inbox</a>';
+								echo '</div>';
+								echo '<div class="userzoneitem">';
+									echo '<a href="index.php?option=com_comprofiler&task=logout">Edit Profile</a>';
+								echo '</div>';
+								echo '<div class="userzoneitem">';
+									echo '<a href="index.php?option=com_comprofiler&task=logout">My videos</a>';
+								echo '</div>';
+								
+								
+								
+								
+							echo '</div>';
+						}
+				?>
 	<div id="nav_browse_content">
 		<div id="nav_browse_search">
 			<jdoc:include type="modules" name="search" />		
