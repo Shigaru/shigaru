@@ -349,11 +349,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', e
 }
 #grettings{float: right;position:relative;
     margin-top: -20px;-moz-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;-moz-box-shadow:0px 0px 3px #aaa;
-    -webkit-box-shadow:0px 0px 3px #aaa;box-shadow:0px 0px 3px #aaa;padding: 6px 16px 6px 6px;
-    background:url("../images/sprite.png") no-repeat scroll -10px -120px transparent;cursor:pointer;}
+    -webkit-box-shadow:0px 0px 3px #aaa;box-shadow:0px 0px 3px #aaa;padding: 6px 26px 6px 6px;
+    background:url("../images/arrow_langs.gif") no-repeat scroll 95% 53% transparent;cursor:pointer;}
 #grettings:hover{-moz-box-shadow:0px 0px 3px #fff;
     -webkit-box-shadow:0px 0px 3px #fff;box-shadow:0px 0px 3px #fff;}
-.userzoneopen{border: medium none !important;
+#grettings:active{border: medium none !important;
     box-shadow: none !important;/* IE9 SVG, needs conditional override of 'filter' to 'none' */
 background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjY1Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+)!important;
 background: -moz-linear-gradient(left,  rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%)!important; /* FF3.6+ */
@@ -364,7 +364,9 @@ background: -ms-linear-gradient(left,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%)!i
 background: linear-gradient(to right,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%)!important ; /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 )  !important; /* IE6-8 */
 }
-#grettings div{ }
+.userzoneopen{
+background:url("../images/arrow_top.gif") no-repeat scroll 95% 53% transparent !important;}
+#grettings div{ float: left;}
 .greetinguser{float: left;
     margin: 4px 24px 4px 0;}
     

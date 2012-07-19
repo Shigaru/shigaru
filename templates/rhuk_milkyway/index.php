@@ -65,7 +65,7 @@ $this->setHeadData($jHeader);
 					$user =& JFactory::getUser();
 					$cbUser = CBuser::getInstance( $user->id );
 					if ($user && !$user->guest)
-					echo '<div class="greetinguser">'.JText::sprintf( 'LOGIN_GREETING', $user->username ).'</div>';
+					echo '<div class="greetinguser"></div>';
 					?>
 					<jdoc:include type="modules" name="top" />
 					<div class="topbuttons mustardbutton" id="upload"><a href="#" title="<?php echo JText::_('Click on this link to upload a video!') ?>">UPLOAD</a></div>
@@ -73,6 +73,9 @@ $this->setHeadData($jHeader);
 					if ($user && !$user->guest){
 							echo '<div id="grettings">';
 							echo $cbUser->getField( 'avatar' , null, 'html', 'div', 'profile' );
+							echo '<div class="mtop12 mleft6">';
+							echo JText::sprintf( 'LOGIN_GREETING', $user->username );
+							echo '</div>';
 							echo '</div>';
 						}
 						 
