@@ -33,6 +33,14 @@ $this->setHeadData($jHeader);
 
 </head>
 <body id="page_bg">
+	<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <a name="up" id="up"></a>
 <div id="head">
 	<div id="head_content">
@@ -62,13 +70,18 @@ $this->setHeadData($jHeader);
 						include_once( $mainframe->getCfg( 'absolute_path' ) . '/administrator/components/com_comprofiler/plugin.foundation.php' );
 					}
 					cbimport( 'cb.tabs' );
+					
 					$user =& JFactory::getUser();
 					$cbUser = CBuser::getInstance( $user->id );
+					
 					if ($user && !$user->guest)
 					echo '<div class="greetinguser"></div>';
 					?>
 					<jdoc:include type="modules" name="top" />
-					<div class="topbuttons mustardbutton" id="upload"><a href="#" title="<?php echo JText::_('Click on this link to upload a video!') ?>">UPLOAD</a></div>
+					<?php
+					$uploadUrl =  JRoute::_("index.php?option=com_hwdvideoshare&task=upload");
+					echo '<div class="topbuttons mustardbutton" id="upload"><a href="'.$uploadUrl.'" title="'.JText::_('Click on this link to upload a video!').'">UPLOAD</a></div>';
+					?>
 					<?php					
 					if ($user && !$user->guest){
 							echo '<div id="grettings">';
@@ -154,6 +167,10 @@ $this->setHeadData($jHeader);
 					<input value="Follow us" class="submit fleft" type="submit" />
 				</div>
 			</div>
+			<h3>What we're tweeting...</h3>
+			<div>
+				<div class="fb-like-box" data-href="http://www.facebook.com/ShigaruCommunity" data-width="592" data-show-faces="true" data-stream="false" data-header="false"></div>
+			</div>	
 		</div>
 		<div id="rightcolmn">
 			<div>

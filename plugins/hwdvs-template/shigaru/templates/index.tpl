@@ -284,6 +284,4 @@
 <!-- {$zncbmembers} -->			
 {include file='header.tpl'}
 <div style="clear:both;"></div>
-<div id="fb-root"></div>
-						<div class="fb-like-box" data-href="http://www.facebook.com/pages/Shigarucom/203892893007914" data-width="350" data-show-faces="true" data-border-color="#fff" data-stream="false" data-header="false"></div>
 <!--{include file='footer.tpl'}-->

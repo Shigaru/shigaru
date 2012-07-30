@@ -32,8 +32,19 @@ class PlgSphinxSearchContacts extends PlgSphinxSearch
             $db->setQuery($query);
             $results = $db->loadObjectList();
             if (empty ($results)){
-                return array();
+            $query ='SELECT DISTINCT v.id as id, v.video_type,v.video_id,v.title,v.description,v.tags,v.song_id,v.band_id,v.language_id,v.category_id,v.genre_id,v.intrument_id,v.level_id,
+			UNIX_TIMESTAMP(v.date_uploaded) AS date_added,v.video_length,v.allow_comments,v.allow_embedding,v.allow_ratings,v.rating_number_votes,v.rating_total_points,v.user_id,
+			v.updated_rating,v.number_of_comments,v.public_private,v.thumb_snap,v.thumbnail,v.approved,v.number_of_views,u.username as username 
+			FROM #__hwdvidsvideos AS v JOIN #__users AS u ON v.user_id = u.id'
+			. ' WHERE 1=1'
+            . " ORDER BY v.rating_total_points ASC"
+            ;
+            
+
+            $db->setQuery($query);
+            $results = $db->loadObjectList();
             }
+            
             // get the actual links from Joomla (maintains clean urls but is probably quite slow)
             foreach($results as $key => $item) {
 				/*

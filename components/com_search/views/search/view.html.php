@@ -102,14 +102,13 @@ class SearchViewSearch extends JView
 		}
 
 		if (!$searchword && count( JRequest::get('post') ) ) {
-			//$error = JText::_( 'Enter a search keyword' );
+			$error = JText::_( 'Enter a search keyword' );
 		}
 
 		// put the filtered results back into the model
 		// for next release, the checks should be done in the model perhaps...
 		$state->set('keyword', $searchword);
-
-		if(!$error)
+		if(!$error || strlen($searchword)=== 0)
 		{
 			$results	= &$this->get('data' );
 			$total		= &$this->get('total');

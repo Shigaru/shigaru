@@ -296,8 +296,8 @@ class s4jLibNewUsers {
             if ($this->IsGalleryAvatar($row->avatar))
                 $imagesrc = "images/comprofiler/$row->avatar";
             else
-                $imagesrc = "images/comprofiler/$tn$row->avatar";
-
+                $imagesrc = "images/comprofiler/$row->avatar";
+				//return "<img width=\"$width\"  height=\"$height\" class=\"zncbmimg\" src=\"".$imagesrc."\" border=\"0\"/>";
             return JHTML::image($imagesrc, '', $attribs);
         } else {
             if ($format == 1) { //show image always

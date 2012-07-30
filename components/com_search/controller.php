@@ -82,7 +82,6 @@ class SearchController extends JController
 		$uri->setVar('option', 'com_search');
 
 		
-		var_dump(SearchController::getLatestSearchs());
 		$this->setRedirect(JRoute::_('index.php'.$uri->toString(array('query', 'fragment')), false));
 	}
 	
