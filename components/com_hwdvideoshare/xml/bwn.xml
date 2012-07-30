@@ -2,8 +2,51 @@
 <playlist version="1">
 <title>hwdVideoShare bwn Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-07-30 19:14:46</date>
+<date>2012-07-30 21:49:08</date>
 <trackList>
+
+  <track>
+    <id><![CDATA[140]]></id>
+    <videotitle><![CDATA[PI&#209;ON FIJO por una ventanita]]></videotitle>
+    <videocode><![CDATA[_6eqAI-H0pY]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-140.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[Bajate el dvd en:
+http://www.taringa.net/posts/downloads/2428954/Pi&#241;on-Fijo-Ratdvd.html]]></description>
+    <views><![CDATA[0]]></views>
+    <views><![CDATA[0]]></views>
+    <date><![CDATA[2012-02-03 14:49:24]]></date>
+    <duration><![CDATA[02:52]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[79]]></uploader_id>
+    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[PIÑON, FIJO, por, una, ventanita]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[148]]></id>
+    <videotitle><![CDATA[PI&#209;ON FIJO el saxo cloacal]]></videotitle>
+    <videocode><![CDATA[yngRJChsIwg]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-148.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[PI&#209;ON FIJO el saxo cloacal]]></description>
+    <views><![CDATA[1]]></views>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2012-02-03 14:49:55]]></date>
+    <duration><![CDATA[02:07]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[79]]></uploader_id>
+    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[PIÑON, FIJO, el, saxo, cloacal]]></tags>
+  </track>
 
   <track>
     <id><![CDATA[133]]></id>
@@ -59,8 +102,8 @@ Equipo:
     <category><![CDATA[]]></category>
     <category_id><![CDATA[2]]></category_id>
     <description><![CDATA[PI&#209;ON FIJO pi&#241;on fijo es mi nombre]]></description>
-    <views><![CDATA[1]]></views>
-    <views><![CDATA[1]]></views>
+    <views><![CDATA[3]]></views>
+    <views><![CDATA[3]]></views>
     <date><![CDATA[2012-02-03 14:49:44]]></date>
     <duration><![CDATA[01:53]]></duration>
     <rating><![CDATA[0.00]]></rating>

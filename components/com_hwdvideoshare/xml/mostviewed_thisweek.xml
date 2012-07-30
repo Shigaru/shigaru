@@ -2,7 +2,7 @@
 <playlist version="1">
 <title>hwdVideoShare mostviewed_thisweek Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-07-30 19:14:46</date>
+<date>2012-07-30 21:49:08</date>
 <trackList>
 
   <track>
@@ -38,7 +38,7 @@
     <description><![CDATA[Bajate el dvd en:
 http://www.taringa.net/posts/downloads/2428954/Pi&#241;on-Fijo-Ratdvd.html]]></description>
     <views><![CDATA[1]]></views>
-    <numfavoured><![CDATA[3]]></numfavoured>
+    <numfavoured><![CDATA[4]]></numfavoured>
     <views><![CDATA[1]]></views>
     <date><![CDATA[2012-02-03 14:49:49]]></date>
     <duration><![CDATA[03:26]]></duration>
@@ -48,6 +48,31 @@ http://www.taringa.net/posts/downloads/2428954/Pi&#241;on-Fijo-Ratdvd.html]]></d
     <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
     <comments><![CDATA[0]]></comments>
     <tags><![CDATA[PIÑON FIJO rio, rio]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[133]]></id>
+    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LA SILLA EL&#201;CTRICA&#34; DE BARRICADA (PARTE 1)]]></videotitle>
+    <videocode><![CDATA[ofPtUW_xsuQ]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-133.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[Este v&#237;deo tiene 2 partes, ya que era muy largo. En la primera, las explicaciones, y en la segunda, el tema completo. He elegido la versi&#243;n del disco en directo &#34;Salud y rocanrol&#34;, que se parece m&#225;s a la que hacen ahora (es un poco diferente).Salud y ca&#241;a!
+Equipo:
+- Gibson Les Paul Studio 93
+- Fender Super Champ XD en voice 8]]></description>
+    <views><![CDATA[27]]></views>
+    <numfavoured><![CDATA[4]]></numfavoured>
+    <views><![CDATA[27]]></views>
+    <date><![CDATA[2011-12-18 22:27:56]]></date>
+    <duration><![CDATA[07:12]]></duration>
+    <rating><![CDATA[4.50]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4f2856bc37049.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[La silla eléctrica, Barricada, Salud y rocanrol, Rock]]></tags>
   </track>
 
   <track>
@@ -80,28 +105,25 @@ Por favor dejad comentarios y si puedes subir una versi&#243;n mejor por favor s
   </track>
 
   <track>
-    <id><![CDATA[133]]></id>
-    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LA SILLA EL&#201;CTRICA&#34; DE BARRICADA (PARTE 1)]]></videotitle>
-    <videocode><![CDATA[ofPtUW_xsuQ]]></videocode>
+    <id><![CDATA[145]]></id>
+    <videotitle><![CDATA[PI&#209;ON FIJO pi&#241;on fijo es mi nombre]]></videotitle>
+    <videocode><![CDATA[EkaKwa1COOo]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-133.jpg]]></thumbnail>
+    <thumbnail><![CDATA[tp-145.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
-    <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[Este v&#237;deo tiene 2 partes, ya que era muy largo. En la primera, las explicaciones, y en la segunda, el tema completo. He elegido la versi&#243;n del disco en directo &#34;Salud y rocanrol&#34;, que se parece m&#225;s a la que hacen ahora (es un poco diferente).Salud y ca&#241;a!
-Equipo:
-- Gibson Les Paul Studio 93
-- Fender Super Champ XD en voice 8]]></description>
-    <views><![CDATA[27]]></views>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[PI&#209;ON FIJO pi&#241;on fijo es mi nombre]]></description>
+    <views><![CDATA[3]]></views>
     <numfavoured><![CDATA[3]]></numfavoured>
-    <views><![CDATA[27]]></views>
-    <date><![CDATA[2011-12-18 22:27:56]]></date>
-    <duration><![CDATA[07:12]]></duration>
-    <rating><![CDATA[4.50]]></rating>
-    <uploader><![CDATA[murcialito]]></uploader>
-    <uploader_id><![CDATA[67]]></uploader_id>
-    <avatar><![CDATA[67_4f2856bc37049.jpg]]></avatar>
+    <views><![CDATA[3]]></views>
+    <date><![CDATA[2012-02-03 14:49:44]]></date>
+    <duration><![CDATA[01:53]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[79]]></uploader_id>
+    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
     <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[La silla eléctrica, Barricada, Salud y rocanrol, Rock]]></tags>
+    <tags><![CDATA[PIÑON, FIJO, piñon, fijo, es, mi, nombre]]></tags>
   </track>
 
   <track>
@@ -133,25 +155,25 @@ D   A   F#m   B]]></description>
   </track>
 
   <track>
-    <id><![CDATA[145]]></id>
-    <videotitle><![CDATA[PI&#209;ON FIJO pi&#241;on fijo es mi nombre]]></videotitle>
-    <videocode><![CDATA[EkaKwa1COOo]]></videocode>
+    <id><![CDATA[144]]></id>
+    <videotitle><![CDATA[con las alitas arriba, pi&#241;on fijo]]></videotitle>
+    <videocode><![CDATA[huAQhNSipgo]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-145.jpg]]></thumbnail>
+    <thumbnail><![CDATA[tp-144.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
     <category_id><![CDATA[2]]></category_id>
-    <description><![CDATA[PI&#209;ON FIJO pi&#241;on fijo es mi nombre]]></description>
-    <views><![CDATA[1]]></views>
+    <description><![CDATA[video de pi&#241;on fijo]]></description>
+    <views><![CDATA[0]]></views>
     <numfavoured><![CDATA[2]]></numfavoured>
-    <views><![CDATA[1]]></views>
-    <date><![CDATA[2012-02-03 14:49:44]]></date>
-    <duration><![CDATA[01:53]]></duration>
+    <views><![CDATA[0]]></views>
+    <date><![CDATA[2012-02-03 14:49:40]]></date>
+    <duration><![CDATA[02:17]]></duration>
     <rating><![CDATA[0.00]]></rating>
     <uploader><![CDATA[admin]]></uploader>
     <uploader_id><![CDATA[79]]></uploader_id>
     <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
     <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[PIÑON, FIJO, piñon, fijo, es, mi, nombre]]></tags>
+    <tags><![CDATA[piñon, fijo]]></tags>
   </track>
 
   <track>
@@ -218,28 +240,6 @@ D   A   F#m   B]]></description>
     <avatar><![CDATA[67_4f2856bc37049.jpg]]></avatar>
     <comments><![CDATA[0]]></comments>
     <tags><![CDATA[independiente]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[144]]></id>
-    <videotitle><![CDATA[con las alitas arriba, pi&#241;on fijo]]></videotitle>
-    <videocode><![CDATA[huAQhNSipgo]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-144.jpg]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[2]]></category_id>
-    <description><![CDATA[video de pi&#241;on fijo]]></description>
-    <views><![CDATA[0]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[0]]></views>
-    <date><![CDATA[2012-02-03 14:49:40]]></date>
-    <duration><![CDATA[02:17]]></duration>
-    <rating><![CDATA[0.00]]></rating>
-    <uploader><![CDATA[admin]]></uploader>
-    <uploader_id><![CDATA[79]]></uploader_id>
-    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[piñon, fijo]]></tags>
   </track>
 
 </trackList>

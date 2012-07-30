@@ -88,13 +88,12 @@ function pagination_list_render($list)
 	foreach( $list['pages'] as $page )
 	{
 		if($page['data']['active']) {
-			$html .= '<strong>';
+			$html .= '<span class="link">';
 		}
 
 		$html .= $page['data'];
-
 		if($page['data']['active']) {
-			$html .= '</strong>';
+			$html .= '</span>';
 		}
 	}
 
@@ -107,10 +106,10 @@ function pagination_list_render($list)
 }
 
 function pagination_item_active(&$item) {
-	return "<a href=\"".$item->link."\" title=\"".$item->text."\">".$item->text."</a>";
+	return "<a class=\"page\" href=\"".$item->link."\" title=\"".$item->text."\">".$item->text."</a>";
 }
 
 function pagination_item_inactive(&$item) {
-	return "<span>".$item->text."</span>";
+	return "<span class=\"page\">".$item->text."</span>";
 }
 ?>

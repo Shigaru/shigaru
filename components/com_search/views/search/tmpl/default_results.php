@@ -35,13 +35,13 @@
 							</div>		
 							<div class="fleft w70pc pad6 boxwhite">	
 								<div class="mbot12">	
-									<div>
+									<div class="mbot20">
 										<label for="title" class="searchLabels">
 										<?php echo JText::_( 'Video Title' ); ?>:
 										</label>
 										<span id="videosearchtitle"><?php echo $this->escape($result->title);?></span>
 									</div>	
-									<div>
+									<div class="mbot20">
 										<label for="username" class="searchLabels">
 										<?php echo JText::_( 'Shared By' ); ?>:
 										</label>
@@ -76,21 +76,21 @@
 										</label>
 										<?php echo $this->escape($result->language); ?>
 									</div>	
-									<div class="fleft w20pc" id="viewvideo">
-										<label for="username" class="searchLabels">
-										<div id="viewvideotext">
-											<a href="<?php echo JRoute::_($result->href); ?>">
-												<?php echo JText::_( 'View' ); ?>
-											</a>
-										</div>	
-										</label>
-									</div>	
+									
 									<!--<div class="clear"></div>-->
 								</div>
 									
 							</div>	
-							<div class="searchResultThumb mtop6">
-									<img src="<?php echo $result->thumbnail; ?>" border="0" />
+							<div class="searchResultThumb mtop6 mright12">
+									<a href="<?php echo JRoute::_($result->href); ?>" title="<?php echo $this->escape($result->description); ?>"><span class="thumbplay"></span></a>
+									<div class="song_options">
+										<a class="collection  textToggle"></a>
+										<a class="options"></a>
+									</div>
+									<a rel="1" class="play paused"></a>
+									<a href="<?php echo JRoute::_($result->href); ?>" title="<?php echo $this->escape($result->description); ?>">
+										<img class="bradius5" src="<?php echo $result->thumbnail; ?>" alt="<?php echo $this->escape($result->description); ?>" border="0" />
+									</a>	
 								</div>	
 					</div>					
 				</div>
@@ -108,7 +108,7 @@
 			</div>
 		<?php endforeach; ?>
 		</div>
-			<div align="center">
+			<div id="searchpages" align="center">
 				<?php echo $this->pagination->getPagesLinks( ); ?>
 			</div>
 </div>
