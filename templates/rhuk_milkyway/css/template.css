@@ -181,7 +181,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', end
 #beingwatched{font-size:90%;}
 #beingwatched .slidesWrapper a{text-decoration:none;display:block;}
 #beingwatched .slidesWrapper .tab_wrapper li span{padding-top:10px; display:block;}
-#beingwatched .slidesWrapper ul li{list-style:none; display:block; float:left; margin-right:30px; width: 15%;}
+#beingwatched .slidesWrapper ul li{list-style:none; display:block; float:left; margin-right:10px; width: 15%;}
 #beingwatched .slidesWrapper ul li img{-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
 #beingwatched .beingwatched_header ul{text-align: center;padding:6px;margin-bottom:6px;}
 #beingwatched .beingwatched_header li{display:inline-block;}

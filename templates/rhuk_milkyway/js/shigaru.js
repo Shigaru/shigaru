@@ -179,6 +179,56 @@ jQuery(document).ready(function($){
   
 })(jQuery);
 
+function shigaruAjax(url,elementToBLock,styles, message,showOverlay){
+	var _message='<div class="loadingMessage">Processing</div>';
+	var _styles={ "background-image": "url(\"/shigaru/templates/rhuk_milkyway/images/loading.gif\")", border:'none',backgroundColor: 'transparent','background-repeat':'no-repeat'};
+	var _showOverlay=true;
+	if(message != null)_message=message;
+	if(styles!=null)_styles=styles;
+	if(showOverlay!=null)_showOverlay=showOverlay;
+	jQuery(elementToBLock).block({ 
+					message: _message, 
+					showOverlay: _showOverlay,
+					css: _styles
+				}); 
+	jQuery.ajax({
+		  url: url,
+		  context: document.body,
+		  success: function(data){
+				jQuery(elementToBLock).unblock(); 
+				shigaruMessages(data);	
+			
+		  }
+		});	
+  
+  }      	
+       
+ function shigaruMessages(data){
+	 jQuery.blockUI({ 
+					message: data, 
+					fadeIn: 700, 
+					fadeOut: 700, 
+					timeout: 5000, 
+					showOverlay: false, 
+					centerY: false, 
+					css: { 
+						width: '350px', 
+						top: '40px', 
+						left: '25%',  
+						border: 'none', 
+						padding: '5px',
+						'position':'fixed', 
+						backgroundColor: '#000', 
+						'border-radius': '10px', 
+						'-webkit-border-radius': '10px', 
+						'-moz-border-radius': '10px', 
+						opacity: .85, 
+						color: '#fff' 
+					} 
+				});
+	 
+	 }   
+
 
 JQTWEET = {
      

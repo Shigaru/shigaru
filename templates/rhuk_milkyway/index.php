@@ -25,6 +25,7 @@ $this->setHeadData($jHeader);
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jjmenu.js"></script>	
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
@@ -107,16 +108,16 @@ $this->setHeadData($jHeader);
 									echo '<a href="index.php?option=com_comprofiler&task=logout">Logout</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_comprofiler&task=logout">Friends</a>';
+									echo '<a href="index.php?option=com_hwdvideoshare&task=yourfavourites">Videos I liked</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
 									echo '<a href="index.php?option=com_comprofiler&task=logout">Inbox</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_comprofiler&task=logout">Edit Profile</a>';
+									echo '<a href="index.php?option=com_hwdvideoshare&task=yourvideos">Edit Profile</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_comprofiler&task=logout">My videos</a>';
+									echo '<a href="index.php?option=com_hwdvideoshare&task=yourvideos">My videos</a>';
 								echo '</div>';
 								
 								

@@ -2,7 +2,7 @@
 <playlist version="1">
 <title>hwdVideoShare mostviewed_alltime Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-07-31 16:41:02</date>
+<date>2012-07-31 22:35:21</date>
 <trackList>
 
   <track>
@@ -14,8 +14,8 @@
     <category><![CDATA[]]></category>
     <category_id><![CDATA[3]]></category_id>
     <description><![CDATA[&#60;p&#62;http://www.virtuosso.com Aprende a tocar el solo de la famosa canci&#243;n Higway to hell de AC/DC. Los mejores cursos de guitarra en DVD los tiene Virtuosso. S&#237;guenos en Twitter: http://www.twitter.com/Virtuosso&#60;/p&#62;]]></description>
-    <views><![CDATA[467]]></views>
-    <views><![CDATA[467]]></views>
+    <views><![CDATA[476]]></views>
+    <views><![CDATA[476]]></views>
     <date><![CDATA[2011-12-10 18:52:23]]></date>
     <duration><![CDATA[06:52]]></duration>
     <rating><![CDATA[4.33]]></rating>
@@ -42,14 +42,14 @@ www.shigaru.com es una comunidad nueva para amantes de la m&#250;sica, donde los
 ---------------------------------------
 
 Por favor dejad comentarios y si puedes subir una versi&#243;n mejor por favor subirla a http://www.shigaru.com. Pero please no seais ofensivos porque es muy f&#225;cil criticar. No prentendemos ser m&#250;sicos profesionales, s&#243;lo queremos...]]></description>
-    <views><![CDATA[38]]></views>
-    <views><![CDATA[38]]></views>
+    <views><![CDATA[50]]></views>
+    <views><![CDATA[50]]></views>
     <date><![CDATA[2011-12-10 19:47:19]]></date>
     <duration><![CDATA[02:33]]></duration>
-    <rating><![CDATA[4.50]]></rating>
+    <rating><![CDATA[4.33]]></rating>
     <uploader><![CDATA[pichica]]></uploader>
     <uploader_id><![CDATA[63]]></uploader_id>
-    <avatar><![CDATA[63_4f2af929ab374.jpg]]></avatar>
+    <avatar><![CDATA[63_50180c4c0aea8.jpg]]></avatar>
     <comments><![CDATA[2]]></comments>
     <tags><![CDATA[tutorial, rock, español, lección, leccion, clase, aprender, tocar, sting, Dolores se llamaba lola, lesson, explanation, explicacion, teacher, how, to, play, ]]></tags>
   </track>
@@ -69,8 +69,8 @@ y en el cambio:
 
 (te arrastras al labavo...)
 D   A   F#m   B]]></description>
-    <views><![CDATA[35]]></views>
-    <views><![CDATA[35]]></views>
+    <views><![CDATA[46]]></views>
+    <views><![CDATA[46]]></views>
     <date><![CDATA[2011-12-11 13:11:39]]></date>
     <duration><![CDATA[02:37]]></duration>
     <rating><![CDATA[4.33]]></rating>
@@ -106,6 +106,48 @@ Equipo:
   </track>
 
   <track>
+    <id><![CDATA[142]]></id>
+    <videotitle><![CDATA[PI&#209;ON FIJO basta de mamadera]]></videotitle>
+    <videocode><![CDATA[JcQJRb3DCkc]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-142.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[PI&#209;ON FIJO basta de mamadera]]></description>
+    <views><![CDATA[22]]></views>
+    <views><![CDATA[22]]></views>
+    <date><![CDATA[2012-02-03 14:49:32]]></date>
+    <duration><![CDATA[02:55]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[79]]></uploader_id>
+    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[PIÑON, FIJO, basta, de, mamadera]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[141]]></id>
+    <videotitle><![CDATA[PI&#209;ON FIJO nene deja el chupete]]></videotitle>
+    <videocode><![CDATA[Nc1BjN5VH7M]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-141.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[PI&#209;ON FIJO nene deja el chupete]]></description>
+    <views><![CDATA[20]]></views>
+    <views><![CDATA[20]]></views>
+    <date><![CDATA[2012-02-03 14:49:27]]></date>
+    <duration><![CDATA[04:08]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[79]]></uploader_id>
+    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[PIÑON, FIJO, nene, deja, el, chupete]]></tags>
+  </track>
+
+  <track>
     <id><![CDATA[132]]></id>
     <videotitle><![CDATA[C&#211;MO TOCAR &#34;ESTA NOCHE&#34; DE BARRICADA]]></videotitle>
     <videocode><![CDATA[ySvhxXHMd80]]></videocode>
@@ -118,8 +160,8 @@ Equipo:
 Fender Telecaster Standard USA
 Fender Super Champ en Canal 1
 Pedal Brunetti Mercury Box]]></description>
-    <views><![CDATA[17]]></views>
-    <views><![CDATA[17]]></views>
+    <views><![CDATA[18]]></views>
+    <views><![CDATA[18]]></views>
     <date><![CDATA[2011-12-18 22:26:51]]></date>
     <duration><![CDATA[05:16]]></duration>
     <rating><![CDATA[4.50]]></rating>
@@ -152,27 +194,6 @@ Pedal Brunetti Mercury Box]]></description>
   </track>
 
   <track>
-    <id><![CDATA[142]]></id>
-    <videotitle><![CDATA[PI&#209;ON FIJO basta de mamadera]]></videotitle>
-    <videocode><![CDATA[JcQJRb3DCkc]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-142.jpg]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[2]]></category_id>
-    <description><![CDATA[PI&#209;ON FIJO basta de mamadera]]></description>
-    <views><![CDATA[16]]></views>
-    <views><![CDATA[16]]></views>
-    <date><![CDATA[2012-02-03 14:49:32]]></date>
-    <duration><![CDATA[02:55]]></duration>
-    <rating><![CDATA[0.00]]></rating>
-    <uploader><![CDATA[admin]]></uploader>
-    <uploader_id><![CDATA[79]]></uploader_id>
-    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[PIÑON, FIJO, basta, de, mamadera]]></tags>
-  </track>
-
-  <track>
     <id><![CDATA[137]]></id>
     <videotitle><![CDATA[No somos nada - La polla records guitar cover]]></videotitle>
     <videocode><![CDATA[56Imys75ot0]]></videocode>
@@ -184,8 +205,8 @@ Pedal Brunetti Mercury Box]]></description>
 
 Guitarra: Jackson DX10D
 Ampli: Line 6 Spider 3 15 w]]></description>
-    <views><![CDATA[10]]></views>
-    <views><![CDATA[10]]></views>
+    <views><![CDATA[14]]></views>
+    <views><![CDATA[14]]></views>
     <date><![CDATA[2011-12-27 12:51:29]]></date>
     <duration><![CDATA[02:29]]></duration>
     <rating><![CDATA[4.00]]></rating>
@@ -194,27 +215,6 @@ Ampli: Line 6 Spider 3 15 w]]></description>
     <avatar><![CDATA[gallery/car.gif]]></avatar>
     <comments><![CDATA[2]]></comments>
     <tags><![CDATA[guitar, cover, no, somos, nada, la, polla, record, records, evaristo, jackson, dinky, reverse, dx, 10d, dx10d, line, spider, 15, watts]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[157]]></id>
-    <videotitle><![CDATA[Los instrumentos musicales]]></videotitle>
-    <videocode><![CDATA[vbqLG0S98N0]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-157.jpg]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[Aqu&#237;  contrar&#225;s la agrupaci&#243;n general de los instrumentos musicales y de la colocaci&#243;n de &#233;stos en la orquesta&#161;&#161;Que disfruteis&#161;&#161;]]></description>
-    <views><![CDATA[9]]></views>
-    <views><![CDATA[9]]></views>
-    <date><![CDATA[2012-07-27 18:59:59]]></date>
-    <duration><![CDATA[06:14]]></duration>
-    <rating><![CDATA[0.00]]></rating>
-    <uploader><![CDATA[murcialito]]></uploader>
-    <uploader_id><![CDATA[67]]></uploader_id>
-    <avatar><![CDATA[67_4f2856bc37049.jpg]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[independiente]]></tags>
   </track>
 
   <track>
@@ -227,8 +227,8 @@ Ampli: Line 6 Spider 3 15 w]]></description>
     <category_id><![CDATA[2]]></category_id>
     <description><![CDATA[Bajate el dvd en:
 http://www.taringa.net/posts/downloads/2428954/Pi&#241;on-Fijo-Ratdvd.html]]></description>
-    <views><![CDATA[9]]></views>
-    <views><![CDATA[9]]></views>
+    <views><![CDATA[12]]></views>
+    <views><![CDATA[12]]></views>
     <date><![CDATA[2012-02-03 14:49:24]]></date>
     <duration><![CDATA[02:52]]></duration>
     <rating><![CDATA[0.00]]></rating>

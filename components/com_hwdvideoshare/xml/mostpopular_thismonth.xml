@@ -2,7 +2,7 @@
 <playlist version="1">
 <title>hwdVideoShare mostpopular_thismonth Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-07-31 16:41:02</date>
+<date>2012-07-31 22:35:21</date>
 <trackList>
 
   <track>
@@ -21,15 +21,15 @@ www.shigaru.com es una comunidad nueva para amantes de la m&#250;sica, donde los
 ---------------------------------------
 
 Por favor dejad comentarios y si puedes subir una versi&#243;n mejor por favor subirla a http://www.shigaru.com. Pero please no seais ofensivos porque es muy f&#225;cil criticar. No prentendemos ser m&#250;sicos profesionales, s&#243;lo queremos...]]></description>
-    <views><![CDATA[38]]></views>
-    <numfavoured><![CDATA[1]]></numfavoured>
-    <views><![CDATA[38]]></views>
+    <views><![CDATA[50]]></views>
+    <numfavoured><![CDATA[2]]></numfavoured>
+    <views><![CDATA[50]]></views>
     <date><![CDATA[2011-12-10 19:47:19]]></date>
     <duration><![CDATA[02:33]]></duration>
-    <rating><![CDATA[4.50]]></rating>
+    <rating><![CDATA[4.33]]></rating>
     <uploader><![CDATA[pichica]]></uploader>
     <uploader_id><![CDATA[63]]></uploader_id>
-    <avatar><![CDATA[63_4f2af929ab374.jpg]]></avatar>
+    <avatar><![CDATA[63_50180c4c0aea8.jpg]]></avatar>
     <comments><![CDATA[2]]></comments>
     <tags><![CDATA[tutorial, rock, español, lección, leccion, clase, aprender, tocar, sting, Dolores se llamaba lola, lesson, explanation, explicacion, teacher, how, to, play, ]]></tags>
   </track>
@@ -54,6 +54,54 @@ Por favor dejad comentarios y si puedes subir una versi&#243;n mejor por favor s
     <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
     <comments><![CDATA[0]]></comments>
     <tags><![CDATA[PIÑON, FIJO, el, saxo, cloacal]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[150]]></id>
+    <videotitle><![CDATA[&#191;Qui&#233;n cumple a&#241;os? Pi&#241;on Fijo]]></videotitle>
+    <videocode><![CDATA[_WfgJFKXSGE]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-150.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[&#191;Qui&#233;n cumple a&#241;os? del disco &#34;Con las Alitas Arriba&#34;, Pi&#241;on Fijo]]></description>
+    <views><![CDATA[1]]></views>
+    <numfavoured><![CDATA[1]]></numfavoured>
+    <views><![CDATA[1]]></views>
+    <date><![CDATA[2012-02-03 14:50:03]]></date>
+    <duration><![CDATA[01:11]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[79]]></uploader_id>
+    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[feliz, cumple]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[132]]></id>
+    <videotitle><![CDATA[C&#211;MO TOCAR &#34;ESTA NOCHE&#34; DE BARRICADA]]></videotitle>
+    <videocode><![CDATA[ySvhxXHMd80]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-132.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[Pertenece al disco &#34;Rojo&#34; de Barricada, un cl&#225;sico. Espero que os guste!
+Equipo:
+Fender Telecaster Standard USA
+Fender Super Champ en Canal 1
+Pedal Brunetti Mercury Box]]></description>
+    <views><![CDATA[18]]></views>
+    <numfavoured><![CDATA[15]]></numfavoured>
+    <views><![CDATA[18]]></views>
+    <date><![CDATA[2011-12-18 22:26:51]]></date>
+    <duration><![CDATA[05:16]]></duration>
+    <rating><![CDATA[4.50]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4f2856bc37049.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[Barricada, Rock]]></tags>
   </track>
 
   <track>
