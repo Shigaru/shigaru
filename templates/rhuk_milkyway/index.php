@@ -152,53 +152,51 @@ $this->setHeadData($jHeader);
 	<div id="footer_content">
 		<div id="leftcolumn">
 			<h3>What we're tweeting...</h3>
-			<div>
-				<ul>
-					<li>
-						<p><span>@shigaru</span>Thank you very much for your feedback and nice words. Been working hard to improve it all.</p>
-						<span class="tItalic">About 2 days ago</span>
-					</li>
-					<li>
-						<p><span>@pichondeclatrava</span>Niiiiice! keep it up guys! here you have a follower! :-)</p>
-						<span class="tItalic">About 4 days ago</span>
-					</li>
+			<div class="mbot20">
+				<ul id="shgtweets">
+					
 				</ul>
 				<div class="fright">
 					<input value="Follow us" class="submit fleft" type="submit" />
 				</div>
-			</div>
-			<h3>What we're tweeting...</h3>
-			<div>
-				<div class="fb-like-box" data-href="http://www.facebook.com/ShigaruCommunity" data-width="592" data-show-faces="true" data-stream="false" data-header="false"></div>
-			</div>	
-		</div>
-		<div id="rightcolmn">
-			<div>
-				<h3>Sign up for our Newsletters</h3>
-				<input type="text" value="" class="fleft search" placeholder="Enter email address to subscribe" />			
-				<input value="Subscribe" class="submit fleft" type="submit" />
 			</div>
 			<div class="clear">
 				<h3>Stay in touch</h3>
 				<div>
 					<ul>
 						<li>
-							<div class="facebook"><span class="dispnon">Facebook</span></div>
+							<a href="http://www.facebook.com/ShigaruCommunity" title="Follow us on Facebook"><div class="facebook"><span class="dispnon">Facebook</span></div></a>
 						</li>
 						<li>
-							<div class="twitter"><span class="dispnon">Twitter</span></div>
+							<a href="http://twitter.com/shigaru" title="Follow us on Twitter"><div class="twitter"><span class="dispnon">Twitter</span></div></a>
 						</li>
 						<li>
-							<div class="google"><span class="dispnon">Google</span></div>
+							<a href="http://twitter.com/shigaru" title="Follow us on Google"><div class="google"><span class="dispnon">Google</span></div></a>
 						</li>
 						<li>
-							<div class="stumbleupon"><span class="dispnon">Stumbleupon</span></div>
+							<a href="http://www.stumbleupon.com/stumbler/Shigaru" title="Follow us on Stumbleupon"><div class="stumbleupon"><span class="dispnon">Stumbleupon</span></div></a>
 						</li>
 					</ul>
 				</div>
 			</div>
-			<div class="w75">
-				<p>"Without music, live would be a mistake."</p>
+			
+		</div>
+		<div id="rightcolmn">
+			<div>
+				<h3 >Our faces in Facebook</h3>
+				<div>
+					<div class="fb-like-box boxwhite" data-href="http://www.facebook.com/ShigaruCommunity" data-width="400" data-show-faces="true" data-stream="false" data-header="false"></div>
+				</div>	
+			</div>
+			
+			<div>
+				<h3>Sign up for our Newsletters</h3>
+				<input type="text" value="" class="fleft search" placeholder="Enter email address to subscribe" />			
+				<input value="Subscribe" class="submit fleft" type="submit" />
+			</div>
+			
+			<div class="clear w75">
+				<p>"Without music, life would be a mistake."</p>
 				<span class="fright tItalic">Friedrich Nietzsche</span>
 			</div>
 		</div>

@@ -4018,7 +4018,16 @@ $app = & JFactory::getApplication();
 					{
 						require_once( $comments );
 						$comments = JComments::showComments( $row->id, 'com_hwdvideoshare_v', $row->title );
+						if(strlen($comments)>0)
 			            $code.= "<div class=\"padding\">".$comments."</div>";
+							else{
+								/* comments boxes */
+								jimport( 'joomla.application.module.helper' );								
+								$module = JModuleHelper::getModule( 'login' );
+								$modcblogin = JModuleHelper::renderModule($module);
+								$code.= "<div class=\"padding mtop24 tcenter w60 mbot20\">Be the first to enter a comment!</div>";
+								$code.="<p class=\"tcenter w60 mtop24 mbot6\">Log in to enter your comment</p>".$modcblogin."";
+							}
 					}
 				}
 			}

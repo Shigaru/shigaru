@@ -415,11 +415,6 @@ class hwd_vs_html
 		$subscribe = JModuleHelper::renderModule($mailingmodule);
 		$smartyvs->assign("subscribe", $subscribe);
 		*/
-		/* donate box
-		$donatemodule = JModuleHelper::getModule('paypal_donate');
-		$donate = JModuleHelper::renderModule($donatemodule);
-		$smartyvs->assign("donate", $donate); 
-		*/
 		/* google_adsense box
 		$google_adsensemodule = JModuleHelper::getModule('j_google_adsense');
 		$google_adsense = JModuleHelper::renderModule($google_adsensemodule);
@@ -431,11 +426,6 @@ class hwd_vs_html
 		$smartyvs->assign("socialmedialinks", $socialmedialinks); 
 		*/
 			
-		/* tweeter box
-		$tweetdisplay = JModuleHelper::getModule('tweetdisplay_1901');
-		$tweetdisplay = JModuleHelper::renderModule($tweetdisplay);
-		$smartyvs->assign("tweetdisplay", $tweetdisplay);*/
-
 		
 		 /* members box*/
 		$zncbmembers = JModuleHelper::getModule('zncbmembers');

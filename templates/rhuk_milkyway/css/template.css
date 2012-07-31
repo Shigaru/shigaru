@@ -230,11 +230,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 }
 #the_most div.tab_wrapper ul li:hover a,#hwdvids div.tab_wrapper ul li:hover a{font-weight:bold;}
 /* FOOTER */
-#footer{height:600px;background: url("../images/back_footer.png") repeat-x scroll 0 0 transparent;  margin-top: -1px;position: relative;z-index: 2;color:#fff; }
+#footer{height:800px;background: url("../images/back_footer_home.png") repeat-x scroll 0 0 transparent;  margin-top: -4px;position: relative;z-index: 2;color:#fff; }
 #footer_content{min-width:900px;max-width:1075px;margin: 0 auto; padding: 40px 0 0;}
 #footer #leftcolumn{float:left;width:54%;}
 #footer #rightcolmn{float:right;width:42%;}
-#footer #rightcolmn div {margin-bottom:20px; overflow:hidden;}	
+#footer #rightcolmn div {margin-bottom:15px; overflow:hidden;}	
 #footer #rightcolmn div.clear{margin-top:40px;}
 #footer div.footer_links{font-size:75%;width:50%;margin: 12px auto;}
 #footer div.footer_links ul {margin: 0 auto;color:#fff;}
@@ -244,13 +244,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #footer div.shigarulogo{margin: 0 auto;background: url("../images/sprite.png") no-repeat scroll -142px -51px transparent; width:83px;height:83px;}
 #footer div.copyright{text-align: center;font-size:75%;width:50%;margin: 0 auto; color:#bf9abf}
 #footer div.copyright a{color:#fff;text-decoration:none;}
-#footer #rightcolmn div.clear ul li{display:inline-block; margin-right:20px;}
-#footer #rightcolmn div.w75{margin-top:12px;}
+#footer #leftcolumn div.clear ul li{display:inline-block; margin-right:20px; width:auto;border:none;}
+#footer #rightcolmn div.w75{margin-top:50px;}
 #footer #rightcolmn div.w75 p{text-align:right; margin-bottom:6px;}
-#footer #rightcolmn div.clear ul li div.facebook{background: url("../images/sprite.png") no-repeat scroll -197px 0 transparent; width:43px;height:45px;}
-#footer #rightcolmn div.clear ul li div.twitter{background: url("../images/sprite.png") no-repeat scroll -250px 0 transparent; width:43px;height:45px;}
-#footer #rightcolmn div.clear ul li div.google{background: url("../images/sprite.png") no-repeat scroll -292px  0 transparent; width:43px;height:45px;}
-#footer #rightcolmn div.clear ul li div.stumbleupon{background: url("../images/sprite.png") no-repeat scroll -343px 0 transparent; width:43px;height:45px;}
+#footer #leftcolumn div.clear ul li div.facebook{background: url("../images/sprite.png") no-repeat scroll -197px 0 transparent; width:43px;height:45px;}
+#footer #leftcolumn div.clear ul li div.twitter{background: url("../images/sprite.png") no-repeat scroll -250px 0 transparent; width:43px;height:45px;}
+#footer #leftcolumn div.clear ul li div.google{background: url("../images/sprite.png") no-repeat scroll -292px  0 transparent; width:43px;height:45px;}
+#footer #leftcolumn div.clear ul li div.stumbleupon{background: url("../images/sprite.png") no-repeat scroll -343px 0 transparent; width:43px;height:45px;}
 #footer #rightcolmn input.search{border:3px solid #867186;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;width: 58%; padding: 12px 0 12px 10px;}
 #footer #rightcolmn input.submit{background: url("../images/sprite.png") no-repeat scroll -400px 0 #EFCD9D;margin: 0 0 0 10px;padding: 10px 12px 11px 44px;}
 #footer h3{color:#fff; font-size:210%;text-shadow: 1px 2px 2px #000; margin:0 0 30px 0;}
@@ -269,14 +269,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     top:18px;right: 0px;margin-top:5px;margin-right: 0px;*margin-right: -1px;font-size:11px;-moz-box-shadow: 2px 6px 5px 1px #ccc;
 -webkit-box-shadow: 2px 6px 5px 1px #ccc;
 box-shadow: 2px 6px 5px 1px #ccc;color:#000;}
-#mod_loginform fieldset {margin:0 0 12px 0;display:block;border:0;padding:0;}
+#mod_loginform fieldset,#comments-tabs fieldset{margin:0 0 12px 0;display:block;border:0;padding:0;}
 #mod_loginform #mod_login_remember {}
-#mod_loginform #body fieldset label {display:block;float:none;margin:0 0 6px 0;}
-#mod_loginform input {font-weight:bold;padding:8px 8px;font-size:12px;}
-#mod_loginform span {text-align:center;display:block;padding:7px 0 4px 0;border:none !important;}
-#mod_loginform span a {color:#3a454d !important;text-shadow:1px 1px #fff;font-size:12px;}
+#mod_loginform #body fieldset label,#comments-tabs #body fieldset label{display:block;float:none;margin:0 0 6px 0;}
+#mod_loginform input,#comments-tabs input{font-weight:bold;padding:8px 8px;font-size:12px;}
+#mod_loginform span,#comments-tabs span{text-align:center;display:block;padding:7px 0 4px 0;border:none !important;}
+#mod_loginform span a,#comments-tabs span a {color:#3a454d !important;text-shadow:1px 1px #fff;font-size:12px;}
 input:focus {outline:none;}
-
+#comments-tabs input.button{background: #999;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efcea0', endColorstr='#e7b671');
+background: -webkit-gradient(linear, left top, left bottom, from(#efcea0), to(#e7b671));background: -moz-linear-gradient(top,  #efcea0,  #e7b671);-moz-border-radius:5px;-webkit-border-radius:5px;border-radius: 5px;}
 /* search results*/
 div.searchResultItem{
 	clear:both;
@@ -633,6 +634,9 @@ span.reference a:hover{color:#000;}
 	visibility: hidden;
 }
 
+.twtr-hyperlink{color:#000;}
+.twtr-hyperlink:hover{color:#fff;}
+
 .videohelptext{clear:both;margin: 6px 0 6px 31.5%;color:#7F7F7F;}
 .videoinfolabel{width:30%;text-align:right !important;font-weight:bold;margin-right: 12px;margin-top: 6px;}
 .headerText{font-size:1.5em;font-weight:bold;color:#000;}
@@ -669,6 +673,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .w227{width: 22.7%;}
 .tright{text-align:right !important;}
 .tleft{text-align:left !important;}
+.tcenter{text-align:center;}
 .bwhite{background:#fff;}
 .tItalic{color:#d0a8d0;font-style: italic;}
 .fontred {color: red;}
@@ -705,6 +710,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .w50{width:50%;}
 .w60{width:60%;}
 .w70{width:70%;}
+.w100{width:100%;}
 .bradius5{-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
 input.submit{border:3px solid #907b5e;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;padding: 12px 0 10px 25px; background:#efcd9d;color:#6e5a6e;cursor:pointer;}
 input.search{border:3px solid #a1959b;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
