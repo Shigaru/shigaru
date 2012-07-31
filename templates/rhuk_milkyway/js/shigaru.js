@@ -5,7 +5,7 @@ jQuery(document).ready(function($){
 	jQuery('#the_most .tab_wrapper, .workarea div.video_activity div.tab_wrapper').jScrollPane({showArrows:true});
 	/* Tabs */
 	jQuery('#the_most_title').shigaruTabs({slidesWrapper:'#the_most_wrapper',effect:'fade'});
-	jQuery('.beingwatched_header').shigaruTabs({slidesWrapper:'#beingwatched .slidesWrapper',controls:true,hideTabs:true,directionOfSorting:'right'});
+	jQuery('.beingwatched_header').shigaruTabs({slidesWrapper:'#beingwatched .slidesWrapper',controls:true,hideTabs:true,directionOfSorting:'left'});
 	jQuery('.leftcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.leftcolumn .slidesWrapper'});
 	jQuery('.rightcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.rightcolumn .slidesWrapper'});
 	jQuery('.workarea_odd .video_activity .video_activity_header').shigaruTabs({slidesWrapper:'.workarea_odd .video_activity .slidesWrapper'});
@@ -108,6 +108,11 @@ jQuery(document).ready(function($){
     return this.each(function() {
 		switch(opts.effect){
 			case 'rotate':
+						jQuery(oSlides).each(function(i,e){
+								if(i!=0)
+								jQuery(e).find('ul li span.thumbplay').css('display','none');
+							});
+						
 						jQuery(opts.slidesWrapper).css('overflow', 'hidden');
 						oSlides.wrapAll('<div class="slideInner"></div>').css({'float' : opts.directionOfSorting,'width' : oSlideWidth});
 						jQuery(opts.slidesWrapper +' .slideInner').css('width', oSlideWidth * oNumberOfSlides);
@@ -119,19 +124,29 @@ jQuery(document).ready(function($){
 						break;	
 		}	
 		
-		if(opts.controls){
+		/*if(opts.controls){
 			addControls();
 			manageControls();
 			jQuery('#leftControl,#rightControl').click(controlsAction);
-			if(opts.hideTabs)hideTabs();
-		}
+			//if(opts.hideTabs)hideTabs();
+		}*/
 	
     });
 	
 	function rotateTabs(e){	
 		oHRef = jQuery(this).attr('href');
+		console.log(e.target);
+		console.log(this);
 		updateSelection(oHRef);
-		jQuery(opts.slidesWrapper +' .slideInner').animate({'marginLeft' : -(oCurrentIndex * oSlideWidth)});	
+		jQuery(oSlides).each(function(i,e){
+								if(i!=oCurrentIndex)
+									jQuery(e).find('ul li span.thumbplay').css('display','none');
+								else{
+									jQuery(opts.slidesWrapper +' .slideInner').animate({'marginLeft' : -(oCurrentIndex * oSlideWidth)},function(){
+										jQuery(e).find('ul li span.thumbplay').css('display','block');
+									});
+							}
+			});	
 		e.preventDefault(oHRef);
 	}
 	
@@ -150,33 +165,6 @@ jQuery(document).ready(function($){
 			if(jQuery(elem).attr('href') == oHRef){oCurrentIndex = i;oCurrent=jQuery(elem);jQuery(elem).parent().addClass('selected');}	
 			});
 	}
-	
-	function addControls(){
-			jQuery(opts.slidesWrapper).prepend('<span class="control" id="leftControl">left</span>').append('<span class="control" id="rightControl">right</span>');
-		}
-	function hideTabs(){
-			oSlides.each(function(i){
-					if(i>0) jQuery(this).css({visibility: "hidden"});
-				});
-			oTabs.hide();
-	}
-	
-	function controlsAction(){
-			var $this = jQuery(this);
-			jQuery(oSlides[oCurrentIndex]).css({visibility: "hidden"});
-			oCurrentIndex = ($this.attr('id')=='leftControl')?oCurrentIndex-1:oCurrentIndex+1;					
-			jQuery(opts.slidesWrapper +' .slideInner').animate({'marginLeft' : oSlideWidth*(-oCurrentIndex)}, function(){
-					jQuery(oSlides[oCurrentIndex]).css({"visibility":"visible"});;
-				});
-			manageControls();
-	}
-	
-	function manageControls(){
-		if(oCurrentIndex==0){ jQuery('#leftControl').hide() } else{ jQuery('#leftControl').show() }
-		if(oCurrentIndex==oNumberOfSlides-1){ jQuery('#rightControl').hide() } else{ jQuery('#rightControl').show() }
-	}
-	
-	
 
   }
 
@@ -219,7 +207,6 @@ JQTWEET = {
          
                  // append tweets into page
                  for (var i = 0; i < 2; i++) {
-					 console.log(data[i]);
                     jQuery(JQTWEET.appendTo).append(
                     
                         html.replace('TWEET_TEXT', JQTWEET.ify.clean(data[i].text) )

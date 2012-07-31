@@ -1252,7 +1252,7 @@ class hwd_vs_tools {
 						<a class="options" title="Options" class="options selectbox"></a>
 					</div>
 					<a rel="1" class="play paused"></a>';
-		$code.= "<a href=\"".$link."\" ".$onclick_txt.">";
+		$code.= "<a href=\"".$link."\" ".$onclick_txt." title=\"$tooltip_data[1]     ".$video_type."\">";
 		$code.= hwd_vs_tools::generateThumbnail( $video_id, $video_code, $video_type, $video_thumbnail, $k, $width, $height, $class, $tooltip_data, $video_duration );
 		$code.= "</a>";
 

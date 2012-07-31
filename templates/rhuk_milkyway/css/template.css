@@ -179,10 +179,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', end
 .workarea div.video_activity div.community ul li{float:left; display:block; width:auto;}
 .workarea div.video_activity div.community ul li img{float:left; display:block; width:auto;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; margin-bottom:6px;}
 #beingwatched{font-size:90%;}
-#beingwatched a{text-decoration:none;display:block;}
-#beingwatched .tab_wrapper li span{padding-top:10px; display:block;}
-#beingwatched ul li{list-style:none; display:block; float:left; margin-right:30px; width: 15%;}
-#beingwatched ul li img{-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
+#beingwatched .slidesWrapper a{text-decoration:none;display:block;}
+#beingwatched .slidesWrapper .tab_wrapper li span{padding-top:10px; display:block;}
+#beingwatched .slidesWrapper ul li{list-style:none; display:block; float:left; margin-right:30px; width: 15%;}
+#beingwatched .slidesWrapper ul li img{-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
+#beingwatched .beingwatched_header ul{text-align: center;padding:6px;margin-bottom:6px;}
+#beingwatched .beingwatched_header li{display:inline-block;}
+#beingwatched .beingwatched_header a {display:inline-block;width:22px;height:22px;background:url("../images/bullets.png") no-repeat;text-indent:-9999px;
+	border:0;margin-right:3px;}
+#beingwatched .beingwatched_header li.selected a{background-position:0 -22px;}
 .thumbplay{width:29px;height:29px;background: url("../images/sprite.png") no-repeat scroll -131px 0 transparent; display:block; position:absolute; margin: 29px 0 0 41px;}
 #random_video h6{margin:23px 0 0 0; font-size:110%; }
 #random_video h6 a{text-decoration:none;}
@@ -235,7 +240,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #footer #leftcolumn{float:left;width:54%;}
 #footer #rightcolmn{float:right;width:42%;}
 #footer #rightcolmn div {margin-bottom:15px; overflow:hidden;}	
-#footer #rightcolmn div.clear{margin-top:40px;}
+#footer #leftcolumn div.clear{margin-top:40px;}
 #footer div.footer_links{font-size:75%;width:50%;margin: 12px auto;}
 #footer div.footer_links ul {margin: 0 auto;color:#fff;}
 #footer div.footer_links ul li{display:inline; border-right:1px solid #bf9abf;padding:0 12px 0 12px;}
@@ -686,7 +691,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .mtop12{margin-top:12px;}
 .mtop6{margin-top:6px;}
 .mtop24{margin-top:24px;}
-.mbot12{margin-bottom:12px;}
+.mbot12{margin-bottom:12px !important;}
 .mbot6{margin-bottom:6px;}
 .mleft6{margin-left:6px;}
 .mleft12{margin-left:12px;}

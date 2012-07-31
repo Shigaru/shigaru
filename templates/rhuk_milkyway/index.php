@@ -185,7 +185,7 @@ $this->setHeadData($jHeader);
 			<div>
 				<h3 >Our faces in Facebook</h3>
 				<div>
-					<div class="fb-like-box boxwhite" data-href="http://www.facebook.com/ShigaruCommunity" data-width="400" data-show-faces="true" data-stream="false" data-header="false"></div>
+					<div class="fb-like-box boxwhite" data-href="http://www.facebook.com/ShigaruCommunity" data-width="410" data-show-faces="true" data-stream="false" data-header="false"></div>
 				</div>	
 			</div>
 			
