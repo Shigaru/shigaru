@@ -89,6 +89,7 @@
 		  <div><span>{$smarty.const._HWDVIDS_SELECT_RATING}</span><br />{$videoplayer->ratingsystem}</div>
 		  <div><span>{$smarty.const._HWDVIDS_INFO_NOCOMM}</span><br />{$videoplayer->commentsNum}</div>
 		  <div>{$songPlayer}</div>
+		  <div>{$AddThisForJoomlamodule->content}</div>
 		</div>
 		<div>
 		</div>

@@ -20,15 +20,16 @@
 .titleCell {
 	display: block;
 float: left;
-width: 28%;
-font-weight: bold;
+width: 31.5%;
+font-weight: normal;
+font-size:90%;
 vertical-align: top;
 padding: 10px 4px 5px 23px;
 text-align:right;
 }
 .cbRegistration .cb_button_wrapper input{float:right;margin:0 2% 12px 0;}
 .acymailing_checkbox{width:auto !important;}
-.acymailwrapper{margin:0 0 12px 29%;}
+.acymailwrapper{margin:0 0 12px 0%;}
 .pe-thumbs{
 	width: 97%;
 	height: 300px;

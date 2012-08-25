@@ -2903,19 +2903,19 @@ class CBframework {
 	 * @param  string  $jQueryPlugin    (optional) name of plugin to auto-load (if core plugin, or call first addJQueryPlugin).
 	 */
 	function outputCbJQuery( $javascriptCode, $jQueryPlugin = null ) {
-		/*if ( $jQueryPlugin ) {
+		if ( $jQueryPlugin ) {
 			$this->addJQueryPlugin( $jQueryPlugin, true );
 		}
 		$this->_jQueryCodes[]	=	$javascriptCode;
 		if ( $this->document->_headsOutputed ) {
 			$this->getAllJsPageCodes();
-		}*/
+		}
 	}
 	function getAllJsPageCodes( ) {
 		$jsCodeTxt			=	'';
 
 		// jQuery code loading:
-		/*
+		
 		if ( count( $this->_jQueryCodes ) > 0 ) {
 			foreach ( array_keys( $this->_jQueryPlugins ) as $plugin ) {
 				if ( isset( $this->_jqueryCssFiles[$plugin] ) ) {
@@ -2933,7 +2933,10 @@ class CBframework {
 					}
 				}
 			}
-			if ( ! defined( 'J_JQUERY_LOADED' ) ) {
+			
+				$document =& JFactory::getDocument();
+			
+			if ( ! defined( 'J_JQUERY_LOADED' ) && strpos($document->base,'administrator')) {
 				$this->document->addHeadScriptUrl( '/components/com_comprofiler/js/jquery-' . _CB_JQUERY_VERSION . '/jquery-' . _CB_JQUERY_VERSION . '.js', true, null, 'jQuery.noConflict();' );
 				define( 'J_JQUERY_LOADED', 1 );
 			}
@@ -2942,8 +2945,8 @@ class CBframework {
 					$this->document->addHeadScriptUrl( $pluginPath, true, null, null, ( $plugin == 'excanvas' ? '<!--[if lte IE 8]>' : '' ), ( $plugin == 'excanvas' ? '<![endif]-->' : '' ) );
 					$this->_jQueryPluginsSent[$plugin]		=	true;
 				}
-			}*/
-/*
+			}
+
 			$jsCodeTxt		=	"var cbJFrame = window.cbJFrame = function() { return new cbJFrame.prototype.init(); };\n"
 							.	"cbJFrame.fn = cbJFrame.prototype = {\n"
 							.	"  init: function() { return this; },\n"
@@ -2955,8 +2958,8 @@ class CBframework {
 							.	'cbJFrame.jquery(document).ready(function($){' . "\n"
 							.	implode( "\n", $this->_jQueryCodes )
 							.	"});\n";
-*/
-/*			$jQcodes		=	trim( implode( "\n", $this->_jQueryCodes ) );
+
+			$jQcodes		=	trim( implode( "\n", $this->_jQueryCodes ) );
 			if ( $jQcodes !== '' ) {
 				$jsCodeTxt	=	'jQuery(document).ready(function($){' . "\n"
 							.	$jQcodes
@@ -2972,7 +2975,7 @@ class CBframework {
 		if ( count( $this->_jsCodes ) > 0 ) {
 			$this->document->addHeadScriptDeclaration( implode( "\n", $this->_jsCodes ) );
 			$this->_jsCodes	=	array();
-		}*/
+		}
 	}
 }
 

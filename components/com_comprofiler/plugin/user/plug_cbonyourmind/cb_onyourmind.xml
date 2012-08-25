@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user">
+	<name>CB on your mind</name>
+	<author>grVulture AXXIS.gr</author>
+	<creationDate>01/07/2009</creationDate>
+	<copyright>axxis.gr</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>grvulture@yahoo.com</authorEmail>
+	<authorUrl>http://www.axxis.gr</authorUrl>
+	<version>1.1</version>
+	<description>	This plugin will ask what's on your mind, and it will display it on the Super Activity Feed </description>
+
+<install>
+  <queries>
+    <query>
+CREATE TABLE IF NOT EXISTS #__onyourmind (
+                    `id` int(3) NOT NULL auto_increment,
+                    `userid` int(11) NOT NULL,
+                    `date` datetime NOT NULL default '0000-00-00 00:00:00',
+                    `mind` text,
+                PRIMARY KEY  (`id`) )
+    </query>
+    <query>
+CREATE TABLE IF NOT EXISTS #__onyourmind_others (
+                    `id` int(3) NOT NULL auto_increment,
+                    `userid` int(11) NOT NULL,
+                    `profile` int(11) NOT NULL,
+                    `date` datetime NOT NULL default '0000-00-00 00:00:00',
+                    `mind` text,
+                PRIMARY KEY  (`id`) )
+    </query>
+  </queries>
+</install>
+
+<uninstall>
+</uninstall>
+
+	<files>
+		<filename plugin="cb_onyourmind">cb_onyourmind.php</filename>
+		<filename >index.html</filename>
+		<filename >share.php</filename>
+		<filename >delete.php</filename>
+		<filename >cancel.png</filename>
+		<filename >ajax.js</filename>
+		<filename >9.gif</filename>
+		<filename >css/index.html</filename>
+		<filename >css/default.css</filename>
+	</files>
+
+	<params>
+   	<param name="@space" type="spacer" default="Set Tab parameters in community builder Tab" label="See Tab Parameters" description="Go to CB Tab Management to set parameters, and be sure to have the plugin enabled!"></param>
+  </params>
+
+
+	<tabs>
+  	<tab name="CB What's on your mind?" description="" class="cbonyourmindTab" fields="1" position="cb_tabmain" displaytype="tab">
+    	<params>
+      	<param name="start_text" type="text" default="What's on your mind?" label="Starting Text?" description="Enter your language specific starting text"></param>
+      	<param name="start_button" type="text" default="Share" label="Button Text?" description="Enter your language specific button text"></param>
+    	  <param name="showname" type="radio" default="1" label="Show Name?" description="">
+    			<option value="1">Yes</option>
+    			<option value="0">No</option>
+    		</param>
+    	  <param name="names" type="radio" default="1" label="Username or Real Name?" description="">
+    			<option value="1">Username</option>
+    			<option value="0">Real Name</option>
+    		</param>
+    	  <param name="includeavatar" type="radio" default="1" label="Include Avatar?" description="">
+    			<option value="1">Yes</option>
+    			<option value="0">No</option>
+    		</param>
+    	</params>
+    	<fields>
+    	</fields>
+  	</tab>
+	</tabs>
+
+    <installfile></installfile>
+
+    <uninstallfile></uninstallfile>
+
+</cbinstall>
+

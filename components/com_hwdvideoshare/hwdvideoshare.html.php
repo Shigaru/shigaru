@@ -410,6 +410,9 @@ class hwd_vs_html
 		$recentactivity = JModuleHelper::renderModule($actmodule);
 		$smartyvs->assign("recentactivity", $recentactivity);
 		
+		
+		
+		
 		/* subscribe box
 		$mailingmodule = JModuleHelper::getModule('acymailing');
 		$subscribe = JModuleHelper::renderModule($mailingmodule);
@@ -997,6 +1000,7 @@ class hwd_vs_html
 			$smartyvs->assign("categoryvideolist", "There are no more videos in this category.");
 		}
 		$songPlayer = hwd_vs_tools::getSongPlayer($row->song_id);
+		
 		/*
 		echo '<pre>';
 		var_dump($searchSong);

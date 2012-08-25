@@ -204,23 +204,40 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 	 * Renders by ECHO the Registration form view
 	 * here typically if you prefer to include a view-type php-html file you would include it.
 	 */
+	 
+	 
+
+	 
 	function _renderRegistrationHead( ) {
 		if ( $this->moduleContent ) {
 			if ( $this->introMessage ) {
 ?>
+			
+
 				<div class="componentheading" id="cb_comp_login_register_head"><?php echo $this->loginOrRegisterTitle; ?></div><div class="cb_comp_outer"><div class="cb_comp_inner">
 				<div class="contentpaneopen" id="cb_comp_login_register_content"><?php echo $this->introMessage; ?></div>
 				</div></div>
 <?php
 			}
+			
 			echo '<div class="cbclearboth"><div id="cb_comp_login"><div class="componentheading">' . _LOGIN_TITLE . '</div><div class="cb_comp_outer"><div class="cb_comp_inner">';
 			echo $this->moduleContent;
 			echo '</div></div></div><div id="cb_comp_register">';
 		}
 ?>
-<div class="componentheading"><?php echo JText::_('Sign Up with Shigaru.com'); ?></div><div class="f100 f120"><?php echo JText::_('Sign up now and start uploading and sharing your music tutorials with a worldwide audience, create your own profile, rate and add comments to videos and promote yourself! Become part of the fast growing shigaru.com community now!') ?> </div><div class="contentpaneopen"><div class="cb_comp_outer"><div class="cb_comp_inner cbHtmlEdit cbRegistration">
+
+<script type="text/javascript" src="components/com_comprofiler/plugin/templates/default/jquery.jshowoff.min.js"></script>			
+			<script type="text/javascript">		
+				jQuery(document).ready(function(){ jQuery('#slidingFeatures').jshowoff({
+					effect: 'slideLeft',
+					controls:false,
+					speed:5000,
+					hoverPause: false
+				}); });
+			</script>
+<div class="content_box"><h3><?php echo JText::_('Sign Up with Shigaru.com'); ?></h3></div><div class="mtopl6"><?php echo JText::_('Sign up now and start uploading and sharing your music tutorials with a worldwide audience, create your own profile, rate and add comments to videos and promote yourself! Become part of the fast growing shigaru.com community now!') ?> </div><div class="contentpaneopen"><div class="cb_comp_outer"><div class="cb_comp_inner cbHtmlEdit cbRegistration">
 <div id="contentSliderForm" class="clear">
-	<div id="wrapperSliderForm">
+	<div id="wrapperSliderForm">	
 		<div id="steps">
 <?php
 		if ( $this->topIcons ) {
@@ -230,7 +247,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 		}
 		echo $this->regFormTag;		// '<form...>'
 		echo '<fieldset class="step">
-						<legend>'.JText::_('Sign Up with Shigaru.com').'<div class="f80 tblack fright">'.JText::_('Fields marked * are required.').'</div></legend>';
+						<legend>'.JText::_('All fields are mandatory.').'</legend>';
 	}
 	/**
 	 * Renders by ECHO the Registration form view NEW DIVs view:
@@ -239,6 +256,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 	function _renderdivs( ) {
 		$this->_renderRegistrationHead();
 ?>
+
 <div class="contentpane" id="registrationTable">
 <?php
 		if ( $this->introMessage && ( ! $this->moduleContent ) ) {
@@ -262,6 +280,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 		<span class="cb_button_wrapper"><input type="submit" value="<?php echo $this->registerButton; ?>" class="button" /></span>
     </div>
 </div>
+
 <?php
 		$this->_renderRegistrationFooter();
 	}
@@ -309,7 +328,15 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 	 * here typically if you prefer to include a view-type php-html file you would include it.
 	 */
 	function _renderRegistrationFooter( ) {
-		echo '</fieldset></form></div>
+		echo '</fieldset></form><div id="signupdemo">
+			<h2>Reasons to register</h2>
+			<div id="slidingFeatures">
+				<div title="Share!"><a href="http://google.com"><img src="templates/rhuk_milkyway/images/sharedemo.png" alt="Shore" /><div class="demoinfo">Share your videos, share the videos you like!</div></a></div>
+				<div title="Community"><a href="http://google.com"><img src="templates/rhuk_milkyway/images/communitydemo.png" alt="Shore" /><div class="demoinfo">Join the music community, comment, chat, learn, discuss,...</div></a></div>	
+				<div title="Profile"><a href="http://imgur.com"><img src="templates/rhuk_milkyway/images/profiledemo.png" alt="Flower" /><div class="demoinfo">Create your music profile, let them know how good you are</div></a></div>
+				<div title="Video Library"><a href="http://gmail.com"><img src="templates/rhuk_milkyway/images/librarydemo.png" alt="Fern" /><div class="demoinfo">Be the owner of the bigest video library ever!</div></a></div>
+			</div>
+		</div></div>
 		</div>
 	</div>';
 		if ( $this->bottomIcons ) {

@@ -77,7 +77,7 @@ class JHTMLBehavior
 
 	function tooltip($selector='.hasTip', $params = array())
 	{
-		static $tips;
+		/*static $tips;
 
 		if (!isset($tips)) {
 			$tips = array();
@@ -111,6 +111,7 @@ class JHTMLBehavior
 
 		// Set static array
 		$tips[$sig] = true;
+		* */
 		return;
 	}
 

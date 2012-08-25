@@ -83,10 +83,9 @@ class getAcyMailingTab extends cbTabHandler {
 				$return .= '<div class="mbot6 acymailwrapper">';
 				$check = in_array($oneList,$checkedListsArray) ? 'checked="checked"' : '';
 				$name = $this->params->get('addoverlay',false) ? acymailing::tooltip($allLists[$oneList]->description,$allLists[$oneList]->name, '', $allLists[$oneList]->name) : $allLists[$oneList]->name;
-				$return .= '<input type="checkbox" id="newssubs" style="" class="acymailing_checkbox" name="acymailing[subscription][]" '.$check.' value="'.$oneList.'"/>';
-				$return .='<label for="newssubs" class="fontbold">'.JText::_('SUBSCRIPTION').'</label>';
-				$return .= '<div>'.JText::_('SHIGARUSUBTEXT').'</div>';
-				
+				$return .= '<input type="checkbox" class="acymailing_checkbox" name="acymailing[subscription][]" '.$check.' value="'.$oneList.'"/>';
+				$return .='<label for="newssubs" class="f80 newssubs">'.JText::_('SUBSCRIPTION').'</label>';
+				$return .= '<div class="clear f80" id="newssubs">'.JText::_('SHIGARUSUBTEXT').'</div>';
 			}
 			
 			$return .= '</div>';

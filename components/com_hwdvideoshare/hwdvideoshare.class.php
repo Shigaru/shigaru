@@ -610,6 +610,13 @@ class hwdvidsplugin extends JTable
  * @version    1.1.4 Alpha RC3.5
  */
 class hwd_vs_tools {
+    
+    
+    public static function makeClickableLinks($s) {
+			return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1" target="_blank">$1</a>', $s);
+	}
+    
+    
     /**
      * Truncates a php string to $length with a suffix
      *
@@ -618,6 +625,8 @@ class hwd_vs_tools {
      * @param string $suffix(optional)  the string to add to the trucated string
      * @return       $code  the trucated string
      */
+     
+     
 	function truncateText( $text, $length, $suffix = "...")
 	{
 		$text = stripslashes($text);
@@ -4482,7 +4491,7 @@ $app = & JFactory::getApplication();
 			$details->category = hwd_vs_tools::generateCategoryLink($row->category_id);
 		}
 
-		$details->description_truncated = hwd_vs_tools::truncateText(strip_tags($row->description), $c->trunvdesc);
+		$details->description_truncated = hwd_vs_tools::makeClickableLinks(hwd_vs_tools::truncateText($row->description, $c->trunvdesc));
 		$details->rating = hwd_vs_tools::generateRatingImg($row->updated_rating);
 		$details->deletevideo = hwd_vs_tools::generateDeleteVideoLink($row);
 		$details->editvideo = hwd_vs_tools::generateEditVideoLink($row);
@@ -4512,7 +4521,7 @@ $app = & JFactory::getApplication();
 		if ($c->showdesc == "1")
 		{
 			$smartyvs->assign("print_description", 1);
-			$details->description = stripslashes($row->description);
+			$details->description = hwd_vs_tools::makeClickableLinks($row->description);
 
 			//$item                 = JTable::getInstance('content');
 			//$dispatcher           = JDispatcher::getInstance();

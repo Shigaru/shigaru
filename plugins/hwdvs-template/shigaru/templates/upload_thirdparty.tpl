@@ -38,7 +38,7 @@
 <script>
 	var domain = "{$domain}";
 	{literal}
-	jQuery(document).ready(function() {	
+	/*jQuery(document).ready(function() {	
 			var lastData;
 			jQuery( "#songtitle" ).autocomplete({
 					
@@ -95,7 +95,7 @@
 					//remove current
 					jQuery(this).parent().remove();		
 				});	
-		});
+		});*/
 </script>
 {/literal}
 <div class="f100 f120">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>

@@ -179,15 +179,16 @@ jQuery.extend(jQuery.validator.messages, {
 	} );
 }
 var sexRadios = jQuery("input[name=cb_sex]");
+
 jQuery.validator.addMethod("sexTexts", function(value, element) {
     if(jQuery(sexRadios[2]).attr('checked')){
-			jQuery('#sexmessage').html('Come on, be serious now, select your sex ;-)');
+			jQuery('#sexmessage').html('');
 			return false;
 		}else{
 			jQuery('#sexmessage').html('Congratulations on deciding!');
 			return true;
 			}
-},'We appreciate your efforts, but this is not the best place for that...');
+},'Come on, be serious now, select your sex ;-)');
 sexRadios.rules("add", {
  sexTexts: true
 });

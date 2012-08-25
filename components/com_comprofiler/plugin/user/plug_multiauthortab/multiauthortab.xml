@@ -1,0 +1,2259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user">
+    <name>Multi Author Tab</name>
+    <author>Alain Rivest</author>
+    <creationDate>2012-02-04</creationDate>
+    <copyright>(C) 2011 Alain Rivest</copyright>
+    <license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+    <authorEmail>info@aldra.ca</authorEmail>
+    <authorUrl>Aldra.ca</authorUrl>
+    <version>1.2</version>
+    <description>*** Don't forget to publish the plugin in CB Plugin Manager. To change the tab settings, go in CB Tab Mangement. ***
+    Multi Author Tab Version : Provides multiple tabs that shows all articles written by the user for a specific section or category.
+    Multi Author Tab support up to 20 tabs. Based on the core plugin cb.authortab from beat@joomlapolis.com
+    </description>
+    <files>
+        <filename plugin="multiauthortab">multiauthortab.php</filename>
+        <filename>index.html</filename>
+    </files>
+    <params>
+        <param name="@spacer" type="spacer" default="Multi Author Tab 1.7 (2012-02-04)" label="Version" description="" />
+        <param name="@spacer" type="spacer" default="Go to Tab Management to set the parameters for each tab."  label="Instruction" description="" />
+    </params>
+    <tabs>
+        <tab name="Articles 1" description="" class="getMultiAuthorTab1" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                       description="List of category ID, separated by comma, leave empty for all categories." />
+                <param name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                    description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                       description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param	name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param	name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param	name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param	name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param	name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 2" description="" class="getMultiAuthorTab2" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 3" description="" class="getMultiAuthorTab3" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 4" description="" class="getMultiAuthorTab4" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 5" description="" class="getMultiAuthorTab5" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 6" description="" class="getMultiAuthorTab6" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 7" description="" class="getMultiAuthorTab7" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 8" description="" class="getMultiAuthorTab8" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 9" description="" class="getMultiAuthorTab9" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 10" description="" class="getMultiAuthorTab10" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 11" description="" class="getMultiAuthorTab11" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 12" description="" class="getMultiAuthorTab12" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 13" description="" class="getMultiAuthorTab13" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 14" description="" class="getMultiAuthorTab14" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 15" description="" class="getMultiAuthorTab15" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 16" description="" class="getMultiAuthorTab16" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 17" description="" class="getMultiAuthorTab17" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 18" description="" class="getMultiAuthorTab18" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 19" description="" class="getMultiAuthorTab19" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+        <tab name="Articles 20" description="" class="getMultiAuthorTab20" cbfields="0" position="cb_tabmain" displaytype="tab">
+            <params>
+                <param name="@spacer" type="spacer" label="Text"
+                    default="To display some text at the top of the list of articles, fill the Description field on the left." 
+                    description="The description will be displayed on this tab on the profile page (even if it says it won't). " />
+                <param name="@spacer" type="spacer" label="Note"
+                    default="The Section ID and Section name parameters will be ignored in Joomla 1.6 and over. Sections no longer exists in Joomla, there's only categories." 
+                    description="" />
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+                
+                <param name="MatContentType" type="radio" label="Content Type" default="joomla"
+                       description="Show articles from Joomla or from K2.">
+                    <option value="joomla">Joomla articles</option>
+                    <option value="k2">K2 Items</option>
+                </param>
+                <param name="@spacer" type="spacer" label="" default="" description="" />
+
+                <param name="MatSectionId" type="text" size="10" default="" label="Section ID"
+                    description="List of section ID, separated by comma, leave empty for all sections. (Joomla 1.5 only)" />
+                <param name="MatCatId" type="text" size="10" default="" label="Category ID"
+                        description="List of category ID, separated by comma, leave empty for all categories." />
+                <param  name="MatShowSectionId" type="radio" label="Show Section ID" default="0"
+                        description="Specify Yes to display a column for the section ID of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowSectionName" type="radio" label="Show Section name" default="0"
+                        description="Specify Yes to display a column for the section name of each articles. (Joomla 1.5 only)">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatId" type="radio" label="Show Category ID" default="0"
+                        description="Specify Yes to display a column for the category ID of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowCatName" type="radio" label="Show Category name" default="0"
+                        description="Specify Yes to display a column for the category name of each articles.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowHits" type="radio" label="Show Hits" default="0"
+                        description="Specify Yes to display the number of hits for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowRating" type="radio" label="Show Rating" default="0"
+                        description="Specify Yes to display the number of vote for an article.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEmptyTab" type="radio" label="Show Empty Tab" default="0"
+                        description="Specify Yes to display the tab even if it has no articles. By default an empty tab is hidden.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatShowEdit" type="radio" label="Show Edit Icon" default="1"
+                        description="Specify Yes to display the edit icon beside the title when viewing your profile.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatDate" type="radio" label="Date" default="1"
+                        description="Choose what date to display.">
+                    <option value="0">None</option>
+                    <option value="1">Created</option>
+                    <option value="2">Modified</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatAuthorAlias" type="radio" label="Search by author alias" default="0"
+                        description="Specify Yes to search articles that match the author alias instead of the user name.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+                <param  name="MatMyArticles" type="radio" label="Show user's articles only" default="1"
+                        description="Specify No to display articles from all users (matching other criteria). By default only the user's articles are displayed.">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </param>
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param name="MatMaxArticle" type="text" size="10" default="" label="Maximum articles"
+                    description="The maximum number of articles to display. Leave empty to list all articles, or enter a number to display only the more recent articles." />
+                <param name="MatNbPerPage" type="text" size="10" default="10" label="Number of articles per page"
+                    description="The number of articles to display per page. Leave empty to not use pagination." />
+
+                <param name="@spacer" type="spacer" default="" label="" description="" />
+                <param  name="MatOrder" type="radio" label="Sort order" default="0"
+                        description="Choose on what column to sort the list.">
+                    <option value="0">Date created</option>
+                    <option value="1">Date modified</option>
+                    <option value="2">Title</option>
+                    <option value="3">Hits</option>
+                    <option value="4">Section ID</option>
+                    <option value="5">Section name</option>
+                    <option value="6">Category ID</option>
+                    <option value="7">Category name</option>
+                    <option value="8">Rating</option>
+                </param>
+                <param  name="MatOrderDir" type="radio" label="Sort direction" default="DESC"
+                        description="Sort the list in ascendent or descendent order.">
+                    <option value="ASC">Ascendent</option>
+                    <option value="DESC">Descendent</option>
+                </param>
+                
+            </params>
+            <fields>
+            </fields>
+        </tab>
+
+
+    </tabs>
+    <install>
+        <queries>
+            <query>
+                UPDATE `#__comprofiler_tabs`
+                SET enabled = 0
+                WHERE pluginclass in (
+                    'getMultiAuthorTab4',
+                    'getMultiAuthorTab5',
+                    'getMultiAuthorTab6',
+                    'getMultiAuthorTab7',
+                    'getMultiAuthorTab8',
+                    'getMultiAuthorTab9',
+                    'getMultiAuthorTab10',
+                    'getMultiAuthorTab11',
+                    'getMultiAuthorTab12',
+                    'getMultiAuthorTab13',
+                    'getMultiAuthorTab14',
+                    'getMultiAuthorTab15',
+                    'getMultiAuthorTab16',
+                    'getMultiAuthorTab17',
+                    'getMultiAuthorTab18',
+                    'getMultiAuthorTab19',
+                    'getMultiAuthorTab20')
+                AND params is NULL;
+            </query>
+        </queries>
+    </install>
+    <uninstall>
+        <queries>
+        </queries>
+    </uninstall>
+    <database>
+    </database>
+</cbinstall>

@@ -11,18 +11,14 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-/*
-$jHeader = $this->getHeadData();
-$jHeader['scripts'] = array();
-$this->setHeadData($jHeader);
-*/
+
+$this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js");
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
 <jdoc:include type="head" />
-<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.js"></script>
@@ -81,7 +77,7 @@ $this->setHeadData($jHeader);
 					<jdoc:include type="modules" name="top" />
 					<?php
 					$uploadUrl =  JRoute::_("index.php?option=com_hwdvideoshare&task=upload");
-					echo '<div class="topbuttons mustardbutton" id="upload"><a href="'.$uploadUrl.'" title="'.JText::_('Click on this link to upload a video!').'">UPLOAD</a></div>';
+					echo '<div class="topbuttons mustardbutton" id="upload"><a href="'.$uploadUrl.'" title="'.JText::_('Click on this link to upload a video!').'">SUBMIT A VIDEO</a></div>';
 					?>
 					<?php					
 					if ($user && !$user->guest){
