@@ -222,7 +222,7 @@ class CBfield_predefined extends CBfield_text {
 							if ( ( $ueConfig['reg_username_checker'] == 1 ) || ( $_CB_framework->getUi() == 2 ) ) {
 								$html		=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( 'cbusername', $this->ajaxCheckField( $field, $user, $reason, array( 'cbusername:true' ) ) ) );
 							} else {
-								$html		=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( 'cbusername', $this->getMetaClass( $field, array( 'cbusername:true' ) ) ) );
+								$html		=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '', null, true, array( 'cbusername', $this->getMetaClass( $field, array( 'cbusername:true' ) ) ) ).$this->getMetaClass( $field, array( 'cbusername:true' ) );
 							}
 						} else {
 							$html			=	$this->_fieldEditToHtml( $field, $user, $reason, 'input', 'text', $value, '' );
@@ -304,9 +304,9 @@ class CBfield_predefined extends CBfield_text {
 									$html	=	( '<span class="cb_result_error">' . sprintf( ISOtoUtf8( _UE_USERNAME_DOES_NOT_EXISTS_ON_SITE ), htmlspecialchars( $username ) ) . '</span>' );
 								} else {
 									if ( $reason == 'register' ) {
-										$html	=	( '<script>shigaruMessages(' . sprintf( ISOtoUtf8( _UE_USERNAME_DOESNT_EXISTS ), htmlspecialchars( $username ) ) . ');</script><span class="cb_result_ok">' . sprintf( ISOtoUtf8( _UE_USERNAME_DOESNT_EXISTS ), htmlspecialchars( $username ) ) . '</span>' );
+										$html	=	( '<script>shigaruMessages("' . sprintf( ISOtoUtf8( _UE_USERNAME_DOESNT_EXISTS ), htmlspecialchars( $username ) ) . '");</script><span class="cb_result_ok">' . sprintf( ISOtoUtf8( _UE_USERNAME_DOESNT_EXISTS ), htmlspecialchars( $username ) ) . '</span>' );
 									} else {
-										$html	=	( '<script>shigaruMessages(' . sprintf( ISOtoUtf8( _UE_USERNAME_FREE_OK_TO_PROCEED ), htmlspecialchars( $username ) ) . ');</script><span class="cb_result_ok">' . sprintf( ISOtoUtf8( _UE_USERNAME_FREE_OK_TO_PROCEED ), htmlspecialchars( $username ) ) . '</span>' );
+										$html	=	( '<script>shigaruMessages("' . sprintf( ISOtoUtf8( _UE_USERNAME_FREE_OK_TO_PROCEED ), htmlspecialchars( $username ) ) . '");</script><span class="cb_result_ok">' . sprintf( ISOtoUtf8( _UE_USERNAME_FREE_OK_TO_PROCEED ), htmlspecialchars( $username ) ) . '</span>' );
 									}
 								}
 							}

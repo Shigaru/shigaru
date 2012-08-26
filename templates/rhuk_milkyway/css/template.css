@@ -117,7 +117,7 @@ padding: 16px 30px;border-right:1px solid #d6d6d6;font-size: 91%;-moz-box-shadow
 #beingwatched div.workarea_odd{height:330px;background: url("../images/back_content_box_beingwatched.png") repeat-x scroll 0 0 transparent;}
 .workarea .leftcolumn{float:left;width:50%;}
 .workarea div.workarea_odd h3{text-shadow: 1px 2px 2px #fff;}
-.workarea .workarea_wrapper {min-width:900px;max-width:1075px;margin: 0 auto;}
+.workarea .workarea_wrapper {min-width:900px;max-width:1075px;margin: 0 auto;min-height: 300px;}
 .workarea .rightcolumn{float:right;width:42%;}
 .workarea div.content_box{margin-bottom:36px; padding-top:30px;}
 .workarea div.content_box  h3{color:#909090; font-size:200%;margin:0 0 40px 0;}
@@ -585,11 +585,12 @@ span.reference a:hover{color:#000;}
 #cbfv_termsc{margin: 12px 0 0 6px;}
 #registrationTable .mbot6 img,#captchacaptcha{float: left;    margin: 0 0 0 6px;}
 #registrationTable input.button{color:#000; font-size:130%;cursor:pointer;padding:20px !important;}
-#cbcheckedadminForm{width:60%}
+#registrationTable .cbft_radio span.cbSnglCtrlLbl input,#acceptedterms{margin-top:7px;}
+#cbcheckedadminForm{}
 #sexmessage{font-size:90%;}
 #signupdemo{float:right;margin:52px 26px 0 35px;}
 form.cb_form .cb_form_line label		, .cb_tab_content .cb_form_line label			{	display: block;
-float: left;
+float: left; line-height: 30px;
 width: 35%;
 font-weight: normal;
 vertical-align: top;
@@ -739,7 +740,12 @@ input.search:-moz-placeholder {color:#997c99;}
 input.search:focus{-moz-box-shadow: 0 0 15px 1px #f2f2fb;
 -webkit-box-shadow: 0 0 15px 1px #f2f2fb;box-shadow: 0 0 7px 1px #f2f2fb;}
 
-
+.cb_result_error {
+	color: red;
+	background: transparent url("images/mini-icons/icon-16-error.png") no-repeat;
+	margin-left: -90px;
+	  font-size: 90%;
+}
 .colorTip{display:none;position:absolute;left:50%;top:-30px;padding:6px;background-color:white;
 font-size:11px;line-height:1;text-decoration:none;text-align:center;text-shadow:0 0 1px white;
 white-space:nowrap;-moz-border-radius:4px;-webkit-border-radius:4px;border-radius:4px;z-index:200;}

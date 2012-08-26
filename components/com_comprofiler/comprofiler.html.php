@@ -80,7 +80,7 @@ function cbFrmChksubmitbutton() {
 		}
 	}	
 	if(iserror==1) {
-		shigaruMessages(errorMSG);
+		shigaruMessages('"'+errorMSG+'"');
 		return false;
 	} else {
 		return true;
@@ -316,7 +316,7 @@ if ($version == 1) {
 		}
 	}
 	if(iserror==1) {
-		shigaruMessages(errorMSG);
+		shigaruMessages('"'+errorMSG+'"');
 		return false;
 	} else {
 		return true;

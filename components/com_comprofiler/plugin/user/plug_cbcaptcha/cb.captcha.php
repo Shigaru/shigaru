@@ -290,13 +290,13 @@ class getcaptchaTab extends cbTabHandler {
 		
 		$CaptchaImage = $this->_getHTMLcaptcha();
 				
-		$return = "<div class=\"mbot6\"><div>\n";                                              
+		$return = "<div class=\"mbot6 sectiontableentry1\"><div>\n";                                              
 		$return .= "	<span class=\"titleCell\">" . htmlspecialchars(_UE_CAPTCHA_Label) . ":</span>\n";
 		$return .= 	$CaptchaImage;
 		if (!$params->get('captchaSecurityMode',0)) {
 			$return .= $this->_getHTMLaudio();	
 		}
-		$return .= "</div><div class=\"mbot6 clear\">\n";
+		$return .= "</div><div class=\"mbot6 clear cb_field\">\n";
 		$return .= "	<span class=\"titleCell\">" . htmlspecialchars(_UE_CAPTCHA_Enter_Label) . ":</span>\n";
 		$return .= "	<input class=\"inputbox required\" id=\"captchacaptcha\" type=\"text\" name=\"".$this->_getPagingParamName("captcha")."\" mosReq=\"1\" mosLabel=\"". _UE_CAPTCHA_Label . "\" value=\"\" size=\"20\" />";
 		$return .= getFieldIcons($ui, true, false, _UE_CAPTCHA_Desc, _UE_CAPTCHA_Label . ":");

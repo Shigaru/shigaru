@@ -243,8 +243,8 @@
 								<ul>
 									<li class="selected"><a href="#newusers" title="Click to see more Bands">New users</a></li>
 									<li><a href="#recently" title="Click to see more Instruments">Recenty Online Members</a></li>
-									<li><a href="#topvideo" title="Click to see more Songs">Top Video Posters</a></li>
-									<li><a href="#recentstatus" title="Click to see Genres">Recent Status Updates</a></li>
+									<!--<li><a href="#topvideo" title="Click to see more Songs">Top Video Posters</a></li>
+									<li><a href="#recentstatus" title="Click to see Genres">Recent Status Updates</a></li>-->
 									<li><a href="#recentprofile" title="Click to see Genres">Recent Profile Activity</a></li>
 								</ul>
 							</div>
@@ -256,7 +256,7 @@
 									<script type="text/javascript" src="{$shiggymemberssurl}"></script>
 									{$zncbmembers}
 								</div>
-								<div id="topvideo" class="tab_wrapper community bwhite">
+								<!--<div id="topvideo" class="tab_wrapper community bwhite">
 									<ul>
 										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_5.jpg" alt="Shigaru.com" /></a></li>
 										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_6.jpg" alt="Shigaru.com" /></a></li>
@@ -271,7 +271,7 @@
 								</div>
 								<div id="recentstatus" class="tab_wrapper community bwhite">
 									{$whatareyou}
-								</div>
+								</div>-->
 								<div id="recentprofile" class="tab_wrapper community bwhite">
 									{$recentactivity}
 								</div>

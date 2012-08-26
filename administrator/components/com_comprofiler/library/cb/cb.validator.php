@@ -100,7 +100,10 @@ jQuery.extend(jQuery.validator.messages, {
 			promptTopPosition = offset.top;
 			promptleftPosition = offset.left;
 			promptleftPosition += fieldWidth;
-			promptTopPosition += -promptHeight -2;
+			//promptTopPosition += promptHeight -2;
+			if(promptleftPosition < 500){
+				promptleftPosition =500;
+				}
 			element.closest('.fieldCell, .cb_field').append( error[0] ).children('.cb_result_warning').click(function(){
 				jQuery(this).fadeOut();
 				});		// .fieldCell : tables, .cb_field : div
@@ -109,6 +112,26 @@ jQuery.extend(jQuery.validator.messages, {
             error.css('left', promptleftPosition);
             error.css('top', promptTopPosition);
 		},
+		rules: { 
+            cbusername: { 
+                required: true, 
+                minlength: 3 
+            },
+            password: { 
+                required: true, 
+                minlength: 6 
+            }, 
+            password_confirm: { 
+                required: true, 
+                minlength: 6, 
+                equalTo: "#password" 
+            }, 
+            email: { 
+                required: true, 
+                email: true //, 
+     			//remote: "emails.php" 
+            }
+        },
 		onkeyup: function(element) {
 			if ( element.name in this.submitted || element == this.lastElement ) {
 				// avoid remotejhtml rule onkeyup

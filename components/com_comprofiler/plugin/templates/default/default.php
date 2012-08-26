@@ -226,16 +226,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 		}
 ?>
 
-<script type="text/javascript" src="components/com_comprofiler/plugin/templates/default/jquery.jshowoff.min.js"></script>			
-			<script type="text/javascript">		
-				jQuery(document).ready(function(){ jQuery('#slidingFeatures').jshowoff({
-					effect: 'slideLeft',
-					controls:false,
-					speed:5000,
-					hoverPause: false
-				}); });
-			</script>
-<div class="content_box"><h3><?php echo JText::_('Sign Up with Shigaru.com'); ?></h3></div><div class="mtopl6"><?php echo JText::_('Sign up now and start uploading and sharing your music tutorials with a worldwide audience, create your own profile, rate and add comments to videos and promote yourself! Become part of the fast growing shigaru.com community now!') ?> </div><div class="contentpaneopen"><div class="cb_comp_outer"><div class="cb_comp_inner cbHtmlEdit cbRegistration">
+<div class="content_box"><h3><?php echo JText::_('Sign Up with Shigaru.com'); ?></h3></div><div class="mtopl6"><?php echo JText::_('Join the Shigaru community and start uploading video links of the best music tutorials on the web. Categorize the videos and you will be helping to create the web’s biggest and best music tutorial video library. Create your own profile. Rate and add comments to videos. Promote yourself or your band. Meet music lovers from all over the world! It´s totally free!') ?> </div><div class="contentpaneopen"><div class="cb_comp_outer"><div class="cb_comp_inner cbHtmlEdit cbRegistration">
 <div id="contentSliderForm" class="clear">
 	<div id="wrapperSliderForm">	
 		<div id="steps">
@@ -247,7 +238,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 		}
 		echo $this->regFormTag;		// '<form...>'
 		echo '<fieldset class="step">
-						<legend>'.JText::_('All fields are mandatory.').'</legend>';
+						<legend>'.JText::_('It will take you less than a minute to sign up. Note that all fields are required.').'</legend>';
 	}
 	/**
 	 * Renders by ECHO the Registration form view NEW DIVs view:
@@ -328,15 +319,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 	 * here typically if you prefer to include a view-type php-html file you would include it.
 	 */
 	function _renderRegistrationFooter( ) {
-		echo '</fieldset></form><div id="signupdemo">
-			<h2>Reasons to register</h2>
-			<div id="slidingFeatures">
-				<div title="Share!"><a href="http://google.com"><img src="templates/rhuk_milkyway/images/sharedemo.png" alt="Shore" /><div class="demoinfo">Share your videos, share the videos you like!</div></a></div>
-				<div title="Community"><a href="http://google.com"><img src="templates/rhuk_milkyway/images/communitydemo.png" alt="Shore" /><div class="demoinfo">Join the music community, comment, chat, learn, discuss,...</div></a></div>	
-				<div title="Profile"><a href="http://imgur.com"><img src="templates/rhuk_milkyway/images/profiledemo.png" alt="Flower" /><div class="demoinfo">Create your music profile, let them know how good you are</div></a></div>
-				<div title="Video Library"><a href="http://gmail.com"><img src="templates/rhuk_milkyway/images/librarydemo.png" alt="Fern" /><div class="demoinfo">Be the owner of the bigest video library ever!</div></a></div>
-			</div>
-		</div></div>
+		echo '</fieldset></form></div>
 		</div>
 	</div>';
 		if ( $this->bottomIcons ) {

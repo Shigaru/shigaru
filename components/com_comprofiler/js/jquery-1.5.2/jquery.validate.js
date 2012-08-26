@@ -493,6 +493,7 @@ $.extend($.validator, {
 			var dependencyMismatch = false;
 			for (var method in rules ) {
 				var rule = { method: method, parameters: rules[method] };
+				if($.validator.methods[method]){
 				try {
 					var result = $.validator.methods[method].call( this, element.value.replace(/\r/g, ""), element, rule.parameters );
 
@@ -518,6 +519,7 @@ $.extend($.validator, {
 						 + ", check the '" + rule.method + "' method", e);
 					throw e;
 				}
+			}
 			}
 			if (dependencyMismatch)
 				return;
