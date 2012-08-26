@@ -119,7 +119,7 @@
 				<tr>
 					<td class="key">
 						<label for="password2">
-							<?php echo JText::_( 'Verify Password' ); ?>
+							<?php echo JText::_( 'Confirm Password' ); ?>
 						</label>
 					</td>
 					<td>

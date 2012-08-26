@@ -37,7 +37,7 @@ jQuery.extend(jQuery.validator.messages, {
 		number: "<?php echo addslashes( CBTxt::T("Please enter a valid number.") ); ?>",
 		digits: "<?php echo addslashes( CBTxt::T("Please enter only digits.") ); ?>",
 		creditcard: "<?php echo addslashes( CBTxt::T("Please enter a valid credit card number.") ); ?>",
-		equalTo: "<?php echo addslashes( CBTxt::T("Please enter the same value again.") ); ?>",
+		equalTo: "<?php echo addslashes( CBTxt::T("Please enter the same password again.") ); ?>",
 		accept: "<?php echo addslashes( CBTxt::T("Please enter a value with a valid extension.") ); ?>",
 		maxlength: jQuery.validator.format("<?php echo addslashes( CBTxt::T("Please enter no more than {0} characters.") ); ?>"),
 		minlength: jQuery.validator.format("<?php echo addslashes( CBTxt::T("Please enter at least {0} characters.") ); ?>"),

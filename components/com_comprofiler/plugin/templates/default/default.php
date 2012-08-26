@@ -226,7 +226,8 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 		}
 ?>
 
-<div class="content_box"><h3><?php echo JText::_('Sign Up with Shigaru.com'); ?></h3></div><div class="mtopl6"><?php echo JText::_('Join the Shigaru community and start uploading video links of the best music tutorials on the web. Categorize the videos and you will be helping to create the web’s biggest and best music tutorial video library. Create your own profile. Rate and add comments to videos. Promote yourself or your band. Meet music lovers from all over the world! It´s totally free!') ?> </div><div class="contentpaneopen"><div class="cb_comp_outer"><div class="cb_comp_inner cbHtmlEdit cbRegistration">
+<div class="content_box"><h3><?php echo JText::_('Sign Up with Shigaru.com'); ?></h3></div>
+<div class="mtopl6"><?php echo JText::_('Join the Shigaru community and start uploading video links of the best music tutorials on the web. Categorize the videos and you will be helping to create the web’s biggest and best music tutorial video library. Create your own profile. Rate and add comments to videos. Promote yourself or your band. Meet music lovers from all over the world! It´s totally free!') ?> </div><div class="contentpaneopen"><div class="cb_comp_outer"><div class="cb_comp_inner cbHtmlEdit cbRegistration">
 <div id="contentSliderForm" class="clear">
 	<div id="wrapperSliderForm">	
 		<div id="steps">

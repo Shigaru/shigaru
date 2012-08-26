@@ -64,7 +64,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td height="40">
 		<label id="pw2msg" for="password2">
-			<?php echo JText::_( 'Verify Password' ); ?>:
+			<?php echo JText::_( 'Confirm Password' ); ?>:
 		</label>
 	</td>
 	<td>

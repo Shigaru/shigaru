@@ -32,7 +32,8 @@
         }
     </style>
  {/literal}   
-<div class="headerText mtop12">{$smarty.const._HWDVIDS_SHIGARU_ONEOFTWO}</div>
+ <div class="content_box">
+<h3>{$smarty.const._HWDVIDS_SHIGARU_ONEOFTWO}</h3>
 {include file='header.tpl'}
 
 <script>
@@ -98,7 +99,7 @@
 		});*/
 </script>
 {/literal}
-<div class="f100 f120">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
+<div class="f100 mtopl6">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
 
 <div id="contentSliderForm" class="clear">
 	<div id="wrapperSliderForm">
@@ -129,9 +130,7 @@
                              </div>
                            
                             
-				  </fieldset>
-                  <fieldset class="step">
-						<legend>{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SONG_INFO} <div class="f80 tblack fright">{$smarty.const._HWDVIDS_SHIGARU_MANDATORYFIELDS}</div></legend>
+				  
 						
 							 <p>
                                 <label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
@@ -167,10 +166,7 @@
 								<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS_INFO}</span>
                             </p>
 							
-				  </fieldset>
-                   <fieldset class="step">
-						<legend>{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_ADDTIONAL_DETAILS} <div class="f80 tblack fright">{$smarty.const._HWDVIDS_SHIGARU_MANDATORYFIELDS}</div></legend>
-							  
+				 		  
                             <p>
                                 <label for="original_autor">{$smarty.const._HWDVIDS_SHIGARU_AREYOUCREATOR} <font class="required">*</font></label>
 								<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_YES}<input type="radio" name="original_autor" value="1"></label>
@@ -199,10 +195,6 @@
                                 <label for="shigaruuser">{$smarty.const._HWDVIDS_SHIGARU_SHIGARUUSER} <font class="required">*</font></label>
                                 <input type="text" value="{$username}" class="required" disabled="disabled" class="required" id="shigaruuser" name="shigaruuser" size="40"/>
                             </p>
-						
-				</fieldset>
-				<fieldset class="step">
-                            <legend>{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_CONFIRMATION}</legend>
 							<p>
 								Everything in the form was correctly filled 
 								if all the steps have a green checkmark icon.

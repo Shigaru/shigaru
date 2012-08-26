@@ -117,7 +117,7 @@ padding: 16px 30px;border-right:1px solid #d6d6d6;font-size: 91%;-moz-box-shadow
 #beingwatched div.workarea_odd{height:330px;background: url("../images/back_content_box_beingwatched.png") repeat-x scroll 0 0 transparent;}
 .workarea .leftcolumn{float:left;width:50%;}
 .workarea div.workarea_odd h3{text-shadow: 1px 2px 2px #fff;}
-.workarea .workarea_wrapper {min-width:900px;max-width:1075px;margin: 0 auto;min-height: 300px;}
+.workarea .workarea_wrapper {min-width:900px;max-width:1075px;margin: 0 auto;}
 .workarea .rightcolumn{float:right;width:42%;}
 .workarea div.content_box{margin-bottom:36px; padding-top:30px;}
 .workarea div.content_box  h3{color:#909090; font-size:200%;margin:0 0 40px 0;}
@@ -397,9 +397,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     -webkit-border-radius: 5px;
     border-radius: 5px; padding:6px; margin-bottom:12px;}
 #infocontext div span{color:red;}
-#videouploadwrap{padding:10px 0 0 0;}
+#videouploadwrap{padding:10px 0 0 0; margin-top:12px}
 #videouploadwrap ul{ list-style:none; margin:0;padding:0;}
-#videouploadwrap ul li{margin:0 12px 16px 12px;padding: 6px 20px 6px 6px;}
+#videouploadwrap ul li{margin:0 0 16px 0;padding: 6px 20px 6px 6px;}
 #videouploadwrap ul li.active{ background:#FFEFBA;}
 #videouploadwrap #twooptions{color:#7F7F7F; margin-top:12px;margin-bottom:30px;}
 #videouploadwrap div div ul{margin:0;list-style:cjk-ideographic outside none !important;}
@@ -417,19 +417,9 @@ li.upoptions{
     border-radius: 10px 10px 10px 10px;
     box-shadow: 2px 2px 2px #AAAAAA;}
 #wysigyginfovideo{
-    clear:both;
-    margin:5px 0px;
-    background-color:#f4f4f4;
-    border:1px solid #fff;
-    width:90%;
     margin: 5px 0 5px 15px;
     padding: 10px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-box-shadow:0px 0px 3px #aaa;
-    -webkit-box-shadow:0px 0px 3px #aaa;
-    box-shadow:0px 0px 3px #aaa;}
+   }
  #contentSliderForm{
     margin:15px auto 70px;
     text-align:center;
@@ -553,20 +543,8 @@ span.error{
     border-bottom:1px solid #fff;
 }
 #steps form p{
-    float:left;
-    clear:both;
-    margin:5px 0px;
-    background-color:#f4f4f4;
-    border:1px solid #fff;
-    width:90%;
     margin: 5px 0 5px 15px;
     padding: 10px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-box-shadow:0px 0px 3px #aaa;
-    -webkit-box-shadow:0px 0px 3px #aaa;
-    box-shadow:0px 0px 3px #aaa;
 }
 
 
@@ -650,7 +628,12 @@ form.cb_form .cb_form_line .cb_field	, .cb_tab_content .cb_form_line .cb_field		
  	-webkit-border-radius:1em;
 }
 
-
+#canesWrap{float:right;}
+.canes{width:33px;height:64px;float:left;}
+.youtubeCan{background: url("../../../modules/mod_socialmedialinks/icons/drink/size3/youtube.png") no-repeat scroll 0 0 transparent;}
+.googleCan{background: url("../../../modules/mod_socialmedialinks/icons/drink/size3/google.png") no-repeat scroll 0 0 transparent;}
+.boxwhite{background-color:#fff;border-radius: 5px 5px 5px 5px;box-shadow: 0 0 3px #AAAAAA; border: 1px solid #C1C1C1;color:#000;}
+.searchLabels{color:#827D7E; }
 .loadingMessage{
 	visibility: hidden;
 }
@@ -721,6 +704,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .w70pc{width: 70%;}
 .w30pc{width: 30%;}
 .pad6{padding: 6px;}
+.pad12{padding: 12px;}
 .pad2{padding: 2px;}
 .f100{font-size:100%;}
 .f120{font-size:120%;}
@@ -732,7 +716,9 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .w60{width:60%;}
 .w70{width:70%;}
 .w100{width:100%;}
+.f15em{font-size:1.5em;}
 .bradius5{-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
+.bradius10{-moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px;}
 input.submit{border:3px solid #907b5e;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;padding: 12px 0 10px 25px; background:#efcd9d;color:#6e5a6e;cursor:pointer;}
 input.search{border:3px solid #a1959b;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
 input.search::-webkit-input-placeholder {color:#997c99;}
