@@ -942,7 +942,7 @@ class hwd_vs_html
 		{
 			if (isset($hwdvsTemplateOverride['thumbWidth8']))
 			{
-				$thumbwidth = $hwdvsTemplateOverride['thumbWidth8'];
+				$thumbwidth = '96';
 			}
 			else
 			{
@@ -961,12 +961,13 @@ class hwd_vs_html
 		{
 			if (isset($hwdvsTemplateOverride['thumbWidth7']))
 			{
-				$thumbwidth = $hwdvsTemplateOverride['thumbWidth7'];
+				$thumbwidth = '96';
 			}
 			else
 			{
 				$thumbwidth = null;
 			}
+			
 			$smartyvs->assign("print_uservideolist", 1);
 			$userlist = hwd_vs_tools::generateVideoListFromSql($userrows, "", $thumbwidth);
 			$smartyvs->assign("userlist", $userlist);
@@ -985,7 +986,7 @@ class hwd_vs_html
 		{
 			if (isset($hwdvsTemplateOverride['thumbWidth9']))
 			{
-				$thumbwidth = $hwdvsTemplateOverride['thumbWidth9'];
+				$thumbwidth = '96';
 			}
 			else
 			{
