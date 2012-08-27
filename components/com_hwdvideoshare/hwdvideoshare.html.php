@@ -1001,11 +1001,9 @@ class hwd_vs_html
 		}
 		$songPlayer = hwd_vs_tools::getSongPlayer($row->song_id);
 		
-		/*
-		echo '<pre>';
-		var_dump($searchSong);
-		echo '</pre>';
-		*/ 
+		$currentUrl = JURI::current();
+		
+		$smartyvs->assign("currentUrl", $currentUrl);
 		//$params = array();
 		//$limitstart = 0;
 		//$article->text = $smartyvs->fetch('video_player.tpl');

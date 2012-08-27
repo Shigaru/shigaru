@@ -186,6 +186,7 @@ function shigaruAjax(url,elementToBLock,styles, message,showOverlay){
 	if(message != null)_message=message;
 	if(styles!=null)_styles=styles;
 	if(showOverlay!=null)_showOverlay=showOverlay;
+	console.log(_showOverlay);
 	jQuery(elementToBLock).block({ 
 					message: _message, 
 					showOverlay: _showOverlay,

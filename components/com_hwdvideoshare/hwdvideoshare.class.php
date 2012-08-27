@@ -2716,6 +2716,9 @@ $app = & JFactory::getApplication();
 		}
 		return $code;
     }
+    
+    
+
     /**
      * Generates the social bookmark links
      *
@@ -2726,173 +2729,302 @@ $app = & JFactory::getApplication();
 		global $hwdvsItemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 		$doc = & JFactory::getDocument();
-
+		
 		$code = null;
 		if ($c->showscbm == "1")
 		{
+			
 			$video_id = JRequest::getInt( 'video_id', 0 );
 			$sbtitle = rawurlencode($doc->getTitle());
             $sburl = "http://".$_SERVER['HTTP_HOST'].rawurlencode(JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=viewvideo&video_id=".$video_id));
 			$jrandom = rand(1000, 9999);
 			$bmhtml = null;
-
 				//facebook
 				if ($c->sb_facebook == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.facebook.com/share.php?u='. $sburl .'&amp;t='. $sbtitle .'" title="Facebook!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/facebook.png" alt="Facebook!" title="Facebook!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-1" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.facebook.com/share.php?u='. $sburl .'&amp;t='. $sbtitle .'" title="Facebook!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/facebook.png" alt="Facebook!" title="Facebook!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 
-				$temphtml = '<a rel="nofollow" href="http://twitter.com/home?status='. $sburl .'&amp;title='. $sbtitle .'" title="Digg!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/twitter.png" alt="Twitter" title="Twitter" class="sblinks" /></a>';
+				$temphtml = '<div id="button-2" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://twitter.com/home?status='. $sburl .'&amp;title='. $sbtitle .'" title="Twitter" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/twitter.png" alt="Twitter" title="Twitter" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 
 				//digg
 				if ($c->sb_digg == "on") {
-				$temphtml = '<a rel="nofollow" href="http://digg.com/submit?phase=2&amp;url='. $sburl .'&amp;title='. $sbtitle .'" title="Digg!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/digg.png" alt="Digg!" title="Digg!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-3" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://digg.com/submit?phase=2&amp;url='. $sburl .'&amp;title='. $sbtitle .'" title="Digg!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/digg.png" alt="Digg!" title="Digg!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//reddit
 				if ($c->sb_reddit == "on") {
-				$temphtml = '<a rel="nofollow" href="http://reddit.com/submit?url='. $sburl .'&amp;title='. $sbtitle .'" title="Reddit!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/reddit.png" alt="Reddit!" title="Reddit!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-4" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://reddit.com/submit?url='. $sburl .'&amp;title='. $sbtitle .'" title="Reddit!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/reddit.png" alt="Reddit!" title="Reddit!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//delicious
 				if ($c->sb_delicious == "on") {
-				$temphtml = '<a rel="nofollow" href="http://del.icio.us/post?url='. $sburl .'&amp;title='. $sbtitle .'" title="Del.icio.us!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/delicious.png" alt="Del.icio.us!" title="Del.icio.us!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-5" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://del.icio.us/post?url='. $sburl .'&amp;title='. $sbtitle .'" title="Del.icio.us!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/delicious.png" alt="Del.icio.us!" title="Del.icio.us!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//google
 				if ($c->sb_google == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.google.com/bookmarks/mark?op=add&amp;bkmk='. $sburl .'&amp;title='. $sbtitle .'" title="Google!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/google.png" alt="Google!" title="Google!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-6" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.google.com/bookmarks/mark?op=add&amp;bkmk='. $sburl .'&amp;title='. $sbtitle .'" title="Google!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/google.png" alt="Google!" title="Google!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//live
 				if ($c->sb_live == "on") {
-				$temphtml = '<a rel="nofollow" href="https://favorites.live.com/quickadd.aspx?marklet=1&amp;mkt=en-us&amp;top=0&amp;url='. $sburl .'&amp;title='. $sbtitle .'" title="Live!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/live.png" alt="Live!" title="Live!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-7" class="btn">
+							  <div>
+								<a rel="nofollow" href="https://favorites.live.com/quickadd.aspx?marklet=1&amp;mkt=en-us&amp;top=0&amp;url='. $sburl .'&amp;title='. $sbtitle .'" title="Live!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/live.png" alt="Live!" title="Live!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//slashdot
 				if ($c->sb_slashdot == "on") {
-				$temphtml = '<a rel="nofollow" href="http://slashdot.org/bookmark.pl?url='. $sburl .'&amp;title='. $sbtitle .'" title="Slashdot!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/slashdot.png" alt="Slashdot!" title="Slashdot!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-8" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://slashdot.org/bookmark.pl?url='. $sburl .'&amp;title='. $sbtitle .'" title="Slashdot!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/slashdot.png" alt="Slashdot!" title="Slashdot!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//netscape
 				if ($c->sb_netscape == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.netscape.com/submit/?U='. $sburl .'&amp;T='. $sbtitle .'" title="Netscape!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/netscape.png" alt="Netscape!" title="Netscape!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-9" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.netscape.com/submit/?U='. $sburl .'&amp;T='. $sbtitle .'" title="Netscape!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/netscape.png" alt="Netscape!" title="Netscape!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//technorati
 				if ($c->sb_technorati == "on") {
-				$temphtml = '<a rel="nofollow" href="http://technorati.com/faves/?add='. $sburl .'" title="Technorati!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/technorati.png" alt="Technorati!" title="Technorati!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-10" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://technorati.com/faves/?add='. $sburl .'" title="Technorati!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/technorati.png" alt="Technorati!" title="Technorati!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//stumbleupon
 				if ($c->sb_stumbleupon == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.stumbleupon.com/submit?url='. $sburl .'&amp;title='. $sbtitle .'" title="StumbleUpon!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/stumbleupon.png" alt="StumbleUpon!" title="StumbleUpon!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-11" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.stumbleupon.com/submit?url='. $sburl .'&amp;title='. $sbtitle .'" title="StumbleUpon!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/stumbleupon.png" alt="StumbleUpon!" title="StumbleUpon!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//spurl
 				if ($c->sb_spurl == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.spurl.net/spurl.php?url='. $sburl .'&amp;title='. $sbtitle .'" title="Spurl!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/spurl.png" alt="Spurl!" title="Spurl!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-12" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.spurl.net/spurl.php?url='. $sburl .'&amp;title='. $sbtitle .'" title="Spurl!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/spurl.png" alt="Spurl!" title="Spurl!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//wists
 				if ($c->sb_wists == "on") {
-				$temphtml = '<a rel="nofollow" href="http://wists.com/r.php?r='. $sburl .'&amp;title='. $sbtitle .'" title="Wists!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/wists.png" alt="Wists!" title="Wists!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-13" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://wists.com/r.php?r='. $sburl .'&amp;title='. $sbtitle .'" title="Wists!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/wists.png" alt="Wists!" title="Wists!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//simpy
 				if ($c->sb_simpy == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.simpy.com/simpy/LinkAdd.do?href='. $sburl .'&amp;title='. $sbtitle .'" title="Simpy!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/simpy.png" alt="Simpy!" title="Simpy!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-14" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.simpy.com/simpy/LinkAdd.do?href='. $sburl .'&amp;title='. $sbtitle .'" title="Simpy!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/simpy.png" alt="Simpy!" title="Simpy!" class="sblinks" /></a>
+								</div>
+							</div>
+							';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//newsvine
 				if ($c->sb_newsvine == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.newsvine.com/_tools/seed&amp;save?u='. $sburl .'&amp;h='. $sbtitle .'" title="Newsvine!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/newsvine.png" alt="Newsvine!" title="Newsvine!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-15" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.newsvine.com/_tools/seed&amp;save?u='. $sburl .'&amp;h='. $sbtitle .'" title="Newsvine!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/newsvine.png" alt="Newsvine!" title="Newsvine!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//blinklist
 				if ($c->sb_blinklist == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.blinklist.com/index.php?Action=Blink/addblink.php&amp;Url='. $sburl .'&amp;Title='. $sbtitle .'" title="Blinklist!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blinklist.png" alt="Blinklist!" title="Blinklist!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-16" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.blinklist.com/index.php?Action=Blink/addblink.php&amp;Url='. $sburl .'&amp;Title='. $sbtitle .'" title="Blinklist!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blinklist.png" alt="Blinklist!" title="Blinklist!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//furl
 				if ($c->sb_furl == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.furl.net/storeIt.jsp?u='. $sburl .'&amp;t='. $sbtitle .'" title="Furl!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/furl.png" alt="Furl!" title="Furl!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-17" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.furl.net/storeIt.jsp?u='. $sburl .'&amp;t='. $sbtitle .'" title="Furl!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/furl.png" alt="Furl!" title="Furl!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//fark
 				if ($c->sb_fark == "on") {
-				$temphtml = '<a rel="nofollow" href="http://cgi.fark.com/cgi/fark/submit.pl?new_url='. $sburl .'" title="Fark!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/fark.png" alt="Fark!" title="Fark!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-18" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://cgi.fark.com/cgi/fark/submit.pl?new_url='. $sburl .'" title="Fark!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/fark.png" alt="Fark!" title="Fark!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//blogmarks
 				if ($c->sb_blogmarks == "on") {
-				$temphtml = '<a rel="nofollow" href="http://blogmarks.net/my/new.php?mini=1&amp;simple=1&amp;url='. $sburl .'&amp;title='. $sbtitle .'" title="Blogmarks!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blogmarks.png" alt="Blogmarks!" title="Blogmarks!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-19" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://blogmarks.net/my/new.php?mini=1&amp;simple=1&amp;url='. $sburl .'&amp;title='. $sbtitle .'" title="Blogmarks!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blogmarks.png" alt="Blogmarks!" title="Blogmarks!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//yahoo
 				if ($c->sb_yahoo == "on") {
-				$temphtml = '<a rel="nofollow" href="http://myweb2.search.yahoo.com/myresults/bookmarklet?u='. $sburl .'&amp;t='. $sbtitle .'" title="Yahoo!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/yahoo.png" alt="Yahoo!" title="Yahoo!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-20" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://myweb2.search.yahoo.com/myresults/bookmarklet?u='. $sburl .'&amp;t='. $sbtitle .'" title="Yahoo!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/yahoo.png" alt="Yahoo!" title="Yahoo!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//smarking
 				if ($c->sb_smarking == "on") {
-				$temphtml = '<a rel="nofollow" href="http://smarking.com/editbookmark/?url='. $sburl .'" title="Smarking!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/smarking.png" alt="Smarking!" title="Smarking!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-21" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://smarking.com/editbookmark/?url='. $sburl .'" title="Smarking!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/smarking.png" alt="Smarking!" title="Smarking!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//netvouz
 				if ($c->sb_netvouz == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.netvouz.com/action/submitBookmark?url='. $sburl .'&amp;title='. $sbtitle .'" title="Smarking!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/netvouz.png" alt="Netvouz!" title="Netvouz!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-22" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.netvouz.com/action/submitBookmark?url='. $sburl .'&amp;title='. $sbtitle .'" title="Smarking!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/netvouz.png" alt="Netvouz!" title="Netvouz!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//shadows
 				if ($c->sb_shadows == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.shadows.com/bookmark/saveLink.rails?page='. $sburl .'&amp;title='. $sbtitle .'" title="Shadows!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/shadows.png" alt="Shadows!" title="Shadows!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-23" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.shadows.com/bookmark/saveLink.rails?page='. $sburl .'&amp;title='. $sbtitle .'" title="Shadows!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/shadows.png" alt="Shadows!" title="Shadows!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//rawsugar
 				if ($c->sb_rawsugar == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.rawsugar.com/tagger/?turl='. $sburl .'&amp;title='. $sbtitle .'" title="RawSugar!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/rawsugar.png" alt="RawSugar!" title="RawSugar!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-24" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.rawsugar.com/tagger/?turl='. $sburl .'&amp;title='. $sbtitle .'" title="RawSugar!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/rawsugar.png" alt="RawSugar!" title="RawSugar!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//magnolia
 				if ($c->sb_magnolia == "on") {
-				$temphtml = '<a rel="nofollow" href="http://ma.gnolia.com/beta/bookmarklet/add?url='. $sburl .'&amp;title='. $sbtitle .'" title="Ma.gnolia!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/magnolia.png" alt="Ma.gnolia!" title="Ma.gnolia!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-25" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://ma.gnolia.com/beta/bookmarklet/add?url='. $sburl .'&amp;title='. $sbtitle .'" title="Ma.gnolia!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/magnolia.png" alt="Ma.gnolia!" title="Ma.gnolia!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//plugim
 				if ($c->sb_plugim == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.plugim.com/submit?url='. $sburl .'&amp;title='. $sbtitle .'" title="PlugIM!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/plugim.png" alt="PlugIM!" title="PlugIM!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-26" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.plugim.com/submit?url='. $sburl .'&amp;title='. $sbtitle .'" title="PlugIM!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/plugim.png" alt="PlugIM!" title="PlugIM!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//squidoo
 				if ($c->sb_squidoo == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.squidoo.com/lensmaster/bookmark?'. $sburl .'" title="Squidoo!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/squidoo.png" alt="Squidoo!" title="Squidoo!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-27" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.squidoo.com/lensmaster/bookmark?'. $sburl .'" title="Squidoo!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/squidoo.png" alt="Squidoo!" title="Squidoo!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//blogmemes
 				if ($c->sb_blogmemes == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.blogmemes.net/post.php?url='. $sburl .'&amp;title='. $sbtitle .'" title="BlogMemes!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blogmemes.png" alt="BlogMemes!" title="BlogMemes!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-28" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.blogmemes.net/post.php?url='. $sburl .'&amp;title='. $sbtitle .'" title="BlogMemes!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blogmemes.png" alt="BlogMemes!" title="BlogMemes!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//feedmelinks
 				if ($c->sb_feedmelinks == "on") {
-				$temphtml = '<a rel="nofollow" href="http://feedmelinks.com/categorize?from=toolbar&amp;op=submit&amp;url='. $sburl .'&amp;name='. $sbtitle .'" title="FeedMeLinks!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/feedmelinks.png" alt="FeedMeLinks!" title="FeedMeLinks!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-29" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://feedmelinks.com/categorize?from=toolbar&amp;op=submit&amp;url='. $sburl .'&amp;name='. $sbtitle .'" title="FeedMeLinks!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/feedmelinks.png" alt="FeedMeLinks!" title="FeedMeLinks!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//blinkbits
 				if ($c->sb_blinkbits == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.blinkbits.com/bookmarklets/save.php?v=1&amp;source_url='. $sburl .'&amp;title='. $sbtitle .'" title="BlinkBits!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blinkbits.png" alt="BlinkBits!" title="BlinkBits!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-30" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.blinkbits.com/bookmarklets/save.php?v=1&amp;source_url='. $sburl .'&amp;title='. $sbtitle .'" title="BlinkBits!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blinkbits.png" alt="BlinkBits!" title="BlinkBits!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//tailrank
 				if ($c->sb_tailrank == "on") {
-				$temphtml = '<a rel="nofollow" href="http://tailrank.com/share/?text=&amp;link_href='. $sburl .'&amp;title='. $sbtitle .'" title="Tailrank!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/tailrank.png" alt="Tailrank!" title="Tailrank!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-31" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://tailrank.com/share/?text=&amp;link_href='. $sburl .'&amp;title='. $sbtitle .'" title="Tailrank!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/tailrank.png" alt="Tailrank!" title="Tailrank!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 				//linkagogo
 				if ($c->sb_linkagogo == "on") {
-				$temphtml = '<a rel="nofollow" href="http://www.linkagogo.com/go/AddNoPopup?url='. $sburl .'&amp;title='. $sbtitle .'" title="linkaGoGo!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/linkagogo.png" alt="linkaGoGo!" title="linkaGoGo!" class="sblinks" /></a>';
+				$temphtml = '<div id="button-32" class="btn">
+							  <div>
+								<a rel="nofollow" href="http://www.linkagogo.com/go/AddNoPopup?url='. $sburl .'&amp;title='. $sbtitle .'" title="linkaGoGo!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/linkagogo.png" alt="linkaGoGo!" title="linkaGoGo!" class="sblinks" /></a>
+								</div>
+							</div>';
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 

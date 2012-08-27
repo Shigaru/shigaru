@@ -556,8 +556,8 @@ class hwd_vs_javascript
 	//Browser Support Code
 	function ajaxFunctionRV(){
 		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_reportvideo&userid=".$my->id."&videoid=".$row->id."&userid=".$my->id ?>";
-		var _elementToBlock = jQuery('#reportvidbutton').parent().parent().parent();
-		shigaruAjax(_url,_elementToBlock);	
+		var _elementToBlock = jQuery('#reportvidbutton').parent().parent().parent().parent();
+		shigaruAjax(_url,_elementToBlock,null,null,true);	
 	}
 
 	//-->

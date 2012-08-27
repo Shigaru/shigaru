@@ -80,8 +80,8 @@ class hwd_vs_Config{
   var $trungdesc = '70';
   var $truntitle = '100';
   var $sb_digg = 'on';
-  var $sb_reddit = 'on';
-  var $sb_delicious = 'on';
+  var $sb_reddit = '';
+  var $sb_delicious = '';
   var $sb_google = 'on';
   var $sb_live = '';
   var $sb_facebook = 'on';
@@ -97,7 +97,7 @@ class hwd_vs_Config{
   var $sb_furl = '';
   var $sb_fark = '';
   var $sb_blogmarks = '';
-  var $sb_yahoo = 'on';
+  var $sb_yahoo = '';
   var $sb_smarking = '';
   var $sb_netvouz = '';
   var $sb_shadows = '';
@@ -161,7 +161,7 @@ class hwd_vs_Config{
   var $showatfb = '1';
   var $showrpmb = '1';
   var $showcoms = '1';
-  var $showvurl = '1';
+  var $showvurl = '0';
   var $showvebc = '0';
   var $showdesc = '1';
   var $showtags = '1';

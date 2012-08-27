@@ -33,36 +33,25 @@
 						
 						<div id="circle-mod" class="w20pc">
 						  <div id="container-circle">
-							<div id="button-1" class="btn">
-							  <div><span>Like</span></div>
-							</div>
-							<div id="button-2" class="btn">
-							  <div><span>+1</span></div>
-							</div>
-							<div id="button-3" class="btn">
-							  <div><span>Tweet</span></div>
-							</div>
-							<div id="button-4" class="btn">
-							  <div><span>Email</span></div>
-							</div>
-							<div id="button-5" class="btn">
-							  <div><span>&hearts;</span></div>
-							</div>
+								{$videoplayer->socialbmlinks}
 							{if $print_videourl}
-								<div id="button-6" class="btn">
-								  <div><span>Link</span></div>
+								<div id="button-66" class="btn">
+								  <div><span>Link</span><form id="permalink" name="vlink" action="#"><input type="text" value="{$currentUrl}" name="vlink" /></form></div>
 								</div>
 <!--
 
 
 
 
-								 <form name="vlink" action="#"><input type="text" value="{$videoplayer->videourl}" name="vlink" /></form>
+								 
 	-->						  {/if}
 							<div id="base-button" class="mleft30">
 							  <div><span>Share</span></div>
 							</div>
 						  </div>
+						  
+						   <div>{$videoplayer->reportmedia}</div>
+						  
 						</div>
 						<div class="fleft w70pc">  
 							<div class="mbot12">  
@@ -86,16 +75,28 @@
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENT}</span><br />{$videoplayer->instrument}</div>
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_GENRE}</span><br />{$videoplayer->genre}</div>
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}</span><br />{$videoplayer->language}</div>
-		  <div><span>{$smarty.const._HWDVIDS_SELECT_RATING}</span><br />{$videoplayer->ratingsystem}</div>
+		  <div id="ratingsnow"><span>{$smarty.const._HWDVIDS_SELECT_RATING}</span><br />{$videoplayer->ratingsystem}</div>
 		  <div><span>{$smarty.const._HWDVIDS_INFO_NOCOMM}</span><br />{$videoplayer->commentsNum}</div>
-		  <div>{$songPlayer}</div>
-		  <div>{$AddThisForJoomlamodule->content}</div>
+		  <!--<div>{$songPlayer}</div>-->
+			 <div id="currentlikes">
+			   <div class="">
+					<div class="fb-like" data-href="{$currentUrl}" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false"></div>
+				</div>	
+				<div class="">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
+					<script>{literal}!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");{/literal}</script>
+				</div>
+				<div class="">
+					<iframe src="https://plusone.google.com/_/+1/fastbutton?url={$currentUrl}" frameborder="0" width="90" height="25"></iframe></div>
+				</div>	
+				
 		</div>
-		<div>
-		</div>
+		
 	  </div> 
-
+		
       
+		
+		
         <div class="clear">   </div>  
 			
 
@@ -104,11 +105,11 @@
 	  <div class="padding">
 		  <!--
             <div id="addremfav">{$videoplayer->favourties}</div>
-            <div>{$videoplayer->reportmedia}</div>
+           
           
          <!-- <div>{$videoplayer->vieworiginal}</div> 
           <div style="padding: 5px 0;">{$videoplayer->switchquality}</div>
-          <div class="padding">{$videoplayer->socialbmlinks}</div> 
+          <div class="padding"></div> 
 		  <div class="padding">{if $print_addtogroup}{$videoplayer->addtogroup}<div id="add2groupresponse"></div>{/if}</div>
 		  <div class="padding">{if $print_addtoplaylist}{$videoplayer->addtoplaylist}<div id="add2playlistresponse"></div>{/if}</div>
 		  <span>{$smarty.const._HWDVIDS_SHIGARU_SEE_MORE_CATEGORY}</span>
@@ -122,7 +123,6 @@
       </div>
       
 
-	  
 
 	  
 	  

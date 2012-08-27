@@ -373,7 +373,7 @@
 
 		#hwdvids .sblinks {
 			padding: 1px;
-			margin: 1px;
+			margin: 8px 1px 1px;
 			border: 1px solid #d3d3d3;
 		}
 
@@ -824,19 +824,32 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', end
       left: 125px;
     }
     
-    #button-4.open{
+    #button-6.open{
       top: -30px;
       left: 160px;
     }
     
-    #button-5.open{
+    #button-11.open{
       left: 175px;
       top: 25px;
     }
-    #button-6.open{
+    #button-66.open{
       left: 185px;
       top: 80px;
     }
+    
+    #permalink{display:none;}
+    #permalink input{background: none repeat scroll 0 0 #E9E9E9;
+    border: 1px solid #C0C0C0;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 1px 3px rgba(0, 0, 0, 0.1);
+    color: #717171;font-size: 1.5em;
+    font-weight: bold;
+    margin-right: 4px;
+    padding: 0 9px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #FFFFFF;}
+    #button-66.open #permalink{display:block;}
 
       
     

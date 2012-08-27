@@ -162,16 +162,16 @@ $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js
 				<div>
 					<ul>
 						<li>
-							<a href="http://www.facebook.com/ShigaruCommunity" title="Follow us on Facebook"><div class="facebook"><span class="dispnon">Facebook</span></div></a>
+							<a href="http://www.facebook.com/ShigaruCommunity" target="_blank" title="Follow us on Facebook"><div class="facebook"><span class="dispnon">Facebook</span></div></a>
 						</li>
 						<li>
-							<a href="http://twitter.com/shigaru" title="Follow us on Twitter"><div class="twitter"><span class="dispnon">Twitter</span></div></a>
+							<a href="http://twitter.com/shigaru" target="_blank" title="Follow us on Twitter"><div class="twitter"><span class="dispnon">Twitter</span></div></a>
 						</li>
 						<li>
-							<a href="http://twitter.com/shigaru" title="Follow us on Google"><div class="google"><span class="dispnon">Google</span></div></a>
+							<a href="http://twitter.com/shigaru" target="_blank" title="Follow us on Google"><div class="google"><span class="dispnon">Google</span></div></a>
 						</li>
 						<li>
-							<a href="http://www.stumbleupon.com/stumbler/Shigaru" title="Follow us on Stumbleupon"><div class="stumbleupon"><span class="dispnon">Stumbleupon</span></div></a>
+							<a href="http://www.stumbleupon.com/stumbler/Shigaru" target="_blank" title="Follow us on Stumbleupon"><div class="stumbleupon"><span class="dispnon">Stumbleupon</span></div></a>
 						</li>
 					</ul>
 				</div>
