@@ -303,7 +303,8 @@ DEFINE('_LOGIN_NOT_CONFIRMED','Your registration process is not yet complete! Pl
 DEFINE('_LOGIN_NOT_APPROVED','Your account has not yet been approved!');
 DEFINE('_UE_USER_CONFIRMED','<div class="content_box"><h3>Your account is now active.  You may now log in!</h3></div>'
 .'<div class="componentheading mbot20"><p class="mbot20">An email has just been sent to you reminding you of your account and password details. So, what would you like to do now?</p>'
-.'<p class="mbot20">We recommend you to log in and start rating, commenting and uploading! Or maybe you want to visit the Home page or start browsing the Video Library?</p>');
+.'<p class="mbot20">We recommend you to log in and start rating, commenting and uploading! Or maybe you want to visit the Home page or start browsing the Video Library?</p>'
+.'<script type="text/javascript">jQuery(document).ready(function($){jQuery(\'#login a\').click(});</script>');
 DEFINE('_UE_USER_NOTCONFIRMED','Your account is not yet active.  Please check your email and follow the instructions to complete the registration process. If you don\'t find the email, check your spam-box. Make sure that your email account options are not set to immediately delete spam. If that was the case, just try logging in to receive a new instructions email.');
 
 
