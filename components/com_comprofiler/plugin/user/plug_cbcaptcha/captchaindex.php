@@ -22,13 +22,52 @@ if ( isset($_GET['urlmode']) && isset($_GET['captchasid']) ) {
 if ( ! preg_match( '/^[A-Za-z0-9]*$/', $captchasid ) ) {
 	die( 'invalid access' );
 }
+
 session_id(strip_tags($captchasid));
 session_start();
+
+if ( isset($_GET['refreshcaptcha'])){
+	
+	$refreshCaptcha = $_GET['refreshcaptcha'];
+	if($refreshCaptcha){
+		static $cbcaptchaparms	=	array();
+
+		if ( count( $cbcaptchaparms ) == 0 ) {
+			// Plugin Parameters with default settings
+			$cbcaptchaparms['captchaWidth']				= '95';
+			$cbcaptchaparms['captchaHeight']			= '30';
+			$cbcaptchaparms['captchaNumChars']			= '5';
+			$cbcaptchaparms['captchaCharSet']			= 'abcdefhijklmnopqrstuvwxyz23456789'; 
+			$cbcaptchaparms['captchaFont']				= '0';
+	        $cbcaptchaparms['captchaBackgroundRGB']		='255,255,255';
+	        $cbcaptchaparms['captchaTextRGB']			= '20,40,100';          
+	        $cbcaptchaparms['captchaNoiseRGB']			= '100,120,180';
+			$cbcaptchaparms['captchaSecurityMode']		= 'captchaSecurityMode';
+			$numofcharacters=$cbcaptchaparms['captchaNumChars'];
+			$possible = $cbcaptchaparms['captchaCharSet'];
+			$code = '';
+			$i = 0;
+			while ($i < $numofcharacters) { 
+				$code .= substr($possible, mt_rand(0, strlen($possible)-1), 1);
+				$i++;
+			}
+		
+			$cbcaptchaparms['captchaCode']	= $code;
+			if ( session_id() == '' ) {
+				session_start();
+			}
+	        $_SESSION['cbcaptchaparams']	=	$cbcaptchaparms; 	// this is needed to send data to stand-alone php file
+		}
+		}
+}	
 if ( ( count($_SESSION) == 0 ) ||
 	( ($urlmode == "audio") && ( ! isset( $_SESSION['cbcaptchaparams']['captchaCode'] ) ) ) ||
 	( ! isset( $_SESSION['cbcaptchaparams'] ) ) || 
 	( ! is_array($_SESSION['cbcaptchaparams'] ) ) ) {
-   
+	var_dump(count($_SESSION));	
+   var_dump(( ! isset( $_SESSION['cbcaptchaparams']['captchaCode'] ) ));
+   var_dump(( ! isset( $_SESSION['cbcaptchaparams'] ) ));
+   var_dump(( ! is_array($_SESSION['cbcaptchaparams'] ) ));
 	die( 'invalid session.' );
 }
 

@@ -614,7 +614,7 @@ DEFINE('_UE_CONNECTIONREMOVED_MSG','%s has removed your connection!');
 DEFINE('_UE_CONNECTIONACCEPTED_SUB','Connection Request Accepted!');
 DEFINE('_UE_CONNECTIONACCEPTED_MSG','Your request to connect with %s was accepted!');
 DEFINE('_UE_CONNECTIONDENYSUCCESSFULL','Connection Successfully Denied!');
-DEFINE('_UE_TOC_LINK','Accept %sTerms and Conditions%s');	// to link only the "Terms and Conditions", first %s will be replaced by <a.. and second %s by </a>.
+DEFINE('_UE_TOC_LINK','I accept %sTerms and Conditions%s');	// to link only the "Terms and Conditions", first %s will be replaced by <a.. and second %s by </a>.
 // RC2 Newsletters Support
 DEFINE('_UE_NEWSLETTER_HEADER','Newsletters');
 DEFINE('_UE_NEWSLETTER','Newsletter subscription');

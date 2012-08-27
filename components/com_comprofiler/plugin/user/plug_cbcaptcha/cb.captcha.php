@@ -144,6 +144,7 @@ class getcaptchaTab extends cbTabHandler {
 			if ( session_id() == '' ) {
 				session_start();
 			}
+			
 	        $_SESSION['cbcaptchaparams']	=	$cbcaptchaparms; 	// this is needed to send data to stand-alone php file
 		}
 	}
@@ -163,7 +164,7 @@ class getcaptchaTab extends cbTabHandler {
 
 		$imageUrl = $mainframe->getCfg( 'live_site' ) . '/components/com_comprofiler/plugin/user/plug_cbcaptcha/captchaindex.php?urlmode=image&captchasid='.session_id();
 
-		$CaptchaImage = '<img src="' . $imageUrl . '" alt="'. htmlspecialchars(_UE_CAPTCHA_ALT_IMAGE) . '" />';
+		$CaptchaImage = '<img id="imagescaptchup" src="' . $imageUrl . '" alt="'. htmlspecialchars(_UE_CAPTCHA_ALT_IMAGE) . '" />';
 		
 		return $CaptchaImage;                                           
 	}
@@ -289,17 +290,31 @@ class getcaptchaTab extends cbTabHandler {
 		}
 		
 		$CaptchaImage = $this->_getHTMLcaptcha();
+		$return =	"
+		 <script language=\"javascript\">
+			jQuery(document).ready(function($){					
+					jQuery('#captchanewcode').click(function(e) {
+						oURL= jQuery('#imagescaptchup').attr('src')+'&refreshcaptcha=true';
+						jQuery('#imagescaptchup').remove();
+						jQuery('#catchawrap').append('<img id=\"imagescaptchup\" src=\"'+oURL+'\" />');	
+					});
 				
-		$return = "<div class=\"mbot6 sectiontableentry1\"><div>\n";                                              
+				});
+				
+			</script>";
+										
+		$return .= "<div class=\"mbot6 sectiontableentry1\"><div id=\"catchawrap\">\n";                                              
 		$return .= "	<span class=\"titleCell\">" . htmlspecialchars(_UE_CAPTCHA_Label) . ":</span>\n";
 		$return .= 	$CaptchaImage;
 		if (!$params->get('captchaSecurityMode',0)) {
 			$return .= $this->_getHTMLaudio();	
 		}
+		
 		$return .= "</div><div class=\"mbot6 clear cb_field\">\n";
 		$return .= "	<span class=\"titleCell\">" . htmlspecialchars(_UE_CAPTCHA_Enter_Label) . ":</span>\n";
 		$return .= "	<input class=\"inputbox required\" id=\"captchacaptcha\" type=\"text\" name=\"".$this->_getPagingParamName("captcha")."\" mosReq=\"1\" mosLabel=\"". _UE_CAPTCHA_Label . "\" value=\"\" size=\"20\" />";
 		$return .= getFieldIcons($ui, true, false, _UE_CAPTCHA_Desc, _UE_CAPTCHA_Label . ":");
+		$return .="<a id=\"captchanewcode\">New Code?</a>";
 		$return .= "</div></div>\n";
 		
 		return $return;
@@ -325,6 +340,7 @@ class getcaptchaTab extends cbTabHandler {
 		if ( ! (( $_SESSION['cbcaptchaparams']['captchaCode'] == $this->_getReqParam("captcha")) && ( ! empty($_SESSION['cbcaptchaparams']['captchaCode'] )) ) ) {
 			$_PLUGINS->raiseError(0);
 			$_PLUGINS->_setErrorMSG( _UE_CAPTCHA_NOT_VALID );
+			
 		}
 		return true;
 	}

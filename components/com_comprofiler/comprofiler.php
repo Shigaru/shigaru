@@ -1074,7 +1074,7 @@ function saveRegistration( $option ) {
 		return;
 	}
 
-	echo "\n<div>" . implode( "</div>\n<div>", $messagesToUser ) . "</div>\n";
+	echo "\n<div >" . implode( "</div>\n<div id=\"registrationsucess\">", $messagesToUser ) . "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>\n";
 }
 
 
