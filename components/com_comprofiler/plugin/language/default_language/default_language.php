@@ -241,24 +241,24 @@ DEFINE('_UE_REG_EMAIL_TAGS','[NAME] - Name of the User<br />'
 );
 
 //Registration form
-DEFINE('_UE_REG_COMPLETE_NOPASS','<div class="componentheading">Registration Complete!</div>'
+DEFINE('_UE_REG_COMPLETE_NOPASS','<div class="registrationsucess"><div class="componentheading">Registration Complete!</div>'
 .'<p>Your password has been sent to the e-mail address you entered.</p>'
-.'<p>Please check your email (including your spambox). When you receive your password you will then be able to log in.</p>');
-DEFINE('_UE_REG_COMPLETE','<div class="componentheading">Registration Complete!</div>'
-.'<p>You may now log in.</p>');
-DEFINE('_UE_REG_COMPLETE_NOPASS_NOAPPR','<div class="componentheading">Registration Complete!</div>'
+.'<p>Please check your email (including your spambox). When you receive your password you will then be able to log in.</p></div>');
+DEFINE('_UE_REG_COMPLETE','<div class="registrationsucess"><div class="componentheading">Registration Complete!</div>'
+.'<p>You may now log in.</p></div>');
+DEFINE('_UE_REG_COMPLETE_NOPASS_NOAPPR','<div class="registrationsucess"><div class="componentheading">Registration Complete!</div>'
 .'<p>Your registration requires approval.  Once approved your password will be sent to the e-mail address you entered.</p>'
-.'<p>When you receive approval and a password you will then be able to log in.</p>');
-DEFINE('_UE_REG_COMPLETE_NOAPPR','<div class="componentheading">Registration Complete!</div>'
+.'<p>When you receive approval and a password you will then be able to log in.</p></div>');
+DEFINE('_UE_REG_COMPLETE_NOAPPR','<div class="registrationsucess"><div class="componentheading">Registration Complete!</div>'
 .'<p>Your registration requires approval. Once approved, you will be sent an approval notice to the e-mail address you entered.</p>'
-.'<p>When you receive the approval, you will be able to log in.</p>');
-DEFINE('_UE_REG_COMPLETE_CONF','<div class="componentheading">Registration Complete!</div>'
-.'<p>An email with further instructions on how to complete your registration has been sent to the email address you provided.</p>'
-.'<p>Please check your email (including your spambox) to complete your registration.</p>'
-.'<p>To have the email sent again, simply try logging in with the username and password of your registration.</p>');
-DEFINE('_UE_REG_COMPLETE_NOPASS_CONF','<div class="componentheading">Registration Complete!</div>'
+.'<p>When you receive the approval, you will be able to log in.</p></div>');
+DEFINE('_UE_REG_COMPLETE_CONF','<div id="registrationsucess"><div class="content_box"><h3><span class="fontbold">Congratulations!</span> Your Shigaru account was created successfully!</h3><div class="componentheading mbot20">Thank you for signing up with this knowledge sharing community. !</div>'
+.'<p>An email has been sent to the email address you provided. </p>'
+.'<p>Simply open it up and click on the link to actvivate your new account. (If the email doesn´t arrive please check your spambox).</p>'
+.'<p>To have the email sent again, simply try logging in with the username and password of your registration.</p></div></div>');
+DEFINE('_UE_REG_COMPLETE_NOPASS_CONF','<div class="registrationsucess"><div class="componentheading">Registration Complete!</div>'
 .'<p>Your password has been sent to the e-mail address you entered.</p>'
-.'<p>Please check your email (including your spambox). When you receive your password and follow the confirmation instructions you will then be able to log in.</p>');
+.'<p>Please check your email (including your spambox). When you receive your password and follow the confirmation instructions you will then be able to log in.</p></div>');
 
 // User List Labels
 DEFINE ('_UE_HAS','has');
