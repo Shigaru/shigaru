@@ -83,7 +83,7 @@ DEFINE('_UE_YOUR_NAME','Name');
 DEFINE('_UE_EMAIL','Email');
 DEFINE('_UE_UNAME','Username');
 DEFINE('_UE_PASS','Password');
-DEFINE('_UE_VPASS','Confirm Password');
+DEFINE('_UE_VPASS','Confirm password');
 DEFINE('_UE_SUBMIT_SUCCESS','Submission Success!');
 DEFINE('_UE_SUBMIT_SUCCESS_DESC','Your item has been successfully submitted to our administrators. It will be reviewed before being published on this site.');
 DEFINE('_UE_WELCOME','Welcome!');
@@ -617,7 +617,7 @@ DEFINE('_UE_CONNECTIONREMOVED_MSG','%s has removed your connection!');
 DEFINE('_UE_CONNECTIONACCEPTED_SUB','Connection Request Accepted!');
 DEFINE('_UE_CONNECTIONACCEPTED_MSG','Your request to connect with %s was accepted!');
 DEFINE('_UE_CONNECTIONDENYSUCCESSFULL','Connection Successfully Denied!');
-DEFINE('_UE_TOC_LINK','I accept %sTerms and Conditions%s');	// to link only the "Terms and Conditions", first %s will be replaced by <a.. and second %s by </a>.
+DEFINE('_UE_TOC_LINK','I accept the %sTerms and Conditions%s');	// to link only the "Terms and Conditions", first %s will be replaced by <a.. and second %s by </a>.
 // RC2 Newsletters Support
 DEFINE('_UE_NEWSLETTER_HEADER','Newsletters');
 DEFINE('_UE_NEWSLETTER','Newsletter subscription');

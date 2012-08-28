@@ -574,7 +574,8 @@ span.reference a:hover{color:#000;}
 #captchanewcode{
     float: left;
     line-height: 28px;
-    margin: 0 0 0 12px;cursor:pointer;}
+    margin: 0 0 0 12px;cursor:pointer;font-size:80%;}
+#captchanewcode:hover{text-decoration:underline;}    
 form.cb_form .cb_form_line label		, .cb_tab_content .cb_form_line label			{	display: block;
 float: left; line-height: 30px;
 width: 35%;
