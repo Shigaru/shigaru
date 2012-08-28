@@ -876,8 +876,8 @@ if (!defined('_CMN_YES'))			DEFINE('_CMN_YES','Yes');
 if (!defined('_CMN_NO'))			DEFINE('_CMN_NO','No');
 if (!defined('_CMN_SHOW'))			DEFINE('_CMN_SHOW','Show');
 if (!defined('_CMN_HIDE'))			DEFINE('_CMN_HIDE','Hide');
-if (!defined('_LOGIN_INCOMPLETE'))	DEFINE('_LOGIN_INCOMPLETE','<span style="display:block;margin-top:50px;">Please complete the username and password fields.</span>');
-if (!defined('_LOGIN_INCORRECT'))	DEFINE('_LOGIN_INCORRECT','<span style="display:block;margin-top:50px;">Incorrect username or password. Please try again.</span>');
+if (!defined('_LOGIN_INCOMPLETE'))	DEFINE('_LOGIN_INCOMPLETE','Please complete the username and password fields.');
+if (!defined('_LOGIN_INCORRECT'))	DEFINE('_LOGIN_INCORRECT','Incorrect username or password. Please try again.');
 if (!defined('_USER_DETAILS_SAVE'))	DEFINE('_USER_DETAILS_SAVE','Your settings have been saved.');
 
 //lANGUAGES

@@ -601,6 +601,16 @@ text-shadow: 0 1px 1px #777;-moz-border-radius: 5px; -webkit-border-radius: 5px;
 .usermessages span.face{font-size: 1000%; float: left;width: 20%;}
 .usermessages span.message{font-size: 150%; float: left; margin: 20px 0px 85px 45px;
 width: 75%;}
+.usermessages span.messageform{font-size: 150%;
+float: left;
+margin: 0 0px 0 45px;
+width: 75%;}
+.usermessages span.messageform.errored{font-size: 140%;background:url("../images/Symbol-Error.png") no-repeat scroll left 12px transparent;padding: 60px 0 60px 139px;}
+.usermessages .close{display: block;background:url("../images/close.png") no-repeat scroll left top transparent;
+    float: right;
+    height: 50px;
+    width: 50px;cursor:pointer;
+    margin: -60px 30px 0 0;}
 #searchpages{ margin-bottom: 50px;}
 
 #searchpages .btn {
@@ -671,7 +681,7 @@ float: left;
 .workarea .workarea_wrapper #cb_cb_comp_login .componentheading{
     color: #909090;
     font-size: 200%;
-    margin: 0 0 40px;
+    margin: 20px 0 40px;
     }
 #canesWrap{float:right;}
 .canes{width:33px;height:64px;float:left;}

@@ -107,7 +107,7 @@ function cbFrmChksubmitbutton() {
 	$_PLUGINS->loadPluginGroup('user');
 	$results = $_PLUGINS->trigger( 'onBeforeEmailUserForm', array( &$rowFrom, &$rowTo, 1 ));	//$ui=1
 	if ($_PLUGINS->is_errors()) {
-		echo "<script type=\"text/javascript\">alert(\"".$_PLUGINS->getErrorMSG()."\"); window.history.go(-1); </script>\n";
+		echo "<script type=\"text/javascript\">window.history.go(-1); </script>\n";
 		exit();
 	}
 ?>
@@ -346,6 +346,7 @@ $('#cbbtncancel').click( function() {
 
 	if ( $regErrorMSG ) {
 		echo "<div class=\"usermessages\"><span class=\"face fontred\">:( </span> <span class=\"message\">".$regErrorMSG."</span><div class=\"clear\"></div></div>\n";
+		//echo $regErrorMSG;
 	}
 	if ( $user->id != $_CB_framework->myId() ) {
 		echo "<div class='message' style='font-weight:bold;color:red;margin-bottom:20px;'>" . sprintf( _UE_WARNING_EDIT_OTHER_USER_PROFILE, getNameFormat( $user->name, $user->username, $ueConfig['name_format'] ) ) . "</div>\n";
@@ -723,7 +724,8 @@ List Functions
 <div class="cbUsersList"><div id="cbUsersListInner">
 <?php
 		if ( $errorMsg ) {
-			echo '<div class="usermessages"><span class="face fontred">:( </span> <span class="message">' . $errorMsg . '</span><div class="clear"></div></div>';
+			//echo '<div class="usermessages"><span class="face fontred">:( </span> <span class="message">' . $errorMsg . '</span><div class="clear"></div></div>';
+			echo $errorMsg;
 		}
 ?>
 
@@ -1125,7 +1127,8 @@ $('#checkusername,#checkemail').change( function() {
 		
 
 		if ($regErrorMSG) {
-			echo "<div class=\"usermessages\"><span class=\"face fontred\">:( </span> <span class=\"message\">".$regErrorMSG."</span><div class=\"clear\"></div></div>\n";
+			echo "<div class=\"usermessages\"><div><a title=\"Close message\" class=\"close\"></a></div><span class=\"messageform errored fontred\">".$regErrorMSG."</span><div class=\"clear\"></div></div>\n";
+			//echo $regErrorMSG;
 		}
 
 		// output results of plugins event "onBeforeRegisterFormDisplay":
@@ -1340,7 +1343,8 @@ $('#cbcheckedadminForm').submit( cbFrmSubmitButton );
 			// end of old
 		}
 		if ($regErrorMSG) {
-			echo "<div class=\"usermessages\"><span class=\"face fontred\">:( </span> <span class=\"message\">".$regErrorMSG."</span><div class=\"clear\"></div></div>\n";
+			echo "<div class=\"usermessages\"><div><a title=\"Close message\" class=\"close\"></a></div><span class=\"messageform errored fontred\">".$regErrorMSG."</span><div class=\"clear\"></div></div>\n";
+			//echo $regErrorMSG;
 		}
 
 		// output results of plugins event "onBeforeRegisterFormDisplay":

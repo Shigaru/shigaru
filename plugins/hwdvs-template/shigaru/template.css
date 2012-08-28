@@ -614,7 +614,7 @@
 			float: left;
 			/* */
 		}
-
+		
 		.unit-rating li a {
 			outline: none;
 			display:block;
@@ -666,7 +666,7 @@
 			padding: 2px!important;
 		}
 		
-		
+.videoplayer .video_activity_header ul li a{font-size: 110% !important;}		
 #hwdvids td { vertical-align: top!important; }
 div.viewmore{text-align:right !important;padding:5px;background:#EAEAEA;}
 div.viewmore a{background:transparent url(images/step_more.gif) no-repeat right 2px; padding:0 16px 0 0;}

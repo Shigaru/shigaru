@@ -46,7 +46,7 @@
 			<div>{$data->upload_date}</div>
 		{/if}
 		{if $hwdvsTemplateOverride.show_comments eq 1}
-			<div>{$data->comments} {$smarty.const._HWDVIDS_COMMENTS}</div>
+			<div>{$data->comments} {$smarty.const._HWDVIDS_COMMENTS_CAPIT}</div>
 		{/if}
 		{if $hwdvsTemplateOverride.show_timesince eq 1}
 			<div>{$data->timesince}</div>

@@ -10,6 +10,11 @@ jQuery(document).ready(function($){
 	jQuery('.rightcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.rightcolumn .slidesWrapper'});
 	jQuery('.workarea_odd .video_activity .video_activity_header').shigaruTabs({slidesWrapper:'.workarea_odd .video_activity .slidesWrapper'});
 	}
+	
+	jQuery('.usermessages div a.close').click(function(){
+			jQuery(this).parent().parent().fadeOut();
+		});
+	
 	jQuery('#grettings').click(function(e) {
 		var $this = jQuery(this);
 		jQuery(".userzone").slideToggle();

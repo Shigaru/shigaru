@@ -340,7 +340,7 @@ class getcaptchaTab extends cbTabHandler {
 		if ( ! (( $_SESSION['cbcaptchaparams']['captchaCode'] == $this->_getReqParam("captcha")) && ( ! empty($_SESSION['cbcaptchaparams']['captchaCode'] )) ) ) {
 			$_PLUGINS->raiseError(0);
 			$_PLUGINS->_setErrorMSG( _UE_CAPTCHA_NOT_VALID );
-			
+			//echo "\n</div>";
 		}
 		return true;
 	}

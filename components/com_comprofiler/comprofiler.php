@@ -1041,7 +1041,7 @@ function saveRegistration( $option ) {
 
 	$saveResult					=	$userComplete->saveSafely( $_POST, $_CB_framework->getUi(), 'register' );
 	if ( $saveResult === false ) {
-		echo "<script type=\"text/javascript\">alert('" . str_replace( '\\\\n', '\\n', addslashes( strip_tags( str_replace( '<br />', '\n', $userComplete->getError() ) ) ) ) ."'); </script>\n";
+		//echo "<script type=\"text/javascript\">alert('" . str_replace( '\\\\n', '\\n', addslashes( strip_tags( str_replace( '<br />', '\n', $userComplete->getError() ) ) ) ) ."'); </script>\n";
 		HTML_comprofiler::registerForm( $option, $ueConfig['emailpass'], $userComplete, $_POST, $userComplete->getError() );
 		return;
 	}

@@ -197,7 +197,7 @@
   </div>
 </div>
 {/if}
-<div id="hwdvids">
+<div id="hwdvids" class="videoplayer">
 <div class="sic-container workarea f80 mbot20">
   <div class="standard workarea_wrapper">
   <div class="sic-right slidesWrapper">
@@ -209,7 +209,7 @@
 				<div>
 				<ul>
 					<li class="selected"><a href="#more-tabs-1">{$smarty.const._HWDVIDS_RELATED}</a></li>
-					<li><a href="#more-tabs-2">{$smarty.const._HWDVIDS_TITLE_MOREBYUSR} {$videoplayer->username}</a></li>
+					<li><a href="#more-tabs-2">{$smarty.const._HWDVIDS_TITLE_MOREBYUSR}</a></li>
 					<li><a href="#more-tabs-3">{$smarty.const._HWDVIDS_MORECATVIDS}</a></li>
 				</ul>
 				</div>
