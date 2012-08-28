@@ -17,33 +17,39 @@ $ueConfig['reg_confirmation']='1';
 $ueConfig['reg_username_checker']='1';
 $ueConfig['reg_email_checker']='0';
 $ueConfig['reg_show_login_on_page']='0';
-$ueConfig['reg_email_name']='User Registration';
+$ueConfig['reg_email_name']='Shigaru User Registration';
 $ueConfig['reg_email_from']='';
 $ueConfig['reg_email_replyto']='no-reply@shigaru.com';
-$ueConfig['reg_pend_appr_sub']='Your Registration is Pending Approval';
-$ueConfig['reg_pend_appr_msg']='Greetings [NAME],
-Thank you for applying for registration with us. We have
-received your request and we will process it as soon as you
-confirm your email address by clicking on the following
-hyperlink:
+$ueConfig['reg_pend_appr_sub']='Activate your account with Shigaru.com';
+$ueConfig['reg_pend_appr_msg']='Hi there [NAME],
+
+Thank you for signing up with Shigaru.com. To activate your newly created account, please click on the following link:
+
 [CONFIRM]
-Once your email address is confirmed our moderators will be
-notified to continue the activation process.
-You will be notified by email of the progress of your registration process.
+
+You will be notified by email of the progress of your registration process. Please do not reply to this email as it has been generated automatically. If you need to contact us please email us at info@shigaru.com.
+
+Thanks again!
+The Shigaru Team';
+$ueConfig['reg_welcome_sub']='Details of your new account with Shigaru.com';
+$ueConfig['reg_welcome_msg']='Hi again!
+
+Your new account with Shigaru.com has been successfully set up.
+
+To log in to your account you will need the following information:
+
 [DETAILS]
-Kind Regards,
-Website Administration Team';
-$ueConfig['reg_welcome_sub']='New User Details';
-$ueConfig['reg_welcome_msg']='Welcome [NAME],
-Your application has been approved by our administration team.
-Your account with the following details:
-[DETAILS]
-has been activated.
-We welcome you to our online community and trust that together
-we will grow.
-Enjoy the experience!
-Kind Regards,
-Website Administration Team';
+
+To log in: http://test.shigaru.com/index.php/my-profile/login
+
+To view your profile: http://test.shigaru.com/index.php/my-profile
+
+Please do not reply to this email as it has been generated automatically. If you have any questions or need to contact us please email us at info@shigaru.com
+
+Most of your questions are probably answered anyway in our FAQs section!
+
+Thanks again!
+The Shigaru Team';
 $ueConfig['reg_show_icons_explain']='0';
 $ueConfig['reg_intro_msg']='';
 $ueConfig['reg_conclusion_msg']='';
