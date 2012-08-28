@@ -424,7 +424,7 @@ $('#cbbtncancel').click( function() {
 		<?php	echo cbGetSpoofInputTag( 'userEdit' );
 
 	if ( $regErrorMSG ) {
-		echo "<div class='error'>".$regErrorMSG."</div>\n";
+		echo "<div class=\"usermessages\"><span class=\"face fontred\">:( </span> <span class=\"message\">".$regErrorMSG."</div>\n";
 	}
 	if ( $user->id != $_CB_framework->myId() ) {
 		echo "<div class='message' style='font-weight:bold;color:red;margin-bottom:20px;'>" . sprintf( _UE_WARNING_EDIT_OTHER_USER_PROFILE, getNameFormat( $user->name, $user->username, $ueConfig['name_format'] ) ) . "</div>\n";
@@ -894,7 +894,7 @@ List Functions
 <div class="cbUsersList"><div id="cbUsersListInner">
 <?php
 		if ( $errorMsg ) {
-			echo '<div class="error">' . $errorMsg . '</div>';
+			echo '<div class="usermessages"><span class="face fontred">:( </span> <span class="message">' . $errorMsg . '</span><div class="clear"></div></div>';
 		}
 ?>
 
@@ -1286,7 +1286,7 @@ $('#checkusername,#checkemail').change( function() {
 		
 
 		if ($regErrorMSG) {
-			echo "<div class='error'>".$regErrorMSG."</div>\n";
+			echo "<div class=\"usermessages\"><span class=\"face fontred\">:( </span> <span class=\"message\">".$regErrorMSG."</span><div class=\"clear\"></div></div>\n";
 		}
 
 		// output results of plugins event "onBeforeRegisterFormDisplay":
@@ -1565,7 +1565,7 @@ $('#cbcheckedadminForm').submit( cbFrmSubmitButton );
 			// end of old
 		}
 		if ($regErrorMSG) {
-			echo "<div class='error'>".$regErrorMSG."</div>\n";
+			echo "<div class=\"usermessages\"><span class=\"face fontred\">:( </span> <span class=\"message\">".$regErrorMSG."</div>\n";
 		}
 
 		// output results of plugins event "onBeforeRegisterFormDisplay":

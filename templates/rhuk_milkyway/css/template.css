@@ -598,8 +598,9 @@ background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 ;
 text-shadow: 0 1px 1px #777;-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;margin: 50px 0 50px 0;}
-.usermessages span.face{font-size: 1000%; float: left;}
-.usermessages span.message{font-size: 150%; float: left; margin: 85px 0px 85px 45px;}
+.usermessages span.face{font-size: 1000%; float: left;width: 20%;}
+.usermessages span.message{font-size: 150%; float: left; margin: 20px 0px 85px 45px;
+width: 75%;}
 #searchpages{ margin-bottom: 50px;}
 
 #searchpages .btn {
@@ -650,7 +651,28 @@ text-shadow: 0 1px 1px #777;-moz-border-radius: 5px; -webkit-border-radius: 5px;
     -moz-border-radius:1em;
  	-webkit-border-radius:1em;
 }
-
+.workarea .workarea_wrapper #cb_cb_comp_login div#register{display:none;}
+.workarea .workarea_wrapper #cb_cb_comp_login div#login a{display:none;}
+.workarea .workarea_wrapper #cb_cb_comp_login div#login span a{display:block;font-size: 90%;
+    margin: 0 0 30px;}
+div#loginBox{display:none;}
+.workarea .workarea_wrapper #cb_cb_comp_login div#login div#loginBox{display:block;}
+.workarea .workarea_wrapper #cb_cb_comp_login div#login div#loginBox input#login{color: #000000;
+    font-size: 120%;
+    font-weight: bold;
+    margin: 0 20px 0 40%;
+    padding: 20px;}
+.workarea .workarea_wrapper #mod_loginform #body fieldset label, #comments-tabs #body fieldset label{
+float: left;
+    line-height: 35px;
+    margin: 0 12px 0 0;
+    text-align: right;
+    width: 20%;}
+.workarea .workarea_wrapper #cb_cb_comp_login .componentheading{
+    color: #909090;
+    font-size: 200%;
+    margin: 0 0 40px;
+    }
 #canesWrap{float:right;}
 .canes{width:33px;height:64px;float:left;}
 .youtubeCan{background: url("../../../modules/mod_socialmedialinks/icons/drink/size3/youtube.png") no-repeat scroll 0 0 transparent;}

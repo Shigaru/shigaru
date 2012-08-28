@@ -428,7 +428,7 @@ DEFINE('_UE_ALLOW_PROFILEVIEWBY_DESC','Pick the group that you want to be able t
 DEFINE('_UE_NOLISTFOUND','There are no published user lists!');
 DEFINE('_UE_ALLOW_PROFILELINK','Allow Link to Profile');
 DEFINE('_UE_ALLOW_PROFILELINK_DESC','Select "Yes" to allow each row to link to the related users profile and "No" to prevent profile links on lists.');
-DEFINE('_UE_REGISTERFORPROFILE','<div class="usermessages"><span class="face fontred">:( </span> <span class="message">Please log in or sign up to view or modify your profile. </span><div class="clear"></div></div>');
+DEFINE('_UE_REGISTERFORPROFILE','<div class="usermessages"><span class="face fontred">:( </span> <span class="message mtop24"><span style="display:block;margin-top:50px;">Please log in or sign up to view or modify your profile. </span></span><div class="clear"></div></div>');
 DEFINE('_UE_UPLOAD_ERROR_GDNOTINSTALLED','The GD2 Image Library is either not installed or not compiled with PHP! Please notify your systems administrator to disable Auto Image Resize.');
 DEFINE('_UE_UPLOAD_ERROR_UPLOADFAILED','An error occurred uploading/processing the image!');
 DEFINE('_UE_TOC','Accept Terms and Conditions');
@@ -876,8 +876,8 @@ if (!defined('_CMN_YES'))			DEFINE('_CMN_YES','Yes');
 if (!defined('_CMN_NO'))			DEFINE('_CMN_NO','No');
 if (!defined('_CMN_SHOW'))			DEFINE('_CMN_SHOW','Show');
 if (!defined('_CMN_HIDE'))			DEFINE('_CMN_HIDE','Hide');
-if (!defined('_LOGIN_INCOMPLETE'))	DEFINE('_LOGIN_INCOMPLETE','Please complete the username and password fields.');
-if (!defined('_LOGIN_INCORRECT'))	DEFINE('_LOGIN_INCORRECT','Incorrect username or password. Please try again.');
+if (!defined('_LOGIN_INCOMPLETE'))	DEFINE('_LOGIN_INCOMPLETE','<span style="display:block;margin-top:50px;">Please complete the username and password fields.</span>');
+if (!defined('_LOGIN_INCORRECT'))	DEFINE('_LOGIN_INCORRECT','<span style="display:block;margin-top:50px;">Incorrect username or password. Please try again.</span>');
 if (!defined('_USER_DETAILS_SAVE'))	DEFINE('_USER_DETAILS_SAVE','Your settings have been saved.');
 
 //lANGUAGES

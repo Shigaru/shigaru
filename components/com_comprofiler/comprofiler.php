@@ -363,7 +363,7 @@ function sendUserEmail( $option, $toid, $fromid, $subject, $message ) {
 			}
 		}
 	}
-	echo '<div class="error">' . $errorMsg . '</div>';
+	echo '<div class="usermessages"><span class="face fontred">:( </span> <span class="message">' . $errorMsg . '</span><div class="clear"></div></div>';
 	HTML_comprofiler::emailUser( $option, $rowFrom, $rowTo, $subject, $message );
 }
 
@@ -411,7 +411,7 @@ function userEdit( $option, $uid, $submitvalue, $regErrorMSG = null ) {
 		$user					=&	$cbUser->getUserData();
 		HTML_comprofiler::userEdit( $user, $option, $submitvalue, $regErrorMSG );
 	} else {
-		echo '<div class="error">' . _UE_ERROR_USER_NOT_SYNCHRONIZED . '</div>';
+		echo '<div class="usermessages"><span class="face fontred">:( </span> <span class="message">' . _UE_ERROR_USER_NOT_SYNCHRONIZED . '</span><div class="clear"></div></div>';
 	}
 /*
 	$user						=	new moscomprofilerUser( $_CB_database );
@@ -930,7 +930,7 @@ function registerForm( $option, $emailpass, $regErrorMSG = null ) {
 		return;
 	}
 	if ( $_CB_framework->myId() ) {
-		echo '<div class="error">' . _UE_ALREADY_LOGGED_IN . '</div>';
+		echo '<div class="usermessages"><span class="face fontred">:( </span> <span class="message">' . _UE_ALREADY_LOGGED_IN . '</span><div class="clear"></div></div>';
 		return;
 	}
 	$fieldsQuery	=	null;
@@ -1349,7 +1349,12 @@ function confirm( $confirmcode ) {
 					} else {
 						$class				=	'error';
 					}
-					echo "\n" . '<div class="cbconfirming"><div class="' . $class . '">' . implode( '</div><div class="' . $class . '">', $messagesToUser ) . "</div></div>\n";
+					
+					if($class				==	'error'){
+						echo "\n" . '<div class="cbconfirming"><div class=\"usermessages\"><span class=\"face fontred\">:( </span> <span class=\"message\">'.$messagesToUser. "</span><div class=\"clear\"></div></div>\n";
+						}else{
+						echo "\n" . '<div class="cbconfirming"><div class="' . $class . '">' . implode( '</div><div class="' . $class . '">', $messagesToUser ) . "</div></div>\n";
+					}
 					return;
 				}
 			}
@@ -1359,7 +1364,7 @@ function confirm( $confirmcode ) {
 		return;
 	} else {
 		// this is the case where the user is already logged in (mostly test-cases):
-		echo '<div class="error">' . _UE_NOT_AUTHORIZED." :<br /><br />"._UE_DO_LOGOUT." !</div>";
+		echo '<div class="usermessages"><span class="face fontred">:( </span> <span class="message">' . _UE_NOT_AUTHORIZED." :<br /><br />"._UE_DO_LOGOUT." !</span><div class=\"clear\"></div></div>";
 	}
 }
 

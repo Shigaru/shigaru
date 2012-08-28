@@ -2998,9 +2998,9 @@ function cbSef( $string, $htmlSpecials = true, $format = 'html' ) {
 function cbNotAuth() {
 	global $_CB_framework;
 
-	echo '<div class="error">' . _UE_NOT_AUTHORIZED . '</div>';
+	echo '<div class="usermessages"><span class="face fontred">:( </span> <span class="message">' . _UE_NOT_AUTHORIZED . '</span><div class="clear"></div></div>';
 	if ($_CB_framework->myId() < 1 ) {
-		echo '<div class="error">' . _UE_DO_LOGIN . '</div>';
+		echo '<div class="usermessages"><span class="face fontred">:( </span> <span class="message">' . _UE_DO_LOGIN . '</span><div class="clear"></div></div>';
 	}
 }
 
