@@ -566,7 +566,7 @@ span.reference a:hover{color:#000;}
 .newssubs{}
 #cbfv_termsc{margin: 12px 0 0 6px;}
 #registrationTable .mbot6 img,#captchacaptcha{float: left;    margin: 0 0 0 6px;}
-#registrationTable input.button{color:#000; font-size:130%;cursor:pointer;padding:20px !important;}
+#registrationTable input.button{color:#000; font-size:130%;cursor:pointer;padding:20px !important;font-weight:bold;}
 #registrationTable .cbft_radio span.cbSnglCtrlLbl input,#acceptedterms{margin-top:7px;}
 #cbcheckedadminForm{}
 #sexmessage{font-size:90%;}
@@ -586,6 +586,9 @@ padding-right: 12px;
 font-size:90%;	}
 form.cb_form .cb_form_line .cb_field	, .cb_tab_content .cb_form_line .cb_field		{	display: block;	float: left;	width: 50%;		font-weight:normal;	vertical-align: top;	}
 .demoinfo{position:absolute;bottom:10%;padding:50px;-moz-opacity:.80; filter:alpha(opacity=80); opacity:.80; background:#000; color:#fff; font-weight:bold;}
+.usermessages{padding: 40px;}
+.usermessages span.face{font-size: 1000%; float: left;}
+.usermessages span.message{font-size: 150%; float: left; margin: 85px 0px 85px 45px;}
 #searchpages{ margin-bottom: 50px;}
 
 #searchpages .btn {
