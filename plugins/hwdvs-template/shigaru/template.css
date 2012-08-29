@@ -856,6 +856,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', end
     text-decoration: none;
     text-shadow: 0 1px 0 #FFFFFF;}
     #button-66.open #permalink{display:block;}
-
+	.videoactions{padding:10px; border-bottom:1px solid #ccc;margin:-18px 0 17px 20px}
+    .videoactions div.fleft{}
+.videoactions div.fb_edge_widget_with_comment{margin:11px 0 0 -38px}
+.videoactions .twitter-share-button{margin:9px 20px 0 12px}
+.videoactions #ifgoogleplus{margin:5px 0 0px 12px}
       
     

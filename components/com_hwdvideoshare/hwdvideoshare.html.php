@@ -418,11 +418,7 @@ class hwd_vs_html
 		$subscribe = JModuleHelper::renderModule($mailingmodule);
 		$smartyvs->assign("subscribe", $subscribe);
 		*/
-		/* google_adsense box
-		$google_adsensemodule = JModuleHelper::getModule('j_google_adsense');
-		$google_adsense = JModuleHelper::renderModule($google_adsensemodule);
-		$smartyvs->assign("google_adsense", $google_adsense); 
-		*/
+		
 		/* follow us box
 		$socialmedialinks = JModuleHelper::getModule('socialmedialinks');
 		$socialmedialinks = JModuleHelper::renderModule($socialmedialinks);
@@ -1005,6 +1001,14 @@ class hwd_vs_html
 		$currentUrl = JURI::current();
 		
 		$smartyvs->assign("currentUrl", $currentUrl);
+		
+		jimport( 'joomla.application.module.helper' );
+		/* google_adsense box*/
+		$google_adsensemodule = JModuleHelper::getModule('j_google_adsense');
+		$google_adsense = JModuleHelper::renderModule($google_adsensemodule);
+		$smartyvs->assign("google_adsense", $google_adsense); 
+		
+		
 		//$params = array();
 		//$limitstart = 0;
 		//$article->text = $smartyvs->fetch('video_player.tpl');

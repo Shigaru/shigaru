@@ -593,7 +593,7 @@ DEFINE("_HWDVIDS_WATCHMORE","Watch more videos like these");
 DEFINE("_HWDVIDS_DONATETO","Donate to Shigaru.com");
 DEFINE("_HWDVIDS_SUBSCRIBE","Subscribe to the newsletter");
 DEFINE("_HWDVIDS_SUBSARCHIVE","View newsletter archive");
-DEFINE("_HWDVIDS_SHIGARU_ADS","Some ads to keep Shigaru up and running");
+DEFINE("_HWDVIDS_SHIGARU_ADS","Advertisememt");
 DEFINE("_HWDVIDS_SHIGARU_FOLLOW","Follow us on ...");
 DEFINE("_HWDVIDS_SHIGARU_FACEFAN","Here are just a few of our Facebook fans...");
 DEFINE("_HWDVIDS_SHIGARU_TWITTER","What are we tweeting ...");

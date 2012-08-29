@@ -352,11 +352,26 @@ class hwd_vs_javascript
 	function ajaxFunctionATF(){
 		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_addtofavourites&userid=".$my->id."&videoid=".$row->id; ?>";
 		var _elementToBlock = jQuery('#addremfav').parent();
-		shigaruAjax(_url,_elementToBlock);	
-		jQuery('#addremfav').fadeOut(1000, function () {
-		  jQuery('#addremfav').html('<?php echo $rff ?>');
-		  jQuery(this).fadeIn('slow');
-		  });
+		jQuery(_elementToBlock).block({message:'<div id="loadingMessage"></div>',css:{border:'none'}});
+		jQuery.ajax({ 
+                url: _url, 
+                cache: false, 
+                complete: function(data) { 
+					jQuery('#addremfav').fadeOut(1000, function () {
+					  jQuery('#addremfav').html('<?php echo $rff ?>');
+					  jQuery(this).fadeIn('slow');
+					  });
+                    jQuery(_elementToBlock).unblock(); 
+                    jQuery('#actionsresponse div').html(data.responseText);
+                    jQuery('#actionsresponse').fadeIn('slow');
+                    jQuery('#actionsresponse a').click(function(e){
+								jQuery('#actionsresponse').fadeOut();
+								e.preventDefault();
+								e.stopImmediatePropagation();
+						});
+                } 
+            }); 
+		
 	}
 	function ajaxFunctionRFF(){
 		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_removefromfavourites&userid=".$my->id."&videoid=".$row->id; ?>";
@@ -556,30 +571,23 @@ class hwd_vs_javascript
 	//Browser Support Code
 	jQuery(document).ready(function($){
 		jQuery('.reportvidbutton').click(function(){
-			
 			jQuery('.usermessages div a.close').parent().parent().fadeIn();
 			$.blockUI({ message: $('.usermessages'), css: { width: '455px' } }); 
 			});
 		$('.usermessages #yes').click(function() { 
-            // update the block message 
 			var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_reportvideo&userid=".$my->id."&videoid=".$row->id."&userid=".$my->id ?>";			
-            jQuery('.usermessages #flagquestionwrap').hide();
-            jQuery('.usermessages .loadingMessage').show();
             $.ajax({ 
                 url: _url, 
                 cache: false, 
                 complete: function(data) { 
-                    // unblock when remote call returns 
                     $.unblockUI(); 
-                    jQuery('#flagresponse').append(data.responseText);
-                    jQuery('#flagresponse').fadeIn('slow');
-                    jQuery('#flagresponse a').click(function(e){
-								jQuery('#flagresponse').fadeOut();
+                    jQuery('#actionsresponse div').html(data.responseText);
+                    jQuery('#actionsresponse').fadeIn('slow');
+                    jQuery('#actionsresponse a').click(function(e){
+								jQuery('#actionsresponse').fadeOut();
 								e.preventDefault();
 								e.stopImmediatePropagation();
 						});
-					jQuery('.usermessages #flagquestionwrap').show();	  
-                    jQuery('.usermessages .loadingMessage').hide();
                 } 
             }); 
         }); 
@@ -612,7 +620,7 @@ class hwd_vs_javascript
 	function ajaxFunctionRate(rate, id, rand){
 		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_rate&videoid="; ?>" + id + "<?php echo "&rating="; ?>" + rate;
 		var _elementToBlock = jQuery('#hwdvsrb'+rand).parent();
-		jQuery(_elementToBlock).block();
+		jQuery(_elementToBlock).block({message:'<div id="loadingMessage"></div>'});
 		jQuery.ajax({ 
                 url: _url, 
                 cache: false, 

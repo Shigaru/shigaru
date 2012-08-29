@@ -693,20 +693,20 @@ float: left;
 .googleCan{background: url("../../../modules/mod_socialmedialinks/icons/drink/size3/google.png") no-repeat scroll 0 0 transparent;}
 .boxwhite{background-color:#fff;border-radius: 5px 5px 5px 5px;box-shadow: 0 0 3px #AAAAAA; border: 1px solid #C1C1C1;color:#000;}
 .searchLabels{color:#827D7E; }
-.loadingMessage{
-	display:none;
-	background-image: url("/shigaru/templates/rhuk_milkyway/images/loading.gif");
+#infocontext div#ratingsnow div#loadingMessage{padding:12px;}
+#infocontext div#loadingMessage,div#loadingMessage{
+	background-image: url("/shigaru/templates/rhuk_milkyway/images/loading.gif") !important;
 	border:none;
 	background-color:transparent;
 	background-repeat:no-repeat;
 	background-position: 50% 50%;
-	padding:20px;
+	padding:12px;
 }
-#flagresponse{border: 1px solid #CCCCCC;
-    border-radius: 5px 5px 5px 5px;display:none;padding:19px 12px 12px;width: 60%;margin-bottom: -28px;cursor:default;}
-#flagresponse a{color: #000000;
+#actionsresponse{border: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;display:none;padding:10px 12px 12px;width: 60%;cursor:default;}
+#actionsresponse a{color: #000000;
     float: right;
-    margin: -20px -7px 12px 0;
+    margin: -13px -7px 12px 0;
     padding: 2px;text-decoration:none;}    
 .twtr-hyperlink{color:#000;}
 .twtr-hyperlink:hover{color:#fff;}

@@ -30,7 +30,22 @@
 				  <div class="padding clear"><center>{$videoplayer->player}</center></div>
 				  <div class="padding mtop24">
 					  
-						
+						<div class="videoactions"> 
+								<div class="fleft">{$videoplayer->reportmedia}</div>
+								<div class="fleft" id="addremfav">{$videoplayer->favourties}</div>
+								<div class="fleft">
+									<iframe id="ifgoogleplus" src="https://plusone.google.com/_/+1/fastbutton?url={$currentUrl}" frameborder="0" width="67" height="25"></iframe>
+								</div>
+								<div class="fleft">
+									<a href="https://twitter.com/share" class="twitter-share-button" data-lang="en"></a>
+									<script>{literal}!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");{/literal}</script>
+								</div>
+								<div class="fleft">
+									<div class="fb-like" data-href="{$currentUrl}" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false"></div>
+								</div>
+								<div class="clear">   </div> 
+								 <div id="actionsresponse"><a class="" title="Close this message" href="#">x</a><div></div></div>
+							</div>		
 						<div id="circle-mod" class="w20pc">
 						  <div id="container-circle">
 								{$videoplayer->socialbmlinks}
@@ -50,8 +65,7 @@
 							</div>
 						  </div>
 						  
-						   <div>{$videoplayer->reportmedia}</div>
-						  
+						   
 						</div>
 						<div class="fleft w70pc">  
 							<div class="mbot12">  
@@ -64,7 +78,7 @@
 						</div>
 						 <div class="clear">   </div>  
 				</div>
-			
+				
 				 
       </div>  
       
@@ -77,19 +91,9 @@
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}</span><br />{$videoplayer->language}</div>
 		  <div id="ratingsnow"><span>{$smarty.const._HWDVIDS_SELECT_RATING}</span><br />{$videoplayer->ratingsystem}</div>
 		  <div><span>{$smarty.const._HWDVIDS_INFO_NOCOMM}</span><br />{$videoplayer->commentsNum}</div>
-		  <!--<div>{$songPlayer}</div>-->
-			 <div id="currentlikes">
-			   <div class="">
-					<div class="fb-like" data-href="{$currentUrl}" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false"></div>
-				</div>	
-				<div class="">
-					<a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
-					<script>{literal}!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");{/literal}</script>
-				</div>
-				<div class="">
-					<iframe src="https://plusone.google.com/_/+1/fastbutton?url={$currentUrl}" frameborder="0" width="90" height="25"></iframe></div>
-				</div>	
-				
+		  <!--<div>{$songPlayer}</div>-->	
+		<div class="clear"><h5>{$smarty.const._HWDVIDS_SHIGARU_ADS}</h5>{$google_adsense}</div>
+		<div class="clear"><h5>{$smarty.const._HWDVIDS_SHIGARU_ADS}</h5>{$google_adsense}</div>			
 		</div>
 		
 	  </div> 
@@ -301,5 +305,4 @@
 		<h1>{$smarty.const._HWDVIDS_TITLE_REPORTTHISVIDEO}</h1> 
         <input type="button" class="reddbuttonsubmit" id="yes" value="{$smarty.const._HWDVIDS_BUTTON_GO}" /> 
 	</div>         
-	<div class="loadingMessage"><?php echo _HWDVIDS_INFO_PROCESSING ?></div>
 </div> 
