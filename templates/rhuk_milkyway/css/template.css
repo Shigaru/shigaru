@@ -702,6 +702,15 @@ float: left;
 	background-position: 50% 50%;
 	padding:12px;
 }
+table tr td.contentheading{font-size: 200%;margin-top:12px;
+padding: 20px;
+color: #909090;}
+table.contentpaneopen tbody tr td{
+	padding:12px;
+}
+table.contentpaneopen tbody tr td li{font-weight:bold;font-size:110%;padding:12px 0;}
+table.contentpaneopen tbody tr td .addtoany{
+	margin:30px;}
 #actionsresponse{border: 1px solid #CCCCCC;
     border-radius: 5px 5px 5px 5px;display:none;padding:10px 12px 12px;width: 60%;cursor:default;}
 #actionsresponse a{color: #000000;
