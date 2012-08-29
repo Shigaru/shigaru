@@ -231,7 +231,7 @@ function install(el, opts) {
 	
 	var lyr2 = opts.theme 
 	 	? jQuery('<div class="blockUI blockOverlay ui-widget-overlay" style="z-index:'+ (z++) +';display:none"></div>')
-	 	: jQuery('<div class="blockUI blockOverlay" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;width:100%;height:100%;top:0;left:0"></div>');
+	 	: jQuery('<div class="blockUI blockOverlay" style="z-index:'+ (z++) +';display:none;background: none repeat scroll 0 0 #000000;opacity: 0.8;border:none;margin:0;padding:0;width:100%;height:100%;top:0;left:0"></div>');
 
 	var lyr3, s;
 	if (opts.theme && full) {

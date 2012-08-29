@@ -2644,12 +2644,12 @@ $app = & JFactory::getApplication();
 			hwd_vs_javascript::ajaxreportmedia($row);
 
 			// setup ajax tags
-			if ($c->ajaxrepmeth == 1) { $ajaxrep = "onsubmit=\"ajaxFunctionRV();return false;\""; } else { $ajaxrep = null; }
+			$ajaxrep = "onsubmit=\"ajaxFunctionRV();return false;\"";
 
 			$code.= "<form name=\"report\" style=\"display: inline;\" ".$ajaxrep." action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
 					 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
 					 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
-					 <input type=\"image\" src=\"".URL_HWDVS_IMAGES."button_report.png\" alt=\""._HWDVIDS_DETAILS_FLAGVID."\" id=\"reportvidbutton\" />
+					 <input type=\"image\" src=\"".URL_HWDVS_IMAGES."button_report.png\" alt=\""._HWDVIDS_DETAILS_FLAGVID."\" id=\"reportvidbutton\" class=\"reportvidbutton\"/>
 					 </form>";
 		}
 		return $code;

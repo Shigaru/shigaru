@@ -295,8 +295,10 @@
 <div style="clear:both;"></div>
 </div>
 
-<div id="flagquestion" style="display:none; cursor: default"> 
-        <h1>Would you like to contine?.</h1> 
-        <input type="button" id="yes" value="Yes" /> 
-        <input type="button" id="no" value="No" /> 
+<div class="usermessages" style="display:none; cursor: default"> 
+	<div id="flagquestionwrap">         
+		<div><a id="no" class="close"></a></div>
+		<h1>{$smarty.const._HWDVIDS_TITLE_REPORTTHISVIDEO}</h1> 
+        <input type="button" class="reddbuttonsubmit" id="yes" value="{$smarty.const._HWDVIDS_BUTTON_GO}" /> 
+	</div>         
 </div> 

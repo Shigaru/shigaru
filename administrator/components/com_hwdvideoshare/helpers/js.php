@@ -554,27 +554,36 @@ class hwd_vs_javascript
 	?>
 	<script language='javascript' type='text/javascript'>
 	//Browser Support Code
-	function ajaxFunctionRV(){
-		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_reportvideo&userid=".$my->id."&videoid=".$row->id."&userid=".$my->id ?>";
-		$.blockUI({ message: $('#flagquestion'), css: { width: '275px' } }); 
-		$('#flagquestion #yes').click(function() { 
+	jQuery(document).ready(function($){
+		jQuery('.reportvidbutton').click(function(){
+			
+			jQuery('.usermessages div a.close').parent().parent().fadeIn();
+			$.blockUI({ message: $('.usermessages'), css: { width: '455px' } }); 
+			});
+		$('.usermessages #yes').click(function() { 
             // update the block message 
-            $.blockUI({ message: "<h1>Remote call in progress...</h1>" }); 
+            $.blockUI({ message: "<h1>Remote call in progress...</h1>",css: { 
+						width: '450px'} }); 
+			var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_reportvideo&userid=".$my->id."&videoid=".$row->id."&userid=".$my->id ?>";			
             $.ajax({ 
                 url: _url, 
                 cache: false, 
-                complete: function() { 
+                complete: function(data) { 
                     // unblock when remote call returns 
                     $.unblockUI(); 
-                    $.growlUI('Growl Notification', 'Have a nice day!'); 
+                    $.growlUI('Notification', data.responseText); 
                 } 
             }); 
         }); 
  
-        $('#flagquestion #no').click(function() { 
+        $('.usermessages #no').click(function() { 
             $.unblockUI(); 
             return false; 
-        });
+        });	
+	});
+	function ajaxFunctionRV(){
+		
+		return false;
 	}
 
 	//-->
