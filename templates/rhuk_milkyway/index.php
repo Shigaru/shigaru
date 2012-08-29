@@ -27,7 +27,36 @@ $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery.qtip.css" />
 <link href='http://fonts.googleapis.com/css?family=Ubuntu:light' rel='stylesheet' type='text/css'/>
+<?php
+$session = JSession::getInstance("none",array());
+$host = JURI::root();
+$ses=$session->getId();
 
+if(!function_exists("freichatx_get_hash")){
+function freichatx_get_hash($ses){
+
+       if(is_file("../../freichat/arg.php")){
+
+               require "../../freichat/arg.php";
+
+               $temp_id =  $ses . $uid;
+
+               return md5($temp_id);
+
+       }
+       else
+       {
+               echo "<script>alert('module freichatx says: arg.php file not
+found!');</script>";
+       }
+
+       return 0;
+}
+}
+?>
+                        <script type="text/javascript" language="javascipt"
+src="<?php echo $host; ?>freichat/client/main.php?id=<?php echo $ses;?>&xhash=<?php echo freichatx_get_hash($ses); ?>">
+</script>    <link rel="stylesheet" href="<?php echo $host; ?>freichat/client/jquery/freichat_themes/freichatcss.php" type="text/css">
 </head>
 <body id="page_bg">
 	<div id="fb-root"></div>
