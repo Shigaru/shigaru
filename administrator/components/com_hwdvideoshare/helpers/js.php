@@ -556,8 +556,25 @@ class hwd_vs_javascript
 	//Browser Support Code
 	function ajaxFunctionRV(){
 		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_reportvideo&userid=".$my->id."&videoid=".$row->id."&userid=".$my->id ?>";
-		var _elementToBlock = jQuery('#reportvidbutton').parent().parent().parent().parent();
-		shigaruAjax(_url,_elementToBlock,null,null,true);	
+		$.blockUI({ message: $('#flagquestion'), css: { width: '275px' } }); 
+		$('#flagquestion #yes').click(function() { 
+            // update the block message 
+            $.blockUI({ message: "<h1>Remote call in progress...</h1>" }); 
+            $.ajax({ 
+                url: _url, 
+                cache: false, 
+                complete: function() { 
+                    // unblock when remote call returns 
+                    $.unblockUI(); 
+                    $.growlUI('Growl Notification', 'Have a nice day!'); 
+                } 
+            }); 
+        }); 
+ 
+        $('#flagquestion #no').click(function() { 
+            $.unblockUI(); 
+            return false; 
+        });
 	}
 
 	//-->

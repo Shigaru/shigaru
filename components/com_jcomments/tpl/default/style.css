@@ -29,7 +29,7 @@
 #jc p.message {color: #777;background-color: inherit; background-image: none; text-align: center;text-decoration: none;text-transform: none;text-indent: 0;padding: 5px 0 0 0;border-top: 1px solid #D2DADB}
 
 #comments {margin: 0;padding: 0;width: 100%;text-align: left;text-decoration: none;text-transform: none;text-indent: 0}
-#comments a {color: #849B9F;background-color: inherit;font-weight: normal;text-decoration: none}
+/*#comments a {color: #849B9F;background-color: inherit;font-weight: normal;text-decoration: none}*/
 #comments a[rel*=external] {background: url(images/jc_link.gif) no-repeat center right;padding: 0 10px 0 0;margin: 0 2px}
 	
 /* RSS and Refresh*/
@@ -66,16 +66,15 @@
 		text-align:right}
 
 #comments .comment-anchor {
-	color: #D9D9D9;
+	color: red;
 	font-size:1.5em;
 	text-decoration: none; 
 	border: none; 
 	position:absolute;
 	left:5px; 
-	top:0px; 
+	top:0; 
 	background:none;}
-	#comments .comment-anchor:hover {
-		color:#999}
+	#comments .comment-anchor:hover {}
 		
 #comments .comment-author, 
 #comments .author-homepage {
@@ -91,13 +90,13 @@
 #comments .comment-title { color: #777; font: bold 1.2em Georgia, "Times New Roman", Times, serif;margin: 0;padding: 0;;}
 
 /* Avatar */
-#comments .comment-avatar img {width: 32px}
+#comments .comment-avatar img {width: 59px}
 
 /* Date and Time*/	
 #comments .comment-date {
 	color: #999;
 	margin: 0;
-	padding: 0;
+	padding: 15px;
 	display:block;
 	text-align:right;}
 #comments .comment-body {color: #777;margin: 6px 0 0;padding:0 0 2px}
@@ -216,13 +215,13 @@ body #jc #nav-bottom, body #jc #nav-top {line-height: 19px !important;line-heigh
 /* Vote */
 #jc span.comments-vote { 
 	position:absolute;
-	top:10px;
+	top:-12px;
 	right:10px;}
 #jc span.comments-vote a{width: 15px;height: 14px;float: left;margin: 0 3px 0 0;display: block;background-repeat: no-repeat;background-image: url(images/jc_vote.gif);border: none !important; text-decoration: none}
 #jc span.comments-vote .busy{margin: 0; float: right; width: 16px}
 #jc .vote-good{background-position: 0 0}
 #jc .vote-poor{background-position: -15px 0}
-#jc span.vote-good,#jc span.vote-poor,#jc span.vote-none{margin: 0;float: right;font: bold 1em Verdana, Arial, Sans-Serif;line-height: 14px}
+#jc span.vote-good,#jc span.vote-poor,#jc span.vote-none{margin: -8px 0 0 12px;float: right;font: bold 1em Verdana, Arial, Sans-Serif;line-height: 14px}
 #jc span.vote-good{color: #339900}
 #jc span.vote-poor{color: #CC0000}
 #jc span.vote-none{color: #A9A9A9}
@@ -253,8 +252,7 @@ body #jc #nav-bottom, body #jc #nav-top {line-height: 19px !important;line-heigh
 	position:relative;
 	overflow:hidden;
 	clear:both;
-	padding:10px 0 0;
-	background:#fff url(images/rbox.png) repeat-x top}
+	padding:10px 0 0;}
 	
 	
 	.rbox .rbox_left {

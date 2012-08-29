@@ -294,3 +294,9 @@
 </div>
 <div style="clear:both;"></div>
 </div>
+
+<div id="flagquestion" style="display:none; cursor: default"> 
+        <h1>Would you like to contine?.</h1> 
+        <input type="button" id="yes" value="Yes" /> 
+        <input type="button" id="no" value="No" /> 
+</div> 

@@ -11,8 +11,9 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
+$this->addScript($this->baseurl."/modules/mod_rokajaxsearch/js/rokajaxsearch.js");
 $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js");
+
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -34,29 +35,30 @@ $ses=$session->getId();
 
 if(!function_exists("freichatx_get_hash")){
 function freichatx_get_hash($ses){
+	
+	if ( defined( 'JPATH_SITE' ) ) {
+       if(is_file(JPATH_SITE.'/freichat/arg.php')){
 
-       if(is_file("../../freichat/arg.php")){
-
-               require "../../freichat/arg.php";
-
+               require JPATH_SITE.'/freichat/arg.php';
                $temp_id =  $ses . $uid;
 
                return md5($temp_id);
 
-       }
-       else
+       }else
        {
-               echo "<script>alert('module freichatx says: arg.php file not
-found!');</script>";
+               echo "<script>alert('module freichatx says: arg.php file not found!');</script>";
+       }
+       
+       }else
+       {
+               echo "<script>alert('module freichatx says: arg.php file not found!');</script>";
        }
 
        return 0;
 }
 }
 ?>
-                        <script type="text/javascript" language="javascipt"
-src="<?php echo $host; ?>freichat/client/main.php?id=<?php echo $ses;?>&xhash=<?php echo freichatx_get_hash($ses); ?>">
-</script>    <link rel="stylesheet" href="<?php echo $host; ?>freichat/client/jquery/freichat_themes/freichatcss.php" type="text/css">
+<link rel="stylesheet" href="<?php echo $host; ?>freichat/client/jquery/freichat_themes/freichatcss.php" type="text/css">
 </head>
 <body id="page_bg">
 	<div id="fb-root"></div>

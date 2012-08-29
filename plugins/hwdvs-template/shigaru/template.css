@@ -157,6 +157,12 @@
 			overflow-y:scroll;
 			overflow-x:hidden;
 		}
+		
+		.videoplayer .scoller {
+			height:450px;
+			overflow-y:scroll;
+			overflow-x:hidden;
+		}
 		#hwdvids .miniscoller {
 			height:200px !important;
 			overflow-y:hidden;

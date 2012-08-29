@@ -44,7 +44,7 @@ class modRokajaxsearchHelper {
 		}
 		
 		
-		$doc->addScript(JURI::root(true) ."/modules/mod_rokajaxsearch/js/rokajaxsearch".modRokajaxsearchHelper::_getJSVersion().".js");
+		//$doc->addScript(JURI::root(true) ."/modules/mod_rokajaxsearch/js/rokajaxsearch".modRokajaxsearchHelper::_getJSVersion().".js");
 		
 		/* RokAjaxSearch Init */
 		$websearch = ($params->get('websearch', 0)) ? 1 : 0;
@@ -85,7 +85,7 @@ class modRokajaxsearchHelper {
 					'showdescription': ".$params->get('show_description', 1)."
 				});
 			});";
-		$doc->addScriptDeclaration($ras_init);
+		//$doc->addScriptDeclaration($ras_init);
 		
 		
 		/* Google API */

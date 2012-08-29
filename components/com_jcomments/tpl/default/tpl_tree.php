@@ -128,7 +128,7 @@ class jtt_tpl_tree extends JoomlaTuneTemplate
 			$btnRSS = '<a class="rss" href="'.$link.'" title="'.JText::_('RSS').'" target="_blank">&nbsp;</a>';
 		}
 ?>
-<h4><?php echo JText::_('HEADER'); ?><?php echo $btnRSS; ?><?php echo $btnRefresh; ?></h4>
+<!--<h4><?php echo JText::_('HEADER'); ?><?php echo $btnRSS; ?><?php echo $btnRefresh; ?></h4>-->
 <?php
 	}
 

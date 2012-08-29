@@ -447,14 +447,14 @@ var RokAjaxSearch = new Class({
                 //console.log(q);
                 if (q.length > 0) {
                     
-								console.log(q.getElement('#viewvideotext a'));
+								//console.log(q.getElement('#viewvideotext a'));
                                 var b = q.getElement('#viewvideotext a')[0].getProperty('href');
                                 var c = new Element('div', {
                                     'class': this.rows[i % 2] + ' png'
                                 });
                                 var im = new Element('img').setProperty('src', q.getElement('.searchResultThumb img')[0].getProperty('src')).injectInside(c);
                                 var d = new Element('a').setProperty('href', b).injectInside(c);
-                                console.log(q.getElement('#videosearchtitle'));
+                                //console.log(q.getElement('#videosearchtitle'));
                                 var e = new Element('h3').setHTML(q.getElement('#videosearchtitle')[0].getText()).injectInside(d);
                                 this.els.push(c);
                                 c.addEvents({
@@ -832,3 +832,37 @@ var RokAjaxSearch = new Class({
     }
 });
 RokAjaxSearch.implement(new Options, new Events);
+window.addEvent((window.webkit) ? 'load' : 'domready', function() {
+				window.rokajaxsearch = new RokAjaxSearch({
+					'results': ' Results',
+					'close': '',
+					'websearch': 0,
+					'blogsearch': 0,
+					'imagesearch': 0,
+					'videosearch': 0,
+					'imagesize': 'MEDIUM',
+					'safesearch': 'MODERATE',
+					'search': ' Search...',
+					'readmore': ' Read more...',
+					'noresults': ' No results',
+					'advsearch': ' Advanced search',
+					'page': ' Page',
+					'page_of': ' of',
+					'searchlink': 'http://localhost/shigaru/index.php?option=com_search&amp;view=search',
+					'advsearchlink': 'http://localhost/shigaru/index.php?option=com_search&amp;view=search',
+					'uribase': 'http://localhost/shigaru/',
+					'limit': '10',
+					'perpage': '5',
+					'ordering': 'newest',
+					'phrase': 'any',
+					'hidedivs': '',
+					'includelink': 1,
+					'viewall': ' View all results',
+					'estimated': ' estimated',
+					'showestimated': 1,
+					'showpagination': 1,
+					'showcategory': 1,
+					'showreadmore': 1,
+					'showdescription': 1
+				});
+			});

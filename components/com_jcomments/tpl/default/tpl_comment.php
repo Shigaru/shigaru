@@ -39,7 +39,7 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
 					$this->getCommentVote( $comment );
 				}
 ?>
-<a class="comment-anchor" href="<?php echo $thisurl; ?>#comment-<?php echo $comment->id; ?>" id="comment-<?php echo $comment->id; ?>">#<?php echo $comment_number; ?></a>
+<span class="comment-anchor" id="comment-<?php echo $comment->id; ?>">#<?php echo $comment_number; ?></span>
 
 
 <div class="rbox_left">
@@ -50,7 +50,6 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
 				$thisurl = $this->getVar('thisurl', '');
 
 				$commentBoxIndentStyle = ($this->getVar('avatar') == 1) ? ' avatar-indent' : ''; ?>
-
 			
 <div class="comment-box<?php echo $commentBoxIndentStyle; ?>">
 
@@ -78,7 +77,6 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
 <?php
 				}
 ?>
-<span class="comment-date"><?php echo JCommentsText::formatDate($comment->datetime, JText::_('DATE_FORMAT_LC3')); ?></span>
 
 
 </div>
@@ -100,6 +98,7 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
 				if (($this->getVar('button-reply') == 1)
 				|| ($this->getVar('button-quote') == 1)) {
 ?>
+<span class="comment-date"><?php echo JCommentsText::formatDate($comment->datetime, JText::_('DATE_FORMAT_LC3')); ?></span>
 
 </div>
 
