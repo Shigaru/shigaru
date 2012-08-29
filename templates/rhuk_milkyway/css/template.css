@@ -695,7 +695,7 @@ float: left;
 .searchLabels{color:#827D7E; }
 #infocontext div#ratingsnow div#loadingMessage{padding:12px;}
 #infocontext div#loadingMessage,div#loadingMessage{
-	background-image: url("/shigaru/templates/rhuk_milkyway/images/loading.gif") !important;
+	background-image: url("../images/loading.gif") !important;
 	border:none;
 	background-color:transparent;
 	background-repeat:no-repeat;

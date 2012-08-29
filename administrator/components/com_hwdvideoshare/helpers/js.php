@@ -385,7 +385,7 @@ class hwd_vs_javascript
 					  jQuery('#addremfav').html('<?php echo $atf ?>');
 					  jQuery(this).fadeIn('slow');
 					  });
-                    //jQuery(_elementToBlock).unblock(); 
+                    jQuery(_elementToBlock).unblock(); 
                     jQuery('#actionsresponse div').html(data.responseText);
                     jQuery('#actionsresponse').fadeIn('slow');
                     jQuery('#actionsresponse a').click(function(e){
