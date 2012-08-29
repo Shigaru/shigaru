@@ -20,7 +20,7 @@ class Joomla extends driver_base {
                                     AND j.client_id=0  LIMIT 1";
 
             $res_obj = $this->db->query($query);
-
+//echo $query;
             $res = $res_obj->fetchAll();
 
             if ($res == null) {
@@ -61,8 +61,8 @@ class Joomla extends driver_base {
 
 //------------------------------------------------------------------------------ 
     public function load_driver() {
-
         define("DBprefix", $this->db_prefix);
+
         $session_id = $this->options['id'];
         $custom_mesg = $this->options['custom_mesg'];
         $first = $this->options['first'];

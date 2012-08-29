@@ -1,10 +1,10 @@
-<script type="text/javascript" src="../client/jquery/js/jquery.1.6.js"></script>
+<!---<script type="text/javascript" src="../client/jquery/js/jquery.1.7.1.js"></script>
 
 <script type="text/javascript" src="../client/jquery/js/jquery-ui.js"></script>
 
 
 <link rel="stylesheet" href="../client/jquery/js/jquery-ui.css">
-
+--->
 
 <script> 
     function helpme2()

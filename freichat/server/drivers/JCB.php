@@ -61,6 +61,11 @@ class JCB extends driver_base {
     }
 
 //------------------------------------------------------------------------------
+    public function linkprofile_url($params) {
+        return "<span id = 'freichat_profile_link_" . $params['id'] . "'  class='freichat_linkprofile_s'><a href='" . $params['path'] . "index.php?option=com_comprofiler&task=userprofile&user=" . $params['id'] . "'> <img title = '" . $this->frei_trans['profilelink'] . "' class ='freichat_linkprofile' src='" . $params['img'] . "' alt='view' /></a></span>";
+    }
+
+//------------------------------------------------------------------------------
     public function getList() {
 
         $user_list = null;
@@ -81,9 +86,10 @@ class JCB extends driver_base {
     public function get_guests() {
 
         $query = "
-        SELECT DISTINCT f.status_mesg,j.avatar,f.username,f.session_id,f.status,f.guest
+        SELECT DISTINCT f.status_mesg,j.avatar,f.username,f.session_id,f.status,f.guest,u.username AS profile_iden
         FROM frei_session AS f
         LEFT JOIN " . DBprefix . "comprofiler AS j ON j.id=f.session_id
+        LEFT JOIN " . DBprefix . "users AS u ON u.id=f.session_id
            
         WHERE 
             f.time>" . $this->online_time2 . "
@@ -99,9 +105,11 @@ class JCB extends driver_base {
     public function get_users() {
 
         $query = "
-        SELECT DISTINCT f.status_mesg,f.username,f.session_id,f.status,f.guest,j.avatar
+        SELECT DISTINCT f.status_mesg,f.username,f.session_id,f.status,f.guest,j.avatar,u.username AS profile_iden
         FROM frei_session AS f
         LEFT JOIN " . DBprefix . "comprofiler AS j ON j.id=f.session_id
+        LEFT JOIN " . DBprefix . "users AS u ON u.id=f.session_id
+
             
         WHERE 
             f.time>" . $this->online_time2 . "
@@ -119,11 +127,13 @@ class JCB extends driver_base {
     //------------------------------------------------------------------------------
     public function get_buddies() {
 
-        $query = "SELECT DISTINCT f.status_mesg,f.username,f.session_id,f.status,f.guest,j.avatar
+        $query = "SELECT DISTINCT f.status_mesg,f.username,f.session_id,f.status,f.guest,j.avatar,u.username AS profile_iden
                     FROM " . DBprefix . "comprofiler_members AS m
                     LEFT JOIN frei_session AS f ON m.memberid = f.session_id
                     LEFT JOIN " . DBprefix . "comprofiler AS j ON j.id = f.session_id
                     INNER JOIN " . DBprefix . "comprofiler_members AS d ON d.memberid = m.referenceid
+                    LEFT JOIN " . DBprefix . "users AS u ON u.id=f.session_id
+
 
                     WHERE                    
                         f.time>" . $this->online_time2 . "

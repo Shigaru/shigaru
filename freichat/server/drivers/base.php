@@ -20,6 +20,11 @@ class driver_base {
     public $options;            //All the options passed by freichat.php
     public $driver;             //current driver name
     public $to_freichat_path;   //Path to freichat folder inside CMS dir
+    public $long_polling;       //long polling method 
+    // Custom driver variables 
+    public $usertable;
+    public $row_username;
+    public $row_userid;
 
     public function __construct() {
         
@@ -69,7 +74,7 @@ class driver_base {
 
 //------------------------------------------------------------------------------
     public function deleteFreiChatXdb() {
-        if ($_SESSION[$this->uid . 'isset_freichatx'] > 30) {
+        if ($_SESSION[$this->uid . 'isset_freichatx'] > 30 || ($this->long_polling == true && $this->options['first'] != 'false')) {
             $offline_time = $this->time_string - 300;
             $query = "DELETE FROM frei_session WHERE time<" . $offline_time;
             $this->db->query($query);

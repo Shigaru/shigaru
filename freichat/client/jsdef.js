@@ -9,9 +9,12 @@ freidefines = {
         reidfrom:'<?php echo $id; ?>',
         getid:'<?php echo $_GET["id"]; ?>',
         fromname:'<?php echo $pfromname; ?>',
-        custom_mesg:'<?php echo $custom_mesg; ?>'            
+        custom_mesg:'<?php echo $custom_mesg; ?>',
+        time:'<?php echo time(); ?>',
+        referer:'<?php echo base64_encode($_SERVER["HTTP_REFERER"]); ?>',
+        rtl:'<?php echo $_SESSION[$uid."rtl"]; ?>'
     },
-    
+   
     // SET => GENERAL   SETTINGS 
     SET : {
         theme:'<?php echo $color; ?>',
@@ -20,10 +23,7 @@ freidefines = {
         draggable:'<?php echo $draggable; ?>',
         fxval:'<?php echo $fxval; ?>', //Jquery Effects
         mesgSendSpeed:'<?php echo $msgSendSpeed; ?>'
-    },
-    
-    
-    
+    },  
     
     STATUS : {
         
@@ -43,10 +43,15 @@ freidefines = {
     },
     
  
+    TRANS : {
+        chat_message_me:'<?php echo $frei_trans["chat_message_me"]; ?>',
+        chat_status:'<?php echo $frei_trans["chat_status"]; ?>',
+        rtl:'<?php echo $frei_trans["rtl"]; ?> '
+    },
     
     
-    
-    
+    rtlimg_enabled:'<?php echo $rtlimg_enabled; ?>',
+    rtlimg_disabled:'<?php echo $rtlimg_disabled; ?>',
     gchatimg:'<?php echo $gchatimg; ?>',
     mailimg: '<?php echo $mailimg; ?>',
     saveimg: '<?php echo $saveimg; ?>',
@@ -72,11 +77,29 @@ freidefines = {
     toolimg:'<?php echo $toolimg; ?>',
     chatroomimg:'<?php echo $chatroomimg; ?>',
     jquery_theme:'<?php echo $jquery_theme; ?>',
-    fnopermsht:36,     //Height When user has no permissions
-    fnoonlineht:18,   //Height When No one is online
-    fonlineht:65,    //Height When one user online
-    fmaxht:90,      //Height when more than one user
+    fnopermsht:'<?php echo $fnopermsht; ?>',     //Height When user has no permissions
+    fnoonlineht:'<?php echo $fnoonlineht; ?>',   //Height When No one is online
+    fone_onlineht:'<?php echo $fone_onlineht; ?>',    //Height When one user online
+    fmaxht:'<?php echo $fmaxht; ?>',      //Height when more than one user
 
+    smiley_smileimg:'<?php echo $smiley_smileimg; ?>',
+    smiley_cryimg:'<?php echo $smiley_cryimg; ?>',
+    smiley_coolimg:'<?php echo $smiley_coolimg; ?>',
+    smiley_sadimg:'<?php echo $smiley_sadimg; ?>',
+    smiley_laughingimg:'<?php echo $smiley_laughingimg; ?>',
+    smiley_cheerfulimg:'<?php echo $smiley_cheerfulimg; ?>',
+    smiley_winkimg:'<?php echo $smiley_winkimg; ?>',
+    smiley_tongueimg:'<?php echo $smiley_tongueimg; ?>',
+    smiley_angryimg:'<?php echo $smiley_angryimg; ?>',
+    smiley_unsureimg:'<?php echo $smiley_unsureimg; ?>',
+    smiley_shockedimg:'<?php echo $smiley_shockedimg; ?>',
+    smiley_wassatimg:'<?php echo $smiley_wassatimg; ?>',
+    smiley_ermmimg:'<?php echo $smiley_ermmimg; ?>',
+    smiley_grinimg:'<?php echo $smiley_grinimg; ?>',
+    smiley_sillyimg:'<?php echo $smiley_sillyimg; ?>',
+    smiley_w00timg:'<?php echo $smiley_w00timg; ?>',
+    thememaker:false,
+ 
     chatHistoryDeleted:'<?php echo $frei_trans["chatHistoryDeleted"]; ?>',
     chatHistoryNotFound:'<?php echo $frei_trans["chatHistoryNotFound"]; ?>',
     cb_head:'<?php echo $frei_trans["cb_head"]; ?>',
@@ -109,16 +132,16 @@ freidefines = {
     set_custom_mesg:'<?php echo $frei_trans["set_custom_mesg"]; ?>',
     chat_room_title: '<?php echo $frei_trans["chat_room_title"]; ?>',
 
-  PLUGINS : {
+    PLUGINS : {
       
-    show_file_send:'<?php echo $show_file_sending_plugin; ?>',
-    showtranslate:'<?php echo $show_translate_plugin; ?>',
-    showsmiley:'<?php echo $show_smiley_plugin; ?>',
-    showsave:'<?php echo $show_save_plugin; ?>',
-    showmail:'<?php echo $show_mail_plugin; ?>',
-    showchatroom:'<?php echo $show_chatroom_plugin; ?>',
-    showvideochat:'<?php echo $show_videochat_plugin; ?>'
-  },  
+        show_file_send:'<?php echo $show_file_sending_plugin; ?>',
+        showtranslate:'<?php echo $show_translate_plugin; ?>',
+        showsmiley:'<?php echo $show_smiley_plugin; ?>',
+        showsave:'<?php echo $show_save_plugin; ?>',
+        showmail:'<?php echo $show_mail_plugin; ?>',
+        showchatroom:'<?php echo $show_chatroom_plugin; ?>',
+        showvideochat:'<?php echo $show_videochat_plugin; ?>'
+    },  
 
 
 
@@ -170,23 +193,23 @@ function Get_Cookie(check_name){
     for(i=0;i<a_all_cookies.length;i++)
 
     {
-        a_temp_cookie=a_all_cookies[i].split('=');
-        cookie_name=a_temp_cookie[0].replace(/^\s+|\s+$/g,'');
-        if(cookie_name==check_name)
-
-        {
-            b_cookie_found=true;
-            if(a_temp_cookie.length>1)
+            a_temp_cookie=a_all_cookies[i].split('=');
+            cookie_name=a_temp_cookie[0].replace(/^\s+|\s+$/g,'');
+            if(cookie_name==check_name)
 
             {
-                cookie_value=unescape(a_temp_cookie[1].replace(/^\s+|\s+$/g,''));
+                b_cookie_found=true;
+                if(a_temp_cookie.length>1)
+
+                {
+                    cookie_value=unescape(a_temp_cookie[1].replace(/^\s+|\s+$/g,''));
+                }
+                return cookie_value;
+                break;
             }
-            return cookie_value;
-            break;
+            a_temp_cookie=null;
+            cookie_name='';
         }
-        a_temp_cookie=null;
-        cookie_name='';
-    }
     if(!b_cookie_found)
     {
         return null;
@@ -212,3 +235,72 @@ function Delete_Cookie(name,path,domain){
         ((path)?";path="+path:"")+
         ((domain)?";domain="+domain:"")+";expires=Thu, 01-Jan-1970 00:00:01 GMT";
 }
+
+
+
+
+
+
+/* THE main FreiChatX INIT part */
+
+
+
+
+var X_init = false;
+if(FreiChat)
+{
+    X_init = true;
+}
+
+var FreiChat = {
+    oldtitle:document.title,
+    loop:0,
+    last_chatroom_msg_id:null,
+    last_chatroom_usr_id:null,
+    last_chatroom_msg_type:[], //[BUBBLE !!]TRUE ->RIGHT FALSE ->LEFT
+    ses_status:freidefines.GEN.ses_status,
+    time:0,
+    chatroom_mesg_time:0,
+    freistatus:null,
+    ostatus:null,
+    box_count:0,
+    box_crt:[],
+    box_crt_id:[],
+    room_array:[],
+    windowFocus:false,
+    debug:freidefines.JSdebug, //Set to true to debug with firebug , set to false(default) when over
+    cnt:0,
+    inact_time:0,      //initial Inactivity time
+    busy_timeOut:freidefines.busy_timeOut,  // In seconds
+    offline_timeOut:freidefines.offline_timeOut, //In seconds
+    inactive:false,  //initially not inactive
+    onloadActive:false,
+    clrchtids:[],
+    bulkmesg:[],
+    isOlduser:null,
+    load_chatroom_complete:false,
+    //Ttext:null,
+    temporary_status:0,
+    unique:0,
+    timer:null,
+    change_titletimer:null,
+    first:false,
+    RequestCompleted_get_members:true,
+    RequestCompleted_send_messages:true,
+    RequestCompleted_isset_mesg:true,
+    SendMesgTimeOut:0,
+    passBYpost:false,
+    custom_mesg:'i am null',
+    in_room:-1,
+    chatroom_users : [],
+    title: 'General Talk',
+    bulkmesg_chatroom:[],
+    height:20,
+    chatroom_changed:false,
+    first_message:true,
+    last_chatmessage_usr_id:[],
+    msg_access:true,
+    long_poll:'true',
+    chatroom_written : [false,false,false,false,false,false]
+ 
+};

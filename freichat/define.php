@@ -21,22 +21,25 @@ class freichatXconstruct {
         $this->css = $this->freichat_theme; //background color
         $this->color = $this->css; //colour for chatbuttons
         $this->lang = $lang; //Language please do not include .php here only file name
-        $this->time = $time;
+        //$this->time = $time;
 
         //CHATROOM
 
         $this->show_chatroom_plugin = $show_chatroom_plugin;
 
+        //long polling
+        $this->long_polling = $long_polling;
+        $this->poll_time = $poll_time;
+        $this->chatspeed = $chatspeed;
+        
+        //link profile
+        $this->linkprofile = $linkprofile;
         //DEFINES CUSTOM DRIVER
-        $this->freiuse = $freiuse;
-
-        $this->ses_username = $ses_username;
-        $this->ses_userid = $ses_userid;
-        $this->default_ses = $default_ses;
-
         $this->usertable = $usertable;
         $this->row_username = $row_username;
         $this->row_userid = $row_userid;
+        $this->avatar_field_name = $avatar_field_name;
+
         //DEFINES DB
         $this->con = $con;
         $this->username = $username;
@@ -79,6 +82,8 @@ class freichatXconstruct {
 
         $this->freichat_debug("connected to database successfully");
         $this->db->exec("SET CHARACTER SET utf8");
+		$this->db->exec("SET NAMES utf8");
+        return $this->db;
     }
 
 //------------------------------------------------------------------------------------------------

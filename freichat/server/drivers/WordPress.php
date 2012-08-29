@@ -25,10 +25,10 @@ class WordPress extends driver_base {
                 if ($res == null) {
                     $this->freichat_debug("Incorrect Query :  " . $query . ", check parameters");
                 }
-
+//var_dump($res);
                 foreach ($res as $result) {
-                    if (isset($result['name'])) { //To avoid undefined index error. Because empty results were shown sometimes
-                        $_SESSION[$this->uid . 'usr_name'] = $result['name'];
+                    if (isset($result['user_login'])) { //To avoid undefined index error. Because empty results were shown sometimes
+                        $_SESSION[$this->uid . 'usr_name'] = $result['user_login'];
                         $_SESSION[$this->uid . 'usr_ses_id'] = $session_id;
                     }
                 }

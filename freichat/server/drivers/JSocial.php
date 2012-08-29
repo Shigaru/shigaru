@@ -49,7 +49,10 @@ class JSocial extends driver_base {
     public function avatar_url($avatar) {
         return $avatar;
     }
-
+//------------------------------------------------------------------------------
+    public function linkprofile_url($params) {
+        return "<span id = 'freichat_profile_link_".$params['id']."'  class='freichat_linkprofile_s'><a href='".$params['path']."index.php?option=com_community&view=profile&userid=".$params['id']."'> <img title = '".$this->frei_trans['profilelink']."' class ='freichat_linkprofile' src='" . $params['img'] . "' alt='view' /></a></span>";
+    }
 //------------------------------------------------------------------------------
     public function getList() {
 
@@ -70,7 +73,7 @@ class JSocial extends driver_base {
 //------------------------------------------------------------------------------   
     public function get_guests() {
 
-        $query = "SELECT DISTINCT u.avatar,f.status_mesg,f.username,f.session_id,f.status,f.guest
+        $query = "SELECT DISTINCT u.avatar,f.status_mesg,f.username,f.session_id,f.status,f.guest,u.alias AS profile_iden
                                FROM frei_session AS f
                                LEFT JOIN " . DBprefix . "community_users AS u ON f.session_id=u.userid
                               WHERE time>" . $this->online_time2 . "

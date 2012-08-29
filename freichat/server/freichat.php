@@ -177,7 +177,7 @@ class freichatX extends freichatXconstruct {
     }
 
 //-------------------------------------------------------
-    public function json_encode($a=false) {
+    public function json_encode($a = false) {
         if (!function_exists('json_encode')) {
             if (is_null($a))
                 return 'null';
@@ -251,7 +251,7 @@ class freichatX extends freichatXconstruct {
 
 //----------------------------------------------------------------------
 //-------------CHATROOM RELATED CODE---------------//
-//---------------------------------------------------------------------   
+//---------------------------------------------------------------------
 //-------------------------------------------------------------------
     public function load_chatroom() {
 
@@ -264,10 +264,14 @@ class freichatX extends freichatXconstruct {
 
         $query2 = "SELECT  r.room_name,r.id as room_id,count(s.id) as online_count
                 FROM frei_rooms as r
-                LEFT   join  frei_session as s 
+                LEFT   join  frei_session as s
                 on r.id=s.in_room
-                AND time>" . $this->online_time2 . " 
-                Group BY r.id";
+                AND time>" . $this->online_time2 . "
+                Group BY r.id ORDER BY r.room_order";
+
+
+        $query = "UPDATE frei_session set in_room = " . $active_room . " WHERE permanent_id=" . $_SESSION[$this->uid . 'gst_ses_id'];
+        $this->db->query($query);
 
         $options = array(
             "id" => $_GET['id'],
@@ -281,14 +285,14 @@ class freichatX extends freichatXconstruct {
 
         $curr_time = $_GET['time'];
 
-        $rooms = $this->db->query($query2)->fetchAll();
+
         $users = $this->get_chatroom_users($active_room);
         $messages = $this->get_chatroom_messages($active_room, 'multi', $chatroom_mesg_time);
-
+        $rooms = $this->db->query($query2)->fetchAll();
         $get_mesg = $this->get_messages($_GET['time']);
         $last_mesg_time = $this->get_last_message_time($get_mesg, $curr_time);
         $chatroom_mesg_time = $this->get_last_message_time($this->chatroom_raw_mesgs, $chatroom_mesg_time);
-        $this->delete_messages();
+      //  $this->delete_messages();
         $this->update_messages($active_room);
 
 
@@ -303,6 +307,7 @@ class freichatX extends freichatXconstruct {
 // $freichat->username = $usr_name;
 //$freichat->message = $messages;
 
+        //echo $_SESSION[$this->uid . "in_room"];
         echo json_encode($freichat);
     }
 
@@ -316,7 +321,7 @@ class freichatX extends freichatXconstruct {
 
         foreach ($users as $user) {
             $userdiv .= '<div id="frei_userlist" class="frei_userlist" onmouseover="$jn(this).addClass(\'frei_userlist_onhover\');" onmouseout="$jn(this).removeClass(\'frei_userlist_onhover\');"><span class="freichat_userscontentname">' . $user['username'] . '</span></div>';
-        }
+        }//echo $query;
         return $userdiv;
     }
 
@@ -325,22 +330,26 @@ class freichatX extends freichatXconstruct {
 
         $frm_id = $this->frm_id;
 
-        if ($all == 'multi') {
-            $get_mesg_query = "SELECT DISTINCT * FROM frei_chat WHERE room_id=" . $active_room . "  ORDER BY sent LIMIT 50";
-            //echo $get_mesg_query;
-        } else if ($all === 'single') {//echo "SINGLE??";
-            $get_mesg_query = "SELECT DISTINCT * FROM frei_chat WHERE room_id=" . $active_room . " AND time> " . $time . " ORDER BY sent LIMIT 50";
-        } else {
-            $get_mesg_query = "SELECT DISTINCT * FROM frei_chat WHERE room_id=0 ORDER BY sent LIMIT 50";
+        if ($active_room == -1) {
+            $active_room = 0;
         }
 
-        $this->chatroom_raw_mesgs = $result = $this->db->query($get_mesg_query)->fetchAll();
-        // var_dump($result);
-        return $result;
-    }
+        if ($all == 'multi') {
+            $get_mesg_query = "SELECT DISTINCT * FROM frei_chat WHERE room_id=" . $active_room . " AND message_type=1 ORDER BY sent DESC LIMIT 50";
+            //echo $get_mesg_query;
+        } else if ($all === 'single') {
+            $get_mesg_query = "SELECT DISTINCT * FROM frei_chat AS f  WHERE f.from != " . $frm_id . " AND f.room_id=" . $active_room . " AND f.time> " . $time . "  AND f.message_type=1 ORDER BY sent DESC";
+        } else {
+            $get_mesg_query = "SELECT DISTINCT * FROM frei_chat WHERE room_id=1 AND message_type=1 ORDER BY sent DESC LIMIT 50";
+        }
+//echo $get_mesg_query;
 
+        $this->chatroom_raw_mesgs = array_reverse($this->db->query($get_mesg_query)->fetchAll());
+//var_dump($this->chatroom_raw_mesgs);
+        return $this->chatroom_raw_mesgs;
+    }
 //----------------------------------------------------------------------
-    public function delete_messages() {
+  /*  public function delete_messages() {
         if (isset($_SESSION[$this->uid . 'delay'])) {
             if ($_SESSION[$this->uid . 'delay'] > 50) {
                 $_SESSION[$this->uid . 'delay'] = 0;
@@ -354,11 +363,11 @@ class freichatX extends freichatXconstruct {
             $_SESSION[$this->uid . 'delay'] = 0;
         }
     }
-
+*/
 //----------------------------------------------------------------------
     public function update_messages($active_room) {
-//  $update_mesg_query = "UPDATE frei_chat set recd = 1 WHERE (frei_chat.to = " . $this->frm_id . " || room_id=" . $active_room . ") and recd = 0";
-//  $this->db->query($update_mesg_query);
+        $update_mesg_query = "UPDATE frei_chat set recd = 1 WHERE (frei_chat.to = " . $this->frm_id . " || room_id=" . $active_room . ") and recd = 0";
+        $this->db->query($update_mesg_query);
     }
 
 //----------------------------------------------------------------------
@@ -377,8 +386,9 @@ class freichatX extends freichatXconstruct {
         }
 
         //var_dump($end_mesg);
-		$time = time() . str_replace(" ", "", microtime());
+
         if ($time == 0) {
+            $time = time() . str_replace(" ", "", microtime());
             return $time;
         }
         return $time;
@@ -412,6 +422,11 @@ class freichatX extends freichatXconstruct {
         $sessions->url = $this->url;
         $sessions->driver = $this->driver;
         $sessions->to_freichat_path = $this->to_freichat_path;
+        $sessions->long_polling = $this->long_polling;
+
+        $sessions->row_username = $this->row_username;
+        $sessions->row_userid = $this->row_userid;
+        $sessions->usertable = $this->usertable;
 
         return $sessions;
     }
@@ -425,7 +440,7 @@ class freichatX extends freichatXconstruct {
         if ($time == 0) {
 //$get_mesg_query = "SELECT DISTINCT * FROM frei_chat WHERE frei_chat.to=" . $frm_id . "AND time<2 ORDER BY sent";
         } else {
-            $get_mesg_query = "SELECT * FROM frei_chat WHERE frei_chat.to=" . $frm_id . " AND time>" . $time . " ORDER BY sent";
+            $get_mesg_query = "SELECT * FROM frei_chat WHERE frei_chat.to=" . $frm_id . " AND time>" . $time . " AND frei_chat.message_type=0 ORDER BY sent ";
             $result = $this->db->query($get_mesg_query)->fetchAll();
         }
 
@@ -435,6 +450,7 @@ class freichatX extends freichatXconstruct {
 
 //----------------------------------------------------------------------
     public function get_members() {
+
         $freichat = new freichat();
 
         $onlcnt = 0;
@@ -462,7 +478,7 @@ class freichatX extends freichatXconstruct {
             $_SESSION[$this->uid . 'custom_mesg'] = $this->frei_trans['default_status'];
         }
 
-        $custom_mesg = htmlentities($_GET['custom_mesg'], ENT_QUOTES);
+        $custom_mesg = htmlentities($_GET['custom_mesg'], ENT_QUOTES, "UTF-8");
 
         if ($_GET['custom_mesg'] != 'i am null') {
             $_SESSION[$this->uid . 'custom_mesg'] = $custom_mesg;
@@ -481,20 +497,41 @@ class freichatX extends freichatXconstruct {
         $object = $this->call_driver($options);
         $result = $object->load_driver();
         //var_dump($result);
+        $profile_text = '';
+        $profile_img = $this->url . 'client/jquery/freichat_themes/' . $this->color . '/profilelink.png';
+        $path = str_replace($this->to_freichat_path, "", $this->url);
+
+
 
         foreach ($result as $res) {
 
             $guest = $res['username'];
             $guest = strlen($guest) > 30 ? $this->msubstr($guest, 0, 16) . "..." : $guest;
-
             $img_url = $this->get_statusimg_url($res['status']);
+
+
+
+
+            if ($this->linkprofile != 'disabled' && isset($res['profile_iden']) && $_SESSION[$this->uid . "is_guest"] == 0) {
+
+                $iden = str_replace(":", "-", $res['profile_iden']);
+                $params = array(
+                    'id' => $res['session_id'],
+                    'iden' => $iden,
+                    'path' => $path,
+                    'img' => $profile_img
+                );
+                $profile_text = $object->linkprofile_url($params);
+                $guest = strlen($guest) > 18 ? $this->msubstr($guest, 0, 12) . "..." : $guest;
+            }
+
 
             $avatar_url = "http://www.gravatar.com/avatar/" . md5($guest) . "?s=24&d=wavatar"; //$this->url . "/client/jquery/user.jpeg";
 
-            if (isset($res['avatar'])) {
+            if (isset($res[$this->avatar_field_name])) {
 
-                if ($res['avatar'] != null || $res['avatar'] != "") {
-                    $avatar_url = $object->avatar_url($res['avatar']);
+                if ($res['avatar'] != null || $res[$this->avatar_field_name] != "") {
+                    $avatar_url = $object->avatar_url($res[$this->avatar_field_name]);
                 } else {
                     $avatar_url = "http://www.gravatar.com/avatar/" . md5($guest) . "?s=24&d=wavatar";
                 }
@@ -505,12 +542,12 @@ class freichatX extends freichatXconstruct {
 // $text.="<span  onmousedown=\"FreiChat.createChatBoxmesg('" . $guest . "','" . $res['session_id'] . "')\"><a title='" . $res['status_mesg'] . "' class=\"online-usr-list\" href='javascript:void(0)'><span style='display:" . $this->show_avatar . "'><img src='" . $avatar_url . "' height='22' width='22' alt='avatar' align='left'/></span>&nbsp;<img style='padding:4px;'src='" . $img_url . "' height='12' width='12' alt='status' align='right'/>" . (strlen($guest) > 13 ? $this->msubstr($guest, 0, 10) . "..." : $guest) . "</a></span><hr style='margin-top:5px;margin-bottom:5px;color:black'/>";
 
 
-            $text.="<div title='" . $res['status_mesg'] . "'  onmousedown=\"FreiChat.createChatBoxmesg('" . $guest . "','" . $res['session_id'] . "')\" class=\"freichat_userlist\" onmouseover=\"\$jn(this).addClass('freichat_userlist_hover');\" onmouseout=\"\$jn(this).removeClass('freichat_userlist_hover');\">
+            $text.="<div id='freichat_user_" . $res['session_id'] . "' title='" . $res['status_mesg'] . "'  onmousedown=\"FreiChat.createChatBoxmesg('" . $guest . "','" . $res['session_id'] . "')\" class=\"freichat_userlist\" onmouseover='FreiChat.show_profilelink(" . $res['session_id'] . ")' onmouseout='FreiChat.hide_profilelink(" . $res['session_id'] . ")'>
   <span >
 <span style='display:" . $this->show_avatar . "' class='freichat_userscontentavatar'><img src='" . $avatar_url . "' height='22' width='22' alt='avatar' align='left' class='freichat_userscontentavatarimage'/></span>
   </span>
   <span class=\"freichat_userscontentname\">" . (strlen($guest) > 20 ? $this->msubstr($guest, 0, 10) . "..." : $guest) . "</span>
-  <span >&nbsp;<img style='padding-top:3px; padding-right:4px;' src='" . $img_url . "' height='12' width='12' alt='status'  align='right'/></span>
+  <span >&nbsp;<img class ='freichat_userscontentstatus' style='padding-top:4px; padding-right:4px;' src='" . $img_url . "' height='12' width='12' alt='status' /></span>" . $profile_text . "
 </div>";
             $onlcnt++;
             $freichat->user_array[] = $guest;
@@ -521,14 +558,8 @@ class freichatX extends freichatXconstruct {
 
         $frm_id = $this->frm_id;
 
-        $curr_time = $_GET['time'];
-        $chatroom_mesg_time = $_GET['chatroom_mesg_time'];
 
-        $get_mesg = $this->get_messages($curr_time);
-        $this->delete_messages();
-        $this->update_messages($active_room);
-
-// $active_room = $_SESSION[$this->uid . 'in_room'];
+        $active_room = $_SESSION[$this->uid . 'in_room'];
 
 
         if ($this->show_chatroom_plugin == 'enabled') {
@@ -536,48 +567,113 @@ class freichatX extends freichatXconstruct {
 
             $query2 = "SELECT  r.room_name,r.id as room_id,count(s.id) as online_count
                 FROM frei_rooms as r
-                LEFT   join  frei_session as s 
+                LEFT   join  frei_session as s
                 on r.id=s.in_room
-                Group BY r.id";
-
+                
+                Group BY r.id ORDER BY r.room_order";
+//echo $query2;
             $users = $this->get_chatroom_users($active_room);
-            if ($first == 'false') {
-                $messages = $this->get_chatroom_messages($active_room, 'default', $chatroom_mesg_time);
-            } else {
-                $messages = $this->get_chatroom_messages($active_room, 'single', $chatroom_mesg_time);
-            }
+
             $rooms = $this->db->query($query2)->fetchAll();
 
 
             $freichat->room_array = array();
             $freichat->room_array = $rooms;
-            $freichat->chatroom_messages = $messages;
+
             $freichat->chatroom_users_div = $users;
             $freichat->in_room = $active_room;
-            $last_chatroom_message = end($this->chatroom_raw_mesgs);
-            $freichat->last_chatroom_usr_id = $last_chatroom_message['from'];
-
-            $chatroom_mesg_time = $this->get_last_message_time($this->chatroom_raw_mesgs, $chatroom_mesg_time);
         }
-//$this->change_custom_status_mesg($_GET['custom_mesg']);
+//$this->change_custom_status_mesg($_GET['custom_mesg']);     
 
-
-        $freichat->time = $this->get_last_message_time($get_mesg, $curr_time);
-        $freichat->chatroom_mesg_time = $chatroom_mesg_time;
         $freichat->islog = $this->check_perms();
         $freichat->status = $_SESSION[$this->uid . 'freistatus'];
-        $freichat->messages = $get_mesg;
+
         $freichat->userdata = $text;
         $freichat->count = $onlcnt;
         $freichat->username = str_replace("'", "", $this->frm_name);
         $freichat->userid = $this->frm_id;
+
 
         if (is_array($_GET['clrchtids'])) {
             if ($_GET['clrchtids'][0] != '') {
                 $this->clrcht($_GET["clrchtids"]);
             }
         }
-        echo json_encode($freichat);
+
+        if ($this->long_polling == "enabled" && $_GET['long_poll'] != 'false' && isset($_SESSION[$this->uid . 'main_loaded'])) {
+            session_write_close();
+            $new_data = false;
+
+            $time = time();
+            while ((time() - $time) < $this->poll_time) {
+
+                // $new_data = array();    
+
+                $freichat = $this->update_message_data($freichat);
+                if ($freichat->time > $_GET['time']) {
+                    // a new message !
+                    $new_data = true;
+                }
+
+
+                if ($this->show_chatroom_plugin == "enabled") {
+                    if ($freichat->chatroom_mesg_time > $_GET['chatroom_mesg_time']) {
+                        // a new message 
+                        $new_data = true;
+                    }
+                }
+
+
+                if ($new_data == true) {
+                    echo json_encode($freichat);
+                    break;
+                }
+
+                usleep(($this->chatspeed * 1000));
+            }
+
+            if ($new_data == false) {
+                echo json_encode($freichat);
+            }
+        } else {
+            $freichat = $this->update_message_data($freichat);
+            echo json_encode($freichat);
+        }
+    }
+
+//-------------------------------------------------------------------
+    public function update_message_data($freichat) {
+
+
+        $curr_time = $_GET['time'];
+        $chatroom_mesg_time = $_GET['chatroom_mesg_time'];
+        $active_room = $_SESSION[$this->uid . 'in_room'];
+
+        $get_mesg = $this->get_messages($curr_time);
+       // $this->delete_messages();
+        $this->update_messages($active_room);
+        $freichat->time = $this->get_last_message_time($get_mesg, $curr_time);
+        $freichat->messages = $get_mesg;
+
+        if ($this->show_chatroom_plugin == 'enabled') {
+
+
+            $chatroom_messages = null;
+            if ($_GET['first'] == 'false') {
+                $chatroom_messages = $this->get_chatroom_messages($active_room, 'default', $chatroom_mesg_time);
+            } else {
+                $chatroom_messages = $this->get_chatroom_messages($active_room, 'single', $chatroom_mesg_time);
+            }
+
+            $freichat->chatroom_messages = $chatroom_messages;
+            $last_chatroom_message = end($this->chatroom_raw_mesgs);
+            $freichat->last_chatroom_usr_id = $last_chatroom_message['from'];
+
+            $chatroom_mesg_time = $this->get_last_message_time($chatroom_messages, $chatroom_mesg_time);
+            $freichat->chatroom_mesg_time = $chatroom_mesg_time;
+        }
+
+        return $freichat;
     }
 
 //-------------------------------------------------------------------
@@ -586,7 +682,7 @@ class freichatX extends freichatXconstruct {
         $frm_id = $this->frm_id;
         $usr_name = str_replace("'", "", $this->frm_name);
         $room_id = -1;
-        if ($_POST['message_type'] == 'normal' || $_POST['message_type'] == 1) {
+        if ($_POST['message_type'] == 0) {
             if ($this->driver == "Sugarcrm") {
                 $to = $_POST['to'];
             } else {
@@ -596,14 +692,19 @@ class freichatX extends freichatXconstruct {
             
         }
 
-        $message_type = 0;
+
+        /*
+          0 => normal message
+          1 => chatroom message
+         */
+        $message_type = null;
         $chatroom_mesg_time = 0.00;
         $active_room = (int) $_POST['in_room'];
 
 
         if (isset($_POST['message_type'])) {
 
-            $message_type = (int) $_POST['message_type'];
+            $message_type = strip_tags($_POST['message_type']);
         }
 
         if (isset($_POST['in_room'])) {
@@ -614,30 +715,40 @@ class freichatX extends freichatXconstruct {
         $get_mesg = null;
 
         foreach ($mesg as $message) {
-            if ($message_type == 1) {
+            if ($message_type == 0) {
                 $messages = array($message);
             } else {
                 $messages = explode(',', $message);
             }
         }
 
-        $insert_mesg_query = "INSERT INTO frei_chat (frei_chat.from,frei_chat.from_name,frei_chat.to,frei_chat.to_name,frei_chat.message,frei_chat.sent,frei_chat.time,frei_chat.message_type,frei_chat.room_id) VALUES(?,?,?,?,?,NOW(),?,?,?)";
-        $insert_mesg_query = $this->db->prepare($insert_mesg_query);
+
+        $GMT_time = $this->bigintval($_POST['GMT_time']);
+        $insert_mesg_query = "INSERT INTO frei_chat (frei_chat.from,frei_chat.from_name,frei_chat.to,frei_chat.to_name,frei_chat.message,frei_chat.sent,frei_chat.time,frei_chat.message_type,frei_chat.room_id,frei_chat.GMT_time) VALUES(?,?,?,?,?,NOW(),?,?,?,?)";
+        $this->insert_mesg_query = $this->db->prepare($insert_mesg_query);
+
+        if ($_POST['to'] == 'FcX_AlIcE') {
+            $_REQUEST['oreqmode'] = 'json';
+            var_dump($messages);
+            $_REQUEST['chatbotmessage'] = $messages[0];
+            require '../client/plugins/bot/chat.php';
+        }
 
         foreach ($messages as $message) {
             $message = nl2br($message);
 
             $to_name = htmlentities($_POST['to_name'], ENT_QUOTES, "UTF-8");
             $time = time() . str_replace(" ", "", microtime());
-            if ($_POST['message_type'] == 'normal' || $_POST['message_type'] == 1) {
-                $chatroom_mesg_time = $_POST['chatroom_mesg_time'];
-                $insert_mesg_query->execute(array($frm_id, $usr_name, $to, $to_name, $message, $time, $message_type, '-1'));
+            if ($message_type == 0) {
+                $chatroom_mesg_time = $_POST['chatroom_mesg_time']; //echo $message_type;
+                $this->insert_mesg_query->execute(array($frm_id, $usr_name, $to, $to_name, $message, $time, $message_type, '-1', $GMT_time));
             } else {
-                $chatroom_mesg_time = $time;
-                $insert_mesg_query->execute(array($frm_id, $usr_name, $room_id, $room_id, $message, $time, $message_type, $room_id));
+                //$chatroom_mesg_time = $time;
+                $chatroom_mesg_time = $_POST['chatroom_mesg_time'];
+                $this->insert_mesg_query->execute(array($frm_id, $usr_name, $room_id, $room_id, $message, $time, $message_type, $room_id, $GMT_time));
             }
         }
-        $custom_mesg = htmlentities($_POST['custom_mesg'], ENT_QUOTES);
+        $custom_mesg = htmlentities($_POST['custom_mesg'], ENT_QUOTES, "UTF-8");
         if ($_POST['passBYpost'] == true) {
 
 
@@ -661,7 +772,7 @@ class freichatX extends freichatXconstruct {
 
             $get_mesg = $this->get_messages($_POST['time']);
             $last_mesg_time = $this->get_last_message_time($get_mesg, $_POST['time']);
-            $this->delete_messages();
+           // $this->delete_messages();
             $this->update_messages($active_room);
 
             $_SESSION[$this->uid . 'custom_mesg'] = $custom_mesg;
@@ -736,7 +847,7 @@ class freichatX extends freichatXconstruct {
     public function clrcht($id) {
         $id = implode(',', $id);
 
-        $clrcht_query = "DELETE FROM frei_chat where (frei_chat.to IN (" . $this->db->quote($id) . ") AND  frei_chat.from IN(" . $this->frm_id . ")) OR (frei_chat.to IN(" . $this->db->quote($id) . ") AND  frei_chat.from IN(" . $this->frm_id . "))";
+        $clrcht_query = "DELETE FROM frei_chat where (frei_chat.to IN (" . $this->db->quote($id) . ") AND  frei_chat.from IN(" . $this->frm_id . ")) OR (frei_chat.from IN(" . $this->db->quote($id) . ") AND  frei_chat.to IN(" . $this->frm_id . "))";
         $this->db->query($clrcht_query);
     }
 

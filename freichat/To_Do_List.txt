@@ -126,6 +126,24 @@ Segregate javascript.
 segregate PHP
 recieve messages in multiple tabs too
 
+6.1 
+UTF-8 support for custom mesg [Done]
+Translate plugin [verify its working properly]
+Documentation for custom driver
+custom driver working now!
+changed fromname to Me
+mesg on same line
+JS & CSS improvement
+
+6.2
+Title change for multiple chatwindows bug fixed
+Message on chatwindow if user goes offline
+Make chatrooms to load asynchronously ( done)
+Updated jquery
+Reduced jquery ui its css and reduced overall size of code
+GZIP option added in backend
+
+
 63.  ...Wait I am Thinking....
 x=================================================================================================x
 function completeWork(work)
@@ -137,6 +155,18 @@ function completeWork(work)
  return completed_work;
 }
 x=================================================================================================x
+
+go to freichat/server/admin.php
+add the following line in the very beginning of the code, the file should look as follows
+<?php
+header('Content-Type: text/html; charset=utf-8');
+and also add this meta tag in the head tag, the code will look as follows,
+<head>
+<meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8“ />
+
+this fix will be a part of the next release.
+
+HIGHLIGHT message sent with alice , !!
 
 
 BUGS :

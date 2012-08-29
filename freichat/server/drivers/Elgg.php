@@ -38,6 +38,26 @@ class Elgg extends driver_base {
         }
     }
 
+//------------------------------------------------------------------------------   
+    public function get_buddies() {
+
+        $query = "SELECT DISTINCT f.status_mesg,f.username,f.session_id,f.status,f.guest,e.guid_two
+                   FROM " . DBprefix . "entity_relationships AS e 				   
+                   LEFT JOIN frei_session as f ON e.guid_two = f.session_id 
+                   WHERE
+                       e.guid_one = " . $_SESSION[$this->uid . 'usr_ses_id'] . "
+                   AND e.relationship = 'friend'      
+				    	
+                   AND f.time>" . $this->online_time2 . "
+                   AND f.session_id!=" . $_SESSION[$this->uid . 'usr_ses_id'] . "
+                   AND f.guest=0
+                   AND f.status!=2
+                   AND f.status!=0
+                 ";
+
+        $list = $this->db->query($query)->fetchAll();
+        return $list;
+    }
 //------------------------------------------------------------------------------
     public function getList() {
 
@@ -47,6 +67,8 @@ class Elgg extends driver_base {
             $user_list = $this->get_guests();
         } else if ($this->show_name == 'user') {
             $user_list = $this->get_users();
+        } else if ($this->show_name == 'buddy') {
+            $user_list = $this->get_buddies();
         } else {
             $this->freichat_debug('USER parameters for show_name are wrong.');
         }

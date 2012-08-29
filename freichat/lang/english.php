@@ -8,12 +8,15 @@
 //language then please write in the format similar to
 //english_informal.php
 
+
+//NOTE: &nbsp; is euivalent to a space 
+
     $frei_trans['cb_head']           =          'Users';
     $frei_trans['g_prefix']          =          'Guest-';
     $frei_trans['pwdby']             =          'Powered By';
     $frei_trans['noline']            =          'No One Is Online';
     $frei_trans['noperms']           =          'Please&nbsp;LogIn&nbsp;to chat!';
-    $frei_trans['on_offline']        =          'Fetching...User..List<br/>Querying DataBase<br/>..............................';
+    $frei_trans['on_offline']        =          'Fetching...user..data<br/>kindly wait<br/>loading...........';
     $frei_trans['go_online']         =          'Go Online';
     $frei_trans['go_offline']        =          'Go Offline';
     $frei_trans['go_invisible']      =          'Go Invisible';
@@ -54,6 +57,14 @@
     $frei_trans['set_custom_mesg']   =       'Set custom message:';
     
     $frei_trans['chat_room_title'] = 'Chat Rooms';
+    
+    $frei_trans['chat_message_me'] = 'Me';
+    
+    $frei_trans['chat_status'] = 'the user is offline. Messages you send will be delivered when the user comes online. ';
+    
+    $frei_trans['rtl'] = 'Swicth rtl text';
+    
+    $frei_trans['profilelink'] = 'View&nbsp;profile';
     
          return 1;
 ?>

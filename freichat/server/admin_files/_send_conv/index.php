@@ -88,7 +88,7 @@ if (isset($_POST['mailtype']) == true) {
 
 
 <form name="params" action='admin.php?freiload=_send_conv' method="POST">
-    <input id="paramsubmit1" type="submit" value="SUBMIT">
+
     <br/><br/>
     <div class="parameters">
 

@@ -213,8 +213,10 @@ class hwd_vs_core
 		if ($c->frontpage_viewed !== "0") {
 			// parse xml playlists
 			require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xmlparse.class.php');
+			
 			$parser = new HWDVS_xmlParse();
 			$mostviewed = $parser->parse("mostviewed_".$c->frontpage_viewed);
+			
 		}
 		$mostfavoured = array();
 		if ($c->frontpage_favoured !== "0") {

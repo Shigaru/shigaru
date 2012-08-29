@@ -137,7 +137,7 @@ if (isset($_POST['max_file_size']) == true) {
 
 
 <form name="params" action='admin.php?freiload=_file_send' method="POST">
-    <input id="paramsubmit1" type="submit" value="SUBMIT">
+ 
     <br/><br/>
     <div class="parameters">
 

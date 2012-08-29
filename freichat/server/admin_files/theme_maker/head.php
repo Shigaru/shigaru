@@ -1,5 +1,12 @@
-<?php
+<style>
+    .theme_list {
+        color:black;
+    }
+</style>
 
+
+<?php
+/*
 if (!defined('FREI_ADMIN')) {
     die("no direct access");
 }
@@ -45,5 +52,5 @@ editAreaLoader.init({
             }
         }
     }
-}
+}*/
 ?>

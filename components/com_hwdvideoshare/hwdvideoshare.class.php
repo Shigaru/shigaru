@@ -1460,7 +1460,7 @@ class hwd_vs_tools {
 			if ($hwdvsTemplateOverride['show_thumbnail'] == 1) {       $code[$i]->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, $k, $twidth, $theight, $tclass, null, $hwdvs_itemid, $onclick_js, $tooltip_data, $lightbox, $row->video_length); }
 			if ($hwdvsTemplateOverride['show_views']) {                $code[$i]->views = $row->number_of_views; }
 			$code[$i]->comments = $row->cnt;
-			if ($hwdvsTemplateOverride['show_duration']) {             $code[$i]->duration = $row->video_length; }
+			$code[$i]->duration = $row->video_length;
 			if ($hwdvsTemplateOverride['show_uploader']) {             $code[$i]->uploader = hwd_vs_tools::generateUserFromID($row->user_id, $row->username, $row->name); }
 			if ($hwdvsTemplateOverride['show_timesince']) {            $code[$i]->timesince = hwd_vs_tools::generateTimeSinceUpload($row->date_uploaded); }
 			$code[$i]->upload_date = strftime("%l%P - %b %e, %Y", strtotime($row->date_uploaded));
@@ -1533,6 +1533,7 @@ class hwd_vs_tools {
 			if (empty($rows[$i]["uploader"])) {$rows[$i]["uploader"] = null;}
 			if (empty($rows[$i]["uploader_id"])) {$rows[$i]["uploader_id"] = null;}
 			if (empty($rows[$i]["description"])) {$rows[$i]["description"] = null;}
+			if (empty($rows[$i]["duration"])) {$rows[$i]["duration"]= "0:00";}
 			if (empty($rows[$i]["comments"])) {$rows[$i]["comments"]= "0";}
 			if (empty($rows[$i]["tags"])) {$rows[$i]["tags"] = null;}
 
@@ -1578,7 +1579,7 @@ class hwd_vs_tools {
 			if ($hwdvsTemplateOverride['show_timesince']) {            $code[$i]->timesince = hwd_vs_tools::generateTimeSinceUpload($rows[$i]["date"]); }
 			if ($hwdvsTemplateOverride['show_upload_date']) {          $code[$i]->upload_date = strftime("%l%P - %b %e, %Y", strtotime($rows[$i]["date"])); }
 			if ($hwdvsTemplateOverride['show_tags']) {                 $code[$i]->tags	= hwd_vs_tools::generateTagListString($rows[$i]["tags"]); }
-			
+			$code[$i]->duration = $rows[$i]["duration"];
 			$code[$i]->titleplain = addslashes(strip_tags($rows[$i]["videotitle"]));
 			$code[$i]->descriptiontrunc = addslashes(hwd_vs_tools::truncateText(strip_tags($rows[$i]["description"]), 90));
 			

@@ -11,40 +11,21 @@ class Custom extends driver_base {
 
 //------------------------------------------------------------------------------
     public function getDBdata($session_id, $first) {
-        if ($this->freiuse == "Psession" || $this->freiuse == "Sdatabase") {
-            if ((isset($_SESSION[$this->ses_username]) === FALSE) || (isset($_SESSION[$this->ses_userid]) === FALSE)) {
-                $_SESSION[$this->uid . 'is_guest'] = 1;
-            } else if ($_SESSION[$this->ses_username] == $this->default_ses || $_SESSION[$this->ses_userid] == $this->default_ses) {
-                $_SESSION[$this->uid . 'is_guest'] = 1;
-            } else if (($_SESSION[$this->ses_username] != null && $_SESSION[$this->ses_userid] != null) && ($_SESSION[$this->ses_username] != '' && $_SESSION[$this->ses_userid] != '')) {
+       
+            if ($session_id != null) {
+                $userID = strip_tags($session_id);
                 $_SESSION[$this->uid . 'is_guest'] = 0;
             } else {
-                $this->freichat_debug("Check the conditions in Custom driver");
-            }
-        }
-
-        if ($this->freiuse == "Psession") {
-            if ($_SESSION[$this->uid . 'is_guest'] == 0) {
-                $_SESSION[$this->uid . 'usr_name'] = $_SESSION[$this->ses_username];
-                $_SESSION[$this->uid . 'usr_ses_id'] = $_SESSION[$this->ses_userid];
-            }
-        } else if ($this->freiuse == "Sdatabase" || $this->freiuse == "Pdatabase") {
-            if ($this->freiuse == "Pdatabase") {
-                if ($session_id != null) {
-                    $userID = strip_tags($session_id);
-                    $_SESSION[$this->uid . 'is_guest'] = 0;
-                } else {
-                    $_SESSION[$this->uid . 'is_guest'] = 1;
-                }
-            } else if ($this->freiuse == "Sdatabase" && $_SESSION[$this->uid . 'is_guest'] == 0) {
-                $userID = $_SESSION[$this->ses_userid];
-            } else {
                 $_SESSION[$this->uid . 'is_guest'] = 1;
+                $_SESSION[$this->uid . 'usr_name'] = $_SESSION[$this->uid . 'gst_nam'];
+                $_SESSION[$this->uid . 'usr_ses_id'] = $_SESSION[$this->uid . 'gst_ses_id'];     
             }
+           
             if (($_SESSION[$this->uid . 'time'] < $this->online_time || isset($_SESSION[$this->uid . 'usr_name']) == false || $first == 'false') && $_SESSION[$this->uid . 'is_guest'] == 0) { //To consume less resources , now the query is made only once in 15 seconds
+          
                 $query = "SELECT DISTINCT " . $this->row_username . "," . $this->row_userid . "
                       FROM " . DBprefix . $this->usertable . "
-                      WHERE " . $this->row_userid . "='" . $session_id . "'
+                      WHERE " . $this->row_userid . "='" . $userID . "'
                       LIMIT 1";
 
                 $res_obj = $this->db->query($query);
@@ -53,6 +34,9 @@ class Custom extends driver_base {
 
                 if ($res == null) {
                     $this->freichat_debug("Incorrect Query :  " . $query . ", check parameters");
+                    $_SESSION[$this->uid . 'is_guest'] = 1; 
+                    $_SESSION[$this->uid . 'usr_name'] = $_SESSION[$this->uid . 'gst_nam'];
+                    $_SESSION[$this->uid . 'usr_ses_id'] = $_SESSION[$this->uid . 'gst_ses_id'];     
                 }
 
                 foreach ($res as $result) {
@@ -62,16 +46,17 @@ class Custom extends driver_base {
                     }
                 }
             }
-        } else {
+         else {
             $this->freichat_debug("Wrong method defined!");
-        }
-
-        if ($_SESSION[$this->uid . 'is_guest'] == 1) {
-            $_SESSION[$this->uid . 'usr_name'] = $_SESSION[$this->uid . 'gst_nam'];
-            $_SESSION[$this->uid . 'usr_ses_id'] = $_SESSION[$this->uid . 'gst_ses_id'];
         }
     }
 
+//------------------------------------------------------------------------------
+    public function avatar_url($avatar) {
+        $murl = str_replace("server/freichat.php", "", $this->url);
+        $avatar_url = $murl . 'client/jquery/user.jpeg';
+        return $avatar_url;
+    }
 //------------------------------------------------------------------------------
     public function getList() {
 
@@ -85,6 +70,49 @@ class Custom extends driver_base {
             $this->freichat_debug('USER parameters for show_name are wrong.');
         }
         return $user_list;
+    }
+//------------------------------------------------------------------------------
+    public function get_guests() {
+
+        $query = "SELECT DISTINCT status_mesg,username,session_id,status,guest
+                   FROM frei_session
+                  WHERE time>" . $this->online_time2 . "
+                   AND session_id!=" . $_SESSION[$this->uid . 'usr_ses_id'] . "
+                   AND status!=2
+                   AND status!=0";
+//echo $query;
+        $list = $this->db->query($query)->fetchAll();
+        return $list;
+    }
+
+//------------------------------------------------------------------------------     
+    public function get_users() {
+
+        $query = "SELECT DISTINCT status_mesg,username,session_id,status,guest
+                   FROM frei_session
+                  WHERE time>" . $this->online_time2 . "
+                   AND session_id!=" . $_SESSION[$this->uid . 'usr_ses_id'] . "
+                   AND guest=0
+                   AND status!=2
+                   AND status!=0";
+
+        $list = $this->db->query($query)->fetchAll();
+        return $list;
+    }
+
+    //------------------------------------------------------------------------------
+    public function get_buddies() {
+
+        $query = "SELECT DISTINCT status_mesg,username,session_id,status,guest
+                   FROM frei_session
+                  WHERE time>" . $this->online_time2 . "
+                   AND session_id!=" . $_SESSION[$this->uid . 'usr_ses_id'] . "
+                   AND guest=0
+                   AND status!=2
+                   AND status!=0";
+
+        $list = $this->db->query($query)->fetchAll();
+        return $list;
     }
 
 //------------------------------------------------------------------------------ 

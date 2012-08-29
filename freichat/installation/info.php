@@ -2,6 +2,7 @@
 
 session_start();
 
+
 /* Make me secure */
 
 if (!isset($_SESSION['FREIX']) || $_SESSION['FREIX'] != 'authenticated') {
@@ -11,40 +12,45 @@ if (!isset($_SESSION['FREIX']) || $_SESSION['FREIX'] != 'authenticated') {
 
 /* Now i am secure */
 
+
 class Info {
 
     public function __construct() {
         if (isset($_POST['cms']) == true) {
-            $_SESSION['cms'] = $_POST['cms'];
+            
+            if($_POST['cms'] == "CBE" && $_POST['CBE_ver'] == '2') {
+                $_SESSION['cms'] = 'CBE_2';
+            }else{
+                $_SESSION['cms'] = $_POST['cms'];
+            }
+            
         }
     }
 
     public function set_file() {
         $redir = false;
-        if ($_SESSION['cms'] == "Joomla" || $_SESSION['cms'] == "JCB" || $_SESSION['cms'] == "JSocial" || $_SESSION['cms'] == "CBE") {
-            $set_file = "configuration.php";
-        } else if ($_SESSION['cms'] == "Drupal") {
-            $set_file = "sites/default/settings.php";
-        } else if ($_SESSION['cms'] == "WordPress") {
-            $set_file = "wp-config.php";
-        } else if ($_SESSION['cms'] == "Phpbb") {
-            $set_file = "config.php";
-        } else if ($_SESSION['cms'] == "Elgg") {
-            $set_file = "engine/settings.php";
-        } else if ($_SESSION['cms'] == "Custom") {
-            $redir = true;
-        } else if ($_SESSION['cms'] == "Sugarcrm") {
-            $set_file = 'config.php';
-        } else if ($_SESSION['cms'] == "Phpvms") {
-            $set_file = 'core/local.config.php';
-        } else {
-            die("Invalid selection: go back and try again ");
-        }
 
+        
+        if(is_file('integ/'.$_SESSION['cms'].'.php')){
+          
+          $cname=$_SESSION['cms'];
+            require 'integ/'.$_SESSION['cms'].'.php';
+            $cls=new $cname();
+            $redir=$cls->redir;
+            $set_file=$cls->set_file;
+            
+        }
+        else{
+            $_SESSION['error']='Invalid Integration Driver Selected';
+            header("Location: error.php");
+            exit(0);
+        }
+        
         $this->set_path($set_file);
 
         if ($redir == true) {
             header('Location: params.php');
+            exit(0);
         }
 
         return $set_file;
@@ -62,55 +68,26 @@ class Info {
         }
     }
 
-    public function output_body($set_file) {
-        $flags = $this->get_flags();
 
-        echo "
-                <p>  " . $_SESSION['cms'] . "  installed folder => <b> " . $_SESSION['cms_path'] . " </b>&nbsp&nbsp
-
-                <br/><br/>
-                Please make sure freichat directory is in main  " . $_SESSION['cms'] . " installed directory<br/>
-                   <br/> <b>File Permissions </b><br/>
-                arg.php <font color='" . $flags['color1'] . "'>" . $flags['text1'] . " </font><br/></p>
-                <p>  " . $set_file . "  <font color=" . $flags['color2'] . " >" . $flags['text2'] . "</font><br/>
-                 <p id='conf'>
-                        <form name='path' action=" . $_SERVER['PHP_SELF'] . "  method='POST'>
-                   Check file path to your   " . $set_file . " :<input name='paths' type='text' value= " . $_SESSION['config_path'] . " ></input><br/><br/>
-
-            ";
-
-        if ($flags['flag'] == false) {
-            echo '<input type="submit" value="Modify Path" />';
-        }
-
-        echo "</form>
-
-            <form name='cms' action='params.php' method='POST'>
-        <br/>
-
-         ";
-
-        if ($flags['flag'] == true) {
-            echo '<input type="submit">';
-        }
-
-        echo " </form>";
-        require("foot.php");
-    }
 
     public function get_flags() {
         $flags = Array();
 
         $flags['flag'] = true;
+	$flags['color1'] = $flags['color0'] =  "green";
+	$flags['text1'] = $flags["text0"] = "is writable";
 
-        if (is_writable("../arg.php")) {
-            $flags['color1'] = "green";
-            $flags['text1'] = "is writable";
-        } else {
+        if (!is_writable("../arg.php")) {
             $flags['flag'] = false;
             $flags['color1'] = "red";
             $flags['text1'] = "is not writable or path is incorrect(Please change file permissions to 0777)";
         }
+	if(!is_writable("../config.dat")){
+	    $flags['flag'] = false;
+            $flags['color0'] = "red";
+            $flags['text0'] = "is not writable or path is incorrect(Please change file permissions to 0777)";	
+	}
+
 
         if (isset($_SESSION['config_path']) == true) {
             if (is_readable($_SESSION['config_path'])) {
@@ -125,27 +102,85 @@ class Info {
         return $flags;
     }
 
-    public function output_raw() {
-        require("head.php");
-        echo "<li><b><s>License</s></b></li>
-                <li><b><s>Install Type</s></b></li>
-                <li><b><u>Configuration check</u></b></li>
-                <li>Configuration Details</li>
-                <li>Setup</li>";
-        require("mid.php");
-        echo "<p>If any of the following parameters are wrong(shown in red) or do not comply with necessity do not head to next step<br/><br/></p>";
-    }
-
-    public function run_me() {
-        $set_file = $this->set_file();
-
-        $this->output_raw();
-        $this->output_body($set_file);
-    }
 
 }
 
+
+
+
 $info = new Info();
 
-$info->run_me();
+
+
+ $set_file = $info->set_file();
+ 
+ 
+ 
+$flags=$info->get_flags();
+
+
+require 'header.php';
+?>
+
+<div style="text-align: center">
+    <br/> <span  style="font-family: 'Sonsie One', cursive;font-size: 18pt;text-align: center"><b>
+            <?php
+             if ($flags['flag'] == false) {
+                 echo "Please Correct the following";
+             }
+             else{
+                 echo "Everything Seems Alright!";                 
+             }
+             ?>
+        </b></span><br/><br/><br/>
+                arg.php <font color='<?php echo $flags['color1']; ?>'><?php echo $flags['text1']; ?> </font><br/></p>
+                config.dat <font color='<?php echo $flags['color0']; ?>'><?php echo $flags['text0']; ?> </font><br/></p>
+                <p><?php echo $set_file; ?> <font color=<?php echo $flags['color2']; ?>><?php echo $flags['text2']; ?></font><br/></p>
+
+
+
+           
+<?php
+        if ($flags['flag'] == false) {
+            
+            echo  " <br/>
+                    <br/>
+                    <br/><form name='path' action='info.php' id='sameform' method='POST'>
+                    <span  style=\"font-family: 'Sonsie One', cursive;font-size: 18pt;text-align: center\">is the path to your <font color=green>$set_file</font> file correct?</span><br/>
+                   <br/><input style=\"font-family: 'Exo', sans-serif;font-weight:600 ;font-style:italic;font-size:16px;width:500px;\" name='paths' type='text' value= ".$_SESSION['config_path']." /><br/><br/>";
+
+            
+            echo '<br/><a href="JavaScript:void(0)" class="refreshbutton" onclick="modify()">Refresh</a>';
+        }
+
+        echo "</form>
+
+            <form name='cms' id='nextform' action='params.php' method='POST'>
+        <br/>
+
+         ";
+
+        if ($flags['flag'] == true) {
+            echo '<br/><br/><a href="JavaScript:void(0)" class="nextbutton" onclick="proceed()">Proceed</a>';
+        }
+
+        echo " </form>";
+?>
+</div>                  
+<script type="text/javascript">
+    
+    function proceed(){
+        $('#nextform').submit();
+    }
+    
+    function modify(){
+        $('#sameform').submit();
+    }
+    
+</script>
+                   
+<?php
+
+require 'footer.php';
+
 ?>

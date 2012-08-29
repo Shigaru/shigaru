@@ -37,28 +37,76 @@ if (isset($_POST['login'])) {
                 background-attachment:fixed;
                 background-position:center;
                 background-repeat:no-repeat;
+                background-color: #ffffff;
             }
+            
+              .adminbutton {
+                -moz-box-shadow:inset 0px 0px 0px 0px #bbdaf7;
+                -webkit-box-shadow:inset 0px 0px 0px 0px #bbdaf7;
+                box-shadow:inset 0px 0px 0px 0px #bbdaf7;
+                background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5) );
+                background:-moz-linear-gradient( center top, #79bbff 5%, #378de5 100% );
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5');
+                background-color:#79bbff;
+                -moz-border-radius:10px;
+                -webkit-border-radius:10px;
+                border-radius:10px;
+                border:2px solid #84bbf3;
+                display:inline-block;
+                color:#ffffff;
+                font-family:Arial;
+                font-size:28px;
+                font-weight:bold;
+                padding:10px 42px;
+                text-decoration:none;
+                text-shadow:1px 0px 0px #528ecc;
+            }.adminbutton:hover {
+                background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #378de5), color-stop(1, #79bbff) );
+                background:-moz-linear-gradient( center top, #378de5 5%, #79bbff 100% );
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#378de5', endColorstr='#79bbff');
+                background-color:#378de5;
+            }.adminbutton:active {
+                position:relative;
+                top:1px;
+            }
+            
+                @font-face {
+        font-family: 'Exo';
+        font-style: italic;
+        font-weight: 600;
+        src: local('Exo DemiBold Italic'), local('Exo-DemiBoldItalic'), url('../server/admin_files/theme_maker/exo.woff') format('woff');
+    }
+
+    @font-face {
+        font-family: 'Sonsie One';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Sonsie One'), local('SonsieOne-Regular'), url('../server/admin_files/theme_maker/sonsieone.woff') format('woff');
+    }
+
+
+          
         </style>
-        <title> PHP Login </title>
+        <title> FreiChat Backend Login </title>
     </head>
-    <body background="../server/admin_files/home/untitled.png">
+    <body>
 
-        <div>
+        <div style="text-align:center">
 
-            <img src="../server/admin_files/home/head.png" height=100 width=100% />
+            <img src="../server/admin_files/home/head.png" height=100  />
         </div>
 
 
-        <center><h1>FreiChatX Login </h1></center>
-        <div id="main" class="main">
-            <h2>Administration Authentication</h2>
+     
+        <div id="main" class="main" >
+            <!--<h2>Administration Authentication</h2>-->
             <div id="container" class="container">
                 <form method="post" action="index.php">
 
-                    <b>Enter Password:</b><br><br/>
+                    <b><span style="font-family: 'Sonsie One'">Enter Password:</span></b><br><br/>
                     &nbsp;<input style="width: 200px; border: 1px solid gray" type="password" name="pswd" value=''><br/>
                     <br/><span class="info">(defined in freichat/arg.php)</span><br/><br/>
-                    <input type="submit" name="login" value="Login">
+                    <input class="adminbutton" type="submit" name="login" value="Login">
                 </form>
             </div>
         </div>

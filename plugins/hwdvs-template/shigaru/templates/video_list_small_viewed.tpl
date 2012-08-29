@@ -11,7 +11,7 @@
 	<div class="fleft">
 		<h6>{$data->title} {$data->editvideo} {$data->deletevideo}</h6>
 		<span class="fleft">{$smarty.const._HWDVIDS_INFO_SHARED} </span>{$data->uploader}
-		<span> - 4:31 min</span>
+		<span> - {$data->duration} min</span>
 	</div>
 	<div class="plays">
 		<div class="fright">
