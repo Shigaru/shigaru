@@ -344,7 +344,7 @@ DEFINE("_HWDVIDS_AJAX_REMFAV","Removed from favourites");
 DEFINE("_HWDVIDS_AJAX_LOG2FAV1","Login to add");
 DEFINE("_HWDVIDS_AJAX_LOG2FAV2","Login to remove");
 DEFINE("_HWDVIDS_AJAX_LOG2REPORT","To report a video you need to login first.");
-DEFINE("_HWDVIDS_AJAX_ALREADYREPORT","Already reported");
+DEFINE("_HWDVIDS_AJAX_ALREADYREPORT","Got it! This video was already reported by other user and is currently under revision.");
 DEFINE("_HWDVIDS_AJAX_VIDREPORT","Video reported");
 DEFINE("_HWDVIDS_AJAX_LOG2ADD2G","Login to add");
 

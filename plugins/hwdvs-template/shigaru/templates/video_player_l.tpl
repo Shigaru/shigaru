@@ -301,4 +301,5 @@
 		<h1>{$smarty.const._HWDVIDS_TITLE_REPORTTHISVIDEO}</h1> 
         <input type="button" class="reddbuttonsubmit" id="yes" value="{$smarty.const._HWDVIDS_BUTTON_GO}" /> 
 	</div>         
+	<div class="loadingMessage"><?php echo _HWDVIDS_INFO_PROCESSING ?></div>
 </div> 

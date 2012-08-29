@@ -2650,6 +2650,7 @@ $app = & JFactory::getApplication();
 					 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
 					 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
 					 <input type=\"image\" src=\"".URL_HWDVS_IMAGES."button_report.png\" alt=\""._HWDVIDS_DETAILS_FLAGVID."\" id=\"reportvidbutton\" class=\"reportvidbutton\"/>
+					 <div id=\"flagresponse\"><a class=\"\" title=\"Close this message\" href=\"#\">x</a></div>
 					 </form>";
 		}
 		return $code;

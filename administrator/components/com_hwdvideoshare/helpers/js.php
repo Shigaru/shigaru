@@ -562,16 +562,24 @@ class hwd_vs_javascript
 			});
 		$('.usermessages #yes').click(function() { 
             // update the block message 
-            $.blockUI({ message: "<h1>Remote call in progress...</h1>",css: { 
-						width: '450px'} }); 
 			var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_reportvideo&userid=".$my->id."&videoid=".$row->id."&userid=".$my->id ?>";			
+            jQuery('.usermessages #flagquestionwrap').hide();
+            jQuery('.usermessages .loadingMessage').show();
             $.ajax({ 
                 url: _url, 
                 cache: false, 
                 complete: function(data) { 
                     // unblock when remote call returns 
                     $.unblockUI(); 
-                    $.growlUI('Notification', data.responseText); 
+                    jQuery('#flagresponse').append(data.responseText);
+                    jQuery('#flagresponse').fadeIn('slow');
+                    jQuery('#flagresponse a').click(function(e){
+								jQuery('#flagresponse').fadeOut();
+								e.preventDefault();
+								e.stopImmediatePropagation();
+						});
+					jQuery('.usermessages #flagquestionwrap').show();	  
+                    jQuery('.usermessages .loadingMessage').hide();
                 } 
             }); 
         }); 
@@ -604,7 +612,16 @@ class hwd_vs_javascript
 	function ajaxFunctionRate(rate, id, rand){
 		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_rate&videoid="; ?>" + id + "<?php echo "&rating="; ?>" + rate;
 		var _elementToBlock = jQuery('#hwdvsrb'+rand).parent();
-		shigaruAjax(_url,_elementToBlock);	
+		jQuery(_elementToBlock).block();
+		jQuery.ajax({ 
+                url: _url, 
+                cache: false, 
+                complete: function(data) { 
+                    jQuery(_elementToBlock).unblock();
+					jQuery('#hwdvsrb'+rand+' div').html(data.responseText);
+
+                } 
+            }); 	
 	}
 
 		//-->
