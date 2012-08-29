@@ -376,11 +376,26 @@ class hwd_vs_javascript
 	function ajaxFunctionRFF(){
 		var _url = "<?php echo JURI::base( true )."/index.php?option=com_hwdvideoshare&task=ajax_removefromfavourites&userid=".$my->id."&videoid=".$row->id; ?>";
 		var _elementToBlock = jQuery('#addremfav').parent();
-		shigaruAjax(_url,_elementToBlock);	
-		jQuery('#addremfav').fadeOut(1000, function () {
-		  jQuery('#addremfav').html('<?php echo $atf ?>');
-		  jQuery(this).fadeIn('slow');
-		  });
+		jQuery(_elementToBlock).block({message:'<div id="loadingMessage"></div>',css:{border:'none'}});
+		jQuery.ajax({ 
+                url: _url, 
+                cache: false, 
+                complete: function(data) { 
+					jQuery('#addremfav').fadeOut(1000, function () {
+					  jQuery('#addremfav').html('<?php echo $atf ?>');
+					  jQuery(this).fadeIn('slow');
+					  });
+                    //jQuery(_elementToBlock).unblock(); 
+                    jQuery('#actionsresponse div').html(data.responseText);
+                    jQuery('#actionsresponse').fadeIn('slow');
+                    jQuery('#actionsresponse a').click(function(e){
+								jQuery('#actionsresponse').fadeOut();
+								e.preventDefault();
+								e.stopImmediatePropagation();
+						});
+                } 
+            }); 
+		
 	}
 	//-->
 	</script>
