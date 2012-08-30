@@ -206,7 +206,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 	 */
 	 
 	 
-
+ 
 	 
 	function _renderRegistrationHead( ) {
 		if ( $this->moduleContent ) {
@@ -224,8 +224,68 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 			echo $this->moduleContent;
 			echo '</div></div></div><div id="cb_comp_register">';
 		}
+		$redirected = JRequest::getVar('redirected','none');
+		if($redirected == 'none'){
+			}else if($redirected =='hwdshare'){
+?>	
+	<div id="fromhwdshare" class="usermessages">
+		<div id="fromhwdsharewrap">         
+			<div><a id="no" class="close"></a></div>
+			<h1>Sorry, you have to be logged in to do that!</h1>
+			<p>Have you forgotten to log in? <a href="<?php echo JURI::getInstance( 'index.php?option=com_comprofiler&task=login')->toString(); ?>" title="Click here to go to login page" > Click here</a></p>
+			<p>... or have you not signed up yet? Just click "Close" and create your user in less than 1 minute!</p>
+			<p><a href="" title="Click here to view Shigaru.com 10 reasons to join!" >10 reasons to join!</a></p> 
+			<input type="button" class="reddbuttonsubmit" id="yes" value="Close"> 
+		</div>
+	</div>
+	<script language='javascript' type='text/javascript'>
+		jQuery(document).ready(function($){
+				$('#fromhwdshare').show();
+				$('#fromhwdshare #yes').click(function() { 
+					//$('#fromhwdshare').hide();
+					$.unblockUI(); 
+					return false; 
+				});	
+				$.blockUI({ message: $('#fromhwdshare'), css: { width: '600px' } }); 
+				$('.usermessages #no').click(function() { 
+					$.unblockUI(); 
+					return false; 
+				});	
+			});
+	</script>		
+<?php			
+				}else if($redirected =='profiler'){
+					$oProfileText = (JRequest::getVar('profilerfrom','none') == 'community')?'this user\'s':'your';
 ?>
+	<div id="fromprofiler" class="usermessages">
+		<div id="fromprofilerwrap">         
+			<div><a id="no" class="close"></a></div>
+			<h1><a href="<?php echo JURI::getInstance( 'index.php?option=com_comprofiler&task=login')->toString(); ?>" title="Click here to go to login page" >Log in</a> to view <?php echo $oProfileText ?> profile page</h1>
+			<p>Haven’t  signed up yet? Are you serious? :-)</p>
+			<p>Close this message to Sign Up now and join the Shigaru community.</p>
+			<p><a href="" title="Click here to view Shigaru.com 10 reasons to join!" >10 reasons to join!</a></p> 
+			<input type="button" class="reddbuttonsubmit" id="yes" value="Close"> 
+		</div>
+	</div>
+	<script language='javascript' type='text/javascript'>
+		jQuery(document).ready(function($){
+				$('#fromprofiler').show();
+				$('#fromprofiler #yes').click(function() { 
+					//$('#fromhwdshare').hide();
+					$.unblockUI(); 
+					return false; 
+				});	
+				$.blockUI({ message: $('#fromprofiler'), css: { width: '600px' } }); 
+				$('.usermessages #no').click(function() { 
+					$.unblockUI(); 
+					return false; 
+				});	
+			});
+	</script>
 
+<?php			
+				}
+?>
 <div class="content_box"><h3><?php echo JText::_('Sign Up with Shigaru.com'); ?></h3></div>
 <div class="mtopl6"><?php echo JText::_('Join the Shigaru community and start uploading video links of the best music tutorials on the web. Categorize the videos and you will be helping to create the web’s biggest and best music tutorial video library. Create your own profile. Rate and add comments to videos. Promote yourself or your band. Meet music lovers from all over the world! It´s totally free!') ?> </div><div class="contentpaneopen"><div class="cb_comp_outer"><div class="cb_comp_inner cbHtmlEdit cbRegistration">
 <div id="contentSliderForm" class="clear">

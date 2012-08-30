@@ -647,7 +647,10 @@ function userProfile( $option, $uid, $submitvalue) {
 					&&
 					allowAccess( $ueConfig['allow_profileviewbyGID'], 'RECURSE', $_CB_framework->acl->get_group_id('Registered','ARO') )
 			) {
-				echo _UE_REGISTERFORPROFILEVIEW;
+				$lang =& JFactory::getLanguage();
+				$url    = 'index.php?option=com_comprofiler&task=registers&redirected=profiler&profilerfrom=community';
+				JFactory::getApplication()->redirect(JURI::getInstance($url)->toString());  
+				return;
 			} else {
 				echo _UE_NOT_AUTHORIZED;
 			}
@@ -655,7 +658,9 @@ function userProfile( $option, $uid, $submitvalue) {
 		}
 	} else {
 		if ($uid==0) {
-			echo _UE_REGISTERFORPROFILE;
+			$lang =& JFactory::getLanguage();
+			$url    = 'index.php?option=com_comprofiler&task=registers&redirected=profiler&profilerfrom=ownprofile';
+			JFactory::getApplication()->redirect(JURI::getInstance($url)->toString());  
 			return;
 		}
 	}

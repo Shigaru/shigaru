@@ -687,7 +687,6 @@ class hwd_vs_tools {
         {
         	$full = "0";
         }
-
 		hwd_vs_tools::generateActiveLink($active_menu);
 		$smartyvs->assign("title", $title);
 		$smartyvs->assign("message", $message);

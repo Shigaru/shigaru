@@ -589,7 +589,7 @@ form.cb_form .cb_form_line .cb_field	, .cb_tab_content .cb_form_line .cb_field		
 .demoinfo{position:absolute;bottom:10%;padding:50px;-moz-opacity:.80; filter:alpha(opacity=80); opacity:.80; background:#000; color:#fff; font-weight:bold;}
 #flagquestionwrap{background:url("../images/question.png") no-repeat scroll left top transparent;padding: 0 0 24px 126px;}
 #flagquestionwrap h1{margin-bottom:30px;}
-.usermessages{padding: 40px;background:rgb(255,255,255); /* Old browsers */
+.usermessages{padding: 40px;cursor:default;background:rgb(255,255,255); /* Old browsers */
 /* IE9 SVG, needs conditional override of 'filter' to 'none' */
 background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U1ZTVlNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
 background: -moz-linear-gradient(-45deg,  rgba(255,255,255,1) 0%, rgba(229,229,229,1) 100%); /* FF3.6+ */
@@ -601,6 +601,17 @@ background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 ;
 text-shadow: 0 1px 1px #777;-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;margin: 50px 0 50px 0;}
+#fromhwdshare,#fromprofiler{display:none;}
+#fromhwdsharewrap,#fromprofilerwrap{background:url("../images/info.png") no-repeat scroll left top transparent;padding: 0 0 24px 126px;}
+#fromhwdsharewrap h1,#fromprofilerwrap h1{ font-size: 110%;
+    font-weight: bold;
+    margin: 0 0 15px;}
+#fromhwdsharewrap p,#fromprofilerwrap p{margin: 0 0 15px}
+#fromhwdsharewrap p a,#fromprofilerwrap p a{font-weight: bold;
+    margin: 0 0 0 6px;}
+#fromhwdsharewrap #yes,#fromprofilerwrap #yes{margin-top:40px;}    
+#fromhwdsharewrap p a:active,#fromhwdsharewrap p a:visited,#fromhwdsharewrap p a:link{color:blue;}    
+#fromprofilerwrap p a:active,#fromprofilerwrap p a:visited,#fromprofilerwrap p a:link{color:blue;}    
 .blockUI .usermessages{margin:0;}
 .usermessages span.face{font-size: 1000%; float: left;width: 20%;}
 .usermessages span.message{font-size: 150%; float: left; margin: 20px 0px 85px 45px;
@@ -724,6 +735,7 @@ table.contentpaneopen tbody tr td .addtoany{
 .videoinfolabel{width:30%;text-align:right !important;font-weight:bold;margin-right: 12px;margin-top: 6px;}
 .headerText{font-size:1.5em;font-weight:bold;color:#000;}
 .boldred{font-weight:bold;color:red;}
+
 ul.jc_top_posters {padding: 0; list-style-image: none; list-style-type: none;}
 ul.jc_top_posters li {background-image: none !important; list-style: none; list-style-image: none !important; margin-left: 5px !important; margin-left: 0; padding: 0 !important; display: block; overflow: hidden; line-height: 1.2em;}
 ul.jc_top_posters li div {margin: 0; padding: 5px 0 0 0;}
