@@ -651,7 +651,7 @@ DEFINE("_HWDVIDS_SHIGARU_LEVELS_EXPERT","Expert");
 DEFINE("_HWDVIDS_SHIGARU_GUITAR","Guitar");
 DEFINE("en-GB","English");
 DEFINE("_HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU","Submit a video to Shigaru.com");
-DEFINE("_HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING","for deciding to share a video tutorial with the Shigaru community. It will take approx. 3 minutes to do! <br />Now, which of the following two options would you like to do?");
+DEFINE("_HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING","for deciding to share a video tutorial with the Shigaru community. It will take approx. 3 minutes to do!");
 DEFINE("_HWDVIDS_SHIGARU_THANKYOU","Thank you");
 DEFINE("_HWDVIDS_SHIGARU_YES","Yes");
 DEFINE("_HWDVIDS_SHIGARU_NO","No");
