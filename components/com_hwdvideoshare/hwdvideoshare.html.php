@@ -641,12 +641,7 @@ class hwd_vs_html
 			}
 
 		} else if ($uploadpage == "thirdparty") {
-			$doc = & JFactory::getDocument();
-			$doc->addScript( JURI::root(true).'/templates/rhuk_milkyway/js/jquery.min.js' );
-			$doc->addCustomTag( '<script type="text/javascript">jQuery.noConflict();</script>' );
-			$doc->addScript(JURI::root(true).'/templates/rhuk_milkyway/js/sliding.form.js');
 			JHTML::_('behavior.formvalidation');
-			
 			$app->setUserState( "com_hwdvideoshare.upload_selection", "tp" );
 			$oThirdPartyVideoInfo = hwd_vs_tools::getThirdPartyVideoInfo($videourl);		
 			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		
@@ -656,6 +651,11 @@ class hwd_vs_html
 			$captcha = hwd_vs_tools::generateCaptcha();
 			$editor =& JFactory::getEditor();
 			$domain = JURI::root();
+			// save remote thumbnail to disk
+			$data = $oThirdPartyVideoInfo->video_id;
+			$thumburl = hwd_vs_tools::get_final_url( "http://img.youtube.com/vi/".$data."/default.jpg");
+			$smartyvs->assign( "thumburl",$thumburl);
+			$smartyvs->assign( "descriptionplain",$oThirdPartyVideoInfo->description);
 			$smartyvs->assign( "description", $editor->display("description",$oThirdPartyVideoInfo->description,350,200,20,20,1) );
 			$smartyvs->assign("videoInfo", $oThirdPartyVideoInfo);
 			$smartyvs->assign("infoPassed", 'true');
@@ -673,10 +673,6 @@ class hwd_vs_html
 			return;
 
 		} else if ($uploadpage == "1") {
-			$doc = & JFactory::getDocument();
-			$doc->addScript( JURI::root(true).'/templates/rhuk_milkyway/js/jquery.min.js' );
-			$doc->addCustomTag( '<script type="text/javascript">jQuery.noConflict();</script>' );
-			$doc->addScript(JURI::root(true).'/templates/rhuk_milkyway/js/sliding.form.js');
 			JHTML::_('behavior.formvalidation');
 			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		
 			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);		

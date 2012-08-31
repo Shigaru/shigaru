@@ -1177,6 +1177,7 @@ class hwd_vs_uploads
 			$f_processd = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDescription';
 			$f_processk = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processKeywords';
 			$f_processl = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDuration';
+			$f_processco = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processComments';
 
 			$tp = new $cn();
 
@@ -1197,6 +1198,7 @@ class hwd_vs_uploads
 			$ext_v_descr = $tp->$f_processd($embeddump, @$ext_v_code[1]);
 			$ext_v_keywo = $tp->$f_processk($embeddump, @$ext_v_code[1]);
 			$ext_v_durat = $tp->$f_processl($embeddump, @$ext_v_code[1]);
+			//$ext_v_comme = $tp->$f_processco($embeddump, @$ext_v_code[1]);
 
 			if ($ext_v_code[0] == "0")
 			{

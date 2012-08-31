@@ -231,6 +231,7 @@ class hwd_vs_tp_YoutubeCom
 
 			if (!empty($buffer))
 			{
+				//var_dump($buffer);
 				if ($feeddata)
 				{
 					preg_match('/<media\:description ?.* <\/media\:description>/isx',$buffer,$match);
@@ -342,6 +343,84 @@ class hwd_vs_tp_YoutubeCom
 		}
 		return $ext_v_keywo;
 	}
+	
+	 /**
+     * Extracts the keywords of the third party video
+     */
+	function YoutubeComProcessComments($raw_code, $processed_code=null)
+	{
+		$c = hwd_vs_Config::get_instance();
+
+		if (empty($processed_code))
+		{
+			$code = hwd_vs_tp_YoutubeCom::YoutubeComGetCode($raw_code);
+		}
+		else
+		{
+			$code = $processed_code;
+		}
+
+		$watchvideourl = "http://gdata.youtube.com/feeds/api/videos/".$code;
+		$watchvideourl = hwd_vs_tools::get_final_url( $watchvideourl );
+
+		$ext_v_keywo    = array();
+		$ext_v_keywo[0] = "";
+		$ext_v_keywo[1] = "";
+
+		if (function_exists('curl_init'))
+		{
+			$curl_handle=curl_init();
+			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
+			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+			$buffer = curl_exec($curl_handle);
+			curl_close($curl_handle);/*
+array(4) { 
+			[0]=> string(152) "" 
+			[1]=> string(49) "'http://gdata.youtube.com/schemas/2007#comments' " 
+			[2]=> string(65) "'http://gdata.youtube.com/feeds/api/videos/KWtzxco7d1c/comments' " 
+			[3]=> string(4) "'49'" }*/
+			if (!empty($buffer))
+			{
+				preg_match('/<gd:feedLink rel=(.*?)href=(.*?)countHint=(.*?)\/>/', $buffer, $match);
+				var_dump($match);
+				if (!empty($match[2]))
+				{
+					$ext_v_keywo[0] = 1;
+					$ext_v_keywo[1] = $match[2];
+					$ext_v_keywo[1] = trim($ext_v_keywo[1]);
+					$ext_v_keywo[1] = str_replace("'", "", $ext_v_keywo[1]);
+					var_dump($ext_v_keywo[1]);
+				}
+				/*
+				if (!empty($match[1]))
+				{
+					$ext_v_keywo[0] = 1;
+					$ext_v_keywo[1] = $match[1];
+					$ext_v_keywo[1] = strip_tags($ext_v_keywo[1]);
+					$ext_v_keywo[1] = trim($ext_v_keywo[1]);
+					$ext_v_keywo[1] = hwdEncoding::XMLEntities($ext_v_keywo[1]);
+					$ext_v_keywo[1] = hwdEncoding::charset_decode_utf_8($ext_v_keywo[1]);
+					$ext_v_keywo[1] = addslashes($ext_v_keywo[1]);
+					$ext_v_keywo[1] = hwd_vs_tools::truncateText($ext_v_keywo[1], 1000);
+				}*/
+			}
+		}
+		if ($ext_v_keywo[0] == '1')
+		{
+			if ($ext_v_keywo[1] == '')
+			{
+				$ext_v_keywo[1] = _HWDVIDS_UNKNOWN;
+			}
+		}
+		else
+		{
+			$ext_v_keywo[0] = 0;
+			$ext_v_keywo[1] = _HWDVIDS_UNKNOWN;
+		}
+		return $ext_v_keywo;
+	}
+	
     /**
      * Extracts the duration of the third party video
      */

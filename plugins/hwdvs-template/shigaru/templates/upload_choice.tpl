@@ -7,28 +7,18 @@
 //////
 *}
 <div class="content_box">
-<h3 class="mtop12">{$smarty.const._HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU}</h3>
-{include file='header.tpl'}
+<h3 class="mbot12">{$smarty.const._HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU}</h3>
 </div>
-<script type="text/javascript">
-	{literal}
-		jQuery(document).ready(function(){
-			jQuery(".inputtext").click(function () {
-				  jQuery("#videouploadwrap ul li").removeClass("active");
-				  jQuery(this).parents('.upoptions').get(0).addClass("active",1500); 	
-			});
-		});
-	{/literal}
-</script>
-	
+{include file='header.tpl'}
 
 <div id="videouploadwrap">
 	
 			<div  class="mbot12">
 				<form name="videoupload" action="{$form_upload}" method="post">
-					<div class="f100 mtopl6">{$smarty.const._HWDVIDS_SHIGARU_THANKYOU} <span class="boldred">{$username}</span> {$smarty.const._HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING}</div>
+					<div class="f100 mtop24">{$smarty.const._HWDVIDS_SHIGARU_THANKYOU} <span class="boldred">{$username}</span> {$smarty.const._HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING}</div>
+					<div class="f100 mtop24"><span class="fontbold">Step 1/2: </span>Copy and paste the url (link) of the music tutorial that you have uploaded or found on another site.</div>
 						<div  class="tright">
-						  <input name="videourl" id="videourl" placeholder="Paste or type here the URL of the video" value="" class="inputtext mbot12" size="42" />
+						  <input name="videourl" id="videourl" placeholder="Paste or type here the URL of the video. Example: http://www.youtube.com/watch?v=B6lbqdKC5NQy" value="" class="inputtext mbot12" size="42" />
 						  <br />
 						  <span class="mright6 mtopl6">{$smarty.const._HWDVIDS_TITLE_SUPWEB}</span>
 						  {$supported_websites}

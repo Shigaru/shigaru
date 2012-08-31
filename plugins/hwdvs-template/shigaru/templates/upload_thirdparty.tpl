@@ -8,39 +8,31 @@
 *}
 {literal}
 <style>
-        span.reference{
-            position:fixed;
-            left:5px;
-            top:5px;
-            font-size:10px;
-            text-shadow:1px 1px 1px #fff;
-        }
-        span.reference a{
-            color:#555;
-            text-decoration:none;
-			text-transform:uppercase;
-        }
-        span.reference a:hover{
-            color:#000;
-            
-        }
-        h1{
-            color:#ccc;
-            font-size:36px;
-            text-shadow:1px 1px 1px #fff;
-            padding:20px;
-        }
+
     </style>
  {/literal}   
  <div class="content_box">
 <h3>{$smarty.const._HWDVIDS_SHIGARU_ONEOFTWO}</h3>
 {include file='header.tpl'}
-
+ </div>
 <script>
 	var domain = "{$domain}";
 	{literal}
-	/*jQuery(document).ready(function() {	
-			var lastData;
+	jQuery(document).ready(function() {	
+	
+			jQuery('#infograbbed').show();
+				jQuery('#infograbbed #yes').click(function() { 
+					//$('#fromhwdshare').hide();
+					jQuery.unblockUI(); 
+					return false; 
+				});	
+				jQuery.blockUI({ message: jQuery('#infograbbed'), css: { width: '600px' } }); 
+				jQuery('#infograbbed #no').click(function() { 
+					jQuery.unblockUI(); 
+					return false; 
+				});	
+				
+			/*var lastData;
 			jQuery( "#songtitle" ).autocomplete({
 					
 					//define callback to format results
@@ -95,12 +87,44 @@
 				jQuery(".remove").live("click", function(){
 					//remove current
 					jQuery(this).parent().remove();		
-				});	
-		});*/
+				});	*/
+		});
 </script>
 {/literal}
-<div class="f100 mtopl6">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
+<div class="f100 mtopl50">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
+<div id="infograbbed">
+			<div>
+				<p class="f100 mbot20">OK, we have been able to get the following information for this video. Feel free edit it, we are sure you can make it better ;-)</p>
+			</div>
+			<div class="fleft">
+				<div><img src="{$thumburl}" title="{$videoInfo->video_title}" /></div>
+				<div class="mtop12"><span>{$videoInfo->video_length} min</span></div>
+				
+			</div>
+			<div class="fleft w70pc pad12">
+				<div class="fright">
+					<a href="#" target="_blank" title="Go to Youtube.com"></a>
+				</div>	
+				<div class="mbot20 mtop12">
+					   <span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</span>	
+					  {$videoInfo->video_title}
+					  <a href="#" class="fontbold mleft6" title="Click to edit">Edit</a>
+				</div>
+				<div class="mbot20">
+					   <span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_VIDEODESCRIP}</span>	
+					  {$descriptionplain}
+					  <a href="#" class="fontbold mleft6" title="Click to edit">Edit</a>
+				</div>
+				<div class="mbot20">
+					   <span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS}</span>	
+					  {$videoInfo->tags}
+					  <a href="#" class="fontbold mleft6" title="Click to edit">Edit</a>
+				</div>
+            </div>
+            <div class="clear"></div>
+            <input type="button" class="mtop24 reddbuttonsubmit" id="yes" value="Ok" /> 
 
+</div>
 <div id="contentSliderForm" class="clear">
 	<div id="wrapperSliderForm">
 		<div id="steps">
@@ -111,15 +135,15 @@
                             <p>
 								<label for="category_id">{$smarty.const._HWDVIDS_SHIGARU_TYPEVIDEO} <font class="required">*</font></label>
                                {$categoryselect}
+                               <div class="clear"></div>
                             </p>
-							<p>
+							<p id="titlebox" class="dispnon">
                                 <label for="videotitle">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO} <font class="required">*</font></label>
                                 <input type="text" id="videotitle" name="videotitle" size="40" value="{$videoInfo->video_title}" class="required" AUTOCOMPLETE=ON minlength="2"/>
                                  <br />
 								<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_EXAMPLETITLE}</span>
-                            </p>
-                           
-                            <div id="wysigyginfovideo">
+                            </p>                           
+                            <div class="dispnon" id="wysigyginfovideo">
 								<label for="description">{$smarty.const._HWDVIDS_SHIGARU_VIDEODESCRIP} <font class="required">*</font></label>	
 								<br />
 								 
@@ -159,7 +183,7 @@
                                 {$levelsCombo}
                             </p>
                             
-                            <p>
+                            <p id="tagsbox" class="dispnon">
                                 <label for="tags">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS} <font class="required">*</font></label>
                                 <input type="text" value="{$videoInfo->tags}" class="required" id="tags" name="tags" size="40"/>
                                 <br />
@@ -177,10 +201,6 @@
                             <p>
                                 <label for="language_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_VIDEO_LANGUAGE} <font class="required">*</font></label>
                                 {$languagesCombo}
-                            </p>
-							<p>
-                                <label for="ip_address">{$smarty.const._HWDVIDS_SHIGARU_YOURIP} <font class="required">*</font></label>
-                                <input type="text" value="{$ipaddress}" disabled="disabled" class="required" id="ip_address" name="ip_address" size="40"/>
                             </p>   
                             <p>
                                 <label for="security_code">{$smarty.const._HWDVIDS_INFO_SECURECODE} <font class="required">*</font></label>
@@ -190,10 +210,6 @@
                                 {$captcha}
 								</span>
 								
-                            </p>
-                             <p>
-                                <label for="shigaruuser">{$smarty.const._HWDVIDS_SHIGARU_SHIGARUUSER} <font class="required">*</font></label>
-                                <input type="text" value="{$username}" class="required" disabled="disabled" class="required" id="shigaruuser" name="shigaruuser" size="40"/>
                             </p>
 							<p>
 								Everything in the form was correctly filled 
@@ -207,6 +223,8 @@
                                 <button id="registerButton" type="submit">{$smarty.const._HWDVIDS_BUTTON_ADD}</button>
                             </p>
                         </fieldset>    
+                        <input type="hidden" value="{$username}" id="shigaruuser" name="shigaruuser"/>
+                        <input type="hidden" value="{$ipaddress}" id="ip_address" name="ip_address"/>
                         <input type="hidden" name="videotype" value="{$videotype}" />
 						<input type="hidden" name="video_id" value="{$videoInfo->video_id}" />
 						<input type="hidden" name="video_length" value="{$videoInfo->video_length}" />

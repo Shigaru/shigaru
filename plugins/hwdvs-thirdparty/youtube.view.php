@@ -277,7 +277,6 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 	{
 		$url = "http://www.youtube.com/watch?v=".$video_id;
 		$url = hwd_vs_tools::get_final_url( $url );
-var_dump('1******');
 		if (function_exists('curl_init')) {
 			// get title with CURL
 			$curl_handle=curl_init();

@@ -10,7 +10,8 @@
 {if $full}{include file='header.tpl'}{/if}
 
 <div class="shigaruinfo">
- {$title}
+ <!--{$title}-->
+ <a id="no" title="Close this message" class="close"></a>
   <div class="padding">
     <img src="{$icon}" border="0" style="vertical-align:middle;" />&nbsp;&nbsp;{$message}<br /><br />
     {$backlink}
