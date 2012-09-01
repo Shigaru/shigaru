@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist version="1">
+<title>hwdVideoShare mostpopular_today Playlist</title>
+<info>http:/xspf.org/xspf-v1.html</info>
+<date>2012-09-01 10:25:44</date>
+<trackList>
+
+  <track>
+    <id><![CDATA[140]]></id>
+    <videotitle><![CDATA[PI&#209;ON FIJO por una ventanita]]></videotitle>
+    <videocode><![CDATA[_6eqAI-H0pY]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-140.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[Bajate el dvd en:
+http://www.taringa.net/posts/downloads/2428954/Pi&#241;on-Fijo-Ratdvd.html]]></description>
+    <views><![CDATA[28]]></views>
+    <numfavoured><![CDATA[1]]></numfavoured>
+    <views><![CDATA[28]]></views>
+    <date><![CDATA[2012-02-03 14:49:24]]></date>
+    <duration><![CDATA[02:52]]></duration>
+    <rating><![CDATA[5.00]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[79]]></uploader_id>
+    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
+    <comments><![CDATA[2]]></comments>
+    <tags><![CDATA[PIÑON, FIJO, por, una, ventanita]]></tags>
+  </track>
+
+</trackList>
+</playlist>

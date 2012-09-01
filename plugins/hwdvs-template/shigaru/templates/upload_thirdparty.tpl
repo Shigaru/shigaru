@@ -19,15 +19,22 @@
 	var domain = "{$domain}";
 	{literal}
 	jQuery(document).ready(function() {	
-	
 			jQuery('#infograbbed').show();
-				jQuery('#infograbbed #yes').click(function() { 
-					//$('#fromhwdshare').hide();
+				jQuery('#infograbbed #yes').click(function() {
 					jQuery.unblockUI(); 
+					jQuery('#infograbbed').hide();
 					return false; 
 				});	
-				jQuery.blockUI({ message: jQuery('#infograbbed'), css: { width: '600px' } }); 
+				var oWindowWidth = jQuery(window).width();
+				var oObjectwidth = jQuery('#infograbbed').width();
+				var oLeftPosition  = (oWindowWidth - oObjectwidth) / 2;
+				var oWindowHeight = jQuery(window).height();
+				var oObjectHeight = jQuery('#infograbbed').height();
+				var oTopPosition  = (oWindowHeight - oObjectHeight) / 2;
+				jQuery.blockUI({ message: jQuery('#infograbbed'), css : { border : 'none', height: 'auto', 'cursor': 'auto', 'width': (oObjectwidth+20)+'px', 'top': oTopPosition, 'left' : oLeftPosition   } });
+
 				jQuery('#infograbbed #no').click(function() { 
+					jQuery('#infograbbed').hide();
 					jQuery.unblockUI(); 
 					return false; 
 				});	
@@ -94,10 +101,10 @@
 <div class="f100 mtopl50">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
 <div id="infograbbed">
 			<div>
-				<p class="f100 mbot20">OK, we have been able to get the following information for this video. Feel free edit it, we are sure you can make it better ;-)</p>
+				<p class="f120 mbot20 pad12 fontbold">OK, we have been able to get the following information for this video. Feel free edit it, we are sure you can make it better ;-)</p>
 			</div>
 			<div class="fleft">
-				<div><img src="{$thumburl}" title="{$videoInfo->video_title}" /></div>
+				<div class="mtop25"><img src="{$thumburl}" title="{$videoInfo->video_title}" /></div>
 				<div class="mtop12"><span>{$videoInfo->video_length} min</span></div>
 				
 			</div>

@@ -1,0 +1,22 @@
+/**
+ * $Id: style.css 353 2012-03-03 01:53:03Z meloman $
+ * @package     mod_incomplete_info
+ * @copyright   Copyright © 2010-2012 - All rights reserved.
+ * @license     GNU/GPL
+ * @author      Alain Rivest
+ * @author mail info@aldra.ca
+ * @website     Aldra.ca
+ */
+
+.incomplete_info
+{
+	border: 2px solid #AB0900;
+	padding: 10px;
+}
+
+.incomplete_info p
+{
+	color: #AB0900;
+	font-size:14px;
+	font-weight:bold;
+}
