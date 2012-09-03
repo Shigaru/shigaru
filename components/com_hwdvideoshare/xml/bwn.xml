@@ -2,8 +2,53 @@
 <playlist version="1">
 <title>hwdVideoShare bwn Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-09-03 22:09:03</date>
+<date>2012-09-03 23:33:21</date>
 <trackList>
+
+  <track>
+    <id><![CDATA[145]]></id>
+    <videotitle><![CDATA[PI&#209;ON FIJO pi&#241;on fijo es mi nombre]]></videotitle>
+    <videocode><![CDATA[EkaKwa1COOo]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-145.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[2]]></category_id>
+    <description><![CDATA[PI&#209;ON FIJO pi&#241;on fijo es mi nombre]]></description>
+    <views><![CDATA[36]]></views>
+    <views><![CDATA[36]]></views>
+    <date><![CDATA[2012-02-03 14:49:44]]></date>
+    <duration><![CDATA[01:53]]></duration>
+    <rating><![CDATA[0.00]]></rating>
+    <uploader><![CDATA[admin]]></uploader>
+    <uploader_id><![CDATA[79]]></uploader_id>
+    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[PIÑON, FIJO, piñon, fijo, es, mi, nombre]]></tags>
+  </track>
+
+  <track>
+    <id><![CDATA[133]]></id>
+    <videotitle><![CDATA[C&#211;MO TOCAR &#34;LA SILLA EL&#201;CTRICA&#34; DE BARRICADA (PARTE 1)]]></videotitle>
+    <videocode><![CDATA[ofPtUW_xsuQ]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-133.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[Este v&#237;deo tiene 2 partes, ya que era muy largo. En la primera, las explicaciones, y en la segunda, el tema completo. He elegido la versi&#243;n del disco en directo &#34;Salud y rocanrol&#34;, que se parece m&#225;s a la que hacen ahora (es un poco diferente).Salud y ca&#241;a!
+Equipo:
+- Gibson Les Paul Studio 93
+- Fender Super Champ XD en voice 8]]></description>
+    <views><![CDATA[59]]></views>
+    <views><![CDATA[59]]></views>
+    <date><![CDATA[2011-12-18 22:27:56]]></date>
+    <duration><![CDATA[07:12]]></duration>
+    <rating><![CDATA[4.50]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4f2856bc37049.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[La silla eléctrica, Barricada, Salud y rocanrol, Rock]]></tags>
+  </track>
 
   <track>
     <id><![CDATA[130]]></id>

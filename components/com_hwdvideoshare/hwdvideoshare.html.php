@@ -1013,6 +1013,7 @@ class hwd_vs_html
 		//$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
 		
 		$smartyvs->assign("songPlayer", $songPlayer);
+		$smartyvs->assign("thumburl", hwd_vs_tools::generateThumbnailURL( $row->id, $row->video_id, $row->video_type, $row->thumbnail ));
 		
 		$smartyvs->assign("showMoreButton", 1);
 

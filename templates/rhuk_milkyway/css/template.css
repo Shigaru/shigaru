@@ -714,7 +714,8 @@ width: 75%;}
 #searchpages a.page.gradient {
     background: -moz-linear-gradient(0% 0 270deg, #F8F8F8, #E9E9E9) repeat scroll 0 0 transparent;
 }
-
+.pin-it-button{margin: 11px 12px 0 12px;
+display: block;}
 .shigaruinfo{border: 1px solid;margin: 30px 0 0 0;padding:0 10px 0 30px;
     position:relative;
     border-color: #FFBF00;
