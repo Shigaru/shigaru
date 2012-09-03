@@ -45,7 +45,7 @@
 								</div>
 								<div class="fleft">
 									<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
-									<a href="http://pinterest.com/pin/create/button/?url={$currentUrl}&media={$thumburl}&description={$videoplayer->description}" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+									<a href="http://pinterest.com/pin/create/button/?url={$currentUrl}&media={$thumburl}&description={$videoplayer->titleText}" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
 								</div>
 								<div class="clear">   </div> 
 								 <div id="actionsresponse"><a class="" title="Close this message" href="#">x</a><div></div></div>
