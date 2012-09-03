@@ -2,8 +2,29 @@
 <playlist version="1">
 <title>hwdVideoShare bwn Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-09-01 10:25:44</date>
+<date>2012-09-01 11:31:37</date>
 <trackList>
+
+  <track>
+    <id><![CDATA[124]]></id>
+    <videotitle><![CDATA[Pin Pon es un mu&#241;eco...]]></videotitle>
+    <videocode><![CDATA[B6lbqdKC5NQ]]></videocode>
+    <videotype><![CDATA[youtube.com]]></videotype>
+    <thumbnail><![CDATA[tp-124.jpg]]></thumbnail>
+    <category><![CDATA[]]></category>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[rondas infantiles]]></description>
+    <views><![CDATA[40]]></views>
+    <views><![CDATA[40]]></views>
+    <date><![CDATA[2011-12-10 18:33:44]]></date>
+    <duration><![CDATA[02:27]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4f2856bc37049.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[rondas, infantiles]]></tags>
+  </track>
 
   <track>
     <id><![CDATA[133]]></id>
@@ -205,27 +226,6 @@ http://www.taringa.net/posts/downloads/2428954/Pi&#241;on-Fijo-Ratdvd.html]]></d
     <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
     <comments><![CDATA[2]]></comments>
     <tags><![CDATA[PIÑON, FIJO, por, una, ventanita]]></tags>
-  </track>
-
-  <track>
-    <id><![CDATA[157]]></id>
-    <videotitle><![CDATA[Los instrumentos musicales]]></videotitle>
-    <videocode><![CDATA[vbqLG0S98N0]]></videocode>
-    <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-157.jpg]]></thumbnail>
-    <category><![CDATA[]]></category>
-    <category_id><![CDATA[3]]></category_id>
-    <description><![CDATA[Aqu&#237;  contrar&#225;s la agrupaci&#243;n general de los instrumentos musicales y de la colocaci&#243;n de &#233;stos en la orquesta&#161;&#161;Que disfruteis&#161;&#161;]]></description>
-    <views><![CDATA[22]]></views>
-    <views><![CDATA[22]]></views>
-    <date><![CDATA[2012-07-27 18:59:59]]></date>
-    <duration><![CDATA[06:14]]></duration>
-    <rating><![CDATA[0.00]]></rating>
-    <uploader><![CDATA[murcialito]]></uploader>
-    <uploader_id><![CDATA[67]]></uploader_id>
-    <avatar><![CDATA[67_4f2856bc37049.jpg]]></avatar>
-    <comments><![CDATA[0]]></comments>
-    <tags><![CDATA[independiente]]></tags>
   </track>
 
 </trackList>

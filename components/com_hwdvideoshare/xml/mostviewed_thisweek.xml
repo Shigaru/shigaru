@@ -2,7 +2,7 @@
 <playlist version="1">
 <title>hwdVideoShare mostviewed_thisweek Playlist</title>
 <info>http:/xspf.org/xspf-v1.html</info>
-<date>2012-09-01 10:25:44</date>
+<date>2012-09-01 11:31:37</date>
 <trackList>
 
   <track>
@@ -15,7 +15,7 @@
     <category_id><![CDATA[3]]></category_id>
     <description><![CDATA[&#60;p&#62;http://www.virtuosso.com Aprende a tocar el solo de la famosa canci&#243;n Higway to hell de AC/DC. Los mejores cursos de guitarra en DVD los tiene Virtuosso. S&#237;guenos en Twitter: http://www.twitter.com/Virtuosso&#60;/p&#62;]]></description>
     <views><![CDATA[554]]></views>
-    <numfavoured><![CDATA[57]]></numfavoured>
+    <numfavoured><![CDATA[59]]></numfavoured>
     <views><![CDATA[554]]></views>
     <date><![CDATA[2011-12-10 18:52:23]]></date>
     <duration><![CDATA[06:52]]></duration>
@@ -235,25 +235,25 @@ Equipo:
   </track>
 
   <track>
-    <id><![CDATA[142]]></id>
-    <videotitle><![CDATA[PI&#209;ON FIJO basta de mamadera]]></videotitle>
-    <videocode><![CDATA[JcQJRb3DCkc]]></videocode>
+    <id><![CDATA[124]]></id>
+    <videotitle><![CDATA[Pin Pon es un mu&#241;eco...]]></videotitle>
+    <videocode><![CDATA[B6lbqdKC5NQ]]></videocode>
     <videotype><![CDATA[youtube.com]]></videotype>
-    <thumbnail><![CDATA[tp-142.jpg]]></thumbnail>
+    <thumbnail><![CDATA[tp-124.jpg]]></thumbnail>
     <category><![CDATA[]]></category>
-    <category_id><![CDATA[2]]></category_id>
-    <description><![CDATA[PI&#209;ON FIJO basta de mamadera]]></description>
-    <views><![CDATA[33]]></views>
+    <category_id><![CDATA[3]]></category_id>
+    <description><![CDATA[rondas infantiles]]></description>
+    <views><![CDATA[40]]></views>
     <numfavoured><![CDATA[7]]></numfavoured>
-    <views><![CDATA[33]]></views>
-    <date><![CDATA[2012-02-03 14:49:32]]></date>
-    <duration><![CDATA[02:55]]></duration>
-    <rating><![CDATA[0.00]]></rating>
-    <uploader><![CDATA[admin]]></uploader>
-    <uploader_id><![CDATA[79]]></uploader_id>
-    <avatar><![CDATA[79_4f25862a04afa.jpg]]></avatar>
-    <comments><![CDATA[1]]></comments>
-    <tags><![CDATA[PIÑON, FIJO, basta, de, mamadera]]></tags>
+    <views><![CDATA[40]]></views>
+    <date><![CDATA[2011-12-10 18:33:44]]></date>
+    <duration><![CDATA[02:27]]></duration>
+    <rating><![CDATA[4.00]]></rating>
+    <uploader><![CDATA[murcialito]]></uploader>
+    <uploader_id><![CDATA[67]]></uploader_id>
+    <avatar><![CDATA[67_4f2856bc37049.jpg]]></avatar>
+    <comments><![CDATA[0]]></comments>
+    <tags><![CDATA[rondas, infantiles]]></tags>
   </track>
 
 </trackList>
