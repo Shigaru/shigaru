@@ -94,30 +94,16 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
  ?>
 								
 <div class="comment-body" id="comment-body-<?php echo $comment->id; ?>"><?php echo $comment->comment; ?></div>
-<?php
-				if (($this->getVar('button-reply') == 1)
-				|| ($this->getVar('button-quote') == 1)) {
-?>
-<span class="comment-date"><?php echo JCommentsText::formatDate($comment->datetime, JText::_('DATE_FORMAT_LC3')); ?></span>
-
+<span class="comment-date"><?php echo JCommentsText::formatDate($comment->datetime, JText::_('DATE_FORMAT_LC2')); ?></span>
 </div>
-
 <div class="comments-buttons">
 
 <a href="#" onclick="jcomments.showReply(<?php echo $comment->id; ?>); return false;"><?php echo JText::_('Reply'); ?></a>
-<?php
-						if ($this->getVar('button-quote') == 1) {
-?>
+
  <a href="#" onclick="jcomments.showReply(<?php echo $comment->id; ?>,1); return false;"><?php echo JText::_('Reply with quote'); ?></a>
-<?php
-		                        	}
-					}
-					if ($this->getVar('button-quote') == 1) {
-?>
+
 <a href="#" onclick="jcomments.quoteComment(<?php echo $comment->id; ?>); return false;"><?php echo JText::_('Quote'); ?></a>
-<?php
-					}
-?>
+
 </div>
 <?php
                                 }
@@ -137,10 +123,7 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
 	*
 	* Displays comment's administration panel
 	*
-	* Отображает панель управления комментарием. Данная панель содержит кнопки
-	* для редактирования, удаления и публикации комментария. Если каких-то кнопок
-	* не видно - значит у пользователя отсутствую права на эти функции.
-	*
+	* 
 	*/
 	function getCommentAdministratorPanel( &$comment )
 	{
