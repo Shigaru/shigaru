@@ -32,30 +32,21 @@ $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js
 $session = JSession::getInstance("none",array());
 $host = JURI::root();
 $ses=$session->getId();
-
 if(!function_exists("freichatx_get_hash")){
-function freichatx_get_hash($ses){
-	
+function freichatx_get_hash($ses){	
 	if ( defined( 'JPATH_SITE' ) ) {
        if(is_file(JPATH_SITE.'/freichat/arg.php')){
-
                require JPATH_SITE.'/freichat/arg.php';
                $temp_id =  $ses . $uid;
-
                return md5($temp_id);
-
-       }else
-       {
+       }else{
                echo "<script>alert('module freichatx says: arg.php file not found!');</script>";
        }
-       
-       }else
-       {
-               echo "<script>alert('module freichatx says: arg.php file not found!');</script>";
+     }else{
+              echo "<script>alert('module freichatx says: arg.php file not found!');</script>";
        }
-
-       return 0;
-}
+    return 0;
+   }
 }
 ?>
 <link rel="stylesheet" href="<?php echo $host; ?>freichat/client/jquery/freichat_themes/freichatcss.php" type="text/css">
@@ -166,6 +157,12 @@ function freichatx_get_hash($ses){
 <div class="clear"></div>
 <div class="workarea">
 	<div class="workarea_wrapper">
+<?php		
+      if ($user->get('guest') != 1 && $user->lastvisitDate == "0000-00-00 00:00:00")
+      {
+         echo 'amos pichica';       
+      }		
+?>      
 <jdoc:include type="message" />
 <jdoc:include type="modules" name="left" style="rounded" />
 <jdoc:include type="component" />

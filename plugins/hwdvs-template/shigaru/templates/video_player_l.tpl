@@ -24,7 +24,7 @@
 					 {$videoplayer->titleText} {$videoplayer->editvideo} {$videoplayer->deletevideo}
 					 </div>
 					 <div class="fright mbot12">
-							<div class="fleft mright6">{$smarty.const._HWDVIDS_INFO_SHARED}<br />{$videoplayer->username}</div><div class="fleft">{$videoplayer->avatar}</div>
+							<div class="fleft mright6">{$smarty.const._HWDVIDS_INFO_SHARED}<br />{$videoplayer->uploader}</div><div class="fleft">{$videoplayer->avatar}</div>
 					</div>
 				  </div>
 				  <div class="padding clear"><center>{$videoplayer->player}</center></div>

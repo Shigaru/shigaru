@@ -429,7 +429,7 @@ DEFINE("_HWDVIDS_PREV","&laquo; Prev");
 DEFINE("_HWDVIDS_TITLE_PERMALINK","Permalink");
 DEFINE("_HWDVIDS_TITLE_MOREBYUSR","More from this user");
 DEFINE("_HWDVIDS_TITLE_REPORTTHISVIDEO","Are you sure you wish to report this video?");
-DEFINE("_HWDVIDS_ALT_USRPRO","User Profile");
+DEFINE("_HWDVIDS_ALT_USRPRO","Click to view this user´s profile page");
 DEFINE("_HWDVIDS_TAGS","Tags");
 DEFINE("_HWDVIDS_FLASHUPDL_allowedExtDescr","Allowed Video Files");
 DEFINE("_HWDVIDS_FLASHUPDL_validFileMessage","Thank you! Now hit upload.");

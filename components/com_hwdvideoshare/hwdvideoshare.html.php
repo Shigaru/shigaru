@@ -929,7 +929,7 @@ class hwd_vs_html
 
 		$smartyvs->assign("videoplayer", hwd_vs_tools::generateVideoDetails($row, null, null, null, $Itemid, null, null));
 		//$smartyvs->assign("videoplayer", $videoplayer);
-
+		//var_dump(hwd_vs_tools::generateVideoDetails($row, null, null, null, $Itemid, null, null));
 		if (count($related_videos) > 0 && $c->showrevi == "1")
 		{
 			if (isset($hwdvsTemplateOverride['thumbWidth8']))

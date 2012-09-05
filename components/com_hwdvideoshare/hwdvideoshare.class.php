@@ -2368,7 +2368,7 @@ $app = & JFactory::getApplication();
 					}
 				}
 				if ($c->cbitemid !== "") { $c->cbitemid = "&Itemid=".$c->cbitemid; }
-				$code = "<a href=\"".JRoute::_("index.php?option=com_comprofiler".$c->cbitemid."&task=userProfile&user=".$user_id)."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"thumb".$k."\" /></a><br />";
+				$code = "<a href=\"".JRoute::_("index.php?option=com_comprofiler".$c->cbitemid."&task=userProfile&user=".$user_id)."\" title=\""._HWDVIDS_ALT_USRPRO."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"thumb".$k."\" /></a><br />";
 			}
 			else if ($c->cbint == 4)
 			{
@@ -4758,7 +4758,7 @@ $app = & JFactory::getApplication();
 		if ($c->cbint == 1)
 		{
 			if ($c->cbitemid !== "") { $c->cbitemid = "&Itemid=".$c->cbitemid; }
-			$code = "<a href=\"".JRoute::_("index.php?option=com_comprofiler".$c->cbitemid."&task=userProfile&user=".$user_id)."\">".$displayname."</a>";
+			$code = "<a href=\"".JRoute::_("index.php?option=com_comprofiler".$c->cbitemid."&task=userProfile&user=".$user_id)."\" title=\""._HWDVIDS_ALT_USRPRO."\">".$displayname."</a>";
 		}
 		else if ($c->cbint == 2)
 		{
