@@ -162,7 +162,7 @@ class getcaptchaTab extends cbTabHandler {
 		
 		$this->_putCaptchaParameters();					 
 
-		$imageUrl = $mainframe->getCfg( 'live_site' ) . '/components/com_comprofiler/plugin/user/plug_cbcaptcha/captchaindex.php?urlmode=image&captchasid='.session_id();
+		$imageUrl = $mainframe->getCfg( 'live_site' ) . '/index.php?option=com_comprofiler&task=captchaGenImage&urlmode=image&captchasid='.session_id();
 
 		$CaptchaImage = '<img id="imagescaptchup" src="' . $imageUrl . '" alt="'. htmlspecialchars(_UE_CAPTCHA_ALT_IMAGE) . '" />';
 		
@@ -294,7 +294,11 @@ class getcaptchaTab extends cbTabHandler {
 		 <script language=\"javascript\">
 			jQuery(document).ready(function($){					
 					jQuery('#captchanewcode').click(function(e) {
-						oURL= jQuery('#imagescaptchup').attr('src')+'&refreshcaptcha=true';
+						if(jQuery('#imagescaptchup').attr('src').indexOf('refresh')>-1)
+							oURL= jQuery('#imagescaptchup').attr('src')+'&'+Math.random()+'='+Math.random();
+							else
+								oURL= jQuery('#imagescaptchup').attr('src')+'&refresh=true';
+								
 						jQuery('#imagescaptchup').remove();
 						jQuery('#catchawrap').append('<img id=\"imagescaptchup\" src=\"'+oURL+'\" />');	
 					});

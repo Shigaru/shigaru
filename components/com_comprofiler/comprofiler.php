@@ -280,6 +280,10 @@ switch( $task ) {
 	performCheckEmail( cbGetParam( $_POST, 'value' ), cbGetParam( $_GET, 'function' ) );
 	break;
 
+	case "captchaGenImage":
+	captchaGenImage( cbGetParam( $_GET, 'urlmode' ), cbGetParam( $_GET, 'captchasid' ) ,cbGetParam( $_GET, 'refresh' ));
+	break;
+	
 	default:
 	userProfile($option, $_CB_framework->myId(), _UE_UPDATE);
 	break;
@@ -1128,6 +1132,108 @@ function performCheckUsername( $username, $function ) {
 		echo ( '<span class="cb_result_error">' . ISOtoUtf8( _UE_SEARCH_ERROR ) . ' !' . '</span>' );
 	}
 }
+
+/**
+ * Ajax function: Checks the availability of a username for registration and echoes a text containing the result of username search.
+ *
+ * @param string $username
+ */
+
+function captchaGenImage($mode="urlmode",$sid=null,$refresh="false"){
+	
+		if ( ! preg_match( '/^[A-Za-z0-9]*$/', $sid ) ) {
+			echo ( '<span class="cb_result_error">Invalid access</span>' );
+		}
+		if ( session_id() == '' ) {
+				session_start();
+			}
+		session_id(strip_tags($sid));
+		
+		if ( ( count($_SESSION) == 0 ) ||
+			(( ! isset( $_SESSION['cbcaptchaparams']['captchaCode'] ) ) ) ||
+			( ! isset( $_SESSION['cbcaptchaparams'] ) ) || 
+			( ! is_array($_SESSION['cbcaptchaparams'] ) ) ) {
+			die( 'invalid session.' );
+		}
+		
+		$oCode="";
+		
+		if($refresh =="true"){
+			// Plugin Parameters with default settings
+			$cbcaptchaparms['captchaWidth']				= '95';
+			$cbcaptchaparms['captchaHeight']			= '30';
+			$cbcaptchaparms['captchaNumChars']			= '5';
+			$cbcaptchaparms['captchaCharSet']			= 'abcdefhijklmnopqrstuvwxyz23456789'; 
+			$cbcaptchaparms['captchaFont']				= '0';
+			$cbcaptchaparms['captchaBackgroundRGB']		='255,255,255';
+			$cbcaptchaparms['captchaTextRGB']			= '20,40,100';          
+			$cbcaptchaparms['captchaNoiseRGB']			= '100,120,180';
+			$cbcaptchaparms['captchaSecurityMode']		= 'captchaSecurityMode';
+			$numofcharacters=$cbcaptchaparms['captchaNumChars'];
+			$possible = $cbcaptchaparms['captchaCharSet'];
+			$code = '';
+			$i = 0;
+			while ($i < $numofcharacters) { 
+				$code .= substr($possible, mt_rand(0, strlen($possible)-1), 1);
+				$i++;
+			}
+			if ( session_id() == '' ) {
+				session_start();
+			}
+			$cbcaptchaparms['captchaCode']	= $code;
+			$oCode = $code;
+			$_SESSION['cbcaptchaparams']	=	$cbcaptchaparms; 	// this is needed to send data to stand-alone php file
+		}
+		
+		
+		
+		
+		$thispath = dirname(__FILE__);
+		
+		
+		include_once( $thispath . '/plugin/user/plug_cbcaptcha/captchasecurityimages.php');
+        $cbcaptchaparms = $_SESSION['cbcaptchaparams'];   
+		// Get Plugin Parameters from session
+		$cbcaptcha_width = $cbcaptchaparms['captchaWidth'];
+		$cbcaptcha_height = $cbcaptchaparms['captchaHeight'];
+		$cbcaptcha_font2use = $cbcaptchaparms['captchaFont'];
+        $cbcaptcha_backgroundRGB = $cbcaptchaparms['captchaBackgroundRGB'];
+        if (substr_count($cbcaptcha_backgroundRGB,',')!=2) {
+        	$cbcaptcha_backgroundRGB = '255,255,255';
+		}      
+        $cbcaptcha_captchaTextRGB = $cbcaptchaparms['captchaTextRGB'];
+        if (substr_count($cbcaptcha_captchaTextRGB,',')!=2) {
+        	$cbcaptcha_captchaTextRGB = '20,40,100';
+		}              
+        $cbcaptcha_captchaNoiseRGB = $cbcaptchaparms['captchaNoiseRGB'];
+        if (substr_count($cbcaptcha_captchaNoiseRGB,',')!=2) {
+        	$cbcaptcha_captchaNoiseRGB = '100,120,180';              
+		}
+		$captchaGenerator = new CaptchaSecurityImages();
+		$captchaGenerator->setfont($cbcaptcha_font2use);
+		
+		$brgb = explode(",",$cbcaptcha_backgroundRGB);
+		$captchaGenerator->setrgb($brgb[0],'br');
+		$captchaGenerator->setrgb($brgb[1],'bg');
+		$captchaGenerator->setrgb($brgb[2],'bb');
+			
+		$trgb = explode(",",$cbcaptcha_captchaTextRGB);
+		$captchaGenerator->setrgb($trgb[0],'tr');
+		$captchaGenerator->setrgb($trgb[1],'tg');
+		$captchaGenerator->setrgb($trgb[2],'tb');
+				
+		$nrgb = explode(",",$cbcaptcha_captchaNoiseRGB);
+		$captchaGenerator->setrgb($nrgb[0],'nr');
+		$captchaGenerator->setrgb($nrgb[1],'ng');
+		$captchaGenerator->setrgb($nrgb[2],'nb');
+
+		$code = ($oCode =="")?$_SESSION['cbcaptchaparams']['captchaCode']:$oCode;
+		$code = $captchaGenerator->generateImage($cbcaptcha_width, $cbcaptcha_height, $code);	
+		echo $code;
+		exit();
+		
+	
+	}
 
 /**
  * Ajax function: Checks the availability of a username for registration and echoes a text containing the result of username search.

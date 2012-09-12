@@ -12,7 +12,6 @@
 
 
 define( '_VALID_MOS', 1 );
-include_once( '../../../../../globals.php' );
 if ( isset($_GET['urlmode']) && isset($_GET['captchasid']) ) {
 	$urlmode = $_GET['urlmode']; // Expected values image or audio
 	$captchasid = $_GET['captchasid'];

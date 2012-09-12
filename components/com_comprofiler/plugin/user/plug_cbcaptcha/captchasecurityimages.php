@@ -9,7 +9,7 @@
 * @license Limited  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL v2
 */
 
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' ) ) ) { die( 'Direct Access to this location is not allowed.' ); }
 
 /*
 * File: CaptchaSecurityImages.php
