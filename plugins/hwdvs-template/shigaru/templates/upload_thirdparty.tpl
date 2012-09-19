@@ -6,6 +6,7 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
+<script type="text/javascript" src="http://localhost/shigaru/components/com_comprofiler/js/jquery-1.5.2/jquery.validate.min.js?v=020b12f257965e65"></script>
 {literal}
 <style>
 
@@ -24,18 +25,28 @@
 				jQuery("#language_id").val(currentLang);
 				jQuery("#intrument_id").val("102");
 				jQuery("#level_id").val("30");
-				jQuery('#infograbbed .w70pc .mbot20 a').click(function() { 
+				jQuery('#infograbbed .w80pc .mbot20 a').click(function() { 
 					var oId= jQuery(this).attr('id');
 					oId = oId.substring(oId.indexOf('-')+1,oId.length);
 					var isEditor = oId.indexOf('descrip');
+					console.log(isEditor);
 					var $this = (isEditor > -1)?jQuery('#'+oId+'box'):jQuery('#grabbed-description');
 					var $clicked = jQuery(this);
 					jQuery('.viewmode,#yesall').hide();
+					if(isEditor != -1){
+						$clicked.parent().siblings('.usermessages').find('.fieldexplanation').css({'margin':'-12px 0 0 0'});
+					}
+					console.log('aa');
+					$clicked.parent().parent().siblings('.fright').css({'margin-top':'-45px'});
+					$clicked.parent().siblings('.usermessages').css({'margin-top':'-63px'});
+					console.log('bb');
 					$clicked.parent().siblings('.usermessages').fadeIn('slow');
+					console.log('cc');
 					$clicked.parent().parent().find('.usermessages input.required').keyup(function() {
 						jQuery(this).parent().siblings('.current').find('.grabbedtext').html(jQuery(this).val());
 						return false; 
 					});
+					console.log('dd');
 					$clicked.parent().parent().find('.usermessages input#yes').click(function() {
 						jQuery('.viewmode,#yesall').fadeIn('slow');
 						$clicked.parent().siblings('.usermessages').hide(); 
@@ -140,18 +151,18 @@
 <div class="f100 mtopl50">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
 <div id="infograbbed">
 			<div>
-				<p class="f120 mbot20 pad12 fontbold">OK, we have been able to get the following information for this video. Feel free edit it, we are sure you can make it better ;-)</p>
+				<p class="f120 mbot20 pad12 fontbold">OK, we have been able to get the following information for this video. Feel free to edit it, we are sure you can make it better ;-)</p>
 			</div>
 			<div class="fleft">
 				<div class="mtop25"><img src="{$thumburl}" title="{$videoInfo->video_title}" /></div>
 				<div class="mtop12"><span>{$videoInfo->video_length} min</span></div>
 				
 			</div>
-			<div class="fleft w70pc pad12">
+			<div class="fleft w80pc pad12">
 				<div class="fright">
 					<a href="#" target="_blank" title="Go to Youtube.com"></a>
 				</div>	
-				<div class="mbot20 mtop12">
+				<div class="mtop12 mbot20">
 					<div class="viewmode">
 						<span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</span>	
 						<span class="grabbedtext">{$videoInfo->video_title}</span>
@@ -217,7 +228,7 @@
 				</div>
             </div>
             <div class="clear"></div>
-            <input type="button" class="mtop24 reddbuttonsubmit" id="yesall" value="Ok" /> 
+            <input type="button" class="mtop24 mbot20 reddbuttonsubmit" id="yesall" value="Ok" /> 
 
 </div>
 <div id="contentSliderForm" class="clear">

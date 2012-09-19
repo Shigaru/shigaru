@@ -639,7 +639,6 @@ class hwd_vs_html
 			}
 
 		} else if ($uploadpage == "thirdparty") {
-			JHTML::_('behavior.formvalidation');
 			$app->setUserState( "com_hwdvideoshare.upload_selection", "tp" );
 			$oThirdPartyVideoInfo = hwd_vs_tools::getThirdPartyVideoInfo($videourl);		
 			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		

@@ -38,7 +38,7 @@ body{font-family: 'Ubuntu', arial, serif;color:#666666;}
 #topnavmenu div.topbuttons a{text-decoration:none;color:#fff; }
 #topnavmenu #grettings .cb_field img{width:35px;height:35px;}
 .mustardbutton,#registrationTable input.button{background: #999;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efcea0', endColorstr='#e7b671');
-background: -webkit-gradient(linear, left top, left bottom, from(#efcea0), to(#e7b671));background: -moz-linear-gradient(top,  #efcea0,  #e7b671);-moz-border-radius:5px;-webkit-border-radius:5px;border-radius: 5px;}	
+background: -webkit-gradient(linear, left top, left bottom, from(#efcea0), to(#e7b671));background: -moz-linear-gradient(top,  #efcea0,  #e7b671);-moz-border-radius:5px;-webkit-border-radius:5px;border-radius: 5px;cursor:pointer;}	
 .mustardbutton a{color:#000 !important;}
 #topnavmenu div#lang, #topnavmenu div#login{background: #352735;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius: 5px;}
 #topnavmenu div#lang a, #topnavmenu div#login a{padding: 4px 0 4px 0;}	
@@ -457,6 +457,7 @@ li.upoptions{
     margin: 5px 0 5px 15px;
     padding: 10px;
    }
+#wysigyginfovideo .blank{display:none;}   
  #contentSliderForm{
     margin:15px auto 70px;
     text-align:center;
@@ -582,7 +583,7 @@ span.error{
 #steps form p{margin: 5px 0 5px 15px;}
 #steps form #wysigyginfovideo label, #steps form p label{width: 33%;text-align:right;margin-right:15px;line-height:36px;color:#666;text-shadow:1px 1px 1px #fff;display:block;float:left;}
 #originalautorfields label.fnone{margin: 12px 12px 0;width: auto;}
-#steps form input:not([type=radio]),#steps form textarea,#steps form select{margin-left:5px;border: 1px solid #ddd;-moz-border-radius: 5px;-webkit-border-radius: 53px;border-radius: 5px;outline: none;padding: 5px;float:left;}
+#steps form input[type=text],#steps form input[type=password],#steps form textarea,#steps form select{margin-left:5px;border: 1px solid #ddd;-moz-border-radius: 5px;-webkit-border-radius: 53px;border-radius: 5px;outline: none;padding: 5px;float:left;}
 #steps form input:focus{-moz-box-shadow:0px 0px 3px #aaa;-webkit-box-shadow:0px 0px 3px #aaa;box-shadow:0px 0px 3px #aaa;background-color:#FFFEEF;}
 #steps form p.submit{background:none;border:none;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;}
 #steps form button {float: right;border:none;outline:none;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;color: #ffffff;display: block;cursor:pointer;margin: 20px auto;
@@ -617,7 +618,7 @@ form.cb_form .cb_form_line .cb_field	, .cb_tab_content .cb_form_line .cb_field		
 .demoinfo{position:absolute;bottom:10%;padding:50px;-moz-opacity:.80; filter:alpha(opacity=80); opacity:.80; background:#000; color:#fff; font-weight:bold;}
 #flagquestionwrap{background:url("../images/question.png") no-repeat scroll left top transparent;padding: 0 0 24px 126px;}
 #flagquestionwrap h1{margin-bottom:30px;}
-.usermessages{padding: 40px;cursor:default;background:rgb(255,255,255); /* Old browsers */
+.usermessages{padding: 40px 40px 0px 40px;cursor:default;background:rgb(255,255,255); /* Old browsers */
 /* IE9 SVG, needs conditional override of 'filter' to 'none' */
 background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U1ZTVlNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
 background: -moz-linear-gradient(-45deg,  rgba(255,255,255,1) 0%, rgba(229,229,229,1) 100%); /* FF3.6+ */
@@ -650,11 +651,11 @@ background: -o-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,
 background: -ms-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* IE10+ */
 background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
-;display:none;text-align:left; cursor:default;padding: 20px;}
-#infograbbed div.w70pc div.fright a{background:url("../images/youtube_logo_standard_againstwhite.png") no-repeat scroll left 12px transparent;
+;display:none;text-align:left; cursor:default;padding: 20px 20px 0 20px ;}
+#infograbbed div.w80pc div.fright a{background:url("../images/youtube_logo_standard_againstwhite.png") no-repeat scroll left 12px transparent;
 display:block;width:120px;height:60px;margin: -10px 0px 0 16px;padding: 6px;} 
-#infograbbed div.w70pc div.fright a,#infograbbed div.w70pc div.fright a:visited,#infograbbed div.w70pc div.fright a:link,
-#infograbbed div.w70pc div.fright a:active{color:blue;}
+#infograbbed div.w80pc div.fright a,#infograbbed div.w80pc div.fright a:visited,#infograbbed div.w80pc div.fright a:link,
+#infograbbed div.w80pc div.fright a:active{color:blue;}
 .blockUI .usermessages{margin:0;}
 .usermessages span.face{font-size: 1000%; float: left;width: 20%;}
 .usermessages span.message{font-size: 150%; float: left; margin: 20px 0px 85px 45px;
@@ -827,7 +828,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .fontbold{font-weight:bold;}
 .mtop12{margin-top:12px;}
 .mbot12{margin-bottom:12px;}
-.mbot20{margin-bottom:20px;}
+.mbot20{margin-bottom:20px !important;}
 .boxwhite{background-color:#fff;border-radius: 5px 5px 5px 5px;box-shadow: 0 0 3px #AAAAAA; border: 1px solid #C1C1C1;color:#000;}
 .mtopl6{margin-top:-6px;}
 .mtop25{margin-top:25px;}
@@ -847,6 +848,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .w20pc{width:20%;}
 .w40pc{width:40%;}
 .w70pc{width: 70%;}
+.w80pc{width: 80%;}
 .w30pc{width: 30%;}
 .pad6{padding: 6px;}
 .pad12{padding: 12px;}
