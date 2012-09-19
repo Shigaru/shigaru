@@ -1969,7 +1969,7 @@ $app = & JFactory::getApplication();
 		if ($pub) { $where = "\nWHERE published = 1"; } else { $where = null; }
 		$db->setQuery("SELECT id ,parent,category_name, access_u, access_lev_u, access_u_r from #__hwdvidscategories"
 		                . $where
-		                . "\nORDER BY id"
+		                . "\nORDER BY ordering"
 		                );
 		$mitems = $db->loadObjectList();
 		// establish the mhierarchy of the menu
