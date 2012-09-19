@@ -119,7 +119,7 @@ jQuery(document).ready(function($){
 			case 'rotate':
 						jQuery(oSlides).each(function(i,e){
 								if(i!=0)
-								jQuery(e).find('ul li span.thumbplay').css('display','none');
+								jQuery(e).find('ul li a.thumbplay').css('display','none');
 							});
 						
 						jQuery(opts.slidesWrapper).css('overflow', 'hidden');
@@ -149,10 +149,10 @@ jQuery(document).ready(function($){
 		updateSelection(oHRef);
 		jQuery(oSlides).each(function(i,e){
 								if(i!=oCurrentIndex)
-									jQuery(e).find('ul li span.thumbplay').css('display','none');
+									jQuery(e).find('ul li a.thumbplay').css('display','none');
 								else{
 									jQuery(opts.slidesWrapper +' .slideInner').animate({'marginLeft' : -(oCurrentIndex * oSlideWidth)},function(){
-										jQuery(e).find('ul li span.thumbplay').css('display','block');
+										jQuery(e).find('ul li a.thumbplay').css('display','block');
 									});
 							}
 			});	
