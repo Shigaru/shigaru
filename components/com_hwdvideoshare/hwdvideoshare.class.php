@@ -1969,7 +1969,7 @@ $app = & JFactory::getApplication();
 		if ($pub) { $where = "\nWHERE published = 1"; } else { $where = null; }
 		$db->setQuery("SELECT id ,parent,category_name, access_u, access_lev_u, access_u_r from #__hwdvidscategories"
 		                . $where
-		                . "\nORDER BY category_name"
+		                . "\nORDER BY id"
 		                );
 		$mitems = $db->loadObjectList();
 		// establish the mhierarchy of the menu
@@ -2033,6 +2033,7 @@ $app = & JFactory::getApplication();
 
 		// build the html select list
 		$code = hwd_vs_tools::selectList2($mitems, $cname, $tag_attribs, 'value', 'text', $selid);
+		
 		return $code;
     }
     /**
