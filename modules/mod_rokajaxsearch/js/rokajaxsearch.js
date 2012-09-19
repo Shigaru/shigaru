@@ -850,7 +850,7 @@ window.addEvent((window.webkit) ? 'load' : 'domready', function() {
 					'page_of': ' of',
 					'searchlink': '/index.php?option=com_search&amp;view=search',
 					'advsearchlink': '/index.php?option=com_search&amp;view=search',
-					'uribase': 'http://localhost/shigaru/',
+					'uribase': 'http://test.shigaru.com/',
 					'limit': '10',
 					'perpage': '5',
 					'ordering': 'newest',
