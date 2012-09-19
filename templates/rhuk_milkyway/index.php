@@ -11,6 +11,7 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+$this->addScript($this->baseurl."/media/system/js/mootools.js");
 $this->addScript($this->baseurl."/modules/mod_rokajaxsearch/js/rokajaxsearch.js");
 $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js");
 

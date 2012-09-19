@@ -861,7 +861,7 @@ DEFINE("_HWDVIDS_SHIGARU_FILESIZE","File size:");
 DEFINE("_HWDVIDS_SHIGARU_NOTOVER","The video must not be over 100 MB");
 DEFINE("_HWDVIDS_SHIGARU_UNDERMIN","It must be under 15 minutes long.");
 DEFINE("_HWDVIDS_SHIGARU_LONGVIDEO","If it is a long video split it into different parts");
-DEFINE("_HWDVIDS_SHIGARU_FILLUPTHIS","As you can see, we have preloaded the content from the original video so that you don´t have to complete the information! :-) But feel free to edit it if you wish.! You are helping us to categorise the best music tutorials on the web and for this the Shigaru community salutes you!");
+DEFINE("_HWDVIDS_SHIGARU_FILLUPTHIS","<span class=\"fontbold\">Step 2/2: </span> Please complete the remaining fields. Remember that you are helping us to categorise the best music tutorials on the web and for this the Shigaru community salutes you!");
 DEFINE("_HWDVIDS_SHIGARU_ONEOFTWO","Submit a video url");
 DEFINE("_HWDVIDS_SHIGARU_MANDATORYFIELDS","Fields marked <span class=\"required\">*</span> are required.");
 DEFINE("_HWDVIDS_SHIGARU_TYPEVIDEO","Type of video:");

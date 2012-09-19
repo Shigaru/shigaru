@@ -448,7 +448,7 @@ var RokAjaxSearch = new Class({
                 if (q.length > 0) {
                     
 								//console.log(q.getElement('#viewvideotext a'));
-                                var b = q.getElement('#viewvideotext a')[0].getProperty('href');
+                                var b = q.getElement('.searchResultThumb a')[0].getProperty('href');
                                 var c = new Element('div', {
                                     'class': this.rows[i % 2] + ' png'
                                 });
