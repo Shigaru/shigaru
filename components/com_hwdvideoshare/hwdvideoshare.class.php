@@ -5291,7 +5291,7 @@ $app = & JFactory::getApplication();
 		}
 
 		reset ($arr);
-		$html = "\n<select name=\"$tag_name\" $tag_attribs $multiple autocomplete=\"off\">";
+		$html = "\n<select id=\"$tag_name\" name=\"$tag_name\" $tag_attribs $multiple autocomplete=\"off\">";
 
 		for ($i = 0, $n = count($arr); $i < $n; $i++)
 		{

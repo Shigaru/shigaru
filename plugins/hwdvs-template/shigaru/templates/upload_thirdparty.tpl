@@ -17,27 +17,66 @@
  </div>
 <script>
 	var domain = "{$domain}";
+	var currentLang = "{$currentlang}";
 	{literal}
 	jQuery(document).ready(function() {	
-			jQuery('#infograbbed').show();
-				jQuery('#infograbbed #yes').click(function() {
-					jQuery.unblockUI(); 
+				showGrabbedInfo();
+				jQuery("#language_id").val(currentLang);
+				jQuery("#intrument_id").val("102");
+				jQuery("#level_id").val("30");
+				jQuery('#infograbbed .w70pc .mbot20 a').click(function() { 
+					var oId= jQuery(this).attr('id');
+					oId = oId.substring(oId.indexOf('-')+1,oId.length);
+					var isEditor = oId.indexOf('descrip');
+					var $this = (isEditor > -1)?jQuery('#'+oId+'box'):jQuery('#grabbed-description');
+					var $clicked = jQuery(this);
+					jQuery('.viewmode,#yesall').hide();
+					$clicked.parent().siblings('.usermessages').fadeIn('slow');
+					$clicked.parent().parent().find('.usermessages input.required').keyup(function() {
+						jQuery(this).parent().siblings('.current').find('.grabbedtext').html(jQuery(this).val());
+						return false; 
+					});
+					$clicked.parent().parent().find('.usermessages input#yes').click(function() {
+						jQuery('.viewmode,#yesall').fadeIn('slow');
+						$clicked.parent().siblings('.usermessages').hide(); 
+						if(isEditor == -1)
+						$clicked.siblings('.grabbedtext').html($clicked.parent().parent().find('.usermessages input.required').val());
+						else{
+							$clicked.siblings('.grabbedtext').html(tinyMCE.activeEditor.getContent());
+						}
+						return false;  
+					});
+					
+					return false; 
+				});	
+				
+			function showGrabbedInfo(){
+				jQuery('#infograbbed').show();
+				jQuery('#infograbbed #yesall').click(function() {
+					jQuery.unblockUI({onUnblock: function() { jQuery('#infograbbed').hide(); }}); 
 					jQuery('#infograbbed').hide();
 					return false; 
 				});	
-				var oWindowWidth = jQuery(window).width();
+				
 				var oObjectwidth = jQuery('#infograbbed').width();
-				var oLeftPosition  = (oWindowWidth - oObjectwidth) / 2;
+				var oWindowWidth = jQuery(window).width();
 				var oWindowHeight = jQuery(window).height();
-				var oObjectHeight = jQuery('#infograbbed').height();
-				var oTopPosition  = (oWindowHeight - oObjectHeight) / 2;
+				var oLeftPosition  = (oWindowWidth - oObjectwidth) / 2;
+				var oObjectHeight = jQuery('#infograbbed').height()+110;
+				var oTopPosition  = ((oWindowHeight - oObjectHeight)) / 2;
 				jQuery.blockUI({ message: jQuery('#infograbbed'), css : { border : 'none', height: 'auto', 'cursor': 'auto', 'width': (oObjectwidth+20)+'px', 'top': oTopPosition, 'left' : oLeftPosition   } });
-
 				jQuery('#infograbbed #no').click(function() { 
-					jQuery('#infograbbed').hide();
-					jQuery.unblockUI(); 
+					jQuery.unblockUI({onUnblock: function() { jQuery('#infograbbed').hide(); }}); 
 					return false; 
 				});	
+			}	
+			
+			jQuery('#category_id').change(function() {	
+				if(jQuery(this).val()=='1')
+				jQuery('.songtutorialfields').fadeIn();
+				else
+					jQuery('.songtutorialfields').fadeOut();
+			});	
 				
 			/*var lastData;
 			jQuery( "#songtitle" ).autocomplete({
@@ -113,23 +152,72 @@
 					<a href="#" target="_blank" title="Go to Youtube.com"></a>
 				</div>	
 				<div class="mbot20 mtop12">
-					   <span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</span>	
-					  {$videoInfo->video_title}
-					  <a href="#" class="fontbold mleft6" title="Click to edit">Edit</a>
+					<div class="viewmode">
+						<span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</span>	
+						<span class="grabbedtext">{$videoInfo->video_title}</span>
+						<a href="#" id="grabbed-title" class="fontbold mleft6" title="Click to edit">Edit</a>
+					</div> 
+					<div class="usermessages dispnon">
+							<p id="titlebox">
+                                <label for="videotitle">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</label>
+                                <input type="text" class="required" value="{$videoInfo->video_title}" size="40" name="videotitle" id="videotitle">
+                                 <br>
+								<span class="fieldexplanation"><span class="fontbold">Example:</span> {$smarty.const._HWDVIDS_SHIGARU_EXAMPLETITLE}</span>
+                            </p>
+                            <div class="current">
+								<span class="fontbold">Current text: </span>
+								<span class="grabbedtext">{$videoInfo->video_title}</span>
+							</div>
+							<div class="clear"></div>
+							<input type="button" value="Ok" id="yes" class="mtop24 reddbuttonsubmit">
+					</div>
 				</div>
 				<div class="mbot20">
-					   <span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_VIDEODESCRIP}</span>	
-					  {$descriptionplain}
-					  <a href="#" class="fontbold mleft6" title="Click to edit">Edit</a>
+						<div class="viewmode">
+							<span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_VIDEODESCRIP}</span>	
+							<span class="grabbedtext">{$descriptionplain}</span>
+							<a href="#" id="grabbed-descrip" class="fontbold mleft6" title="Click to edit">Edit</a>
+						</div> 
+						<div class="usermessages dispnon">
+								<p id="titlebox">
+									<label for="videotitle">{$smarty.const._HWDVIDS_SHIGARU_VIDEODESCRIP}</label>
+									<div id="wysigyginfovideo">
+										  {$description}
+									 </div>
+									 <br>
+									<span class="fieldexplanation"><span class="fontbold">Example:</span> {$smarty.const._HWDVIDS_SHIGARU_TEXTDESCRIPTION}</span>
+								</p>
+								<div class="current">
+								</div>
+								<div class="clear"></div>
+								<input type="button" value="Ok" id="yes" class="mtop24 reddbuttonsubmit">
+						</div>				 
+					  
 				</div>
 				<div class="mbot20">
+					<div class="viewmode">
 					   <span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS}</span>	
-					  {$videoInfo->tags}
-					  <a href="#" class="fontbold mleft6" title="Click to edit">Edit</a>
+					  <span class="grabbedtext">{$videoInfo->tags}</span>
+					  <a href="#" id="grabbed-tags" class="fontbold mleft6" title="Click to edit">Edit</a>
+					</div> 
+						<div class="usermessages dispnon">
+								<p id="tagsbox">
+									<label for="tags">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS} <font class="required">*</font></label>
+									<input type="text" value="{$videoInfo->tags}" class="required" id="tags" name="tags" size="40"/>
+									<br />
+									<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS_INFO}</span>
+								</p>
+								<div class="current">
+									<span class="fontbold">Current text: </span>
+									<span class="grabbedtext">{$videoInfo->tags}</span>
+								</div>
+								<div class="clear"></div>
+								<input type="button" value="Ok" id="yes" class="mtop24 reddbuttonsubmit">
+						</div>	  
 				</div>
             </div>
             <div class="clear"></div>
-            <input type="button" class="mtop24 reddbuttonsubmit" id="yes" value="Ok" /> 
+            <input type="button" class="mtop24 reddbuttonsubmit" id="yesall" value="Ok" /> 
 
 </div>
 <div id="contentSliderForm" class="clear">
@@ -144,88 +232,59 @@
                                {$categoryselect}
                                <div class="clear"></div>
                             </p>
-							<p id="titlebox" class="dispnon">
-                                <label for="videotitle">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO} <font class="required">*</font></label>
-                                <input type="text" id="videotitle" name="videotitle" size="40" value="{$videoInfo->video_title}" class="required" AUTOCOMPLETE=ON minlength="2"/>
-                                 <br />
-								<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_EXAMPLETITLE}</span>
-                            </p>                           
-                            <div class="dispnon" id="wysigyginfovideo">
-								<label for="description">{$smarty.const._HWDVIDS_SHIGARU_VIDEODESCRIP} <font class="required">*</font></label>	
-								<br />
-								 
-								
-								 {$description}
-							    <span class="clear fnone fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_TEXTDESCRIPTION}</span>
-							   
-                             </div>
-                           
-                            
-				  
-						
-							 <p>
-                                <label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
-                                <input type="text" value="" id="originalband" name="originalband" size="40" class="required" placeholder="Enter Band Name..." minlength="2"/>
-                                <br />
-                                <span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
-                            </p>
-                            <p>
-                                <label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
-                                <input type="text" value="" id="songtitle" name="songtitle" size="40" placeholder="Enter Song Title..."/>
-                                <br />
-                               <span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
-                            </p>
-						 
+                            <div class="songtutorialfields">       
+								 <p>
+									<label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
+									<input type="text" value="" id="originalband" name="originalband" size="40" class="required" placeholder="Enter Band Name..." minlength="2"/>
+									<div class="clear"></div>
+									<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
+								</p>
+								<p>
+									<label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
+									<input type="text" value="" id="songtitle" name="songtitle" size="40" placeholder="Enter Song Title..."/>
+									<div class="clear"></div>
+								   <span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
+								</p>
+							</div>
                           
                            <p>
                                 <label for="genre_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE} <font class="required">*</font></label>
                                 {$genresCombo}
+                                <div class="clear"></div>
                             </p>       
 							<p>
                                 <label for="intrument_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_INSTRUMENT} <font class="required">*</font></label>
                                 {$instrumentsCombo}
+                                <div class="clear"></div>
                             </p>   
 							 <p>
                                 <label for="level_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_LEVEL} <font class="required">*</font></label>
                                 {$levelsCombo}
-                            </p>
-                            
-                            <p id="tagsbox" class="dispnon">
-                                <label for="tags">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS} <font class="required">*</font></label>
-                                <input type="text" value="{$videoInfo->tags}" class="required" id="tags" name="tags" size="40"/>
-                                <br />
-								<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS_INFO}</span>
+                                <div class="clear"></div>
                             </p>
 							
 				 		  
-                            <p>
+                            <p id="originalautorfields">
                                 <label for="original_autor">{$smarty.const._HWDVIDS_SHIGARU_AREYOUCREATOR} <font class="required">*</font></label>
 								<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_YES}<input type="radio" name="original_autor" value="1"></label>
 								<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_NO}<input type="radio" name="original_autor" checked="true" value="0"></label>
-								<br />
+								<div class="clear"></div>
 								<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_COPYRIGHTREASONS}</span>
                             </p> 
                             <p>
                                 <label for="language_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_VIDEO_LANGUAGE} <font class="required">*</font></label>
                                 {$languagesCombo}
+                                <div class="clear"></div>
                             </p>   
                             <p>
+                                <span class="mleft30">
+                                {$captcha}
+								</span>
+								<br class="clear"/>
                                 <label for="security_code">{$smarty.const._HWDVIDS_INFO_SECURECODE} <font class="required">*</font></label>
                                 <input id="security_code" class="required" placeholder="Enter code" class="required mbot6" id="security_code" name="security_code" type="text" />
                                 <br class="clear"/>
-                                <span class="ml35pt">
-                                {$captcha}
-								</span>
-								
                             </p>
-							<p>
-								Everything in the form was correctly filled 
-								if all the steps have a green checkmark icon.
-								A red checkmark icon indicates that some field 
-								is missing or filled out with invalid data. In this
-								last step the user can confirm the submission of
-								the form.
-							</p>
                             <p class="submit">
                                 <button id="registerButton" type="submit">{$smarty.const._HWDVIDS_BUTTON_ADD}</button>
                             </p>
@@ -240,22 +299,6 @@
 						<input name="embeddump" value="{$videourl}" class="inputbox" type="hidden" />
 						{include file='sharingoptions.tpl'}
 				</form>
-				</div>
-				<div id="navigations" style="display:none;clear:both;">
-					<ul>
-						<li class="selected">
-							<a href="#">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_VIDEO_DETAILS}</a>
-						</li>
-						<li>
-							<a href="#">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SONG_INFO}</a>
-						</li>
-						<li>
-							<a href="#">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_ADDTIONAL_DETAILS}</a>
-						</li>
-						<li>
-							<a href="#">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_CONFIRMATION}</a>
-						</li>
-					</ul>
 				</div>
 		</div>
 	</div>

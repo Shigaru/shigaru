@@ -444,7 +444,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #videodetailswrap{padding:12px;}
 #videodetailswrap div{}
 #videodetailswrap div div{float:left;}
-.fieldexplanation{display: inline-block;margin: 6px 0 0 36%;}
+.fieldexplanation{display: inline-block;font-size: 95%;margin: 0 0 10px 36%;}
 #hwdCaptchaPic{margin:12px 0 0 0;}
 li.upoptions{ 
 	padding:6px;
@@ -578,17 +578,13 @@ span.error{
     margin:10px 0px;
     border-bottom:1px solid #fff;
 }
-#steps form p{
-    margin: 5px 0 5px 15px;
-    padding: 10px;
-}
-
-
-#steps form #wysigyginfovideo label, #steps form p label{width: 33%;float:left;text-align:right;margin-right:15px;line-height:26px;color:#666;text-shadow:1px 1px 1px #fff;font-weight:bold;}
-#steps form input:not([type=radio]),#steps form textarea,#steps form select{border: 1px solid #ddd;-moz-border-radius: 5px;-webkit-border-radius: 53px;border-radius: 5px;outline: none;padding: 5px;}
+#steps form p{margin: 5px 0 5px 15px;}
+#steps form #wysigyginfovideo label, #steps form p label{width: 33%;text-align:right;margin-right:15px;line-height:36px;color:#666;text-shadow:1px 1px 1px #fff;display:block;float:left;}
+#originalautorfields label.fnone{margin: 12px 12px 0;width: auto;}
+#steps form input:not([type=radio]),#steps form textarea,#steps form select{margin-left:5px;border: 1px solid #ddd;-moz-border-radius: 5px;-webkit-border-radius: 53px;border-radius: 5px;outline: none;padding: 5px;float:left;}
 #steps form input:focus{-moz-box-shadow:0px 0px 3px #aaa;-webkit-box-shadow:0px 0px 3px #aaa;box-shadow:0px 0px 3px #aaa;background-color:#FFFEEF;}
 #steps form p.submit{background:none;border:none;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;}
-#steps form button {border:none;outline:none;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;color: #ffffff;display: block;cursor:pointer;margin: 0px auto;
+#steps form button {float: right;border:none;outline:none;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;color: #ffffff;display: block;cursor:pointer;margin: 20px auto;
     clear:both;padding: 7px 25px;text-shadow: 0 1px 1px #777;font-weight:bold;font-size:22px;-moz-box-shadow:0px 0px 3px #aaa;-webkit-box-shadow:0px 0px 3px #aaa;box-shadow:0px 0px 3px #aaa;background:red;}
 #steps form button:hover {background:#d8d8d8;color:#666;text-shadow:1px 1px 1px #fff;}
 span.reference{position:fixed;left:5px;top:5px;font-size:10px;text-shadow:1px 1px 1px #fff;}
@@ -600,7 +596,7 @@ span.reference a:hover{color:#000;}
 #registrationTable .mbot6 img,#captchacaptcha{float: left;    margin: 0 0 0 6px;}
 #registrationTable input.button{color:#000; font-size:130%;cursor:pointer;padding:20px !important;font-weight:bold;}
 #registrationTable .cbft_radio span.cbSnglCtrlLbl input,#acceptedterms{margin-top:7px;}
-#cbcheckedadminForm{}
+.songtutorialfields{display:none;}
 #sexmessage{font-size:90%;}
 #signupdemo{float:right;margin:52px 26px 0 35px;}
 #captchanewcode{
@@ -673,6 +669,13 @@ width: 75%;}
     width: 50px;cursor:pointer;
     margin: -60px -60px 0 0;}
 .shigaruinfo .close{margin: -24px 4px 0 0;}    
+.blockUI .usermessages input.required{height:40px;float:none;width:90%;border:3px solid #867186;padding:10px;}
+.blockUI .usermessages .fieldexplanation{margin:20px 0}
+.blockUI .usermessages .current{margin:0 0 20px 0}
+.blockUI #description_parent .button2-left{display:none;}
+.blockUI .grabbedtext{display: block;
+    max-height: 250px;
+    overflow-y: auto;}
 #searchpages{ margin-bottom: 50px;}
 
 #searchpages .btn {

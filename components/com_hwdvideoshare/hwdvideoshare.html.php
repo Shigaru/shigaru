@@ -650,13 +650,19 @@ class hwd_vs_html
 			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);		
 			$captcha = hwd_vs_tools::generateCaptcha();
 			$editor =& JFactory::getEditor();
+			$editorparams = array( 'smilies'=> '0' ,
+							 'style'  => '1' ,  
+							 'layer'  => '0' , 
+							 'table'  => '0' ,
+							 'clear_entities'=>'0'
+							 );
 			$domain = JURI::root();
 			// save remote thumbnail to disk
 			$data = $oThirdPartyVideoInfo->video_id;
 			$thumburl = hwd_vs_tools::get_final_url( "http://img.youtube.com/vi/".$data."/default.jpg");
 			$smartyvs->assign( "thumburl",$thumburl);
 			$smartyvs->assign( "descriptionplain",$oThirdPartyVideoInfo->description);
-			$smartyvs->assign( "description", $editor->display("description",$oThirdPartyVideoInfo->description,350,200,20,20,1) );
+			$smartyvs->assign( "description", $editor->display("description",$oThirdPartyVideoInfo->description,600,200,20,20,false,$editorparams));
 			$smartyvs->assign("videoInfo", $oThirdPartyVideoInfo);
 			$smartyvs->assign("infoPassed", 'true');
 			$smartyvs->assign("captcha", $captcha);
@@ -664,6 +670,8 @@ class hwd_vs_html
 			$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
 			$smartyvs->assign("levelsCombo", $levelsCombo);
 			$smartyvs->assign("languagesCombo", $languagesCombo);
+			$lang =& JFactory::getLanguage();
+			$smartyvs->assign("currentlang", $lang->getTag());
 			$smartyvs->assign("genresCombo", $genresCombo);
 			$smartyvs->assign("videourl",$videourl);
 			if(is_object($oThirdPartyVideoInfo))
