@@ -62,7 +62,7 @@
 							{/if}
 							<div id="the_most_wrapper">	
 								<div id="tabs-2" class="tab_wrapper">
-								<ul>
+								<ul id="recentvideoslist">
 									{if $print_videolist}
 									  {foreach name=outer item=data from=$list}
 										  {include file="video_list_full_small_recent.tpl"}

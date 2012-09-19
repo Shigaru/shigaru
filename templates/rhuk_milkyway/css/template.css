@@ -211,18 +211,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', end
 #the_most div.tab_wrapper ul li div.thumb,
 #hwdvids div.tab_wrapper ul li div.thumb{width:100px; height:75px;border:1px solid #8d808d; margin-right:8px;}
 #the_most div.tab_wrapper ul li div.fright,
-#the_most div.tab_wrapper ul li div.fright,#hwdvids div.tab_wrapper ul li div.fright{width:20%;}
+#the_most div.tab_wrapper ul li div.fright,#hwdvids div.tab_wrapper ul li div.fright{width:23%;}
+#recentvideoslist li div.fright{width:28% !important;margin-top:-35px !important;}
 div.tab_wrapper .plays div.fright{margin-top: -45px;background:#f6eadc; padding:10px 8px;color:#9c5352; font-weight:bold;}
 div.tab_wrapper .plays div.fright span{display:block;text-align:right;}
+#recentvideoslist li div.fright span{font-size:90%;font-weight:normal;}
 div.tab_wrapper .plays span.playstext{color:#666666; font-size:70%; padding-top:4px;}
 #the_most div.tab_wrapper ul,
 #hwdvids div.tab_wrapper ul{margin-top:24px;font-size:90%; }
 #the_most div.tab_wrapper ul li,
 #hwdvids div.tab_wrapper ul li {margin-bottom: 24px;}
 #the_most div.tab_wrapper ul li:hover,
-#hwdvids div.tab_wrapper ul li:hover, 
-#the_most div.tab_wrapper ul li:hover .plays div.fright,
-#hwdvids div.tab_wrapper ul li:hover .plays div.fright{background: rgb(255,255,255); /* Old browsers */
+#hwdvids div.tab_wrapper ul li:hover{background: rgb(255,255,255); /* Old browsers */
 /* IE9 SVG, needs conditional override of 'filter' to 'none' */
 background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2YxZjFmMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iI2UxZTFlMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmNmY2ZjYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
 background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%); /* FF3.6+ */
@@ -233,6 +233,7 @@ background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1)
 background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 ); /* IE6-8 */
 }
+#the_most div.tab_wrapper ul li:hover .plays div.fright,#hwdvids div.tab_wrapper ul li:hover .plays div.fright{background: transparent;}
 #the_most div.tab_wrapper ul li:hover a,#hwdvids div.tab_wrapper ul li:hover a{}
 /* FOOTER */
 #footer{height:800px;background: url("../images/back_footer_home.png") repeat-x scroll 0 0 transparent;  margin-top: -4px;position: relative;z-index: 2;color:#fff; }
