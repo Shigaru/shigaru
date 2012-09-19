@@ -95,7 +95,6 @@ class hwd_vs_html
 					$bwn_modObj->name = '';
 					$bwn_modObj->style = '';
 				}
-
 				$bwn_modContent = JModuleHelper::renderModule($bwn_modObj);
 				$smartyvs->assign("print_nowlist", 2);
 				$smartyvs->assign("bwn_modContent", $bwn_modContent);
@@ -123,7 +122,6 @@ class hwd_vs_html
 				}
 
 				$smartyvs->assign("print_nowlist", 1);
-
 				if ($rowsNbwType == "xml")
 				{
 					$nowlist = hwd_vs_tools::generateVideoListFromXml($rowsnow, $thumbwidth);

@@ -1246,21 +1246,21 @@ class hwd_vs_tools {
 
 			$code = null;
 			
-			$code.= '<a href="'.$link.'" class="'.$lightbox.'" id="mb'.$video_id.'" title="" rel="[images],width:'.$v_width.',height:'.$v_height.'">';
-			$code.= hwd_vs_tools::generateThumbnail( $video_id, $video_code, $video_type, $video_thumbnail, $k, $width, $height, $class, $tooltip_data, $video_duration );
+			$code.= '<a href="'.$link.'" class="'.$lightbox.'" id="mb'.$video_id.'" title="'.$tooltip_data[2].'" rel="[images],width:'.$v_width.',height:'.$v_height.'">';
+			$code.= hwd_vs_tools::generateThumbnail( $video_id, $video_code, $video_type, $video_thumbnail, $k, $width, $height, $class, null, $video_duration );
 			$code.= '</a>';
 
   			return $code;
 		}
 
 		$code = null;
-		
-		$code.= '<div class="song_options">
+		$code.= '<a href="'.$link.'" class="thumbplay" title="'.$tooltip_data[2].'"></a>
+				 <div class="song_options">
 						<a title="Add to Favorites" class="collection  textToggle"></a>
 						<a class="options" title="Options" class="options selectbox"></a>
 					</div>
 					<a rel="1" class="play paused"></a>';
-		$code.= "<a href=\"".$link."\" ".$onclick_txt." title=\"$tooltip_data[1]     ".$video_type."\">";
+		$code.= "<a href=\"".$link."\" ".$onclick_txt." title=\"".$tooltip_data[2]."\">";
 		$code.= hwd_vs_tools::generateThumbnail( $video_id, $video_code, $video_type, $video_thumbnail, $k, $width, $height, $class, $tooltip_data, $video_duration );
 		$code.= "</a>";
 
@@ -1535,7 +1535,7 @@ class hwd_vs_tools {
 			if (empty($rows[$i]["duration"])) {$rows[$i]["duration"]= "0:00";}
 			if (empty($rows[$i]["comments"])) {$rows[$i]["comments"]= "0";}
 			if (empty($rows[$i]["tags"])) {$rows[$i]["tags"] = null;}
-
+	
 			$video_code = explode(",", $rows[$i]["videocode"]);
 			if (!empty($video_code[1]))
 			{
@@ -1581,6 +1581,7 @@ class hwd_vs_tools {
 			$code[$i]->duration = $rows[$i]["duration"];
 			$code[$i]->titleplain = addslashes(strip_tags($rows[$i]["videotitle"]));
 			$code[$i]->descriptiontrunc = addslashes(hwd_vs_tools::truncateText(strip_tags($rows[$i]["description"]), 90));
+			$code[$i]->link = $link=JRoute::_("index.php?option=com_hwdvideoshare&task=viewvideo&Itemid=".$hwdvs_itemid."&video_id=".$video_id);
 			
 			if($rows[$i]["numfavoured"]){
 				$code[$i]->numfavoured	= $rows[$i]["numfavoured"]; 
@@ -2077,7 +2078,7 @@ $app = & JFactory::getApplication();
 
 			$tt_title = $tooltip_data[1]." :: ".$tooltip_data[2];
 			$thumb_title = "";
-			$thumb = "<span class=\"hasTip\" title=\"".$tt_title."\">";
+			$thumb = "";
 		}
 		else
 		{
@@ -2143,7 +2144,7 @@ $app = & JFactory::getApplication();
 
 		if ($tooltip_data[0])
 		{
-			$thumb.= "</span>";
+			$thumb.= "";
 		}
 
 		return $thumb;

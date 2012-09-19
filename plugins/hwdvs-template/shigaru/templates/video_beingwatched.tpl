@@ -26,7 +26,6 @@
 						<ul>
 					{foreach name=outer key=k item=data from=$nowlist}
 							<li>
-								<span class="thumbplay"></span>
 								{$data->thumbnail}
 								{$data->title}
 								<span>{$smarty.const._HWDVIDS_INFO_SHARED}{$data->uploader}</span>								
