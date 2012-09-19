@@ -241,7 +241,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #footer #leftcolumn{float:left;width:54%;}
 #footer #rightcolmn{float:right;width:42%;}
 #footer #rightcolmn div {margin-bottom:15px; overflow:hidden;}	
-#footer #leftcolumn div.clear{margin-top:40px;}
+#footer #leftcolumn div.clear{margin-top:95px;}
 #footer div.footer_links{font-size:75%;width:50%;margin: 12px auto;}
 #footer div.footer_links ul {margin: 0 auto;color:#fff;}
 #footer div.footer_links ul li{display:inline; border-right:1px solid #bf9abf;padding:0 12px 0 12px;}
