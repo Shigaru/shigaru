@@ -29,19 +29,15 @@
 					var oId= jQuery(this).attr('id');
 					oId = oId.substring(oId.indexOf('-')+1,oId.length);
 					var isEditor = oId.indexOf('descrip');
-					console.log(isEditor);
 					var $this = (isEditor > -1)?jQuery('#'+oId+'box'):jQuery('#grabbed-description');
 					var $clicked = jQuery(this);
 					jQuery('.viewmode,#yesall').hide();
 					if(isEditor != -1){
 						$clicked.parent().siblings('.usermessages').find('.fieldexplanation').css({'margin':'-12px 0 0 0'});
 					}
-					console.log('aa');
 					$clicked.parent().parent().siblings('.fright').css({'margin-top':'-45px'});
 					$clicked.parent().siblings('.usermessages').css({'margin-top':'-63px'});
-					console.log('bb');
 					$clicked.parent().siblings('.usermessages').fadeIn('slow');
-					console.log('cc');
 					$clicked.parent().parent().find('.usermessages input.required').keyup(function() {
 						jQuery(this).parent().siblings('.current').find('.grabbedtext').html(jQuery(this).val());
 						return false; 
@@ -55,6 +51,11 @@
 						else{
 							$clicked.siblings('.grabbedtext').html(tinyMCE.activeEditor.getContent());
 						}
+						return false;  
+					});
+					$clicked.parent().parent().find('.usermessages a#cancel').click(function() {
+						jQuery('.viewmode,#yesall').fadeIn('slow');
+						$clicked.parent().siblings('.usermessages').hide(); 
 						return false;  
 					});
 					
@@ -84,10 +85,88 @@
 			
 			jQuery('#category_id').change(function() {	
 				if(jQuery(this).val()=='1')
-				jQuery('.songtutorialfields').fadeIn();
+				jQuery('.songtutorialfields').fadeIn(500,function () {
+				  });
 				else
-					jQuery('.songtutorialfields').fadeOut();
+					jQuery('.songtutorialfields').slideUp();
 			});	
+			
+			jQuery.extend(jQuery.validator.messages, {
+					required: "This field is required.",
+					remote: "Please fix this field.",
+					email: "Please enter a valid email address.",
+					url: "Please enter a valid URL.",
+					date: "Please enter a valid date.",
+					dateISO: "Please enter a valid date (ISO).",
+					number: "Please enter a valid number.",
+					digits: "Please enter only digits.",
+					creditcard: "Please enter a valid credit card number.",
+					equalTo: "Please enter the same password again.",
+					accept: "Please enter a value with a valid extension.",
+					maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+					minlength: jQuery.validator.format("Please enter at least {0} characters."),
+					rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+					range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+					max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+					min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
+			});
+			
+			
+			var firstInvalidFieldFound	=	0;
+
+				jQuery('#formElem').validate( {
+					ignoreTitle : true,
+					errorClass: 'cb_result_warning',
+					// debug: true,
+					cbIsOnKeyUp: false,
+					highlight: function( element, errorClass ) {
+						jQuery( element ).parent().addClass( 'cbValidationError' );		// tables
+					},
+					unhighlight: function( element, errorClass ) {
+						if ( this.errorList.length == 0 ) {
+							firstInvalidFieldFound = 0;
+						}
+						jQuery( element ).parent().removeClass( 'cbValidationError' );		// tables
+					},
+					errorElement: 'div',
+					errorPlacement: function(error, element) {
+						var promptTopPosition, promptleftPosition, marginTopSize;
+						var element = jQuery(element);
+						var fieldWidth = element.width();
+						var promptHeight = 25;
+						var offset = element.position();
+						promptTopPosition = offset.top;
+						promptleftPosition = offset.left;
+						promptleftPosition += fieldWidth;
+						if(promptleftPosition < 500){
+							promptleftPosition =500;
+							}
+						element.parent().append( error[0] ).children('.cb_result_warning').click(function(){
+							jQuery(this).fadeOut();
+							});
+						error.css('position', 'absolute');
+						error.css('cursor', 'pointer');
+						error.css('left', promptleftPosition);
+						error.css('top', promptTopPosition);
+					},
+					rules: {
+						originalband: {required: function(element){
+						  return jQuery("#category_id").val() == '1'}
+						 },
+						 songtitle: {required: function(element){
+						  return jQuery("#category_id").val() == '1'}
+						 }
+						 
+					}, messages: {
+                    originalband: {
+                        required: "Please add a band for this song / tune"
+                    },
+                    songtitle: {
+                        required: "Please insert the name of the song / tune in this box"
+                    }
+                }
+				} );
+				
 				
 			/*var lastData;
 			jQuery( "#songtitle" ).autocomplete({
@@ -180,7 +259,8 @@
 								<span class="grabbedtext">{$videoInfo->video_title}</span>
 							</div>
 							<div class="clear"></div>
-							<input type="button" value="Ok" id="yes" class="mtop24 reddbuttonsubmit">
+							<a href="#" id="cancel" class="fontbold mleft6" title="Click to cancel the changes">Cancel</a>
+							<input type="button" value="Save changes" id="yes" class="mtop24 reddbuttonsubmit">
 					</div>
 				</div>
 				<div class="mbot20">
@@ -201,7 +281,8 @@
 								<div class="current">
 								</div>
 								<div class="clear"></div>
-								<input type="button" value="Ok" id="yes" class="mtop24 reddbuttonsubmit">
+								 <a href="#" id="cancel" class="fontbold mleft6" title="Click to cancel the changes">Cancel</a>
+								<input type="button" value="Save changes" id="yes" class="mtop24 reddbuttonsubmit">
 						</div>				 
 					  
 				</div>
@@ -223,7 +304,8 @@
 									<span class="grabbedtext">{$videoInfo->tags}</span>
 								</div>
 								<div class="clear"></div>
-								<input type="button" value="Ok" id="yes" class="mtop24 reddbuttonsubmit">
+								<a href="#" id="cancel" class="fontbold mleft6" title="Click to cancel the changes">Cancel</a>
+								<input type="button" value="Save changes" id="yes" class="mtop24 reddbuttonsubmit">
 						</div>	  
 				</div>
             </div>
@@ -242,22 +324,19 @@
 								<label for="category_id">{$smarty.const._HWDVIDS_SHIGARU_TYPEVIDEO} <font class="required">*</font></label>
                                {$categoryselect}
                                <div class="clear"></div>
-                            </p>
-                            <div class="songtutorialfields">       
-								 <p>
-									<label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
-									<input type="text" value="" id="originalband" name="originalband" size="40" class="required" placeholder="Enter Band Name..." minlength="2"/>
-									<div class="clear"></div>
-									<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
-								</p>
-								<p>
-									<label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
-									<input type="text" value="" id="songtitle" name="songtitle" size="40" placeholder="Enter Song Title..."/>
-									<div class="clear"></div>
-								   <span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
-								</p>
-							</div>
-                          
+                            </p>     
+							<p class="songtutorialfields">
+								<label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
+								<input type="text" value="" id="originalband" name="originalband" size="20" class="required" placeholder="Enter Band Name..." minlength="2"/>
+								<br class="clear"/>
+								<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
+							</p>
+							<p class="songtutorialfields">
+								<label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
+								<input type="text" value="" id="songtitle" name="songtitle" size="20" placeholder="Enter Song Title..."/>
+								<br class="clear"/>
+							   <span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
+							</p>
                            <p>
                                 <label for="genre_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE} <font class="required">*</font></label>
                                 {$genresCombo}

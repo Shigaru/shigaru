@@ -5992,7 +5992,7 @@ $app = & JFactory::getApplication();
 					</script>
 					<img src=\"".JURI::root( true )."/components/com_hwdvideoshare/assets/images/loadingCaptcha.png\" alt=\"Security Code\" name=\"hwdCaptchaPic\" id=\"hwdCaptchaPic\" width=\"120\" height=\"40\" style=\"border: 1px solid Black; width: 120px; height: 40px;\" />
 					<script language=\"javascript\">
-					document.write('<a style=\"cursor:pointer;padding:3px;\" onclick=\"refresh_hwd_Captcha()\" >"._HWDVIDS_INFO_NEWCODE."</a>');
+					document.write('<a id=\"refreshcaptcha\" onclick=\"refresh_hwd_Captcha()\" >"._HWDVIDS_INFO_NEWCODE."</a>');
 					</script>";
 		$smartyvs->assign("print_captcha", 1);
 		}

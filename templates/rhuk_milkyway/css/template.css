@@ -445,8 +445,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #videodetailswrap{padding:12px;}
 #videodetailswrap div{}
 #videodetailswrap div div{float:left;}
-.fieldexplanation{display: inline-block;font-size: 95%;margin: 0 0 10px 36%;}
-#hwdCaptchaPic{margin:12px 0 0 0;}
+.fieldexplanation{display: inline-block;font-size: 95%;margin: 0 0 10px 10%;}
+#hwdCaptchaPic{ display: block;
+    float: left;
+    margin: 12px 0 0 35%;}
+#refreshcaptcha{ cursor: pointer;
+    float: left;
+    padding: 3px;margin:30px 0 12px 12px;}
 li.upoptions{ 
 	padding:6px;
 	
@@ -488,7 +493,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     overflow:hidden;
 }
 .step{
-    float:left;
 }
 #navigations{
     height:67px;
@@ -581,12 +585,12 @@ span.error{
     border-bottom:1px solid #fff;
 }
 #steps form p{margin: 5px 0 5px 15px;}
-#steps form #wysigyginfovideo label, #steps form p label{width: 33%;text-align:right;margin-right:15px;line-height:36px;color:#666;text-shadow:1px 1px 1px #fff;display:block;float:left;}
+#steps form #wysigyginfovideo label, #steps form p label{width:33%;text-align:right;margin-right:15px;line-height:36px;color:#666;text-shadow:1px 1px 1px #fff;display:block;float:left;}
 #originalautorfields label.fnone{margin: 12px 12px 0;width: auto;}
 #steps form input[type=text],#steps form input[type=password],#steps form textarea,#steps form select{margin-left:5px;border: 1px solid #ddd;-moz-border-radius: 5px;-webkit-border-radius: 53px;border-radius: 5px;outline: none;padding: 5px;float:left;}
 #steps form input:focus{-moz-box-shadow:0px 0px 3px #aaa;-webkit-box-shadow:0px 0px 3px #aaa;box-shadow:0px 0px 3px #aaa;background-color:#FFFEEF;}
 #steps form p.submit{background:none;border:none;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;}
-#steps form button {float: right;border:none;outline:none;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;color: #ffffff;display: block;cursor:pointer;margin: 20px auto;
+#steps form button {float: right;border:none;outline:none;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;color: #ffffff;display: block;cursor:pointer;margin: 20px 20% 20px 0;
     clear:both;padding: 7px 25px;text-shadow: 0 1px 1px #777;font-weight:bold;font-size:22px;-moz-box-shadow:0px 0px 3px #aaa;-webkit-box-shadow:0px 0px 3px #aaa;box-shadow:0px 0px 3px #aaa;background:red;}
 #steps form button:hover {background:#d8d8d8;color:#666;text-shadow:1px 1px 1px #fff;}
 span.reference{position:fixed;left:5px;top:5px;font-size:10px;text-shadow:1px 1px 1px #fff;}
@@ -673,6 +677,7 @@ width: 75%;}
 .shigaruinfo .close{margin: -24px 4px 0 0;}    
 .blockUI .usermessages input.required{height:40px;float:none;width:90%;border:3px solid #867186;padding:10px;}
 .blockUI .usermessages .fieldexplanation{margin:20px 0}
+.blockUI .usermessages #cancel{  display: block;margin: 0 0 -26px 150px;}
 .blockUI .usermessages .current{margin:0 0 20px 0}
 .blockUI #description_parent .button2-left{display:none;}
 .blockUI .grabbedtext{display: block;
@@ -811,6 +816,17 @@ ul.jclist li {background-image: none; list-style: none; list-style-image: none; 
 ul.jclist img { width: 32px; height: 32px; margin: 0 5px 5px 0;	float: left;}
 ul.jclist span img {width: auto; height: auto; float: none;}
 /* GENERAL CLASSES */
+.cb_result_warning {
+    border: 2px solid #DDDDDD;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 0 6px #000000;
+    color: #FFFFFF;
+    padding: 4px 10px 4px 30px;
+    position: relative;
+    z-index: 5001;
+	background: #000 url("/components/com_comprofiler/plugin/templates/default/images/mini-icons/icon-16-warning.png") no-repeat 5px 2px;
+	-moz-opacity:.60; filter:alpha(opacity=60); opacity:.60;
+}
 .nonvis{visibility:hidden;}
 .dispnon{display:none;}
 .fleft{float:left;}
