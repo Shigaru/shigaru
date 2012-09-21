@@ -703,7 +703,7 @@ DEFINE('_UE_PM_NO_MESSAGES'		, 'You have no new private messages');
 DEFINE('_UE_PM','PM');
 DEFINE('_UE_PM_USER','Send Private Message');
 DEFINE('_UE_MENU_PM_USER_DESC','Send a Private Message to this user');
-DEFINE('_UE_PM_INBOX','Show Private Inbox');
+DEFINE('_UE_PM_INBOX','Show Inbox');
 DEFINE('_UE_MENU_PM_INBOX_DESC','Show Received Private Messages');
 DEFINE('_UE_PM_OUTBOX','Show Private Outbox');
 DEFINE('_UE_MENU_PM_OUTBOX_DESC','Show Sent/Pending Private Messages');
@@ -1465,6 +1465,7 @@ DEFINE('_UE_LOST_PASSWORD_DESC','If you <strong>lost your password</strong> but 
 DEFINE('_UE_LOST_USERNAME_PASSWORD_DESC','If you <strong>forgot both your username and your password</strong>, please recover the username first, then the password. To recover your username, please enter your E-mail Address, leaving Username field empty, then click the Send Username button, and your username will be sent to your email address. From there you can use this same form to recover your password.');
 DEFINE('_UE_BUTTON_SEND','Send');
 DEFINE('_UE_BUTTON_SEND_USERNAME','Send Username');
+DEFINE('_UE_DISPLAYOPTIONS','CLick on this button to display / hide options for this profile');
 DEFINE('_UE_BUTTON_SEND_PASS','Send Password');
 DEFINE('_UE_BUTTON_SEND_USERNAME_PASS','Send Username/Password');
 define('_UE_USERNAME_EXISTS_ON_SITE',"The username '%s' exists on this site.");
