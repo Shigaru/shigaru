@@ -3099,6 +3099,26 @@ $app = & JFactory::getApplication();
      * 
      * @return        $bandMatched
      */
+	function getSongById($song_id) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT label FROM #__hwdvidssongs AS a'; 
+		$query .= ' WHERE a.id ='.$song_id;
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		if(sizeof($bandList)>0)
+			$bandMatched = $bandList[0];
+				else
+					$bandMatched =null;
+		return $bandMatched;
+    }
+    
+    /**
+     * checks if the band is already in the list of bands
+     *
+     * 
+     * @return        $bandMatched
+     */
 	function checkSong($band) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT label FROM #__hwdvidssongs AS a'; 
@@ -3144,6 +3164,27 @@ $app = & JFactory::getApplication();
 		
 		return $row->id;
     }
+    
+    /**
+     * checks if the band is already in the list of bands
+     *
+     * 
+     * @return        $bandMatched
+     */
+	function getBandById($band_id) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT label FROM #__hwdvidsbands AS a'; 
+		$query .= ' WHERE a.id ='.$band_id;
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		if(sizeof($bandList)>0)
+			$bandMatched = $bandList[0];
+				else
+					$bandMatched =null;
+		return $bandMatched;
+    }
+    
     
     /**
      * checks if the band is already in the list of bands

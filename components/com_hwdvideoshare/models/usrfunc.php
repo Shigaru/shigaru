@@ -334,12 +334,53 @@ class hwd_vs_usrfunc
 			$password = md5($password);
 			$_POST['password'] 		= $password;
 		}
+		
+		$ext_v_code  = Jrequest::getVar( 'video_id', '' );
+		$ext_v_title = stripslashes(Jrequest::getVar( 'videotitle', '' ));
+		$ext_v_descr = stripslashes(JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
+		$ext_v_keywo = Jrequest::getVar( 'tags', '' );
+		$ext_v_durat = Jrequest::getVar( 'video_length', '' );		
+		$title 				= hwd_vs_tools::generatePostTitle($ext_v_title);
+		$description 		= hwd_vs_tools::generatePostDescription($ext_v_descr);
+		$tags 				= hwd_vs_tools::generatePostTags($ext_v_keywo);
+		$public_private 	= JRequest::getWord( "public_private", "public", "post" );
+		$allow_comments 	= JRequest::getInt( "allow_comments", $c->shareoption2, "post" );
+		$allow_embedding 	= JRequest::getInt( "allow_embedding", $c->shareoption3, "post" );
+		$allow_ratings 		= JRequest::getInt( "allow_ratings", $c->shareoption4, "post" );
+		
+		if($category_id==1){
+			//band and songs stuff
+			$band = Jrequest::getVar( 'originalband', '' );
+			$band_id = hwd_vs_tools::checkBand($band);
+			$song = Jrequest::getVar( 'songtitle', '' );
+			$song_id = hwd_vs_tools::checkSong($song);
+			if($band_id==null){
+					$band_id = hwd_vs_tools::addBand($band);
+					if($song_id==null){
+					$song_id = hwd_vs_tools::addSong($song,$band_id);
+					}
+				}else{
+					if($song_id==null){
+						$song_id = hwd_vs_tools::addSong($song,$band_id);
+					}
+					}
+			
+		}
 
 		$_POST['id'] 				= $rowid;
 		$_POST['title'] 			= $title;
 		$_POST['description'] 		= $description;
 		$_POST['category_id'] 		= JRequest::getInt( 'category_id', 0 );
-                $_POST['tags'] 				= $tags;
+        $_POST['tags'] 				= $tags;
+        $_POST['song_id'] 			= $song_id;
+		$_POST['band_id'] 			= $band_id;
+		$_POST['language_id'] 		= Jrequest::getVar( 'language_id', '' );
+		$_POST['level_id'] 			= Jrequest::getVar( 'level_id', '' );
+		$_POST['genre_id'] 			= Jrequest::getVar( 'genre_id', '' );
+		$_POST['intrument_id'] 		= Jrequest::getVar( 'intrument_id', '' );
+		$_POST['ip_added'] 			= Jrequest::getVar( 'ip_added', '' );
+		$_POST['original_autor'] 	= Jrequest::getVar( 'original_autor', '' );
+		
 		if (!empty($thumbnail))
 		{
 			$_POST['thumbnail'] 	= $thumbnail;

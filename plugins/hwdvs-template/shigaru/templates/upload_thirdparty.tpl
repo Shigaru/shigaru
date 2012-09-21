@@ -6,7 +6,7 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<script type="text/javascript" src="http://localhost/shigaru/components/com_comprofiler/js/jquery-1.5.2/jquery.validate.min.js?v=020b12f257965e65"></script>
+<script type="text/javascript" src="{$domain}components/com_comprofiler/js/jquery-1.5.2/jquery.validate.min.js?v=020b12f257965e65"></script>
 {literal}
 <style>
 
@@ -21,6 +21,31 @@
 	var currentLang = "{$currentlang}";
 	var fromError = {$fromerror};
 	{literal}
+	function showGrabbedInfo(){
+				jQuery('#infograbbed').show();
+				jQuery('#infograbbed #yesall').click(function() {
+					jQuery.unblockUI({onUnblock: function() { jQuery('#infograbbed').hide(); }}); 
+					jQuery('#infograbbed').hide();
+					return false; 
+				});	
+				
+				var oObjectwidth = jQuery('#infograbbed').width();
+				var oWindowWidth = jQuery(window).width();
+				var oWindowHeight = jQuery(window).height();
+				var oLeftPosition  = (oWindowWidth - oObjectwidth) / 2;
+				var oObjectHeight = jQuery('#infograbbed').height()+110;
+				var oTopPosition  = ((oWindowHeight - oObjectHeight)) / 2;
+				if(oTopPosition < 100){
+						jQuery('#infograbbed #fields').css({'height':(oWindowHeight-150)+'px','overflow-y':'auto'});
+						oTopPosition = 25;
+					}
+				
+				jQuery.blockUI({ message: jQuery('#infograbbed'), css : { border : 'none', height: 'auto', 'cursor': 'auto', 'width': (oObjectwidth+20)+'px', 'top': oTopPosition, 'left' : oLeftPosition   } });
+				jQuery('#infograbbed #no').click(function() { 
+					jQuery.unblockUI({onUnblock: function() { jQuery('#infograbbed').hide(); }}); 
+					return false; 
+				});	
+			}
 	jQuery(document).ready(function() {
 		if(fromError ==0){	
 				showGrabbedInfo();
@@ -64,31 +89,7 @@
 					return false; 
 				});	
 				
-			function showGrabbedInfo(){
-				jQuery('#infograbbed').show();
-				jQuery('#infograbbed #yesall').click(function() {
-					jQuery.unblockUI({onUnblock: function() { jQuery('#infograbbed').hide(); }}); 
-					jQuery('#infograbbed').hide();
-					return false; 
-				});	
 				
-				var oObjectwidth = jQuery('#infograbbed').width();
-				var oWindowWidth = jQuery(window).width();
-				var oWindowHeight = jQuery(window).height();
-				var oLeftPosition  = (oWindowWidth - oObjectwidth) / 2;
-				var oObjectHeight = jQuery('#infograbbed').height()+110;
-				var oTopPosition  = ((oWindowHeight - oObjectHeight)) / 2;
-				if(oTopPosition < 100){
-						jQuery('#infograbbed #fields').css({'height':(oWindowHeight-150)+'px','overflow-y':'auto'});
-						oTopPosition = 25;
-					}
-				
-				jQuery.blockUI({ message: jQuery('#infograbbed'), css : { border : 'none', height: 'auto', 'cursor': 'auto', 'width': (oObjectwidth+20)+'px', 'top': oTopPosition, 'left' : oLeftPosition   } });
-				jQuery('#infograbbed #no').click(function() { 
-					jQuery.unblockUI({onUnblock: function() { jQuery('#infograbbed').hide(); }}); 
-					return false; 
-				});		
-			}	
 		}
 			jQuery('#category_id').change(function() {	
 				if(jQuery(this).val()=='1')

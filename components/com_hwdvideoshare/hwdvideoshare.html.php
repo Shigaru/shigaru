@@ -1960,7 +1960,6 @@ $app = & JFactory::getApplication();
         $c = hwd_vs_Config::get_instance();
 		$my = & JFactory::getUser();
 		$db = & JFactory::getDBO();
-
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
@@ -2118,7 +2117,14 @@ $app = & JFactory::getApplication();
 			$lang =& JFactory::getLanguage();
 			$smartyvs->assign("currentlang", $lang->getTag());
 			$smartyvs->assign("genresCombo", $genresCombo);
-			$smartyvs->assign("videourl",$videourl);
+			$smartyvs->assign("intrument_id", $row->intrument_id);
+			$smartyvs->assign("level_id", $row->level_id);
+			$smartyvs->assign("genre_id", $row->genre_id);
+			$smartyvs->assign("language_id", $row->language_id);
+			$smartyvs->assign("song_id", hwd_vs_tools::getSongById($row->song_id));
+			$smartyvs->assign("band_id", hwd_vs_tools::getBandById($row->band_id));
+			$smartyvs->assign("category_id", $row->category_id);
+			
 
 		$smartyvs->display('video_edit.tpl');
 		return;
