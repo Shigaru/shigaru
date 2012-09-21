@@ -78,11 +78,16 @@
 				var oLeftPosition  = (oWindowWidth - oObjectwidth) / 2;
 				var oObjectHeight = jQuery('#infograbbed').height()+110;
 				var oTopPosition  = ((oWindowHeight - oObjectHeight)) / 2;
+				if(oTopPosition < 100){
+						jQuery('#infograbbed #fields').css({'height':(oWindowHeight-150)+'px','overflow-y':'auto'});
+						oTopPosition = 25;
+					}
+				
 				jQuery.blockUI({ message: jQuery('#infograbbed'), css : { border : 'none', height: 'auto', 'cursor': 'auto', 'width': (oObjectwidth+20)+'px', 'top': oTopPosition, 'left' : oLeftPosition   } });
 				jQuery('#infograbbed #no').click(function() { 
 					jQuery.unblockUI({onUnblock: function() { jQuery('#infograbbed').hide(); }}); 
 					return false; 
-				});	
+				});		
 			}	
 		}
 			jQuery('#category_id').change(function() {	
@@ -236,6 +241,7 @@
 <div class="f100 mtopl50">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
 <form id="formElem" name="formElem" action="{$form_tp}" method="post">
 <div id="infograbbed">
+		<div id="fields">
 			<div>
 				<p class="f120 mbot20 pad12 fontbold">OK, we have been able to get the following information for this video. Feel free to edit it, we are sure you can make it better ;-)</p>
 			</div>
@@ -317,6 +323,7 @@
 				</div>
             </div>
             <div class="clear"></div>
+         </div>   
             <input type="button" class="mtop24 mbot20 reddbuttonsubmit" id="yesall" value="Ok" /> 
 
 </div>
