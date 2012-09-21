@@ -19,8 +19,10 @@
 <script>
 	var domain = "{$domain}";
 	var currentLang = "{$currentlang}";
+	var fromError = {$fromerror};
 	{literal}
-	jQuery(document).ready(function() {	
+	jQuery(document).ready(function() {
+		if(fromError ==0){	
 				showGrabbedInfo();
 				jQuery("#language_id").val(currentLang);
 				jQuery("#intrument_id").val("102");
@@ -42,7 +44,6 @@
 						jQuery(this).parent().siblings('.current').find('.grabbedtext').html(jQuery(this).val());
 						return false; 
 					});
-					console.log('dd');
 					$clicked.parent().parent().find('.usermessages input#yes').click(function() {
 						jQuery('.viewmode,#yesall').fadeIn('slow');
 						$clicked.parent().siblings('.usermessages').hide(); 
@@ -50,6 +51,7 @@
 						$clicked.siblings('.grabbedtext').html($clicked.parent().parent().find('.usermessages input.required').val());
 						else{
 							$clicked.siblings('.grabbedtext').html(tinyMCE.activeEditor.getContent());
+							tinyMCE.activeEditor.save();
 						}
 						return false;  
 					});
@@ -82,7 +84,7 @@
 					return false; 
 				});	
 			}	
-			
+		}
 			jQuery('#category_id').change(function() {	
 				if(jQuery(this).val()=='1')
 				jQuery('.songtutorialfields').fadeIn(500,function () {
@@ -158,13 +160,17 @@
 						 }
 						 
 					}, messages: {
-                    originalband: {
-                        required: "Please add a band for this song / tune"
-                    },
-                    songtitle: {
-                        required: "Please insert the name of the song / tune in this box"
-                    }
-                }
+						originalband: {
+							required: "Please add a band for this song / tune"
+						},
+						songtitle: {
+							required: "Please insert the name of the song / tune in this box"
+						}
+					},
+					beforeSubmit: function() { 
+						tinyMCE.activeEditor.save();
+						return false;
+					}
 				} );
 				
 				
@@ -228,6 +234,7 @@
 </script>
 {/literal}
 <div class="f100 mtopl50">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
+<form id="formElem" name="formElem" action="{$form_tp}" method="post">
 <div id="infograbbed">
 			<div>
 				<p class="f120 mbot20 pad12 fontbold">OK, we have been able to get the following information for this video. Feel free to edit it, we are sure you can make it better ;-)</p>
@@ -239,24 +246,24 @@
 			</div>
 			<div class="fleft w80pc pad12">
 				<div class="fright">
-					<a href="#" target="_blank" title="Go to Youtube.com"></a>
+					<a href="{$videourl}" target="_blank" title="Go to Youtube.com"></a>
 				</div>	
 				<div class="mtop12 mbot20">
 					<div class="viewmode">
 						<span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</span>	
-						<span class="grabbedtext">{$videoInfo->video_title}</span>
+						<span class="grabbedtext">{$titleplain}</span>
 						<a href="#" id="grabbed-title" class="fontbold mleft6" title="Click to edit">Edit</a>
 					</div> 
 					<div class="usermessages dispnon">
 							<p id="titlebox">
                                 <label for="videotitle">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</label>
-                                <input type="text" class="required" value="{$videoInfo->video_title}" size="40" name="videotitle" id="videotitle">
+                                <input type="text" class="required" value="{$titleplain}" size="40" name="videotitle" id="videotitle">
                                  <br>
 								<span class="fieldexplanation"><span class="fontbold">Example:</span> {$smarty.const._HWDVIDS_SHIGARU_EXAMPLETITLE}</span>
                             </p>
                             <div class="current">
 								<span class="fontbold">Current text: </span>
-								<span class="grabbedtext">{$videoInfo->video_title}</span>
+								<span class="grabbedtext">{$titleplain}</span>
 							</div>
 							<div class="clear"></div>
 							<a href="#" id="cancel" class="fontbold mleft6" title="Click to cancel the changes">Cancel</a>
@@ -266,7 +273,7 @@
 				<div class="mbot20">
 						<div class="viewmode">
 							<span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_VIDEODESCRIP}</span>	
-							<span class="grabbedtext">{$descriptionplain}</span>
+							<span id="descgrabbedtext" class="grabbedtext">{$descriptionplain}</span>
 							<a href="#" id="grabbed-descrip" class="fontbold mleft6" title="Click to edit">Edit</a>
 						</div> 
 						<div class="usermessages dispnon">
@@ -316,10 +323,10 @@
 <div id="contentSliderForm" class="clear">
 	<div id="wrapperSliderForm">
 		<div id="steps">
-			<form id="formElem" name="formElem" action="{$form_tp}" method="post">
+			
 			
 			 <fieldset class="step">
-						<legend>{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_VIDEO_DETAILS} <div class="f80 tblack fright">{$smarty.const._HWDVIDS_SHIGARU_MANDATORYFIELDS}</div></legend>
+						<legend>{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_VIDEO_DETAILS}</legend>
                             <p>
 								<label for="category_id">{$smarty.const._HWDVIDS_SHIGARU_TYPEVIDEO} <font class="required">*</font></label>
                                {$categoryselect}
@@ -378,7 +385,9 @@
                             <p class="submit">
                                 <button id="registerButton" type="submit">{$smarty.const._HWDVIDS_BUTTON_ADD}</button>
                             </p>
-                        </fieldset>    
+                           </fieldset>
+                        <input type="hidden" value="" id="tags" name="tags" />
+                        <input type="hidden" value="" name="videotitle" id="videotitle">    
                         <input type="hidden" value="{$username}" id="shigaruuser" name="shigaruuser"/>
                         <input type="hidden" value="{$ipaddress}" id="ip_address" name="ip_address"/>
                         <input type="hidden" name="videotype" value="{$videotype}" />

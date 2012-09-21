@@ -1104,6 +1104,9 @@ class hwd_vs_uploads
 		{
 			$checksecurity = "1";
 		}
+		$requestarray = JRequest::get( 'default', 2 );
+		$embeddump = $requestarray['embeddump'];
+		
 		if ($checksecurity == "1" && !$admin_import)
 		{
 			if(($_SESSION['security_code'] == $security_code) && (!empty($_SESSION['security_code'])) )
@@ -1113,12 +1116,32 @@ class hwd_vs_uploads
 			else
 			{
         		hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_ERRSC, "exclamation.png", 0);
-				return;
+        		$oThirdPartyVideoInfo->video_type		= $regs['domain'];
+				$oThirdPartyVideoInfo->video_id			= Jrequest::getVar( 'video_id', '' );
+				$oThirdPartyVideoInfo->video_title		= hwd_vs_tools::generatePostTitle(Jrequest::getVar( 'videotitle', '' ));
+				$oThirdPartyVideoInfo->description		= hwd_vs_tools::generatePostDescription(Jrequest::getVar( 'description', '' ));
+				$oThirdPartyVideoInfo->category_id 		= JRequest::getVar( "category_id", "0", "post" );
+				$oThirdPartyVideoInfo->tags				= hwd_vs_tools::generatePostTags(Jrequest::getVar( 'tags', '' ));
+				$oThirdPartyVideoInfo->video_length		= Jrequest::getVar( 'video_length', '' );		
+				$oThirdPartyVideoInfo->date_uploaded	= date('Y-m-d H:i:s');
+				$oThirdPartyVideoInfo->remote_verified = null;
+				$oThirdPartyVideoInfo->error_msg = "";
+        		hwd_vs_html::uploadMedia("thirdparty",
+											"",
+											"",
+											stripslashes(Jrequest::getVar( 'videotitle', '' )),
+											stripslashes(Jrequest::getVar( 'description', '' )),
+											JRequest::getVar( "category_id", "0", "post" ),
+											Jrequest::getVar( 'tags', '' ),
+											JRequest::getWord( "public_private", "public", "post" ),
+											JRequest::getInt( "allow_comments", $c->shareoption2, "post" ),
+											JRequest::getInt( "allow_embedding", $c->shareoption3, "post" ),
+											JRequest::getInt( "allow_rating", $c->shareoption4, "post" ),"","",Jrequest::getVar( 'embeddump', '' ),true,$oThirdPartyVideoInfo);
+        	return;	
 			}
 		}
 
-		$requestarray = JRequest::get( 'default', 2 );
-		$embeddump = $requestarray['embeddump'];
+		
 		$infoPassed = Jrequest::getVar('infopassed','');
 		$remote_verified = null;
 
@@ -1168,101 +1191,14 @@ class hwd_vs_uploads
 		}
 
 		$failures = "";
-		if (!isset($remote_verified)) {
-
-			$cn = 'hwd_vs_tp_'.preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']);
-			$f_processc = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processCode';
-			$f_processi = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processThumbnail';
-			$f_processt = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processTitle';
-			$f_processd = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDescription';
-			$f_processk = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processKeywords';
-			$f_processl = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDuration';
-			$f_processco = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processComments';
-
-			$tp = new $cn();
-
-			$ext_v_code  = $tp->$f_processc($embeddump);
-
-			//check if already exists
-			$db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos WHERE video_id = "'.$ext_v_code[1].'"' );
-			$duplicatecount = $db->loadResult();
-
-			if ($duplicatecount > 0 && $admin_import == false) {
-				hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_DUPLICATE, "exclamation.png", 0);
-				return;
-			} else if ($duplicatecount > 0 && $admin_import == true) {
-				return false;
-			}
-
-			$ext_v_title = $tp->$f_processt($embeddump, @$ext_v_code[1]);
-			$ext_v_descr = $tp->$f_processd($embeddump, @$ext_v_code[1]);
-			$ext_v_keywo = $tp->$f_processk($embeddump, @$ext_v_code[1]);
-			$ext_v_durat = $tp->$f_processl($embeddump, @$ext_v_code[1]);
-			//$ext_v_comme = $tp->$f_processco($embeddump, @$ext_v_code[1]);
-
-			if ($ext_v_code[0] == "0")
-			{
-				if ($j16)
-				{
-					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote'.DS.'remote.php');
-					$regs['domain'] = 'remote';
-				}
-				else
-				{
-					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
-					$regs['domain'] = 'remote';
-				}
-
-				$tp = new hwd_vs_tp_remote();
-				if($infoPassed == 'true' ){
-					$ext_v_code  = Jrequest::getVar( 'video_id', '' );
-					$ext_v_title = Jrequest::getVar( 'videotitle', '' );
-					$ext_v_descr = Jrequest::getVar( 'description', '' );
-					$ext_v_keywo = Jrequest::getVar( 'tags', '' );
-					$ext_v_durat = Jrequest::getVar( 'video_length', '' );
-					}else{
-							$ext_v_code  = $tp->remoteProcessCode($embeddump);
-							$ext_v_title = $tp->remoteProcessTitle($embeddump, @$ext_v_code[1]);
-							$ext_v_descr = $tp->remoteProcessDescription($embeddump, @$ext_v_code[1]);
-							$ext_v_keywo = $tp->remoteProcessKeywords($embeddump, @$ext_v_code[1]);
-							$ext_v_durat = $tp->remoteProcessDuration($embeddump, @$ext_v_code[1]);
-						}
-
-				if ($ext_v_code[0] == "0") {
-					
-					hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_INFO_TPPROCESSFAIL, "exclamation.png", 0);
-					return;
-				}
-
-				//check if already exists
-				$db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos WHERE video_id = "'.$ext_v_code[1].'"' );
-				$duplicatecount = $db->loadResult();
-
-				if ($duplicatecount > 0 && $admin_import == false) {
-					hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_DUPLICATE, "exclamation.png", 0);
-					return;
-				} else if ($duplicatecount > 0 && $admin_import == true) {
-					return false;
-				}
-			}
-
-			if ($ext_v_title[0] == 0) {$failures.=_HWDVIDS_INFO_TPTITLEFAIL."<br />";}
-			if ($ext_v_descr[0] == 0) {$failures.=_HWDVIDS_INFO_TPDESCFAIL."<br />";}
-			if ($ext_v_keywo[0] == 0) {$failures.=_HWDVIDS_INFO_TPKWFAIL."<br />";}
-			if ($ext_v_durat[0] == 0) {$failures.=_HWDVIDS_INFO_TPDRFAIL."<br />";}
-
-		} else if ($remote_verified == 0) {
-
-			$error_msg = _HWDVIDS_ERROR_UPLDERR11."<br /><br />"._HWDVIDS_INFO_SUPPTPW."<br />".hwd_vs_tools::generateSupportedWebsiteList();
-			hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, $error_msg, "exclamation.png", 1);
-			return;
-
-		}
-
-		$title 			= hwd_vs_tools::generatePostTitle($ext_v_title[1]);
-		$description 		= hwd_vs_tools::generatePostDescription($ext_v_descr[1]);
-		$tags 			= hwd_vs_tools::generatePostTags($ext_v_keywo[1]);
-		
+		$ext_v_code  = Jrequest::getVar( 'video_id', '' );
+		$ext_v_title = stripslashes(Jrequest::getVar( 'videotitle', '' ));
+		$ext_v_descr = stripslashes(JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
+		$ext_v_keywo = Jrequest::getVar( 'tags', '' );
+		$ext_v_durat = Jrequest::getVar( 'video_length', '' );		
+		$title 				= hwd_vs_tools::generatePostTitle($ext_v_title);
+		$description 		= hwd_vs_tools::generatePostDescription($ext_v_descr);
+		$tags 				= hwd_vs_tools::generatePostTags($ext_v_keywo);
 		$public_private 	= JRequest::getWord( "public_private", "public", "post" );
 		$allow_comments 	= JRequest::getInt( "allow_comments", $c->shareoption2, "post" );
 		$allow_embedding 	= JRequest::getInt( "allow_embedding", $c->shareoption3, "post" );
@@ -1272,30 +1208,30 @@ class hwd_vs_uploads
 		
 		
 		if ($c->multiple_cats == "1")
-		{
-			$categoryid = JRequest::getVar( "category_id", "0", "post" );                   
-			$category_id = null;
-		}
-                else
-                {
-                        $category_id = JRequest::getInt( "category_id", "0", "post" );
-                }
+			$category_id = JRequest::getVar( "category_id", "0", "post" );
+		else
+				$category_id = JRequest::getInt( "category_id", "0", "post" );
 
 		//$checkform = hwd_vs_tools::checkFormComplete($title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings);
-		
-		//band and songs stuff
-		$band = Jrequest::getVar( 'originalband', '' );
-		$band_id = hwd_vs_tools::checkBand($band);
-		$song = Jrequest::getVar( 'songtitle', '' );
-		$song_id = hwd_vs_tools::checkSong($song);
-		if($band_id==null){
-				$band_id = hwd_vs_tools::addBand($band);
-			}
-		if($song_id==null){
-				$song_id = hwd_vs_tools::addSong($song,$band_id);
-			}
 
-
+		if($category_id==1){
+			//band and songs stuff
+			$band = Jrequest::getVar( 'originalband', '' );
+			$band_id = hwd_vs_tools::checkBand($band);
+			$song = Jrequest::getVar( 'songtitle', '' );
+			$song_id = hwd_vs_tools::checkSong($song);
+			if($band_id==null){
+					$band_id = hwd_vs_tools::addBand($band);
+					if($song_id==null){
+					$song_id = hwd_vs_tools::addSong($song,$band_id);
+					}
+				}else{
+					if($song_id==null){
+						$song_id = hwd_vs_tools::addSong($song,$band_id);
+					}
+					}
+			
+		}
 		$row = new hwdvids_video($db);
 
 		$password = Jrequest::getVar( 'hwdvspassword', '' );

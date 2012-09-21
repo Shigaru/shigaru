@@ -560,12 +560,11 @@ class hwd_vs_html
     /**
      *
      */
-    function uploadMedia($uploadpage, $videotype, $checksecurity, $title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings, $md5password,$fylePath,$videourl)
+    function uploadMedia($uploadpage, $videotype, $checksecurity, $title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings, $md5password,$fylePath,$videourl,$fromError=false,$paramPartyVideoInfo=null)
     {
 		global $Itemid, $my, $params, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
 		$my = & JFactory::getUser();
-
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
@@ -594,13 +593,12 @@ class hwd_vs_html
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_UPLD );
 		hwd_vs_tools::generateActiveLink(4);
 		hwd_vs_tools::generateBreadcrumbs();
-
+		$oFromError = '0';
 		$supported_websites = hwd_vs_tools::generateSupportedWebsiteList();
 		$smartyvs->assign("supported_websites", $supported_websites);
 		$smartyvs->assign("username",$my->username);
 		$ip = getenv("REMOTE_ADDR") ;
 		$smartyvs->assign("ipaddress",$ip);
-		
 		if ($uploadpage == "2") {
 
 			$allowedformats = hwd_vs_tools::generateAllowedFormats();
@@ -640,7 +638,12 @@ class hwd_vs_html
 
 		} else if ($uploadpage == "thirdparty") {
 			$app->setUserState( "com_hwdvideoshare.upload_selection", "tp" );
-			$oThirdPartyVideoInfo = hwd_vs_tools::getThirdPartyVideoInfo($videourl);		
+			if(!$fromError)
+				$oThirdPartyVideoInfo = hwd_vs_tools::getThirdPartyVideoInfo($videourl);		
+				else{
+						$oThirdPartyVideoInfo=$paramPartyVideoInfo;
+						$oFromError = '1';
+					}
 			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		
 			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);		
 			$languagesCombo = hwd_vs_tools::generateVideoCombos('code as a, code as b','languages','id','language_id',true,false,true);	
@@ -658,8 +661,11 @@ class hwd_vs_html
 			$data = $oThirdPartyVideoInfo->video_id;
 			$thumburl = hwd_vs_tools::get_final_url( "http://img.youtube.com/vi/".$data."/default.jpg");
 			$smartyvs->assign( "thumburl",$thumburl);
-			$smartyvs->assign( "descriptionplain",$oThirdPartyVideoInfo->description);
+			$smartyvs->assign( "fromerror",$oFromError);
+			$smartyvs->assign( "titleplain",htmlspecialchars(stripslashes($oThirdPartyVideoInfo->description)));
+			$smartyvs->assign( "descriptionplain",stripslashes($oThirdPartyVideoInfo->description));
 			$smartyvs->assign( "description", $editor->display("description",$oThirdPartyVideoInfo->description,600,200,20,20,false,$editorparams));
+			$smartyvs->assign( "descriptionsave",$editor->save( 'description' ));
 			$smartyvs->assign("videoInfo", $oThirdPartyVideoInfo);
 			$smartyvs->assign("infoPassed", 'true');
 			$smartyvs->assign("captcha", $captcha);
@@ -685,6 +691,7 @@ class hwd_vs_html
 			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);
 			$editor =& JFactory::getEditor();
 			$smartyvs->assign( "description", $editor->display("description",$oThirdPartyVideoInfo->description,350,200,20,20,1) );
+            
 			$smartyvs->assign( "print_wysiwyg", 1 );
 			$smartyvs->assign("fylePath",$fylePath);
 			$app->setUserState( "com_hwdvideoshare.upload_selection", "local" );
@@ -997,8 +1004,8 @@ class hwd_vs_html
 		{
 			$smartyvs->assign("categoryvideolist", "There are no more videos in this category.");
 		}
-		$songPlayer = hwd_vs_tools::getSongPlayer($row->song_id);
-		
+		//$songPlayer = hwd_vs_tools::getSongPlayer($row->song_id);
+		$songPlayer = "";
 		$currentUrl = JURI::current();
 		
 		$smartyvs->assign("currentUrl", $currentUrl);

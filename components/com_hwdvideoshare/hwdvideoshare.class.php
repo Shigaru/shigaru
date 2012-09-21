@@ -3101,7 +3101,7 @@ $app = & JFactory::getApplication();
      */
 	function checkSong($band) {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT label FROM #__hwdvidsbands AS a'; 
+		$query = 'SELECT label FROM #__hwdvidssongs AS a'; 
 		$query .= ' WHERE a.label ="'.$band.'"';
 		$db->setQuery($query);
 		$db->loadObjectList();
@@ -4598,7 +4598,7 @@ $app = & JFactory::getApplication();
 
 		$details->id = intval($row->id);
 		$details->titleText = stripslashes($row->title);
-		$details->title = hwd_vs_tools::generateVideoLink( $row->id, $row->title, $hwdvsItemid, null, 10000 );
+		$details->title = hwd_vs_tools::generateVideoLink( $row->id, stripslashes($row->title), $hwdvsItemid, null, 10000 );
 		$details->player = hwd_vs_tools::generateVideoPlayer($row, $player_width, $player_height, $autoplay, $quality);
 		$details->videourl = hwd_vs_tools::generateVideoUrl($row);
 		$details->embedcode = hwd_vs_tools::generateEmbedCode($row);
@@ -4625,7 +4625,7 @@ $app = & JFactory::getApplication();
 			$details->category = hwd_vs_tools::generateCategoryLink($row->category_id);
 		}
 
-		$details->description_truncated = hwd_vs_tools::makeClickableLinks(hwd_vs_tools::truncateText($row->description, $c->trunvdesc));
+		$details->description_truncated = hwd_vs_tools::makeClickableLinks(hwd_vs_tools::truncateText(stripslashes($row->description), $c->trunvdesc));
 		$details->rating = hwd_vs_tools::generateRatingImg($row->updated_rating);
 		$details->deletevideo = hwd_vs_tools::generateDeleteVideoLink($row);
 		$details->editvideo = hwd_vs_tools::generateEditVideoLink($row);
@@ -4643,7 +4643,7 @@ $app = & JFactory::getApplication();
 		$details->downloadoriginal = hwd_vs_tools::generateDownloadVideoLink($row);
 		$details->vieworiginal = hwd_vs_tools::generateViewOriginalLink($row);
 		$details->reportmedia = hwd_vs_tools::generateReportMediaButton($row);
-		$details->tags = hwd_vs_tools::generateTagListString($row->tags);
+		$details->tags = hwd_vs_tools::generateTagListString(stripslashes($row->tags));
 		$details->favourties = hwd_vs_tools::generateFavouriteButton($row);
 		$details->addtoplaylist = hwd_vs_tools::generateAddToPlaylistButton($row);
 		$details->commentsNum = hwd_vs_tools::generateVideoCommentsCount($row);
@@ -4655,7 +4655,7 @@ $app = & JFactory::getApplication();
 		if ($c->showdesc == "1")
 		{
 			$smartyvs->assign("print_description", 1);
-			$details->description = hwd_vs_tools::makeClickableLinks($row->description);
+			$details->description = hwd_vs_tools::makeClickableLinks(stripslashes($row->description));
 
 			//$item                 = JTable::getInstance('content');
 			//$dispatcher           = JDispatcher::getInstance();
