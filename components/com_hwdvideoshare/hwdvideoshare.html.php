@@ -2089,7 +2089,36 @@ $app = & JFactory::getApplication();
 				$selected = $row->category_id;
 			}
 			$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
-
+			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		
+			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);		
+			$languagesCombo = hwd_vs_tools::generateVideoCombos('code as a, code as b','languages','id','language_id',true,false,true);	
+			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);		
+			$captcha = hwd_vs_tools::generateCaptcha();
+			$editor =& JFactory::getEditor();
+			$editorparams = array( 'smilies'=> '0' ,
+							 'style'  => '1' ,  
+							 'layer'  => '0' , 
+							 'table'  => '0' ,
+							 'clear_entities'=>'0'
+							 );
+			$domain = JURI::root();
+			// save remote thumbnail to disk
+			$data = $oThirdPartyVideoInfo->video_id;
+			$thumburl = hwd_vs_tools::get_final_url( "http://img.youtube.com/vi/".$data."/default.jpg");
+			$smartyvs->assign( "thumburl",$thumburl);
+			$smartyvs->assign( "fromerror",$oFromError);
+			$smartyvs->assign( "titleplain",htmlspecialchars(stripslashes($row->title)));
+			$smartyvs->assign( "descriptionplain",stripslashes(stripslashes($row->description)));
+			$smartyvs->assign( "description", $editor->display("description",stripslashes($row->description),600,200,20,20,false,$editorparams));
+			$smartyvs->assign( "descriptionsave",$editor->save( 'description' ));
+			$smartyvs->assign("domain", $domain);
+			$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
+			$smartyvs->assign("levelsCombo", $levelsCombo);
+			$smartyvs->assign("languagesCombo", $languagesCombo);
+			$lang =& JFactory::getLanguage();
+			$smartyvs->assign("currentlang", $lang->getTag());
+			$smartyvs->assign("genresCombo", $genresCombo);
+			$smartyvs->assign("videourl",$videourl);
 
 		$smartyvs->display('video_edit.tpl');
 		return;

@@ -9,4 +9,3 @@
 
 {include file='header.tpl'}
 {include file='video_edit_form.tpl'}
-{include file='footer.tpl'}

@@ -6,53 +6,96 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
+<div id="contentSliderForm" class="clear">
+	<div id="wrapperSliderForm">
+		<div id="steps">
+		   <form name="videoupload" action="{$form_save_video}" method="post" onsubmit="return chkform()" enctype="multipart/form-data">
+			 <fieldset class="step">
+				 
+				 <legend>{$smarty.const._HWDVIDS_TITLE_EDITVID}</legend>
+				 
+                      <p>
+						<label for="category_id">{$smarty.const._HWDVIDS_SHIGARU_TYPEVIDEO} <font class="required">*</font></label>
+					   {$categoryselect}
+					   <div class="clear"></div>
+					</p>
+					<p>
+						<label for="category_id">{$smarty.const._HWDVIDS_TITLE_NEWTHUMB}</label>
+						<div class="edit-videopreview fleft">{$thumbnail}</div>
+						<div class="fleft newthumbinput"><input type="file" name="thumbnail_file" value="" size="30"></div>
+						<div class="clear"></div>
+						<span class="fieldexplanation">{$smarty.const._HWDVIDS_DETAILS_NEWTHUMB_DESC}</span>
+					</p>
+					<p>
+						<label for="title">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</label>
+						<input type="text" class="required" value="{$titleplain}" size="40" name="title" id="title">
+						<div class="clear"></div>
+						</p>
+                    <p>
+						<label for="description">{$smarty.const._HWDVIDS_SHIGARU_VIDEODESCRIP}</label>
+						<div id="wysigyginfovideo">
+							  {$description}
+						 </div>
+						 <div class="clear"></div>
+						</p>
+					<p>
+						<label for="tags">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS} <font class="required">*</font></label>
+						<input type="text" value="{$tags}" class="required" id="tags" name="tags" size="40"/>
+						<div class="clear"></div>
+						</p>			     
+					<p class="songtutorialfields">
+						<label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
+						<input type="text" value="" id="originalband" name="originalband" size="20" class="required" placeholder="Enter Band Name..." minlength="2"/>
+						<br class="clear"/>
+						</p>
+					<p class="songtutorialfields">
+						<label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
+						<input type="text" value="" id="songtitle" name="songtitle" size="20" placeholder="Enter Song Title..."/>
+						<br class="clear"/>
+					  </p>
+				   <p>
+						<label for="genre_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE} <font class="required">*</font></label>
+						{$genresCombo}
+						<div class="clear"></div>
+					</p>       
+					<p>
+						<label for="intrument_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_INSTRUMENT} <font class="required">*</font></label>
+						{$instrumentsCombo}
+						<div class="clear"></div>
+					</p>   
+					 <p>
+						<label for="level_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_LEVEL} <font class="required">*</font></label>
+						{$levelsCombo}
+						<div class="clear"></div>
+					</p>
+					
+					<p id="originalautorfields">
+						<label for="original_autor">{$smarty.const._HWDVIDS_SHIGARU_AREYOUCREATOR} <font class="required">*</font></label>
+						<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_YES}<input type="radio" name="original_autor" value="1"></label>
+						<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_NO}<input type="radio" name="original_autor" checked="true" value="0"></label>
+						<div class="clear"></div>
+						</p> 
+					<p>
+						<label for="language_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_VIDEO_LANGUAGE} <font class="required">*</font></label>
+						{$languagesCombo}
+						<div class="clear"></div>
+					</p>   
+					<p class="submit">
+						<button id="registerButton" type="submit">{$smarty.const._HWDVIDS_BUTTON_ADD}</button>
+					</p>
+				   </fieldset>
+					
+					{if $print_sharingoptions}
+					  {include file='sharingoptions.tpl'}
+					{/if}
 
-<form name="videoupload" action="{$form_save_video}" method="post" onsubmit="return chkform()" enctype="multipart/form-data">
-
-<div class="standard">
-  <h2>{$smarty.const._HWDVIDS_TITLE_EDITVID}</h2>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr>
-      <td width="150">{$smarty.const._HWDVIDS_TITLE} <font class="required">*</font></td>
-      <td><input name="title" value="{$title}" class="inputbox" size="20" maxlength="500" style="width: 200px;" /></td>
-      <td rowspan="2" valign="top"><div class="edit-videopreview">{$thumbnail}</div></td>
-    </tr>
-    <tr>
-      <td valign="top">{$smarty.const._HWDVIDS_DESC} <font class="required">*</font></td>
-      <td valign="top"><textarea rows="4" cols="20" name="description" class="inputbox" style="width: 200px;">{$description}</textarea></td>
-    </tr>
-    <tr>
-      <td>{$smarty.const._HWDVIDS_CATEGORY} <font class="required">*</font></td>
-      <td colspan="2">{$categoryselect}</td>
-    </tr>
-    <tr>
-      <td>{$smarty.const._HWDVIDS_TAGS} <font class="required">*</font></td>
-      <td colspan="2">{$smarty.const._HWDVIDS_INFO_TAGS}</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td colspan="2"><input name="tags" value="{$tags}" class="inputbox" size="20" maxlength="1000" style="width: 200px;" /></td>
-    </tr>
-    <tr>
-      <td colspan="3"><font class="required">*</font> {$smarty.const._HWDVIDS_INFO_REQUIREDFIELDS}</td>
-    </tr>
-  </table>
-</div>
-
-{include file='video_edit_newthumb.tpl'}
-
-{if $print_sharingoptions}
-  {include file='sharingoptions.tpl'}
-{/if}
-
-<div class="standard">
-  <table width="100%" cellpadding="0" cellspacing="4" border="0"><tr><td width="150"></td><td><input type="submit" name="send" class="inputbox" value="{$smarty.const._HWDVIDS_BUTTON_UPDT}" />&#160;<input type="button" class="inputbox" value="{$smarty.const._HWDVIDS_BUTTON_CANX}" onClick="javascript:window.location.href='{$link_home_hwd_vs}';" /></td></tr></table>
-</div>
-
-<input type="hidden" name="referrer" value="{$referrer}" />
-<input type="hidden" name="id" value="{$rowid}" />
-<input type="hidden" name="owner" value="{$rowuid}" />
-</form>
+					<input type="hidden" name="referrer" value="{$referrer}" />
+					<input type="hidden" name="id" value="{$rowid}" />
+					<input type="hidden" name="owner" value="{$rowuid}" />
+				</form>
+				</div>
+		</div>
+	</div>
 
 
 
