@@ -683,6 +683,9 @@ width: 75%;}
 .blockUI .grabbedtext{display: block;
     max-height: 250px;
     overflow-y: auto;}
+.blockUI .current .grabbedtext{display: block;
+    max-height: 200px;
+    overflow-y: auto;}    
 #searchpages{ margin-bottom: 50px;}
 
 #searchpages .btn {
