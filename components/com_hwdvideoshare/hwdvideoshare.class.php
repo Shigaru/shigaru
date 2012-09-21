@@ -3294,10 +3294,10 @@ $app = & JFactory::getApplication();
 	function parseTagsString($string, $count = 25)
 	{
 		//filters through words to get occurence value.
-		;
 		$topList = array();	
 		$arrayWordList = explode(',',$string);
 		$wordList = array_count_values($arrayWordList);
+		arsort($wordList);
 		foreach ($wordList as $word => $wordNo)
 		{
 			if (strlen($word) > 3)
@@ -3337,11 +3337,6 @@ $app = & JFactory::getApplication();
 		$smallest = $smallest[0];
 		$difference = $biggest - $smallest;
 		$fontDifference = $maxSize-$minSize;
-		/*echo '<pre>';
-		echo var_dump($array);
-		echo '</pre>';*/
-		//randomizes the content
-		shuffle($array);
 		$code = '<ul>';
 		foreach ($array as $word)
 		{			
