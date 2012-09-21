@@ -662,7 +662,7 @@ class hwd_vs_html
 			$thumburl = hwd_vs_tools::get_final_url( "http://img.youtube.com/vi/".$data."/default.jpg");
 			$smartyvs->assign( "thumburl",$thumburl);
 			$smartyvs->assign( "fromerror",$oFromError);
-			$smartyvs->assign( "titleplain",htmlspecialchars(stripslashes($oThirdPartyVideoInfo->description)));
+			$smartyvs->assign( "titleplain",htmlspecialchars(stripslashes($oThirdPartyVideoInfo->video_title)));
 			$smartyvs->assign( "descriptionplain",stripslashes($oThirdPartyVideoInfo->description));
 			$smartyvs->assign( "description", $editor->display("description",$oThirdPartyVideoInfo->description,600,200,20,20,false,$editorparams));
 			$smartyvs->assign( "descriptionsave",$editor->save( 'description' ));
