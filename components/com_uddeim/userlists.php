@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud
+// Author         © 2007-2010 Stephan Slabihoud
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -16,7 +16,6 @@ if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this
 function uddeIMshowLists($myself, $item_id, $limit, $limitstart, $config) {
 	$pathtosite  = uddeIMgetPath('live_site');
 
-	//$my_gid=uddeIMgetGID((int)$myself);
 	$my_gid = $config->usergid;
 
 	if( $config->allowmultiplerecipients &&
@@ -121,7 +120,7 @@ function uddeIMshowLists($myself, $item_id, $limit, $limitstart, $config) {
 		echo "<tr><th style='text-align:center;' class='sectiontablefooter'>";
 		echo '<a href="#" onclick="listsDelete(\''.$muldel.'\'); return false;"><img src="'.$pathtosite.'/components/com_uddeim/templates/'.$config->templatedir.'/images/trash.gif" alt="'._UDDEIM_TRASHCHECKED.'" title="'._UDDEIM_TRASHCHECKED.'" /></a></th>';
 		echo "<th class='sectiontablefooter'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=createlists&Itemid=".$item_id)."'>"._UDDEIM_LISTSNEW."</a></th>";
-		echo "<th class='sectiontablefooter'>&nbsp;</th><th class='sectiontablefooter'>&nbsp;</th></tr>\n";
+		echo "<th class='sectiontablefooter'>&nbsp;</th><th class='sectiontablefooter'>&nbsp;</th><th class='sectiontablefooter'>&nbsp;</th><th class='sectiontablefooter'>&nbsp;</th></tr>\n";
 	}
 	echo "</table></div>\n";
 	echo "</form>\n";
@@ -150,12 +149,12 @@ function uddeIMshowLists($myself, $item_id, $limit, $limitstart, $config) {
 function uddeIMcreateLists($myself, $item_id, $listid, $limit, $limitstart, $config) {
 	$pathtosite  = uddeIMgetPath('live_site');
 
-	//$my_gid=uddeIMgetGID((int)$myself);
 	$my_gid = $config->usergid;
 
 	// write the uddeim menu
 	uddeIMprintMenu($myself, 'none', $item_id, $config);
 	echo "<div id='uddeim-m'>\n";
+	echo "<div id='uddeim-writeform'>\n";
 
 	uddeIMaddScript($pathtosite."/components/com_uddeim/js/uddeimtools.js");
 
@@ -211,17 +210,19 @@ function uddeIMcreateLists($myself, $item_id, $listid, $limit, $limitstart, $con
 	echo uddeIMselectComboUserlist( $myself, $my_gid, $lids, $config );
 	echo "</td></tr></table>";
 	echo "<br />";
-	echo "<input type='submit' name='reply' class='button' value='"._UDDEIM_SUBMIT."' />";
+	echo "<input type='submit' name='reply' class='button' value='"._UDDEIM_SAVE."' />";
+	echo "<br /><br />";
 	echo "</form>";
 
 	$temp = _UDDEIM_LISTSLIMIT_2." ".$config->maxonlists;
-	echo "</div>\n<div id='uddeim-bottomborder'>".uddeIMcontentBottomborder($myself, $item_id, 'standard', $temp, $config)."</div>\n";
+	echo "</div>\n";
+	echo "</div>\n";
+	echo "<div id='uddeim-bottomborder'>".uddeIMcontentBottomborder($myself, $item_id, 'standard', $temp, $config)."</div>\n";
 }
 
 function uddeIMsaveLists($myself, $item_id, $listid, $listname, $listdesc, $listids, $listglobal, $config) {
 	$database = uddeIMgetDatabase();
 
-	//$my_gid=uddeIMgetGID((int)$myself);
 	$my_gid = $config->usergid;
 	if (!uddeIMisAdmin($my_gid))			// when not an admin, than user can not create global user lists
 		$listglobal = 0;
@@ -254,6 +255,54 @@ function uddeIMsaveLists($myself, $item_id, $listid, $listname, $listdesc, $list
 			break;
 		$ar_ids2[$key] = (int)$value;
 	}
+
+	// remove items that are not friends anymore
+	if (($config->restrictcon==1 && uddeIMisReggedOnly($my_gid)) ||
+		($config->restrictcon==2 && uddeIMisAllNotAdmin($my_gid)) ||
+		($config->restrictcon==3) ) {
+
+		if ($lids)
+			$temp = "u.id NOT IN (".uddeIMquoteSmart($lids).") AND ";
+		$somanyfriends = 0;
+		if (uddeIMcheckCB()) {
+			$users = uddeIMselectCBbuddies($myself, $config, $temp);
+			$somanyfriends = count($users);
+		}
+
+		if (!$somanyfriends) { // no friends found, maybe there are some in CBE?
+			if (uddeIMcheckCBE()) {
+				$users = uddeIMselectCBEbuddies($myself, $config, $temp);
+				$somanyfriends = count($users);
+			}
+			if (uddeIMcheckCBE2()) {
+				$users = uddeIMselectCBE2buddies($myself, $config, $temp);
+				$somanyfriends = count($users);
+			}
+		}
+
+		if (!$somanyfriends) { // no friends found, maybe there are some in JS?
+			if (uddeIMcheckJS()) {
+				$users = uddeIMselectJSbuddies($myself, $config, $temp);
+				$somanyfriends = count($users);
+			}
+		}
+
+		// remove non friends from save list
+		if ($config->restrictrem) {
+			foreach ( $ar_ids2 as $key=>$value ) {
+				$found = false;
+				foreach ( $users as $key2=>$value2 ) {
+					if ( $value2->id==$value ) {
+						$found = true;
+						break;
+					}
+				}
+				if (!$found)
+					unset($ar_ids2[$key]);
+			}
+		}
+	}
+
 	$listids = implode(",",$ar_ids2);
 	if ($listid) {
 		if (uddeIMisAdmin($my_gid))			// when not an admin, than user can not create global user lists
@@ -289,67 +338,105 @@ function uddeIMselectComboSelectionlist( $myself, $my_gid, $lids, $config ) {
 
 function uddeIMselectComboUserlist( $myself, $my_gid, $lids, $config ) {
 	$database = uddeIMgetDatabase();
+	$users = Array();
 
 	$ret = '<select multiple="multiple" name="userlist" class="inputbox" ondblclick="userlistdblclick(this.selectedIndex, \'listsform\', \'userlist\', \'selectionlist\', '.$config->maxonlists.')" size="10">';
-	if (uddeIMcheckJversion()>=2) {		// J1.6
-		$temp = "";
+
+	if (($config->restrictcon==1 && uddeIMisReggedOnly($my_gid)) ||
+		($config->restrictcon==2 && uddeIMisAllNotAdmin($my_gid)) ||
+		($config->restrictcon==3) ) {
+
 		if ($lids)
-			$temp = "AND u.id NOT IN (".$lids.") ";
-		switch ($config->hideallusers) {
-			case 3:		// special users
-				$sql="SELECT u.id,u.name,u.username FROM (jos_users AS u INNER JOIN jos_user_usergroup_map AS um ON u.id=um.user_id) 
-							INNER JOIN jos_usergroups AS g ON um.group_id=g.id 
-							WHERE u.block=0 ".$temp."AND g.id NOT IN (3,4,5,6,7,8) ORDER BY u.".($config->realnames ? "name" : "username");
-				break;
-			case 2:		// admins
-				$sql="SELECT u.id,u.name,u.username FROM (jos_users AS u INNER JOIN jos_user_usergroup_map AS um ON u.id=um.user_id) 
-							INNER JOIN jos_usergroups AS g ON um.group_id=g.id 
-							WHERE u.block=0 ".$temp."AND g.id NOT IN (7,8) ORDER BY u.".($config->realnames ? "name" : "username");
-				break;
-			case 1:		// superadmins
-				$sql="SELECT u.id,u.name,u.username FROM (jos_users AS u INNER JOIN jos_user_usergroup_map AS um ON u.id=um.user_id) 
-							INNER JOIN jos_usergroups AS g ON um.group_id=g.id 
-							WHERE u.block=0 ".$temp."AND g.id NOT IN (8) ORDER BY u.".($config->realnames ? "name" : "username");
-				break;
-			default:	// none
-				$sql="SELECT id,name,username FROM #__users WHERE block=0 ".$temp."ORDER BY ".($config->realnames ? "name" : "username");
-				break;
+			$temp = "u.id NOT IN (".uddeIMquoteSmart($lids).") AND ";
+		$somanyfriends = 0;
+		if (uddeIMcheckCB()) {
+			$users = uddeIMselectCBbuddies($myself, $config, $temp);
+			$somanyfriends = count($users);
 		}
-		if (uddeIMisAdmin($my_gid))		// do not hide users when it is an admin
-			$sql="SELECT id,name,username FROM #__users WHERE block=0 ".$temp."ORDER BY ".($config->realnames ? "name" : "username");
+
+		if (!$somanyfriends) { // no friends found, maybe there are some in CBE?
+			if (uddeIMcheckCBE()) {
+				$users = uddeIMselectCBEbuddies($myself, $config, $temp);
+				$somanyfriends = count($users);
+			}
+			if (uddeIMcheckCBE2()) {
+				$users = uddeIMselectCBE2buddies($myself, $config, $temp);
+				$somanyfriends = count($users);
+			}
+		}
+
+		if (!$somanyfriends) { // no friends found, maybe there are some in JS?
+			if (uddeIMcheckJS()) {
+				$users = uddeIMselectJSbuddies($myself, $config, $temp);
+				$somanyfriends = count($users);
+			}
+		}
+
 	} else {
-		$temp = "";
-		if ($lids)
-			$temp = "AND id NOT IN (".$lids.") ";
-		switch ($config->hideallusers) {
-			case 3:		// special users
-				$sql="SELECT id,name,username FROM #__users WHERE block=0 ".$temp."AND gid NOT IN (19,20,21,23,24,25) ORDER BY ".($config->realnames ? "name" : "username");
-				break;
-			case 2:		// admins
-				$sql="SELECT id,name,username FROM #__users WHERE block=0 ".$temp."AND gid NOT IN (24,25) ORDER BY ".($config->realnames ? "name" : "username");
-				break;
-			case 1:		// superadmins
-				$sql="SELECT id,name,username FROM #__users WHERE block=0 ".$temp."AND gid NOT IN (25) ORDER BY ".($config->realnames ? "name" : "username");
-				break;
-			default:	// none
-				$sql="SELECT id,name,username FROM #__users WHERE block=0 ".$temp."ORDER BY ".($config->realnames ? "name" : "username");
-				break;
+
+
+		if (uddeIMcheckJversion()>=2) {		// J1.6
+			$temp = "";
+			if ($lids)
+				$temp = "AND u.id NOT IN (".uddeIMquoteSmart($lids).") ";
+			switch ($config->hideallusers) {
+				case 3:		// special users
+					$sql="SELECT DISTINCT u.id,u.".($config->realnames ? "name" : "username")." AS displayname FROM (#__users AS u INNER JOIN #__user_usergroup_map AS um ON u.id=um.user_id) 
+								INNER JOIN #__usergroups AS g ON um.group_id=g.id 
+								WHERE u.block=0 ".$temp."AND g.id NOT IN (3,4,5,6,7,8) ORDER BY u.".($config->realnames ? "name" : "username");
+					break;
+				case 2:		// admins
+					$sql="SELECT DISTINCT u.id,u.".($config->realnames ? "name" : "username")." AS displayname FROM (#__users AS u INNER JOIN #__user_usergroup_map AS um ON u.id=um.user_id) 
+								INNER JOIN #__usergroups AS g ON um.group_id=g.id 
+								WHERE u.block=0 ".$temp."AND g.id NOT IN (7,8) ORDER BY u.".($config->realnames ? "name" : "username");
+					break;
+				case 1:		// superadmins
+					$sql="SELECT DISTINCT u.id,u.".($config->realnames ? "name" : "username")." AS displayname FROM (#__users AS u INNER JOIN #__user_usergroup_map AS um ON u.id=um.user_id) 
+								INNER JOIN #__usergroups AS g ON um.group_id=g.id 
+								WHERE u.block=0 ".$temp."AND g.id NOT IN (8) ORDER BY u.".($config->realnames ? "name" : "username");
+					break;
+				default:	// none
+					$sql="SELECT u.id,u.".($config->realnames ? "name" : "username")." AS displayname FROM #__users AS u WHERE u.block=0 ".$temp."ORDER BY u.".($config->realnames ? "name" : "username");
+					break;
+			}
+			if (uddeIMisAdmin($my_gid))		// do not hide users when it is an admin
+				$sql="SELECT u.id,u.".($config->realnames ? "name" : "username")." AS displayname FROM #__users AS u WHERE u.block=0 ".$temp."ORDER BY u.".($config->realnames ? "name" : "username");
+		} else {
+			$temp = "";
+			if ($lids)
+				$temp = "AND id NOT IN (".uddeIMquoteSmart($lids).") ";
+			switch ($config->hideallusers) {
+				case 3:		// special users
+					$sql="SELECT id,".($config->realnames ? "name" : "username")." AS displayname FROM #__users WHERE block=0 ".$temp."AND gid NOT IN (19,20,21,23,24,25) ORDER BY ".($config->realnames ? "name" : "username");
+					break;
+				case 2:		// admins
+					$sql="SELECT id,".($config->realnames ? "name" : "username")." AS displayname FROM #__users WHERE block=0 ".$temp."AND gid NOT IN (24,25) ORDER BY ".($config->realnames ? "name" : "username");
+					break;
+				case 1:		// superadmins
+					$sql="SELECT id,".($config->realnames ? "name" : "username")." AS displayname FROM #__users WHERE block=0 ".$temp."AND gid NOT IN (25) ORDER BY ".($config->realnames ? "name" : "username");
+					break;
+				default:	// none
+					$sql="SELECT id,".($config->realnames ? "name" : "username")." AS displayname FROM #__users WHERE block=0 ".$temp."ORDER BY ".($config->realnames ? "name" : "username");
+					break;
+			}
+			if (uddeIMisAdmin($my_gid))		// do not hide users when it is an admin
+				$sql="SELECT id,".($config->realnames ? "name" : "username")." AS displayname FROM #__users WHERE block=0 ".$temp."ORDER BY ".($config->realnames ? "name" : "username");
 		}
-		if (uddeIMisAdmin($my_gid))		// do not hide users when it is an admin
-			$sql="SELECT id,name,username FROM #__users WHERE block=0 ".$temp."ORDER BY ".($config->realnames ? "name" : "username");
+		$database->setQuery( $sql );
+		$users = $database->loadObjectList(); 
+		if (!$users)
+			$users = Array();
 	}
-	$database->setQuery( $sql );
-	$users = $database->loadObjectList(); 
+
 	if ( count( $users ) )  {
 		foreach ( $users as $user )
-			$ret .= '<option value="'.$user->id.'">'.($config->realnames ? $user->name : $user->username).'</option>';
+			$ret .= '<option value="'.$user->id.'">'.$user->displayname.'</option>';
 	}
 	$ret .= '</select>';
 	return $ret;
 }
 
 function uddeIMdeleteLists($myself, $item_id, $listid, $limit, $limitstart, $config) {
-	//$my_gid=uddeIMgetGID((int)$myself);
 	$my_gid = $config->usergid;
 	$lg = 0;
 	if (uddeIMisAdmin($my_gid))
@@ -360,7 +447,6 @@ function uddeIMdeleteLists($myself, $item_id, $listid, $limit, $limitstart, $con
 }
 
 function uddeIMdeleteListsMultiple($myself, $item_id, $arcmes, $limit, $limitstart, $config) {
-	//$my_gid=uddeIMgetGID((int)$myself);
 	$my_gid = $config->usergid;
 	$lg = 0;
 	if (uddeIMisAdmin($my_gid))

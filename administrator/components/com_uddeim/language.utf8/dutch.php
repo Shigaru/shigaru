@@ -10,71 +10,201 @@
 //                Other licenses can be found in LICENSES folder.
 // ***********************************************************************************************************
 // Language file: 					Dutch (source file is Latin-1)
-// Translator:    					Machiel van den Brink <machiel.brink@gmail.com>
+// Translator:    					Michaël Jonkers <webmaster@mjwebhosting.nl>
 // Language file version:		1.0(30-01-2008 23:00)
 // Additional translation (uddeIM v. 1.1-1.7) by fastcat v2.0 (23-04-2009)
 // Additional translation & corrections (uddeIM v. 0.5-1.9) by Ghostdivision v7734 (30-08-2009)
+// Additionele vertaling en correcties 17-09-2011 door Jerry Janson (www.jeejeestudio.nl)
 // ***********************************************************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Translated by Michaël Jonkers');	// Enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'do not load MooTools (use MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'force loading MooTools 1.3 (use MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'Geen SEF voor %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Gebruik geen SEF in %msglink% voor in email berichten');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Gebruik speciale kalender');
+DEFINE ('_UDDEADM_STIME_EXP', 'When enabled on sites using the farsi language file the persian calendar is used.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Verwijder alleenstaande verbindingen');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Automatisch alleenstaande verbindingen verwijderen als de contactenlijst word bewaard');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Laat alleen verbindingen zien');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'The users shown in the list can be restricted to CB/CBE/JS connections (hide users from userlist has no effect here when enabled).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'Uitgeschakeld');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'Geregistreerde gebruikers');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'Geregistreerde gebruikers en speciale gebruikers');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'Alle gebruikers (ook Beheerders!)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...standaard maken voor verbindingen laten zien');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Captcha:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Button "Show CC: line"');
+DEFINE ('_UDDEADM_CC_EXP', 'Indien geactiveerd kan een gebruiker kiezen of uddeIM wel of niet een CC: lijn toevoegd met alle ontvangers van een bericht.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...standaard geactiveerd voor CC: lijn, en aanpassing');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Berichten Centrum');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Wis bericht');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Lever bericht af');
+DEFINE ('_UDDEADM_OOD_MCP', 'Berichten Centrum Plugin te oud!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Aan te passen berichten:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Gewist');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Dit bericht uit database verwijderen?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Dit bericht afleveren bij ontvanger?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Toon/Verberg');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Bericht Controle Centrum');
+DEFINE ('_UDDEADM_MCP_FROM', 'Van');
+DEFINE ('_UDDEADM_MCP_TO', 'Aan');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Bericht');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Verwijder');
+DEFINE ('_UDDEADM_MCP_DATE', 'Datum');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Afleveren');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Mod');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Mod -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Uw berichten wordt gecontroleerd. Een moderator zal ze eerst controleren voordat ze afgeleverd worden bij de ontvangers.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Wacht op moderator');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Nieuwe gebruikers controleren');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'Indien geactiveerd worden berichten van nieuwe geregistreerde gebruikers standaard eerst gecontroleerd.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Modereer publieke gebruikers');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'Indien geactiveerd worden berichten van publieke gebruikers eerst gecontroleerd.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'Geen menu');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Publieke Frontend Plugin te oud!');
+DEFINE ('_UDDEADM_OOD_A', 'Bestand toevoeg Plugin te oud!');
+DEFINE ('_UDDEADM_OOD_RSS', 'RSS Plugin te oud!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Bericht Rapport Centrum Plugin te oud!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>Je hebt geen gefilterde berichten in je%s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'ongelezen');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'gevlagd');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'gravatar geactiveerd');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Activeerd gravatar ondersteuning.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'gravatar fotoset');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Selecteer de fotoset voor de standaard fotos.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'gravatar waardering');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'Standaard worden alleen met "G" gewaardeerde fotos getoond tenzij je een hogere waardering instelt. "X" toont alle gravatar fotos.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'wavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'standaard');
+DEFINE ('_UDDEADM_GRG', 'G = Algemeen');
+DEFINE ('_UDDEADM_GRPG', 'PG = Ouderlijk Toezicht');
+DEFINE ('_UDDEADM_GRR', 'R = Beperkt');
+DEFINE ('_UDDEADM_GRX', 'X = Alleen Volwassenen');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Verwerken...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Zend geen kennisgeving e-mails');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'E-mail kennisgevingen worden niet verstuurd');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'De tekst wordt samengevoegd in de kennisgeving e-mail');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...standaard voor thumbnails');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Getoond formaat van thumbnails');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Breedte en hoogte (in pixels) van thumbnails (0 = formaat wijzigd niet).');
+DEFINE ('_UDDEIM_SAVE', 'Opslaan');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Hoi %you%,\n\n%touser% Heeft een verdacht bericht gerapporteerd van %fromuser%. Log A.U.B. in en controleer!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'Een bericht is gerapporteerd op %site%');
+DEFINE ('_UDDEADM_KBYTES', 'KByte');
+DEFINE ('_UDDEADM_MBYTES', 'MByte');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'Bestand is verwijderd');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Error: Bestand bestaat niet');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Bijlage (max. %s per bestand):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Onbeschermd bestand download');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', ' Normaal gebruikt uddeIM het server pad niet van bestanden, Dus niemand kan het bestand downloaden, ook niet wanneer het bestand bekend is. Aanzetten van deze opties forceerd uddeim tot het gebruik van het volledige server pad. Voor beveilings redenen, heeft uddeim een MD5 hash toegevoegd aan het orginele bestand. Gebruikers kunnen het bestand direct downloaden wanneer het volledige pad bekend is. Gebruik deze optie voorzichtig..! Lees de FAQ wanneer deze optie gebruikt wordt!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...Zet default voor bestanden , publieke front');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Bestandstype niet juist');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Extensies geaccepteerd');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Vul hier de extensies in die geaccepteerd worden(Gescheiden door ";"). Laat leeg voor geen ristricties.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'E-mail verplicht');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'Wanneer geactiveerd moet een publieke gebruiker een emailadres invoeren.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Dagen te wachten');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Specifeer hoeveel dagen een gebruiker moet wachten voordat hij berichten mag zenden. (voor 3 uren enter 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'Je moet ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' dagen wachten voordat je berichten kan zenden.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' uren wachten voordat je berichten kan zenden.');
 
 // New: 2.0
-DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha private key');
-DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'When you want to use reCaptcha, enter your private key here.');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'reCaptcha public key');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'When you want to use reCaptcha, enter your public key here.');
-DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Internal');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha Prive code');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'Vul hier je Prive code in wanneer je gebruik wilt maken van rechaptcha.');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'reCaptcha Publieke code');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'Vul hier je Publieke code in wanneer je gebruik wilt maken van rechaptcha.');
+DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'ingebouwd');
 DEFINE ('_UDDEADM_CAPTCHA_RECAPTCHA', 'reCaptcha');
-DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Captcha service');
-DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Which captcha service do you want to use: The build-in service or reCaptcha (see <a href="http://recaptcha.net" target="_new">reCaptcha</a> for more information)?');
-DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...set default for captcha service');
+DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Captcha services');
+DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Welke captcha service wil je gebriuken: De ingebouwde service of reCaptcha (see <a href="http://www.google.com/recaptcha" target="_new">reCaptcha</a> Voor meer informatie)?');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...Zet standaard voor captcha services');
 DEFINE ('_UDDEADM_AUP', 'AlphaUserPoints');
-DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Please move <i>\uddeimfiles</i> to <i>\images\uddeimfiles</i>. Check the documentation!');
-DEFINE ('_UDDEADM_CRYPT4', 'Strong encryption');
-DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Allow sending system messages');
-DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM supports system messages. They are sent to all users on your system. Use them sparingly.');
-DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'disabled');
-DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'admins only');
-DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'admins and managers');
+DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Verplaats graag <i>\uddeimfiles</i> naar <i>\images\uddeimfiles</i>. Controleer de documentatie!');
+DEFINE ('_UDDEADM_CRYPT4', 'Sterke encryptie');
+DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'akkoord om systeemberichten te verzenden');
+DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM support berichten systeem. Deze worden naar alle gebrukers gestuurd op uw systeem. Spaarzaam gebruiken.');
+DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'Uitgeschakeld');
+DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'Alleen Administrators');
+DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'administrator en beheerders');
 
 // New: 1.9
 DEFINE ('_UDDEIM_FILEUPLOAD_FAILED', 'Uploaden van bestand is mislukt');
-DEFINE ('_UDDEADM_CFGFILE_CONVERTING_5', '...stel als standaard in voor aanhechtingen');
-DEFINE ('_UDDEADM_ENABLEATTACHMENT_HEAD', 'Stel in staat om aanhechtingen te versturen');
-DEFINE ('_UDDEADM_ENABLEATTACHMENT_EXP', 'Dit maakt het mogelijk om bestands aanhechtingen te versturen voor alle geregistreerde gebruikers, of enkel voor admins.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_5', '...stel als standaard in voor bijlagen');
+DEFINE ('_UDDEADM_ENABLEATTACHMENT_HEAD', 'Stel in staat om bijlagen te versturen');
+DEFINE ('_UDDEADM_ENABLEATTACHMENT_EXP', 'Dit maakt het mogelijk om bestands bijlagen te versturen voor alle geregistreerde gebruikers, of enkel voor admins.');
 DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_HEAD', 'Max. bestands grootte');
-DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_EXP', 'Maximum grootte voor aangekoppelde bestanden.');
+DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_EXP', 'Maximum grootte voor bestands bijlagen.');
 DEFINE ('_UDDEIM_FILESIZE_EXCEEDED', 'Maximum bestandsgroote overschreden');
 DEFINE ('_UDDEADM_BYTES', 'Bytes');
-DEFINE ('_UDDEADM_MAXATTACHMENTS_HEAD', 'Max. aangekoppelde bestanden');
-DEFINE ('_UDDEADM_MAXATTACHMENTS_EXP', 'Maximum aangekoppelde bestanden per bericht.');
+DEFINE ('_UDDEADM_MAXATTACHMENTS_HEAD', 'Max. bestands bijlagen');
+DEFINE ('_UDDEADM_MAXATTACHMENTS_EXP', 'Maximum bijlagen per bericht.');
 DEFINE ('_UDDEIM_DOWNLOAD', 'Download');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_HEAD', 'Bestand verwijderen inschakelen');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_YES', 'enkel door admins');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_NO', 'door iedereen');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_MANUALLY', 'handmatig');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_EXP', 'Automatische verwijderingen zorgen voor een zware belasting voor de server. Als je voor de optie kiest <b>enkel door admins</b> zal het automatisch verwijderen aangeroepen worden zo gauw deze admin zijn inbox controleert. Kies alleen voor deze optie als de admin ook geregeld zijn inbox controleert. Kleine of bijna niet geadministreerde sites kunnen het beste kiezen voor <b>door iedereen</b>.');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_EXP', 'Automatische verwijderingen zorgen voor een zware belasting voor de server. Als je voor de optie kiest <b>enkel door admins</b> zal het automatisch verwijderen aangeroepen worden wanneer deze admin zijn inbox controleert. Kies alleen voor deze optie als de admin ook geregeld zijn inbox controleert. Kleine of bijna niet geadministreerde sites kunnen het beste kiezen voor <b>door iedereen</b>.');
 DEFINE ('_UDDEADM_FILEMAINTENANCE_PRUNE', 'Verwijder bestanden nu');
 DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_HEAD', 'Leidt het verwijderen van bestanden in');
-DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_EXP', 'Verwijderd verwijderde bestanden uit de database. Dit is hetzelfde als Removes deleted files from the database. This is the same as \'Verwijder bestanden nu\' op het systeem tabblad.');
+DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_EXP', 'Wist verwijderde bestanden uit de database. Dit is hetzelfde als \'Verwijder bestanden nu\' op het systeem tabblad.');
 DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_ERASE', 'WISSEN');
-DEFINE ('_UDDEIM_ATTACHMENTS', 'Aangekoppelde bestanden (max. %u bytes per bestand):');
-DEFINE ('_UDDEADM_MAINTENANCE_F1', 'Verweesde aangekoppelde bestanden opgeslagen in het bestandssysteem: ');
-DEFINE ('_UDDEADM_MAINTENANCE_F2', 'Verweesde bestanden worden verwijderd');
+DEFINE ('_UDDEIM_ATTACHMENTS', 'Bestands bijlagen (max. %u bytes per bestand):');
+DEFINE ('_UDDEADM_MAINTENANCE_F1', 'Selecteer aangekoppelde bestanden opgeslagen in het bestandssysteem: ');
+DEFINE ('_UDDEADM_MAINTENANCE_F2', 'Geselecteerde bestanden worden verwijderd');
 DEFINE ('_UDDEADM_BACKUP_DONE', 'Backup van de configuratie is voltooid.');
 DEFINE ('_UDDEADM_RESTORE_DONE', 'Herstel van de configuratie is voltooid.');
-DEFINE ('_UDDEADM_PRUNE_DONE', 'Het snoeien van de berichten is voltooid.');
-DEFINE ('_UDDEADM_FILEPRUNE_DONE', 'Het snoeien van bestands aanhechtingen is voltooid.');
+DEFINE ('_UDDEADM_PRUNE_DONE', 'Het bijwerken van de berichten is voltooid.');
+DEFINE ('_UDDEADM_FILEPRUNE_DONE', 'Het bijwerken van bestands bijlagen is voltooid.');
 DEFINE ('_UDDEADM_FOLDERCREATE_ERROR', 'Fout bij het aanmaken van een map: ');
 DEFINE ('_UDDEADM_ATTINSTALL_WRITEFAILED', 'Fout bij het aanmaken van een bestand: ');
 DEFINE ('_UDDEADM_ATTINSTALL_IGNORE', 'je kunt deze fout negeren indien je niet in het bezit bent van de premium "Attachement" plugin (zie FAQ).');
 DEFINE ('_UDDEADM_ATTACHMENTGROUPS_HEAD', 'Toegestane groepen');
-DEFINE ('_UDDEADM_ATTACHMENTGROUPS_EXP', 'Groepen die het toegestaan is om bestands aanhechtingen te versturen.');
+DEFINE ('_UDDEADM_ATTACHMENTGROUPS_EXP', 'Groepen die het toegestaan zijn om bestands bijlagen te versturen.');
 DEFINE ('_UDDEIM_SELECT', 'Selecteer');
-DEFINE ('_UDDEIM_ATTACHMENT', 'Bestands aanhechting');
-DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_HEAD', 'Laat aanhechtings icoontjes zien');
-DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_EXP', 'Laat aanhechtings icoontjes zien in de berichtenlijst (inbox, outbox, archief).');
-DEFINE ('_UDDEIM_HELP_ATTACHMENT', 'Het bericht bevat een bestands aanhechting.');
+DEFINE ('_UDDEIM_ATTACHMENT', 'Bestands bijlage');
+DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_HEAD', 'Laat bijlage icoontjes zien');
+DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_EXP', 'Laat bijlage icoontjes zien in de berichtenlijst (inbox, outbox, archief).');
+DEFINE ('_UDDEIM_HELP_ATTACHMENT', 'Het bericht bevat een bestands bijlage.');
 DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILES', 'Bestands referentie in de database:');
-DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILESDISTINCT', 'Bestands aanhechting opgeslagen:');
+DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILESDISTINCT', 'Bestands bijlage opgeslagen:');
 DEFINE ('_UDDEADM_SHOWMENUCOUNT_HEAD', 'Laat tellers zien');
 DEFINE ('_UDDEADM_SHOWMENUCOUNT_EXP', 'Indien op <b>ja</b> ingesteld, zal de menubalk berichtentellers bevatten. Houdt er rekening mee dat dit verschillende additionele database inlichtingen met zich meebrengt, dus gebruik dit niet op zwakke systemen.');
 DEFINE ('_UDDEADM_CONFIG_FTPLAYER', 'Configuratie (toegang via de FTP laag):');
@@ -84,7 +214,7 @@ DEFINE ('_UDDEIM_UP', 'sorteer oplopend');
 DEFINE ('_UDDEIM_DOWN', 'sorteer aflopend');
 DEFINE ('_UDDEIM_UPDOWN', 'sorteer');
 DEFINE ('_UDDEADM_ENABLESORT_HEAD', 'Maak sorteren mogelijk');
-DEFINE ('_UDDEADM_ENABLESORT_EXP', 'Indien op <b>ja</b> ingesteld, zal de gebruiker in staat moeten zijn om de inbox, uitbox en archief te sorteren (creeÃ«rt extra data belasting van de database server).');
+DEFINE ('_UDDEADM_ENABLESORT_EXP', 'Indien op <b>ja</b> ingesteld, zal de gebruiker in staat moeten zijn om de inbox, uitbox en archief te sorteren (creeërt extra data belasting van de database server).');
 
 // New: 1.8
 // %s will be replaced by _UDDEIM_NOMESSAGES_FILTERED_INBOX, _UDDEIM_NOMESSAGES_FILTERED_OUTBOX, _UDDEIM_NOMESSAGES_FILTERED_ARCHIVE
@@ -106,8 +236,8 @@ DEFINE ('_UDDEADM_CBBANNED_EXP', 'Als deze optie is geactiveerd controleert udde
 DEFINE ('_UDDEIM_YOUAREBANNED', 'Je bent gebanned. Neem contact op met de administrator');
 DEFINE ('_UDDEIM_USERBANNED', 'Gebruiker is gebanned');
 DEFINE ('_UDDEADM_JOOBB', 'Joo!BB');
-DEFINE ('_UDDEPLUGIN_SEARCHSECTION', 'PrivÃ© communicatie');
-DEFINE ('_UDDEPLUGIN_MESSAGES', 'PrivÃ© Berichten');
+DEFINE ('_UDDEPLUGIN_SEARCHSECTION', 'Privé communicatie');
+DEFINE ('_UDDEPLUGIN_MESSAGES', 'Privé Berichten');
 DEFINE ('_UDDEADM_MAINTENANCEDEL_HEAD', 'Roep bericht wissen aan');
 // note "Dit is het zelfde als _UDDEADM_MAINTENANCE_PRUNE op het systeem tabblad."
 DEFINE ('_UDDEADM_MAINTENANCEDEL_EXP', 'Verwijdert verwijderde berichten uit de database. Dit is het zelfde als \'Prune messages now\' op het systeem tabblad.');
@@ -146,7 +276,7 @@ DEFINE ('_UDDEADM_VERSIONCHECK_IMPORTANT', 'Belangrijke links:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HOTFIX', 'Hotfix');
 DEFINE ('_UDDEADM_VERSIONCHECK_NONE', 'Geen');
 DEFINE ('_UDDEADM_MAINTENANCEFIX_HEAD', "Compatibiliteits onderhoud");
-DEFINE ('_UDDEADM_MAINTENANCEFIX_EXP', "uddeIM gebruikt twee XML bestanden om er zeker van te zijn dat het pakket geÃ¯nstalleerd kan worden op Joomla 1.0 en 1.5. Bij Joomla 1.5 is een XML bestand nodig waardoor de extensie manager een incompatibilteits waarschuwing zal geven (dit is echter niet zo). Hierdoor worden de overbodige bestanden verwijderd, hierna wordt de waarschuwing niet langer getoond.");
+DEFINE ('_UDDEADM_MAINTENANCEFIX_EXP', "uddeIM gebruikt twee XML bestanden om er zeker van te zijn dat het pakket geïnstalleerd kan worden op Joomla 1.0 en 1.5. Bij Joomla 1.5 is een XML bestand nodig waardoor de extensie manager een incompatibilteits waarschuwing zal geven (dit is echter niet zo). Hierdoor worden de overbodige bestanden verwijderd, hierna wordt de waarschuwing niet langer getoond.");
 DEFINE ('_UDDEADM_MAINTENANCE_FIX', "REPAREER");
 DEFINE ('_UDDEADM_MAINTENANCE_XML1', "Joomla 1.0 en Joomla 1.5 XML installeerders voor uddeIM pakket zijn aanwezig.<br />");
 DEFINE ('_UDDEADM_MAINTENANCE_XML2', "Dit is nodig om het pakket te installeren op Joomla 1.0 and Joomla 1.5.<br />");
@@ -166,7 +296,7 @@ DEFINE ('_UDDEAIM_ADDEMAIL_TITLE', 'Sluit het volledige bericht in bij e-mail in
 
 // New: 1.6
 DEFINE ('_UDDEIM_NOLISTSELECTED', 'Geen gebruikerslijst geselecteerd!');
-DEFINE ('_UDDEADM_NOPREMIUM', 'Premium plugin niet geÃ¯nstalleerd');
+DEFINE ('_UDDEADM_NOPREMIUM', 'Premium plugin niet geïnstalleerd');
 DEFINE ('_UDDEIM_LISTGLOBAL_CREATOR', 'Ontwerper:');
 DEFINE ('_UDDEIM_LISTGLOBAL_ENTRIES', 'Inzendingen');
 DEFINE ('_UDDEIM_LISTGLOBAL_TYPE', 'Type');
@@ -192,9 +322,9 @@ DEFINE ('_UDDEIM_CBPLUG_UNBLOCKED', 'Deze gebruiker kan jou contacteren.');
 DEFINE ('_UDDEIM_CBPLUG_NOWBLOCKED', 'De gebruiker is nu geblokkeerd.');
 DEFINE ('_UDDEIM_CBPLUG_NOWUNBLOCKED', 'De gebruiker is niet langer geblokkeerd.');
 DEFINE ('_UDDEADM_PARTIALIMPORTDONE', 'Gedeeltelijke importeren van berichten uit het oude PMS is voltooid. Herhaal deze importeer bewerking niet omdat er dan dubbele berichten getoond kunnen worden.');
-DEFINE ('_UDDEADM_IMPORT_HELP', 'Let op: De berichten kunnen in zijn geheel of in delen geÃ¯mporteerd worden. Importeren in delen is wenselijk als het importeren niet lukt omdat er teveel berichten zijn.');
+DEFINE ('_UDDEADM_IMPORT_HELP', 'Let op: De berichten kunnen in zijn geheel of in delen geïmporteerd worden. Importeren in delen is wenselijk als het importeren niet lukt omdat er teveel berichten zijn.');
 DEFINE ('_UDDEADM_IMPORT_PARTIAL', 'Importeren in delen:');
-DEFINE ('_UDDEADM_UPDATEYOURDB', 'Belangrijk: Je hebt je database niet geÃ¼pdate! Lees in de LEESMIJ hoe uddeIM correct geupdate kan worden!');
+DEFINE ('_UDDEADM_UPDATEYOURDB', 'Belangrijk: Je hebt je database niet geüpdate! Lees in de LEESMIJ hoe uddeIM correct geupdate kan worden!');
 DEFINE ('_UDDEADM_RESTRALLUSERS_HEAD', 'Beperk "Alle gebruikers" toegang');
 DEFINE ('_UDDEADM_RESTRALLUSERS_EXP', 'Je kunt de toegang beperken voor de "Alle gebruikers" lijst. Normaal gesproken is de "Alle gebruikers" lijst beschikbaar voor iedereen (<i>geen beperking</i>).');
 DEFINE ('_UDDEADM_RESTRALLUSERS_0', 'geen beperking');
@@ -209,7 +339,7 @@ DEFINE ('_UDDEIM_HELP_INBOX', 'De <b>Inbox</b> herbergt al je ontvangen berichte
 DEFINE ('_UDDEIM_HELP_OUTBOX', 'De <b>Uitbox</b> bewaart een kopie van ieder verzonden bericht, je kunt zo altijd terug zien wat je verstuurd hebt .');
 DEFINE ('_UDDEIM_HELP_TRASHCAN', 'De <b>Prullebak</b> bewaart alle verwijderde berichten. Berichten worden nooit direct verwijderd maar worden hier voor een bepaalde tijd bewaard. Zolang het bericht in de prullebak staat kan het worden terug gezet .');
 DEFINE ('_UDDEIM_HELP_ARCHIVE', 'Het <b>Archief</b> bewaart alle gearchiveerde berichten uit de inbox. Je kunt alleen berichten uit de inbox archiveren. Als je een door jou geschreven bericht wilt archiveren vergewis je ervan dat je <i>kopie aan mezelf </i> aanvinkt hebt als je het bericht verstuurt.');
-DEFINE ('_UDDEIM_HELP_USERLISTS', '<b>Contacten</b> Staat toe de gebruikerslijst aan te passen (ook bekend als distributielijsten). Deze lijst maakt het mogelijk PrivÃ© Berichten te sturen aan meerdere ontvangers. In plaats van meerdere ontvangers toe te voegen, kun je heel simpel de <i>#lijstnaam</i> ingeven.');
+DEFINE ('_UDDEIM_HELP_USERLISTS', '<b>Contacten</b> Staat toe de gebruikerslijst aan te passen (ook bekend als distributielijsten). Deze lijst maakt het mogelijk Privé Berichten te sturen aan meerdere ontvangers. In plaats van meerdere ontvangers toe te voegen, kun je heel simpel de <i>#lijstnaam</i> ingeven.');
 DEFINE ('_UDDEIM_HELP_SETTINGS', '<b>Instellingen</b> bevat alle configureerbare gebruikersopties.');
 DEFINE ('_UDDEIM_HELP_COMPOSE', '<b>Schrijven</b> maakt het mogelijk een nieuw bericht te schrijven.');
 DEFINE ('_UDDEIM_HELP_IREAD', 'Het bericht is gelezen (je kunt de status aanpassen).');
@@ -231,7 +361,7 @@ DEFINE ('_UDDEIM_HELP_RECYCLE', 'Plaats een bericht terug (zet het verwijderde b
 DEFINE ('_UDDEIM_HELP_NOTIFY', 'Instellingen van de email notificatie als een nieuw bericht wordt bezorgd.');
 DEFINE ('_UDDEIM_HELP_AUTORESPONDER', 'Indien de autoresponder is geactiveerd wordt elk ontvangen bericht meteen beantwoord.');
 DEFINE ('_UDDEIM_HELP_AUTOFORWARD', 'Nieuwe berichten kunnen automatisch worden doorgestuurd naar een andere gebruiker.');
-DEFINE ('_UDDEIM_HELP_BLOCKING', 'Je kunt gebruikers blokkeren. Deze gebruikers kunnen je dan geen privÃ© berichten sturen.');
+DEFINE ('_UDDEIM_HELP_BLOCKING', 'Je kunt gebruikers blokkeren. Deze gebruikers kunnen je dan geen privé berichten sturen.');
 DEFINE ('_UDDEIM_HELP_MISC', 'Hier vind je meer configuratie-instellingen.');
 DEFINE ('_UDDEIM_HELP_FEED', 'Je kunt toegang verkrijgen tot je inbox met behulp van een RSS-feed.');
 DEFINE ('_UDDEADM_SEPARATOR_HEAD', 'Scheidingsteken');
@@ -299,7 +429,7 @@ DEFINE ('_UDDEIM_FILTER_SUBMIT', 'Filter');
 DEFINE ('_UDDEIM_FILTER_ALL', '- alle -');
 DEFINE ('_UDDEIM_FILTER_PUBLIC', '- Openbare gebruikers -');
 DEFINE ('_UDDEADM_FILTER_HEAD', 'Schakel Filter in');
-DEFINE ('_UDDEADM_FILTER_EXP', 'Indien ingeschakeld kunnen gebruikers hun in/uitbox filteren op Ã©Ã©n ontvanger of afzender.');
+DEFINE ('_UDDEADM_FILTER_EXP', 'Indien ingeschakeld kunnen gebruikers hun in/uitbox filteren op één ontvanger of afzender.');
 
 DEFINE ('_UDDEADM_FILTER_P0', 'Uitgeschakeld');
 DEFINE ('_UDDEADM_FILTER_P1', 'Bovenaan berichtenlijst');
@@ -382,15 +512,15 @@ DEFINE ('_UDDEADM_SHOWPIC_EXP', 'indien dit op <i>ja</i> staat, worden de thumbn
 
 DEFINE ('_UDDEADM_THUMBLISTS_HEAD', 'Toon thumbnails in lijst vorm');
 DEFINE ('_UDDEADM_THUMBLISTS_EXP', 'Zet op <i>ja</i> als je de thumbnails van gebruikers wilt tonen in de berichtenlijst (inbox, uitbox, etc.)');
-DEFINE ('_UDDEADM_FIREBOARD', 'Fireboard');
-DEFINE ('_UDDEADM_CB', 'Community Builder');
+DEFINE ('_UDDEADM_FIREBOARD', 'Vuurboord');
+DEFINE ('_UDDEADM_CB', 'Communiteit bouwer');
 DEFINE ('_UDDEADM_DISABLED', 'Uitgeschakeld');
 DEFINE ('_UDDEADM_ENABLED', 'Ingeschakeld');
 DEFINE ('_UDDEIM_STATUS_FLAGGED', 'Belangrijk');
 DEFINE ('_UDDEIM_STATUS_UNFLAGGED', '');
 DEFINE ('_UDDEADM_ALLOWFLAGGED_HEAD', 'Sta markeren van berichten toe');
 DEFINE ('_UDDEADM_ALLOWFLAGGED_EXP', 'Sta markeren van berichten toe (uddeIM toont een ster in de lijsten die gemarkeerd kunnen worden om belangrijke berichten te markeren).');
-DEFINE ('_UDDEADM_REVIEWUPDATE', 'Belangrijk: als je uddeIM hebt geÃ¼pdate vanuit een oudere versie lees het README bestand. Soms is het nodig database tabellen of velden toe te voegen of te wijzigen!');
+DEFINE ('_UDDEADM_REVIEWUPDATE', 'Belangrijk: als je uddeIM hebt geüpdate vanuit een oudere versie lees het README bestand. Soms is het nodig database tabellen of velden toe te voegen of te wijzigen!');
 DEFINE ('_UDDEIM_ADDCCINFO', 'Voeg CC: regel toe');
 DEFINE ('_UDDEIM_CC', 'CC:');
 DEFINE ('_UDDEADM_TRUNCATE_HEAD', 'Afkappen gequote tekst');
@@ -443,7 +573,7 @@ DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'Je gebruikt al de nieuwste versie van u
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'De huidige versie is ');
 DEFINE ('_UDDEADM_VERSIONCHECK_INFO', 'Update informatie:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HEAD', 'Controleer op updates');
-DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Hiermee wordt contact gelegd met de website van de ontwikkelaar van om informatie te krijgen over de huidige uddeIM versie. Behalve de gebruikte uddeIM versie wordt er geen andere persoonlijke informatie verstuurd.');
+DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Hiermee wordt contact gelegd met de website van de ontwikkelaar van om informatie te krijgen over de huidige uddeIM versie.');
 
 DEFINE ('_UDDEADM_VERSIONCHECK_CHECK', 'CONTROLEER NU');
 DEFINE ('_UDDEADM_VERSIONCHECK_ERROR', 'Niet mogelijk versie informatie op te halen.');
@@ -485,9 +615,9 @@ DEFINE ('_UDDEADM_PUBBLOCKGROUPS_EXP', 'Groepen waar openbare gebruikers  geen b
 DEFINE ('_UDDEADM_BLOCKGROUPS_1', 'openbare gebruikers');
 DEFINE ('_UDDEADM_BLOCKGROUPS_2', 'CB connecties');
 DEFINE ('_UDDEADM_BLOCKGROUPS_18', 'Geregistreerde gebruiker');
-DEFINE ('_UDDEADM_BLOCKGROUPS_19', 'Author');
-DEFINE ('_UDDEADM_BLOCKGROUPS_20', 'Editor');
-DEFINE ('_UDDEADM_BLOCKGROUPS_21', 'Publisher');
+DEFINE ('_UDDEADM_BLOCKGROUPS_19', 'auteur');
+DEFINE ('_UDDEADM_BLOCKGROUPS_20', 'Wijziger');
+DEFINE ('_UDDEADM_BLOCKGROUPS_21', 'Publiceerder');
 DEFINE ('_UDDEADM_BLOCKGROUPS_23', 'Manager');
 DEFINE ('_UDDEADM_BLOCKGROUPS_24', 'Admin');
 DEFINE ('_UDDEADM_BLOCKGROUPS_25', 'SuperAdmin');
@@ -585,7 +715,7 @@ DEFINE ('_UDDEADM_USERSET_ALWAYSEXCEPT', 'Altijd (behalve bij antwoorden)');
 DEFINE ('_UDDEADM_USERSET_WHENOFFLINE', 'Offline');
 DEFINE ('_UDDEADM_USERSET_ALWAYS', 'Altijd');
 DEFINE ('_UDDEADM_USERSET_NONOTIFICATION', 'Informatie');
-DEFINE ('_UDDEADM_WELCOMEMSG', "Welkom bij uddeIM!\n\nJe hebt uddeIM succesvol geÃ¯nstalleerd.\n\nProbeer dit bericht met meerdere templates te bekijken. Je kunt een template kiezen in het backend van uddeIM.\n\nuddeIM is een project waaraan veel wordt gewerkt en waar dus ook fouten kunnen insluipen. Vind je een fout of iets anders wat niet in orde is, stuur mij dan ajb een e-mail waardoor wij uddeIM nog beter kunnen maken.\n\nVeel plezier met uddeIM.");
+DEFINE ('_UDDEADM_WELCOMEMSG', "Welkom bij uddeIM!\n\nJe hebt uddeIM succesvol geïnstalleerd.\n\nProbeer dit bericht met meerdere templates te bekijken. Je kunt een template kiezen in het backend van uddeIM.\n\nuddeIM is een project waaraan veel wordt gewerkt en waar dus ook fouten kunnen insluipen. Vind je een fout of iets anders wat niet in orde is, stuur mij dan ajb een e-mail waardoor wij uddeIM nog beter kunnen maken.\n\nVeel plezier met uddeIM.");
 DEFINE ('_UDDEADM_UDDEINSTCOMPLETE', 'uddeIM installatie is voltooid.');
 DEFINE ('_UDDEADM_REVIEWSETTINGS', 'Ga nu eerst verder met de configuratie van uddeIM.');
 DEFINE ('_UDDEADM_REVIEWLANG', 'Als je een ander karakter set gebruikt in je CMS dan ISO 8859-1, pas de instellingen daar dan ook op aan.');
@@ -670,7 +800,7 @@ DEFINE ('_UDDEIM_DECRYPTIONTEXT', ' (decodeer tekst)');
 DEFINE ('_UDDEIM_MORE', 'Meer');
 
 // uddeIM Module
-DEFINE ('_UDDEMODULE_PRIVATEMESSAGES', 'PrivÃ© Berichten');
+DEFINE ('_UDDEMODULE_PRIVATEMESSAGES', 'Prive Berichten');
 DEFINE ('_UDDEMODULE_NONEW', 'geen nieuwe');
 DEFINE ('_UDDEMODULE_NEWMESSAGES', 'Nieuwe berichten: ');
 DEFINE ('_UDDEMODULE_MESSAGE', 'bericht');
@@ -747,7 +877,7 @@ DEFINE ('_UDDEIM_INBOX', 'Inbox');
 DEFINE ('_UDDEIM_OUTBOX', 'Uitbox');
 DEFINE ('_UDDEIM_TRASHCAN', 'Prullenbak');
 DEFINE ('_UDDEIM_CREATE', 'Nieuw bericht');
-DEFINE ('_UDDEIM_UDDEIM', 'PrivÃ© berichten');
+DEFINE ('_UDDEIM_UDDEIM', 'Privé berichten');
 DEFINE ('_UDDEIM_READSTATUS', 'Lezen');
 DEFINE ('_UDDEIM_FROM', 'Van');
 DEFINE ('_UDDEIM_FROM_SMALL', 'van');
@@ -841,7 +971,7 @@ DEFINE ('_UDDEADM_IMPORT_EXP', 'Dit zal de berichten uit je vorige PMS component
 DEFINE ('_UDDEADM_IMPORT_YES', 'Importeer oude PMS berichten nu naar uddeIM');
 DEFINE ('_UDDEADM_IMPORT_NO', 'Nee, importeer geen PMS berichten');  
 DEFINE ('_UDDEADM_IMPORTING', 'Wacht aub totdat alle berichten geimporteerd zijn.');
-DEFINE ('_UDDEADM_IMPORTDONE', 'Klaar met het importeren van berichten uit oudere PMS systemen. Gebruik dit script maar Ã©Ã©n keer, indien je het nogmaals gebruikt kunnen de berichten dubbel in de database voorkomen.'); 
+DEFINE ('_UDDEADM_IMPORTDONE', 'Klaar met het importeren van berichten uit oudere PMS systemen. Gebruik dit script maar één keer, indien je het nogmaals gebruikt kunnen de berichten dubbel in de database voorkomen.'); 
 DEFINE ('_UDDEADM_IMPORT', 'Importeer');
 DEFINE ('_UDDEADM_IMPORT_HEADER', 'Importeer berichten vanuit oude PMS systemen');
 DEFINE ('_UDDEADM_PMSNOTFOUND', 'Geen andere PMS installatie gevonden. Importeren is niet mogelijk.');
@@ -917,7 +1047,7 @@ DEFINE ('_UDDEADM_ALLOWARCHIVE_HEAD', 'Schakel archief in');
 DEFINE ('_UDDEADM_ALLOWARCHIVE_EXP', 'Kies of gebruikers de mogelijkheid hebben om berichten te archieveren. Berichten in het archief worden niet verwijderd.');
 DEFINE ('_UDDEADM_MAXARCHIVE_HEAD', 'Maximaal aantal berichten in het archief');
 DEFINE ('_UDDEADM_MAXARCHIVE_EXP', 'Geef aan hoeveel berichten iedere gebruiker in zijn/haar archief mag hebben. Voor admins is er geen limiet.');
-DEFINE ('_UDDEADM_COPYTOME_HEAD', 'Sta het versturen van kopieÃ«n naar jezelf toe');
+DEFINE ('_UDDEADM_COPYTOME_HEAD', 'Sta het versturen van kopieën naar jezelf toe');
 DEFINE ('_UDDEADM_COPYTOME_EXP', 'Geef gebruikers de mogelijkheid om een kopie van hun eigen berichten te ontvangen. Deze kopieeen zullen aakomen in de inbox.');
 DEFINE ('_UDDEADM_MESSAGES', 'Berichten');
 DEFINE ('_UDDEADM_TRASHORIGINAL_HEAD', 'Adviseer om het orgineel te verwijderen');
@@ -942,7 +1072,7 @@ DEFINE ('_UDDEADM_EMN_BODY_WITHMESSAGE_EXP', 'Dit is de inhoud van de e-mail die
 DEFINE ('_UDDEADM_EMN_FORGETMENOT_EXP', 'Dit is de inhoud van het Vergeetmeniet e-mailtje dat de gebruikers zullen ontvangen indien de optie is aangevinkt. Houdt de variabelen %you% and %site% intact. ');		
 DEFINE ('_UDDEADM_ENABLEDOWNLOAD_EXP', 'Sta gebruikers toe om berichten te downloaden door ze als e-mail naar zichzelf te sturen.');
 DEFINE ('_UDDEADM_ENABLEDOWNLOAD_HEAD', 'Sta downloaden toe');	
-DEFINE ('_UDDEADM_EXPORT_FORMAT_EXP', 'Dit is eht formaat van de e-mail die de gebruikers zullen ontvangen als zij hun eigen berichten uit het archief downloaden. Houdt de variablen %user%, %msgdate% and %msgbody% intact. ');	
+DEFINE ('_UDDEADM_EXPORT_FORMAT_EXP', 'Dit is het formaat van de e-mail die de gebruikers zullen ontvangen als zij hun eigen berichten uit het archief downloaden. Houdt de variablen %user%, %msgdate% and %msgbody% intact. ');	
 		// translators info: Don't translate %you%, %user%, etc. in the strings above. 
 
 DEFINE ('_UDDEADM_INBOXLIMIT_HEAD', 'Stel inbox limiet in');		
@@ -1012,7 +1142,7 @@ DEFINE ('_UDDEIM_ARCHIVE_ERROR', 'Het verplaatsen naar het archief is mislukt.')
 DEFINE ('_UDDEIM_ARC_SAVED_1', 'Je hebt in het archief ');
 DEFINE ('_UDDEIM_ARC_SAVED_NONE', '<strong>Je hebt geen berichten in het archief.</strong>'); 
 DEFINE ('_UDDEIM_ARC_SAVED_2', ' berichten');
-DEFINE ('_UDDEIM_ARC_SAVED_ONE', 'Je hebt Ã©Ã©n bewaard ');
+DEFINE ('_UDDEIM_ARC_SAVED_ONE', 'Je hebt één bewaard ');
 DEFINE ('_UDDEIM_ARC_SAVED_3', 'Om berichten te bewaren in het archief, moet je eerst andere berichten verwijderen.');
 DEFINE ('_UDDEIM_ARC_CANSAVEMAX_1', 'Je kan maximaal ');
 DEFINE ('_UDDEIM_ARC_CANSAVEMAX_2', ' berichten bewaren.');
@@ -1086,7 +1216,7 @@ DEFINE ('_UDDEADM_SHOWTITLE_EXP', 'Vul de header in van de component. Deze heade
 DEFINE ('_UDDEADM_SHOWABOUT_HEAD', 'Geef "About" link weer');
 DEFINE ('_UDDEADM_SHOWABOUT_EXP', 'Ingesteld op <i>ja</i> zal de link verwijzen naar informatie over uddeIM zoals credits en de licentie. Deze link wordt  helemaal onderaan de pagina geplaatst.');
 DEFINE ('_UDDEADM_STOPALLEMAIL_HEAD', 'Stop onmiddelijke alle e-mail verkeer');
-DEFINE ('_UDDEADM_STOPALLEMAIL_EXP', 'Vink deze checkbox aan om ervoor te zorgen dat uddeIM meteen stopt met het versturen van alle e-mails. Onafhankelijk van de instellingen zoals ingesteld door de gebruikers. Dit is bijvoorbeeld handig bij het testen van nieuwe opties. Wil je dat er Ã¼berhaupt nooit een e-mail wordt verzonden dan kun je het beste de opties hierboven allemaal uitzetten.');
+DEFINE ('_UDDEADM_STOPALLEMAIL_EXP', 'Vink deze checkbox aan om ervoor te zorgen dat uddeIM meteen stopt met het versturen van alle e-mails. Onafhankelijk van de instellingen zoals ingesteld door de gebruikers. Dit is bijvoorbeeld handig bij het testen van nieuwe opties. Wil je dat er überhaupt nooit een e-mail wordt verzonden dan kun je het beste de opties hierboven allemaal uitzetten.');
 DEFINE ('_UDDEADM_ADMINIGNITIONONLY_MANUALLY', 'Handmatig');
 
 DEFINE ('_UDDEADM_GETPICLINK_HEAD', 'CB thumbnails in lijsten');
@@ -1098,7 +1228,7 @@ DEFINE ('_UDDEIM_SHOWUSERS', 'Gebruikerslijst');
 DEFINE ('_UDDEIM_CONNECTIONS', 'Vriendenlijst');
 DEFINE ('_UDDEIM_SETTINGS', 'Mijn Instellingen');
 DEFINE ('_UDDEIM_NOSETTINGS', 'Er zijn geen instellingen.');
-DEFINE ('_UDDEIM_ABOUT', 'Credits'); // as in "About uddeIM"
+DEFINE ('_UDDEIM_ABOUT', 'over'); // as in "About uddeIM"
 DEFINE ('_UDDEIM_COMPOSE', 'Nieuw'); // as in "write new message", but only one word
 DEFINE ('_UDDEIM_EMN', 'E-Mail-Notificatie');
 DEFINE ('_UDDEIM_EMN_EXP', 'Je kunt op verschillende manieren de notificaties per email ontvangen.');
@@ -1113,9 +1243,9 @@ DEFINE ('_UDDEIM_SAVECHANGE', 'Opslaan');
 DEFINE ('_UDDEIM_TOOLTIP_BOLD', 'BB Code tags om de tekst vet te maken : [b]bold[/b]');
 DEFINE ('_UDDEIM_TOOLTIP_ITALIC', 'BB Code tags om de tekst cursief te maken. : [i]italic[/i]');
 DEFINE ('_UDDEIM_TOOLTIP_UNDERLINE', 'BB Code tags om de tekst onderstreept te maken : [u]underline[/u]');
-DEFINE ('_UDDEIM_TOOLTIP_COLORRED', 'BB Code tags om de letters te kleuren : [color=#XXXXXX]colored[/color] where XXXXXX is the hex code of the colour you want, for example FF0000 for red.');
-DEFINE ('_UDDEIM_TOOLTIP_COLORGREEN', 'BB Code tags om de letters te kleuren : [color=#XXXXXX]colored[/color] where XXXXXX is the hex code of the colour you want, for example 00FF00 for green.');
-DEFINE ('_UDDEIM_TOOLTIP_COLORBLUE', 'BB Code tags om de letters te kleuren : [color=#XXXXXX]colored[/color] where XXXXXX is the hex code of the colour you want, for example 0000FF for blue.');
+DEFINE ('_UDDEIM_TOOLTIP_COLORRED', 'BB Code tags om de letters te kleuren : [color=#XXXXXX]colored[/color] waar XXXXXX Is de hex van de kleur die je wilt, Als voorbeeld FF0000 voor groen.');
+DEFINE ('_UDDEIM_TOOLTIP_COLORGREEN', 'BB Code tags om de letters te kleuren : [color=#XXXXXX]colored[/color] waar XXXXXX Is de hex van de kleur die je wilt, Als voorbeeld 00FF00 voor groen.');
+DEFINE ('_UDDEIM_TOOLTIP_COLORBLUE', 'BB Code tags om de letters te kleuren : [color=#XXXXXX]colored[/color] waar XXXXXX Is de hex van de kleur die je wilt, Als voorbeeld 0000FF voor blue.');
 DEFINE ('_UDDEIM_TOOLTIP_FONTSIZE1', 'BB Code tags om de letters heel klein te maken : [size=1]very small text.[/size]');
 DEFINE ('_UDDEIM_TOOLTIP_FONTSIZE2', 'BB Code tags om de letters klein te maken : [size=2] small text.[/size]');
 
@@ -1171,11 +1301,11 @@ $udde_sweekday[5]="Vr";
 $udde_sweekday[6]="Za";
 
 DEFINE ('_UDDEIM_EMN_BODY_PUBLICWITHMESSAGE',
-"Hallo %you%,\n\n%user% heeft je het volgende nieuwe privÃ© bericht gestuurd vanaf %site%.\n__________________\n%pmessage%");
+"Hallo %you%,\n\n%user% heeft je het volgende nieuwe prive bericht gestuurd vanaf %site%.\n__________________\n%pmessage%");
 DEFINE ('_UDDEIM_EMN_BODY_NOMESSAGE',
-"Hallo %you%,\n\n%user% heeft je een privÃ© bericht gestuurd vanaf %site%. Om het bericht te lezen, dien je in te loggen op\n\n%livesite%");
+"Hallo %you%,\n\n%user% heeft je een prive bericht gestuurd vanaf %site%. Om het bericht te lezen, dien je in te loggen op\n\n%livesite%");
 DEFINE ('_UDDEIM_EMN_BODY_WITHMESSAGE',
-"Hallo %you%,\n\n%user% heeft je een privÃ© bericht gestuurd vanaf %site%. Om het bericht te beantwoorden, dien je in te loggen \n\n%livesite%\n__________________\n%pmessage%");
+"Hallo %you%,\n\n%user% heeft je een prive bericht gestuurd vanaf %site%. Om het bericht te beantwoorden, dien je in te loggen \n\n%livesite%\n__________________\n%pmessage%");
 DEFINE ('_UDDEIM_EMN_FORGETMENOT',
 "Hallo %you%,\n\nje hebt nog een ongelezen bericht vanaf %site%. Om het bericht te lezen dien je in te loggen.\n\n%livesite%");
 DEFINE ('_UDDEIM_EXPORT_FORMAT', '

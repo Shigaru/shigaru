@@ -2,7 +2,7 @@
 // *******************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2008 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -10,38 +10,167 @@
 //                Other licenses can be found in LICENSES folder.
 // *******************************************************************
 // Language file: Turkish
-// Translator:    http://cumla.blogspot.com <cumla@windowslive.com>
+// Translator:    http://www.cumla.org <cumla@windowslive.com>
 // *******************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Türkçe çeviri <a href="http://www.cumla.org" target="_new">Cumla.org</a>');	// Enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'do not load MooTools (use MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'force loading MooTools 1.3 (use MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'No SEF for %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Do not use SEF for %msglink% placeholder in email notifications.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Use special calendars');
+DEFINE ('_UDDEADM_STIME_EXP', 'When enabled on sites using the farsi language file the persian calendar is used.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Remove orphaned connections');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Automatically remove orphaned connections when saving an existing contact list.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Show connections only');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'The users shown in the list can be restricted to CB/CBE/JS connections (hide users from userlist has no effect here when enabled).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'disabled');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'registered users');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'registered, special users');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'all users (incl. admins)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...set default for show connections');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Security Code:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Button "Show CC: line"');
+DEFINE ('_UDDEADM_CC_EXP', 'When enabled a user can choose if uddeIM shall add a CC: line containing all recipients to a message or not.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...set default for CC: line, and moderation');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Message Center');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Delete message');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Deliver message');
+DEFINE ('_UDDEADM_OOD_MCP', 'Message Center Plugin out of date!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Messages to moderate:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Trashed');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Delete this message from database?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Deliver this message to recipient?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Show/Hide');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Message Control Center');
+DEFINE ('_UDDEADM_MCP_FROM', 'From');
+DEFINE ('_UDDEADM_MCP_TO', 'To');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Message');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Delete');
+DEFINE ('_UDDEADM_MCP_DATE', 'Date');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Deliver');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Mod');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Mod -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Your messages will be moderated. A moderator will check them before they are delivered to the recipients.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Waiting for moderator');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Moderate new users');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'When enabled messages from new registered users are moderated by default.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Moderate public users');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'When enabled messages from public users users are moderated.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'No menu');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Public Frontend Plugin out of date!');
+DEFINE ('_UDDEADM_OOD_A', 'File Attachment Plugin out of date!');
+DEFINE ('_UDDEADM_OOD_RSS', 'RSS Plugin out of date!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Message Report Center Plugin out of date!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>You have no filtered messages in your%s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'unread');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'flagged');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'gravatar enabled');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Enables gravatar support.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'gravatar imageset');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Select the imageset for default images.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'gravatar rating');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'By default, only "G" rated images are displayed unless you indicate higher ratings. "X" displays all gravatar images.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'wavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'default');
+DEFINE ('_UDDEADM_GRG', 'G = General');
+DEFINE ('_UDDEADM_GRPG', 'PG = Parental Guidance');
+DEFINE ('_UDDEADM_GRR', 'R = Restricted');
+DEFINE ('_UDDEADM_GRX', 'X = Adult only');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Processing...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Do not send notification emails');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'Email notifications will not be sent');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'Text will be embedded in notification email');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...set default for thumbnails');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Display size of thumbnails');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Width and height (in pixels) of thumbnails (0 = size will not be changed).');
+DEFINE ('_UDDEIM_SAVE', 'Save');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Merhaba %you%,\n\n%touser%,  %fromuser% tarafından gönderilen şüpheli bir mesaj raporladı. Lütfen giriş yapın ve kontrol edin!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'Bir mesaj %site% sitesinde raporlandı');
+DEFINE ('_UDDEADM_KBYTES', 'KBayt');
+DEFINE ('_UDDEADM_MBYTES', 'MBayt');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'Dosya silindi');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Hata: Dosya mevcut değil');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Ekler (maks. dosya başına %s ):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Unprotected file downloads');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'Usually uddeIM does not disclose the server path of file attachments, so nobody - even when the filename is known - can download the file. Enabling this option forces uddeIM to return the full server path. For security reasons, uddeIM added a MD5 hash to the original file name. Users can download the file directly when the full path is known. Do only use with care! READ THE FAQ WHEN USING THIS OPTION!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...set default for file attachments, public frontend');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Dosya türü kabul edilmiyor');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Kabul edilen uzantılar');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Kabul edilen tüm uzantıları girin (ayıraç ";"). Kısıtlama olmaması için boş bırakın.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'E-posta gerekli');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'When enabled a public user has to enter an email address.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Days to wait');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Specify how many days a user must wait until he is allowed to send messages (for 3 hours enter 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'Mesaj göndermeden önce ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' gün beklemelisiniz.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' saat beklemelisiniz.');
 
 // New: 2.0
 DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha private key');
-DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'When you want to use reCaptcha, enter your private key here.');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'reCapture kullanmak istediğinizde, özel anahtarı buraya girin.');
 DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'reCaptcha public key');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'When you want to use reCaptcha, enter your public key here.');
-DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Internal');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'When you want to use reCapture, enter your public key here.');
+DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Dahili');
 DEFINE ('_UDDEADM_CAPTCHA_RECAPTCHA', 'reCaptcha');
-DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Captcha service');
-DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Which captcha service do you want to use: The build-in service or reCaptcha (see <a href="http://recaptcha.net" target="_new">reCaptcha</a> for more information)?');
+DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Captcha servisi');
+DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Hangi captcha servisini kullanmak istersiniz: The build-in service or reCapture (see <a href="http://recaptcha.net" target="_new">reCaptcha</a> for more information)?');
 DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...set default for captcha service');
 DEFINE ('_UDDEADM_AUP', 'AlphaUserPoints');
 DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Please move <i>\uddeimfiles</i> to <i>\images\uddeimfiles</i>. Check the documentation!');
-DEFINE ('_UDDEADM_CRYPT4', 'Strong encryption');
-DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Allow sending system messages');
-DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM supports system messages. They are sent to all users on your system. Use them sparingly.');
-DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'disabled');
-DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'admins only');
-DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'admins and managers');
+DEFINE ('_UDDEADM_CRYPT4', 'Güçlü şifreleme');
+DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Sistem mesajı gönderilmesine izin ver');
+DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM sistem mesajlarını destekler. Sisteminizdeki tüm kullanıcılara gönderilirler. Bu özelliği Az kullanın.');
+DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'kapalı');
+DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'sadece yöneticiler');
+DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'yöneticiler ve düzenliyiciler');
 
 // New: 1.9
 DEFINE ('_UDDEIM_FILEUPLOAD_FAILED', 'Dosya yükleme hatalı');
 DEFINE ('_UDDEADM_CFGFILE_CONVERTING_5', '...set default for file attachments');
 DEFINE ('_UDDEADM_ENABLEATTACHMENT_HEAD', 'Dosya eklemeyi kullan');
-DEFINE ('_UDDEADM_ENABLEATTACHMENT_EXP', 'Bu tüm kayıtlı kullanıcıların yada sadece yöneticilerin dosya ekleyerek göndermelerine izin verire.');
+DEFINE ('_UDDEADM_ENABLEATTACHMENT_EXP', 'Bu tüm kayıtlı kullanıcıların ya da sadece yöneticilerin dosya ekleyerek göndermelerine izin verire.');
 DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_HEAD', 'Maks. dosya boyutu');
 DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_EXP', 'Dosya ekleme için izin verilen azami dosya boyutu.');
 DEFINE ('_UDDEIM_FILESIZE_EXCEEDED', 'Azami dosya boyutu aşıldı');
 DEFINE ('_UDDEADM_BYTES', 'Bayt');
-DEFINE ('_UDDEADM_MAXATTACHMENTS_HEAD', 'Maks eklenebilir dosya');
+DEFINE ('_UDDEADM_MAXATTACHMENTS_HEAD', 'Maks. eklenebilir dosya');
 DEFINE ('_UDDEADM_MAXATTACHMENTS_EXP', 'Her mesaja eklenebilecek azami dosya.');
 DEFINE ('_UDDEIM_DOWNLOAD', 'İndir');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_HEAD', 'Dosya silinme istemi');
@@ -49,7 +178,7 @@ DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_YES', 'sadece yöneticiler');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_NO', 'herhangi bir kullanıcı');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_MANUALLY', 'elle');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_EXP', 'Otomatik silme işlemi ağır sunucu yükü getirir. If you choose <b>by admins only</b> automatic deletions are invoked when an admin checks his inbox. Choose this option if an admin is checking the inbox regulary. Small or rarely administered sites may choose <b>by any user</b>.');
-DEFINE ('_UDDEADM_FILEMAINTENANCE_PRUNE', 'Dosyaları şimdi yoket');
+DEFINE ('_UDDEADM_FILEMAINTENANCE_PRUNE', 'Dosyaları şimdi yok et');
 DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_HEAD', 'Dosya silinmesini iste');
 DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_EXP', 'Veritabanında silinen dosyaları kaldır. Bu sistem sekmesindeki \'Dosyaları şimdi yoket\' ile benzerdir.');
 DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_ERASE', 'SİL');
@@ -73,7 +202,7 @@ DEFINE ('_UDDEIM_HELP_ATTACHMENT', 'bu mesaj bir dosya eki içeriyor.');
 DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILES', 'File references in database:');
 DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILESDISTINCT', 'File attachments stored:');
 DEFINE ('_UDDEADM_SHOWMENUCOUNT_HEAD', 'Sayaçları göster');
-DEFINE ('_UDDEADM_SHOWMENUCOUNT_EXP', '<b>evet</b> seçildiğinde, menü çubuğunda mesaj sayacı çıkar. Not: Bu özellik bir çok veritabanı sorgusu gerektirir zayıf sistemlerde kullanmayınız.');
+DEFINE ('_UDDEADM_SHOWMENUCOUNT_EXP', '<b>evet</b> seçildiğinde, menü çubuğunda mesaj sayacı çıkar. Not: Bu özellik birçok veritabanı sorgusu gerektirir zayıf sistemlerde kullanmayınız.');
 DEFINE ('_UDDEADM_CONFIG_FTPLAYER', 'Yapılandırma (FTP katmanı ile eriş):');
 DEFINE ('_UDDEADM_ENCODEHEADER_HEAD', 'Posta başlıklarını yeniden kodla');
 DEFINE ('_UDDEADM_ENCODEHEADER_EXP', 'Set to <b>yes</b>, when mail headers (like the subject) should be rfc 2047 encoded. Özel karakterler ile sorun yaşayanlar için kullanışlıdır.');
@@ -106,17 +235,17 @@ DEFINE ('_UDDEPLUGIN_SEARCHSECTION', 'Özel Mesajlaşma');
 DEFINE ('_UDDEPLUGIN_MESSAGES', 'Özel Mesaj');
 DEFINE ('_UDDEADM_MAINTENANCEDEL_HEAD', 'Mesaj silinmesini iste');
 // note "This  is the same as _UDDEADM_MAINTENANCE_PRUNE on the system tab."
-DEFINE ('_UDDEADM_MAINTENANCEDEL_EXP', 'Silinen mesajları veritabanından kaldır. Sistem sekmesindeki \'Mesajları şimdi yoket\' ile benzerdir.');
+DEFINE ('_UDDEADM_MAINTENANCEDEL_EXP', 'Silinen mesajları veritabanından kaldır. Sistem sekmesindeki \'Mesajları şimdi yok et\' ile benzerdir.');
 DEFINE ('_UDDEADM_MAINTENANCEDEL_ERASE', 'Sil');
 DEFINE ('_UDDEADM_REPORTSPAM_HEAD', 'Mesajı raporla bağlantısı');
-DEFINE ('_UDDEADM_REPORTSPAM_EXP', 'Aktif olduğunda bir \'Mesajı raporla\' bağlantısı gösterilir ve kullanıcıların gereksiz mesajları  yöneticiye bildirmesi sağlanır.');
+DEFINE ('_UDDEADM_REPORTSPAM_EXP', 'Aktif olduğunda bir \'Mesajı raporla\' bağlantısı gösterilir ve kullanıcıların gereksiz mesajları yöneticiye bildirmesi sağlanır.');
 DEFINE ('_UDDEIM_TOOLBAR_REMOVESPAM', 'Mesajı sil');
 DEFINE ('_UDDEIM_TOOLBAR_REMOVEREPORT', 'Raporu kaldır');
-DEFINE ('_UDDEIM_TOOLBAR_SPAMCONTROL', 'Rapor Kontrolu');
+DEFINE ('_UDDEIM_TOOLBAR_SPAMCONTROL', 'Rapor Kontrolü');
 DEFINE ('_UDDEADM_INFORMATION', 'Bilgi');
 DEFINE ('_UDDEADM_SPAMCONTROL_STAT', 'Raporlanmış Mesaj:');
 DEFINE ('_UDDEADM_SPAMCONTROL_TRASHED', 'Silinmiş');
-DEFINE ('_UDDEADM_SPAMCONTROL_NOTEDEL', 'Bu mesajjı veritabanından sil?');
+DEFINE ('_UDDEADM_SPAMCONTROL_NOTEDEL', 'Bu mesajı veritabanından sil?');
 DEFINE ('_UDDEADM_SPAMCONTROL_NOTEREMOVE', 'Bu raporu kaldır?');
 DEFINE ('_UDDEADM_SPAMCONTROL_SHOWHIDE', 'Göster/Gizle');
 DEFINE ('_UDDEADM_SPAMCONTROL_EDIT', 'Rapor Kontrol Merkezi');
@@ -129,7 +258,7 @@ DEFINE ('_UDDEADM_SPAMCONTROL_DATE', 'Tarih');
 DEFINE ('_UDDEADM_SPAMCONTROL_REPORTED', 'Raporlanma');
 DEFINE ('_UDDEIM_SPAMCONTROL_REPORT', 'Mesajı Raporla');
 DEFINE ('_UDDEIM_SPAMCONTROL_MARKED', 'Mesaj raporlandı');
-DEFINE ('_UDDEIM_SPAMCONTROL_UNREPORT', 'Recall this report');
+DEFINE ('_UDDEIM_SPAMCONTROL_UNREPORT', 'Raporu geri al');
 DEFINE ('_UDDEADM_JOMSOCIAL', 'JomSocial');
 DEFINE ('_UDDEADM_KUNENA', 'Kunena');
 DEFINE ('_UDDEADM_ADMIN_FILTER', 'Süzgeç');
@@ -158,7 +287,7 @@ DEFINE ('_UDDEIM_MENUICONS_P0', 'Sadece metin');
 DEFINE ('_UDDEIM_LISTSLIMIT_2', 'Listedeki maksimum alıcı sayısı:');
 DEFINE ('_UDDEADM_ADDEMAIL_ADMIN', 'Yöneticiler seçebilir');
 DEFINE ('_UDDEAIM_ADDEMAIL_SELECT', 'Mesajla bildir');
-DEFINE ('_UDDEAIM_ADDEMAIL_TITLE', 'Include complete message in email notification.');
+DEFINE ('_UDDEAIM_ADDEMAIL_TITLE', 'E-posta bildirimi tüm mesajı içersin.');
 
 // New: 1.6
 DEFINE ('_UDDEIM_NOLISTSELECTED', 'Kullanıcı listesi seçilmedi!');
@@ -188,7 +317,7 @@ DEFINE ('_UDDEIM_CBPLUG_UNBLOCKED', 'Bu kullanıcı sizinle iletişim kurabilir.
 DEFINE ('_UDDEIM_CBPLUG_NOWBLOCKED', 'Kullanıcı şimdi engellendi.');
 DEFINE ('_UDDEIM_CBPLUG_NOWUNBLOCKED', 'Bu kullanıcı engellenmemiş.');
 DEFINE ('_UDDEADM_PARTIALIMPORTDONE', 'Partial import of messages from old PMS done. Do not import this part again because doing so will import the messages again and they will show up twice.');
-DEFINE ('_UDDEADM_IMPORT_HELP', 'Not: Mesajlar bir defada yada parçalar halinde aktarılabilir. Importing in parts can be necessary when the import dies because of too many messages to import.');
+DEFINE ('_UDDEADM_IMPORT_HELP', 'Not: Mesajlar bir defada ya da parçalar halinde aktarılabilir. Importing in parts can be necessary when the import dies because of too many messages to import.');
 DEFINE ('_UDDEADM_IMPORT_PARTIAL', 'Partial import:');
 DEFINE ('_UDDEADM_UPDATEYOURDB', 'Önemli: Veritabanınızı güncellemediniz! Lütfen UddeIM nasıl güncelleneceğini README dosyasından öğrenin!');
 DEFINE ('_UDDEADM_RESTRALLUSERS_HEAD', '"Tüm Kullanıcılar" erişimi kısıtla');
@@ -222,8 +351,8 @@ DEFINE ('_UDDEIM_HELP_DELETE', 'Bir mesajı sil (mesajı çöp kutusuna taşır)
 DEFINE ('_UDDEIM_HELP_FORWARD', 'Mesajı başka bir alıcıya ilet.');
 DEFINE ('_UDDEIM_HELP_ARCHIVEMSG', 'Bir mesajı arşivle. Yönetici gelen kutusundaki mesajların silinmesi için bir zaman sınırı belirlediğinde Arşivdeki mesajlar otomatik olarak silinmez.');
 DEFINE ('_UDDEIM_HELP_UNARCHIVEMSG', 'Mesajı arşivden çıkar. Mesaj gelen kutusuna geri taşınacak.');
-DEFINE ('_UDDEIM_HELP_RECALL', 'Bir mesajı geri al. alıcı tarafından henüz okunmamışsa gönderilen mesajlar geri alınabilir.');
-DEFINE ('_UDDEIM_HELP_RECYCLE', 'Bir mesajı geri döndür (çöp kutusundan mesajı gelen yada giden kutusuna geri getirir).');
+DEFINE ('_UDDEIM_HELP_RECALL', 'Bir mesajı geri al. Alıcı tarafından henüz okunmamışsa gönderilen mesajlar geri alınabilir.');
+DEFINE ('_UDDEIM_HELP_RECYCLE', 'Bir mesajı geri döndür (çöp kutusundan mesajı gelen ya da giden kutusuna geri getirir).');
 DEFINE ('_UDDEIM_HELP_NOTIFY', 'Yeni bir mesaj geldiğinde E-posta bildirim ayarı.');
 DEFINE ('_UDDEIM_HELP_AUTORESPONDER', 'Otomatik yanıtlama açık olduğunda, her alınan mesaj otomatik olarak cevaplanacaktır.');
 DEFINE ('_UDDEIM_HELP_AUTOFORWARD', 'Yeni mesajlar başka bir kullanıcıya otomatik olarak yönlendirilir.');
@@ -429,7 +558,7 @@ DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'uddeIM en son sürmünü kullanıyorsun
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'Şu andaki güncel sürüm ');
 DEFINE ('_UDDEADM_VERSIONCHECK_INFO', 'Güncelleme Bilgisi:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HEAD', 'Güncellemeleri kontrol et');
-DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Bu özellik uddeIM yapımcı sitesi ile iletişim kurarak, mevcut uddeIM sürümü hakkında bilgi alır. Kullandığınız UddeIM sürümü haricinde, kişişel hiçbir bilgi iletilmez.');
+DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Bu özellik uddeIM yapımcı sitesi ile iletişim kurarak, mevcut uddeIM sürümü hakkında bilgi alır.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CHECK', 'KONTROL ET');
 DEFINE ('_UDDEADM_VERSIONCHECK_ERROR', 'Sürüm bilgisi alınamıyor.');
 DEFINE ('_UDDEIM_NOSUCHLIST', 'Kişi listesi bulunamadı!');
@@ -683,9 +812,9 @@ DEFINE ('_UDDEADM_MAINTENANCE_TRASH', 'ONAR');
 DEFINE ('_UDDEADM_MAINTENANCE_EXP', 'Bir kullanıcı veritabanından silindiğinde mesajları veritabanında kalır. This function checks if it is necessary to trash orphaned messages and you can trash them if it is required.');
 DEFINE ('_UDDEADM_MAINTENANCE_MC1', 'Kontrol ediliyor...<br>');
 DEFINE ('_UDDEADM_MAINTENANCE_MC2', '<i>#nnn (Kullanıcı adı): [inbox|inbox trashed|outbox|outbox trashed]</i><br>');
-DEFINE ('_UDDEADM_MAINTENANCE_MC3', '<i>gelen kutusu: messages stored in users inbox</i><br>');
+DEFINE ('_UDDEADM_MAINTENANCE_MC3', '<i>gelen kutusu: kullanıcı gelen kutusunda saklanan mesajlar</i><br>');
 DEFINE ('_UDDEADM_MAINTENANCE_MC4', '<i>gelen kutusu silinen: messages trashed from users inbox, but still in someones outbox</i><br>');
-DEFINE ('_UDDEADM_MAINTENANCE_MC5', '<i>giden kutusu: messages stored in users outbox</i><br>');
+DEFINE ('_UDDEADM_MAINTENANCE_MC5', '<i>giden kutusu: kullanıcı giden kutusunda saklanan mesajlar</i><br>');
 DEFINE ('_UDDEADM_MAINTENANCE_MC6', '<i>giden kutusu silinen: messages trashed from users outbox, but still in someones inbox</i><br>');
 DEFINE ('_UDDEADM_MAINTENANCE_MT1', 'Siliniyor...<br>');
 DEFINE ('_UDDEADM_MAINTENANCE_NOTFOUND', "bulunamadı (from/to/settings/blocker/blocked):");
@@ -814,6 +943,10 @@ DEFINE ('_UDDEADM_BLOCK', 'Engelleme');
 // new in 0.4, admin
 DEFINE ('_UDDEADM_INTEGRATION', 'Entegrasyon');
 DEFINE ('_UDDEADM_EMAIL', 'E-posta');
+DEFINE ('_UDDEADM_SHOWCBLINK_HEAD', 'CB linklerini göster');
+DEFINE ('_UDDEADM_SHOWCBLINK_EXP', '<i>Evet</i> seçilirse, bütün kullanıcılar uddeIM ekranında Community Builder bilgileri ile ilişkili olarak gösterilecektir.');
+DEFINE ('_UDDEADM_SHOWCBPIC_HEAD', 'CB thumbnail göster');
+DEFINE ('_UDDEADM_SHOWCBPIC_EXP', ' <i>evet</i> seçildiği zaman, kullanıcı kişisel mesajını okuduğu zaman mesajı gönderenin küçük resmi görünecektir. (eğer kullanıcının Community Builder bilgisinde bir resmi varsa).');
 DEFINE ('_UDDEADM_SHOWONLINE_HEAD', 'Çevrimiçi durumu göster');
 DEFINE ('_UDDEADM_SHOWONLINE_EXP', ' <i>evet</i> seçildiği zaman, uddeIM ekranında her kullanıcı için bu kullanıcının çevrimiçi veya çevrimdışı olduğunu gösteren küçük bir ikon görüntülenecektir. Bu ikonları yönetici alanından seçebilirsiniz.');
 DEFINE ('_UDDEADM_ALLOWEMAILNOTIFY_HEAD', 'E-posta bildirimine izin');
@@ -950,13 +1083,13 @@ DEFINE ('_UDDEIM_LIMITREACHED', 'Mesaj sınırı! Geri alınamadı.');
 
 DEFINE ('_UDDEADM_TEMPLATEDIR_HEAD', 'uddeIM Tema');
 DEFINE ('_UDDEADM_TEMPLATEDIR_EXP', 'uddeIM için kullanmak istediğiniz temayı seçin');
-DEFINE ('_UDDEADM_SHOWCONNEX_HEAD', 'Bağlantılarını göster ');
-DEFINE ('_UDDEADM_SHOWCONNEX_EXP', 'Use <i>yes</i> if you have CB/CBE/JS installed and want to present the user the name of his/her connections on the compose new message page.');
+DEFINE ('_UDDEADM_SHOWCONNEX_HEAD', 'CB Bağlantılarını göster ');
+DEFINE ('_UDDEADM_SHOWCONNEX_EXP', 'Use <i>yes</i> if you have Community Builder installed and want to present the user the name of his/her connections on the compose new message page.');
 DEFINE ('_UDDEADM_SHOWSETTINGSLINK_HEAD', 'Ayarları Göster');
 DEFINE ('_UDDEADM_SHOWSETTINGSLINK_EXP', 'The Settings link appears in uddeIM if you have the e-mail-notification or the blocking system activated. Eğer istemiyorsanız buradan kapatabilirsiniz. ');
 DEFINE ('_UDDEADM_SHOWSETTINGS_ATBOTTOM', 'evet, altta');
 DEFINE ('_UDDEADM_ALLOWBB_HEAD', 'BB kodlara izin ver');
-DEFINE ('_UDDEADM_FONTFORMATONLY', 'sadece yazı sitilleri');
+DEFINE ('_UDDEADM_FONTFORMATONLY', 'sadece yazı stilleri');
 DEFINE ('_UDDEADM_ALLOWBB_EXP', '<i>sadece yazı stilleri</i>, seçildiğinde kullanıcıların bb kodlarında kalın, italik, çizgili, yazı rengi ve boyutunu değiştirebilirler. <i>evet</i>, olarak ayarladığınızda kullanıcılar <strong>tüm</strong> desteklenen BB kodlarını kullanabilirler (bağlantılar ve resimler).');
 DEFINE ('_UDDEADM_ALLOWSMILE_HEAD', 'Gülücüklere izin ver');
 DEFINE ('_UDDEADM_ALLOWSMILE_EXP', '<i>evet</i>, olarak ayarladığınızda, gülücük kodlarındaki bu :-) gibi simgeler yerine grafik gülücükler gelecektir. Desteklenen gülücükleri görmek için beni oku dosyasına bakın.');
@@ -1048,7 +1181,7 @@ $udde_sweekday[5]="Cum";
 $udde_sweekday[6]="Cmt";
 
 DEFINE ('_UDDEIM_EMN_BODY_PUBLICWITHMESSAGE',
-"Hi %you%,\n\n%user% has sent you the following private message at %site%.\n__________________\n%pmessage%");
+"Merhaba %you%,\n\n%user% has sent you the following private message at %site%.\n__________________\n%pmessage%");
 DEFINE ('_UDDEIM_EMN_BODY_NOMESSAGE',
 "Merhaba %you%,\n\n%user% kullanıcısı %site% sitesinden size bir özel mesaj gönderdi. Lütfen okumak için giriş yapın!");
 DEFINE ('_UDDEIM_EMN_BODY_WITHMESSAGE',

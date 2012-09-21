@@ -5,7 +5,7 @@ if (defined('_uddeConfig')) {
 } else {
  define('_uddeConfig', 1);
  class uddeimconfigclass {
-  var $version = '1.5';
+  var $version = '2.1';
   var $cryptkey = 'uddeIMcryptkey';
   var $datumsformat = 'j M, H:i';
   var $ldatumsformat = 'j F Y, H:i';
@@ -18,16 +18,19 @@ if (defined('_uddeConfig')) {
   var $emn_body_withmessage = '';
   var $emn_forgetmenot = '';
   var $export_format = '';
-  var $showtitle = '';
+  var $showtitle = 'Inbox';
   var $templatedir = 'default';
   var $quotedivider = '__________';
   var $blockgroups = '';
   var $pubblockgroups = '';
   var $hideusers = '62';
   var $pubhideusers = '';
-  var $attachmentgroups = '18,19,20,21,23,24,25';
+  var $attachmentgroups = '';
   var $recaptchaprv = '';
   var $recaptchapub = '';
+  var $allowedextensions = '';
+  var $gravatard = '';
+  var $gravatarr = 'g';
   var $ReadMessagesLifespan = 36524;
   var $UnreadMessagesLifespan = 36524;
   var $SentMessagesLifespan = 36524;
@@ -39,10 +42,10 @@ if (defined('_uddeConfig')) {
   var $adminignitiononly = 1;
   var $pmsimportdone = 2;
   var $blockalert = 0;
-  var $blocksystem = 0;
+  var $blocksystem = 1;
   var $allowemailnotify = 1;
   var $notifydefault = 0;
-  var $popupdefault = 1;
+  var $popupdefault = 0;
   var $allowsysgm = 0;
   var $emailwithmessage = 0;
   var $firstwordsinbox = 40;
@@ -60,10 +63,10 @@ if (defined('_uddeConfig')) {
   var $enabledownload = 0;
   var $inboxlimit = 0;
   var $showinboxlimit = 0;
-  var $allowpopup = 1;
+  var $allowpopup = 0;
   var $allowbb = 1;
   var $allowsmile = 1;
-  var $animated = 1;
+  var $animated = 0;
   var $animatedex = 0;
   var $showmenuicons = 1;
   var $bottomlineicons = 1;
@@ -72,13 +75,13 @@ if (defined('_uddeConfig')) {
   var $showsettingslink = 2;
   var $showabout = 0;
   var $emailtrafficenabled = 0;
-  var $getpiclink = 1;
+  var $getpiclink = 0;
   var $connex_listbox = 1;
   var $forgetmenotstart = 0;
   var $realnames = 0;
   var $cryptmode = 0;
   var $modeshowallusers = 1;
-  var $useautocomplete = 0;
+  var $useautocomplete = 1;
   var $allowmultipleuser = 1;
   var $connexallowmultipleuser = 1;
   var $allowmultiplerecipients = 1;
@@ -89,7 +92,7 @@ if (defined('_uddeConfig')) {
   var $searchinstring = 1;
   var $maxrecipients = 0;
   var $languagecharset = 1;
-  var $usecaptcha = 1;
+  var $usecaptcha = 0;
   var $captchalen = 4;
   var $pubfrontend = 0;
   var $pubfrontenddefault = 0;
@@ -98,15 +101,16 @@ if (defined('_uddeConfig')) {
   var $pubhideallusers = 0;
   var $unblockCBconnections = 1;
   var $CBgallery = 1;
-  var $enablelists = 1;
+  var $enablelists = 0;
   var $maxonlists = 100;
   var $timedelay = 0;
   var $pubrealnames = 0;
   var $pubreplies = 0;
+  var $pubemail = 0;
   var $csrfprotection = 0;
   var $trashrestriction = 0;
   var $replytruncate = 0;
-  var $allowflagged = 0;
+  var $allowflagged = 1;
   var $overwriteitemid = 0;
   var $useitemid = 0;
   var $timezone = 0;
@@ -119,7 +123,7 @@ if (defined('_uddeConfig')) {
   var $cols = 60;
   var $width = 0;
   var $enablefilter = 0;
-  var $enablereply = 0;
+  var $enablereply = 1;
   var $enablerss = 0;
   var $showigoogle = 1;
   var $showhelp = 0;
@@ -138,10 +142,23 @@ if (defined('_uddeConfig')) {
   var $encodeheader = 0;
   var $enablesort = 0;
   var $captchatype = 0;
+  var $unprotectdownloads = 0;
+  var $waitdays = 0;
+  var $avatarw = 60;
+  var $avatarh = 86;
+  var $gravatar = 0;
+  var $addccline = 0;
+  var $modnewusers = 0;
+  var $modpubusers = 0;
+  var $restrictcon = 0;
+  var $restrictrem = 0;
+  var $stime = 0;
+  var $dontsefmsglink = 0;
+  var $enablepostbox = 0;
   // temporary variables
   var $flags = 0;
   var $userid = 0;
-  var $usergid = 0;
+  var $usergid = Array();
   var $cbitemid = 0;
  }
 }

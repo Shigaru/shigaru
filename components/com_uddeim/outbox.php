@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -13,8 +13,8 @@
 
 if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this location is not allowed.' ); }
 
-function uddeIMshowOutbox($myself, $item_id, $limit, $limitstart, $cryptpass, $config, $filter_user, $filter_unread, $sort_mode) {
-	global $uddeicons_onlinepic, $uddeicons_offlinepic, $uddeicons_readpic, $uddeicons_unreadpic;
+function uddeIMshowOutbox($myself, $item_id, $limit, $limitstart, $cryptpass, $config, $filter_user, $filter_unread, $filter_flagged, $sort_mode) {
+	global $uddeicons_onlinepic, $uddeicons_offlinepic, $uddeicons_readpic, $uddeicons_unreadpic, $uddeicons_delayedpic;
 	
 	$pathtosite = uddeIMgetPath('live_site');
 
@@ -24,6 +24,8 @@ function uddeIMshowOutbox($myself, $item_id, $limit, $limitstart, $cryptpass, $c
 		$addlink .= "&filter_user=".(int)$filter_user;
 	if ($filter_unread)
 		$addlink .= "&filter_unread=".(int)$filter_unread;
+	if ($filter_flagged)
+		$addlink .= "&filter_flagged=".(int)$filter_flagged;
 	if ($sort_mode)
 		$addlink2 .= "&sort_mode=".(int)$sort_mode;
 
@@ -51,7 +53,7 @@ function uddeIMshowOutbox($myself, $item_id, $limit, $limitstart, $cryptpass, $c
 	}
 
 	// how many messages total?
-	$total = uddeIMgetOutboxCount($myself, $filter_user, $filter_unread);
+	$total = uddeIMgetOutboxCount($myself, $filter_user, $filter_unread, $filter_flagged);
 
 	// now load messages as required
 	if(!$limitstart)
@@ -63,18 +65,18 @@ function uddeIMshowOutbox($myself, $item_id, $limit, $limitstart, $cryptpass, $c
 	if ($limitstart>=$total)
 		$limitstart=max(0,$limitstart - $limit);
 
-	$allmessages = uddeIMselectOutbox($myself, $limitstart, $limit, $config, $filter_user, $filter_unread, $sort_mode);
+	$allmessages = uddeIMselectOutbox($myself, $limitstart, $limit, $config, $filter_user, $filter_unread, $filter_flagged, $sort_mode);
 
 	// write the uddeim menu
 	uddeIMprintMenu($myself, 'outbox', $item_id, $config);
 	echo "<div id='uddeim-m'>\n";
 
 	if ($config->enablefilter==1 || $config->enablefilter==3)
-		uddeIMprintFilter($myself, 'outbox', $total, $item_id, $config, $filter_user, $filter_unread);
+		uddeIMprintFilter($myself, 'outbox', $total, $item_id, $config, $filter_user, $filter_unread, $filter_flagged);
 
 	// if no messages:
 	if(count($allmessages)<1) { // no messages to list
-		uddeIMshowNoMessage('outbox', $filter_user, $filter_unread);
+		uddeIMshowNoMessage('outbox', $filter_user, $filter_unread, $filter_flagged);
 		echo "</div>\n<div id='uddeim-bottomborder'>".uddeIMcontentBottomborder($myself, $item_id, 'standard', 'none', $config)."</div>\n";
 		return;
 	}
@@ -109,10 +111,14 @@ function uddeIMshowOutbox($myself, $item_id, $limit, $limitstart, $cryptpass, $c
 				$tocell.="&nbsp;".$uddeicons_offlinepic;
 		}
 
-		if($themessage->toread)
-			$readcell=$uddeicons_readpic;
-		else
-			$readcell=$uddeicons_unreadpic;
+		if ($themessage->delayed) {
+			$readcell=$uddeicons_delayedpic;
+		} else {
+			if ($themessage->toread)
+				$readcell=$uddeicons_readpic;
+			else
+				$readcell=$uddeicons_unreadpic;
+		}
 		
 		if ($config->showlistattachment) {
 			$cnt = uddeIMgetAttachmentCount($themessage->id);
@@ -125,7 +131,7 @@ function uddeIMshowOutbox($myself, $item_id, $limit, $limitstart, $cryptpass, $c
 
 		$teasermessage=$cm;
 		// if it is a system message or bb codes allowed, parse BB codes
-		if ($themessage->systemmessage || $config->allowbb)
+		if ($themessage->systemflag || $config->allowbb)
 			$teasermessage=uddeIMbbcode_strip($teasermessage);
 
 		$teasermessage=uddeIMteaser(stripslashes($teasermessage), $config->firstwordsinbox, $config->quotedivider, $config->languagecharset);
@@ -138,7 +144,7 @@ function uddeIMshowOutbox($myself, $item_id, $limit, $limitstart, $cryptpass, $c
 		} else {	// normal message
 			$messagecell="<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=showout&Itemid=".$item_id."&messageid=".$themessage->id)."'>".$teasermessage."</a>";
 		}
-		$datumcell=uddeDate($themessage->datum, $config);
+		$datumcell=uddeDate($themessage->datum, $config, uddeIMgetUserTZ());
 
 		$fwdcell="";
 		if ($config->actionicons) {
@@ -240,7 +246,7 @@ function uddeIMshowOutbox($myself, $item_id, $limit, $limitstart, $cryptpass, $c
 	echo "</div>\n";
 
 	if ($config->enablefilter==2 || $config->enablefilter==3)
-		uddeIMprintFilter($myself, 'outbox', $total, $item_id, $config, $filter_user, $filter_unread);
+		uddeIMprintFilter($myself, 'outbox', $total, $item_id, $config, $filter_user, $filter_unread, $filter_flagged);
 
 	echo "</div>\n<div id='uddeim-bottomborder'>".uddeIMcontentBottomborder($myself, $item_id, 'standard', 'none', $config)."</div>\n";
 }
@@ -250,7 +256,6 @@ function uddeIMshowOutbox($myself, $item_id, $limit, $limitstart, $cryptpass, $c
 function uddeIMshowOutmessage($myself, $item_id, $messageid, $isforward, $cryptpass, $config) {
 	global $uddeicons_onlinepic, $uddeicons_offlinepic, $uddeicons_readpic, $uddeicons_unreadpic;
 
-	//$my_gid = uddeIMgetGID($myself);
 	$my_gid = $config->usergid;
 
 	$displaymessages = uddeIMselectOutboxMessage($myself, $messageid, $config, 0);
@@ -270,11 +275,29 @@ function uddeIMshowOutmessage($myself, $item_id, $messageid, $isforward, $cryptp
 
 		$toname = uddeIMevaluateUsername($displaymessage->toname, $displaymessage->toid, $displaymessage->publicname);
 
+		// CRYPT
+		$cm = uddeIMgetMessage($displaymessage->message, $cryptpass, $displaymessage->cryptmode, $displaymessage->crypthash, $config->cryptkey);
+
+		// echo str_replace("&amp;#", "&#", nl2br(htmlspecialchars(stripslashes($cm), ENT_QUOTES, $config->charset)));
+		$dmessage=nl2br(htmlspecialchars(stripslashes($cm), ENT_QUOTES, $config->charset));
+		$dmessage=str_replace("&amp;#", "&#", $dmessage); // unicode workaround
+
+		// if system message or bbcodes allowed, call parser
+		if ($displaymessage->systemflag || $config->allowbb)
+			$dmessage=uddeIMbbcode_replace($dmessage, $config);
+		if ($config->allowsmile)
+			$dmessage=uddeIMsmile_replace($dmessage, $config);
+		$bodystring=$dmessage;
+		
+		$replytomessage = uddeIMreplySuggestion($cm, $displaymessage, "", $toname, $isforward, "outbox", $config);
+		// We used an placeholder above to insert the "reply suggestion" for the "mailto:" link
+		$urlbody = rawurlencode($replytomessage);
+
 		// display the message
 		$headerstring="<table class='innermost'><tr>";
 
 		// does CB have a thumbnail image of the receiver?
-		if ($config->showcbpic && $displaymessage->toname) {
+		if ($config->showcbpic && $displaymessage->toname || $config->gravatar) {
 			$topic = uddeIMgetPicOnly($displaymessage->toid, $config);
 			if ($topic)
 				$headerstring.="<td valign='top' rowspan='2'>".$topic."</td>\n";
@@ -290,7 +313,7 @@ function uddeIMshowOutmessage($myself, $item_id, $messageid, $isforward, $cryptp
 		}
 		// display email address
 		if ($displaymessage->toname==NULL && !$displaymessage->toid && $displaymessage->publicemail!=NULL)
-			$temp .= " &lt;<a href='mailto:".$displaymessage->publicemail."?body=#*#BODY#*#'>".$displaymessage->publicemail."</a>&gt;";
+			$temp .= " &lt;<a href='mailto:".$displaymessage->publicemail."?body=".$urlbody."'>".$displaymessage->publicemail."</a>&gt;";
 		$headerstring.=$temp;
 
 		// is this user currently online?
@@ -303,13 +326,28 @@ function uddeIMshowOutmessage($myself, $item_id, $messageid, $isforward, $cryptp
 		}
 
 		$headerstring.="<br />";
-		$headerstring.=uddeLdate($displaymessage->datum, $config);
+		$headerstring.=uddeLdate($displaymessage->datum, $config, uddeIMgetUserTZ());
 		$headerstring.="</div></td><td valign='top' rowspan='2'><span class='uddeim-clear'>&nbsp;</span><ul>";
 
 		// show delete links
+		if ($config->allowforwards) {
+			if ($displaymessage->cryptmode==2 || $displaymessage->cryptmode==4) {	// Message is encrypted, so go to enter password page
+			   $headerstring.="<li class='uddeim-messageactionlink-forward'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=forwardoutboxpass&Itemid=".$item_id."&messageid=".$displaymessage->id)."'>"._UDDEIM_FORWARDLINK."</a></li>\n";
+			} else {	// normal message
+			   $headerstring.="<li class='uddeim-messageactionlink-forward'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=forwardoutbox&Itemid=".$item_id."&messageid=".$displaymessage->id)."'>"._UDDEIM_FORWARDLINK."</a></li>\n";
+			}
+		}
 		if (!$displaymessage->totrashoutbox) { // but only if not already moved to trash
 			$headerstring.="<li class='uddeim-messageactionlink-delete'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=deletefromoutbox&Itemid=".$item_id."&ret=top&messageid=".$displaymessage->id)."'>"._UDDEIM_DELETELINK."</a></li>\n";
 		}
+		if (!$displaymessage->toread) {	// if not read then a recall is possible
+			if ($displaymessage->cryptmode==2 || $displaymessage->cryptmode==4) {	// Message is encrypted, so go to enter password page
+			    $headerstring.="<li class='uddeim-messageactionlink-recall'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=recallpass&Itemid=".$item_id."&messageid=".$displaymessage->id)."'>"._UDDEIM_RECALL."</a></li>\n";
+			} else {	// normal message
+			    $headerstring.="<li class='uddeim-messageactionlink-recall'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=recall&Itemid=".$item_id."&messageid=".$displaymessage->id)."'>"._UDDEIM_RECALL."</a></li>\n";
+			}
+		}
+
 		$headerstring.="</ul></td>";
 		$headerstring.="</tr>";
 		$msgnavigation = "&nbsp;";
@@ -325,6 +363,11 @@ function uddeIMshowOutmessage($myself, $item_id, $messageid, $isforward, $cryptp
 				$msgnavigation .= _UDDEIM_PMNAV_THISISARESPONSE;
 
 				$orig = uddeIMselectInboxMessage($myself, $replyid, $config, 0);
+				$temp = Array();
+				foreach($orig as $or)
+					$temp = $or;
+				$orig = $temp;
+
 				if (count($orig)>0) {		// the message should be stored in the outbox
 					if ($orig->cryptmode==2 || $orig->cryptmode==4) {	// Message is encrypted, so go to enter password page
 						$msgnavigation .= " <a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=showpass&Itemid=".$item_id."&messageid=".$replyid)."'>".$pic."</a>";
@@ -353,40 +396,6 @@ function uddeIMshowOutmessage($myself, $item_id, $messageid, $isforward, $cryptp
 
 		$headerstring.="<tr><td valign='bottom'><div class='uddeim-messagefrom'>".$msgnavigation."</div></td></tr>";
 		$headerstring.="</table>";
-
-		// CRYPT
-		$cm = uddeIMgetMessage($displaymessage->message, $cryptpass, $displaymessage->cryptmode, $displaymessage->crypthash, $config->cryptkey);
-
-		// echo str_replace("&amp;#", "&#", nl2br(htmlspecialchars(stripslashes($cm), ENT_QUOTES, $config->charset)));
-		$dmessage=nl2br(htmlspecialchars(stripslashes($cm), ENT_QUOTES, $config->charset));
-		$dmessage=str_replace("&amp;#", "&#", $dmessage); // unicode workaround
-
-		// if system message or bbcodes allowed, call parser
-		if ($displaymessage->systemmessage || $config->allowbb)
-			$dmessage=uddeIMbbcode_replace($dmessage, $config);
-
-		if ($config->allowsmile)
-			$dmessage=uddeIMsmile_replace($dmessage, $config);
-
-		$bodystring=$dmessage;
-		$replysuggest=stripslashes($cm);
-
-		// if allowed to contain bbcodes they should be stripped for the reply quote
-		if ($displaymessage->systemmessage || $config->allowbb)
-			$replysuggest=uddeIMbbcode_strip($replysuggest);
-
-		if ($isforward && $config->allowforwards) {
-			$fromname = uddeIMgetNameFromID($displaymessage->fromid, $config);
-			if ($config->allowbb)
-				$replysuggest="[i]"._UDDEIM_FWDFROM." ".$fromname." "._UDDEIM_FWDTO." ".$toname." (".uddeLdate($displaymessage->datum, $config)."):[/i]\n\n".$replysuggest;
-			else
-				$replysuggest=""._UDDEIM_FWDFROM." ".$fromname." "._UDDEIM_FWDTO." ".$toname." (".uddeLdate($displaymessage->datum, $config)."):\n\n".$replysuggest;
-		}
-		$replytomessage = "\n\n\n\n".$config->quotedivider."\n".$replysuggest;
-
-		// We used an placeholder above to insert the "reply suggestion" for the "mailto:" link
-		$urlbody = rawurlencode($replysuggest);
-		$headerstring=str_replace("#*#BODY#*#", $urlbody, $headerstring);
 
 		if (!$isforward) {
 			echo "<div class='uddeim-messageheader'>".$headerstring."</div>";
@@ -508,9 +517,9 @@ function uddeIMdeleteMessageOutbox($myself, $messageid, $limit, $limitstart, $it
 	$deletetime=uddetime($config->timezone);
 	uddeIMdeleteMessageFromOutbox($myself, $messageid, $deletetime);
 
-	if($ret=='archive' && $config->allowarchive) {
+	if ($ret=='archive' && $config->allowarchive) {
 		uddeJSEFredirect("index.php?option=com_uddeim&task=archive&Itemid=".$item_id."&limit=".$limit."&limitstart=".$limitstart);
-	} elseif($ret=='top') {
+	} elseif ($ret=='top') {
 		uddeJSEFredirect("index.php?option=com_uddeim&task=outbox&Itemid=".$item_id);
 	} else {
 		uddeJSEFredirect("index.php?option=com_uddeim&task=outbox&Itemid=".$item_id."&limit=".$limit."&limitstart=".$limitstart);
@@ -540,7 +549,6 @@ function uddeIMrecallMessage($myself, $item_id, $messageid, $cryptpass, $config)
 	// second, delete the message from the db (complete erase)
 	// third, display values for editing
 
-	// $my_gid = uddeIMgetGID((int)$myself);
 	$my_gid = $config->usergid;
 
 	$displaymessages = uddeIMselectOutboxMessageIfUnread($myself, $messageid, $config);

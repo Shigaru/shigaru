@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2008 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -28,6 +28,13 @@ function uddeIMbbcode_replace($string, $config) {
 
 		// italic
 		$string = preg_replace("/(\[i\])(.*?)(\[\/i\])/si","<span style=\"font-style: italic\">\\2</span>",$string);
+
+		// ol
+		$string = preg_replace("/(\[ol\])(.*?)(\[\/ol\])/si","<ol>\\2</ol>",$string);
+		// ul
+		$string = preg_replace("/(\[ul\])(.*?)(\[\/ul\])/si","<ul>\\2</ul>",$string);
+		// li
+		$string = preg_replace("/(\[li\])(.*?)(\[\/li\])/si","<li>\\2</li>",$string);
 
 		// max size is 7
 		$string = preg_replace("/\[size=([1-7])\](.+?)\[\/size\]/si","<font size=\\1\">\\2</font>",$string);
@@ -102,10 +109,10 @@ function uddeIMbbcode_replace($string, $config) {
 		$string = str_replace("[/#*#img", "[/img", $string);
 		
 		// ul li replacements
-        $string = preg_replace("/(\[ul\])(.*?)(\[\/ul\])/si","<ul>\\2</ul>",$string);
-        $string = preg_replace("/(\[ol\])(.*?)(\[\/ol\])/si","<ol type=1>\\2</ol>",$string);
-        $string = preg_replace("/(\[li\])(.*?)(\[\/li\])/si","<li>\\2</li>",$string);
-	
+        // $string = preg_replace("/(\[ul\])(.*?)(\[\/ul\])/si","<ul>\\2</ul>",$string);
+        // $string = preg_replace("/(\[ol\])(.*?)(\[\/ol\])/si","<ol type=1>\\2</ol>",$string);
+        // $string = preg_replace("/(\[li\])(.*?)(\[\/li\])/si","<li>\\2</li>",$string);
+
         // make regular HTML URL links targets _blank, bbCode URL translation
 		// this is very bad: since when we have two links (a link without comprofiler and a link with comprofiler) this matches both
 		// but it is even worse when we do not remove javascript links...

@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud
+// Author         © 2007-2010 Stephan Slabihoud
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -21,6 +21,7 @@
 //  `autoresponder` int(1) NOT NULL default '0',  	0=no, 1=yes
 //  `autoforward` int(1) NOT NULL default '0',  	0=no, 1=yes
 //  `locked` int(1) NOT NULL default '0',  	0=no, 1=yes
+//  `moderated` int(1) NOT NULL default '0',  	0=no, 1=yes
 
 // /administrator/images/tick.png
 // /administrator/images/publish_x.png
@@ -28,17 +29,17 @@
 if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this location is not allowed.' ); }
 
 function uddeIMshowUsersettings($option, $task, $act, $config) {
-	$mosConfig_offset = uddeIMgetOffset();
+	// $mosConfig_offset = uddeIMgetOffset();
 	$database = uddeIMgetDatabase();
-	$version = uddeIMgetVersion();
 	$emnid = intval( uddeIMmosGetParam( $_POST, 'id', '' ) );
 
 	switch($act) {
 	//	case "autor":	uddeIMchangeAutor($option, $task, $emnid, $config);		break;
-		case "popup":	uddeIMchangePopup($option, $task, $emnid, $config);		break;
-		case "public":	uddeIMchangePublic($option, $task, $emnid, $config);	break;
-		case "status":	uddeIMchangeStatus($option, $task, $emnid, $config);	break;
-		case "locked":	uddeIMchangeLocked($option, $task, $emnid, $config);	break;
+		case "popup":		uddeIMchangePopup($option, $task, $emnid, $config);		break;
+		case "public":		uddeIMchangePublic($option, $task, $emnid, $config);	break;
+		case "status":		uddeIMchangeStatus($option, $task, $emnid, $config);	break;
+		case "locked":		uddeIMchangeLocked($option, $task, $emnid, $config);	break;
+		case "moderated":	uddeIMchangeModerated($option, $task, $emnid, $config);	break;
 	}
 
 	// get parameter from filter
@@ -71,6 +72,9 @@ function uddeIMshowUsersettings($option, $task, $act, $config) {
 
 	$f_param[8] = uddeIMmosGetParam($_POST, 'f_locked', '');
 	if($f_param[8]!="") $f_where[] = "a.locked='$f_param[8]'";
+
+	$f_param[9] = uddeIMmosGetParam($_POST, 'f_moderated', '');
+	if($f_param[9]!="") $f_where[] = "a.moderated='$f_param[9]'";
 
 	$limit      = intval( uddeIMmosGetParam( $_POST, 'limit', 10 ) );
 	$limitstart = intval( uddeIMmosGetParam( $_POST, 'limitstart', 0 ) );
@@ -126,14 +130,16 @@ function uddeIMshowUsersettings($option, $task, $act, $config) {
 	}
 	$the_name.="</select>";
 
+//				<h4><img align="middle" style="display: inline;" src="<?php echo uddeIMgetPath('live_site')."/administrator/images/inbox.png"; " />&nbsp;<?php echo _UDDEADM_USERSET_EDITSETTINGS; </h4>
+
     ?>
-    <form action="<?php echo uddeIMredirectIndex(); ?>" method="post" name="adminForm">
+    <form action="<?php echo uddeIMredirectIndex(); ?>" method="post" name="adminForm" id='adminForm'>
 
 	<div align="center">
     <table cellpadding="4" cellspacing="0" border="0" width="98%">
 	<tr>
 		<td class="sectionname" align="left">
-			<h4><img align="middle" style="display: inline;" src="<?php echo uddeIMgetPath('live_site')."/administrator/images/inbox.png"; ?>" />&nbsp;<?php echo _UDDEADM_USERSET_EDITSETTINGS; ?></h4>
+			<h4><?php echo _UDDEADM_USERSET_EDITSETTINGS; ?></h4>
 		</td>
 		<td class="sectionname" align="right">
 			<img align="middle" style="display: inline; border:1px solid lightgray;" src="<?php echo uddeIMgetPath('live_site')."/components/com_uddeim/templates/images/uddeim_logo.png"; ?>" />
@@ -200,6 +206,14 @@ function uddeIMshowUsersettings($option, $task, $act, $config) {
 		</td>
 		<td>
 <?php
+	$moderated_items_arr[] = mosHTML::makeOption('', _UDDEADM_USERSET_SELMODERATE);
+	$moderated_items_arr[] = mosHTML::makeOption('0', _UDDEADM_USERSET_NO);
+	$moderated_items_arr[] = mosHTML::makeOption('1', _UDDEADM_USERSET_YES);
+	echo mosHTML::selectList($moderated_items_arr, 'f_moderated', 'size="1" class="text"', 'value', 'text', $f_param[9]);
+?>
+		</td>
+		<td>
+<?php
 	$locked_items_arr[] = mosHTML::makeOption('', _UDDEADM_USERSET_SELLOCKED);
 	$locked_items_arr[] = mosHTML::makeOption('0', _UDDEADM_USERSET_NO);
 	$locked_items_arr[] = mosHTML::makeOption('1', _UDDEADM_USERSET_YES);
@@ -226,6 +240,7 @@ function uddeIMshowUsersettings($option, $task, $act, $config) {
 		<th class="title"><?php echo _UDDEADM_USERSET_PUBLIC; ?></th>
 		<th class="title"><?php echo _UDDEADM_USERSET_AUTOR; ?></th>
 		<th class="title"><?php echo _UDDEADM_USERSET_AUTOF; ?></th>
+		<th class="title"><?php echo _UDDEADM_USERSET_MODERATE; ?></th>
 		<th class="title"><?php echo _UDDEADM_USERSET_LOCKED; ?></th>
 		<th class="title" nowrap="nowrap"><?php echo _UDDEADM_USERSET_LASTACCESS; ?></th>
 		<th class="title" nowrap="nowrap"><?php echo _UDDEADM_USERSET_LASTSENT; ?></th>
@@ -308,6 +323,15 @@ function uddeIMshowUsersettings($option, $task, $act, $config) {
 		}
 		echo "</td>";
 		echo "<td align='left'>";
+		if (is_null($row->moderated)) { 
+			uddeIMshowTick(0,true);	// default is "0"
+		} else {
+			echo "<a href='javascript:document.adminForm.act.value=\"moderated\"; document.adminForm.id.value=\"".$row->id."\"; document.adminForm.submit();'>";
+			uddeIMshowTick($row->moderated);
+			echo "</a>";
+		}
+		echo "</td>";
+		echo "<td align='left'>";
 		if (is_null($row->locked)) { 
 			uddeIMshowTick(0,true);	// default is "0"
 		} else {
@@ -320,14 +344,14 @@ function uddeIMshowUsersettings($option, $task, $act, $config) {
 		if (is_null($row->remindersent)) { 
 			echo "---";
 		} else {
-			echo $row->remindersent ? date("Y-m-d H:i:s", $row->remindersent) : "-";
+			echo $row->remindersent ? date("Y-m-d H:i:s", $row->remindersent + (3600*uddeIMgetUserTZ())) : "-";
 		}
 		echo "</td>";
 		echo "<td align='left'>";
 		if (is_null($row->lastsent)) { 
 			echo "---";
 		} else {
-			echo $row->lastsent ? date("Y-m-d H:i:s", $row->lastsent) : "-";
+			echo $row->lastsent ? date("Y-m-d H:i:s", $row->lastsent + (3600*uddeIMgetUserTZ())) : "-";
 		}
 		echo "</td>";
 		echo "</tr>\n";
@@ -335,10 +359,10 @@ function uddeIMshowUsersettings($option, $task, $act, $config) {
 	}
 ?>
 <tr>
-	<th align="center" colspan="13"><?php echo $pageNav->writePagesLinks(); ?></th>
+	<th align="center" colspan="14"><?php echo $pageNav->writePagesLinks(); ?></th>
 </tr>
 <tr>
-	<td align="center" colspan="13"><?php echo $pageNav->writePagesCounter(); ?></td>
+	<td align="center" colspan="14"><?php echo $pageNav->writePagesCounter(); ?></td>
 </tr>
 </table>
 	<input type="hidden" name="option" value="<?php echo $option;?>" />
@@ -348,10 +372,14 @@ function uddeIMshowUsersettings($option, $task, $act, $config) {
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="hidemainmenu" value="0" />
 <?php
-	if ($version->PRODUCT == "Joomla!" || $version->PRODUCT == "Accessible Joomla!")
-		if (strncasecmp($version->RELEASE, "1.0", 3)) {
-			echo "<input type=\"hidden\" name=\"limitstart\" value=\"".(int)$limitstart."\" />";
-		}
+	if (uddeIMcheckJversion()>=1) {
+		echo "<input type=\"hidden\" name=\"limitstart\" value=\"".(int)$limitstart."\" />";
+	}
+	// $version = uddeIMgetVersion();
+	// if ($version->PRODUCT == "Joomla!" || $version->PRODUCT == "Accessible Joomla!")
+	// 	if (strncasecmp($version->RELEASE, "1.0", 3)) {
+	// 		echo "<input type=\"hidden\" name=\"limitstart\" value=\"".(int)$limitstart."\" />";
+	// 	}
 ?>
 </form>
 <?php
@@ -504,7 +532,7 @@ function uddeIMeditAutoresponder($option, $task, $act, $config) {
 
 	echo "<h4 style='text-align:left;'>"._UDDEIM_AUTORESPONDER.": ".$name." (".$username.")</h4>";
 	echo "<p style='text-align:left;'>"._UDDEIM_AUTORESPONDER_EXP."</p>";
-	echo "<form name='adminForm' method='post' action='".uddeIMredirectIndex()."' class='adminForm' style='text-align:left;'>";
+	echo "<form name='adminForm' id='adminForm' method='post' action='".uddeIMredirectIndex()."' class='adminForm' style='text-align:left;'>";
 	echo '<input onclick="document.adminForm.autorespondercheck.checked ? document.adminForm.autorespondertext.disabled=false : document.adminForm.autorespondertext.disabled=true;" type="checkbox" '.$emn_responder_checkstatus.' value="1" name="autorespondercheck" />'._UDDEIM_EMN_AUTORESPONDER.'<br />';
 	echo "<textarea name='autorespondertext' class='inputbox' rows='4' cols='60'".($ison==1 ? '' : 'disabled="disabled"').">".htmlentities($autorespondertext,ENT_QUOTES, $config->charset)."</textarea><br />";
 	// echo '<input type="submit" name="reply" class="button" value="'._UDDEIM_SAVECHANGE.'" />';
@@ -580,10 +608,10 @@ function uddeIMeditAutoforward($option, $task, $act, $config) {
 
 	echo "<h4 style='text-align:left;'>"._UDDEIM_AUTOFORWARD.": ".$name." (".$username.")</h4>";
 	echo "<p style='text-align:left;'>"._UDDEIM_AUTOFORWARD_EXP."</p>";
-	echo "<form name='adminForm' method='post' action='".uddeIMredirectIndex()."' class='adminForm' style='text-align:left;'>";
+	echo "<form name='adminForm' id='adminForm' method='post' action='".uddeIMredirectIndex()."' class='adminForm' style='text-align:left;'>";
 	echo '<input onclick="document.adminForm.autoforwardcheck.checked ? document.adminForm.autoforwardid.disabled=false : document.adminForm.autoforwardid.disabled=true;" type="checkbox" '.$emn_forward_checkstatus.' value="1" name="autoforwardcheck" />'._UDDEIM_EMN_AUTOFORWARD.'<br />';
 //	echo "<textarea name='autoforwardid' class='inputbox' rows='1' cols='6'".($ison==1 ? '' : 'disabled="disabled"').">".htmlentities($autoforwardid,ENT_QUOTES, $config->charset)."</textarea><br />";
-	uddeIMdoShowAllUsers(0, _UDDEIM_GID_SADMIN, $config, 2, $ison, $autoforwardid);		// show all users, I am an admin, $config, mode=2 forwarding box, enabled=$ison, selected name=$autoforwardid
+	uddeIMdoShowAllUsers(0, Array(_UDDEIM_GID_SADMIN), $config, 2, $ison, $autoforwardid);		// show all users, I am an admin, $config, mode=2 forwarding box, enabled=$ison, selected name=$autoforwardid
 	echo "<br />";
 	// echo '<input type="submit" name="reply" class="button" value="'._UDDEIM_SAVECHANGE.'" />';
 	echo '<input type="hidden" name="option" value="'.$option.'" />';
@@ -647,6 +675,17 @@ function uddeIMchangeLocked($option, $task, $emnid, $config) {
 	$value = (int)$database->loadResult();
 	$value = 1 - $value;
 	$database->setQuery("UPDATE #__uddeim_emn SET locked=".(int)$value." WHERE id=".(int)$emnid);
+	if (!$database->query()) {
+		die("SQL error" . $database->stderr(true));
+	}
+}
+
+function uddeIMchangeModerated($option, $task, $emnid, $config) {
+	$database = uddeIMgetDatabase();
+	$database->setQuery("SELECT moderated FROM #__uddeim_emn WHERE id=".(int)$emnid);
+	$value = (int)$database->loadResult();
+	$value = 1 - $value;
+	$database->setQuery("UPDATE #__uddeim_emn SET moderated=".(int)$value." WHERE id=".(int)$emnid);
 	if (!$database->query()) {
 		die("SQL error" . $database->stderr(true));
 	}

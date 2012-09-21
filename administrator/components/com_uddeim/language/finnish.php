@@ -15,21 +15,150 @@
 // Site: http://www.joomlaportal.fi
 // Email: admin[at]joomlaportal.fi
 //
-// Author: © 2007-2010 Sami Haaranen
+// Author: © 2007-2011 Sami Haaranen
 // Finnish Joomla! Translation Team
 // Site: http://www.joomlaportal.fi & http://www.mortti.com
 // Email: mortti[at]joomlaportal.fi
 // *******************************************************************
-// For version: uddeIM 2.0 Stable
-// Dated: 12.02.2010
-// Translation version: 2.3
+// For version: uddeIM 2.4 Stable
+// Dated: 04.06.2011
+// Translation version: 2.7
 // Please, take the contact for authors or our Finnish forum if you see some mistakes in this language file.
 //
 // Before you asking in uddeIM or Finnish support forum, please read FAQ and README -files first !!! 
-// Stephan has done very covering FAQ, where you can find almost all answers your questions.
+// Stephan has done very covering FAQ where you can find almost all answers your questions.
 // *******************************************************************
-// All Thanks go to the developer Stephan Slabihoud, who did this all possible !!!
+// All Thanks go to the developer Stephan Slabihoud, who made this all possible !!!
 // *******************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Kielitiedoston käännös © 2007-2011 <a href="http://www.joomlaportal.fi" target="_new">Sami Haaranen aka Mortti</a>');	// Empty for English and German language files, enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'do not load MooTools (use MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'force loading MooTools 1.3 (use MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'No SEF for %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Do not use SEF for %msglink% placeholder in email notifications.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Use special calendars');
+DEFINE ('_UDDEADM_STIME_EXP', 'When enabled on sites using the farsi language file the persian calendar is used.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Remove orphaned connections');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Automatically remove orphaned connections when saving an existing contact list.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Show connections only');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'The users shown in the list can be restricted to CB/CBE/JS connections (hide users from userlist has no effect here when enabled).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'disabled');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'registered users');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'registered, special users');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'all users (incl. admins)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...set default for show connections');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Turvakoodi:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Painike "Näytä CC: rivi"');
+DEFINE ('_UDDEADM_CC_EXP', 'Kun käytössä käyttäjä voi valita, jos uddeIM on lisättävä CC: rivi, joka sisältää kaikki viestin vastaanottajat tai ei.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...aseta oletus CC: riville, ja valvontaan');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Viestikeskus');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Poista viesti');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Toimita viesti');
+DEFINE ('_UDDEADM_OOD_MCP', 'Viestikeskus liitännäinen ei ole ajantasalla!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Valvottavat viestit:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Roskakoriin');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Poista tämä viesti tietokannasta?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Toimita tämä viesti vastaanottajalle?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Näytä/piilota');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Viestihallintakeskus');
+DEFINE ('_UDDEADM_MCP_FROM', 'Lähettänyt');
+DEFINE ('_UDDEADM_MCP_TO', 'Lähetetty');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Viesti');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Poista');
+DEFINE ('_UDDEADM_MCP_DATE', 'Päiväys');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Toimita');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Valvottu');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Valvottu -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Viestisi on valvottu. Valvoja tarkistaa ne ennen kuin ne toimitetaan vastaanottajille.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Odotetaan valvontaa');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Valvo uudet käyttäjät');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'Kun käytössä, viestit uusilta rekisteröityneiltä käyttäjiltä ovat oletuksena valvottu.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Valvo julkiset käyttäjät');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'Kun käytössä, viestit julkisilta käyttäjiltä ovat oletuksena valvottu.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'Ei valikkoa');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Julkisen Etusivun liitännäinen ei ole ajantasalla!');
+DEFINE ('_UDDEADM_OOD_A', 'Liitetiedosto liitännäinen ei ole ajantasalla!');
+DEFINE ('_UDDEADM_OOD_RSS', 'RSS liitännäinen ei ole ajantasalla!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Ilmoitus liitännäinen ei ole ajan tasalla!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>Sinulla ei ole suodatettuja viestejä %s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'lukematon');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'merkitty');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'Gravatar käyttö');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Ota käyttöön gravatar tuki.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'gravatar kuva-asetus');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Valitse kuva-asetus oletuskuville.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'gravatar luokitus');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'Oletuksena vain "G" luokan kuvat ovat nähtävillä, ellet määritä korkeampaa luokkaa. "X" näyttää kaikki gravatar kuvat.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'wavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'Oletus');
+DEFINE ('_UDDEADM_GRG', 'G = Tavallinen');
+DEFINE ('_UDDEADM_GRPG', 'PG = Vanhempien ohjaus');
+DEFINE ('_UDDEADM_GRR', 'R = Rajoitettu');
+DEFINE ('_UDDEADM_GRX', 'X = Vain aikuisille');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Käynnissä...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Älä lähetä sähköposti-ilmoituksia');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'Sähköposti-ilmoitusta ei lähetetä');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'Teksti sisällytetään sähköposti-ilmoitukseen');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...aseta oletus pikkukuville');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Pikkukuvien koko');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Pikkukuvien leveys ja korkeus (pikseleinä)  (0 = kokoa ei muuteta).');
+DEFINE ('_UDDEIM_SAVE', 'Tallenna');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Hei %you%,\n\n%touser% on ilmoittanut epäilyttävän viestin käyttäjältä %fromuser%. Kirjaudu sisään ja tarkasta se!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'Viesti on ilmoitettu sivustolta %site%');
+DEFINE ('_UDDEADM_KBYTES', 'kilotavua');
+DEFINE ('_UDDEADM_MBYTES', 'megatavua');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'Tiedosto on poistettu');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Virhe: Tiedostoa ei löydy');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Liitetiedostot (max. %s per tiedosto):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Suojaamattomien tiedostojen lataus');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'Yleensä uddeIM ei paljasta palvelimen polkua liitetiedostoissa, joten kukavain ei - vaikka tiedostonimi on tiedossa - voi ladata tiedostoa. Kun tämä asetus otetaan käyttöön, pakottaa uddeIM palauttamaan koko palvelimen polun. Turvallisuussyistä uddeIM lisää MD5-tiivisteen alkuperäisen tiedoston nimeen. Käyttäjät voivat ladata tiedoston suoraan, kun koko polku on tiedossa. Käytä tätä varoen! LUE FAQ ENNEN KUIN KÄYTÄT TÄTÄ VAIHTOEHTOA!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...aseta oletus liitetiedostoille, julkisivusto');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Tiedostotyyppi ei ole sallittu');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Sallitut tiedostotyypit');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Kirjoita kaikki sallitut tiedostotyypit (erota kukin merkillä ";"). Kun jätät kentän tyhjäksi, tällöin ei ole rajoituksia tiedostotyypin mukaan.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'Sähköpostiosoite pakollinen');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'Kun tämä on otettu käyttöön, käyttäjän on kirjoitettava sähköpostiosoitteensa.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Päivää odotettava');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Määrittele kuinka monta päivää käyttäjän on odotettava ennen kuin hän voi lähettää viestejä (3 tuntia on 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'Sinun on odotettava ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' päivää ennen kuin voit lähettää viestejä.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' tuntia ennen kuin voit lähettää viestejä.');
 
 // New: 2.0
 DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha Yksityinen avain (Private Key)');
@@ -447,7 +576,7 @@ DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'Käytät jo viimeisintä versiota uddeIM:s
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'Nykyinen versio on ');
 DEFINE ('_UDDEADM_VERSIONCHECK_INFO', 'Päivitys tiedot:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HEAD', 'Tarkista päivitykset');
-DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Nämä yhteystiedot uddeIM valmistajan sivustoon näyttävät tiedot nykyisestä uddeIM versiosta. Poikkeuksena uddeIM versio jota käytät, muita tietoja ei toimiteta.');
+DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Nämä yhteystiedot uddeIM valmistajan sivustoon näyttävät tiedot nykyisestä uddeIM versiosta.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CHECK', 'TARKISTA NYT');
 DEFINE ('_UDDEADM_VERSIONCHECK_ERROR', 'Ei saada versio tietoja.');
 DEFINE ('_UDDEIM_NOSUCHLIST', 'Yhteystietolistaa ei löydy');
@@ -684,7 +813,7 @@ DEFINE ('_UDDEADM_NOTIFYDEFAULT_HEAD', 'Oletus sähköposti - ilmoitukselle');
 DEFINE ('_UDDEADM_NOTIFYDEFAULT_EXP', 'Oletus asetus sähköposti - ilmoitukselle (käyttäjille jotka eivät ole vielä vaihtaneet heidän asetuksiaan).');
 DEFINE ('_UDDEADM_NOTIFYDEF_0', 'Ei ilmoitusta');
 DEFINE ('_UDDEADM_NOTIFYDEF_1', 'Aina');
-DEFINE ('_UDDEADM_NOTIFYDEF_2', 'Ilmoitus kun sivusto on offline -tilassa');
+DEFINE ('_UDDEADM_NOTIFYDEF_2', 'Ilmoitus kun ei ole paikalla');
 DEFINE ('_UDDEADM_SUPPRESSALLUSERS_HEAD', 'Piilota "Kaikki käyttäjät" -linkki');
 DEFINE ('_UDDEADM_SUPPRESSALLUSERS_EXP', 'Piilottaa "Kaikki käyttäjät" -linkin kun kirjoitetaan uutta viestiä (hyödyllinen kun rekisteröityneitä käyttäjiä on paljon).');
 DEFINE ('_UDDEADM_POPUP_HEAD','Popup ilmoitus');

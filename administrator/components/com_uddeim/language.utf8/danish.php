@@ -9,91 +9,219 @@
 //                http://www.gnu.org/licenses/gpl.txt
 //                Other licenses can be found in LICENSES folder.
 // *******************************************************************
-// Language file: Danish (source file is Latin-1)
-// Translator:     Michael Jerndorff & Henrik Gregersen & Ronny Buelund<noemail>
+// Language file: Danish (source file is Latin 1)
+// Translator: Michael Jerndorff & Henrik Gregersen & Ronny Buelund & Ole Geismar & Michael Hansen Buur & Kenneth Fribert<noe-mail>
 // *******************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Translated by Michael Jerndorff & Henrik Gregersen & Ronny Buelund & Ole Geismar & Michael Hansen Buur & Kenneth Fribert');	// Enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'skal ikke starte (brug MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'tving til at starte MooTools 1.3 (brug MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'Ingen SEF i %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Brug ikke SEF til %msglink% mærkaten i mail påmindelser.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Brug special kalendere');
+DEFINE ('_UDDEADM_STIME_EXP', 'Når dette bliver aktiveret på sites der bruger farsi sproget, vil den persiske kalender blive brugt.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Fjern forbindelser til ikke eksisterende brugere');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'AFjern forbindelser automatisk, hvis brugeren ikke eksisterer, når du gemmer en kontakt liste.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Vis kun forbindelser');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'Brugerne det bliver vist i listen, kan begrænses til CB/CBE/JS forbindelser (funktionen "skjul brugere" fra listen har ingen effekt her, når det er slået til).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'Slået fra');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'registrerede brugere');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'registrerede og special brugere');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'alle brugere (inkl. administratorer)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...set som standard for vis forbindelser');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Sikkerheds kode:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Knap "Vis CC: linje"');
+DEFINE ('_UDDEADM_CC_EXP', 'Når aktiveret kan brugeren vælge om uddeIM skal tilføje en CC: linje der indeholder alle modtagere eller ej.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...sæt generel værdi for CC: linje, og moderering');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Besked Center');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Slet besked');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Send message');
+DEFINE ('_UDDEADM_OOD_MCP', 'Program-udvidelsen Besked Center skal opdateres!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Beskeder der skal modereres:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Papirkurv');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Slet denne besked fra databasen?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Send denne besked til modtageren?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Vis/Skjul');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Besked Kontrol Center');
+DEFINE ('_UDDEADM_MCP_FROM', 'Fra');
+DEFINE ('_UDDEADM_MCP_TO', 'Til');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Besked');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Slet');
+DEFINE ('_UDDEADM_MCP_DATE', 'Dato');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Send');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Mod');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Mod -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Dine beskeder skal modereres. En moderator vil tjekke dem før de sendes til modtagerne.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Afventer moderator');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Moderér nye brugere');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'Når aktiveret vil beskeder fra registrerede brugere blive modereret.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Moderér offentlige brugere');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'Når aktiveret vil beskeder fra offentlige brugere blive modereret.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'Ingen menu');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Program-udvidelsen Offentlig Front-end skal opdateres!');
+DEFINE ('_UDDEADM_OOD_A', 'Program-udvidelsen Filvedhæftning skal opdateres!');
+DEFINE ('_UDDEADM_OOD_RSS', 'Program-udvidelsen RSS skal opdateres!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Program-udvidelsen Besked Rapport Center skal opdateres!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>Du har ingen filtrerede beskeder i din%s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'Ulæste');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'Markerede');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'gravatar aktiveret');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Aktiverer gravatar support.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'gravatar billedsæt');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Vælg billedsæt for generelle billder.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'gravatar bedømmelse');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'Som udgangspunkt vil kun "G" ratede billeder blive vist - med mindre du angiver en anden rating. "X" vil vise alle gravatar billeder.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'wavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'generel');
+DEFINE ('_UDDEADM_GRG', 'G = Generel');
+DEFINE ('_UDDEADM_GRPG', 'PG = Egnet til alle');
+DEFINE ('_UDDEADM_GRR', 'R = Begrænset');
+DEFINE ('_UDDEADM_GRX', 'X = Kun voksne');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Arbejder...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Send ikke notifikationsemails');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'Emailnotifikationer vil ikke blive sendt');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'Tekst vil blive indflettet i notifikationsemail');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...sæt som generel for thumbnails');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Vist størrelse for thumbnails');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Bredde og højde (i pixels) for thumbnails (0 = størrelsen ændres ikke).');
+DEFINE ('_UDDEIM_SAVE', 'Gem');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT', "Hej %you%,\n\n%touser% har rapporteret en mistænkelig besked fra %fromuser%. Log ind og tjeck den!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'En besked er blevet rapporteret på %site%');
+DEFINE ('_UDDEADM_KBYTES', 'KByte');
+DEFINE ('_UDDEADM_MBYTES', 'MByte');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'Filen er slettet');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Fejl: Filen eksisterer ikke');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Vedhæftninger (max. %s pr. fil):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Ubeskyttet fil-downloads');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'Normalt angiver uddeIM ikke serverstien ved filvedhæftning. Således kan ingen downloade filen (selv hvis de kender filnavn). Hvis du aktiverer denne indstilling vil uddeIM inkludere hele serverstien. Af sikkerhedsgrunde tilføjes en MD5 Hash sum til det originale filnavn. Brugere kan downloade filen direkte hvis den fulde sti er kendt. Brug med omtanke og læs FAQ filen først!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...sæt som generel for filvedhæftning, offentlig front-end');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Filtype ikke tilladt');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Udvidelser tilladt');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Skriv alle tilladte udvidelser (separeret med ";"). Lad feltet være tomt hvis du ikke ønsker restriktioner.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'E-mail krævet');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'Når aktiveret skal en offentlig bruger indtaste e-mail.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Dage at vente');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Angiv hvor mange dage en bruger skal vente før der kan sendes beskeder (for 3 timer skriv 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'Du skal vente ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' dage før du kan sende beskeder.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' timer før du kan sende beskeder.');
 
 // New: 2.0
-DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha private key');
-DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'When you want to use reCaptcha, enter your private key here.');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'reCaptcha public key');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'When you want to use reCaptcha, enter your public key here.');
-DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Internal');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha privat nøgle');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'Hvis du vil benytte reCaptcha, indtast din private nøgle her.');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'reCaptcha offentlig nøgle');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'Hvis du vil benytte reCaptcha, indtast din offentlige nøgle her.');
+DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Intern');
 DEFINE ('_UDDEADM_CAPTCHA_RECAPTCHA', 'reCaptcha');
 DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Captcha service');
-DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Which captcha service do you want to use: The build-in service or reCaptcha (see <a href="http://recaptcha.net" target="_new">reCaptcha</a> for more information)?');
-DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...set default for captcha service');
+DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Hvilken captcha service vil du benytte: Den indbyggede service eller reCaptcha (se <a href="http://recaptcha.net" target="_new">reCaptcha</a> for yderligere information)?');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...sætter default for captcha service');
 DEFINE ('_UDDEADM_AUP', 'AlphaUserPoints');
-DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Please move <i>\uddeimfiles</i> to <i>\images\uddeimfiles</i>. Check the documentation!');
+DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Flyt <i>\uddeimfiles</i> til <i>\images\uddeimfiles</i>. Check dokumentationen!');
 DEFINE ('_UDDEADM_CRYPT4', 'Strong encryption');
-DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Allow sending system messages');
-DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM supports system messages. They are sent to all users on your system. Use them sparingly.');
-DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'disabled');
-DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'admins only');
-DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'admins and managers');
+DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Tillad at sende system meddelelser');
+DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM supporterer system meddelelser. De sendes til alle brugere på dit system. Brug det varsomt!');
+DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'Deaktiveret');
+DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'Kun administratorer');
+DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'Kun administratorer og managers');
 
 // New: 1.9
-DEFINE ('_UDDEIM_FILEUPLOAD_FAILED', 'File uploading failed');
-DEFINE ('_UDDEADM_CFGFILE_CONVERTING_5', '...set default for file attachments');
-DEFINE ('_UDDEADM_ENABLEATTACHMENT_HEAD', 'Enable file attachments');
-DEFINE ('_UDDEADM_ENABLEATTACHMENT_EXP', 'This enables sending file attachments for all registered users or admins only.');
-DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_HEAD', 'Max. file size');
-DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_EXP', 'Maximum file size allowed for file attachments.');
-DEFINE ('_UDDEIM_FILESIZE_EXCEEDED', 'Maximum file size exceeded');
+DEFINE ('_UDDEIM_FILEUPLOAD_FAILED', 'Filupload mislykkedes');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_5', '...sætter default for vedhæftede filer');
+DEFINE ('_UDDEADM_ENABLEATTACHMENT_HEAD', 'Tillad vedhæftede filer');
+DEFINE ('_UDDEADM_ENABLEATTACHMENT_EXP', 'Dette tillader at sende vedhæftede filer for alle registerede brugere eller kun for administratorer.');
+DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_HEAD', 'Max. filstørrelse');
+DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_EXP', 'Maximum tilladt filstørrelse for vedhæftede filer.');
+DEFINE ('_UDDEIM_FILESIZE_EXCEEDED', 'Maximum filstørrelse overskredet');
 DEFINE ('_UDDEADM_BYTES', 'Bytes');
-DEFINE ('_UDDEADM_MAXATTACHMENTS_HEAD', 'Max. attachments');
-DEFINE ('_UDDEADM_MAXATTACHMENTS_EXP', 'Maximum number of attachments per message.');
+DEFINE ('_UDDEADM_MAXATTACHMENTS_HEAD', 'Max. antal vedhæft');
+DEFINE ('_UDDEADM_MAXATTACHMENTS_EXP', 'Maximum antal vedhæftede filer pr. besked.');
 DEFINE ('_UDDEIM_DOWNLOAD', 'Download');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_HEAD', 'File deletions invoked');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_YES', 'by admins only');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_NO', 'by any user');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_MANUALLY', 'manually');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_EXP', 'Automatic deletions create heavy server load. If you choose <b>by admins only</b> automatic deletions are invoked when an admin checks his inbox. Choose this option if an admin is checking the inbox regulary. Small or rarely administered sites may choose <b>by any user</b>.');
-DEFINE ('_UDDEADM_FILEMAINTENANCE_PRUNE', 'Prune files now');
-DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_HEAD', 'Invoke file erasing');
-DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_EXP', 'Removes deleted files from the database. This is the same as \'Prune files now\' on the system tab.');
-DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_ERASE', 'ERASE');
-DEFINE ('_UDDEIM_ATTACHMENTS', 'Attachments (max. %u bytes per file):');
-DEFINE ('_UDDEADM_MAINTENANCE_F1', 'Orphaned attachments stored in filesystem: ');
-DEFINE ('_UDDEADM_MAINTENANCE_F2', 'Deleting orphaned files');
-DEFINE ('_UDDEADM_BACKUP_DONE', 'Backup configuration done.');
-DEFINE ('_UDDEADM_RESTORE_DONE', 'Restore configuration done.');
-DEFINE ('_UDDEADM_PRUNE_DONE', 'Message pruning done.');
-DEFINE ('_UDDEADM_FILEPRUNE_DONE', 'File attachment pruning done.');
-DEFINE ('_UDDEADM_FOLDERCREATE_ERROR', 'Error creating folder: ');
-DEFINE ('_UDDEADM_ATTINSTALL_WRITEFAILED', 'Error creating file: ');
-DEFINE ('_UDDEADM_ATTINSTALL_IGNORE', 'You can ignore this error when you do not own the File attachments premium plugin (see FAQ).');
-DEFINE ('_UDDEADM_ATTACHMENTGROUPS_HEAD', 'Allowed groups');
-DEFINE ('_UDDEADM_ATTACHMENTGROUPS_EXP', 'Groups which are allowed to send file attachments.');
-DEFINE ('_UDDEIM_SELECT', 'Select');
-DEFINE ('_UDDEIM_ATTACHMENT', 'Attachment');
-DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_HEAD', 'Show attachment icons');
-DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_EXP', 'Show attachment icons in the message lists (inbox, outbox, archive).');
-DEFINE ('_UDDEIM_HELP_ATTACHMENT', 'The message contains a file attachment.');
-DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILES', 'File references in database:');
-DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILESDISTINCT', 'File attachments stored:');
-DEFINE ('_UDDEADM_SHOWMENUCOUNT_HEAD', 'Show counters');
-DEFINE ('_UDDEADM_SHOWMENUCOUNT_EXP', 'When set to <b>yes</b>, the menu bar contains message counters. Note: This will require several additional database queries so do not use on weak systems.');
-DEFINE ('_UDDEADM_CONFIG_FTPLAYER', 'Configuration (access with FTP layer):');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_HEAD', 'Filsletninger tilladt');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_YES', 'Kun administratorer');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_NO', 'Alle brugere');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_MANUALLY', 'Manuelt');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_EXP', 'Automatiske sletninger genererer kraftigt load på serveren. Hvis du vælger <b>Kun administratorer</b> så aktiveres automatiske sletninger når en administrator checker sin indbakke. Vælg dette hvis blot én administrator checker sin indbakke jævnligt. Mindre sider eller sider som kun sjældent frekventeres af en administrator kan vælge<b>Alle brugere</b>.');
+DEFINE ('_UDDEADM_FILEMAINTENANCE_PRUNE', 'Fjern filer nu');
+DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_HEAD', 'Aktiver filsletning');
+DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_EXP', 'Fjerner slettede beskeder fra databasen. Dette er det samme som \'Fjern filer nu\' on the system tab.');
+DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_ERASE', 'FJERN');
+DEFINE ('_UDDEIM_ATTACHMENTS', 'Vedhæftede filer (max. %u byte pr. fil):');
+DEFINE ('_UDDEADM_MAINTENANCE_F1', 'Vedhæftede filer i filsystemet uden link: ');
+DEFINE ('_UDDEADM_MAINTENANCE_F2', 'Sletter filer uden link');
+DEFINE ('_UDDEADM_BACKUP_DONE', 'Backup af konfiguration udført!');
+DEFINE ('_UDDEADM_RESTORE_DONE', 'Restore af konfiguration udført.');
+DEFINE ('_UDDEADM_PRUNE_DONE', 'Fjernelse af beskeder udført!');
+DEFINE ('_UDDEADM_FILEPRUNE_DONE', 'Fjernelse af vedhæftede filer udført!');
+DEFINE ('_UDDEADM_FOLDERCREATE_ERROR', 'Fejl ved oprettelse af folder: ');
+DEFINE ('_UDDEADM_ATTINSTALL_WRITEFAILED', 'Fejl ved oprettelse af fil: ');
+DEFINE ('_UDDEADM_ATTINSTALL_IGNORE', 'Du kan ignorere denne fejl, hvis du ikke har installeret File attachments premium plugin (se FAQ).');
+DEFINE ('_UDDEADM_ATTACHMENTGROUPS_HEAD', 'Tilladte grupper');
+DEFINE ('_UDDEADM_ATTACHMENTGROUPS_EXP', 'Grupper, som har tilladelse til at sende vedhæftede filer.');
+DEFINE ('_UDDEIM_SELECT', 'Vælg');
+DEFINE ('_UDDEIM_ATTACHMENT', 'Vedhæftet fil');
+DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_HEAD', 'Vis ikoner for vedhæftede filer');
+DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_EXP', 'Vis ikoner for vedhæftede filer i oversigterne over beskeder (inbakken, udbakken, arkivet).');
+DEFINE ('_UDDEIM_HELP_ATTACHMENT', 'Beskeden indeholder en vedhæftet fil.');
+DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILES', 'Filreferencer i databasen:');
+DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILESDISTINCT', 'Gemte vedhæftede filer:');
+DEFINE ('_UDDEADM_SHOWMENUCOUNT_HEAD', 'Vis tællere');
+DEFINE ('_UDDEADM_SHOWMENUCOUNT_EXP', 'Hvis <b>ja</b>, indeholder menu-baren beskedtællere. BEMÆRK: Dette kræver adskillige flere databaseopslag, så brug det ikke i systemer med performanceproblemer.');
+DEFINE ('_UDDEADM_CONFIG_FTPLAYER', 'Konfiguration (access med FTP layer):');
 DEFINE ('_UDDEADM_ENCODEHEADER_HEAD', 'Encode mail headers');
-DEFINE ('_UDDEADM_ENCODEHEADER_EXP', 'Set to <b>yes</b>, when mail headers (like the subject) should be rfc 2047 encoded. Useful when you have problems with special characters.');
-DEFINE ('_UDDEIM_UP', 'sort ascending');
-DEFINE ('_UDDEIM_DOWN', 'sort descending');
-DEFINE ('_UDDEIM_UPDOWN', 'sort');
-DEFINE ('_UDDEADM_ENABLESORT_HEAD', 'Enable sorting');
-DEFINE ('_UDDEADM_ENABLESORT_EXP', 'Set to <b>yes</b>, when the user should be able to sort the inbox, outbox and archive (creates additional load on the database server).');
+DEFINE ('_UDDEADM_ENCODEHEADER_EXP', 'Sæt til <b>ja</b>, hvis mail headers (som emnet) skal være rfc 2047 encoded. Anvendeligt hvis man har problemer med specielle tegn.');
+DEFINE ('_UDDEIM_UP', 'sortér stigende');
+DEFINE ('_UDDEIM_DOWN', 'sortér faldende');
+DEFINE ('_UDDEIM_UPDOWN', 'sortér');
+DEFINE ('_UDDEADM_ENABLESORT_HEAD', 'Aktiver sortering');
+DEFINE ('_UDDEADM_ENABLESORT_EXP', 'Sæt til <b>ja</b>, hvis brugeren skal kunne sortere sin inbakke, udbakke og arkiv (genererer yderligere load på databaseserveren).');
 
 // New: 1.8
 // %s will be replaced by _UDDEIM_NOMESSAGES_FILTERED_INBOX, _UDDEIM_NOMESSAGES_FILTERED_OUTBOX, _UDDEIM_NOMESSAGES_FILTERED_ARCHIVE
 // Translators help: When having problems with the grammar, you can also move some text (e.g. "in your") to _UDDEIM_NOMESSAGES_FILTERED_* variables, e.g.
 // instead of "_UDDEIM_NOMESSAGES_FILTERED_INBOX=inbox" you can also use "_UDDEIM_NOMESSAGES_FILTERED_INBOX=in your inbox"
-DEFINE ('_UDDEIM_NOMESSAGES2_FR_FILTERED', '<b>You have no messages from this user in your%s.</b>');
-DEFINE ('_UDDEIM_NOMESSAGES2_TO_FILTERED', '<b>You have no messages to this user in your%s.</b>');
-DEFINE ('_UDDEIM_NOMESSAGES2_UNFR_FILTERED', '<b>You have no unread messages from this user in your%s.</b>');
-DEFINE ('_UDDEIM_NOMESSAGES2_UNTO_FILTERED', '<b>You have no unread messages to this user in your%s.</b>');
+DEFINE ('_UDDEIM_NOMESSAGES2_FR_FILTERED', '<b>Du har ingen beskeder fra denne bruger i din%s.</b>');
+DEFINE ('_UDDEIM_NOMESSAGES2_TO_FILTERED', '<b>Du har ingen beskeder til denne bruger i din%s.</b>');
+DEFINE ('_UDDEIM_NOMESSAGES2_UNFR_FILTERED', '<b>Du har ingen ulæste beskeder fra denne bruger i din%s.</b>');
+DEFINE ('_UDDEIM_NOMESSAGES2_UNTO_FILTERED', '<b>Du har ingen ulæste beskeder til denne bruger i din%s.</b>');
 
 // New: 1.7
-DEFINE ('_UDDEADM_EMAILSTOPPED', '\'Email stop\' aktiveret.');
+DEFINE ('_UDDEADM_EMAILSTOPPED', '\'e-mail stop\' aktiveret.');
 DEFINE ('_UDDEIM_ACCOUNTLOCKED', 'Adgangen til din postkasse er blevet låst. Kontakt venligst sidens administrator.');
 DEFINE ('_UDDEADM_USERSET_LOCKED', 'Låst');
 DEFINE ('_UDDEADM_USERSET_SELLOCKED', '- Låst -');
@@ -104,17 +232,17 @@ DEFINE ('_UDDEIM_USERBANNED', 'Bruger er blokeret');
 DEFINE ('_UDDEADM_JOOBB', 'Joo!BB');
 DEFINE ('_UDDEPLUGIN_SEARCHSECTION', 'Privat beskedsystem');
 DEFINE ('_UDDEPLUGIN_MESSAGES', 'Private Messages');
-DEFINE ('_UDDEADM_MAINTENANCEDEL_HEAD', 'Begynd besked sletning');
+DEFINE ('_UDDEADM_MAINTENANCEDEL_HEAD', 'Fjern slettede beskeder');
 // note "This  is the same as _UDDEADM_MAINTENANCE_PRUNE on the system tab."
-DEFINE ('_UDDEADM_MAINTENANCEDEL_EXP', 'Fjerner slettede beskeder fra databasen. Dette er det samme som \'Rens beskeder nu\' på fanebladet system.');
-DEFINE ('_UDDEADM_MAINTENANCEDEL_ERASE', 'SLET');
-DEFINE ('_UDDEADM_REPORTSPAM_HEAD', 'Rapporter besked link');
-DEFINE ('_UDDEADM_REPORTSPAM_EXP', 'Hvis aktiveret vil linket \'Rapporter besked\' vises som tillader brugere at rapportere SPAM til administratoren.');
+DEFINE ('_UDDEADM_MAINTENANCEDEL_EXP', 'Fjerner slettede beskeder fra databasen. Dette er det samme som \'Fjern beskeder nu\' på fanebladet system.');
+DEFINE ('_UDDEADM_MAINTENANCEDEL_ERASE', 'FJERN');
+DEFINE ('_UDDEADM_REPORTSPAM_HEAD', 'Rapporter spamlink');
+DEFINE ('_UDDEADM_REPORTSPAM_EXP', 'Hvis aktiveret vil linket \'Rapporter spam\' vises som tillader brugere at rapportere SPAM til administratoren.');
 DEFINE ('_UDDEIM_TOOLBAR_REMOVESPAM', 'Slet besked');
 DEFINE ('_UDDEIM_TOOLBAR_REMOVEREPORT', 'Fjern rapport');
 DEFINE ('_UDDEIM_TOOLBAR_SPAMCONTROL', 'Rapport kontrol');
 DEFINE ('_UDDEADM_INFORMATION', 'Information');
-DEFINE ('_UDDEADM_SPAMCONTROL_STAT', 'Inrapporterede beskeder:');
+DEFINE ('_UDDEADM_SPAMCONTROL_STAT', 'Indrapporterede beskeder:');
 DEFINE ('_UDDEADM_SPAMCONTROL_TRASHED', 'Slettet');
 DEFINE ('_UDDEADM_SPAMCONTROL_NOTEDEL', 'Slet beskeden fra databasen?');
 DEFINE ('_UDDEADM_SPAMCONTROL_NOTEREMOVE', 'Fjern denne rapport?');
@@ -127,7 +255,7 @@ DEFINE ('_UDDEADM_SPAMCONTROL_DELETE', 'Slet');
 DEFINE ('_UDDEADM_SPAMCONTROL_REMOVE', 'Fjern');
 DEFINE ('_UDDEADM_SPAMCONTROL_DATE', 'Dato');
 DEFINE ('_UDDEADM_SPAMCONTROL_REPORTED', 'Rapporteret');
-DEFINE ('_UDDEIM_SPAMCONTROL_REPORT', 'Rapporter besked');
+DEFINE ('_UDDEIM_SPAMCONTROL_REPORT', 'Rapporter spam');
 DEFINE ('_UDDEIM_SPAMCONTROL_MARKED', 'Beskeden er blevet indrapporteret');
 DEFINE ('_UDDEIM_SPAMCONTROL_UNREPORT', 'Genskab denne rapport');
 DEFINE ('_UDDEADM_JOMSOCIAL', 'JomSocial');
@@ -135,14 +263,14 @@ DEFINE ('_UDDEADM_KUNENA', 'Kunena');
 DEFINE ('_UDDEADM_ADMIN_FILTER', 'Filtrer');
 DEFINE ('_UDDEADM_ADMIN_DISPLAY', 'Vis #');
 DEFINE ('_UDDEADM_TRASHORIGINALSENT_HEAD', 'Slet sendt besked');
-DEFINE ('_UDDEADM_TRASHORIGINALSENT_EXP', 'Hvis aktiveret vil dette placere en afkrydsningsboks ved siden af knappen \'Send\' med navnet \'slet besked\' som ikke er markeret som standard. Brugere kan markere den hvis de ønsker at slette en besked umiddelbart efter at den er sendt.');
-DEFINE ('_UDDEIM_TRASHORIGINALSENT', 'slet besked');
+DEFINE ('_UDDEADM_TRASHORIGINALSENT_EXP', 'Hvis aktiveret, vil dette placere en afkrydsningsboks ved siden af knappen \'Send\' med teksten \'slet besked\' som ikke er markeret som standard. Brugere kan markere den, hvis de ønsker, at slette en besked umiddelbart efter den er sendt.');
+DEFINE ('_UDDEIM_TRASHORIGINALSENT', 'Slet besked');
 DEFINE ('_UDDEADM_CFGFILE_CONVERTING_4', '...sæt standard for slet sendt besked, rapportering af  spam, CB blokerede brugere');
 DEFINE ('_UDDEADM_VERSIONCHECK_IMPORTANT', 'Vigtige links:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HOTFIX', 'Hotfix');
 DEFINE ('_UDDEADM_VERSIONCHECK_NONE', 'Ingen');
-DEFINE ('_UDDEADM_MAINTENANCEFIX_HEAD', "Kompatibilitetes vedligehold");
-DEFINE ('_UDDEADM_MAINTENANCEFIX_EXP', "uddeIM bruger to XML filer for at sikre at pakker kan installeres på Joomla 1.0 og 1.5. På Joomla 1.5 er en af XML filerne ikke nødvendig og dette får udvidelsesmanageren til at vise en inkompatibilitets advarsel (som er forkert). Dette fjerner de unødvendige filer, så advarslen ikke længere vises.");
+DEFINE ('_UDDEADM_MAINTENANCEFIX_HEAD', "Kompatibilitetes vedligeholdelse");
+DEFINE ('_UDDEADM_MAINTENANCEFIX_EXP', "uddeIM bruger to XML filer for at sikre at pakker kan installeres på Joomla 1.0 og 1.5. På Joomla 1.5 er én af XML filerne ikke nødvendig og dette får udvidelsesmanageren til at vise en inkompatibilitetsadvarsel (som er forkert). Dette fjerner de unødvendige filer, så advarslen ikke længere vises.");
 DEFINE ('_UDDEADM_MAINTENANCE_FIX', "FIX");
 DEFINE ('_UDDEADM_MAINTENANCE_XML1', "Joomla 1.0 og Joomla 1.5 XML installere for uddeIM pakker eksisterer.<br />");
 DEFINE ('_UDDEADM_MAINTENANCE_XML2', "Dette er krævet for at installere pakker på Joomla 1.0 og Joomla 1.5.<br />");
@@ -156,9 +284,9 @@ DEFINE ('_UDDEIM_MENUICONS_P1', 'Ikoner og tekst');
 DEFINE ('_UDDEIM_MENUICONS_P2', 'Kun ikoner');
 DEFINE ('_UDDEIM_MENUICONS_P0', 'Kun tekst');
 DEFINE ('_UDDEIM_LISTSLIMIT_2', 'Maksimum antal af modtagere på liste:');
-DEFINE ('_UDDEADM_ADDEMAIL_ADMIN', 'Admins kan vælge');
+DEFINE ('_UDDEADM_ADDEMAIL_ADMIN', 'Administratorer kan vælge');
 DEFINE ('_UDDEAIM_ADDEMAIL_SELECT', 'Underret med besked');
-DEFINE ('_UDDEAIM_ADDEMAIL_TITLE', 'Inkluder komplet besked i emailbesked.');
+DEFINE ('_UDDEAIM_ADDEMAIL_TITLE', 'Inkludér besked i e-mailbesked.');
 
 // New: 1.6
 DEFINE ('_UDDEIM_NOLISTSELECTED', 'Ingen brugerliste valgt!');
@@ -201,10 +329,10 @@ DEFINE ('_UDDEADM_AUTOFORWARD_SPECIAL', 'special brugere');
 DEFINE ('_UDDEIM_HELP', 'Hjælp');
 DEFINE ('_UDDEIM_HELP_HEADLINE1', 'uddeIM Hjælp');
 DEFINE ('_UDDEIM_HELP_HEADLINE2', 'Kort overblik over alle funktioner');
-DEFINE ('_UDDEIM_HELP_INBOX', '<b>Indboksen</b> indeholder alle dine indkommende beskeder, hver mail som du modtager er placeret der.');
-DEFINE ('_UDDEIM_HELP_OUTBOX', '<b>Udboksen</b> beholder en kopi af hver besked du har sendt, du kan til hver en tid vende tilbage og se hvad du har sendt.');
+DEFINE ('_UDDEIM_HELP_INBOX', '<b>Indbakken</b> indeholder alle dine indkommende beskeder, hver mail som du modtager er placeret der.');
+DEFINE ('_UDDEIM_HELP_OUTBOX', '<b>Udbakken</b> beholder en kopi af hver besked du har sendt, du kan til hver en tid vende tilbage og se hvad du har sendt.');
 DEFINE ('_UDDEIM_HELP_TRASHCAN', '<b>Skraldespanden</b> indeholder alle slettede beskeder. Beskeder bliver ikke straks slettet og beholdes i en vis periode. Så længe beskeden er opbevaret i skraldespanden kan du genskabe den.');
-DEFINE ('_UDDEIM_HELP_ARCHIVE', '<b>Arkivet</b> indeholder alle dine arkiverede beskeder fra indboksen. Du kan kun arkivere beskeder fra din indboks. Når du har brug for at arkivere en besked der er skrevet af dig selv, så vær sikker på at markere <i>kopi til mig selv</i> når du sender den.');
+DEFINE ('_UDDEIM_HELP_ARCHIVE', '<b>Arkivet</b> indeholder alle dine arkiverede beskeder fra indbakken. Du kan kun arkivere beskeder fra din indbakke. Når du har brug for at arkivere en besked der er skrevet af dig selv, så vær sikker på at markere <i>kopi til mig selv</i> når du sender den.');
 DEFINE ('_UDDEIM_HELP_USERLISTS', '<b>Kontakter</b> tillader at have kontaktlister (også kendt som distributionslister). Disse lister tillader dig at sende private beskeder til flere modtagere på en gang. Istedet for at tilføje flere modtagere kan du simpelthen angive <i>#listenavn</i>.');
 DEFINE ('_UDDEIM_HELP_SETTINGS', '<b>Indstillinger</b> viser alle konfigurerbare brugerindstillinger..');
 DEFINE ('_UDDEIM_HELP_COMPOSE', '<b>Skriv</b> tillader dig at oprette en ny privat besked.');
@@ -220,16 +348,16 @@ DEFINE ('_UDDEIM_HELP_ONLINE', 'Brugeren er pt online.');
 DEFINE ('_UDDEIM_HELP_OFFLINE', 'Brugeren er pt offline.');
 DEFINE ('_UDDEIM_HELP_DELETE', 'Slet en besked (flyt besked til skraldespand).');
 DEFINE ('_UDDEIM_HELP_FORWARD', 'Videresend en besked til en anden modtager.');
-DEFINE ('_UDDEIM_HELP_ARCHIVEMSG', 'Arkiver en besked. Arkiverede beskeder slettes ikke automatisk når administratoren har defineret en tidsgrænse for beskeder der gemmes i indboksen.');
-DEFINE ('_UDDEIM_HELP_UNARCHIVEMSG', 'Af-arkiver beskeden. Beskeden vil blive flyttet tilbage til indboksen.');
-DEFINE ('_UDDEIM_HELP_RECALL', 'Tilbagekald en besked. Sendte beskeder kan tilbagekaldes når de endnu ikke er blevet låst af modtageren (hvis administratoren har valgt emailnotifikation med fuld besked, vil modtageren få beskeden alligevel.');
-DEFINE ('_UDDEIM_HELP_RECYCLE', 'Genskab en besked (flyt besked fra skraldespand til indboks eller udboks).');
-DEFINE ('_UDDEIM_HELP_NOTIFY', 'Konfigurering af email notifikationen når en ny besked ankommer.');
+DEFINE ('_UDDEIM_HELP_ARCHIVEMSG', 'Arkiver en besked. Arkiverede beskeder slettes ikke automatisk når administratoren har defineret en tidsgrænse for beskeder der gemmes i indbakken.');
+DEFINE ('_UDDEIM_HELP_UNARCHIVEMSG', 'Af-arkiver beskeden. Beskeden vil blive flyttet tilbage til indbakken.');
+DEFINE ('_UDDEIM_HELP_RECALL', 'Tilbagekald en besked. Sendte beskeder kan tilbagekaldes når de endnu ikke er blevet låst af modtageren (hvis administratoren har valgt e-mailnotifikation med fuld besked, vil modtageren få beskeden alligevel.');
+DEFINE ('_UDDEIM_HELP_RECYCLE', 'Genskab en besked (flyt besked fra skraldespand til indbakke eller udbakke).');
+DEFINE ('_UDDEIM_HELP_NOTIFY', 'Konfigurering af e-mail notifikationen når en ny besked ankommer.');
 DEFINE ('_UDDEIM_HELP_AUTORESPONDER', 'Når autoresponderen er aktiveret vil hver modtaget besked blive besvaret straks.');
 DEFINE ('_UDDEIM_HELP_AUTOFORWARD', 'Nye beskeder kan videresendes til en anden bruger automatisk.');
 DEFINE ('_UDDEIM_HELP_BLOCKING', 'Du kan blokere brugere. Disse brugere kan ikke sende private beskeder til dig.');
 DEFINE ('_UDDEIM_HELP_MISC', 'Her kan du finde flere konfigurationsindstillinger');
-DEFINE ('_UDDEIM_HELP_FEED', 'Du kan tilgå din indboks ved brug af et RSS feed.');
+DEFINE ('_UDDEIM_HELP_FEED', 'Du kan tilgå din indbakke ved brug af et RSS feed.');
 DEFINE ('_UDDEADM_SEPARATOR_HEAD', 'Separator');
 DEFINE ('_UDDEADM_SEPARATOR_EXP', 'Vælg separatoren der bruges for flere modtagere (standard er ",").');
 DEFINE ('_UDDEADM_SEPARATOR_P0', 'komma (standard)');
@@ -242,9 +370,9 @@ DEFINE ('_UDDEADM_SHOWIGOOGLE_HEAD', 'Vis iGoogle gadget knap');
 DEFINE ('_UDDEADM_SHOWIGOOGLE_EXP', 'Hvis aktiveret vil en <i>Tilføj til iGoogle</i> knap for uddeIM iGoogle gadget vises under brugerindstillingerne.');
 DEFINE ('_UDDEADM_MOOTOOLS_NONE11', 'indlæs ikke MooTools (1.1 bruges)');
 DEFINE ('_UDDEADM_MOOTOOLS_NONE12', 'indlæs ikke MooTools (1.2 bruges)');
-DEFINE ('_UDDEIM_RSS_INTRO1', 'Du kan tilgå din indboks ved brug af et RSS feed (0.91).');
+DEFINE ('_UDDEIM_RSS_INTRO1', 'Du kan tilgå din indbakke ved brug af et RSS feed (0.91).');
 DEFINE ('_UDDEIM_RSS_INTRO1B', 'Adgangs URL er:');
-DEFINE ('_UDDEIM_RSS_INTRO2', 'Giv ikke denne URL til andre brugere fordi det giver adgang til din indboks.');
+DEFINE ('_UDDEIM_RSS_INTRO2', 'Giv IKKE denne URL til andre, da den giver adgang til din indbakke!');
 DEFINE ('_UDDEIM_RSS_FEED', 'RSS besked feed');
 DEFINE ('_UDDEIM_RSS_NOOBJECT', 'Intet objekt fejl...');
 DEFINE ('_UDDEIM_RSS_USERBLOCKED', 'Bruger blokeret...');
@@ -284,7 +412,7 @@ DEFINE ('_UDDEMODULE_ALLDAYS', ' beskeder');
 DEFINE ('_UDDEMODULE_7DAYS', ' beskeder de seneste 7 dage');
 DEFINE ('_UDDEMODULE_30DAYS', ' beskeder de seneste 30 dage');
 DEFINE ('_UDDEMODULE_365DAYS', ' beskede de seneste 365 dage');
-DEFINE ('_UDDEADM_EMN_SENDERMAIL_WARNING', '<br /><b>Bemærk:<br />Når du bruger mosMail skal du konfigurere en gyldig emailadresse!</b>');
+DEFINE ('_UDDEADM_EMN_SENDERMAIL_WARNING', '<br /><b>Bemærk:<br />Når du bruger mosMail skal du konfigurere en gyldig e-mailadresse!</b>');
 DEFINE ('_UDDEIM_FILTEREDMESSAGE', 'besked filtreret');
 DEFINE ('_UDDEIM_FILTEREDMESSAGES', 'beskeder filtreret');
 DEFINE ('_UDDEIM_FILTER', 'Filter:');
@@ -295,7 +423,7 @@ DEFINE ('_UDDEIM_FILTER_SUBMIT', 'Filter');
 DEFINE ('_UDDEIM_FILTER_ALL', '- alle -');
 DEFINE ('_UDDEIM_FILTER_PUBLIC', '- offentlige brugere -');
 DEFINE ('_UDDEADM_FILTER_HEAD', 'Aktiver filter');
-DEFINE ('_UDDEADM_FILTER_EXP', 'Hvis aktiveret kan brugere filtrere deres ind/udboks for kun at vise en modtager eller afsender.');
+DEFINE ('_UDDEADM_FILTER_EXP', 'Hvis aktiveret kan brugere filtrere deres ind/udbakke til kun at vise én modtager eller afsender.');
 DEFINE ('_UDDEADM_FILTER_P0', 'deaktiveret');
 DEFINE ('_UDDEADM_FILTER_P1', 'over besked liste');
 DEFINE ('_UDDEADM_FILTER_P2', 'under besked liste');
@@ -304,8 +432,8 @@ DEFINE ('_UDDEIM_NOMESSAGES_FILTERED', '<b>Du har ingen%s beskeder%s i din%s.</b
 DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_UNREAD', ' ulæste');
 DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_FROM', ' fra denne bruger');
 DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_TO', ' til denne bruger');
-DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_INBOX', ' indboks');
-DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_OUTBOX', ' udboks');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_INBOX', ' indbakke');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_OUTBOX', ' udbakke');
 DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_ARCHIVE', ' arkiverede');
 DEFINE ('_UDDEIM_TODP_TITLE', 'Modtager');
 DEFINE ('_UDDEIM_TODP_TITLE_CC', 'En eller flere modtagere (komma separeret)');
@@ -316,7 +444,7 @@ DEFINE ('_UDDEADM_AUTORESPONDER_EXP', 'Hvis autosvar er aktiveret kan brugeren a
 DEFINE ('_UDDEIM_EMN_AUTORESPONDER', 'Aktiver autosvar');
 DEFINE ('_UDDEIM_AUTORESPONDER', 'Autosvar');
 DEFINE ('_UDDEIM_AUTORESPONDER_EXP', 'Hvis autosvar er aktiveret vil hver modtaget besked blive besvaret straks.');
-DEFINE ('_UDDEIM_AUTORESPONDER_DEFAULT', "Desværre, jeg er pt fraværende.\nJeg vil gennemse min indboks så snart som muligt.");
+DEFINE ('_UDDEIM_AUTORESPONDER_DEFAULT', "Desværre, jeg er pt fraværende.\nJeg vil gennemse min indbakke så snart som muligt.");
 DEFINE ('_UDDEADM_USERSET_AUTOR', 'AutoS');
 DEFINE ('_UDDEADM_USERSET_SELAUTOR', '- AutoS -');
 DEFINE ('_UDDEIM_USERBLOCKED', 'Bruger er blokeret.');
@@ -371,7 +499,7 @@ DEFINE ('_UDDEADM_SHOWLINK_EXP', 'Hvis sat til <i>ja</i>, vil alle brugernavne d
 DEFINE ('_UDDEADM_SHOWPIC_HEAD', 'Vis miniaturer');
 DEFINE ('_UDDEADM_SHOWPIC_EXP', 'Hvis sat til <i>ja</i>, vil miniaturebilledet af den respektive bruger blive vist når man læser en besked.');
 DEFINE ('_UDDEADM_THUMBLISTS_HEAD', 'Vis miniaturer i liste');
-DEFINE ('_UDDEADM_THUMBLISTS_EXP', 'Sæt til <i>ja</i> hvis du ønsker at vise miniaturebilleder af brugere i beskedliste oversigten (indboks, udboks, etc.)');
+DEFINE ('_UDDEADM_THUMBLISTS_EXP', 'Sæt til <i>ja</i> hvis du ønsker at vise miniaturebilleder af brugere i beskedliste oversigten (indbakke, udbakke, etc.)');
 DEFINE ('_UDDEADM_FIREBOARD', 'Fireboard');
 DEFINE ('_UDDEADM_CB', 'Community Builder');
 DEFINE ('_UDDEADM_DISABLED', 'Deaktiveret');
@@ -384,10 +512,10 @@ DEFINE ('_UDDEADM_REVIEWUPDATE', 'Vigtigt: Hvis du har opgraderet uddeIM fra en 
 DEFINE ('_UDDEIM_ADDCCINFO', 'Tilføj CC: linje');
 DEFINE ('_UDDEIM_CC', 'CC:');
 DEFINE ('_UDDEADM_TRUNCATE_HEAD', 'Afskær markeret tekst');
-DEFINE ('_UDDEADM_TRUNCATE_EXP', 'Afskær markert tekst til 2/3 af den maksimale tekstlængde hvis den overskrider denne grænse.');
-DEFINE ('_UDDEIM_PLUG_INBOXENTRIES', 'Indboks indførsler ');
+DEFINE ('_UDDEADM_TRUNCATE_EXP', 'Afskær markeret tekst til 2/3 af den maksimale tekstlængde hvis den overskrider denne grænse.');
+DEFINE ('_UDDEIM_PLUG_INBOXENTRIES', 'Emner i Indbakken ');
 DEFINE ('_UDDEIM_PLUG_LAST', 'Seneste ');
-DEFINE ('_UDDEIM_PLUG_ENTRIES', ' indførsler');
+DEFINE ('_UDDEIM_PLUG_ENTRIES', ' Emner');
 DEFINE ('_UDDEIM_PLUG_STATUS', 'Status');
 DEFINE ('_UDDEIM_PLUG_SENDER', 'Afsender');
 DEFINE ('_UDDEIM_PLUG_MESSAGE', 'Besked');
@@ -395,11 +523,11 @@ DEFINE ('_UDDEIM_PLUG_EMPTYINBOX', 'Tøm indboks');
 
 // New: 1.1
 DEFINE ('_UDDEADM_NOTRASHACCESS_NOT', 'Adgang til skraldespand ikke tilladt.');
-DEFINE ('_UDDEADM_NOTRASHACCESS_HEAD', 'Begræns skraldespandsadgang');
+DEFINE ('_UDDEADM_NOTRASHACCESS_HEAD', 'Begræns adgang til skraldespand');
 DEFINE ('_UDDEADM_NOTRASHACCESS_EXP', 'Du kan begrænse adgangen til skraldespanden. Normalt er skraldespanden tilgængelig for alle (<i>ingen begrænsning</i>). Du kan begrænse adgangen til specielle brugere eller kun til admins, hvilket vil sige at grupper med lavere adgangsniveauer ikke kan genskabe en besked.');
 DEFINE ('_UDDEADM_NOTRASHACCESS_0', 'ingen begrænsning');
 DEFINE ('_UDDEADM_NOTRASHACCESS_1', 'specielle brugere');
-DEFINE ('_UDDEADM_NOTRASHACCESS_2', 'kun admins');
+DEFINE ('_UDDEADM_NOTRASHACCESS_2', 'kun administratorer');
 DEFINE ('_UDDEADM_PUBHIDEUSERS_HEAD', 'Skjul brugere fra brugerliste');
 DEFINE ('_UDDEADM_PUBHIDEUSERS_EXP', 'Angiv bruger ID på brugere der skal være skjulte fra den offentlige brugerliste (f.eks. 65,66,67).');
 DEFINE ('_UDDEADM_HIDEUSERS_HEAD', 'Skjul brugere fra brugerliste');
@@ -416,42 +544,42 @@ DEFINE ('_UDDEIM_EMN_BODY_PUBLICWITHMESSAGE',
 DEFINE ('_UDDEADM_PUBNAMESTEXT', 'Vis rigtige navne');
 DEFINE ('_UDDEADM_PUBNAMESDESC', 'Vis rigtige navne eller brugernavne i offentlig frontend?');
 DEFINE ('_UDDEIM_USERLIST', 'Brugerliste');
-DEFINE ('_UDDEIM_YOUHAVETOWAIT', 'Desværre, du skal vente før du kan poste en ny besked');
+DEFINE ('_UDDEIM_YOUHAVETOWAIT', 'Desværre, du skal vente før du kan sende en ny besked');
 DEFINE ('_UDDEADM_USERSET_LASTSENT', 'Senest sendte');
 DEFINE ('_UDDEADM_TIMEDELAY_HEAD', 'Tidspause');
-DEFINE ('_UDDEADM_TIMEDELAY_EXP', 'Tid i sekunder som en bruger skal vente før vedkommende kan poste den næste besked (0 for ingen pause).');
+DEFINE ('_UDDEADM_TIMEDELAY_EXP', 'Tid i sekunder som en bruger skal vente før vedkommende kan sende den næste besked (0 for ingen pause).');
 DEFINE ('_UDDEADM_SECONDS', 'sekunder');
 DEFINE ('_UDDEIM_PUBLICSENT', 'Besked sendt.');
 DEFINE ('_UDDEIM_ERRORINFROMNAME', 'Fejl i afsender navn');
-DEFINE ('_UDDEIM_ERRORINEMAIL', 'Fejl i emailadresse');
+DEFINE ('_UDDEIM_ERRORINEMAIL', 'Fejl i e-mailadresse');
 DEFINE ('_UDDEIM_YOURNAME', 'Dit navn:');
-DEFINE ('_UDDEIM_YOUREMAIL', 'Din email:');
+DEFINE ('_UDDEIM_YOUREMAIL', 'Din e-mail:');
 DEFINE ('_UDDEADM_VERSIONCHECK_USING', 'Du bruger uddeIM ');
 DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'Du bruger allerede den seneste version af uddeIM.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'Den aktuelle version er ');
 DEFINE ('_UDDEADM_VERSIONCHECK_INFO', 'Opdateringsinformation:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HEAD', 'Kontroller for opdateringer');
-DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Dette kontakter uddeIM udvikler websted for at modtage information om den aktuelle uddeIM version. Foruden uddeIM versionen som du bruger, bliver der ikke sendt andre personlige oplysninger.');
+DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Dette kontakter uddeIM udvikler websted for at modtage information om den aktuelle uddeIM version.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CHECK', 'KONTROLLER NU');
 DEFINE ('_UDDEADM_VERSIONCHECK_ERROR', 'Kunne ikke modtage versionsinformation.');
 DEFINE ('_UDDEIM_NOSUCHLIST', 'Kontaktliste ikke fundet!');
 DEFINE ('_UDDEIM_LISTSLIMIT_1', 'Maksimum antal modtagere overskredet (maks. ');
-DEFINE ('_UDDEADM_MAXONLISTS_HEAD', 'Maks. antal indførsler');
-DEFINE ('_UDDEADM_MAXONLISTS_EXP', 'Maks. antal af tilladte indførsler per kontaktliste.');
+DEFINE ('_UDDEADM_MAXONLISTS_HEAD', 'Maks. antal kontakter');
+DEFINE ('_UDDEADM_MAXONLISTS_EXP', 'Maks. tilladt antal af kontakter per kontaktliste.');
 DEFINE ('_UDDEIM_LISTSNOTENABLED', 'Kontaktlister er ikke aktiveret');
-DEFINE ('_UDDEADM_ENABLELISTS_HEAD', 'Aktiver kontaktlister');
+DEFINE ('_UDDEADM_ENABLELISTS_HEAD', 'Aktivér kontaktlister');
 DEFINE ('_UDDEADM_ENABLELISTS_EXP', 'uddeIM tillader brugere at oprette kontaktlister. Disse lister kan bruges til at sende beskeder til flere brugere. Glem ikke at aktivere multiple modtagere hvis du ønsker at bruge kontaktlister.');
 DEFINE ('_UDDEADM_ENABLELISTS_0', 'deaktiveret');
 DEFINE ('_UDDEADM_ENABLELISTS_1', 'registrerede brugere');
 DEFINE ('_UDDEADM_ENABLELISTS_2', 'specielle brugere (publishere mm.)');
-DEFINE ('_UDDEADM_ENABLELISTS_3', 'kun admins');
+DEFINE ('_UDDEADM_ENABLELISTS_3', 'kun administratorer');
 DEFINE ('_UDDEIM_LISTSNEW', 'Opret ny kontaktliste');
-DEFINE ('_UDDEIM_LISTSSAVED', 'Kontaktliste lagret');
+DEFINE ('_UDDEIM_LISTSSAVED', 'Kontaktliste gemt');
 DEFINE ('_UDDEIM_LISTSUPDATED', 'Kontaktliste opdateret');
 DEFINE ('_UDDEIM_LISTSDESC', 'Beskrivelse');
 DEFINE ('_UDDEIM_LISTSNAME', 'Navn');
 DEFINE ('_UDDEIM_LISTSNAMEWO', 'Navn (uden mellemrum)');
-DEFINE ('_UDDEIM_EDITLINK', 'rediger');
+DEFINE ('_UDDEIM_EDITLINK', 'Rediger');
 DEFINE ('_UDDEIM_LISTS', 'Kontakter');
 DEFINE ('_UDDEIM_STATUS_READ', 'læst');
 DEFINE ('_UDDEIM_STATUS_UNREAD', 'ulæst');
@@ -470,12 +598,12 @@ DEFINE ('_UDDEADM_PUBBLOCKGROUPS_EXP', 'Grupper til hvilke offentlige brugere ik
 DEFINE ('_UDDEADM_BLOCKGROUPS_1', 'Offentlig bruger');
 DEFINE ('_UDDEADM_BLOCKGROUPS_2', 'CB forbindelse');
 DEFINE ('_UDDEADM_BLOCKGROUPS_18', 'Registreret bruger');
-DEFINE ('_UDDEADM_BLOCKGROUPS_19', 'Author');
+DEFINE ('_UDDEADM_BLOCKGROUPS_19', 'Forfatter');
 DEFINE ('_UDDEADM_BLOCKGROUPS_20', 'Editor');
-DEFINE ('_UDDEADM_BLOCKGROUPS_21', 'Publisher');
+DEFINE ('_UDDEADM_BLOCKGROUPS_21', 'Udgiver');
 DEFINE ('_UDDEADM_BLOCKGROUPS_23', 'Manager');
-DEFINE ('_UDDEADM_BLOCKGROUPS_24', 'Admin');
-DEFINE ('_UDDEADM_BLOCKGROUPS_25', 'SuperAdmin');
+DEFINE ('_UDDEADM_BLOCKGROUPS_24', 'Administrator');
+DEFINE ('_UDDEADM_BLOCKGROUPS_25', 'Super Administrator');
 DEFINE ('_UDDEIM_NOPUBLICMSG', 'Bruger accepterer kun beskeder fra registrerede brugere.');
 DEFINE ('_UDDEADM_PUBHIDEALLUSERS_HEAD', 'Skjul på den offentlige liste "Alle brugere"');
 DEFINE ('_UDDEADM_PUBHIDEALLUSERS_EXP', 'Du kan skjule bestemte grupper fra at blive oplistet på den offentlige liste "Alle brugere". Bemærk: dette skjuler kun navnet, brugerne kan stadig modtage beskeder. Brugere som ikke har aktiveret offentlig Frontend vil aldrig blive listet på denne liste.');
@@ -487,7 +615,7 @@ DEFINE ('_UDDEADM_HIDEALLUSERS_2', 'kun admins');
 DEFINE ('_UDDEADM_HIDEALLUSERS_3', 'specielle brugere');
 DEFINE ('_UDDEADM_PUBLIC', 'Offentlig');
 DEFINE ('_UDDEADM_PUBMODESHOWALLUSERS_HEAD', 'Opførsel for linket "Alle brugere"');
-DEFINE ('_UDDEADM_PUBMODESHOWALLUSERS_EXP', 'Vælg om linket "Alle brugere" skal fjerne fra offentlig Frontend, vist eller om alle brugere altid skal vises.');
+DEFINE ('_UDDEADM_PUBMODESHOWALLUSERS_EXP', 'Vælg om linket "Alle brugere" skal fjernes fra offentlig Frontend, vist eller om alle brugere altid skal vises.');
 DEFINE ('_UDDEADM_USERSET_PUBLIC', 'Offentlig frontend');
 DEFINE ('_UDDEADM_USERSET_SELPUBLIC', '- vælg offentlig -');
 DEFINE ('_UDDEIM_OPTIONS_F', 'Tillad offentlige brugere at sende en besked');
@@ -504,11 +632,11 @@ DEFINE ('_UDDEADM_CAPTCHAF2', 'offentlige og registrerede brugere');
 DEFINE ('_UDDEADM_CAPTCHAF3', 'offentlig, registrerede, specielle brugere');
 DEFINE ('_UDDEADM_CAPTCHAF4', 'alle brugere (inkl. admins)');
 DEFINE ('_UDDEADM_PUBFRONTEND_HEAD', 'Aktiver offentlig frontend');
-DEFINE ('_UDDEADM_PUBFRONTEND_EXP', 'Hvis aktiveret kan offentlige brugere sende beskeder til dine registrerede brugere (disse kan i deres personlige indstillinger angive om de ønsker at bruge denne funktion).');
+DEFINE ('_UDDEADM_PUBFRONTEND_EXP', 'Hvis aktiveret, kan offentlige brugere sende beskeder til dine registrerede brugere (disse kan i deres personlige indstillinger angive om de ønsker at bruge denne funktion).');
 DEFINE ('_UDDEADM_PUBFRONTENDDEF_HEAD', 'Offentlig frontend standard');
 DEFINE ('_UDDEADM_PUBFRONTENDDEF_EXP', 'Dette er standardværdien hvis en offentlig bruger har tilladelse til at sende en besked til en registreret bruger.');
-DEFINE ('_UDDEADM_PUBDEF0', 'deaktiveret');
-DEFINE ('_UDDEADM_PUBDEF1', 'aktiveret');
+DEFINE ('_UDDEADM_PUBDEF0', 'Deaktiveret');
+DEFINE ('_UDDEADM_PUBDEF1', 'Aktiveret');
 DEFINE ('_UDDEIM_WRONGCAPTCHA', 'Forkert sikkerhedskode');
 
 // New: 1.0
@@ -526,22 +654,22 @@ DEFINE ('_UDDEADM_LANGUAGECHARSET_HEAD', 'Sprogfil karakter sæt');
 DEFINE ('_UDDEADM_LANGUAGECHARSET_EXP', 'Normalt er <strong>default</strong> (ISO-8859-1) den korrekte indstilling for 1.0 og <strong>UTF-8</strong> for Joomla 1.5.');
 DEFINE ('_UDDEADM_LANGUAGECHARSET_UTF8', 'UTF-8');
 DEFINE ('_UDDEADM_LANGUAGECHARSET_DEFAULT', 'standard');
-DEFINE ('_UDDEIM_READ_INFO_1', 'Læste beskeder bliver i indboksen i ');
+DEFINE ('_UDDEIM_READ_INFO_1', 'Læste beskeder bliver i indbakken i ');
 DEFINE ('_UDDEIM_READ_INFO_2', ' maks. antal dage får de slettes automatisk.');
-DEFINE ('_UDDEIM_UNREAD_INFO_1', 'Ulåste beskeder bliver i indboksen i ');
+DEFINE ('_UDDEIM_UNREAD_INFO_1', 'Ulåste beskeder bliver i indbakken i ');
 DEFINE ('_UDDEIM_UNREAD_INFO_2', ' maks. antal dage inden de slettes automatisk.');
-DEFINE ('_UDDEIM_SENT_INFO_1', 'Sendte beskeder bliver i indboksen i ');
+DEFINE ('_UDDEIM_SENT_INFO_1', 'Sendte beskeder bliver i indbakken i ');
 DEFINE ('_UDDEIM_SENT_INFO_2', ' maks. antal dage inden de slettes automatisk.');
-DEFINE ('_UDDEADM_DELETEREADAFTERNOTE_HEAD', 'Vis indboks note for læste beskeder');
-DEFINE ('_UDDEADM_DELETEREADAFTERNOTE_EXP', 'Vis indboks noten "Læste beskeder vil blive slettet efter n dage"');
-DEFINE ('_UDDEADM_DELETEUNREADAFTERNOTE_HEAD', 'Vis indboks note for ulæste beskeder');
-DEFINE ('_UDDEADM_DELETEUNREADAFTERNOTE_EXP', 'Vis indboks noten "Ulæste beskeder vil blive slettet efter n dage"');
-DEFINE ('_UDDEADM_DELETESENTAFTERNOTE_HEAD', 'Vis udboks note for sendte beskeder');
-DEFINE ('_UDDEADM_DELETESENTAFTERNOTE_EXP', 'Vis udboks noten "Sendte beskeder vil blive slettet efter n dage"');
+DEFINE ('_UDDEADM_DELETEREADAFTERNOTE_HEAD', 'Vis indbakke note for læste beskeder');
+DEFINE ('_UDDEADM_DELETEREADAFTERNOTE_EXP', 'Vis indbakke noten "Læste beskeder vil blive slettet efter n dage"');
+DEFINE ('_UDDEADM_DELETEUNREADAFTERNOTE_HEAD', 'Vis indbakke note for ulæste beskeder');
+DEFINE ('_UDDEADM_DELETEUNREADAFTERNOTE_EXP', 'Vis indbakke noten "Ulæste beskeder vil blive slettet efter n dage"');
+DEFINE ('_UDDEADM_DELETESENTAFTERNOTE_HEAD', 'Vis udbakke note for sendte beskeder');
+DEFINE ('_UDDEADM_DELETESENTAFTERNOTE_EXP', 'Vis udbakke noten "Sendte beskeder vil blive slettet efter n dage"');
 DEFINE ('_UDDEADM_DELETETRASHAFTERNOTE_HEAD', 'Vis skraldespands note for slettede beskeder');
 DEFINE ('_UDDEADM_DELETETRASHAFTERNOTE_EXP', 'Vis skraldespands noten "Slettede beskeder vil blive renset efter n dage"');
 DEFINE ('_UDDEADM_DELETESENTAFTER_HEAD', 'Sendte beskeder beholdes i (dage)');
-DEFINE ('_UDDEADM_DELETESENTAFTER_EXP', 'Angiv antallet af dage får <b>sendte</b> beskeder automatisk slettes fra udboksen.');
+DEFINE ('_UDDEADM_DELETESENTAFTER_EXP', 'Angiv antallet af dage får <b>sendte</b> beskeder automatisk slettes fra udbakkeen.');
 DEFINE ('_UDDEIM_SEND_TOALLSPECIAL', 'sendt til alle specielle brugere');
 DEFINE ('_UDDEIM_SYSGM_WILLSENDTOALLSPECIAL', 'Besked til <strong>alle specielle brugere</strong>');
 DEFINE ('_UDDEADM_USERSET_SELUSERNAME', '- vælg brugernavn -');
@@ -569,11 +697,11 @@ DEFINE ('_UDDEADM_WELCOMEMSG', "Velkommen til til uddeIM!\n\nDu har installeret 
 DEFINE ('_UDDEADM_UDDEINSTCOMPLETE', 'uddeIM installation færdig.');
 DEFINE ('_UDDEADM_REVIEWSETTINGS', 'Fortsæt venligst til administrations backend og gennemse indstillingerne.');
 DEFINE ('_UDDEADM_REVIEWLANG', 'Hvis du kører CMS på et andet karaktersæt end ISO 8859-1 så vær sikker på at sætte indstillingerne derefter.');
-DEFINE ('_UDDEADM_REVIEWEMAILSTOP', 'Efter installation, er al uddeIM emailtraffik (email notifikationer, fotgetmenot emails) deaktiveret så at ingen emails udsendes imens du tester. Glem ikke at deaktivere "stop email" i backend når du er færdig med testningen.');
+DEFINE ('_UDDEADM_REVIEWEMAILSTOP', 'Efter installation, er al uddeIM e-mailtraffik (e-mail notifikationer, fotgetmenot e-mails) deaktiveret så at ingen e-mails udsendes imens du tester. Glem ikke at deaktivere "stop e-mail" i backend når du er færdig med testningen.');
 DEFINE ('_UDDEADM_MAXRECIPIENTS_HEAD', 'Maks. modtagere');
 DEFINE ('_UDDEADM_MAXRECIPIENTS_EXP', 'Maks. antal modtagere som er tilladt per besked (0=ingen begrænsning)');
 DEFINE ('_UDDEIM_TOOMANYRECIPIENTS', 'for mange modtagere');
-DEFINE ('_UDDEIM_STOPPEDEMAIL', 'Afsendelse af emails er deaktiveret.');
+DEFINE ('_UDDEIM_STOPPEDEMAIL', 'Afsendelse af e-mails er deaktiveret.');
 DEFINE ('_UDDEADM_SEARCHINSTRING_HEAD', 'Indvendig tekstsøgning');
 DEFINE ('_UDDEADM_SEARCHINSTRING_EXP', 'Autocompleter søger indeni teksten (ellers søger den kun fra begyndelsen)');
 DEFINE ('_UDDEADM_MODESHOWALLUSERS_HEAD', 'Opførsel for linket "Alle brugere"');
@@ -583,13 +711,13 @@ DEFINE ('_UDDEADM_MODESHOWALLUSERS_1', 'Vis linket "Alle brugere"');
 DEFINE ('_UDDEADM_MODESHOWALLUSERS_2', 'Vis altid alle brugere');
 DEFINE ('_UDDEADM_CONFIGNOTWRITEABLE', 'Konfigurationsfil er ikke skrivbar:');
 DEFINE ('_UDDEADM_CONFIGWRITEABLE', 'Konfigurationsfil er skrivbar:');
-DEFINE ('_UDDEIM_FORWARDLINK', 'fremad');
+DEFINE ('_UDDEIM_FORWARDLINK', 'Videresend');
 DEFINE ('_UDDEIM_RECIPIENTFOUND', 'modtager fundet');
 DEFINE ('_UDDEIM_RECIPIENTSFOUND', 'modtagere fundet');
 DEFINE ('_UDDEADM_MAILSYSTEM_MOSMAIL', 'mosMail');
 DEFINE ('_UDDEADM_MAILSYSTEM_PHPMAIL', 'php mail (standard)');
 DEFINE ('_UDDEADM_MAILSYSTEM_HEAD', 'Mailsystem');
-DEFINE ('_UDDEADM_MAILSYSTEM_EXP', 'Vælg mailsystem som uddeIM skal bruge til at sende emailnotifikationer med.');
+DEFINE ('_UDDEADM_MAILSYSTEM_EXP', 'Vælg mailsystem som uddeIM skal bruge til at sende e-mailnotifikationer med.');
 DEFINE ('_UDDEADM_SHOWGROUPS_HEAD', 'Vis Joomla grupper');
 DEFINE ('_UDDEADM_SHOWGROUPS_EXP', 'Vis Joomla grupper i generel besked liste.');
 DEFINE ('_UDDEADM_ALLOWFORWARDS_HEAD', 'Videresendelse af beskeder');
@@ -601,10 +729,10 @@ DEFINE ('_UDDEIM_FWDTO', 'to');
 DEFINE ('_UDDEIM_UNARCHIVE', 'Af-arkiver besked');
 DEFINE ('_UDDEIM_CANTUNARCHIVE', 'Kan ikke af-arkivere besked');
 DEFINE ('_UDDEADM_ALLOWMULTIPLERECIPIENTS_HEAD', 'Tillad multiple modtagere');
-DEFINE ('_UDDEADM_ALLOWMULTIPLERECIPIENTS_EXP', 'Tillad multiple modtagere (komma separeret).');
-DEFINE ('_UDDEIM_CHARSLEFT', 'karakterer venstre');
-DEFINE ('_UDDEADM_SHOWTEXTCOUNTER_HEAD', 'Vis tekst tæller');
-DEFINE ('_UDDEADM_SHOWTEXTCOUNTER_EXP', 'Viser en teksttæller som viser hvor mange karakterer der er tilbage.');
+DEFINE ('_UDDEADM_ALLOWMULTIPLERECIPIENTS_EXP', 'Tillad multiple modtagere (kommasepareret).');
+DEFINE ('_UDDEIM_CHARSLEFT', 'Antal tegn tilbage');
+DEFINE ('_UDDEADM_SHOWTEXTCOUNTER_HEAD', 'Vis teksttæller');
+DEFINE ('_UDDEADM_SHOWTEXTCOUNTER_EXP', 'Viser en teksttæller som viser hvor mange tegn der er tilbage.');
 DEFINE ('_UDDEIM_CLEAR', 'Ryd');
 DEFINE ('_UDDEADM_ALLOWMULTIPLEUSER_HEAD', 'Tilføj valgte brugere til liste');
 DEFINE ('_UDDEADM_ALLOWMULTIPLEUSER_EXP', 'Dette tillader valg af multiple modtagere.');
@@ -628,8 +756,8 @@ DEFINE ('_UDDEIM_ENCRYPTDOWN', 'Krypteret besked! - Download ikke mulig!');
 DEFINE ('_UDDEIM_WRONGPASSDOWN', 'Forkert adgangskode! - Download ikke mulig!');
 DEFINE ('_UDDEIM_WRONGPW', 'Forkert adgangskode! - Kontakt venligst database administratoren!');
 DEFINE ('_UDDEIM_WRONGPASS', 'Forkert adgangskode!');
-DEFINE ('_UDDEADM_MAINTENANCE_D1', 'Forkerte skraldespands datoer (indboks/udboks): ');
-DEFINE ('_UDDEADM_MAINTENANCE_D2', 'Retter forkerte skraldespands datoer');
+DEFINE ('_UDDEADM_MAINTENANCE_D1', 'Forkerte skraldespandsdatoer (indbakke/udbakke): ');
+DEFINE ('_UDDEADM_MAINTENANCE_D2', 'Retter forkerte skraldespandsdatoer');
 DEFINE ('_UDDEIM_TODP', 'Til: ');
 DEFINE ('_UDDEADM_MAINTENANCE_PRUNE', 'Rens beskeder nu');
 DEFINE ('_UDDEADM_SHOWACTIONICONS_HEAD', 'Vis handligsikoner');
@@ -662,41 +790,41 @@ DEFINE ('_UDDEMODULE_EXPRESSMESSAGE', 'Ekspres besked');
 DEFINE ('_UDDEADM_USEENCRYPTION', 'Brug kryptering');
 DEFINE ('_UDDEADM_USEENCRYPTIONDESC', 'Krypter lagrede beskeder');
 DEFINE ('_UDDEADM_CRYPT0', 'Ingen');
-DEFINE ('_UDDEADM_CRYPT1', 'Obfuscate beskeder');
+DEFINE ('_UDDEADM_CRYPT1', 'Obfuskér beskeder');
 DEFINE ('_UDDEADM_CRYPT2', 'Krypter beskeder');
-DEFINE ('_UDDEADM_NOTIFYDEFAULT_HEAD', 'Standard for email notifikation');
-DEFINE ('_UDDEADM_NOTIFYDEFAULT_EXP', 'Standard værdi for email notifikation (for brugere der ikke har ændret deres indstillinger endnu).');
+DEFINE ('_UDDEADM_NOTIFYDEFAULT_HEAD', 'Standard for e-mail notifikation');
+DEFINE ('_UDDEADM_NOTIFYDEFAULT_EXP', 'Standardværdi for e-mail notifikation (for brugere der ikke har ændret deres indstillinger endnu).');
 DEFINE ('_UDDEADM_NOTIFYDEF_0', 'Ingen notifikation');
 DEFINE ('_UDDEADM_NOTIFYDEF_1', 'Altid');
 DEFINE ('_UDDEADM_NOTIFYDEF_2', 'Notifikation hvis offline');
 DEFINE ('_UDDEADM_SUPPRESSALLUSERS_HEAD', 'Undertryk linket "Alle brugere"');
-DEFINE ('_UDDEADM_SUPPRESSALLUSERS_EXP', 'Undettryk linket "Alle brugere" i boksen skriv ny besked (brugbar hvis der er rigistreret mange brugere).');
+DEFINE ('_UDDEADM_SUPPRESSALLUSERS_EXP', 'Undertryk linket "Alle brugere" i boksen skriv ny besked (brugbar hvis der er registreret mange brugere).');
 DEFINE ('_UDDEADM_POPUP_HEAD','Popup notifikation');
-DEFINE ('_UDDEADM_POPUP_EXP','Vis en popup når en ny besked ankommer (mod_uddeim er krævet)');
+DEFINE ('_UDDEADM_POPUP_EXP','Vis en popup, når en ny besked ankommer (mod_uddeim er krævet)');
 DEFINE ('_UDDEIM_OPTIONS', 'Flere indstillinger');
 DEFINE ('_UDDEIM_OPTIONS_EXP', 'Her kan du konfigurere nogle flere indstillinger.');
 DEFINE ('_UDDEIM_OPTIONS_P', 'Vis en popup når en ny besked ankommer');
 DEFINE ('_UDDEADM_POPUPDEFAULT_HEAD', 'Popup notifikation som standard');
-DEFINE ('_UDDEADM_POPUPDEFAULT_EXP', 'Aktiver popup notifikation som standard (for brugere som endnu ikke har ændret deres indstillinger).');
+DEFINE ('_UDDEADM_POPUPDEFAULT_EXP', 'Aktivér popup notifikation som standard (for brugere som endnu ikke har ændret deres indstillinger).');
 DEFINE ('_UDDEADM_MAINTENANCE', 'Vedligeholdelse');
 DEFINE ('_UDDEADM_MAINTENANCE_HEAD', 'Database vedligeholdelse');
-DEFINE ('_UDDEADM_MAINTENANCE_CHECK', 'KONTROLLER');
-DEFINE ('_UDDEADM_MAINTENANCE_TRASH', 'REPARER');
-DEFINE ('_UDDEADM_MAINTENANCE_EXP', "Når en brugere bliver renset fra databasen bliver hans beskeder normalt bibeholdt i databasen. Denne funktion kontrollerer om det er nødvendigt at smide efterladte beskeder i skraldespanden og du kan slette dem hvis det er nødvendigt.<br />Dette kontrollerer også databasen for nogle få fejl som vil blive rettet.");
+DEFINE ('_UDDEADM_MAINTENANCE_CHECK', 'KONTROLLÉR');
+DEFINE ('_UDDEADM_MAINTENANCE_TRASH', 'REPARÉR');
+DEFINE ('_UDDEADM_MAINTENANCE_EXP', "Når en bruger bliver fjernet fra databasen, bliver hans beskeder normalt bibeholdt i databasen. Denne funktion kontrollerer, om det er nødvendigt at smide efterladte beskeder i skraldespanden og du kan slette dem hvis det er nødvendigt.<br />Dette kontrollerer også databasen for nogle få fejl som vil blive rettet.");
 DEFINE ('_UDDEADM_MAINTENANCE_MC1', "Kontrollerer...<br />");
-DEFINE ('_UDDEADM_MAINTENANCE_MC2', "<i>#nnn (Brugernavn): [inbox|indboks i skraldespand|udboks|udboks i skraldespand]</i><br />");
-DEFINE ('_UDDEADM_MAINTENANCE_MC3', "<i>indboks: beskeder gemt i brugers indboks</i><br />");
-DEFINE ('_UDDEADM_MAINTENANCE_MC4', "<i>indboks i skraldespand: beskeder der er smidt i skraldespanden fra brugers indboks, men som stadig er i nogens udboks</i><br />");
-DEFINE ('_UDDEADM_MAINTENANCE_MC5', "<i>udboks: beskeder der er gemt i brugers udboks</i><br />");
-DEFINE ('_UDDEADM_MAINTENANCE_MC6', "<i>udboks i skraldespand: beskeder der er smidt i skraldespand fra brugers udboks, men som stadig er i nogens indboks</i><br />");
+DEFINE ('_UDDEADM_MAINTENANCE_MC2', "<i>#nnn (Brugernavn): [inbakke|indbakke i skraldespand|udbakke|udbakke i skraldespand]</i><br />");
+DEFINE ('_UDDEADM_MAINTENANCE_MC3', "<i>indbakke: beskeder gemt i brugers indbakke</i><br />");
+DEFINE ('_UDDEADM_MAINTENANCE_MC4', "<i>indbakke i skraldespand: beskeder der er smidt i skraldespanden fra brugers indbakke, men som stadig er i nogens udbakke</i><br />");
+DEFINE ('_UDDEADM_MAINTENANCE_MC5', "<i>udbakke: beskeder der er gemt i brugers udbakke</i><br />");
+DEFINE ('_UDDEADM_MAINTENANCE_MC6', "<i>udbakke i skraldespand: beskeder der er smidt i skraldespand fra brugers udbakke, men som stadig er i nogens indbakke</i><br />");
 DEFINE ('_UDDEADM_MAINTENANCE_MT1', "Smider i skraldespand...<br />");
 DEFINE ('_UDDEADM_MAINTENANCE_NOTFOUND', "ikke fundet (fra/til/indstillinger/blokkerer/blokeret):");
 DEFINE ('_UDDEADM_MAINTENANCE_MT2', "slet alle indstillinger fra bruger");
 DEFINE ('_UDDEADM_MAINTENANCE_MT3', "slet blokering af bruger");
-DEFINE ('_UDDEADM_MAINTENANCE_MT4', "smid alle beskeder der er sendt til slettet bruger fra afsenders udboks, og beskeder i slettet brugers indboks, i skraldespanden");
-DEFINE ('_UDDEADM_MAINTENANCE_MT5', "smid alle beskeder i slettet brugers udboks og beskeder i modtagers indboks i skraldespanden");
+DEFINE ('_UDDEADM_MAINTENANCE_MT4', "smid alle beskeder, der er sendt til slettet bruger fra afsenders udbakke, og beskeder i slettet brugers indbakke, i skraldespanden");
+DEFINE ('_UDDEADM_MAINTENANCE_MT5', "smid alle beskeder i slettet brugers udbakke og beskeder i modtagers indbakke i skraldespanden");
 DEFINE ('_UDDEADM_MAINTENANCE_NOTHINGTODO', '<b>Intet at gøre</b><br />');
-DEFINE ('_UDDEADM_MAINTENANCE_JOBTODO', '<b>Vedligeholdelse nødvendig</b><br />');
+DEFINE ('_UDDEADM_MAINTENANCE_JOBTODO', '<b>Vedligeholdelse påkrævet</b><br />');
 
 // New: 0.6+
 DEFINE ('_UDDEADM_NAMESTEXT', 'Vis rigtige navne');
@@ -715,7 +843,7 @@ DEFINE ('_UDDEIM_COULDNOTRECALL', 'Beskeden kunne ikke tilbagekaldes (beskeden e
 DEFINE ('_UDDEIM_CANTRESTORE', 'Genskabelse af besked fejlede. (Beskeden er muligvis automatisk blevet fjernet fra papirkurven.)');
 DEFINE ('_UDDEIM_COULDNOTRESTORE', 'Genskabelse af besked fejlede.');
 DEFINE ('_UDDEIM_DONTSEND', 'Send ikke');
-DEFINE ('_UDDEIM_SENDAGAIN', 'Gensend');
+DEFINE ('_UDDEIM_SENDAGAIN', 'Send igen');
 DEFINE ('_UDDEIM_NOTLOGGEDIN', 'Du er ikke logget ind.');
 DEFINE ('_UDDEIM_NOMESSAGES_INBOX', 'Der er ingen beskeder i din indbakke.');
 DEFINE ('_UDDEIM_NOMESSAGES_OUTBOX', 'Der er ingen beskeder i din udbakke.');
@@ -779,7 +907,7 @@ DEFINE ('_UDDEIM_EMN_BODY_NOMESSAGE', 'Hej %you%,
 Log ind på siden for at læse beskeden!');
 DEFINE ('_UDDEIM_EMN_BODY_WITHMESSAGE', 'Hej %you%,
 
-%user% har sendt denne private besked på %site%.
+%user% har sendt denne besked på %site%.
 Log ind for at svare!
 __________________
 %pmessage%
@@ -885,21 +1013,21 @@ $udde_lmon[10]="oktober";
 $udde_lmon[11]="november";
 $udde_lmon[12]="december";
 
-$udde_lweekday[0]="Såndag";
+$udde_lweekday[0]="Søndag";
 $udde_lweekday[1]="Mandag";
 $udde_lweekday[2]="Tirsdag";
 $udde_lweekday[3]="Onsdag";
 $udde_lweekday[4]="Torsdag";
 $udde_lweekday[5]="Fredag";
-$udde_lweekday[6]="Lårdag";
+$udde_lweekday[6]="Lørdag";
 
-$udde_sweekday[0]="Sån.";
+$udde_sweekday[0]="Søn.";
 $udde_sweekday[1]="Man.";
 $udde_sweekday[2]="Tir.";
 $udde_sweekday[3]="Ons.";
 $udde_sweekday[4]="Tor.";
 $udde_sweekday[5]="Fre.";
-$udde_sweekday[6]="Lår.";
+$udde_sweekday[6]="Lør.";
 
 // *********************************************************
 // the following can remain English
@@ -933,16 +1061,13 @@ DEFINE ('_UDDEADM_DELETEREADAFTER_EXP', 'Angiv antal dage før <b>læste</b> bes
 DEFINE ('_UDDEADM_DELETEUNREADAFTER_EXP', 'Angiv antal dage før automatisk sletning af beskeder som modtagere endnu <b>ikke har læst</b>.');
 DEFINE ('_UDDEADM_DELETETRASHAFTER_EXP', 'Angiv antal dage før beskeder slettes fra papirkurven. Værdier mindre end 1 kan angives. F.eks: for at slette beskeder fra papirkurven efter tre timer, angives 0.125.');
 DEFINE ('_UDDEADM_DATEFORMAT_HEAD', 'Datovisningsformat');
-DEFINE ('_UDDEADM_DATEFORMAT_EXP', 'Vælg formatet som beskedens dato og tid  
-skal vises med. Måneder forkortes i henhold til dine  
-sprogindstillinger i Mambo/CMS (såfremt en matchende uddelM-sprogfil er til stede)');
+DEFINE ('_UDDEADM_DATEFORMAT_EXP', 'Vælg formatet som beskedens dato og tid skal vises med. Måneder forkortes i henhold til dinesprogindstillinger i Mambo/CMS (såfremt en matchende uddelM-sprogfil er til stede)');
 DEFINE ('_UDDEADM_LDATEFORMAT_HEAD', 'Lang datovisning');
 DEFINE ('_UDDEADM_LDATEFORMAT_EXP', 'Når beskeder vises afsættes der mere plads til datoer. Vælg datoformatet der skal anvendes når en besked åbnes. For ugedag og måneder, anvendes standardvisning i henhold til opsætning af CMS-systemet og tilhørende landespecifik sprogfil til uddeIM.');
 DEFINE ('_UDDEADM_ADMINIGNITIONONLY_HEAD', 'Sletning afvikles kun af admin');
 DEFINE ('_UDDEADM_ADMINIGNITIONONLY_YES', 'Ja, kun af administratorer');
 DEFINE ('_UDDEADM_ADMINIGNITIONONLY_NO', 'Nej, af alm. bruger');
-DEFINE ('_UDDEADM_ADMINIGNITIONONLY_EXP', 'Automatiske slettelser belaster servere og databaser. Såfremt du vælger <i>Ja,&nbsp;men&nbsp;kun&nbsp;af&nbsp;administratorer</i> 
-udføres den automatiske slettelse af alle brugeres beskeder i henhold til indstillingerne herover når en administrator tjekker sin indbakke. Vælg denne indstilling såfremt en administrator tjekker sin indbakke en eller flere gange dagligt - hvilket som regel er tilfældet. (Hvis dit site har mere end en administrator, vil det ingen indflydelse have mht. hvem, der logger ind idet slettelserne sker automatisk uanset hvilken af administratorerne, der logger ind.) Vælg <i>Nej, af enhver bruger</i> på små eller minimalt administrerede websites hvor administratorerne kun sjældent tjekker deres indbakker. Vælg sidstnævnte, hvis du ikke forstår dette punkt eller er i tvivl om hvad du skal vælge.');
+DEFINE ('_UDDEADM_ADMINIGNITIONONLY_EXP', 'Automatiske slettelser belaster servere og databaser. Såfremt du vælger <i>Ja,&nbsp;men&nbsp;kun&nbsp;af&nbsp;administratorer</i> udføres den automatiske slettelse af alle brugeres beskeder i henhold til indstillingerne herover når en administrator tjekker sin indbakke. Vælg denne indstilling såfremt en administrator tjekker sin indbakke en eller flere gange dagligt - hvilket som regel er tilfældet. (Hvis dit site har mere end en administrator, vil det ingen indflydelse have mht. hvem, der logger ind idet slettelserne sker automatisk uanset hvilken af administratorerne, der logger ind.) Vælg <i>Nej, af enhver bruger</i> på små eller minimalt administrerede websites hvor administratorerne kun sjældent tjekker deres indbakker. Vælg sidstnævnte, hvis du ikke forstår dette punkt eller er i tvivl om hvad du skal vælge.');
 DEFINE ('_UDDEADM_SAVESETTINGS', 'Gem opsætning');
 DEFINE ('_UDDEADM_THISHASBEENSAVED', 'Følgende opsætning er gemt i konfigurationsfilen:');
 DEFINE ('_UDDEADM_SETTINGSSAVED', 'Opsætning er gemt.');
@@ -1025,17 +1150,9 @@ DEFINE ('_UDDEADM_TRASHORIGINAL_EXP', 'Hvis aktiveret, vil et afkrydsningsfelt \
 DEFINE ('_UDDEADM_PERPAGE_HEAD', 'Beskeder pr. side');
 DEFINE ('_UDDEADM_PERPAGE_EXP', 'Angiv hvor mange beskeder, der skal vises i indbakken, udbakken, papirkurven og arkivet pr. side.');
 DEFINE ('_UDDEADM_CHARSET_HEAD', 'Anvendt tekstkodning');
-DEFINE ('_UDDEADM_CHARSET_EXP', 'Såfremt du oplever problemer  
-med ikke-latinske tekstkodninger, kan du indtaste den tekstkodning  
-som uddelM skal bruge ved konvertering af databaseindholdet til  
-htmlkode her. <b>Undlad at foretage ændringer såfremt du  
-ikke ved hvad det betyder!</b>');
+DEFINE ('_UDDEADM_CHARSET_EXP', 'Såfremt du oplever problemer med ikke-latinske tekstkodninger, kan du indtaste den tekstkodning som uddelM skal bruge ved konvertering af databaseindholdet til htmlkode her. <b>Undlad at foretage ændringer såfremt du ikke ved hvad det betyder!</b>');
 DEFINE ('_UDDEADM_MAILCHARSET_HEAD', 'Benyttet e-mail-tekstkodning');
-DEFINE ('_UDDEADM_MAILCHARSET_EXP', 'Såfremt du oplever  
-problemer med ikke-latinske tekstkodninger, kan du indtaste den  
-tekstkodning som uddelM skal bruge ved kodning af udgående e- 
-mails her. <b>Undlad at foretage ændringer såfremt du  
-ikke ved hvad det betyder!</b>');
+DEFINE ('_UDDEADM_MAILCHARSET_EXP', 'Såfremt du oplever problemer med ikke-latinske tekstkodninger, kan du indtaste den tekstkodning som uddelM skal bruge ved kodning af udgående e-mails her. <b>Undlad at foretage ændringer såfremt du ikke ved hvad det betyder!</b>');
 DEFINE ('_UDDEADM_EMN_BODY_NOMESSAGE_EXP', 'Dette er indholdet af den e-mail, der sendes til brugeren ved ny besked, såfremt e-mail er aktiveret. Selve beskedens indhold tages ikke med i e-mailen. Variablerne %you%, %user% og %site% indeholder information omkring afsender, bruger og bår beholdes i e-mailen. ');
 DEFINE ('_UDDEADM_EMN_BODY_WITHMESSAGE_EXP', 'Dette er indholdet af den e-mail, der sendes til brugeren ved ny besked, hvis e-mail er aktiveret. E-mailen vil også kunne indeholde selve beskeden. Variablerne %you%, %user% og %site% indeholder information omkring afsender og bruger og variablen %pmessage% selve beskeden.');
 DEFINE ('_UDDEADM_EMN_FORGETMENOT_EXP', 'Dette er indholdet af forglemmigej-e-mailen, der sendes hvis det er aktiveret og en bruger ikke har reageret på en besked. Variablerne %you% and %site% indeholder modtager- og afsenderinformation. ');
@@ -1045,7 +1162,7 @@ DEFINE ('_UDDEADM_EXPORT_FORMAT_EXP', 'Dette er formatet af den e-mail en bruger
 		// translators info: Don't translate %you%, %user%, etc. in the strings above.
 DEFINE ('_UDDEADM_INBOXLIMIT_HEAD', 'Medtag indbakke i arkivstørrelse');
 DEFINE ('_UDDEADM_INBOXLIMIT_EXP', 'Du kan inkludere arkivstørrelsen til også at gælde indbakken. Overskrides antallet vil brugere stadig kunne modtage, men vil ikke kunne skrive nye beskeder, før der slettes eksisterende beskeder.');
-DEFINE ('_UDDEADM_SHOWINBOXLIMIT_HEAD', 'Vis beskedstårelse');
+DEFINE ('_UDDEADM_SHOWINBOXLIMIT_HEAD', 'Vis beskedstørelse');
 DEFINE ('_UDDEADM_SHOWINBOXLIMIT_EXP', 'Viser hvor mange beskeder en bruger har gemt samt hvor mange der er plads til i en linje under indbakken.');
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_INTRO', 'Du har deaktiveret arkivet. Hvad skal der ske med de beskeder, der er gemt i arkivet?');
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_LEAVE_LINK', 'Behold dem');
@@ -1081,8 +1198,7 @@ DEFINE ('_UDDEIM_SYSGM_WILLSENDAS_2', '</strong> som afsender');
 DEFINE ('_UDDEIM_SYSGM_WILLEXPIRE', 'Besked udløber ');
 DEFINE ('_UDDEIM_SYSGM_WILLNOTEXPIRE', 'Besked udløber ikke');
 DEFINE ('_UDDEIM_SYSGM_CHECKLINK', '<b>Kontroller link (ved at klikke på det) før du fortsætter!</b>');
-DEFINE ('_UDDEIM_SYSGM_SHORTHELP', 'Brug <strong>kun for systembeskeder</strong>:<br /> [b]<strong>fed</strong>[/b] [i]<em>kursiv</em>[/i]<br />
-[url=http://www.etellerandet.dk]Et eller andet[/url] eller [url]http://www.etellerandet.dk[/url] som link.');
+DEFINE ('_UDDEIM_SYSGM_SHORTHELP', 'Brug <strong>kun for systembeskeder</strong>:<br /> [b]<strong>fed</strong>[/b] [i]<em>kursiv</em>[/i]<br />[url=http://www.etellerandet.dk]Et eller andet[/url] eller [url]http://www.etellerandet.dk[/url] som link.');
 DEFINE ('_UDDEIM_SYSGM_ERRORNORECIPS', 'Fejl: Ingen modtager fundet. Beskeden er ikke sendt.');
 
 
@@ -1111,7 +1227,7 @@ DEFINE ('_UDDEADM_STOPALLEMAIL_HEAD', 'Stands e-mail nu');
 DEFINE ('_UDDEADM_STOPALLEMAIL_EXP', 'Marker denne boks for at forhindre at uddeIM sender e-mails (e-mail-notifikationer og forglemmigej-e-mails) uden hensyntagen til brugerindstillinger, fx ved test af sitet. Vælg <i>Nej</i> ved ovenstående valgmuligheder, hvis disse funktioner aldrig skal benyttes.');
 DEFINE ('_UDDEADM_ADMINIGNITIONONLY_MANUALLY', 'manuelt');
 DEFINE ('_UDDEADM_GETPICLINK_HEAD', 'CB-miniaturebilleder i lister');
-DEFINE ('_UDDEADM_GETPICLINK_EXP', 'Vålg <i>Ja</i> hvis brugernes miniaturebilleder skal vises i beskedoversigterne (indbakke, udbakke, etc.)');
+DEFINE ('_UDDEADM_GETPICLINK_EXP', 'Vælg <i>Ja</i> hvis brugernes miniaturebilleder skal vises i beskedoversigterne (indbakke, udbakke, etc.)');
 
 // new in 0.5 FRONTEND
 
@@ -1144,5 +1260,4 @@ DEFINE ('_UDDEIM_TOOLTIP_IMAGE', 'BB-koder til indsættelse af et link til et bi
 DEFINE ('_UDDEIM_TOOLTIP_URL', 'BB-koder til indsættelse af hyperlinks. Brug: [url]webadresse[/url]. Glem ikke http:// i begyndelsen af hver webadresse.');
 DEFINE ('_UDDEIM_TOOLTIP_CLOSEALLTAGS', 'Luk alle åbne BB-koder.');
 DEFINE ('_UDDEIM_INBOX_LIMIT_2_SINGULAR', ' besked i din'); // same as _UDDEIM_INBOX_LIMIT_2, but singular (as in 1 "message in your")
-DEFINE ('_UDDEIM_ARC_SAVED_NONE_2', '<strong>Der er ingen beskeder i dit arkiv.</strong>'); 
-
+DEFINE ('_UDDEIM_ARC_SAVED_NONE_2', '<strong>Der er ingen beskeder i dit arkiv.</strong>');

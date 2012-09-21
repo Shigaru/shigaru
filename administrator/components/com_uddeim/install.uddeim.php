@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -15,12 +15,21 @@ if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this
 
 if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
 	$ver = new JVersion();
-	if (!strncasecmp($ver->RELEASE, "1.6", 3)) {
-		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
-		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib16.php');
-	} else {
+	if (!strncasecmp($ver->RELEASE, "2.5", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib25.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.5", 3)) {
 		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib15.php');
 		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib15.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.6", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib16.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.7", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib17.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib17.php');
+	} else {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib25.php');
 	}
 } else {
 	global $mainframe;
@@ -33,7 +42,6 @@ require_once(uddeIMgetPath('absolute_path')."/administrator/components/com_uddei
 require_once(uddeIMgetPath('absolute_path')."/administrator/components/com_uddeim/admin.includes.php");
 
 function com_install() {
-	$mosConfig_offset = uddeIMgetOffset();
 	$mosConfig_locale = uddeIMgetLocale();
 	$mosConfig_sitename = uddeIMgetSitename();
 	$mosConfig_lang = uddeIMgetLang();
@@ -45,7 +53,7 @@ function com_install() {
 
 	// set initial values
 	$config->cryptkey = 'uddeIMcryptkey';
-	$config->version = '1.5';
+	$config->version = '2.1';
 	$config->datumsformat = 'j M, H:i';
 	$config->ldatumsformat = 'j F Y, H:i';
 	$config->emn_sendermail = 'webmaster';
@@ -67,6 +75,9 @@ function com_install() {
 	$config->attachmentgroups = '';
 	$config->recaptchaprv = '';
 	$config->recaptchapub = '';
+	$config->allowedextensions = '';
+	$config->gravatard = '';
+	$config->gravatarr = '';
 
 	$config->ReadMessagesLifespan = 36524;
 	$config->UnreadMessagesLifespan = 36524;
@@ -143,6 +154,7 @@ function com_install() {
 	$config->timedelay = 0;
 	$config->pubrealnames = 0;
 	$config->pubreplies = 0;
+	$config->pubemail = 0;
 	$config->csrfprotection = 0;
 	$config->trashrestriction = 0;
 	$config->replytruncate = 0;
@@ -177,14 +189,36 @@ function com_install() {
 	$config->encodeheader = 0;
 	$config->enablesort = 0;
 	$config->captchatype = 0;
+	$config->unprotectdownloads = 0;
+	$config->waitdays = 0;
+	$config->avatarw = 0;
+	$config->avatarh = 0;
+	$config->gravatar = 0;
+	$config->addccline = 0;
+	$config->modnewusers = 0;
+	$config->modpubusers = 0;
+	$config->restrictcon = 0;
+	$config->restrictrem = 0;
+	$config->stime = 0;
+	$config->dontsefmsglink = 0;
+	$config->enablepostbox = 0;
 	// temporary variables
 	$config->flags = 0;
 	$config->userid = 0;
 	$config->usergid = 0;
+	$config->cbitemid = 0;
 
-	if ($version->PRODUCT == "Joomla!" || $version->PRODUCT == "Accessible Joomla!") {
-		if (strncasecmp($version->RELEASE, "1.0", 3))
-			$config->languagecharset = 1;					// use UTF-8 on Joomla != 1.0
+	if (uddeIMcheckJversion()>0) {
+		$config->languagecharset = 1;					// use UTF-8 on Joomla != 1.0
+	}
+	// if ($version->PRODUCT == "Joomla!" || $version->PRODUCT == "Accessible Joomla!") {
+	//	if (strncasecmp($version->RELEASE, "1.0", 3)) {
+	//		$config->languagecharset = 1;					// use UTF-8 on Joomla != 1.0
+	//	}
+	// }
+	if (uddeIMcheckJversion()==0) {
+		$database->setQuery( "UPDATE #__components SET admin_menu_img = '../components/com_uddeim/templates/images/uddeim-favicon.png' WHERE admin_menu_link = 'option=com_uddeim'" );
+		$database->query();
 	}
 
 	// try to determine the best settings for uddeIM on this installation 
@@ -254,6 +288,29 @@ function com_install() {
 			}
 		}
 	}
+	if (uddeIMfileExists("/administrator/components/com_comprofiler/ue_config.php")) {
+		global $ueConfig;
+		include_once(uddeIMgetPath('absolute_path')."/administrator/components/com_comprofiler/ue_config.php");
+		if (isset($ueConfig['thumbWidth'])) {
+			if ($ueConfig['thumbWidth'])
+				$config->avatarw = (int)$ueConfig['thumbWidth'];
+		}
+		if (isset($ueConfig['thumbHeight'])) {
+			if ($ueConfig['thumbHeight'])
+				$config->avatarh = (int)$ueConfig['thumbHeight'];
+		}
+	} elseif (uddeIMfileExists("/administrator/components/com_cbe/ue_config.php")) {
+		global $ueConfig;
+		include_once(uddeIMgetPath('absolute_path')."/administrator/components/com_cbe/ue_config.php");
+		if (isset($ueConfig['thumbWidth'])) {
+			if ($ueConfig['thumbWidth'])
+				$config->avatarw = (int)$ueConfig['thumbWidth'];
+		}
+		if (isset($ueConfig['thumbHeight'])) {
+			if ($ueConfig['thumbHeight'])
+				$config->avatarh = (int)$ueConfig['thumbHeight'];
+		}
+	}
 
 	$postfix = "";
 	if ($config->languagecharset)
@@ -276,23 +333,20 @@ function com_install() {
 	// http://www.loc.gov/standards/iso639-2/php/code_list.php
 	// en, fr_FR, es_ES, it_IT, pt_PT
 	// http://code.elxis.org/20080/nav.html?includes/Core/locale.php.source.html
-	switch ($mosConfig_locale) {
-		case "bg_BG":
-		case "ru_RU":	
+	$tag = strtolower(substr($mosConfig_locale,0,2));
+	switch ($tag) {
+		case "bg":
+		case "ru":	
 			$config->charset = 'cp1251';
 			$config->mailcharset = 'Windows-1251';
 			break;
-		case "sr_YU":
-		case "vi_VN":
-		case "ar_AE":	// and others
-		case "el_GR":	// and others
-		case "el_CY":
-		case "sr_CS":
-		case "zh_CN":	// and others
-		case "zh_HK":
-		case "zh_MO":
-		case "zh_SG":
-		case "zh_TW":
+		case "sr":
+		case "vi":
+		case "ar":	// and others
+		case "el":	// and others
+		case "sr":
+		case "zh":	// and others
+		case "ja":
 			$config->charset = 'UTF-8';
 			$config->mailcharset = 'UTF-8';
 			break;
@@ -318,12 +372,12 @@ function com_install() {
 			$isok = $database->query();
 		}
 
-		$rightnow=time()+($mosConfig_offset*3600); 
-		$welcome_time=$rightnow;
+		$rightnow = uddetime($config->timezone);
+		$welcome_time = $rightnow;
 		$welcome_user = "uddeIM";
 		$welcome_msg = _UDDEADM_WELCOMEMSG;
 		// its not a reply, so replyid=0
-		$sql="INSERT INTO #__uddeim (fromid, toid, toread, message, datum, disablereply, systemmessage, totrashoutbox, totrashdateoutbox) VALUES (".$userid.", ".$userid.", 0, '".$welcome_msg."', ".$welcome_time.", 1, '".$welcome_user."', 1, ".$welcome_time.")";
+		$sql="INSERT INTO #__uddeim (fromid, toid, toread, message, datum, systemflag, disablereply, systemmessage, totrashoutbox, totrashdateoutbox) VALUES (".$userid.", ".$userid.", 0, '".$welcome_msg."', ".$welcome_time.", 1, 1, '".$welcome_user."', 1, ".$welcome_time.")";
 		$database->setQuery($sql);
 		if (!$database->query()) {
 			die("SQL error when attempting to save a message" . $database->stderr(true));
@@ -354,7 +408,7 @@ function com_install() {
 			}
 		}
 	}
-
+	
 	echo "<div style='width: 600px; text-align: left;'>";
 	echo "<p><b>"._UDDEADM_UDDEINSTCOMPLETE."</b></p>";
 	echo $langinfo;

@@ -29,10 +29,16 @@ class getUddeIMblockingTab extends cbTabHandler {
 		$uddeim_isadmin = 0;
 		if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
 			$ver = new JVersion();
-			if (!strncasecmp($ver->RELEASE, "1.6", 3)) {
-				require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
-			} else {
+			if (!strncasecmp($ver->RELEASE, "2.5", 3)) {
+				require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+			} elseif (!strncasecmp($ver->RELEASE, "1.5", 3)) {
 				require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib15.php');
+			} elseif (!strncasecmp($ver->RELEASE, "1.6", 3)) {
+				require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
+			} elseif (!strncasecmp($ver->RELEASE, "1.7", 3)) {
+				require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib17.php');
+			} else {
+				require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
 			}
 		} else {
 			global $mainframe;
@@ -136,7 +142,7 @@ class getUddeIMblockingTab extends cbTabHandler {
 							$ret .= "<p>"._UDDEIM_YOUBLOCKED_PRE.$howmanyblocks._UDDEIM_YOUBLOCKED_POST."</p>\n";
 							foreach($blockedusers as $blockeduser) {
 								if ($blockeduser->displayname)
-									$ret .= uddeIMgetLinkOnly($blockeduser->blocked, "<b>".$blockeduser->displayname."</b>", $config);
+									$ret .= uddeIMgetLinkOnly($blockeduser->blocked, "<b>".$blockeduser->displayname."</b>", $this->config);
 								else
 									$ret .= _UDDEADM_NONEORUNKNOWN;
 								$ret .= "&nbsp;&nbsp;";

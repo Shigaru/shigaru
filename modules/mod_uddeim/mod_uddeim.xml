@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mosinstall type="module">
 	<name>uddeIM Notifier</name>
-	<creationDate>2010-03-01</creationDate>
+	<creationDate>2012-06-01</creationDate>
 	<author>Stephan Slabihoud</author>
 	<copyright>Stephan Slabihoud. This is free software and you may redistribute it under the GPL. uddeIM comes with absolutely no warranty. For details, see the license at http://www.gnu.org/licenses/gpl.txt. This version is based on uddeIM 0.5b which has been written by Benjamin Zweifel in 2006.</copyright>
 	<authorEmail>ssl@gmx.de</authorEmail>
 	<authorUrl>http://www.slabihoud.de/software/</authorUrl>
-	<version>2.0</version>
+	<version>2.8</version>
 	<description>uddeIM Notifier module</description>
 	<files>
       <filename module="mod_uddeim">mod_uddeim.php</filename>
@@ -18,6 +18,8 @@
       <filename>mod_uddeim/domTT_drag.js</filename>
       <filename>mod_uddeim/popup.css</filename>
       <filename>mod_uddeim/popupex.css</filename>
+      <filename>mod_uddeim/alert.mp3</filename>
+      <filename>mod_uddeim/alert.ogg</filename>
 	</files>
 	<params>
       <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
@@ -50,6 +52,11 @@
 			<option value="0">Realname</option>
 			<option value="1">Username</option>
 			<option value="2">Firstname (CB only)</option>
+		</param>
+		<param name="uddeSound" type="list" default="0" label="Sound alert" description="By default, no sound notification is played. Does not work with DHTML boxes.">
+			<option value="0">None</option>
+			<option value="1">DOM</option>
+			<option value="2">HTML5</option>
 		</param>
 		<param name="@spacer" type="spacer" default="Following parameters for floating box only" label="" description="" />
 		<param name="uddrightpos" type="text" default="10" label="End position" description="(Floating box only) Ending position of the floating box when sliding right (&gt;0 distance from left window border, &lt;0 distance from right window border)." />

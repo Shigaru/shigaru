@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud
+// Author         © 2007-2010 Stephan Slabihoud
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -14,20 +14,33 @@
 if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this location is not allowed.' ); }
 
 if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
-	require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib15.php');
+	$ver = new JVersion();
+	if (!strncasecmp($ver->RELEASE, "2.5", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.5", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib15.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.6", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.7", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib17.php');
+	} else {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+	}
 } else {
 	global $mainframe;
 	require_once($mainframe->getCfg('absolute_path').'/components/com_uddeim/uddeimlib10.php');
 }
 
+require_once(uddeIMgetPath('absolute_path')."/administrator/components/com_uddeim/config.class.php");
+
 // '1': Keep all messages
 // '2': Remove all messages (received and sent)
 // '3': Remove received messages only
 // '4': Remove sent message only
-function user_delete_ext($userid,$pmsUserDeleteOption) {
-	$mosConfig_offset = uddeIMgetOffset();
+function user_delete_ext($userid, $pmsUserDeleteOption) {
 	$database = uddeIMgetDatabase();
-	$rightnow=time()+($mosConfig_offset*3600);
+	$config = new uddeimconfigclass();
+	$rightnow = uddetime($config->timezone);
 
 //	$query_pms_delete = "DELETE FROM #__uddeim WHERE fromid='" . (int) $userid ."' OR toid='" . (int) $userid . "'";
 

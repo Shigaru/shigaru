@@ -9,15 +9,144 @@
 //                http://www.gnu.org/licenses/gpl.txt
 //                Other licenses can be found in LICENSES folder.
 // *******************************************************************
-// Ten component: 	udde Instant Messages (uddeIM)
-// Tac gia: 		© 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
-// Mo ta: 			He thong nhan tin noi bo cho Joomla 1.0, 1.5, Mambo 4.5 tuong thich voi Community Builder, JomSocial, Kunena
-// Ban quyen:		Day la phan mem tu do va ban co the phan phoi lai duoi ban quyen GPL ( http://www.gnu.org/licenses/gpl.txt )
-//					Ban tu chiu trach nhiem ve viec su dung phan mem nay va chung toi khong co bat ki dam bao nao doi voi viec ban su dung no.
-// Ngon ngu(Language): Tieng Viet(Vietnamese)
-// Nguoi dich(Translator): Bui Quang Vinh<admin@360-books.com>
-// Chu y(Notice): Ban dich chi gom cac thanh phan hien thi tai FrontEnd(For Frontend Only)
+// Tên component: 	udde Instant Messages (uddeIM)
+// Tác gi&#7843;: 		© 2007-2008 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Mô t&#7843;: 			H&#7879; th&#7889;ng nh&#7855;n tin n&#7897;i b&#7897; cho Joomla 1.0, 1.5, Mambo 4.5 t&#432;&#417;ng thích v&#7899;i Community Builder, JomSocial, Kunena
+// B&#7843;n quy&#7873;n:		&#272;ây là ph&#7847;n m&#7873;m t&#7921; do và b&#7841;n có th&#7875; phân ph&#7889;i l&#7841;i d&#432;&#7899;i b&#7843;n quy&#7873;n GPL ( http://www.gnu.org/licenses/gpl.txt )
+//					B&#7841;n t&#7921; ch&#7883;u trách nhi&#7879;m v&#7873; vi&#7879;c s&#7917; d&#7909;ng ph&#7847;n m&#7873;m này và chúng tôi không có b&#7845;t kì &#273;&#7843;m b&#7843;o nào &#273;&#7889;i v&#7899;i vi&#7879;c b&#7841;n s&#7917; d&#7909;ng nó.
+// Ngôn ng&#7919;(Language): Ti&#7871;ng Vi&#7879;t(Vietnamese)
+// Ng&#432;&#7901;i d&#7883;ch(Translator): Bùi Quang Vinh<qvsoft@gmail.com>
+// Chú ý(Notice): B&#7843;n d&#7883;ch ch&#7881; g&#7891;m các thành ph&#7847;n hi&#7875;n th&#7883; t&#7841;i FrontEnd(For Frontend Only)
 // *******************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Translation by <a href="http://www.J4USolutions.com" target="_new">Bùi Quang Vinh</a>');	// Enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'do not load MooTools (use MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'force loading MooTools 1.3 (use MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'No SEF for %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Do not use SEF for %msglink% placeholder in email notifications.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Use special calendars');
+DEFINE ('_UDDEADM_STIME_EXP', 'When enabled on sites using the farsi language file the persian calendar is used.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Remove orphaned connections');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Automatically remove orphaned connections when saving an existing contact list.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Show connections only');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'The users shown in the list can be restricted to CB/CBE/JS connections (hide users from userlist has no effect here when enabled).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'disabled');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'registered users');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'registered, special users');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'all users (incl. admins)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...set default for show connections');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Security Code:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Button "Show CC: line"');
+DEFINE ('_UDDEADM_CC_EXP', 'When enabled a user can choose if uddeIM shall add a CC: line containing all recipients to a message or not.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...set default for CC: line, and moderation');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Message Center');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Delete message');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Deliver message');
+DEFINE ('_UDDEADM_OOD_MCP', 'Message Center Plugin out of date!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Messages to moderate:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Trashed');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Delete this message from database?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Deliver this message to recipient?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Show/Hide');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Message Control Center');
+DEFINE ('_UDDEADM_MCP_FROM', 'From');
+DEFINE ('_UDDEADM_MCP_TO', 'To');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Message');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Delete');
+DEFINE ('_UDDEADM_MCP_DATE', 'Date');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Deliver');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Mod');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Mod -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Your messages will be moderated. A moderator will check them before they are delivered to the recipients.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Waiting for moderator');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Moderate new users');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'When enabled messages from new registered users are moderated by default.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Moderate public users');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'When enabled messages from public users users are moderated.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'No menu');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Public Frontend Plugin out of date!');
+DEFINE ('_UDDEADM_OOD_A', 'File Attachment Plugin out of date!');
+DEFINE ('_UDDEADM_OOD_RSS', 'RSS Plugin out of date!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Message Report Center Plugin out of date!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>B&#7841;n không có tin nh&#7855;n &#273;ã &#273;&#432;&#7907;c l&#7885;c trong %s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'ch&#432;a &#273;&#7885;c');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', '&#273;ánh d&#7845;u c&#7901;');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'gravatar enabled');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Enables gravatar support.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'gravatar imageset');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Select the imageset for default images.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'gravatar rating');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'By default, only "G" rated images are displayed unless you indicate higher ratings. "X" displays all gravatar images.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'wavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'default');
+DEFINE ('_UDDEADM_GRG', 'G = General');
+DEFINE ('_UDDEADM_GRPG', 'PG = Parental Guidance');
+DEFINE ('_UDDEADM_GRR', 'R = Restricted');
+DEFINE ('_UDDEADM_GRX', 'X = Adult only');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', '&#272;ang x&#7917; lý...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Không g&#7917;i email thông báo');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'Email thông báo s&#7869; không &#273;&#432;&#7907;c g&#7917;i');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'N&#7897;i dung s&#7869; &#273;&#432;&#7907;c g&#7917;i kèm trong email thông báo');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...set default for thumbnails');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Display size of thumbnails');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Width and height (in pixels) of thumbnails (0 = size will not be changed).');
+DEFINE ('_UDDEIM_SAVE', 'L&#432;u');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Hi %you%,\n\n%touser% &#273;ã báo cáo tin nh&#7855;n spam t&#7915; %fromuser%. Vui lòng &#273;&#259;ng nh&#7853;p &#273;&#7875; ki&#7875;m tra!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'M&#7897;t tin nh&#7855;n &#273;ã b&#7883; báo cáo t&#7841;i %site%');
+DEFINE ('_UDDEADM_KBYTES', 'KByte');
+DEFINE ('_UDDEADM_MBYTES', 'MByte');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', '&#272;ã xóa file');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'L&#7895;i: File không t&#7891;n t&#7841;i');
+DEFINE ('_UDDEIM_ATTACHMENTS2', '&#272;ính kèm (T&#7889;i &#273;a. %s / file):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Unprotected file downloads');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'Usually uddeIM does not disclose the server path of file attachments, so nobody - even when the filename is known - can download the file. Enabling this option forces uddeIM to return the full server path. For security reasons, uddeIM added a MD5 hash to the original file name. Users can download the file directly when the full path is known. Do only use with care! READ THE FAQ WHEN USING THIS OPTION!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...set default for file attachments, public frontend');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', '&#272;&#7883;nh d&#7841;ng file không &#273;&#432;&#7907;c phép');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Extensions allowed');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Enter all extensions allowed (separated by ";"). Leave blank for no restrictions.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'Email required');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'When enabled a public user has to enter an email address.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Days to wait');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Specify how many days a user must wait until he is allowed to send messages (for 3 hours enter 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'B&#7841;n ph&#7843;i &#273;&#7907;i ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' ngày &#273;&#7875; có th&#7875; g&#7917;i tin nh&#7855;n.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' gi&#7901; &#273;&#7875; có th&#7875; g&#7917;i tin nh&#7855;n.');
 
 // New: 2.0
 DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha private key');
@@ -339,7 +468,6 @@ DEFINE ('_UDDEADM_COLSROWS_EXP', 'This specifies the columns and rows of the mes
 DEFINE ('_UDDEADM_WIDTH_HEAD', 'Message box (width)');
 DEFINE ('_UDDEADM_WIDTH_EXP', 'This specifies the width of the message box in px (default is 0). If this value is 0, the width specified in the CSS style is used.');
 DEFINE ('_UDDEADM_CBE', 'CB Enhanced');
-DEFINE ('_UE_TABINBOX', 'Tin nh&#7855;n');
 
 // New: 1.4
 DEFINE ('_UDDEADM_IMPORT_CAPS', 'IMPORT');
@@ -438,7 +566,7 @@ DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'You are already using the latest versio
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'The current version is ');
 DEFINE ('_UDDEADM_VERSIONCHECK_INFO', 'Update information:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HEAD', 'Check for updates');
-DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'This contacts uddeIM developer website to receive information about the current uddeIM version. Except the uddeIM version you use, no other personal information is transmitted.');
+DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'This contacts uddeIM developer website to receive information about the current uddeIM version.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CHECK', 'CHECK NOW');
 DEFINE ('_UDDEADM_VERSIONCHECK_ERROR', 'Unable to receive version information.');
 DEFINE ('_UDDEIM_NOSUCHLIST', 'Không tìm th&#7845;y nhóm liên l&#7841;c!');

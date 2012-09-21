@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud
+// Author         © 2007-2010 Stephan Slabihoud
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -166,37 +166,37 @@ function uddeIMevaluateUsername($fromname, $fromid, $publicname) {
 }
 
 function uddeIMisRecipientBlockedPublic($toid, $config) {
-	$togid = -1;		// default group (uddeim intern) for public users
-	if ($toid)			// we have an id, so get group for this user
-		$togid = (int)uddeIMgetGID($toid);
-	if (!$togid)
-		$togid = -1;	// we could not find a group, so assume it is a Public user
+	$togid = Array(-1);		// default group (uddeim intern) for public users
+	if ($toid)				// we have an id, so get group for this user
+		$togid = uddeIMgetGID($toid);
+	//if (!is_array($togid))
+	//	$togid = -1;	// we could not find a group, so assume it is a Public user
 	$acl = explode(",",$config->pubblockgroups);
 	if (!is_array($acl))
 		$acl = array();
 
 	$blocked = 0;
-	if (in_array($togid, $acl)) {	// either we have a recipient GID or recipient is a Public user (GID=-1), so we check if this user is blocked
+	$new = array_intersect($togid, $acl);	// either we have a recipient GID or recipient is a Public user (GID=-1), so we check if this user is blocked
+	if (!empty($new))
 		$blocked = 1;				// yes, it is
-	}
 	return $blocked;
 }
 
 function uddeIMisRecipientBlockedReg($myself, $toid, $config) {
 	$database = uddeIMgetDatabase();
-	$togid = -1;		// default group (uddeim intern) for public users
-	if ($toid)			// we have an id, so get group for this user
-		$togid = (int)uddeIMgetGID($toid);
-	if (!$togid)
-		$togid = -1;	// we could not find a group, so assume it is a Public user
+	$togid = Array(-1);		// default group (uddeim intern) for public users
+	if ($toid)				// we have an id, so get group for this user
+		$togid = uddeIMgetGID($toid);
+	// if (!$togid)
+	// 	$togid = -1;	// we could not find a group, so assume it is a Public user
 	$acl = explode(",",$config->blockgroups);
 	if (!is_array($acl))
 		$acl = array();
 
 	$blocked = 0;
-	if (in_array($togid, $acl)) {	// either we have a recipient GID or recipient is a Public user (GID=-1), so we check if this user is blocked
+	$new = array_intersect($togid, $acl);	// either we have a recipient GID or recipient is a Public user (GID=-1), so we check if this user is blocked
+	if (!empty($new))
 		$blocked = 1;				// yes, it is
-	}
 
 	if ($blocked && $config->unblockCBconnections) {	// unblock CB connections?
 		if (uddeIMcheckCB()) {							// do we have CB installed?
@@ -229,7 +229,8 @@ function uddeIMisAttachmentAllowed($mygid, $config) {
 	if (!is_array($acl))
 		$acl = array();
 	$allowed = 0;
-	if (in_array($mygid, $acl))
+	$new = array_intersect($mygid, $acl);
+	if (!empty($new))
 		$allowed = 1;
 	return $allowed;
 }
@@ -252,76 +253,124 @@ function uddeIMisBanned($userid, $config) {
 	return $is_banned;
 }
 
-function uddeIMblockUserUdde($myself, $item_id, $recip, $config) {
+function uddeIMblockUserUdde($myself, $item_id, $recip, $ret, $config) {
+	$addlink = "";
+	if ($recip)
+		$addlink = "&recip=".(int)$recip;
+	
+	$task = "inbox";
+	if ($ret=="postboxuser" && $config->enablepostbox)
+		$task = "postboxuser";
+
 	if (!$config->blocksystem) {
 		$mosmsg = _UDDEIM_BLOCKSDISABLED;
-		uddeJSEFredirect("index.php?option=com_uddeim&task=inbox&Itemid=".$item_id, $mosmsg);
+		uddeJSEFredirect("index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink, $mosmsg);
 	}
+
 	// is this user already blocked?
 	$isblocked = uddeIMcheckBlockerBlocked($myself, $recip);
 	if ($isblocked)
 		uddeJSEFredirect("index.php?option=com_uddeim&task=settings&Itemid=".$item_id);
+
 	$recip_gid = uddeIMgetGID($recip);
 	if (uddeIMisAdmin($recip_gid)) {	
 		$mosmsg = _UDDEIM_CANTBLOCKADMINS;
-		uddeJSEFredirect("index.php?option=com_uddeim&task=inbox&Itemid=".$item_id, $mosmsg);	
+		uddeJSEFredirect("index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink, $mosmsg);	
 	}
+
 	uddeIMinsertBlockerBlocked($myself, $recip);
 	uddeJSEFredirect("index.php?option=com_uddeim&task=settings&Itemid=".$item_id);	
 }
 
+function uddeIMunblockUserUdde($myself, $item_id, $recip, $ret, $config) {
+	$addlink = "";
+	if ($recip)
+		$addlink = "&recip=".(int)$recip;
+	
+	$task = "inbox";
+	if ($ret=="postboxuser" && $config->enablepostbox)
+		$task = "postboxuser";
 
-function uddeIMunblockUserUdde($myself, $item_id, $recip, $config) {
 	if (!$config->blocksystem) {
 		$mosmsg = _UDDEIM_BLOCKSDISABLED;
-		uddeJSEFredirect("index.php?option=com_uddeim&task=inbox&Itemid=".$item_id, $mosmsg);
+		uddeJSEFredirect("index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink, $mosmsg);
 	}
 	uddeIMpurgeBlockerBlocked($myself, $recip);
 	uddeJSEFredirect("index.php?option=com_uddeim&task=settings&Itemid=".$item_id);
 }
 
-function uddeIMmarkUnread($myself, $messageid, $limit, $limitstart, $item_id, $config) {
+function uddeIMmarkUnread($myself, $messageid, $limit, $limitstart, $item_id, $recip, $ret, $config) {
+	$addlink = "";
+	if ($recip)
+		$addlink = "&recip=".(int)$recip;
+
+	$task = "inbox";
+	if ($ret=="postboxuser" && $config->enablepostbox)
+		$task = "postboxuser";
+
 	uddeIMupdateToread($myself, $messageid, 0);		// previously it set also "totrash=0" which is not required
 	if(!$limit && !$limitstart) {
-		$redirecturl="index.php?option=com_uddeim&task=inbox&Itemid=".$item_id;
+		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink;
 	} else {
-		$redirecturl="index.php?option=com_uddeim&task=inbox&Itemid=".$item_id."&limit=".$limit."&limitstart=".$limitstart;
+		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink."&limit=".$limit."&limitstart=".$limitstart;
 	}
 	uddeJSEFredirect($redirecturl);
 }
 
-function uddeIMmarkRead($myself, $messageid, $limit, $limitstart, $item_id, $config) {
+function uddeIMmarkRead($myself, $messageid, $limit, $limitstart, $item_id, $recip, $ret, $config) {
+	$addlink = "";
+	if ($recip)
+		$addlink = "&recip=".(int)$recip;
+
+	$task = "inbox";
+	if ($ret=="postboxuser")
+		$task = "postboxuser";
+
 	uddeIMupdateToread($myself, $messageid, 1);
 	if(!$limit && !$limitstart) {
-		$redirecturl="index.php?option=com_uddeim&task=inbox&Itemid=".$item_id;
+		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink;
 	} else {
-		$redirecturl="index.php?option=com_uddeim&task=inbox&Itemid=".$item_id."&limit=".$limit."&limitstart=".$limitstart;
+		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink."&limit=".$limit."&limitstart=".$limitstart;
 	}
 	uddeJSEFredirect($redirecturl);
 }
 
-function uddeIMmarkUnflagged($myself, $messageid, $limit, $limitstart, $item_id, $ret, $config) {
+function uddeIMmarkUnflagged($myself, $messageid, $limit, $limitstart, $item_id, $recip, $ret, $config) {
+	$addlink = "";
+	if ($recip)
+		$addlink = "&recip=".(int)$recip;
+
+	$task="inbox";
+	if ($ret=="postboxuser" && $config->enablepostbox)
+		$task = "postboxuser";
+	if($ret=='archive' && $config->allowarchive)
+		$task = "archive";
+
 	uddeIMupdateFlagged($myself, $messageid, 0);
-	$task="inbox";
-	if($ret=='archive' && $config->allowarchive)
-		$task="archive";
 	if(!$limit && !$limitstart) {
-		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id;
+		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink;
 	} else {
-		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id."&limit=".$limit."&limitstart=".$limitstart;
+		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink."&limit=".$limit."&limitstart=".$limitstart;
 	}
 	uddeJSEFredirect($redirecturl);
 }
 
-function uddeIMmarkFlagged($myself, $messageid, $limit, $limitstart, $item_id, $ret, $config) {
-	uddeIMupdateFlagged($myself, $messageid, 1);
+function uddeIMmarkFlagged($myself, $messageid, $limit, $limitstart, $item_id, $recip, $ret, $config) {
+	$addlink = "";
+	if ($recip)
+		$addlink = "&recip=".(int)$recip;
+
 	$task="inbox";
+	if ($ret=="postboxuser" && $config->enablepostbox)
+		$task = "postboxuser";
 	if($ret=='archive' && $config->allowarchive)
-		$task="archive";
+		$task = "archive";
+
+	uddeIMupdateFlagged($myself, $messageid, 1);
 	if(!$limit && !$limitstart) {
-		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id;
+		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink;
 	} else {
-		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id."&limit=".$limit."&limitstart=".$limitstart;
+		$redirecturl="index.php?option=com_uddeim&task=".$task."&Itemid=".$item_id.$addlink."&limit=".$limit."&limitstart=".$limitstart;
 	}
 	uddeJSEFredirect($redirecturl);
 }
@@ -335,17 +384,24 @@ function uddeIMmenuWriteform($myself, $my_gid, $item_id, $to_name, $pmessage, $e
 	echo "</div>\n<div id='uddeim-bottomborder'>".uddeIMcontentBottomborder($myself, $item_id, 'standard', 'none', $config)."</div>\n";
 }
 
-function uddeIMshowNoMessage($type, $filter_user, $filter_unread) {
-	if ($filter_user || $filter_unread) {
+function uddeIMshowNoMessage($type, $filter_user, $filter_unread, $filter_flagged) {
+	if ($filter_user || $filter_unread || $filter_flagged) {
 		echo "<div id='uddeim-overview'><p><b>";
 		switch($type) {
-			case 'inbox':	$user = ($filter_unread ? _UDDEIM_NOMESSAGES2_UNFR_FILTERED : _UDDEIM_NOMESSAGES2_FR_FILTERED);
+			case 'postbox':	// $user = ($filter_unread ? _UDDEIM_NOMESSAGES2_UNFR_FILTERED : _UDDEIM_NOMESSAGES2_FR_FILTERED);
+							$user = _UDDEIM_NOMESSAGES3_FILTERED;
+							$box  = _UDDEIM_NOMESSAGES_FILTERED_POSTBOX;
+							break;
+			case 'inbox':	// $user = ($filter_unread ? _UDDEIM_NOMESSAGES2_UNFR_FILTERED : _UDDEIM_NOMESSAGES2_FR_FILTERED);
+							$user = _UDDEIM_NOMESSAGES3_FILTERED;
 							$box  = _UDDEIM_NOMESSAGES_FILTERED_INBOX;
 							break;
-			case 'outbox':	$user = ($filter_unread ? _UDDEIM_NOMESSAGES2_UNTO_FILTERED : _UDDEIM_NOMESSAGES2_TO_FILTERED);
+			case 'outbox':	// $user = ($filter_unread ? _UDDEIM_NOMESSAGES2_UNTO_FILTERED : _UDDEIM_NOMESSAGES2_TO_FILTERED);
+							$user = _UDDEIM_NOMESSAGES3_FILTERED;
 							$box  = _UDDEIM_NOMESSAGES_FILTERED_OUTBOX;
 							break;
-			case 'archive':	$user = ($filter_unread ? _UDDEIM_NOMESSAGES2_UNFR_FILTERED : _UDDEIM_NOMESSAGES2_FR_FILTERED);
+			case 'archive':	// $user = ($filter_unread ? _UDDEIM_NOMESSAGES2_UNFR_FILTERED : _UDDEIM_NOMESSAGES2_FR_FILTERED);
+							$user = _UDDEIM_NOMESSAGES3_FILTERED;
 							$box  = _UDDEIM_NOMESSAGES_FILTERED_ARCHIVE;
 							break;
 		}
@@ -354,6 +410,8 @@ function uddeIMshowNoMessage($type, $filter_user, $filter_unread) {
 		echo "</b></p></div>\n";
 	} else {
 		switch($type) {
+			case 'postbox':	$text = _UDDEIM_NOMESSAGES_POSTBOX;
+							break;
 			case 'inbox':	$text = _UDDEIM_NOMESSAGES_INBOX;
 							break;
 			case 'outbox':	$text = _UDDEIM_NOMESSAGES_OUTBOX;
@@ -365,23 +423,36 @@ function uddeIMshowNoMessage($type, $filter_user, $filter_unread) {
 	}
 }
 
-function uddeIMprintFilter($myself, $uddeaction, $count, $item_id, $config, $filter_user, $filter_unread) {
+function uddeIMprintFilter($myself, $uddeaction, $count, $item_id, $config, $filter_user, $filter_unread, $filter_flagged) {
 	$database = uddeIMgetDatabase();
 
 	$showfilter = $config->enablefilter && ($uddeaction=="inbox" || $uddeaction=="outbox" || $uddeaction=="archive");
 	$title = _UDDEIM_FILTER_TITLE_INBOX;	// for INBOX and ARCHIVE
 	if ($uddeaction=="outbox") {
 		$title = _UDDEIM_FILTER_TITLE_OUTBOX;
+	} elseif ($uddeaction=="postbox") {
+		$title = _UDDEIM_FILTER_TITLE_POSTBOX;
 	}
 	$users = uddeIMselectFilter($myself, $uddeaction, $config);
 
 	echo "<div id='uddeim-filter'>";
-	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td align='left'>";
-	if ($filter_user || $filter_unread)
-		echo ($count==1 ? $count." "._UDDEIM_FILTEREDMESSAGE : $count." "._UDDEIM_FILTEREDMESSAGES);
-	else
-		echo "&nbsp;";
-	echo "</td><td align='right'>";
+	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'><tr>";
+	echo "<td align='left'>";
+	if ($uddeaction=="postbox") {
+		if ($filter_user || $filter_unread || $filter_flagged) {
+			echo ($count==1 ? $count." "._UDDEIM_FILTEREDUSER : $count." "._UDDEIM_FILTEREDUSERS);
+		} else {
+			echo "&nbsp;";
+		}
+	} else {
+		if ($filter_user || $filter_unread || $filter_flagged) {
+			echo ($count==1 ? $count." "._UDDEIM_FILTEREDMESSAGE : $count." "._UDDEIM_FILTEREDMESSAGES);
+		} else {
+			echo "&nbsp;";
+		}
+	}
+	echo "</td>";
+	echo "<td align='right'>";
 	echo "<form name='filterform' method='post' action='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=".$uddeaction."&Itemid=".$item_id)."'>";
 	echo "<span title='".$title."'>"._UDDEIM_FILTER."</span> ";
 	echo "<select name='filter_user'>\n";
@@ -394,7 +465,11 @@ function uddeIMprintFilter($myself, $uddeaction, $count, $item_id, $config, $fil
 	}
 	echo "</select>\n";
 	$sel = ($filter_unread) ? " checked='checked'" : "";
-	echo " <input type='checkbox' name='filter_unread'".$sel."/> " . _UDDEIM_FILTER_UNREAD_ONLY;
+	echo " <input type='checkbox' name='filter_unread'".$sel."/> " . _UDDEIM_FILTER_UNREAD;
+	if ($uddeaction!="outbox") {
+		$sel = ($filter_flagged) ? " checked='checked'" : "";
+		echo " <input type='checkbox' name='filter_flagged'".$sel."/> " . _UDDEIM_FILTER_FLAGGED;
+	}
 	echo " <input type='submit' class='button' value='"._UDDEIM_FILTER_SUBMIT."' />";
 	echo "</form>";
 	echo "</td></tr></table>";
@@ -403,60 +478,87 @@ function uddeIMprintFilter($myself, $uddeaction, $count, $item_id, $config, $fil
 
 function uddeIMprintMenu($myself, $uddeaction, $item_id, $config) {
 	$pathtosite = uddeIMgetPath('live_site');
-	//$my_gid = uddeIMgetGID((int)$myself);
 	$my_gid = $config->usergid;
 
 	// write the uddeim title
 	if ($config->showtitle)
 		echo "<div class='contentheading'>".$config->showtitle."</div>";
 
+	if ($config->showmenuicons==3)
+		return;
+
 	// write the uddeim menu
 	echo "\n<div id='uddeim-navbar2'><ul>\n";
 
-	$cnt = "";
-	if ($config->showmenucount)
-		$cnt = " (".uddeIMgetInboxCount($myself, 0, true)."/".uddeIMgetInboxCount($myself).")";
-	if ($uddeaction=="inbox") {
-		echo "<li class='uddeim-activemenu'><span>";
-		if ($config->showmenuicons==1 || $config->showmenuicons==2)
-			echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_inbox.gif' alt='"._UDDEIM_INBOX."' />";
-		if ($config->showmenuicons==0 || $config->showmenuicons==1)
-			echo _UDDEIM_INBOX;
-		echo $cnt;
-		echo "</span></li>\n";
+	if ( $config->enablepostbox ) {
+		$cnt = "";
+		if ($config->showmenucount)
+			$cnt = " (".uddeIMgetInboxCount($myself, 0, true, 0)."/".uddeIMgetInboxCount($myself)."/".uddeIMgetOutboxCount($myself).")";
+		if ($uddeaction=="postbox") {
+			echo "<li class='uddeim-activemenu'><span>";
+			if ($config->showmenuicons==1 || $config->showmenuicons==2)
+				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_inbox.gif' alt='"._UDDEIM_POSTBOX."' />";
+			if ($config->showmenuicons==0 || $config->showmenuicons==1)
+				echo _UDDEIM_POSTBOX;
+			echo $cnt;
+			echo "</span></li>\n";
+		} else {
+			echo "<li>";
+			echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=postbox&Itemid=".$item_id)."'>";
+			if ($config->showmenuicons==1 || $config->showmenuicons==2)
+				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_inbox.gif' border='0' alt='"._UDDEIM_POSTBOX."' />";
+			if ($config->showmenuicons==0 || $config->showmenuicons==1)
+				echo _UDDEIM_POSTBOX;
+			echo $cnt;
+			echo "</a>";
+			echo "</li>\n";
+		}
 	} else {
-		echo "<li>";
-		echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=inbox&Itemid=".$item_id)."'>";
-		if ($config->showmenuicons==1 || $config->showmenuicons==2)
-			echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_inbox.gif' border='0' alt='"._UDDEIM_INBOX."' />";
-		if ($config->showmenuicons==0 || $config->showmenuicons==1)
-			echo _UDDEIM_INBOX;
-		echo $cnt;
-		echo "</a>";
-		echo "</li>\n";
-	}
+		$cnt = "";
+		if ($config->showmenucount)
+			$cnt = " (".uddeIMgetInboxCount($myself, 0, true, 0)."/".uddeIMgetInboxCount($myself).")";
+		if ($uddeaction=="inbox") {
+			echo "<li class='uddeim-activemenu'><span>";
+			if ($config->showmenuicons==1 || $config->showmenuicons==2)
+				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_inbox.gif' alt='"._UDDEIM_INBOX."' />";
+			if ($config->showmenuicons==0 || $config->showmenuicons==1)
+				echo _UDDEIM_INBOX;
+			echo $cnt;
+			echo "</span></li>\n";
+		} else {
+			echo "<li>";
+			echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=inbox&Itemid=".$item_id)."'>";
+			if ($config->showmenuicons==1 || $config->showmenuicons==2)
+				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_inbox.gif' border='0' alt='"._UDDEIM_INBOX."' />";
+			if ($config->showmenuicons==0 || $config->showmenuicons==1)
+				echo _UDDEIM_INBOX;
+			echo $cnt;
+			echo "</a>";
+			echo "</li>\n";
+		}
 
-	$cnt = "";
-	if ($config->showmenucount)
-		$cnt = " (".uddeIMgetOutboxCount($myself).")";
-	if ($uddeaction=="outbox") {
-		echo "<li class='uddeim-activemenu'><span>";
-		if ($config->showmenuicons==1 || $config->showmenuicons==2)
-			echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_outbox.gif' alt='"._UDDEIM_OUTBOX."' />";
-		if ($config->showmenuicons==0 || $config->showmenuicons==1)
-			echo _UDDEIM_OUTBOX;
-		echo $cnt;
-		echo "</span></li>\n";
-	} else {
-		echo "<li>";
-		echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=outbox&Itemid=".$item_id)."'>";
-		if ($config->showmenuicons==1 || $config->showmenuicons==2)
-			echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_outbox.gif' border='0' alt='"._UDDEIM_OUTBOX."' />";
-		if ($config->showmenuicons==0 || $config->showmenuicons==1)
-			echo _UDDEIM_OUTBOX;
-		echo $cnt;
-		echo "</a>";
-		echo "</li>\n";
+		$cnt = "";
+		if ($config->showmenucount)
+			$cnt = " (".uddeIMgetOutboxCount($myself).")";
+		if ($uddeaction=="outbox") {
+			echo "<li class='uddeim-activemenu'><span>";
+			if ($config->showmenuicons==1 || $config->showmenuicons==2)
+				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_outbox.gif' alt='"._UDDEIM_OUTBOX."' />";
+			if ($config->showmenuicons==0 || $config->showmenuicons==1)
+				echo _UDDEIM_OUTBOX;
+			echo $cnt;
+			echo "</span></li>\n";
+		} else {
+			echo "<li>";
+			echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=outbox&Itemid=".$item_id)."'>";
+			if ($config->showmenuicons==1 || $config->showmenuicons==2)
+				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_outbox.gif' border='0' alt='"._UDDEIM_OUTBOX."' />";
+			if ($config->showmenuicons==0 || $config->showmenuicons==1)
+				echo _UDDEIM_OUTBOX;
+			echo $cnt;
+			echo "</a>";
+			echo "</li>\n";
+		}
 	}
 
 	$cnt = "";
@@ -600,9 +702,6 @@ function uddeIMcontentBottomborder($myself, $item_id, $uddemenucontent, $message
 	if ($uddemenucontent!="settings") {	// do not show on settings page
 		$showsettings = 0;
 		if ($config->showsettingslink==2) {
-			//$my_gid = 0;
-			//if ($config->allowemailnotify==2 || $config->autoforward>=2 || $config->autoresponder>=2)
-			//	$my_gid = uddeIMgetGID((int)$myself);
 			if ($config->pubfrontend || $config->allowpopup || $config->blocksystem || 
 				$config->allowemailnotify==1 || 
 			   ($config->allowemailnotify==2 && uddeIMisAdmin($my_gid)) ||
@@ -722,9 +821,15 @@ function uddeIMdispatchEMN($var_msgid, $item_id, $cryptmode, $var_fromid, $var_t
 
 	$msglink = "";
 	if ($cryptmode==2 || $cryptmode==4) {			// Message is encrypted, so go to enter password page
-		$msglink = uddeIMsefRelToAbs("index.php?option=com_uddeim&task=showpass&Itemid=".$item_id."&messageid=".$var_msgid);
+		if ($config->dontsefmsglink)
+			$msglink = $pathtosite."/index.php?option=com_uddeim&task=showpass&Itemid=".$item_id."&messageid=".$var_msgid;
+		else
+			$msglink = uddeIMsefRelToAbs("index.php?option=com_uddeim&task=showpass&Itemid=".$item_id."&messageid=".$var_msgid);
 	} else {							// normal message
-		$msglink = uddeIMsefRelToAbs("index.php?option=com_uddeim&task=show&Itemid=".$item_id."&messageid=".$var_msgid);
+		if ($config->dontsefmsglink)
+			$msglink = $pathtosite."/index.php?option=com_uddeim&task=show&Itemid=".$item_id."&messageid=".$var_msgid;
+		else
+			$msglink = uddeIMsefRelToAbs("index.php?option=com_uddeim&task=show&Itemid=".$item_id."&messageid=".$var_msgid);
 	}
 
 	if($emn_option==1) {
@@ -795,7 +900,7 @@ function uddeIMteaser($ofwhat, $howlong, $quotedivider, $utf8) {
 	}
 	$construct="";
 	if (uddeIM_utf8_strlen($utf8,$words[0])>$howlong) {
-		$construct = uddeIM_utf8_substr($useutf8, $words[0], 0, $howlong);
+		$construct = uddeIM_utf8_substr($utf8, $words[0], 0, $howlong);
 	} else {
 		for($x=0; $x < $howmanywords; $x++) {
 			$posslen = uddeIM_utf8_strlen($utf8,$construct) + uddeIM_utf8_strlen($utf8,$words[$x]);
@@ -867,10 +972,13 @@ function uddeIMdoAutocomplete($config) {
 				uddeIMaddScript($pathtosite."/components/com_uddeim/js/Autocompleter2.js");
 			else
 				uddeIMaddScript($pathtosite."/components/com_uddeim/js/Autocompleter.js");
-		} else {
+		} else if (!strncasecmp($version->RELEASE, "1.6", 3) ||						// Joomla 1.6 uses new Observer class
+				   !strncasecmp($version->RELEASE, "1.7", 3)) {						// Joomla 1.7 uses new Observer class
 			uddeIMaddScript($pathtosite."/components/com_uddeim/js/Observer-1.2.js");
 			uddeIMaddScript($pathtosite."/components/com_uddeim/js/Autocompleter-1.2.js");
 			uddeIMaddScript($pathtosite."/components/com_uddeim/js/Autocompleter.Request-1.2.js");
+		} else {						// Joomla 2.5 supports MooTools 1.3, so use MEIO
+			uddeIMaddScript($pathtosite."/components/com_uddeim/js/Meio.Autocomplete.js");
 		}
 
 	} elseif ($config->mootools==2) { // MooTools 1.1
@@ -903,6 +1011,19 @@ function uddeIMdoAutocomplete($config) {
 		uddeIMaddScript($pathtosite."/components/com_uddeim/js/Autocompleter-1.2.js");
 		uddeIMaddScript($pathtosite."/components/com_uddeim/js/Autocompleter.Request-1.2.js");
 
+	} elseif ($config->mootools==6) { // do not load, use Meio.Autocomplete
+
+		if (class_exists('JHTML'))
+			JHTML::_('behavior.mootools');
+		// echo '<script src="'.$pathtosite."/components/com_uddeim/js/Meio.Autocomplete.js".'" type="text/javascript"></script>';
+		uddeIMaddScript($pathtosite."/components/com_uddeim/js/Meio.Autocomplete.js");
+
+	} elseif ($config->mootools==7) { // MooTools 1.3 + MEIO
+
+		uddeIMaddScript($pathtosite."/components/com_uddeim/js/mootools-core-1.3-full-nocompat.js");
+		uddeIMaddScript($pathtosite."/components/com_uddeim/js/mootools-more-1.3.0.1.js");
+		uddeIMaddScript($pathtosite."/components/com_uddeim/js/Meio.Autocomplete.js");
+
 	} else {	// do not load MooTools, but we need the other classes (assume we have MooTools 1.11)
 
 		uddeIMaddScript($pathtosite."/components/com_uddeim/js/Observer.js");
@@ -918,9 +1039,11 @@ function uddeIMdoAutocomplete($config) {
 	else
 		$completeURL = "index2.php?option=com_uddeim&task=completeUserName&no_html=1";
 
-	if ($config->mootools==0 || ($config->mootools==1 && !strncasecmp($version->RELEASE, "1.5", 3))
-							 || ($config->mootools==1 && !strncasecmp($version->RELEASE, "1.0", 3))
-							 || $config->mootools==2 || $config->mootools==4) { // not loaded, auto, MooTools 1.1, assume MooTools 1.1
+	if ($config->mootools==0 || // assume MooTools 1.1
+	   ($config->mootools==1 && !strncasecmp($version->RELEASE, "1.5", 3)) ||	// auto on J1.5 (MooTools 1.1)
+	   ($config->mootools==1 && !strncasecmp($version->RELEASE, "1.0", 3)) ||	// auto on J1.0 (MooTools  1.1)
+		$config->mootools==2 || // load MooTools 1.1
+		$config->mootools==4) { // assume MooTools 1.1
 	?>
 		<script type="text/javascript">
 		//<![CDATA[
@@ -938,7 +1061,8 @@ function uddeIMdoAutocomplete($config) {
 					'injectChoice': function (choice, i) {
 						// this is prepared to add more details
 						// choice = unescape(choice);	- old style uddeIM 1.1
-						choice = decodeURI(choice);
+						// choice = decodeURI(choice);
+						choice = decodeURIComponent(choice);
 						var el = new Element('li').setHTML(this.markQueryValue(choice));
 						el.inputValue = choice;
 						this.addChoiceEvents(el).injectInside(this.choices);
@@ -948,7 +1072,11 @@ function uddeIMdoAutocomplete($config) {
 		</script>
 	<?php
 	}
-	if (($config->mootools==1 && !strncasecmp($version->RELEASE, "1.6", 3)) || $config->mootools==3 || $config->mootools==5) { // not loaded, auto, MooTools 1.2, assume MooTools 1.2
+
+	if (($config->mootools==1 && !strncasecmp($version->RELEASE, "1.6", 3)) || 
+		($config->mootools==1 && !strncasecmp($version->RELEASE, "1.7", 3)) || // auto on J1.6 (its MooTools 1.2)
+		 $config->mootools==3 || // load MooTools 1.2
+		 $config->mootools==5) { // assume MooTools 1.2
 		$sep=",";
 		if ($config->separator==1)
 			$sep=";";
@@ -974,12 +1102,114 @@ function uddeIMdoAutocomplete($config) {
 					'autoTrim': true,
 					'width': 'inherit',
 					'injectChoice': function (token, i) {
-						token = decodeURI(token);
+						// token = decodeURI(token);
+						token = decodeURIComponent(token);
 						var el = new Element('li', {'html': this.markQueryValue(token)});
 						el.inputValue = token;
 						this.addChoiceEvents(el).injectInside(this.choices);
 					}
 				});
+		//]]>
+		</script>
+	<?php
+	}
+
+	if (($config->mootools==1 && !strncasecmp($version->RELEASE, "2.5", 3)) || // on Joomla 2.5 use Meio because of MooTools 1.4
+		 $config->mootools==6 || // Joomla 2.5 supports MooTools 1.3, so use MEIO
+		 $config->mootools==7) { // assume MooTools, use Meio
+		$sep=",";
+		if ($config->separator==1)
+			$sep=";";
+//		<input id="value-field" type="text" />
+//				valueField: $('value-field'),
+//				valueFilter: function(data){
+//					return data.identifier;
+//				},
+	?>
+		<script type="text/javascript">
+		//<![CDATA[
+			var Utf8 = {
+				/** http://www.webtoolkit.info **/
+				encode : function (string) {
+					string = string.replace(/\r\n/g,"\n");
+					var utftext = "";
+					for (var n = 0; n < string.length; n++) {
+						var c = string.charCodeAt(n);
+						if (c < 128) {
+							utftext += String.fromCharCode(c);
+						}
+						else if((c > 127) && (c < 2048)) {
+							utftext += String.fromCharCode((c >> 6) | 192);
+							utftext += String.fromCharCode((c & 63) | 128);
+						}
+						else {
+							utftext += String.fromCharCode((c >> 12) | 224);
+							utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+							utftext += String.fromCharCode((c & 63) | 128);
+						}
+					}
+					return utftext;
+				},
+				decode : function (utftext) {
+					var string = "";
+					var i = 0;
+					var c = c1 = c2 = 0;
+					while ( i < utftext.length ) {
+						c = utftext.charCodeAt(i);
+						if (c < 128) {
+							string += String.fromCharCode(c);
+							i++;
+						}
+						else if((c > 191) && (c < 224)) {
+							c2 = utftext.charCodeAt(i+1);
+							string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+							i += 2;
+						}
+						else {
+							c2 = utftext.charCodeAt(i+1);
+							c3 = utftext.charCodeAt(i+2);
+							string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+							i += 3;
+						}
+					}
+					return string;
+				}
+			}
+			var data = [
+				{identifier: 0, value: 'dummy'}
+			];
+			new Meio.Autocomplete.Select('input_to_name', '<?php echo $completeURL; ?>', {
+				delay: 200,
+				minChars: 0,
+				selectOnTab: true, 
+				maxVisibleItems: 10,
+				filter: {
+					filter: function(text, data){ return true; }, // filters the data array
+<?php
+			if ($config->charset=="UTF-8") {
+?>
+					formatMatch: function(text, data, i){ return decodeURIComponent(data); }, // this function should return the text value of the data element
+					formatItem: function(text, data){ return decodeURIComponent(data); } // the return of this function will be applied to the 'html' of the li's
+<?php
+			} else {
+?>
+					formatMatch: function(text, data, i){ return Utf8.decode(decodeURIComponent(data)); }, // this function should return the text value of the data element
+					formatItem: function(text, data){ return Utf8.decode(decodeURIComponent(data)); } // the return of this function will be applied to the 'html' of the li's
+<?php
+			}
+?>
+				}, 				
+				requestOptions: {
+					data: {'json': JSON.encode(data)},
+					noCache: true
+					// you can pass any of the Request.JSON options here -> http://mootools.net/docs/core/Request/Request.JSON
+				},
+				urlOptions: {
+					queryVarName: 'value',	// the name of the variable that's going to the server with the query value inputed by the user.
+					extraParams: null,
+					max: 20					// the max number of options that should be listed. This will be sent to the ajax request as the 'limit' parameter.
+				} 
+			});
 		//]]>
 		</script>
 	<?php
@@ -1021,7 +1251,8 @@ function uddeIMdoSmileysEx($config) {
 			// Extended Animated Emoticons
 			$smileys   = $pathtouser."/templates/".$config->templatedir."/".$picfolder."/";
 
-			echo("<script language=\"JavaScript\" type=\"text/javascript\"><!--\n");
+			// echo("<script language=\"JavaScript\" type=\"text/javascript\"><!--\n");
+			echo("\n<script type=\"text/javascript\"><!--\n");
 			echo("function uddeimWindowOpen (title, par) {\n");
 			echo("  uddeimWindow = window.open(\"\", title, par);\n");
 			echo("  uddeimWindow.document.writeln(\"<html><head><title>uddeIM<\/title>");
@@ -1363,11 +1594,33 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 	// 17 = user is banned
 	// 18 = file upload failed
 	// 19 = file size exceeded
+	// 20 - file type not allowed
 
 	// This functions expects values stripslashed
 
+	// allowed to send messages?
+	if ($config->waitdays && uddeIMisReggedOnly($my_gid)) {
+		$rightnow=uddetime($config->timezone);
+		$offset=((float)$config->waitdays) * 86400;
+		$timeframe=$rightnow-$offset;
+		$registerDate=uddeIMgetRegisterDate($myself, $config);
+		// $registerDate=mktime(0, 0, 0, 3, 28, 2010);
+		if ($timeframe<$registerDate) {
+			$temp = ($registerDate-$timeframe)/86400;
+			$showinboxlimit_borderbottom = "<span class='uddeim-warning'>";
+			if ($temp>=1)
+				$showinboxlimit_borderbottom.= _UDDEIM_WAITDAYS1.sprintf("%0.1f", $temp)._UDDEIM_WAITDAYS2;
+			else 
+				$showinboxlimit_borderbottom.= _UDDEIM_WAITDAYS1.sprintf("%0.1f", $temp*24)._UDDEIM_WAITDAYS2H;
+			$showinboxlimit_borderbottom.= "</span>";
+			echo "<div id='uddeim-bottomlines'>".$showinboxlimit_borderbottom."</div>";
+			return;
+		}
+	}
+	
 	echo "<div id='uddeim-writeform'>\n";
 	if ($dwf_sysgm) {
+		echo "<br />";
 		echo "<form enctype='multipart/form-data' name='sendeform' method='post' action='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=savesysgm&Itemid=".$item_id)."'>\n";
 		uddeIMwriteCSRF($config);
 		echo "<p><input type='checkbox' checked='checked' name='sysgm_sys' value='1' />"._UDDEIM_SEND_ASSYSM."</p>\n";
@@ -1395,9 +1648,13 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 		echo "<input name='sysgm_validfor' type='text' size='4' />"._UDDEIM_VALIDFOR_2."</p>\n";
 		echo "<p>"._UDDEIM_SYSGM_SHORTHELP."</p>\n";
 	} else {
+		echo "<br />";
 		echo "<form enctype='multipart/form-data' name='sendeform' method='post' action='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=save&Itemid=".$item_id)."'>";
 		echo "<input type='hidden' name='sendeform_showallusers' value='' />\n";
 		uddeIMwriteCSRF($config);
+		if (uddeIMgetEMNmoderated($myself) ) { //&& uddeIMisReggedOnly($my_gid)) {
+			echo "<p>"._UDDEIM_MCP_MODERATED."</p>";
+		}
 	}
 	echo "\n";
 
@@ -1409,7 +1666,7 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 	
 		if($dwf_isreply!=1) { // if this is NOT a reply
 
-			echo "<table width='100%' cellspacing='0' cellpadding='0'>";
+			echo "<table width='100%' cellspacing='0' cellpadding='0' width='100%'>";
 
 			if(0 && $dwf_errorcode==0 && $recipname) {		// BUGBUG "0 &&". don't need this case
 				echo "<tr><td valign='top'>";
@@ -1431,14 +1688,15 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 				if($dwf_errorcode==2 || $dwf_errorcode==3 || $dwf_errorcode==5 || 
 				   $dwf_errorcode==6 || $dwf_errorcode==8 || $dwf_errorcode==9 || 
 				   $dwf_errorcode==10 || $dwf_errorcode==11 || $dwf_errorcode==16 ||
-				   $dwf_errorcode==17 || $dwf_errorcode==18 || $dwf_errorcode==19) {
+				   $dwf_errorcode==17 || $dwf_errorcode==18 || $dwf_errorcode==19 ||
+				   $dwf_errorcode==20) {
 					$errorstyle='style="background-color: #ff0000;" ';
 				} else {
 					$errorstyle='';
 				}
 
 				echo "<input type='hidden' name='to_id' value='' />";
-				echo "<input type='hidden' name='messageid' value='' />";
+				echo "<input type='hidden' name='messageid' value='".$messageid."' />";
 				if (!($config->flags & 0x04)) {
 					echo "<input type='text' ".$errorstyle."name='to_name' id='input_to_name' value='".htmlentities($recipname, ENT_QUOTES, $config->charset)."' />&nbsp;";
 				} else {
@@ -1510,6 +1768,8 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 					echo "<tr><td valign=left colspan=2>"._UDDEIM_FILEUPLOAD_FAILED."</td></tr>";
 				} elseif ($dwf_errorcode==19) {
 					echo "<tr><td valign=left colspan=2>"._UDDEIM_FILESIZE_EXCEEDED."</td></tr>";
+				} elseif ($dwf_errorcode==20) {
+					echo "<tr><td valign=left colspan=2>"._UDDEIM_FILETYPE_NOTALLOWED."</td></tr>";
 				}
 // START THIRD LINE IN TABLE WHEN CONNECTIONS AVAILABLE
 
@@ -1547,7 +1807,8 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 		}
 	}
 
-	if(($config->showtextcounter && $config->maxlength) || $config->cryptmode==2 || $config->cryptmode==4) {
+	if(($config->showtextcounter && $config->maxlength) || 
+		$config->cryptmode==2 || $config->cryptmode==4) {
 		uddeIMaddScript($pathtosite."/components/com_uddeim/js/uddeimtools.js");
 	}
 
@@ -1603,7 +1864,6 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 
 	// CRYPT
 	if($config->cryptmode==2 || $config->cryptmode==4) {
-//	if($config->cryptmode==2 && !$dwf_sysgm) {										// show encryption box only when this is not a systemmessage
 		echo "<div class='uddeim-password'>";
 		echo "<a href='javascript:uddeidswap(\"divpass\");'>"._UDDEIM_PASSWORDBOX."</a>";
 		echo "<span id='divpass' style='visibility:hidden;'>: <input name='cryptpass' value='' />"._UDDEIM_ENCRYPTIONTEXT."</span>";
@@ -1623,7 +1883,7 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 				$errorstyle='';
 			}
 			echo "<div class='uddeim-captcha'>";
-			echo "<label for='security_code'>Security Code: </label><input id='security_code' name='security_code' type='text' ".$errorstyle." />&nbsp;";
+			echo "<label for='security_code'>"._UDDEIM_SECURITYCODE." </label><input id='security_code' name='security_code' type='text' ".$errorstyle." />&nbsp;";
 
 			if (class_exists('JFactory')) {
 				// CAPTCHA15
@@ -1645,10 +1905,11 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 	// ================================== Show the SEND OPTIONS ==============================
 
 	$showoptions =  ($config->trashoriginal && $dwf_isreply==1) ||
-					($config->trashoriginal && $dwf_isreply==0) ||
+					($config->trashoriginalsent && !$dwf_sysgm) ||
 					($config->allowcopytome && !$dwf_sysgm) ||
-					($config->allowmultipleuser && !$dwf_sysgm) ||
-					($config->allowemailnotify && $config->emailwithmessage==2 && uddeIMisAdmin($my_gid));
+					($config->addccline && $config->allowmultipleuser && !$dwf_sysgm) ||
+					($config->allowemailnotify && $config->emailwithmessage==2 && uddeIMisAdmin($my_gid)) ||
+					($config->allowemailnotify && $dwf_sysgm);
 
 	if ($showoptions) {
 		echo "<div class='uddeim-sendoption'>";
@@ -1662,7 +1923,7 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 	if($config->allowcopytome && !$dwf_sysgm) {
 		echo "<input type='checkbox' value='1' name='copytome' />"._UDDEIM_SENDCOPYTOME."&nbsp;";
 	}
-	if($config->allowmultipleuser && !$dwf_sysgm) {
+	if($config->addccline && $config->allowmultipleuser && !$dwf_sysgm) {
 		echo "<span title='"._UDDEIM_ADDCCINFO_TITLE."'>";
 		echo "<input type='checkbox' value='1' checked='checked' name='addccinfo' />"._UDDEIM_ADDCCINFO;
 		echo "</span>";
@@ -1673,6 +1934,10 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 		echo "<input type='checkbox' value='1' name='forceembedded' />"._UDDEAIM_ADDEMAIL_SELECT;
 		echo "</span>";
 	}
+	if($config->allowemailnotify && $dwf_sysgm) {
+		echo "<span><input type='checkbox' value='1' name='sysgm_nonotify' />"._UDDEIM_SEND_NONOTIFY."</span>\n";
+	}
+
 	if ($showoptions) {
 		echo "</div>";
 	}
@@ -1680,9 +1945,53 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 	// ================================== SEND BUTTON ==============================
 
 	echo "<div class='uddeim-sendbutton'>";
-	echo "<input type='submit' name='reply' class='button' value='"._UDDEIM_SUBMIT."' />&nbsp;";
+	// when going back one page (history(-1)) the button stays disabled
+    // echo "<input type='submit' name='reply' class='button' onclick=\"this.disabled=true;this.value='"._UDDEIM_PROCESSING."';this.form.submit();\" value='"._UDDEIM_SUBMIT."' /> ";
+    echo "<input type='submit' name='reply' class='button' value='"._UDDEIM_SUBMIT."' /> ";
 	echo "</div>";
 
 	echo "</form>\n";
 	echo "</div>\n"; // end of uddeim-writeform
+}
+
+function uddeIMreplySuggestion($decryptedmessage, $displaymessage, $fromname, $toname, $isforward, $box, $config) {
+	$replysuggest = stripslashes($decryptedmessage);
+	// if allowed to contain bbcodes they should be stripped for the reply quote
+	if ($displaymessage->systemflag || $config->allowbb)
+		$replysuggest = uddeIMbbcode_strip($replysuggest);
+
+	if ($box=="outbox") {
+		if ($isforward && $config->allowforwards) {
+			$fromname = uddeIMgetNameFromID($displaymessage->fromid, $config);
+			if ($config->allowbb)
+				$replysuggest="[i]"._UDDEIM_FWDFROM." ".$fromname." "._UDDEIM_FWDTO." ".$toname." (".uddeLdate($displaymessage->datum, $config, uddeIMgetUserTZ())."):[/i]\n\n".$replysuggest;
+			else
+				$replysuggest=""._UDDEIM_FWDFROM." ".$fromname." "._UDDEIM_FWDTO." ".$toname." (".uddeLdate($displaymessage->datum, $config, uddeIMgetUserTZ())."):\n\n".$replysuggest;
+		}
+	} else {
+		if ($isforward && $config->allowforwards) {
+			if ($displaymessage->toid!=$displaymessage->fromid) { 		// not a copy to myself
+				$toname = uddeIMgetNameFromID($displaymessage->toid, $config);
+				if ($config->allowbb)
+					$replysuggest="[i]"._UDDEIM_FWDFROM." ".$fromname." "._UDDEIM_FWDTO." ".$toname." (".uddeLdate($displaymessage->datum, $config, uddeIMgetUserTZ())."):[/i]\n\n".$replysuggest;
+				else
+					$replysuggest=""._UDDEIM_FWDFROM." ".$fromname." "._UDDEIM_FWDTO." ".$toname." (".uddeLdate($displaymessage->datum, $config, uddeIMgetUserTZ())."):\n\n".$replysuggest;
+			} else {	// its a copy2me
+				$toname = uddeIMgetNameFromID($displaymessage->toid, $config);
+				if ($config->allowbb)
+					$replysuggest="[i]"._UDDEIM_FWDFROM." ".$toname." ".$fromname." (".uddeLdate($displaymessage->datum, $config, uddeIMgetUserTZ())."):[/i]\n\n".$replysuggest;
+				else
+					$replysuggest=""._UDDEIM_FWDFROM." ".$toname." ".$fromname." (".uddeLdate($displaymessage->datum, $config, uddeIMgetUserTZ())."):\n\n".$replysuggest;
+			}
+		}
+	}
+	$replytomessage = "\n\n\n\n".$config->quotedivider."\n".$replysuggest;
+
+	if ($config->maxlength) {
+		if (uddeIM_utf8_strlen($config->languagecharset, $replytomessage)+3>=$config->maxlength) {
+			$mlength = $config->maxlength * 2 / 3;
+			$replytomessage = uddeIM_utf8_substr($config->languagecharset, $replytomessage,0,$mlength)."...";
+		}
+	}
+	return $replytomessage;
 }

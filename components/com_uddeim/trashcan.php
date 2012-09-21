@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -18,7 +18,6 @@ function uddeIMshowTrashCan($myself, $item_id, $limit, $limitstart, $cryptpass, 
 
 	$pathtosite = uddeIMgetPath('live_site');
 	$pathtouser = uddeIMgetPath('user');
-	//$my_gid = uddeIMgetGID($myself);
 	$my_gid = $config->usergid;
 
 	if( ($config->trashrestriction==0) ||
@@ -91,19 +90,19 @@ function uddeIMshowTrashCan($myself, $item_id, $limit, $limitstart, $cryptpass, 
 		$themarker = "";
 		$theuser = 0;
 		$datumcell = "";
-//		$createdcell=uddeDate($themessage->datum, $config);
+//		$createdcell=uddeDate($themessage->datum, $config, uddeIMgetUserTZ());
 		if ($myself==$themessage->toid && $myself!=$themessage->fromid) {
 			// Msg sent to me, sender is someone else, so user is in "fromid"
 			$themarker = "&lt;";
 			$theuser = $themessage->fromid;
-			$datumcell=uddeDate($themessage->totrashdate, $config);
+			$datumcell=uddeDate($themessage->totrashdate, $config, uddeIMgetUserTZ());
 			// $displayname = $themessage->fromname;
 			$displayname = uddeIMevaluateUsername($themessage->fromname, $themessage->fromid, $themessage->publicname);
 		} elseif ($myself==$themessage->fromid && $myself!=$themessage->toid) {
 			// Msg sent by me, receiver is someone else, so user is in "toid"
 			$themarker = "&gt;";
 			$theuser = $themessage->toid;
-			$datumcell=uddeDate($themessage->totrashdateoutbox, $config);
+			$datumcell=uddeDate($themessage->totrashdateoutbox, $config, uddeIMgetUserTZ());
 			// $displayname = $themessage->toname;
 			$displayname = uddeIMevaluateUsername($themessage->toname, $themessage->toid, $themessage->publicname);
 		} else {	// this case appears when a copy to me message has been trashed my myself
@@ -111,28 +110,28 @@ function uddeIMshowTrashCan($myself, $item_id, $limit, $limitstart, $cryptpass, 
 			// totrash=1 messages has been trashed by myself, so I show them in the trashcan
 			$themarker = "&lt;";	// the message has been send to me (we could also reorder the if-clause and catch this case with "$myself==$themessage->toid" but maybe I change the marker sometime)
 			$theuser = $themessage->fromid;
-			$datumcell=uddeDate($themessage->totrashdate, $config);
+			$datumcell=uddeDate($themessage->totrashdate, $config, uddeIMgetUserTZ());
 			// $displayname = $themessage->fromname;
 			$displayname = uddeIMevaluateUsername($themessage->fromname, $themessage->fromid, $themessage->publicname);
 		}
 
-		// systemmessage = "an XXX XXXX"
+		// systemmsg = "an XXX XXXX"
 		$personalsys=0;
-		if($themessage->systemmessage==$displayname && $myself==$themessage->toid) {
+		if($themessage->systemflag && $myself==$themessage->toid && $themessage->systemmessage==$displayname) {
 			$personalsys=1;
 		}
-		if($themessage->systemmessage && $myself==$themessage->toid) {
-			$displayname=$themessage->systemmessage;
+		if($themessage->systemflag && $myself==$themessage->toid) {
+			$displayname=$themessage->systemmessage;	// its for me, so show systemname "to username" (copy2me message)
 		}
 
 		$fromcell = $themarker." ".$displayname;
 		if ($theuser) {
-			if(($config->showcblink && !$themessage->systemmessage) || ($config->showcblink && $personalsys)) {
+			if(($config->showcblink && !$themessage->systemflag) || ($config->showcblink && $personalsys)) {
 				$fromcell = uddeIMshowThumbOrLink($theuser, $themarker." ".$displayname, $config);
 			}
 
-			// is this user currently online?
-			if (($config->showonline && !$themessage->systemmessage) || ($config->showonline && $personalsys)) {
+			// Is this user currently online? Don't check, if it is a system message
+			if (($config->showonline && !$themessage->systemflag) || ($config->showonline && $personalsys)) {
 				$isonline = uddeIMisOnline($theuser);
 				if($isonline) {
 					$fromcell.="&nbsp;".$uddeicons_onlinepic;
@@ -147,7 +146,7 @@ function uddeIMshowTrashCan($myself, $item_id, $limit, $limitstart, $cryptpass, 
 
 		$teasermessage=$cm;
 		// if it is a system message or bb codes allowed, parse BB codes
-		if ($themessage->systemmessage || $config->allowbb)
+		if ($themessage->systemflag || $config->allowbb)
 			$teasermessage=uddeIMbbcode_strip($teasermessage);
 
 		$teasermessage=uddeIMteaser(stripslashes($teasermessage), $config->firstwordsinbox, $config->quotedivider, $config->languagecharset);
@@ -208,8 +207,6 @@ function uddeIMshowTrashCan($myself, $item_id, $limit, $limitstart, $cryptpass, 
 // *****************************************************************************************
 
 function uddeIMrestoreMessage($myself, $messageid, $limit, $limitstart, $item_id, $config) {
-
-	//$my_gid = uddeIMgetGID($myself);
 	$my_gid = $config->usergid;
 
 	if( ($config->trashrestriction==0) ||

@@ -15,6 +15,136 @@
 // Carina Carlsson,
 // Sune Hultman, Celona AB http://www.svenskjoomla.se
 // *******************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Translated by Sune Hultman-SvenskJoomla, JOKR Solutions and Carina Carlsson');	// Enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'do not load MooTools (use MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'force loading MooTools 1.3 (use MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'Ingen SEF för %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Använd inte SEF för %msglink% platshållare i mailaviseringar.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Använd speciella kalendrar');
+DEFINE ('_UDDEADM_STIME_EXP', 'Om aktiverat på webbplatser som använder farsi språkfil, kommer persisk kalender att användas.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Ta bort överblivna kontakter');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Ta bort överblivna kontakter atuomatiskt när en befintlig kontaktlista sparas.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Visa bara kontakter');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'Användarna som visas i listan kan begränsas till CB/CBE/JS-kontakter (dölj användare från användarlista har ingen effekt här om aktiverad).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'inaktiverad');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'registrerade användare');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'registrerade, specialanvändare');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'alla användare (inkl. admins)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...standard för visa kontakter');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Säkerhetskod:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Knapp "Visa CC: rad"');
+DEFINE ('_UDDEADM_CC_EXP', 'Om aktiverat, kan användarna välja om uddeIM ska lägga till en rad med CC: som visar alla mottagare av meddelandet.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...standard för CC: och moderering');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Meddelandecentral');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Radera meddelande');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Skicka meddelande');
+DEFINE ('_UDDEADM_OOD_MCP', 'Meddelandecentral-pluginen är föråldrad!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Meddelanden att moderera:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Borttagna');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Radera detta meddelande från databasen?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Skicka detta meddelande till mottagaren?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Visa/Dölj');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Meddelande kontrollpanel');
+DEFINE ('_UDDEADM_MCP_FROM', 'Från');
+DEFINE ('_UDDEADM_MCP_TO', 'Till');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Meddelande');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Radera');
+DEFINE ('_UDDEADM_MCP_DATE', 'Datum');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Skicka');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Mod');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Mod -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Ditt meddelande kommer att modereras. En moderator kommer att kontrollera det innan det levereras till mottagaren.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Väntar på moderator');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Moderera nya användare');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'Om aktiverad, så kommer meddelanden från nya registrerade användare som standard att modereras.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Moderera publika användare');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'Om aktiverad, så kommer meddelanden från publika användare som standard att modereras.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'Ingen meny');
+
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Public Frontend Plugin är för gammal!');
+DEFINE ('_UDDEADM_OOD_A', 'File Attachment Plugin är för gammal!');
+DEFINE ('_UDDEADM_OOD_RSS', 'RSS Plugin är för gammal!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Message Report Center Plugin är för gammal!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>Fu har inga filtrerade meddelanden i din %s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'oläst');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'flaggad');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'gravatar aktiverat');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Aktiverar stöd för gravatar.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'gravatar bilduppsättning');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Välj bilduppsättning för standardbilder.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'gravatar betyg');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'Som standard, visas bara bilder med  "G" såvida du inte anger högre betyg. "X" visar alla gravatar-bilder.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'wavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'standard');
+DEFINE ('_UDDEADM_GRG', 'G = Generell');
+DEFINE ('_UDDEADM_GRPG', 'PG = Parental Guidance');
+DEFINE ('_UDDEADM_GRR', 'R = Restricted');
+DEFINE ('_UDDEADM_GRX', 'X = Adult only');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Bearbetar...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Skicka inga aviseringsmail');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'Aviseringsmail kommer inte att skickas');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'Meddelandet kommer att bifogas aviseringsmailet');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...ange standard för tumnaglar');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Tumnagelstorlek');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Bredd och höjd (i pixel) för tumnaglar (0 = storlek ändras ej).');
+DEFINE ('_UDDEIM_SAVE', 'Spara');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Hej %you%,\n\n%touser% har rapporterat ett misstänkt meddelande från %fromuser%. Logga in och kontrollera det!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'Ett meddelande har rapporterats på %site%');
+DEFINE ('_UDDEADM_KBYTES', 'KByte');
+DEFINE ('_UDDEADM_MBYTES', 'MByte');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'Filen har raderats');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Fel: Filen finns inte');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Bilagor (max %s per fil):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Oskyddad filnedladdning');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'Usually uddeIM does not disclose the server path of file attachments, so nobody - even when the filename is known - can download the file. Enabling this option forces uddeIM to return the full server path. For security reasons, uddeIM added a MD5 hash to the original file name. Users can download the file directly when the full path is known. Do only use with care! READ THE FAQ WHEN USING THIS OPTION!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...ange standard för bilagor, public frontend');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Filetypen tillåts ej');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Tillåtna filtyper');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Ange alla tillåtna filtyper (separerade med ";"). Lämna tomt för inga restriktioner.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'E-post krävs');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'Om aktiverat, måste publika användare ange en e-postadress.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Dagar att vänta');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Ange hur många dagar en användare måste vänta innan han/hon tillåts skicka meddelanden (för 3 timmar, ange 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'Cu måste vänta ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' dagar innan du kan skicka meddelanden.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' timmar innan du kan skicka meddelanden.');
 
 // New: 2.0
 DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha privat nyckel');
@@ -25,15 +155,15 @@ DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Intern');
 DEFINE ('_UDDEADM_CAPTCHA_RECAPTCHA', 'reCaptcha');
 DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Captcha service');
 DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Vilken captcha-service vill du använda: Den inbyggda servicen eller reCaptcha (se <a href="http://recaptcha.net" target="_new">reCaptcha</a> för mer information)?');
-DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...sätt standard för captcha-service');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...ange standard för captcha-service');
 DEFINE ('_UDDEADM_AUP', 'AlphaUserPoints');
 DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Flytta <i>\uddeimfiles</i> till <i>\images\uddeimfiles</i>. Se dokumentationen för mer info!');
 DEFINE ('_UDDEADM_CRYPT4', 'Stark kryptering');
 DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Tillåt att systemmeddelanden skickas');
 DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM stöder systemmeddelanden. De skickas till alla användare på din webbplats. Använd dem sparsamt.');
-DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'inaktiverad');
+DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'inaktiverat');
 DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'bara admin');
-DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'admin och innehållshanterare');
+DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'admin och innehållsredaktörer');
 
 // New: 1.9
 DEFINE ('_UDDEIM_FILEUPLOAD_FAILED', 'Filuppladdning misslyckades');
@@ -105,8 +235,8 @@ DEFINE ('_UDDEADM_CBBANNED_EXP', 'När aktiverat kontrollerar uddeIM om användare
 DEFINE ('_UDDEIM_YOUAREBANNED', 'Du har blockerats. Kontakta ansvarig för sidan.');
 DEFINE ('_UDDEIM_USERBANNED', 'Användaren har blockerats.');
 DEFINE ('_UDDEADM_JOOBB', 'Joo!BB');
-DEFINE ('_UDDEPLUGIN_SEARCHSECTION', 'Privata meddelanden');
-DEFINE ('_UDDEPLUGIN_MESSAGES', 'Privata meddelanden');
+DEFINE ('_UDDEPLUGIN_SEARCHSECTION', 'Personliga meddelanden');
+DEFINE ('_UDDEPLUGIN_MESSAGES', 'Personliga meddelanden');
 DEFINE ('_UDDEADM_MAINTENANCEDEL_HEAD', 'Tillåt radering av meddelanden');
 // note "This  is the same as _UDDEADM_MAINTENANCE_PRUNE on the system tab."
 DEFINE ('_UDDEADM_MAINTENANCEDEL_EXP', 'Tar bort raderade meddelanden från databasen. Detta är samma som \'Rensa meddelanden\' i systemfliken.');
@@ -432,7 +562,7 @@ DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'Du använder redan den senaste versionen
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'Senaste versionen är ');
 DEFINE ('_UDDEADM_VERSIONCHECK_INFO', 'Uppdatera information:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HEAD', 'Sök uppdatering');
-DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Genom detta kontaktas uddeIM:s utvecklarsida för att söka information om den senaste versionen av uddeIM. Ingen personlig information skickas.');
+DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Genom detta kontaktas uddeIM:s utvecklarsida för att söka information om den senaste versionen av uddeIM.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CHECK', 'KONTROLLERA NU');
 DEFINE ('_UDDEADM_VERSIONCHECK_ERROR', 'Kunde inte hämta versionsinformation.');
 DEFINE ('_UDDEIM_NOSUCHLIST', 'Kontaktlista hittades inte!');
@@ -650,7 +780,7 @@ DEFINE ('_UDDEIM_ENCRYPTIONTEXT', ' (kryptera text)');
 DEFINE ('_UDDEIM_DECRYPTIONTEXT', ' (dekryptera text)');
 DEFINE ('_UDDEIM_MORE', 'MER');
 // uddeIM Module
-DEFINE ('_UDDEMODULE_PRIVATEMESSAGES', 'Privata meddelanden');
+DEFINE ('_UDDEMODULE_PRIVATEMESSAGES', 'Personliga meddelanden');
 DEFINE ('_UDDEMODULE_NONEW', 'Inga nya');
 DEFINE ('_UDDEMODULE_NEWMESSAGES', 'Nya meddelanden: ');
 DEFINE ('_UDDEMODULE_MESSAGE', 'meddelande');
@@ -963,7 +1093,7 @@ DEFINE ('_UDDEADM_DISPLAY', 'Visa');
 DEFINE ('_UDDEADM_SHOWMENUICONS_HEAD', 'Visa menyikoner');
 DEFINE ('_UDDEADM_SHOWMENUICONS_EXP', 'Om <b>Ja</b>, kommmer menyer och länkar att visas som ikoner.');
 DEFINE ('_UDDEADM_SHOWTITLE_HEAD', 'Komponentrubrik');
-DEFINE ('_UDDEADM_SHOWTITLE_EXP', 'Fyll i rubriken för PM-komponenten, till exempel \'Privata Meddelanden\'. Lämna tom om du inte vill visa en rubrik.');
+DEFINE ('_UDDEADM_SHOWTITLE_EXP', 'Fyll i rubriken för PM-komponenten, till exempel \'Personliga Meddelanden\'. Lämna tom om du inte vill visa en rubrik.');
 DEFINE ('_UDDEADM_SHOWABOUT_HEAD', 'Visa Om oss-länk');
 DEFINE ('_UDDEADM_SHOWABOUT_EXP', 'Välj <b>Ja</b> för att visa länk till uddeIM och licens. Denna länk kommer placeras längst ner på uddeIM HTML output.');
 DEFINE ('_UDDEADM_STOPALLEMAIL_HEAD', 'Stoppa mail');
@@ -1053,7 +1183,7 @@ DEFINE ('_UDDEIM_EMN_BODY_NOMESSAGE',
 DEFINE ('_UDDEIM_EMN_BODY_WITHMESSAGE',
 'Hej %you%,\n\n%user% har skickat dig följande meddelandet på %site%. Logga in för att svara!\n\n%livesite%\n\n__________________\n%pmessage%');
 DEFINE ('_UDDEIM_EMN_FORGETMENOT',
-'Hej %you%,\n\nDet finns nya privata meddelanden till dig på %site%. Logga in för att läsa dem!\n\n%livesite%');
+'Hej %you%,\n\nDet finns nya personliga meddelanden till dig på %site%. Logga in för att läsa dem!\n\n%livesite%');
 DEFINE ('_UDDEIM_EXPORT_FORMAT', '
 ================================================================================
 %user% (%msgdate%)

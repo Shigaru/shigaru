@@ -12,25 +12,154 @@
 // Language file: Traditional Chinese (source file is UTF-8)
 // Translator: http://www.whichworkstation.com  dr.which@gmail.com
 // *******************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Translated by dr.which@gmail.com');	// Enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'do not load MooTools (use MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'force loading MooTools 1.3 (use MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'No SEF for %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Do not use SEF for %msglink% placeholder in email notifications.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Use special calendars');
+DEFINE ('_UDDEADM_STIME_EXP', 'When enabled on sites using the farsi language file the persian calendar is used.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Remove orphaned connections');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Automatically remove orphaned connections when saving an existing contact list.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Show connections only');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'The users shown in the list can be restricted to CB/CBE/JS connections (hide users from userlist has no effect here when enabled).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'disabled');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'registered users');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'registered, special users');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'all users (incl. admins)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...set default for show connections');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Security Code:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Button "Show CC: line"');
+DEFINE ('_UDDEADM_CC_EXP', 'When enabled a user can choose if uddeIM shall add a CC: line containing all recipients to a message or not.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...set default for CC: line, and moderation');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Message Center');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Delete message');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Deliver message');
+DEFINE ('_UDDEADM_OOD_MCP', 'Message Center Plugin out of date!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Messages to moderate:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Trashed');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Delete this message from database?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Deliver this message to recipient?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Show/Hide');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Message Control Center');
+DEFINE ('_UDDEADM_MCP_FROM', 'From');
+DEFINE ('_UDDEADM_MCP_TO', 'To');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Message');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Delete');
+DEFINE ('_UDDEADM_MCP_DATE', 'Date');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Deliver');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Mod');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Mod -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Your messages will be moderated. A moderator will check them before they are delivered to the recipients.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Waiting for moderator');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Moderate new users');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'When enabled messages from new registered users are moderated by default.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Moderate public users');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'When enabled messages from public users users are moderated.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'No menu');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Public Frontend Plugin out of date!');
+DEFINE ('_UDDEADM_OOD_A', 'File Attachment Plugin out of date!');
+DEFINE ('_UDDEADM_OOD_RSS', 'RSS Plugin out of date!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Message Report Center Plugin out of date!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>You have no filtered messages in your%s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'unread');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'flagged');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'gravatar enabled');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Enables gravatar support.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'gravatar imageset');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Select the imageset for default images.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'gravatar rating');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'By default, only "G" rated images are displayed unless you indicate higher ratings. "X" displays all gravatar images.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'wavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'default');
+DEFINE ('_UDDEADM_GRG', 'G = General');
+DEFINE ('_UDDEADM_GRPG', 'PG = Parental Guidance');
+DEFINE ('_UDDEADM_GRR', 'R = Restricted');
+DEFINE ('_UDDEADM_GRX', 'X = Adult only');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Processing...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Do not send notification emails');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'Email notifications will not be sent');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'Text will be embedded in notification email');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...set default for thumbnails');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Display size of thumbnails');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Width and height (in pixels) of thumbnails (0 = size will not be changed).');
+DEFINE ('_UDDEIM_SAVE', 'Save');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Hi %you%,\n\n%touser% has reported a suspicious message from %fromuser%. Please log in and check it!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'A message has been reported on %site%');
+DEFINE ('_UDDEADM_KBYTES', 'KByte');
+DEFINE ('_UDDEADM_MBYTES', 'MByte');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'File has been deleted');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Error: File does not exist');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Attachments (max. %s per file):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Unprotected file downloads');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'Usually uddeIM does not disclose the server path of file attachments, so nobody - even when the filename is known - can download the file. Enabling this option forces uddeIM to return the full server path. For security reasons, uddeIM added a MD5 hash to the original file name. Users can download the file directly when the full path is known. Do only use with care! READ THE FAQ WHEN USING THIS OPTION!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...set default for file attachments, public frontend');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Filetype not allowed');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Extensions allowed');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Enter all extensions allowed (separated by ";"). Leave blank for no restrictions.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'Email required');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'When enabled a public user has to enter an email address.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Days to wait');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Specify how many days a user must wait until he is allowed to send messages (for 3 hours enter 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'You have to wait ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' days until you can send messages.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' hours until you can send messages.');
 
 // New: 2.0
-DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha private key');
-DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'When you want to use reCaptcha, enter your private key here.');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'reCaptcha public key');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'When you want to use reCaptcha, enter your public key here.');
-DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Internal');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha 私密金鑰');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', '當您要使用reCaptcha, 在此輸入您的私密金鑰.');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'reCaptcha 公開金鑰');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', '當您要使用reCaptcha, 在此輸入您的公開金鑰.');
+DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', '內部的');
 DEFINE ('_UDDEADM_CAPTCHA_RECAPTCHA', 'reCaptcha');
-DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Captcha service');
-DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Which captcha service do you want to use: The build-in service or reCaptcha (see <a href="http://recaptcha.net" target="_new">reCaptcha</a> for more information)?');
-DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...set default for captcha service');
+DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Captcha 服務');
+DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', '您想要使用哪種 captcha 服務: 內設的服務或是reCaptcha (瀏覽 <a href="http://recaptcha.net" target="_new">reCaptcha</a> 以獲得更多資訊)?');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...captcha 服務設為預設');
 DEFINE ('_UDDEADM_AUP', 'AlphaUserPoints');
-DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Please move <i>\uddeimfiles</i> to <i>\images\uddeimfiles</i>. Check the documentation!');
-DEFINE ('_UDDEADM_CRYPT4', 'Strong encryption');
-DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Allow sending system messages');
-DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM supports system messages. They are sent to all users on your system. Use them sparingly.');
-DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'disabled');
-DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'admins only');
-DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'admins and managers');
+DEFINE ('_UDDEADM_CHECKFILESFOLDER', '請移動 <i>\uddeimfiles</i> 至 <i>\images\uddeimfiles</i>. 請查閱文件!');
+DEFINE ('_UDDEADM_CRYPT4', '增強加密');
+DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', '允許寄出系統訊息');
+DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM 支援系統訊息. 會寄給所有在您系統的使用者. 請謹慎使用.');
+DEFINE ('_UDDEADM_ALLOWTOALL2_0', '停用');
+DEFINE ('_UDDEADM_ALLOWTOALL2_1', '只限系統管理員');
+DEFINE ('_UDDEADM_ALLOWTOALL2_2', '系統管理員及管理員');
 
 // New: 1.9
 DEFINE ('_UDDEIM_FILEUPLOAD_FAILED', '檔案上傳失敗');

@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2008 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -13,7 +13,7 @@
 
 if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this location is not allowed.' ); }
 
-function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $config, $filter_user, $filter_unread, $sort_mode) {
+function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $config, $filter_user, $filter_unread, $filter_flagged, $sort_mode) {
 	global $uddeicons_flagged, $uddeicons_unflagged, $uddeicons_onlinepic, $uddeicons_offlinepic, $uddeicons_readpic, $uddeicons_unreadpic;
 	
 	if(!$config->allowarchive) {
@@ -32,6 +32,8 @@ function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $conf
 		$addlink .= "&filter_user=".(int)$filter_user;
 	if ($filter_unread)
 		$addlink .= "&filter_unread=".(int)$filter_unread;
+	if ($filter_flagged)
+		$addlink .= "&filter_flagged=".(int)$filter_flagged;
 	if ($sort_mode)
 		$addlink2 .= "&sort_mode=".(int)$sort_mode;
 
@@ -68,7 +70,7 @@ function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $conf
 	}
 
 	// how many messages total in archive?
-	$totalarchive = uddeIMgetArchiveCount($myself, $filter_user, $filter_unread);
+	$totalarchive = uddeIMgetArchiveCount($myself, $filter_user, $filter_unread, $filter_flagged);
 
 	if ($config->inboxlimit) {		// inbox + archive
 		$total = uddeIMgetInboxArchiveCount($myself);
@@ -104,17 +106,17 @@ function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $conf
 
 	// read from archive db all msg where toid is me 
 	// this query should return all messages stored by me
-	$allmessages = uddeIMselectArchive($myself, $limitstart, $limit, $config, $filter_user, $filter_unread, $sort_mode);
+	$allmessages = uddeIMselectArchive($myself, $limitstart, $limit, $config, $filter_user, $filter_unread, $filter_flagged, $sort_mode);
 
 	// write the uddeim menu
 	uddeIMprintMenu($myself, 'archive', $item_id, $config);
 	echo "<div id='uddeim-m'>\n";
 
 	if ($config->enablefilter==1 || $config->enablefilter==3)
-		uddeIMprintFilter($myself, 'archive', $totalarchive, $item_id, $config, $filter_user, $filter_unread);
+		uddeIMprintFilter($myself, 'archive', $totalarchive, $item_id, $config, $filter_user, $filter_unread, $filter_flagged);
 
 	if (count($allmessages)<1) { // no messages to list
-		uddeIMshowNoMessage('archive', $filter_user, $filter_unread);
+		uddeIMshowNoMessage('archive', $filter_user, $filter_unread, $filter_flagged);
 		echo "</div>\n<div id='uddeim-bottomborder'>".uddeIMcontentBottomborder($myself, $item_id, 'standard', 'none', $config)."</div>\n";
 		return;
 	}
@@ -134,7 +136,7 @@ function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $conf
 		
 		$fromname = uddeIMevaluateUsername($themessage->fromname, $themessage->fromid, $themessage->publicname);
 
-		if($themessage->systemmessage)
+		if($themessage->systemflag)
 			$fromname=$themessage->systemmessage;
 
 		$personalsys=0;
@@ -145,14 +147,14 @@ function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $conf
 		$fromcell=$fromname;
 		if ($themessage->fromid) {
 			if ($config->showcblink && $themessage->fromname) {
-				if (!$themessage->systemmessage || $personalsys) {
+				if (!$themessage->systemflag || $personalsys) {
 					$fromcell = uddeIMshowThumbOrLink($themessage->fromid, $fromname, $config);
 				}
 			}
 
 			// is this user currently online?
 			if ($config->showonline && $themessage->fromname) {
-				if (!$themessage->systemmessage || $personalsys) {
+				if (!$themessage->systemflag || $personalsys) {
 					$isonline = uddeIMisOnline($themessage->fromid);
 					if ($isonline)
 						$fromcell.="&nbsp;".$uddeicons_onlinepic;
@@ -165,9 +167,9 @@ function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $conf
 		$flagcell = "";
 		if($config->allowflagged) {
 			if($themessage->flagged)
-				$flagcell="<br /><br /><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=unflag&ret=archive&Itemid=".$item_id."&messageid=".$themessage->id)."'>".$uddeicons_flagged."</a>";
+				$flagcell="<br /><br /><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=unflag&ret=archive&Itemid=".$item_id."&messageid=".$themessage->id."&limit=".$limit."&limitstart=".$limitstart)."'>".$uddeicons_flagged."</a>";
 			else
-				$flagcell="<br /><br /><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=flag&ret=archive&Itemid=".$item_id."&messageid=".$themessage->id)."'>".$uddeicons_unflagged."</a>";
+				$flagcell="<br /><br /><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=flag&ret=archive&Itemid=".$item_id."&messageid=".$themessage->id."&limit=".$limit."&limitstart=".$limitstart)."'>".$uddeicons_unflagged."</a>";
 		}
 
 		// as all messages in archive are READ by design, so this is basically nonsense but consistent with inbox/outbox handling
@@ -187,7 +189,7 @@ function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $conf
 		
 		$teasermessage = $cm;
 		// if it is a system message or bb codes allowed, parse BB codes
-		if ($themessage->systemmessage || $config->allowbb)
+		if ($themessage->systemflag || $config->allowbb)
 			$teasermessage = uddeIMbbcode_strip($teasermessage);
 
 		$teasermessage=uddeIMteaser(stripslashes($teasermessage), $config->firstwordsinbox, $config->quotedivider, $config->languagecharset);			
@@ -200,7 +202,7 @@ function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $conf
 		} else {							// normal message
 			$messagecell="<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=show&Itemid=".$item_id."&messageid=".$themessage->id)."'>".$teasermessage."</a>";
 		}
-		$datumcell=uddeDate($themessage->datum, $config);
+		$datumcell=uddeDate($themessage->datum, $config, uddeIMgetUserTZ());
 
 		$fwdcell="";
 		if($config->actionicons) {
@@ -297,7 +299,7 @@ function uddeIMarchive($myself, $item_id, $limit, $limitstart, $cryptpass, $conf
 	echo "</div>\n";
 
 	if ($config->enablefilter==2 || $config->enablefilter==3)
-		uddeIMprintFilter($myself, 'archive', $totalarchive, $item_id, $config, $filter_user, $filter_unread);
+		uddeIMprintFilter($myself, 'archive', $totalarchive, $item_id, $config, $filter_user, $filter_unread, $filter_flagged);
 
 	echo "</div>\n<div id='uddeim-bottomborder'>".uddeIMcontentBottomborder($myself, $item_id, 'standard', $limitreached, $config)."</div>\n";
 }
@@ -403,10 +405,10 @@ function uddeIMarchiveDownload($myself, $item_id, $arcmes, $limit, $limitstart, 
 	$htmlstring.=$mosConfig_sitename." "._UDDEIM_MESSAGEDOWNLOAD;
 	$htmlstring.="</title></head><body><h2>";
 	$htmlstring.=_UDDEIM_MESSAGEDOWNLOAD." - ".$mosConfig_sitename;
-	$htmlstring.="</h2><h4>".uddeLdate($rightnow, $config)."</h4><!-- generated by uddeIM messaging component --><table cellspacing=0 cellpadding=4 border=0>";
+	$htmlstring.="</h2><h4>".uddeLdate($rightnow, $config, uddeIMgetUserTZ())."</h4><!-- generated by uddeIM messaging component --><table cellspacing=0 cellpadding=4 border=0>";
 	
 	$exportstring=_UDDEIM_MESSAGEDOWNLOAD." - ".$mosConfig_sitename.$clrf;
-	$exportstring.=uddeLdate($rightnow, $config);
+	$exportstring.=uddeLdate($rightnow, $config, uddeIMgetUserTZ());
 	$exportstring.=$clrf.$clrf.$clrf;
 	
 	$maindivider="================================================================================".$clrf;
@@ -419,10 +421,10 @@ function uddeIMarchiveDownload($myself, $item_id, $arcmes, $limit, $limitstart, 
 		foreach($trashs as $trash) {
 
 			$fromname = uddeIMevaluateUsername($trash->fromname, $trash->fromid, $trash->publicname);
-			if($trash->systemmessage)
+			if($trash->systemflag)
 				$fromname = $trash->systemmessage;
 
-			// $headstring.=" (".uddeLdate($trash->datum, $config).")";
+			// $headstring.=" (".uddeLdate($trash->datum, $config, uddeIMgetUserTZ()).")";
 			// $headdivider=str_repeat("=", strlen($headstring));
 			// $exportstring.="     ".$headstring.$clrf."     ".$headdivider.$clrf.$clrf;
 			$cm = uddeIMgetMessage($trash->message, $cryptpass, $trash->cryptmode, $trash->crypthash, $config->cryptkey);
@@ -434,10 +436,10 @@ function uddeIMarchiveDownload($myself, $item_id, $arcmes, $limit, $limitstart, 
 			// $exportstring.=$maindivider;
 			$exportstring.=_UDDEIM_EXPORT_FORMAT;
 			$exportstring=str_replace("%user%", $fromname, $exportstring);
-			$exportstring=str_replace("%msgdate%", uddeLdate($trash->datum, $config), $exportstring);
+			$exportstring=str_replace("%msgdate%", uddeLdate($trash->datum, $config, uddeIMgetUserTZ()), $exportstring);
 			$exportstring=str_replace("%msgbody%", $dlmsg, $exportstring);				
 		
-			$htmlstring.="\n\t<tr bgcolor=#cccccc><td><strong>".$fromname."</strong></td><td align=right>".uddeLdate($trash->datum, $config)."</td></tr><tr><td>&nbsp;</td><td>";
+			$htmlstring.="\n\t<tr bgcolor=#cccccc><td><strong>".$fromname."</strong></td><td align=right>".uddeLdate($trash->datum, $config, uddeIMgetUserTZ())."</td></tr><tr><td>&nbsp;</td><td>";
 			$htmlstring.=nl2br(stripslashes($dlmsg));
 			$htmlstring.="</td></tr>";
 		}

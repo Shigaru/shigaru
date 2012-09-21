@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud
+// Author         © 2007-2010 Stephan Slabihoud
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -55,6 +55,12 @@ function uddeIMcheckPMS() {
 	}
 	if (in_array($prefix."primezilla_inbox", $tables))
     	$ret[] = 8;		// Primezilla 1.x - Achim Fischer
+	if (in_array($prefix."community_msg_recepient", $tables))
+    	$ret[] = 13;	// JomSocial 1.x - Azrul Rahim
+	if (in_array($prefix."messaging", $tables))
+    	$ret[] = 14;	// Messaging 1.x - Sander Kromwijk
+	if (in_array($prefix."cdpuremessenger", $tables))
+    	$ret[] = 15;	// CD Pure Messenger 1.x - Daniel Rataj
 	return $ret;
 }
 
@@ -72,6 +78,9 @@ function uddeIMnamePMS($pmsfound) {
 		case 10: return "myPMS Pro 1.x - Danial Taherzadeh"; break;
 		case 11: return "JIM Reloaded 1.x - Edi Goetschel"; break;
 		case 12: return "myPMS Enhanced 1.x - Stefan Klingner"; break;
+		case 13: return "JomSocial 1.x - Azrul Rahim"; break;
+		case 14: return "Messaging 1.x - Sander Kromwijk"; break;
+		case 15: return "CD Pure Messenger 1.x - Daniel Rataj"; break;
 	}
 	return _UDDEADM_NONEORUNKNOWN;
 }
@@ -266,6 +275,69 @@ function uddeIMcheckPMStype() {
 		}
 	}
 
+	if ( in_array(13, $tablefound) ) {	// __community_msg_recepient
+		$sql = "SHOW FIELDS FROM #__community_msg_recepient;";
+		$database->setQuery($sql);
+		$rows = $database->loadObjectList();
+		if (!$rows)
+			$rows = Array();
+		$fields = Array();
+		foreach ($rows as $row)
+			$fields[]=$row->Field;
+
+		// check for JomSocial 1.0
+		if ( in_array("msg_id"		, $fields) &&
+			 in_array("msg_parent"	, $fields) &&
+			 in_array("msg_from"	, $fields) &&
+			 in_array("to"			, $fields) &&
+			 in_array("bcc"			, $fields) &&
+			 in_array("is_read"		, $fields)      ) {
+			$mypmstype[] = 13;
+		}
+	}
+
+	if ( in_array(14, $tablefound) ) {	// __messaging
+		$sql = "SHOW FIELDS FROM #__messaging;";
+		$database->setQuery($sql);
+		$rows = $database->loadObjectList();
+		if (!$rows)
+			$rows = Array();
+		$fields = Array();
+		foreach ($rows as $row)
+			$fields[]=$row->Field;
+
+		// check for Messaging 1.5
+		if ( in_array("idFrom"		, $fields) &&
+			 in_array("idTo"		, $fields) &&
+			 in_array("subject"		, $fields) &&
+			 in_array("seen"		, $fields) &&
+			 in_array("message"		, $fields) &&
+			 in_array("date"		, $fields)      ) {
+			$mypmstype[] = 14;
+		}
+	}
+
+	if ( in_array(15, $tablefound) ) {	// __cdpuremessenger
+		$sql = "SHOW FIELDS FROM #__cdpuremessenger;";
+		$database->setQuery($sql);
+		$rows = $database->loadObjectList();
+		if (!$rows)
+			$rows = Array();
+		$fields = Array();
+		foreach ($rows as $row)
+			$fields[]=$row->Field;
+
+		// check for CD Pure Messenger 1.x
+		if ( in_array("from_id"		, $fields) &&
+			 in_array("to_id"		, $fields) &&
+			 in_array("message"		, $fields) &&
+			 in_array("from_created", $fields) &&
+			 in_array("from_ip"		, $fields) &&
+			 in_array("to_read"		, $fields)      ) {
+			$mypmstype[] = 15;
+		}
+	}
+
 	return $mypmstype;
 }
 
@@ -277,7 +349,7 @@ function uddeIMcreateCFGstring($config) {
 	$cf.="} else {\n";
 	$cf.=" define('_uddeConfig', 1);\n";
 	$cf.=" class uddeimconfigclass {\n";
-	$cf.="  var \$version = '1.5';\n";		// this is the version number of the configuration file
+	$cf.="  var \$version = '2.1';\n";		// this is the version number of the configuration file
 	$cf.="  var \$cryptkey = '".$config->cryptkey."';\n";
 	$cf.="  var \$datumsformat = '".$config->datumsformat."';\n";
 	$cf.="  var \$ldatumsformat = '".$config->ldatumsformat."';\n";  
@@ -300,6 +372,9 @@ function uddeIMcreateCFGstring($config) {
 	$cf.="  var \$attachmentgroups = '".$config->attachmentgroups."';\n";
 	$cf.="  var \$recaptchaprv = '".$config->recaptchaprv."';\n";
 	$cf.="  var \$recaptchapub = '".$config->recaptchapub."';\n";
+	$cf.="  var \$allowedextensions = '".addslashes($config->allowedextensions)."';\n";
+	$cf.="  var \$gravatard = '".$config->gravatard."';\n";
+	$cf.="  var \$gravatarr = '".$config->gravatarr."';\n";
 
 	$cf.="  var \$ReadMessagesLifespan = ".(int)$config->ReadMessagesLifespan.";\n";
 	$cf.="  var \$UnreadMessagesLifespan = ".(int)$config->UnreadMessagesLifespan.";\n";
@@ -376,6 +451,7 @@ function uddeIMcreateCFGstring($config) {
 	$cf.="  var \$timedelay = ".(int)$config->timedelay.";\n";
 	$cf.="  var \$pubrealnames = ".(int)$config->pubrealnames.";\n";
 	$cf.="  var \$pubreplies = ".(int)$config->pubreplies.";\n";
+	$cf.="  var \$pubemail = ".(int)$config->pubemail.";\n";
 	$cf.="  var \$csrfprotection = ".(int)$config->csrfprotection.";\n";
 	$cf.="  var \$trashrestriction = ".(int)$config->trashrestriction.";\n";
 	$cf.="  var \$replytruncate = ".(int)$config->replytruncate.";\n";
@@ -411,10 +487,23 @@ function uddeIMcreateCFGstring($config) {
 	$cf.="  var \$encodeheader = ".(int)$config->encodeheader.";\n";
 	$cf.="  var \$enablesort = ".(int)$config->enablesort.";\n";
 	$cf.="  var \$captchatype = ".(int)$config->captchatype.";\n";
+	$cf.="  var \$unprotectdownloads = ".(int)$config->unprotectdownloads.";\n";
+	$cf.="  var \$waitdays = ".(float)$config->waitdays.";\n";
+	$cf.="  var \$avatarw = ".(int)$config->avatarw.";\n";
+	$cf.="  var \$avatarh = ".(int)$config->avatarh.";\n";
+	$cf.="  var \$gravatar = ".(int)$config->gravatar.";\n";
+	$cf.="  var \$addccline = ".(int)$config->addccline.";\n";
+	$cf.="  var \$modnewusers = ".(int)$config->modnewusers.";\n";
+	$cf.="  var \$modpubusers = ".(int)$config->modpubusers.";\n";
+	$cf.="  var \$restrictcon = ".(int)$config->restrictcon.";\n";
+	$cf.="  var \$restrictrem = ".(int)$config->restrictrem.";\n";
+	$cf.="  var \$stime = ".(int)$config->stime.";\n";
+	$cf.="  var \$dontsefmsglink = ".(int)$config->dontsefmsglink.";\n";
+	$cf.="  var \$enablepostbox = ".(int)$config->enablepostbox.";\n";
 	$cf.="  // temporary variables\n";
 	$cf.="  var \$flags = 0;\n";
 	$cf.="  var \$userid = 0;\n";
-	$cf.="  var \$usergid = 0;\n";
+	$cf.="  var \$usergid = Array();\n";
 	$cf.="  var \$cbitemid = 0;\n";
 	$cf.=" }\n";
 	$cf.="}\n";

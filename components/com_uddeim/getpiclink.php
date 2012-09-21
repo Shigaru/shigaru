@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -24,11 +24,16 @@ function uddeIMinitGetPicLink($config) {
 				break;
 		case 4:	$id = uddeIMgetItemidComponent("com_cbe", $config);				// CBE
 				break;
-		case 5:	$id = uddeIMgetItemidComponent("com_kunena", $config);			// KUNENA
+		case 5:	
+		case 9:	$id = uddeIMgetItemidComponent("com_kunena", $config);			// KUNENA, KUNENA 1.6+
 				break;
 		case 6:	$id = uddeIMgetItemidComponent("com_community", $config);		// JOMSOCIAL
 				break;
 		case 7:	$id = uddeIMgetItemidComponent("com_alphauserpoints", $config);	// AlphaUserPoints
+				break;
+		case 8:	$id = uddeIMgetItemidComponent("com_joocm", $config);			// JooCM
+				break;
+		case 10:$id = uddeIMgetItemidComponent("com_ninjaboard", $config);		// NINJABOARD
 				break;
 	}
 	return $id;
@@ -96,16 +101,42 @@ function uddeIMgetLinkOnly($ofanid, $ofaname, $config) {	// LINK only
 			$linktoAUPprofil = AlphaUserPointsHelper::getAupLinkToProfil($ofanid);
 			$gimmeback = "<a href='".$linktoAUPprofil."'>".$ofaname."</a>";
 		}
+	} elseif ($config->showcblink==8) {		// JooCM
+		$gimmeback = "<a href='".uddeIMsefRelToAbs("index.php?option=com_joocm&view=profile&layout=joocm&id=".(int)$ofanid.$itemid)."'>".$ofaname."</a>";
+	} elseif ($config->showcblink==9) {		// KUNENA 1.6
+		$gimmeback = "<a href='".uddeIMsefRelToAbs("index.php?option=com_kunena&func=profile&userid=".(int)$ofanid.$itemid)."'>".$ofaname."</a>";
+	} elseif ($config->showcblink==10) {	// Agora
+		// $sql = "SELECT id FROM #__agora_users WHERE jos_id=".(int)$ofanid;
+		// $database->setQuery($sql);
+		// $agoraid = (int)$database->loadResult($sql);
+		//if ($agoraid)
+		$gimmeback = "<a href='".uddeIMsefRelToAbs("index.php?option=com_ninjaboard&view=person&id=".(int)$ofanid.$itemid)."'>".$ofaname."</a>";
+		//else
+		//	$gimmeback = $ofaname;			// user has not visited the forum before, so no agora profile exists
 	} else {
 		$gimmeback = $ofaname;
 	}
 	return $gimmeback;
 }
 
-function uddeIMgetPicOnly($ofanid, $config) {				// PIC only
+function uddeIMgetPicOnly($ofanid, $config, $noanchor=false) {		// PIC only
 	$mosConfig_lang = uddeIMgetLang(); 
 	$database = uddeIMgetDatabase();
 	$gimmeback = "";
+
+	$grsize = 80;
+	if ($config->avatarw)
+		$grsize = $config->avatarw;
+
+	$picstyle = "";
+	if ($config->avatarw || $config->avatarh) {
+		$picstyle = " style='";
+		if ($config->avatarw)
+			$picstyle .= "max-width: ".$config->avatarw."px; ";
+		if ($config->avatarh)
+			$picstyle .= "max-height: ".$config->avatarh."px; ";
+		$picstyle .= "'";
+	}
 
 	if ($config->showcbpic==1) {	// CB
 
@@ -133,14 +164,23 @@ function uddeIMgetPicOnly($ofanid, $config) {				// PIC only
 		$filename3live  = uddeIMgetPath('live_site')    ."/images/".$fileLang."/tnnophoto.jpg";
 
 		if (uddeIMfileExists($filenamelocal)) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filenamelive."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filenamelive."' alt='' />";
 		} elseif (uddeIMfileExists($filenameglocal) && $config->CBgallery) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filenameglive."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filenameglive."' alt='' />";
+		} elseif ($config->gravatar) {
+			$email = uddeIMgetEMailFromID((int)$ofanid, $config);
+			$grurl = uddeIMgetGravatar($email, $grsize, $config->gravatard, $config->gravatarr);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$grurl."' alt='' />";
 		} elseif (uddeIMfileExists($filename2local)) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filename2live."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filename2live."' alt='' />";
 		} elseif (uddeIMfileExists($filename3local)) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filename3live."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filename3live."' alt='' />";
 		}
+
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
 
 	} elseif ($config->showcbpic==2) {		// FB
 
@@ -155,10 +195,19 @@ function uddeIMgetPicOnly($ofanid, $config) {				// PIC only
 		$filename2live  = uddeIMgetPath('live_site')    ."/images/fbfiles/avatars/s_nophoto.jpg";
 
 		if (uddeIMfileExists($filenameglocal)) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filenameglive."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filenameglive."' alt='' />";
+		} elseif ($config->gravatar) {
+			$email = uddeIMgetEMailFromID((int)$ofanid, $config);
+			$grurl = uddeIMgetGravatar($email, $grsize, $config->gravatard, $config->gravatarr);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$grurl."' alt='' />";
 		} elseif (uddeIMfileExists($filename2local)) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filename2live."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filename2live."' alt='' />";
 		}
+
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
 
 	} elseif ($config->showcbpic==3) {		// Agora
 //		$database->setQuery("UPDATE #__agora_config SET conf_value=$conf_value WHERE conf_name='$conf_name'");
@@ -214,14 +263,23 @@ function uddeIMgetPicOnly($ofanid, $config) {				// PIC only
 		$filename4live  = uddeIMgetPath('live_site')    ."/".$adir."/noavatar_sm.gif";
 
 		if (uddeIMfileExists($filename1local) && $useavatars && $showavatars) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filename1live."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filename1live."' alt='' />";
 		} elseif (uddeIMfileExists($filename2local) && $useavatars && $showavatars) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filename2live."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filename2live."' alt='' />";
 		} elseif (uddeIMfileExists($filename3local) && $useavatars && $showavatars) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filename3live."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filename3live."' alt='' />";
+		} elseif ($config->gravatar) {
+			$email = uddeIMgetEMailFromID((int)$ofanid, $config);
+			$grurl = uddeIMgetGravatar($email, $grsize, $config->gravatard, $config->gravatarr);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$grurl."' alt='' />";
 		} elseif (uddeIMfileExists($filename4local)) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filename4live."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filename4live."' alt='' />";
 		}
+
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
 
 	} elseif ($config->showcbpic==4) {	// CBE (new)
 
@@ -245,12 +303,21 @@ function uddeIMgetPicOnly($ofanid, $config) {				// PIC only
 		$filename3live  = uddeIMgetPath('live_site')    ."/components/com_cbe/images/".$fileLang."/tnnophoto.jpg";
 
 		if (uddeIMfileExists($filenamelocal)) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filenamelive."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filenamelive."' alt='' />";
 		} elseif (uddeIMfileExists($filenameglocal) && $config->CBgallery) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filenameglive."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filenameglive."' alt='' />";
+		} elseif ($config->gravatar) {
+			$email = uddeIMgetEMailFromID((int)$ofanid, $config);
+			$grurl = uddeIMgetGravatar($email, $grsize, $config->gravatard, $config->gravatarr);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$grurl."' alt='' />";
 		} elseif (uddeIMfileExists($filename3local)) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filename3live."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filename3live."' alt='' />";
 		}
+
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
 
 	} elseif ($config->showcbpic==5) {		// KUNENA
 
@@ -265,27 +332,148 @@ function uddeIMgetPicOnly($ofanid, $config) {				// PIC only
 		$filename2live  = uddeIMgetPath('live_site')    ."/images/fbfiles/avatars/s_nophoto.jpg";
 
 		if (uddeIMfileExists($filenameglocal)) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filenameglive."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filenameglive."' alt='' />";
+		} elseif ($config->gravatar) {
+			$email = uddeIMgetEMailFromID((int)$ofanid, $config);
+			$grurl = uddeIMgetGravatar($email, $grsize, $config->gravatard, $config->gravatarr);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$grurl."' alt='' />";
 		} elseif (uddeIMfileExists($filename2local)) {
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filename2live."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filename2live."' alt='' />";
 		}
 
-	} elseif ($config->showcbpic==6) {		// JOMSOCIAL
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
+
+	} elseif ($config->showcbpic==6) {		// JOMSOCIAL, no gravatar
 
 		if (class_exists('CFactory')) {
 			$jsuser =& CFactory::getUser((int)$ofanid);
 			$filenameglive = $jsuser->getThumbAvatar();
-			$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn' src='".$filenameglive."' alt='' />", $config);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filenameglive."' alt='' />";
 		}
 
-	} elseif ($config->showcbpic==7) {		// AUP
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
+
+	} elseif ($config->showcbpic==7) {		// AUP, no gravatar
 
 		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';
 		if ( file_exists($api_AUP) ) {
 			require_once($api_AUP);
-			$avatar = AlphaUserPointsHelper::getAupAvatar($ofanid, 0);	// [int $width], [int $height]
-			$gimmeback = uddeIMgetLinkOnly($ofanid, $avatar, $config);
+			if ($config->avatarw && $config->avatarh)
+				$avatar = AlphaUserPointsHelper::getAupAvatar($ofanid, 0, $config->avatarw, $config->avatarh);
+			else
+				$avatar = AlphaUserPointsHelper::getAupAvatar($ofanid, 0);	// [int $width], [int $height]
+			$imgurl = $avatar;
 		}
+
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
+
+	} elseif ($config->showcbpic==8) {		// JooCM
+
+		$avatarFile = "";
+		$sql = "SELECT a.* FROM #__joocm_avatars AS a INNER JOIN #__joocm_users AS u ON u.id_avatar = a.id WHERE u.id = ".(int)$ofanid;
+		$database->setQuery($sql);
+		$avatar = $database->loadObject();
+		if (is_object($avatar)) {
+			$pos = strpos($avatar->avatar_file, 'http://');
+			if ($pos === false) {
+				if ($avatar->avatar_file) {
+					$avatarFile = uddeIMgetPath('live_site')."/media/joocm/avatars/";
+					if ($avatar->id_user) {
+						$avatarFile .= $avatar->id_user.'/'.$avatar->avatar_file;
+					} else {
+						$avatarFile .= 'standard/'.$avatar->avatar_file;
+					}
+				}
+			} else {
+				$avatarFile = $avatar->avatar_file;
+			}
+		}
+		if (!$avatarFile) {
+			if ($config->gravatar) {
+				$email = uddeIMgetEMailFromID((int)$ofanid, $config);
+				$avatarFile = uddeIMgetGravatar($email, $grsize, $config->gravatard, $config->gravatarr);
+			} else {
+				$avatarFile = uddeIMgetPath('live_site').'/media/joocm/avatars/standard/_cm_noavatar.png';
+			}
+		}
+
+		if ($avatarFile) {
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$avatarFile."' alt='' />";
+		}
+
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
+
+	} elseif ($config->showcbpic==9) {		// KUNENA 1.6+
+
+		// $api_KUN = JPATH_SITE.DS.'components'.DS.'com_kunena'.DS.'lib'.DS.'kunena.config.class.php';
+		// if ( file_exists($api_KUN) ) {
+		// 	require_once($api_KUN);
+		// 	$kcfg = KunenaFactory::getConfig();
+		//}
+		
+		$sql="SELECT avatar FROM #__kunena_users WHERE userid=".(int)$ofanid." LIMIT 1";
+		$database->setQuery($sql);
+		$ofanavatar=$database->loadResult();
+
+		$filenameglocal = "/media/kunena/avatars/".$ofanavatar;
+		$filenameglive  = uddeIMgetPath('live_site')    ."/media/kunena/avatars/".$ofanavatar;
+
+		$filename2local = "/media/kunena/avatars/s_nophoto.jpg";
+		$filename2live  = uddeIMgetPath('live_site')    ."/media/kunena/avatars/s_nophoto.jpg";
+
+		if (uddeIMfileExists($filenameglocal)) {
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filenameglive."' alt='' />";
+		} elseif ($config->gravatar) {
+			$email = uddeIMgetEMailFromID((int)$ofanid, $config);
+			$grurl = uddeIMgetGravatar($email, $grsize, $config->gravatard, $config->gravatarr);
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$grurl."' alt='' />";
+		} elseif (uddeIMfileExists($filename2local)) {
+			$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filename2live."' alt='' />";
+		}
+
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
+
+	} elseif ($config->showcbpic==10) {		// NINJABOARD
+
+		// $filenameglocal = "/media/com_ninjaboard/images/avatars/".$ofanid."/avatar.png";
+		// $filenameglive  = uddeIMgetPath('live_site')    ."/media/com_ninjaboard/images/avatars/".$ofanid."/avatar.png";
+
+		// if (uddeIMfileExists($filenameglocal)) {
+		// 	$gimmeback = uddeIMgetLinkOnly($ofanid, "<img class='uddeim-tn'".$picstyle." src='".$filenameglive."' alt='' />", $config);
+		// }
+
+		$filenameglive  = uddeIMgetPath('live_site')    ."/index.php?view=avatar&id=".$ofanid."&thumbnail=large";
+		$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$filenameglive."' alt='' />";
+
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
+
+	} elseif ($config->showcbpic==0 && $config->gravatar) {		// disabled, but gravatar enabled
+		$email = uddeIMgetEMailFromID((int)$ofanid, $config);
+		$grurl = uddeIMgetGravatar($email, $grsize, $config->gravatard, $config->gravatarr);
+		$imgurl = "<img class='uddeim-tn'".$picstyle." src='".$grurl."' alt='' />";
+
+		if ($noanchor)
+			$gimmeback = $imgurl;
+		else
+			$gimmeback = uddeIMgetLinkOnly($ofanid, $imgurl, $config);
 
 	}
 	return $gimmeback;
@@ -293,23 +481,38 @@ function uddeIMgetPicOnly($ofanid, $config) {				// PIC only
 
 function uddeIMgetStyleForThumb($config) {
 	global $ueConfig;
-	$st = "style='text-align:center; vertical-align:middle'";
-	if ($config->getpiclink && $config->showcbpic==1) {
-		if (uddeIMfileExists("/administrator/components/com_comprofiler/ue_config.php")) {
-			global $ueConfig;
-			include_once(uddeIMgetPath('absolute_path')."/administrator/components/com_comprofiler/ue_config.php");
-			if (isset($ueConfig['thumbWidth'])) {
-				if ($ueConfig['thumbWidth'])
-					$st = "style='text-align:center; vertical-align:middle; width:".((int)$ueConfig['thumbWidth']+64)."px;'";
-			}
-		} elseif (uddeIMfileExists("/administrator/components/com_cbe/ue_config.php")) {
-			global $ueConfig;
-			include_once(uddeIMgetPath('absolute_path')."/administrator/components/com_cbe/ue_config.php");
-			if (isset($ueConfig['thumbWidth'])) {
-				if ($ueConfig['thumbWidth'])
-					$st = "style='text-align:center; vertical-align:middle; width:".((int)$ueConfig['thumbWidth']+64)."px;'";
-			}
-		}
+	$st = "style='text-align:center; vertical-align:middle";
+	if ($config->getpiclink) {
+		if ($config->avatarw)
+			$st .= "; width:".((int)$config->avatarw + 64)."px";
+		if ($config->avatarh)
+			$st .= "; height:".((int)$config->avatarh + 16)."px";
 	}
+	$st .= ";'";
 	return $st;
+}
+
+/**
+ * Get either a Gravatar URL or complete image tag for a specified email address.
+ *
+ * @param string $email The email address
+ * @param string $s Size in pixels, defaults to 80px [ 1 - 512 ]
+ * @param string $d Default imageset to use [ 404 | mm | identicon | monsterid | wavatar ]
+ * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
+ * @param boole $img True to return a complete IMG tag False for just the URL
+ * @param array $atts Optional, additional key/value attributes to include in the IMG tag
+ * @return String containing either just a URL or a complete image tag
+ * @source http://gravatar.com/site/implement/images/php/
+ */
+function uddeIMgetGravatar($email, $s=80, $d='mm', $r='g', $img=false, $atts=array()) {
+    $url = 'http://www.gravatar.com/avatar/';
+    $url .= md5(strtolower(trim($email)));
+    $url .= "?s=$s&d=$d&r=$r";
+    if ($img) {
+        $url = '<img src="' . $url . '"';
+        foreach ($atts as $key => $val)
+            $url .= ' '.$key.'="'.$val.'"';
+        $url .= ' />';
+    }
+    return $url;
 }

@@ -1,17 +1,12 @@
 /* *******************************************************************
 /* Title          udde Instant Messages (uddeIM)
 /* Description    Instant Messages System for Mambo 4.5.X/Joomla 1.0.X
-/* Author         Benjamin Zweifel
-/* Version        0.5b
-/* as of          2005/12/01
-/* Contact        uddeim@yahoo.com
-/* Copyright      Benjamin Zweifel/mono
+/* Author         Stephan Slabihoud, Benjamin Zweifel
+/* Version        2.8
+/* as of          2005-2012
 /* License        This is free software and you may redistribute it under the GPL.
 /*                uddeIM comes with absolutely no warranty. For details, see the license at
-/*                http:/*www.gnu.org/licenses/gpl.txt
-/*                YOU ARE NOT REQUIRED TO KEEP COPYRIGHT NOTICES IN
-/*                THE HTML OUTPUT OF THIS SCRIPT. YOU ARE NOT ALLOWED
-/*                TO REMOVE COPYRIGHT NOTICES FROM THE SOURCE CODE.
+/*                http://www.gnu.org/licenses/gpl.txt
 /* *******************************************************************
 /* This is the default CSS file
 /* ******************************************************************* */
@@ -49,24 +44,24 @@
 
 #uddeim-navbar2 {
 /* menu row */
-	padding: 8px 8px 15px 8px;
+	padding: 4px 8px 8px 8px !important;
 }
 
 li.uddeim-activemenu {
 }
 
 #uddeim-navbar2 ul {
-	padding: 0px;
-	margin: 0px;
+	padding: 0px !important;
+	margin: 0px !important;
 }
 
 #uddeim-navbar2 ul li {
-	display: inline;
-	margin-right: 7px;
-	font-weight: bold;
-	background: none;
-	padding: 0px;
-	margin-left: 0px;
+	display: inline !important;
+	margin-right: 7px !important;
+	font-weight: bold !important;
+	background: none !important;
+	padding: 0px !important;
+	margin-left: 0px !important;
 }
 
 #uddeim-navbar2 li a {
@@ -76,8 +71,8 @@ li.uddeim-activemenu {
 }
 
 #uddeim-navbar2 ul li img {
-	margin-right: 3px;
-	margin-bottom: -4px;
+	margin-right: 3px !important;
+	margin-bottom: -4px !important;
 }
 
 /* The main container for all content (message lists, message display, compose forms) */
@@ -114,11 +109,19 @@ div.uddeim-messageheader
 }
 
 table.innermost {
-	background: none;
-	border: none;
-	border-spacing: 5px;
-	margin: 0px;
-	padding: 0px;
+	background: none !important;
+	border: none !important;
+	border-spacing: 5px !important;
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+table.innermost tr {
+	border: none !important;
+}
+
+table.innermost td {
+	border: none !important;
 }
 
 div.uddeim-messageheader img.uddeim-tn {
@@ -145,15 +148,16 @@ div.uddeim-messageheader div.uddeim-messagefrom-spam {
 }
 
 div.uddeim-messageheader ul {
-	position: relative;
-	top: 0px;
-	right: 30px;
-	list-style: none;
+	position: relative !important;
+	top: 0px !important;
+	right: 30px !important;
+	list-style: none !important;
+	list-style-type: none !important;
 }
 
 div.uddeim-messageheader li {
-	background: none;
-	list-style-type: none;
+	background: none !important;
+	list-style-type: none !important;
 }
 
 
@@ -175,6 +179,28 @@ div.uddeim-messagebody {
 /*	clear: both; */
 	padding: 20px 20px 20px 8px;
 	font-size: 1.1em;
+}
+
+div.uddeim-messagebody2 {
+	background: #f8f8f8 !important;
+	border: none !important;
+	padding: 10px !important;
+	font-size: 1.0em !important;
+	color: #000000 !important;	
+}
+
+div.uddeim-messagebody2 a {
+	background: transparent !important;
+	color: #000000 !important;	
+	font-weight: normal !important;
+	text-decoration: none !important;
+}
+
+div.uddeim-messagebody2 a:hover {
+	background: transparent !important;
+	color: #000000 !important;
+	font-weight: normal !important;
+	text-decoration: underline !important;
 }
 
 div.uddeim-replyquote {
@@ -217,39 +243,29 @@ div.uddeim-replyquote {
 /* Message Lists (inbox, outbox, archive, trashcan are contained by this ID */
 
 #uddeim-overview {
-/* contains a table with the messages list */
 	padding: 8px 8px 0px 8px !important;
-
 }
-
 #uddeim-overview table {
-
 }
-
 #uddeim-overview .sectiontableentry1 a,
 #uddeim-overview .sectiontableentry2 a  {
 }
-
 #uddeim-overview .sectiontableentry1 a:hover,
 #uddeim-overview .sectiontableentry2 a:hover {
 }
-
 #uddeim-overview td {
 }
-
 #uddeim-overview .sectiontableheader {
- 	font-size: 11px;
-	text-align: left;
+ 	font-size: 12px !important;
 }
-
+#uddeim-overview .sectiontablefooter {
+ 	font-size: 12px !important;
+}
 #uddeim-overview .sectiontableentry1 td {
-/* every second row */
-	padding: 3px;	
+	padding: 3px !important;
 }
-
 #uddeim-overview .sectiontableentry2 td {
-/* every second row, the other ones */
-	padding: 3px;	
+	padding: 3px !important;
 }
 
 /* Page Navigation below lists */
@@ -275,6 +291,11 @@ div#uddeim-pagenav a.pagenav {
 }
 
 #uddeim-pagenav a.pagenav:hover {
+}
+
+#uddeim-pagenav ul li {
+  display: inline !important;
+  list-style-type: none !important;
 }
 
 /* Settings */
@@ -374,14 +395,22 @@ div#uddeim-pagenav a.pagenav {
 
 
 
-div.uddeim-messageattachments  {
-	position: relative;
-	padding: 10px;
-	margin: 10px 0 0 0;
-	border: 1px solid #888888;
+div.uddeim-messageattachments {
+}
+div.uddeim-messageattachments table {
+	border: none !important;
+}
+div.uddeim-messageattachments td {
+	position: relative !important;
+	padding: 10px !important;
+	margin: 10px 0 0 0 !important;
+	border: none !important;
+}
+div.uddeim-messageattachments tr {
+	border: none !important;
 }
 div.uddeim-attachmentbox {
-	padding: 10px 5px 10px 5px;
+	padding: 10px 5px 10px 5px !important;
 }
 
 
@@ -477,84 +506,17 @@ div.uddeim-attachmentbox {
 }
 
 
-/*
---------------------------------------------------------------------------------
-What:	"Oranges in the sky" Styles(Table data design)
-Who:	Krasimir Makaveev(krasi [at] makaveev [dot] com)
-When:	15.09.2005(created)
---------------------------------------------------------------------------------
-*/
 
-#uddeim table {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	border-collapse: collapse;
-	border-left: 1px solid #ccc;
-	border-top: 1px solid #ccc; 
-	color: #333;
+/* New Joomla 1.6 */
+#uddeim-filter table td,
+#uddeim-filter table tr {
+	border-style: none;
 }
-
-#uddeim table caption {
-	font-size: 1.1em;
-	font-weight: bold;
-	letter-spacing: -1px;
-	margin-bottom: 10px;
-	padding: 5px;
-	background: #efefef;
-	border: 1px solid #ccc;
-	color: #666;
+#uddeim-writeform  table td,
+#uddeim-writeform  table tr {
+	border-style: none;
 }
-
-#uddeim table a {
-	text-decoration: none;
-	border-bottom: 1px dotted #f60;
-	color: #f60;
-	font-weight: bold;
-}
-
-#uddeim table a:hover {
-	text-decoration: none;
-	color: #fff;
-	background: #f60;
-}
-
-#uddeim table tr th a {
-	color: #369;
-	border-bottom: 1px dotted #369;
-}
-
-#uddeim table tr th a:hover {
-	color: #fff;
-	background: #369;
-}
-
-#uddeim table thead tr th {
-	text-transform: uppercase;
-	background: #e2e2e2;
-}
-
-#uddeim table tfoot tr th, table tfoot tr td {
-	text-transform: uppercase;
-	color: #000;
-	font-weight: bold;
-}
-
-#uddeim table tfoot tr th {
-	width: 20%;
-}
-
-#uddeim table tfoot tr td {
-	width: 80%;
-}
-
-#uddeim table td, table th {
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	padding: 5px;
-	line-height: 1.8em;
-	font-size: 0.8em;
-	vertical-align: top;
-}
-
-#uddeim table tr.odd th, table tr.odd td {
-	background: #efefef;
+#uddeim-block table td,
+#uddeim-block table tr {
+	border-style: none;
 }

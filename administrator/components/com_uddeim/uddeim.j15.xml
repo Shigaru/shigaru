@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
-<install type="component" version="1.5.0">
+<install type="component" version="1.5.0" method="upgrade">
    <name>uddeim</name>
-   <creationDate>2010-03-01</creationDate>
+   <creationDate>2012-06-01</creationDate>
    <author>Stephan Slabihoud</author>
    <copyright>This is free software and you may redistribute it under the GPL. uddeIM comes with absolutely no warranty. For details, see the license at http://www.gnu.org/licenses/gpl.txt. For icons credits and license, see LICENSE folder. Where noted, other copyrights apply for code portions. This version is based on uddeIM 0.5b which has been written by Benjamin Zweifel in 2006.</copyright>
    <license>GNU/GPL</license>
    <authorEmail>ssl@gmx.de</authorEmail>
    <authorUrl>http://www.slabihoud.de/software/</authorUrl>
-   <version>2.0</version>
+   <version>2.8</version>
    <description>uddeIM Instant Messages for Mambo/Joomla</description>
 <files>
 	<filename>uddeim.php</filename>
@@ -30,6 +30,8 @@
 	<filename>uddeimlib10.php</filename>
 	<filename>uddeimlib15.php</filename>
 	<filename>uddeimlib16.php</filename>
+	<filename>uddeimlib17.php</filename>
+	<filename>uddeimlib25.php</filename>
 	<filename>uddeim_igoogle.xml</filename>
 	<filename>recaptchalib.php</filename>
 	<filename>uddeim.api.php</filename>
@@ -45,10 +47,14 @@
 	<filename>js/mootools-1.2.4-core.js</filename>
 	<filename>js/Observer.js</filename>
 	<filename>js/Observer-1.2.js</filename>
+	<filename>js/mootools-core-1.3-full-nocompat.js</filename>
+	<filename>js/mootools-more-1.3.0.1.js</filename>
+	<filename>js/Meio.Autocomplete.js</filename>
+	
 	<filename>templates/default/css/uddeim.css</filename>
-	<filename>templates/default/css/uddeim-ie.css</filename>
 	<filename>templates/default/css/uddemodule.css</filename>
 	<filename>templates/default/css/autocompleter.css</filename>
+	<filename>templates/default/css/meio.aucomplete.css</filename>
 	<filename>templates/default/css/index.html</filename>
 	<filename>templates/default/index.html</filename>
 	<filename>templates/default/images/index.html</filename>
@@ -59,8 +65,11 @@
 	<filename>templates/images/donate_d.gif</filename>
 	<filename>templates/images/donate_en.gif</filename>
 	<filename>templates/images/igoogle.gif</filename>
-	<filename>templates/images/uddeim_logo.png</filename>
+	<filename>templates/images/publish_x.png</filename>
 	<filename>templates/images/rss_logo.png</filename>
+	<filename>templates/images/tick.png</filename>
+	<filename>templates/images/uddeim_logo.png</filename>
+	<filename>templates/images/uddeim-favicon.png</filename>
 	<filename>templates/default/animated/emoticon_crossed.gif</filename>
 	<filename>templates/default/animated/emoticon_heart.gif</filename>
 	<filename>templates/default/animated/emoticon_wondering.gif</filename>
@@ -155,6 +164,8 @@
 	<filename>templates/default/images/icon_offline.gif</filename>
 	<filename>templates/default/images/icon_start.gif</filename>
 	<filename>templates/default/images/icon_end.gif</filename>
+	<filename>templates/default/images/icon_forward.gif</filename>
+	<filename>templates/default/images/icon_recall.gif</filename>
 	<filename>templates/default/images/icon_next.gif</filename>
 	<filename>templates/default/images/icon_prev.gif</filename>
 	<filename>templates/default/images/icon_delete.gif</filename>
@@ -166,6 +177,7 @@
 	<filename>templates/default/images/icon_down.gif</filename>
 	<filename>templates/default/images/archive.gif</filename>
 	<filename>templates/default/images/attachment.gif</filename>
+	<filename>templates/default/images/delayed_im.gif</filename>
 	<filename>templates/default/images/disk.gif</filename>
 	<filename>templates/default/images/email.gif</filename>
 	<filename>templates/default/images/env.gif</filename>
@@ -175,6 +187,7 @@
 	<filename>templates/default/images/forward.gif</filename>
 	<filename>templates/default/images/new_im.gif</filename>
 	<filename>templates/default/images/nonew_im.gif</filename>
+	<filename>templates/default/images/page_white_magnify.gif</filename>
 	<filename>templates/default/images/recycle.gif</filename>
 	<filename>templates/default/images/restore.gif</filename>
 	<filename>templates/default/images/spinner16.gif</filename>
@@ -201,6 +214,8 @@ CREATE TABLE IF NOT EXISTS `#__uddeim` (
   `totrashdateoutbox` int(11) default NULL,
   `expires` int(11) NOT NULL default '0',
   `disablereply` int(1) NOT NULL default '0',  
+  `systemflag` int(1) NOT NULL default '0',
+  `delayed` int(1) NOT NULL default '0',
   `systemmessage` varchar(60) default NULL,
   `archived` int(1) NOT NULL default '0',    
   `cryptmode` int(1) NOT NULL default '0',
@@ -217,8 +232,10 @@ CREATE TABLE IF NOT EXISTS `#__uddeim` (
   KEY `totrashdateoutbox_datum` ( `totrashdateoutbox` , `datum` ),
   KEY `toread_totrash_datum` (`toread`,`totrash`,`datum`),
   KEY `totrash_totrashdate` (`totrash`,`totrashdate`),
-  KEY `archived_totrash_toid_datum` (`archived`,`totrash`,`toid`,`datum`)
-) TYPE=MyISAM;
+  KEY `archived_totrash_toid_datum` (`archived`,`totrash`,`toid`,`datum`),
+  KEY `systemflag` (`systemflag`),
+  KEY `delayed` (`delayed`)
+) ENGINE=MyISAM;
       </query>
       <query> 
 CREATE TABLE IF NOT EXISTS `#__uddeim_blocks` (
@@ -226,7 +243,7 @@ CREATE TABLE IF NOT EXISTS `#__uddeim_blocks` (
   `blocker` int(11) NOT NULL default '0',
   `blocked` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
       </query>
       <query>
 CREATE TABLE IF NOT EXISTS `#__uddeim_emn` (
@@ -242,16 +259,17 @@ CREATE TABLE IF NOT EXISTS `#__uddeim_emn` (
   `autoforward` INT(1) NOT NULL DEFAULT '0',
   `autoforwardid` INT(1) NOT NULL DEFAULT '0',
   `locked` INT(1) NOT NULL DEFAULT '0',
+  `moderated` INT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY  (`id`),
   KEY `userid` (`userid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
       </query>
       <query>
 CREATE TABLE IF NOT EXISTS `#__uddeim_config` (
   `varname` tinytext NOT NULL,
   `value` tinytext NOT NULL,
   PRIMARY KEY  (`varname`(30))
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
       </query>
       <query>
 CREATE TABLE IF NOT EXISTS `#__uddeim_userlists` (
@@ -264,7 +282,7 @@ CREATE TABLE IF NOT EXISTS `#__uddeim_userlists` (
    PRIMARY KEY  (`id`),
    KEY `userid` (`userid`),
    KEY `global` (`global`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
       </query>
 	  <query>
 CREATE TABLE IF NOT EXISTS `#__uddeim_spam` (
@@ -303,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `#__uddeim_attachments` (
   </uninstall>
 
   <administration>
-    <menu>uddeIM</menu>
+    <menu img="../components/com_uddeim/templates/images/uddeim-favicon.png">uddeIM</menu>
       <files>
          <filename>admin.uddeim.php</filename>
          <filename>admin.shared.php</filename>
@@ -312,17 +330,22 @@ CREATE TABLE IF NOT EXISTS `#__uddeim_attachments` (
 	 	 <filename>admin.uddeimlib10.php</filename>
 		 <filename>admin.uddeimlib15.php</filename>
 		 <filename>admin.uddeimlib16.php</filename>
+		 <filename>admin.uddeimlib17.php</filename>
+		 <filename>admin.uddeimlib25.php</filename>
          <filename>toolbar.uddeim.php</filename>
 		 <filename>install.uddeim.php</filename>
 		 <filename>uninstall.uddeim.php</filename>
          <filename>config.class.php</filename>
          <filename>index.html</filename>
+
+		 <filename>language/arabic.php</filename>
 		 <filename>language/brazilian_portuguese.php</filename>
 		 <filename>language/catalan.php</filename>
 		 <filename>language/czech.php</filename>
 		 <filename>language/danish.php</filename>
 		 <filename>language/dutch.php</filename>
          <filename>language/english.php</filename>
+		 <filename>language/farsi.php</filename>
 		 <filename>language/finnish.php</filename>
 		 <filename>language/french.php</filename>
 		 <filename>language/german.php</filename>
@@ -332,9 +355,13 @@ CREATE TABLE IF NOT EXISTS `#__uddeim_attachments` (
 		 <filename>language/hebrew.php</filename>
 		 <filename>language/hrvatski.php</filename>
 		 <filename>language/hungarian.php</filename>
+		 <filename>language/indonesian.php</filename>
 		 <filename>language/italian.php</filename>
+		 <filename>language/japanese.php</filename>
+		 <filename>language/lithuanian.php</filename>
 		 <filename>language/norwegian.php</filename>
 		 <filename>language/portuguese.php</filename>
+		 <filename>language/romanian.php</filename>
 		 <filename>language/russian.php</filename>
 		 <filename>language/simplified_chinese.php</filename>
 		 <filename>language/spanish.php</filename>
@@ -347,12 +374,14 @@ CREATE TABLE IF NOT EXISTS `#__uddeim_attachments` (
 		 <filename>language/vietnamese.php</filename>
 		 <filename>language/index.html</filename>
 
+		 <filename>language.utf8/arabic.php</filename>
 		 <filename>language.utf8/brazilian_portuguese.php</filename>
 		 <filename>language.utf8/catalan.php</filename>
 		 <filename>language.utf8/czech.php</filename>
 		 <filename>language.utf8/danish.php</filename>
 		 <filename>language.utf8/dutch.php</filename>
          <filename>language.utf8/english.php</filename>
+		 <filename>language.utf8/farsi.php</filename>
 		 <filename>language.utf8/finnish.php</filename>
 		 <filename>language.utf8/french.php</filename>
 		 <filename>language.utf8/german.php</filename>
@@ -362,8 +391,12 @@ CREATE TABLE IF NOT EXISTS `#__uddeim_attachments` (
 		 <filename>language.utf8/hebrew.php</filename>
 		 <filename>language.utf8/hrvatski.php</filename>
 		 <filename>language.utf8/hungarian.php</filename>
+		 <filename>language.utf8/indonesian.php</filename>
 		 <filename>language.utf8/italian.php</filename>
+		 <filename>language.utf8/japanese.php</filename>
+		 <filename>language.utf8/lithuanian.php</filename>
 		 <filename>language.utf8/norwegian.php</filename>
+		 <filename>language.utf8/polish.php</filename>
 		 <filename>language.utf8/portuguese.php</filename>
 		 <filename>language.utf8/russian.php</filename>
 		 <filename>language.utf8/simplified_chinese.php</filename>

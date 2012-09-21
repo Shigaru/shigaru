@@ -12,6 +12,135 @@
 // Language file: Brazilian Portuguese (Latin-1)
 // Translator:    Ed Blender <edublender@gmail.com>
 // *******************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Traduzido por Ed Blender');	// Enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'do not load MooTools (use MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'force loading MooTools 1.3 (use MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'No SEF for %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Do not use SEF for %msglink% placeholder in email notifications.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Use special calendars');
+DEFINE ('_UDDEADM_STIME_EXP', 'When enabled on sites using the farsi language file the persian calendar is used.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Remove orphaned connections');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Automatically remove orphaned connections when saving an existing contact list.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Show connections only');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'The users shown in the list can be restricted to CB/CBE/JS connections (hide users from userlist has no effect here when enabled).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'disabled');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'registered users');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'registered, special users');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'all users (incl. admins)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...set default for show connections');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Código de Segurança:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Botão "Exibir linha CC:"');
+DEFINE ('_UDDEADM_CC_EXP', 'Quando ativado um usuário pode escorlher se o uddeIM adiciona uma linha CC: contendo ou não todos os destinatários da mensagem.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...definir padrão para linha CC:, e moderação');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Central de Mensagens');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Deletar mensagem');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Entregar mensagem');
+DEFINE ('_UDDEADM_OOD_MCP', 'Message Center Plugin desatualizado!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Mensagens para moderar:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Descartado');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Deletar esta mensagem do banco de dados?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Entregar esta mensagem ao destinatário?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Exibir/Ocultar');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Centro de Controle de Mensagem');
+DEFINE ('_UDDEADM_MCP_FROM', 'De');
+DEFINE ('_UDDEADM_MCP_TO', 'Para');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Mensagem');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Deletar');
+DEFINE ('_UDDEADM_MCP_DATE', 'Data');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Entregar');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Mod');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Mod -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Suas mensagens serão moderadas. Um moderador irá verificá-las antes que sejam entregues aos destinatários.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Aguardando pelo moderador');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Moderar novos usuários');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'Quando ativado as mensagens de novos usuários serão moderadas por padrão.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Moderar usuários públicos');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'Quando ativado as mensagens de usuários públicos serão moderadas.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'Sem menu');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Public Frontend Plugin desatualizado!');
+DEFINE ('_UDDEADM_OOD_A', 'File Attachment Plugin desatualizado!');
+DEFINE ('_UDDEADM_OOD_RSS', 'RSS Plugin desatualizado!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Message Report Center Plugin desatualizado!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>Você não tem mensagens filtradas em seu %s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'não lida');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'sinalizada');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'gravatar ativado');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Ativa o suporte ao gravatar.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'imageset gravatar');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Selecione o imageset padrão para imagens.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'classificação gravatar');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'Por padrão, apenas imagens com classificação "G" são exibidas a menos que você indique classificações superiores. "X" exibe todas as imagens gravatar.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'wavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'default');
+DEFINE ('_UDDEADM_GRG', 'G = Geral');
+DEFINE ('_UDDEADM_GRPG', 'PG = Controle de Pais');
+DEFINE ('_UDDEADM_GRR', 'R = Restrito');
+DEFINE ('_UDDEADM_GRX', 'X = Adultos apenas');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Processando...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Não enviar e-mails de notificação');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'E-mails de notificação não serão enviados');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'O texto será incorporado no e-mail de notificação');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...definir padrão para miniaturas');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Tamanho de exibição de miniaturas');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Largura e altura (em pixels) das miniaturas (0 = o tamanho não será alterado).');
+DEFINE ('_UDDEIM_SAVE', 'Salvar');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Olá %you%,\n\n%touser% reportou uma mensagem suspeita de %fromuser%. Por favor efetue o login e verifique!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'Uma mensagem foi reportada em %site%');
+DEFINE ('_UDDEADM_KBYTES', 'KByte');
+DEFINE ('_UDDEADM_MBYTES', 'MByte');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'O arquivo foi deletado');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Erro: O arquivo não existe');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Anexos (máx. %s por arquivo):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Downloads de arquivo desprotegido');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'Normalmente o uddeIM não revela o caminho do servidor de arquivos anexados, assim ninguém - mesmo que o nome do arquivo seja conhecido - pode baixar o arquivo. Habilitar esta opção força o uddeIM à retornar o caminho completo no servidor. Por razões de segurança, o uddeIM adiciona um hash MD5 ao nome original do arquivo. Os usuários podem baixar o arquivo diretamente quando o caminho completo é conhecido. Somente utilize com cuidado! LEIA O FAQ AO USAR ESTA OPÇÃO!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...definir o padrão para arquivos anexos, frontend público');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Tipo de arquivo não permitido');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Extensões permitidas');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Informe todas as extensões permitidas (separadas por ";"). Deixe em branco para sem restrições.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'E-mail requerido');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'Se ativado um usuário público terá que informar um endereço de e-mail.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Dias de espera');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Especifique quantos dias um usuário deverá esperar até que ele tenha permissão para enviar mensagens (para 3 horas informe 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'Você tem que esperar ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' dias até que você possa enviar mensagens.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' horas até que você possa enviar mensagens.');
 
 // New: 2.0
 DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'Chave privativa do reCaptcha');
@@ -431,7 +560,7 @@ DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'Você já está usando a versão mais r
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'A versão atual é ');
 DEFINE ('_UDDEADM_VERSIONCHECK_INFO', 'Informação de atualização:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HEAD', 'Verificar atualizações');
-DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Isto contata o site do desenvolvedor para obter informações sobre a versão atual do uddeIM. Exceto pela versão do uddeIM que você está usando, nenhuma outra informação será transmitida.');
+DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Isto contata o site do desenvolvedor para obter informações sobre a versão atual do uddeIM.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CHECK', 'VERIFICAR AGORA');
 DEFINE ('_UDDEADM_VERSIONCHECK_ERROR', 'Não foi possível receber a informação de versão.');
 DEFINE ('_UDDEIM_NOSUCHLIST', 'Lista de Contatos não encontrada!');
@@ -1084,27 +1213,6 @@ DEFINE ('_UDDEIM_SYSGM_SHORTHELP', 'Usar <strong>em mensagens de sistema somente
 DEFINE ('_UDDEIM_SYSGM_ERRORNORECIPS', 'Erro: Nenhum destinatário encontrado. Mensagem não enviada.');
 		
 // new in 0.5 ADMIN
-
-// Translators observe: Search for _UDDEIM_SYSGM_SHORTHELP (above)
-// and change this text so that it no longer contains 
-// information abouth the [newurl] code. [newurl] is no 
-// longer supported by this version of uddeIM.
-// already done in this file!
-// 
-// PLEASE
-// When you're done translating, please change the
-
-	// version       0.4+
-
-// at the top of this file into
-
-	// version       0.5
-
-// and delete the line right after it that says
-
-	// (0.4 plus 0.5 strings in English)
-
-// as well as these comments. Thank you.
 
 DEFINE ('_UDDEADM_TEMPLATEDIR_HEAD', 'Tema do uddeIM');
 DEFINE ('_UDDEADM_TEMPLATEDIR_EXP', 'Escolha qual tema você deseja que o uddeIM use');

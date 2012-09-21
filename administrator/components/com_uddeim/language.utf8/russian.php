@@ -2,36 +2,171 @@
 // *******************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2011 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
 //                http://www.gnu.org/licenses/gpl.txt
 //                Other licenses can be found in LICENSES folder.
 // *******************************************************************
+
 // Language file: Russian  (source file is CP1251)
-// Translator:  www.freedom-ru.net, info@freedom-ru.net, Dmitriy Kindeev
-// (v.1.2):     www.joomlaclub.ru, general@cre-active.eu, Eugene Sivokon
+// Language file: russian.php (saved in UTF-8 without BOM)
+// Translation: by Dmitriy Kindeev at www.freedom-ru.net, info@freedom-ru.net, 
+// v.1.2:     by Eugene Sivokon at www.joomlaclub.ru, general@cre-active.eu,
+// v.2.0/2.1:  by Alexander Smirnov, at www.joomlapolis.com. 23 February 2011.
+// v.2.2/2.3/2.4:  by Alex (aka Alexej) Khoroshevsky, at www.aleksius.com. 30 September 2011
+// v.2.6/2.7: by Alex (aka Alexander) Smirnov, at twitter.com/joomladka, 28 February 2012
+
 // *******************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Перевели на русский язык: <ul><li>Дмитрий Киндеев, www.freedom-ru.net, info@freedom-ru.net</li><li>Евгений Сивоконь, www.joomlaclub.ru, general@cre-active.eu</li><li>Александр Смирнов, twitter.com/joomladka</li><li> Алексей Хорошевский,www.aleksius.com</li></ul> ');	// Empty for English and German language files, enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'Не загружать библиотеку <strong>MooTools</strong> (использовать <strong>MEIO</strong>)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'Принудить загрузку библиотеки <strong>MooTools 1.3</strong> (использовать <strong>MEIO</strong)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'SEF ссылки URL для %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Использовать ли SEF ссылки URL для держателя %msglink% в сообщениях электронных уведомлений.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Использовать специальные календари');
+DEFINE ('_UDDEADM_STIME_EXP', 'При включении на веб сайтах, использующих языковый файл Фарси, будет использоваться персидский календарь.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Удалить ничейные связи');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Автоматически удалять ничейные соединения при сохранении списка существующих контактов.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Показывать только связи');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'Показываемые в списке пользователи могут быть ограничены до связей CB/CBE/JS (на этот параметр не влияет включение параметра скрытия пользователей внутри списка пользователей).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'выключен');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'зарегистрированные пользователи');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'зарегистрированные, специальные пользователи');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'все пользователи (включая администраторов)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...настройте показ связей по умолчанию');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Код безопасности:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Кнопка "Показать CC: строку"');
+DEFINE ('_UDDEADM_CC_EXP', 'Если включено, пользователи могут выбрать должен ли uddeIM добавлять всех пользователей CC: строки в получатели сообщения или нет.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...установить по умолчанию для CC: строка, и модерация');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Центр сообщений');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Удалить сообщение');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Доставленное сообщение');
+DEFINE ('_UDDEADM_OOD_MCP', 'Плагин <strong>Message Center</strong> устарел!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Сообщения для модерации:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Удалено');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Удалить эти сообщения из базы данных?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Доставить эти сообщения адресату?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Показать\Скрыть');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Центр контроля сообщений');
+DEFINE ('_UDDEADM_MCP_FROM', 'от');
+DEFINE ('_UDDEADM_MCP_TO', 'к');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Сообщение');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Удалить');
+DEFINE ('_UDDEADM_MCP_DATE', 'Дата');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Доставлено');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Мод');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Мод -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Ваши сообщения ожидают модерации. Модератор проверит их перед тем, как они будут доставлены адресату.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Ожидает модерации');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Модерация новых пользователей');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'Если включено, то сообщения от вновь зарегистрированных пользователей будут проходить модерацию по умолчанию.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Модерация не зарегистрированных пользователей');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'Если включено, то сообщения от не зарегистрированных пользователей будут проходить модерацию.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'Нет меню');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Public Frontend плагин устарел!');
+DEFINE ('_UDDEADM_OOD_A', 'File Attachment плагин устарел!');
+DEFINE ('_UDDEADM_OOD_RSS', 'RSS плагин устарел!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Message Report Center плагин устарел!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>В папке %s нет сообщений по результатам фильтрации.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'не прочитано');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'избранное');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', ' Gravatar  включён');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Включить поддержку Gravatar');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'Изображения Gravatar ');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Выбрать изображения по умолчанию.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'рейтинг Gravatar');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'По умолчанию только "G" рейтинг изображений показан до тех пор, пока Вы не укажете более высокий. "X" отображаються все изображения Gravatar.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'мм');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'Gravatar');
+DEFINE ('_UDDEADM_GRRETRO', 'ретро');
+DEFINE ('_UDDEADM_GRDEFAULT', 'по умолчанию');
+DEFINE ('_UDDEADM_GRG', 'G = Основной');
+DEFINE ('_UDDEADM_GRPG', 'PG = Родительское руководство');
+DEFINE ('_UDDEADM_GRR', 'R = Ограниченный');
+DEFINE ('_UDDEADM_GRX', 'X = Только для взрослых');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Обработка...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Не посылать уведомления по эл.почте');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'Оповещение по эл.почте не будет отправлено');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'Текст будет вставлен в отправленное по эл.почте сообщение уведомления');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '… выставить по умолчанию для миниатюры');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Показать размер миниатюры');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Длина и высота (в пикселях) миниатюр (0 = размер не будет изменён).');
+DEFINE ('_UDDEIM_SAVE', 'Сохранить');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Приветствуем %you%,\n\n%touser% доложил о подозрительном сообщении от %fromuser%. Пожалуйста зайдите на сайт и проверьте!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'О сообщении было доложено на сайте %site%');
+DEFINE ('_UDDEADM_KBYTES', 'KByte');
+DEFINE ('_UDDEADM_MBYTES', 'MByte');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'Файл был удален');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Ошибка: файл не существует');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Приложения файлов (макс. %s на один файл):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Незащищенная загрузка файлов');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'Обычно uddeIM не открывает путь к файлу вложения на сервере, чтобы никто, даже если имя файла известно, не смог скачать этот файл. Включение этой опции вынудит uddeIM возвращать полный путь к файлу на сервере. В целях защиты, uddeIM добавляет к начальному имени файла MD5 хэш. Когда полный путь к файлу известен, пользователи могут скачать файл напрямую! Используйте эту опцию осторожно! ПРЕЖДЕ ЧЕМ ЗАДЕЙСТВОВАТЬ ЕЕ, ЧИТАЙТЕ ДОКУМЕНТЫ И FAQ!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...для приложения файлов и передних страниц с общим доступом установите по умолчанию');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Тип файла не разрешен');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Расширения разрешены');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Введите все разрешенные расширения (разделяя их знаком ";"). В случае отсутствия ограничений на них, оставьте поле незаполненным.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'Требуется адрес эл.почты');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'При включении этой опции посетитель будет вынужден ввести адрес своей эл.почты.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Количество дней ожидания');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Укажите конкретно сколько дней пользователь будет обязан ждать, прежде чем он сможет отправлять сообщения (для трех часов введите 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'Вы должны ждать ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' день(дня/дней) до тех пор, прежде чем Вы сможете отправлять сообщения.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' час(а/ов) до тех пор, прежде чем Вы сможете отправлять сообщения.');
 
 // New: 2.0
-DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha private key');
-DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'When you want to use reCaptcha, enter your private key here.');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'reCaptcha public key');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'When you want to use reCaptcha, enter your public key here.');
-DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Internal');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'Личный ключ reCaptcha');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'Введите здесь Ваш частный ключ, когда будете использовать reCaptcha.');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'Публичный ключ reCaptcha');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'Введите здесь Ваш общий ключ, когда будете использовать reCaptcha.');
+DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Внутренне');
 DEFINE ('_UDDEADM_CAPTCHA_RECAPTCHA', 'reCaptcha');
-DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Captcha service');
-DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Which captcha service do you want to use: The build-in service or reCaptcha (see <a href="http://recaptcha.net" target="_new">reCaptcha</a> for more information)?');
-DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...set default for captcha service');
+DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Сервис captcha');
+DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Какой сервис captcha Вы бы хотели задействовать: встроенный сервис или reCaptcha (смотрите <a href="http://recaptcha.net" target="_new">reCaptcha</a> для подробной информации)?');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...включить по умолчанию для сервиса сaptcha');
 DEFINE ('_UDDEADM_AUP', 'AlphaUserPoints');
-DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Please move <i>\uddeimfiles</i> to <i>\images\uddeimfiles</i>. Check the documentation!');
+DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Пожалуйста, переместите <i>\uddeimfiles</i> в папку <i>\images\uddeimfiles</i>. Сверьтесь с докумекнтацией!');
 DEFINE ('_UDDEADM_CRYPT4', 'Strong encryption');
-DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Allow sending system messages');
-DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM supports system messages. They are sent to all users on your system. Use them sparingly.');
-DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'disabled');
-DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'admins only');
-DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'admins and managers');
+DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Разрешить отправку системных сообщений');
+DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM поддерживает отправку системных сообщений. Они отправляются всем пользователям Вашей системы. Используйте ее экономно.');
+DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'отключено');
+DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'только администраторы');
+DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'администраторы и менеджеры');
 
 // New: 1.9
 DEFINE ('_UDDEIM_FILEUPLOAD_FAILED', 'Неудачная загрузка файла');
@@ -45,11 +180,11 @@ DEFINE ('_UDDEADM_BYTES', 'Байт');
 DEFINE ('_UDDEADM_MAXATTACHMENTS_HEAD', 'Макс. приложений');
 DEFINE ('_UDDEADM_MAXATTACHMENTS_EXP', 'Максимальное количество прилагаемых к одному сообщению файлов.');
 DEFINE ('_UDDEIM_DOWNLOAD', 'Загрузить');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_HEAD', 'Удалениея файлов осуществляются');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_HEAD', 'Удаление файлов осуществляются');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_YES', 'только администраторами');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_NO', 'любым пользователем');
 DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_MANUALLY', 'вручную');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_EXP', 'Автоматические удаления создают вызывают нагрузку на сервер. Если вы выбираете <b>только администраторами</b> автоматические удаления осуществляются, когда администратор проверяет свой ящик для входящих. Выбирайте этот способ, если администратор регулярно проверяет свой ящик. Для мало или редко администрируемых сайтов может быть выбрано <b>любым пользователем</b>.');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_EXP', 'Автоматические удаления вызывают нагрузку на сервер. Если вы выбираете <b>только администраторами</b> автоматические удаления осуществляются, когда администратор проверяет свой ящик для входящих. Выбирайте этот способ, если администратор регулярно проверяет свой ящик. Для мало или редко администрируемых сайтов может быть выбрано <b>любым пользователем</b>.');
 DEFINE ('_UDDEADM_FILEMAINTENANCE_PRUNE', 'Удалить файлы');
 DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_HEAD', 'Произвести стирание файлов');
 DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_EXP', 'Удалить удаленные файлы из базы. Это то же, что и \'Удалить файлы\' на системной вкладке.');
@@ -74,7 +209,7 @@ DEFINE ('_UDDEIM_HELP_ATTACHMENT', 'Это сообщение содержит �
 DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILES', 'Ссылки на файл в базе данных:');
 DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILESDISTINCT', 'Приложенный файл сохранен:');
 DEFINE ('_UDDEADM_SHOWMENUCOUNT_HEAD', 'Показать счетчики');
-DEFINE ('_UDDEADM_SHOWMENUCOUNT_EXP', 'Когда установлено <b>да</b>, строка меню содержит счетчики сообщений. Внимание: Это потребует несколько дополнительных запросов к базе данных, поэтому не используйте на слабых системах.');
+DEFINE ('_UDDEADM_SHOWMENUCOUNT_EXP', 'Когда установлено на <b>Да</b>, строка меню содержит счетчики сообщений. Внимание: Это потребует несколько дополнительных запросов к базе данных, поэтому не используйте на слабых системах.');
 DEFINE ('_UDDEADM_CONFIG_FTPLAYER', 'Конфигурация (доступ на уровне FTP):');
 DEFINE ('_UDDEADM_ENCODEHEADER_HEAD', 'Кодировать заголовки письма');
 DEFINE ('_UDDEADM_ENCODEHEADER_EXP', 'Установите <b>да</b>, когда заголовки письма (например, тему) необходимо кодировать rfc 2047. полезно, когда у вас проблемы со специальными символами.');
@@ -94,7 +229,7 @@ DEFINE ('_UDDEIM_NOMESSAGES2_UNFR_FILTERED', '<b>У вас нет непрочи
 DEFINE ('_UDDEIM_NOMESSAGES2_UNTO_FILTERED', '<b>У вас нет непрочитанных сообщений данному пользователю в папке%s.</b>');
 
 // New: 1.7
-DEFINE ('_UDDEADM_EMAILSTOPPED', 'Отправка по e-mail отключена');
+DEFINE ('_UDDEADM_EMAILSTOPPED', 'Отправка по эл.почте отключена');
 DEFINE ('_UDDEIM_ACCOUNTLOCKED', 'Доступ к личным сообщениям закрыт. Пожалуйста, свяжитесь с администратором сайта.');
 DEFINE ('_UDDEADM_USERSET_LOCKED', 'Закрыт');
 DEFINE ('_UDDEADM_USERSET_SELLOCKED', '- Закрыт -');
@@ -158,7 +293,7 @@ DEFINE ('_UDDEIM_MENUICONS_P0', 'Только текст');
 DEFINE ('_UDDEIM_LISTSLIMIT_2', 'Максимальное количество получателей в списке:');
 DEFINE ('_UDDEADM_ADDEMAIL_ADMIN', 'Администраторы могут выбирать');
 DEFINE ('_UDDEAIM_ADDEMAIL_SELECT', 'Уведомить сообщением');
-DEFINE ('_UDDEAIM_ADDEMAIL_TITLE', 'Вложить само сообщение в уведомление по e-mail.');
+DEFINE ('_UDDEAIM_ADDEMAIL_TITLE', 'Вложить само сообщение в уведомление по эл.почте.');
 
 // New: 1.6
 
@@ -258,8 +393,8 @@ DEFINE ('_UDDEADM_ENABLERSS_EXP', 'Если включено, пользоват
 DEFINE ('_UDDEADM_CFGFILE_CONVERTING_3', '...по умолчанию для RSS, iGoogle, помощи и разделителя');
 DEFINE ('_UDDEADM_DELETEM_DELETING', 'Удаляются сообщения:');
 DEFINE ('_UDDEADM_DELETEM_FROMUSER', 'Удаляются сообщения от пользователя ');
-DEFINE ('_UDDEADM_DELETEM_MSGSSENT', '- сообщений отправлено: ');
-DEFINE ('_UDDEADM_DELETEM_MSGSRECV', '- сообщений получено: ');
+DEFINE ('_UDDEADM_DELETEM_MSGSSENT', '- сообщение(ия/ий) отправлено: ');
+DEFINE ('_UDDEADM_DELETEM_MSGSRECV', '- сообщение(ия/ий) получено: ');
 DEFINE ('_UDDEIM_PMNAV_THISISARESPONSE', 'Это ответ на:');
 DEFINE ('_UDDEIM_PMNAV_THEREARERESPONSES', 'Ответов на это:');
 DEFINE ('_UDDEIM_PMNAV_DELETED', 'Сообщение не доступно');
@@ -282,13 +417,13 @@ DEFINE ('_UDDEADM_MAINTENANCE_TIMER', 'Таймер:');
 
 // New: 1.5
 
-DEFINE ('_UDDEMODULE_ALLDAYS', ' сообщений');
-DEFINE ('_UDDEMODULE_7DAYS', ' сообщений за последние 7 дней');
-DEFINE ('_UDDEMODULE_30DAYS', ' сообщений за последние 30 дней');
-DEFINE ('_UDDEMODULE_365DAYS', ' сообщений за последние 365 дней');
+DEFINE ('_UDDEMODULE_ALLDAYS', ' сообщение(ия/ий)');
+DEFINE ('_UDDEMODULE_7DAYS', ' сообщение(ия/ий) за последние 7 дней');
+DEFINE ('_UDDEMODULE_30DAYS', ' сообщение(ия/ий) за последние 30 дней');
+DEFINE ('_UDDEMODULE_365DAYS', ' сообщение(ия/ий) за последние 365 дней');
 DEFINE ('_UDDEADM_EMN_SENDERMAIL_WARNING', '<br /><b>Важно: Если вы используете mosMail, вам неоходимо указать реальный электронный адрес!</b>');
 DEFINE ('_UDDEIM_FILTEREDMESSAGE', 'сообщение отфильтровано');
-DEFINE ('_UDDEIM_FILTEREDMESSAGES', 'сообщений отфильтровано');
+DEFINE ('_UDDEIM_FILTEREDMESSAGES', 'сообщения(ий) отфильтровано');
 DEFINE ('_UDDEIM_FILTER', 'Фильтр:');
 DEFINE ('_UDDEIM_FILTER_TITLE_INBOX', 'Только от этого пользователя');
 DEFINE ('_UDDEIM_FILTER_TITLE_OUTBOX', 'Только этому пользователю');
@@ -302,7 +437,7 @@ DEFINE ('_UDDEADM_FILTER_P0', 'Не включать');
 DEFINE ('_UDDEADM_FILTER_P1', 'Над списком сообщений');
 DEFINE ('_UDDEADM_FILTER_P2', 'Под списком сообщений');
 DEFINE ('_UDDEADM_FILTER_P3', 'Над и под списком сообщений');
-DEFINE ('_UDDEIM_NOMESSAGES_FILTERED', '<b>У вас %s сообщений %s в папке %s.</b>');	// see next  six lines
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED', '<b>У вас %s сообщение(ия/ий) %s в папке %s.</b>');	// see next  six lines
 DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_FROM', ' от этого пользователя');
 DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_TO', ' этому пользователю');
 DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_INBOX', ' "Входящие"');
@@ -372,7 +507,7 @@ DEFINE ('_UDDEADM_SHOWLINK_EXP', 'Если установлено "Да", все
 DEFINE ('_UDDEADM_SHOWPIC_HEAD', 'Показывать аватары');
 DEFINE ('_UDDEADM_SHOWPIC_EXP', 'Если установлено "Да", аватар соответствующего пользователя будет отображаться при чтении сообщения.');
 DEFINE ('_UDDEADM_THUMBLISTS_HEAD', 'Показывать аватары в списках');
-DEFINE ('_UDDEADM_THUMBLISTS_EXP', 'Установите "Да" если хотите отображать аватары пользователей в имеющихся списках сообщений (входящие, отправленные и т. д.).');
+DEFINE ('_UDDEADM_THUMBLISTS_EXP', 'Установите "Да", если хотите отображать аватары пользователей в имеющихся списках сообщений (входящие, отправленные и т. д.).');
 DEFINE ('_UDDEADM_FIREBOARD', 'Fireboard');
 DEFINE ('_UDDEADM_CB', 'Community Builder');
 DEFINE ('_UDDEADM_DISABLED', 'Выключен');
@@ -387,7 +522,7 @@ DEFINE ('_UDDEIM_CC', 'CC:');
 DEFINE ('_UDDEADM_TRUNCATE_HEAD', 'Обрезать цитируемый текст');
 DEFINE ('_UDDEADM_TRUNCATE_EXP', 'Обрезать цитируемый текст на 2/3 максимальной длины сообщения если привышен установленный лимит.');
 DEFINE ('_UDDEIM_PLUG_INBOXENTRIES', 'Записи папки "Входящие"');
-DEFINE ('_UDDEIM_PLUG_LAST', 'Последние ');
+DEFINE ('_UDDEIM_PLUG_LAST', 'Последняя(ие) ');
 DEFINE ('_UDDEIM_PLUG_ENTRIES', ' записи');
 DEFINE ('_UDDEIM_PLUG_STATUS', 'Статус');
 DEFINE ('_UDDEIM_PLUG_SENDER', 'Отправитель');
@@ -397,7 +532,7 @@ DEFINE ('_UDDEIM_PLUG_EMPTYINBOX', 'Папка "Входящие" пуста');
 
 DEFINE ('_UDDEADM_NOTRASHACCESS_NOT', 'Доступ к корзине запрещен.');
 DEFINE ('_UDDEADM_NOTRASHACCESS_HEAD', 'Ограничить доступ к корзине');
-DEFINE ('_UDDEADM_NOTRASHACCESS_EXP', 'Вы можете ограничить доступ пользователей к корзине, для того что бы пользователи не смогли восстанавливать сообщения.');
+DEFINE ('_UDDEADM_NOTRASHACCESS_EXP', 'Вы можете ограничить доступ пользователей к корзине для того, чтобы пользователи не смогли восстанавливать сообщения.');
 DEFINE ('_UDDEADM_NOTRASHACCESS_0', 'Нет ограничения');
 DEFINE ('_UDDEADM_NOTRASHACCESS_1', 'Особые пользователи');
 DEFINE ('_UDDEADM_NOTRASHACCESS_2', 'Только администраторы');
@@ -423,9 +558,9 @@ DEFINE ('_UDDEADM_TIMEDELAY_EXP', 'Количество секунд, котор
 DEFINE ('_UDDEADM_SECONDS', 'секунд');
 DEFINE ('_UDDEIM_PUBLICSENT', 'Сообщение отправлено.');
 DEFINE ('_UDDEIM_ERRORINFROMNAME', 'Ошибка имени пользователя');
-DEFINE ('_UDDEIM_ERRORINEMAIL', 'Ошибка электронного адреса');
+DEFINE ('_UDDEIM_ERRORINEMAIL', 'Ошибочный адрес эл.почты');
 DEFINE ('_UDDEIM_YOURNAME', 'Ваше имя:');
-DEFINE ('_UDDEIM_YOUREMAIL', 'Ваш e-mail:');
+DEFINE ('_UDDEIM_YOUREMAIL', 'Ваш адрес эл.почты:');
 DEFINE ('_UDDEADM_VERSIONCHECK_USING', 'Вы используете uddeIM ');
 DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'Вы используете последнюю версию uddeIM.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'Текущая версия ');
@@ -438,7 +573,7 @@ DEFINE ('_UDDEIM_NOSUCHLIST', 'Список не найден!');
 DEFINE ('_UDDEIM_LISTSLIMIT_1', 'Превышено максимальное количество получателей (макс. ');
 DEFINE ('_UDDEADM_MAXONLISTS_HEAD', 'Максимальное количество записей');
 DEFINE ('_UDDEADM_MAXONLISTS_EXP', 'Максимальное количество записей в списке контактов.');
-DEFINE ('_UDDEIM_LISTSNOTENABLED', 'Список контактов запрещен запрещен');
+DEFINE ('_UDDEIM_LISTSNOTENABLED', 'Список контактов запрещен');
 DEFINE ('_UDDEADM_ENABLELISTS_HEAD', 'Включить списки контактов');
 DEFINE ('_UDDEADM_ENABLELISTS_EXP', 'Разрешить пользователям создавать списки контактов. Эти списки могут использоваться для отправки сообщений сразу нескольким  пользователям. Не забудьте включить соответствующую опцию в разделе "Система"');
 DEFINE ('_UDDEADM_ENABLELISTS_0', 'Отключено');
@@ -495,9 +630,9 @@ DEFINE ('_UDDEIM_MSGLIMITREACHED', 'Вы достигли максимально
 DEFINE ('_UDDEIM_PUBLICUSER', 'Гость');
 DEFINE ('_UDDEIM_DELETEDUSER', 'Пользователь удален');
 DEFINE ('_UDDEADM_CAPTCHALEN_HEAD', 'Количество символов Captcha');
-DEFINE ('_UDDEADM_CAPTCHALEN_EXP', 'Количество символов которые пользователь будет вводить.');
+DEFINE ('_UDDEADM_CAPTCHALEN_EXP', 'Количество символов, которые пользователь будет вводить.');
 DEFINE ('_UDDEADM_USECAPTCHA_HEAD', 'Защита от спама Captcha');
-DEFINE ('_UDDEADM_USECAPTCHA_EXP', 'Определите кто должен вводить защитный код при отправке сообщения/');
+DEFINE ('_UDDEADM_USECAPTCHA_EXP', 'Определите, кто должен вводить защитный код при отправке сообщения/');
 DEFINE ('_UDDEADM_CAPTCHAF0', 'Оключено');
 DEFINE ('_UDDEADM_CAPTCHAF1', 'Только гости');
 DEFINE ('_UDDEADM_CAPTCHAF2', 'Гости и пользователи');
@@ -532,19 +667,19 @@ DEFINE ('_UDDEADM_LANGUAGECHARSET_EXP', 'Рекомендуется параме
 DEFINE ('_UDDEADM_LANGUAGECHARSET_UTF8', 'UTF-8');
 DEFINE ('_UDDEADM_LANGUAGECHARSET_DEFAULT', 'По умолчанию');
 DEFINE ('_UDDEIM_READ_INFO_1', 'Прочитанные сообщения будут храниться в папке "Входящие"  ');
-DEFINE ('_UDDEIM_READ_INFO_2', ' дней, а затем будут автоматически удалены.');
+DEFINE ('_UDDEIM_READ_INFO_2', ' день(дня/дней), а затем будут автоматически удалены.');
 DEFINE ('_UDDEIM_UNREAD_INFO_1', 'Непрочитанные сообщения будут храниться в папке "Входящие" ');
-DEFINE ('_UDDEIM_UNREAD_INFO_2', ' дней, а затем будут автоматически удалены.');
+DEFINE ('_UDDEIM_UNREAD_INFO_2', ' день(дня/дней), а затем будут автоматически удалены.');
 DEFINE ('_UDDEIM_SENT_INFO_1', 'Отправленные сообщения будут храниться в папке "Отправленные" ');
-DEFINE ('_UDDEIM_SENT_INFO_2', ' дней, а затем будут автоматически удалены.');
+DEFINE ('_UDDEIM_SENT_INFO_2', ' день(дня/дней), а затем будут автоматически удалены.');
 DEFINE ('_UDDEADM_DELETEREADAFTERNOTE_HEAD', 'Уведомление о хранении прочитанных сообщений');
 DEFINE ('_UDDEADM_DELETEREADAFTERNOTE_EXP', 'Будет показанно количество оставшихся дней до автоматического удаления прочитанных входящих сообщений.');
 DEFINE ('_UDDEADM_DELETEUNREADAFTERNOTE_HEAD', 'Уведомление о хранении непрочитанных сообщений');
 DEFINE ('_UDDEADM_DELETEUNREADAFTERNOTE_EXP', 'Будет показанно количество оставшихся дней до автамотического удаления непрочитанных входящих сообщений.');
 DEFINE ('_UDDEADM_DELETESENTAFTERNOTE_HEAD', 'Уведомление о хранении отправленных сообщений');
-DEFINE ('_UDDEADM_DELETESENTAFTERNOTE_EXP', 'Будет показанно количество оставшихся дней до автамотического удаления отправленных сообщений.');
+DEFINE ('_UDDEADM_DELETESENTAFTERNOTE_EXP', 'Будет показано количество оставшихся дней до автамотического удаления отправленных сообщений.');
 DEFINE ('_UDDEADM_DELETETRASHAFTERNOTE_HEAD', 'Уведомление о хранении сообщений в корзине');
-DEFINE ('_UDDEADM_DELETETRASHAFTERNOTE_EXP', 'Будет показанно количество оставшихся дней до автамотического удаления сообщений в корзине.');
+DEFINE ('_UDDEADM_DELETETRASHAFTERNOTE_EXP', 'Будет показано количество оставшихся дней до автамотического удаления сообщений в корзине.');
 DEFINE ('_UDDEADM_DELETESENTAFTER_HEAD', 'Хранить отправленные сообщения');
 DEFINE ('_UDDEADM_DELETESENTAFTER_EXP', 'Укажите, сколько дней хранить в базе отправленные сообщения.');
 DEFINE ('_UDDEIM_SEND_TOALLSPECIAL', 'отправить всем специальным пользователям');
@@ -574,7 +709,7 @@ DEFINE ('_UDDEADM_WELCOMEMSG', 'Добро пожаловать в uddeIM!\n\nВ
 DEFINE ('_UDDEADM_UDDEINSTCOMPLETE', 'uddeIM полностью установлен.');
 DEFINE ('_UDDEADM_REVIEWSETTINGS', 'Пожалуйста, перейдите в меню настроек компонента.');
 DEFINE ('_UDDEADM_REVIEWLANG', 'Если вы используете кодировку Joomla, отличную от ISO 8859-1, вам также необходимо настроить ее в панели управления uddeIM.');
-DEFINE ('_UDDEADM_REVIEWEMAILSTOP', 'После установки, проверьте работу uddeIM с уведомлениями по e-mail и при необходимости произведите дополнительные настройки.');
+DEFINE ('_UDDEADM_REVIEWEMAILSTOP', 'После установки проверьте работу uddeIM с уведомлениями по эл.почте и при необходимости произведите дополнительные настройки.');
 DEFINE ('_UDDEADM_MAXRECIPIENTS_HEAD', 'Максимальное количество получателей');
 DEFINE ('_UDDEADM_MAXRECIPIENTS_EXP', 'Количество получателей за одно отправление (0 - нет ограничений).');
 DEFINE ('_UDDEIM_TOOMANYRECIPIENTS', 'слишком много получателей');
@@ -594,7 +729,7 @@ DEFINE ('_UDDEIM_RECIPIENTSFOUND', 'получателей найдено');
 DEFINE ('_UDDEADM_MAILSYSTEM_MOSMAIL', 'Функцию mosMail');
 DEFINE ('_UDDEADM_MAILSYSTEM_PHPMAIL', 'Функцию php mail (по умолчанию)');
 DEFINE ('_UDDEADM_MAILSYSTEM_HEAD', 'Для отправки почты использовать:');
-DEFINE ('_UDDEADM_MAILSYSTEM_EXP', 'Выберите систему для отправки email.');
+DEFINE ('_UDDEADM_MAILSYSTEM_EXP', 'Выберите систему для отправки сообщений эл.почты.');
 DEFINE ('_UDDEADM_SHOWGROUPS_HEAD', 'Показывать группы пользователей');
 DEFINE ('_UDDEADM_SHOWGROUPS_EXP', 'В общем списке будут показаны группы пользователей.');
 DEFINE ('_UDDEADM_ALLOWFORWARDS_HEAD', 'Разрешить пересылку сообщений');
@@ -633,7 +768,7 @@ DEFINE ('_UDDEADM_CFGFILE_WRITEFAILED', 'Конфигурации не сохр�
 
 DEFINE ('_UDDEIM_ENCRYPTDOWN', 'Зашифрованное сообщение. Невозможно скачать!');
 DEFINE ('_UDDEIM_WRONGPASSDOWN', 'Неправильный пароль. Невозможно скачать!');
-DEFINE ('_UDDEIM_WRONGPW', 'Неправильный пароль. Пожалуйста свяжитесь с администратором!');
+DEFINE ('_UDDEIM_WRONGPW', 'Неправильный пароль. Пожалуйста, свяжитесь с администратором!');
 DEFINE ('_UDDEIM_WRONGPASS', 'Неправильный пароль.');
 DEFINE ('_UDDEADM_MAINTENANCE_D1', 'Неверные даты в корзине (входящие/отправленные): ');
 DEFINE ('_UDDEADM_MAINTENANCE_D2', 'Исправление неверных дат');
@@ -662,7 +797,7 @@ DEFINE ('_UDDEMODULE_PRIVATEMESSAGES', 'Личные сообщения');
 DEFINE ('_UDDEMODULE_NONEW', 'Новых: нет');
 DEFINE ('_UDDEMODULE_NEWMESSAGES', 'Новых: ');
 DEFINE ('_UDDEMODULE_MESSAGE', 'сообщение');
-DEFINE ('_UDDEMODULE_MESSAGES', 'сообщения');
+DEFINE ('_UDDEMODULE_MESSAGES', 'сообщения(ий)');
 DEFINE ('_UDDEMODULE_YOUHAVE', 'Вы имеете');
 DEFINE ('_UDDEMODULE_HELLO', 'Привет');
 DEFINE ('_UDDEMODULE_EXPRESSMESSAGE', 'Экспресс сообщение');
@@ -675,7 +810,7 @@ DEFINE ('_UDDEADM_CRYPT0', 'Нет');
 DEFINE ('_UDDEADM_CRYPT1', 'Перемешивать сообщения');
 DEFINE ('_UDDEADM_CRYPT2', 'Шифровать сообщения');
 DEFINE ('_UDDEADM_NOTIFYDEFAULT_HEAD', 'Уведомления отправляются по умолчанию');
-DEFINE ('_UDDEADM_NOTIFYDEFAULT_EXP', 'Уведомление отправляются на e-mail по умолчанию (будет применено для всех пользователей).');
+DEFINE ('_UDDEADM_NOTIFYDEFAULT_EXP', 'Уведомление отправляются по эл.почте по умолчанию (будет применено для всех пользователей).');
 DEFINE ('_UDDEADM_NOTIFYDEF_0', 'Не отправлять');
 DEFINE ('_UDDEADM_NOTIFYDEF_1', 'Отправлять всегда');
 DEFINE ('_UDDEADM_NOTIFYDEF_2', 'Только когда нет на сайте');
@@ -692,7 +827,7 @@ DEFINE ('_UDDEADM_MAINTENANCE', 'Обслуживание');
 DEFINE ('_UDDEADM_MAINTENANCE_HEAD', 'Обслуживание базы данных');
 DEFINE ('_UDDEADM_MAINTENANCE_CHECK', 'Проверить ');
 DEFINE ('_UDDEADM_MAINTENANCE_TRASH', ': Починить');
-DEFINE ('_UDDEADM_MAINTENANCE_EXP', 'Если пользователь удален из базы, его сообщения, как правило, хранятся. Данная опция проверяет, нет ли лишних сообщений, и позволяет вам удалить их при необходимости. Дакже она проверяет базу данных на наличие ошибок и исправляет их.');
+DEFINE ('_UDDEADM_MAINTENANCE_EXP', 'Если пользователь удален из базы, его сообщения, как правило, хранятся. Данная опция проверяет, нет ли лишних сообщений, и позволяет вам удалить их при необходимости. Также она проверяет базу данных на наличие ошибок и исправляет их.');
 DEFINE ('_UDDEADM_MAINTENANCE_MC1', 'Проверка...<br />');
 DEFINE ('_UDDEADM_MAINTENANCE_MC2', '#nnn (Имя пользователя): [Входящие|Удаленные входящие|Отправленные|Удаленные отправленные]<br /><br />');
 DEFINE ('_UDDEADM_MAINTENANCE_MC3', '<b>Входящие</b> - сообщения, сохраненные в папке "Входящие".<br />');
@@ -779,8 +914,8 @@ DEFINE ('_UDDEIM_BLOCKALERT_EXP_OFF', 'Заблокированный польз
 DEFINE ('_UDDEIM_CANTBLOCKADMINS', 'Нельзя блокировать сообщения от администраторов.');
 DEFINE ('_UDDEIM_BLOCKSDISABLED', 'Система блокировки выключена');
 DEFINE ('_UDDEIM_CANTREPLY', 'Вы не можете ответить на это сообщение.');
-DEFINE ('_UDDEIM_EMNOFF', 'Уведомление по e-mail отключено. ');
-DEFINE ('_UDDEIM_EMNON', 'Уведомление по e-mail включено. ');
+DEFINE ('_UDDEIM_EMNOFF', 'Уведомление по эл.почте отключено. ');
+DEFINE ('_UDDEIM_EMNON', 'Уведомление по эл.почте включено. ');
 DEFINE ('_UDDEIM_SETEMNON', '[Включить]');
 DEFINE ('_UDDEIM_SETEMNOFF', '[Выключить]');
 DEFINE ('_UDDEIM_EMN_BODY_NOMESSAGE', 'Здравствуйте, %you% 
@@ -831,11 +966,11 @@ DEFINE ('_UDDEIM_EMN_SUBJECT', 'Личные сообщения на %site%');
 DEFINE ('_UDDEIM_ARCHIVE_ERROR', 'Не удалось сохранить сообщение в архиве.');
 DEFINE ('_UDDEIM_ARC_SAVED_NONE', 'В архиве нет сохраненных сообщений.');
 DEFINE ('_UDDEIM_ARC_SAVED_1', 'В архиве ');
-DEFINE ('_UDDEIM_ARC_SAVED_2', ' сообщений.');
+DEFINE ('_UDDEIM_ARC_SAVED_2', ' сообщения(ий).');
 DEFINE ('_UDDEIM_ARC_SAVED_ONE', 'В архиве одно сообщение');
 DEFINE ('_UDDEIM_ARC_SAVED_3', 'Чтобы хранить сообщения в архиве, необходимо предварительно освободить место.');
 DEFINE ('_UDDEIM_ARC_CANSAVEMAX_1', 'Вы можете хранить не более ');
-DEFINE ('_UDDEIM_ARC_CANSAVEMAX_2', ' сообщений.');
+DEFINE ('_UDDEIM_ARC_CANSAVEMAX_2', ' сообщения(ий).');
 DEFINE ('_UDDEIM_INBOX_LIMIT_1', 'Сохранено ');
 DEFINE ('_UDDEIM_INBOX_LIMIT_2', ' сообщений в папке');
 DEFINE ('_UDDEIM_ARC_UNIVERSE_ARC', ' "Архив"');
@@ -969,7 +1104,7 @@ DEFINE ('_UDDEADM_PMSFOUND_2', ' сообщений в myPMS. Вы хотите 
 DEFINE ('_UDDEADM_IMPORT_EXP', 'Это не повлияет на сообщения myPMS, они будут сохранены в целости и сохранности. Вы можете спокойно импортировать их в uddeIM, даже если будете продолжать использовать myPMS (рекомендуется, сначала сделать модернизацию сайта!). Любые сообщения, которые уже находятся в базе данных uddeIM, останутся целыми и невредимыми.');
 DEFINE ('_UDDEADM_IMPORT_YES', 'Импортировать myPMS в uddeIM');
 DEFINE ('_UDDEADM_IMPORT_NO', 'Не импортировать сообщения');  
-DEFINE ('_UDDEADM_IMPORTING', 'Пожалуйста, подождите окончание импортирования и не предпринимайте ни каких действий!');
+DEFINE ('_UDDEADM_IMPORTING', 'Пожалуйста, подождите окончание импортирования и не предпринимайте никаких действий!');
 DEFINE ('_UDDEADM_IMPORTDONE', 'Импортирование старых сообщений окончено. Не повторяйте его, поскольку те же сообщения будут импортированы повторно.'); 
 DEFINE ('_UDDEADM_IMPORT', 'Импортирование');
 DEFINE ('_UDDEADM_IMPORT_HEADER', ' myPMS сообщений импортировано');
@@ -986,19 +1121,19 @@ DEFINE ('_UDDEADM_BLOCKALERT_NO', 'Нет');
 DEFINE ('_UDDEADM_DELETIONS', 'Удаление');
 DEFINE ('_UDDEADM_BLOCK', 'Блокирование');
 DEFINE ('_UDDEADM_INTEGRATION', 'Интеграция');
-DEFINE ('_UDDEADM_EMAIL', 'E-mail');
+DEFINE ('_UDDEADM_EMAIL', 'Эл.почта');
 DEFINE ('_UDDEADM_SHOWCBLINK_HEAD', 'Интеграция с Community Builder');
 DEFINE ('_UDDEADM_SHOWCBLINK_EXP', 'Когда установлено "Да", то все имена пользователей, обнаруженные в uddeIM, будут показаны в CB.');
 DEFINE ('_UDDEADM_SHOWCBPIC_HEAD', 'Показать аватар Community Builder');
 DEFINE ('_UDDEADM_SHOWCBPIC_EXP', '');
 DEFINE ('_UDDEADM_SHOWONLINE_HEAD', 'Показывать присутствие на сайте');
 DEFINE ('_UDDEADM_SHOWONLINE_EXP', 'Если установлено "Да", рядом с именем пользователя показывается маленькое изображение, которое сообщает, находится ли этот пользователь на сайте.');
-DEFINE ('_UDDEADM_ALLOWEMAILNOTIFY_HEAD', 'Разрешить использовать уведомления по e-mail');
+DEFINE ('_UDDEADM_ALLOWEMAILNOTIFY_HEAD', 'Разрешить использовать уведомления по эл.почте');
 DEFINE ('_UDDEADM_ALLOWEMAILNOTIFY_EXP', 'Если установлено "Да", каждый пользователь сможет выбрать, хочет ли он получать уведомления на свой электронный адрес.');
 DEFINE ('_UDDEADM_EMAILWITHMESSAGE_HEAD', 'Уведомление содержит текст сообщения?');
 DEFINE ('_UDDEADM_EMAILWITHMESSAGE_EXP', 'Если включено "Нет", письмо будет содержать только информацию о том, когда и кем отправлено сообщение.');
-DEFINE ('_UDDEADM_LONGWAITINGEMAIL_HEAD', 'Напоминание по e-mail');
-DEFINE ('_UDDEADM_LONGWAITINGEMAIL_EXP', 'Если входящее сообщение не будет прочитано в течение слишком долгого срока, пользователю на почту отправляется сообщение с напоминанием. Эта опция не зависит от настроек пункта "Разрешить использовать уведомления по e-mail". ');
+DEFINE ('_UDDEADM_LONGWAITINGEMAIL_HEAD', 'Напоминание по эл.почте');
+DEFINE ('_UDDEADM_LONGWAITINGEMAIL_EXP', 'Если входящее сообщение не будет прочитано в течение слишком долгого срока, пользователю на почту отправляется сообщение с напоминанием. Эта опция не зависит от настроек пункта "Разрешить использовать уведомления по эл.почте". ');
 DEFINE ('_UDDEADM_LONGWAITINGDAYS_HEAD', 'Напомнить через Х дней');
 DEFINE ('_UDDEADM_LONGWAITINGDAYS_EXP', 'Интервал напоминания (исчисляется в днях).');
 DEFINE ('_UDDEADM_FIRSTWORDSINBOX_HEAD', 'Количество первых знаков');
@@ -1015,12 +1150,12 @@ DEFINE ('_UDDEADM_ALLOWTOALL_HEAD', 'Администратор может по�
 DEFINE ('_UDDEADM_ALLOWTOALL_EXP', 'В uddeIM включена поддержка общих рассылок. В этом случае сообщение отправляется всем пользователям сайта. Используйте эту функцию с умом.');
 DEFINE ('_UDDEADM_EMN_SENDERNAME_HEAD', 'Имя отправителя');
 DEFINE ('_UDDEADM_EMN_SENDERNAME_EXP', 'Введите имя, от которого будут посылаться уведомления на почту (например: "Администратор")');
-DEFINE ('_UDDEADM_EMN_SENDERMAIL_HEAD', 'E-mail адрес отправителя');
+DEFINE ('_UDDEADM_EMN_SENDERMAIL_HEAD', 'Адрес эл.почты отправителя');
 DEFINE ('_UDDEADM_EMN_SENDERMAIL_EXP', 'Это должен быть основной электронный адрес вашего сайта.');
 DEFINE ('_UDDEADM_VERSION', 'uddeIM версия');
 DEFINE ('_UDDEADM_ARCHIVE', 'Архив'); // translators info: headline for Archive system
 DEFINE ('_UDDEADM_ALLOWARCHIVE_HEAD', 'Включить архив');
-DEFINE ('_UDDEADM_ALLOWARCHIVE_EXP', 'Выберите, будут ли пользователям разрешено хранить сообщения в архиве. Сообщения в архиве не удаляются автоматически.');
+DEFINE ('_UDDEADM_ALLOWARCHIVE_EXP', 'Выберите, будет ли пользователям разрешено хранить сообщения в архиве. Сообщения в архиве не удаляются автоматически.');
 DEFINE ('_UDDEADM_MAXARCHIVE_HEAD', 'Максимальное количество сообщений в архиве');
 DEFINE ('_UDDEADM_MAXARCHIVE_EXP', 'Сколько сообщений будет храниться в архиве отдельного пользователя.');
 DEFINE ('_UDDEADM_COPYTOME_HEAD', 'Разрешить копии');
@@ -1036,7 +1171,7 @@ DEFINE ('_UDDEADM_PERPAGE_HEAD', 'Сообщений на страницу');
 DEFINE ('_UDDEADM_PERPAGE_EXP', 'Определите количество сообщений, показываемых на странице.');
 DEFINE ('_UDDEADM_CHARSET_HEAD', 'Кодировка сообщений');
 DEFINE ('_UDDEADM_CHARSET_EXP', 'Изменяйте это только в случае, если у вас появились проблемы с отображением сообщений в нужной кодировке.');
-DEFINE ('_UDDEADM_MAILCHARSET_HEAD', 'Кодировка писем на e-mail');
+DEFINE ('_UDDEADM_MAILCHARSET_HEAD', 'Кодировка писем эл.почты');
 DEFINE ('_UDDEADM_MAILCHARSET_EXP', 'Изменяйте это только в случае, если у вас появились проблемы с отображением писем в нужной кодировке.'); // translators info: if you're translating into a language that uses a latin charset (like English, Dutch, German, Swedish, Spanish, ... ) you might want to add a line saying 'For usage in [mylanguage] the default value is correct.'
 DEFINE ('_UDDEADM_EMN_BODY_NOMESSAGE_EXP', 'Данные теги будут заменены переменными и отправлены по электронной почте. Не нарушайте синтаксис тегов %you%, %user% and %site%.');            
 DEFINE ('_UDDEADM_EMN_BODY_WITHMESSAGE_EXP', 'Данные теги будут заменены переменными и отправлены по электронной почте. Не нарушайте синтаксис тегов %you%, %user%, %pmessage% and %site% intact. ');
@@ -1047,7 +1182,7 @@ DEFINE ('_UDDEADM_EXPORT_FORMAT_EXP', 'Эти тэги будут заменен
 DEFINE ('_UDDEADM_INBOXLIMIT_HEAD', 'Включить ограничение входящих сообщений');         
 DEFINE ('_UDDEADM_INBOXLIMIT_EXP', 'Если превышен установленный лимит, пользователи не смогут оставлять новые сообщения, пока не очистят папки "Входящие" и "Архив", но смогут получать новые сообщения');
 DEFINE ('_UDDEADM_SHOWINBOXLIMIT_HEAD', 'Показывать пользователям, сколько сообщений они могут хранить');           
-DEFINE ('_UDDEADM_SHOWINBOXLIMIT_EXP', 'Пользователю будет показано, общее число сохраненный сообщений и сколько всего позволено хранить.');
+DEFINE ('_UDDEADM_SHOWINBOXLIMIT_EXP', 'Пользователю будет показано, общее число сохраненных сообщений и сколько всего позволено хранить.');
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_INTRO', 'Вы выключили архив?');         
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_LEAVE_LINK', 'Оставить');            
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_LEAVE_EXP', 'Оставить в архиве (пользователь не будет иметь доступа к сообщениям, но они будут числиться за ним и влиять на установленный лимит).');             
@@ -1062,7 +1197,7 @@ DEFINE ('_UDDEIM_SEND_TOALL', 'Всем пользователям');
 DEFINE ('_UDDEIM_SEND_TOALLADMINS', 'Всем администраторам');
 DEFINE ('_UDDEIM_SEND_TOALLLOGGED', 'Всем пользователям на сайте');
 DEFINE ('_UDDEIM_VALIDFOR_1', 'Действительно ');
-DEFINE ('_UDDEIM_VALIDFOR_2', ' часов. 0 - неограниченно (применяется автоматическое удаление)');
+DEFINE ('_UDDEIM_VALIDFOR_2', ' часов. 0 - неограничено (применяется автоматическое удаление)');
 DEFINE ('_UDDEIM_WRITE_SYSM_GM', 'Создать системное или общее сообщение');
 DEFINE ('_UDDEIM_WRITE_NORMAL', 'Создать обычное сообщение]');
 DEFINE ('_UDDEIM_NOTALLOWED_SYSM_GM', 'Системные и общие сообщения запрещены.');
@@ -1093,26 +1228,26 @@ DEFINE ('_UDDEADM_SHOWSETTINGSLINK_EXP', 'Показывать пользова�
 DEFINE ('_UDDEADM_SHOWSETTINGS_ATBOTTOM', 'Да, основные');
 DEFINE ('_UDDEADM_ALLOWBB_HEAD', 'Позволить использовать <strong>BB</strong>-коды');
 DEFINE ('_UDDEADM_FONTFORMATONLY', 'Только для шрифтов');
-DEFINE ('_UDDEADM_ALLOWBB_EXP', 'Если выбрано "Только для шрифтов", то пользователи имеют право использовать ВВ-коды только для форматировать шрифтов. Если установлено "Да" - доступны все <strong>BB</strong>-коды.');
+DEFINE ('_UDDEADM_ALLOWBB_EXP', 'Если выбрано "Только для шрифтов", то пользователи имеют право использовать ВВ-коды только для форматировния шрифтов. Если установлено "Да" - доступны все <strong>BB</strong>-коды.');
 DEFINE ('_UDDEADM_ALLOWSMILE_HEAD', 'Разрешить использовать смайлики');
 DEFINE ('_UDDEADM_ALLOWSMILE_EXP', 'Если установлено  "Да", то пользователям будет разрешено использовать смайлики.');
-DEFINE ('_UDDEADM_DISPLAY', 'Вид');
+DEFINE ('_UDDEADM_DISPLAY', 'Показ');
 DEFINE ('_UDDEADM_SHOWMENUICONS_HEAD', 'Показать иконки меню');
 DEFINE ('_UDDEADM_SHOWMENUICONS_EXP', 'Если установлено "Да", то ссылки будут отображаться в виде иконок.');
 DEFINE ('_UDDEADM_SHOWTITLE_HEAD', 'Заголовок компонента');
 DEFINE ('_UDDEADM_SHOWTITLE_EXP', 'Здесь вы можете ввести заголовок компонента, который будет показан всем пользователям.');
 DEFINE ('_UDDEADM_SHOWABOUT_HEAD', 'Показывать копирайт');
 DEFINE ('_UDDEADM_SHOWABOUT_EXP', 'Установите "Да", если хотите показывать копирайт uddeIM.');
-DEFINE ('_UDDEADM_STOPALLEMAIL_HEAD', 'Отключить отправку по e-mail');
-DEFINE ('_UDDEADM_STOPALLEMAIL_EXP', 'Включите эту опцию, чтобы блокировать отправку по e-mail, независимо от установленных выше настроек.');
+DEFINE ('_UDDEADM_STOPALLEMAIL_HEAD', 'Отключить отправку по эл.почте');
+DEFINE ('_UDDEADM_STOPALLEMAIL_EXP', 'Включите эту опцию, чтобы блокировать отправку по эл.почте, независимо от установленных выше настроек.');
 DEFINE ('_UDDEADM_ADMINIGNITIONONLY_MANUALLY', 'вручную');
 DEFINE ('_UDDEADM_GETPICLINK_HEAD', 'Аватары Community Builder в списках');
-DEFINE ('_UDDEADM_GETPICLINK_EXP', 'Автоматические удаление создает дополнительную нагрузку на сервер. Если выбрано "Только администратору" автоматическое удаление будет запускаться только, когда администратор будет проверять свою папку "Входящие". Включайте эту опцию только, если администратор регулярно проверяет свои сообщения. Для небольших сайтов и в случае, когда администратор редко посещает ресурс, лучше выбрать "Любому пользователю"');
+DEFINE ('_UDDEADM_GETPICLINK_EXP', 'Автоматическое удаление создает дополнительную нагрузку на сервер. Если выбрано "Только администратору" автоматическое удаление будет запускаться только, когда администратор будет проверять свою папку "Входящие". Включайте эту опцию только, если администратор регулярно проверяет свои сообщения. Для небольших сайтов и в случае, когда администратор редко посещает ресурс, лучше выбрать "Любому пользователю"');
 
 // new in 0.5 FRONTEND
 
 DEFINE ('_UDDEIM_SHOWUSERS', 'Все пользователи');
-DEFINE ('_UDDEIM_CONNECTIONS', 'Друзья');
+DEFINE ('_UDDEIM_CONNECTIONS', 'Связи');
 DEFINE ('_UDDEIM_SETTINGS', 'Настройки');
 DEFINE ('_UDDEIM_NOSETTINGS', 'Нет доступных настроек.');
 DEFINE ('_UDDEIM_ABOUT', 'О программе'); // as in "About uddeIM"
@@ -1120,7 +1255,7 @@ DEFINE ('_UDDEIM_COMPOSE', 'Новое'); // as in "write new message", but only
 DEFINE ('_UDDEIM_EMN', 'Уведомление о новых сообщениях');
 DEFINE ('_UDDEIM_EMN_EXP', 'Вы можете получать уведомление о новых сообщениях на свой электронный адрес.');
 DEFINE ('_UDDEIM_EMN_ALWAYS', 'Отправлять всегда');
-DEFINE ('_UDDEIM_EMN_NONE', 'Нет отправлять');
+DEFINE ('_UDDEIM_EMN_NONE', 'Не отправлять');
 DEFINE ('_UDDEIM_EMN_WHENOFFLINE', 'Отправлять только, когда я не на сайте');
 DEFINE ('_UDDEIM_EMN_NOTONREPLY', 'Не посылать уведомления на ответы');
 DEFINE ('_UDDEIM_BLOCKSYSTEM', 'Блокировка пользователей'); // Headline for blocking system in settings

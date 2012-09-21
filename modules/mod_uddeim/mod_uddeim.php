@@ -16,10 +16,16 @@ if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this
 $uddeim_isadmin = 0;
 if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
 	$ver = new JVersion();
-	if (!strncasecmp($ver->RELEASE, "1.6", 3)) {
-		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
-	} else {
+	if (!strncasecmp($ver->RELEASE, "2.5", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.5", 3)) {
 		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib15.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.6", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.7", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib17.php');
+	} else {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
 	}
 } else {
 	global $mainframe;
@@ -32,6 +38,7 @@ $udd_pathtosite  = uddeIMgetPath('live_site');
 $udd_database    = uddeIMgetDatabase();
 $udd_mosConfig_lang = uddeIMgetLang();
 
+require_once($udd_pathtoadmin."/admin.shared.php");
 require_once($udd_pathtouser.'/crypt.class.php');
 require_once($udd_pathtoadmin.'/config.class.php');
 $udd_config = new uddeimconfigclass();
@@ -62,6 +69,7 @@ $udd_cbenablepopup    = (int)$params->get( 'uddeenablepopup', 0 );
 $udd_uddeenableajax   = (int)$params->get( 'uddeenableajax', 0 );
 $udd_uddeajaxtime     = (int)$params->get( 'uddeajaxtime', 0 );
 $udd_nametype         = (int)$params->get( 'uddnametype', 0 );
+$udd_sound         	  = (int)$params->get( 'uddeSound', 0 );
 $udd_rightpos         = (int)$params->get( 'uddrightpos', '10' );
 $udd_timeout          = (int)$params->get( 'uddtimeout', '10000' );
 $udd_rightspeed       = (int)$params->get( 'uddrightspeed', '20' );
@@ -71,33 +79,11 @@ if (!$udd_par_maxchars)		$udd_par_maxchars = 24;
 if ($udd_par_manylines<0)	$udd_par_manylines = 0;
 if ($udd_uddeajaxtime<5)	$udd_uddeajaxtime = 5;
 
-if (!is_callable("cbLoginCheckJversion")) {
-	function cbLoginCheckJversion() {
-		$udd_version = uddeIMgetVersion();
-		if ($udd_version->PRODUCT == "Mambo") {
-			if ( strncasecmp( $udd_version->RELEASE, "4.6", 3 ) < 0 ) {
-				$udd_ver = 0;
-			} else {
-				$udd_ver = -1;
-			}
-		} elseif ($udd_version->PRODUCT == "Joomla!" || $udd_version->PRODUCT == "Accessible Joomla!") {
-			if (!strncasecmp($udd_version->RELEASE, "1.6", 3)) {
-				$ver = 2;
-			} else if (strncasecmp($udd_version->RELEASE, "1.0", 3)) {
-				$udd_ver = 1;
-			} else {
-				$udd_ver = 0;
-			}
-		}
-		return $udd_ver;
-	}
-}
-
 $udd_userid = uddeIMgetUserID();
 $udd_mygroupid = uddeIMgetGroupID();
 
 $udd_moduleSubPath = $udd_pathtosite."/modules/mod_uddeim";
-switch ( cbLoginCheckJversion() ) {
+switch ( uddeIMcheckJversion() ) {
  	case 0:		// Mambo 4.5 & Joomla 1.0:
 				$udd_moduleSubPath = $udd_pathtosite."/modules/mod_uddeim";
 				break;
@@ -105,24 +91,32 @@ switch ( cbLoginCheckJversion() ) {
 				$udd_moduleSubPath = $udd_pathtosite."/modules/mod_uddeim";
 				break;
  	case 1:
- 	default:	// Joomla 1.5+
+ 	case 2:
+ 	case 3:
+ 	case 4:		// Joomla 1.5+
+				$udd_moduleSubPath = $udd_pathtosite."/modules/mod_uddeim/mod_uddeim";
+				break;
+ 	default:	// Joomla 3+
 				$udd_moduleSubPath = $udd_pathtosite."/modules/mod_uddeim/mod_uddeim";
 				break;
 }
 
 //if (!$udd_par_hidenotifier) {		// need the CSS Sheets, even when hidden!
-	if (file_exists(uddeIMgetPath('absolute_path').'/components/com_uddeim/templates/'.$udd_config->templatedir.'/css/uddemodule.css')) {
-		echo '<link rel="stylesheet" href="'.$udd_pathtosite.'/components/com_uddeim/templates/'.$udd_config->templatedir.'/css/uddemodule.css" type="text/css" />';
-	} elseif(file_exists(uddeIMgetPath('absolute_path').'/components/com_uddeim/templates/default/css/uddemodule.css')) {
-		echo '<link rel="stylesheet" href="'.$udd_pathtosite.'/components/com_uddeim/templates/default/css/uddemodule.css" type="text/css" />';
+	if ( defined( 'JPATH_ADMINISTRATOR' ) ) {	// this works in Joomla 1.5+
+		if (file_exists($udd_pathtouser.'/templates/'.$udd_config->templatedir.'/css/uddemodule.css')) {
+			$css = $udd_pathtosite."/components/com_uddeim/templates/".$udd_config->templatedir."/css/uddemodule.css"; 
+			uddeIMaddCSS($css);
+		} elseif(file_exists($udd_pathtouser.'/templates/default/css/uddemodule.css')) {
+			$css = $udd_pathtosite."/components/com_uddeim/templates/default/css/uddemodule.css"; 
+			uddeIMaddCSS($css);
+		}
+	} else {
+		if (file_exists($udd_pathtouser.'/templates/'.$udd_config->templatedir.'/css/uddemodule.css')) {
+			echo '<link rel="stylesheet" href="'.$udd_pathtosite.'/components/com_uddeim/templates/'.$udd_config->templatedir.'/css/uddemodule.css" type="text/css" />';
+		} elseif(file_exists($udd_pathtouser.'/templates/default/css/uddemodule.css')) {
+			echo '<link rel="stylesheet" href="'.$udd_pathtosite.'/components/com_uddeim/templates/default/css/uddemodule.css" type="text/css" />';
+		}
 	}
-//	if (file_exists(uddeIMgetPath('absolute_path').'/components/com_uddeim/templates/'.$udd_config->templatedir.'/css/uddemodule.css')) {
-//		$css = $udd_pathtosite."/components/com_uddeim/templates/".$udd_config->templatedir."/css/uddemodule.css"; 
-//		uddeIMaddCSS($css);
-//	} elseif(file_exists(uddeIMgetPath('absolute_path').'/components/com_uddeim/templates/default/css/uddemodule.css')) {
-//		$css = $udd_pathtosite."/components/com_uddeim/templates/default/css/uddemodule.css"; 
-//		uddeIMaddCSS($css);
-//	}
 //}
 
 if (!$udd_userid) {
@@ -147,15 +141,26 @@ switch($udd_nametype) {
 $udd_database->setQuery( $udd_query );
 $udd_name = htmlspecialchars($udd_database->loadResult());
 
+
 // first try to find a published link
-$udd_sql="SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=1 AND access".
-		($udd_mygroupid==0 ? "=" : "<=").$udd_mygroupid." LIMIT 1";
+$udd_sql = "SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=1 AND access".
+		($udd_mygroupid==0 ? "=" : "<=").$udd_mygroupid;
+if (uddeIMcheckJversion()>=2) {		// Joomla 1.6+
+	$lang = &JFactory::getLanguage();
+	$udd_sql .= " AND language IN (" . $udd_database->Quote($lang->get('tag')) . ",'*')";
+}
+$udd_sql .= " LIMIT 1";
 $udd_database->setQuery($udd_sql);
 $udd_item_id = (int)$udd_database->loadResult();
 if (!$udd_item_id) {
 	// when no published link has been found, try to find an unpublished one
 	$udd_sql="SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=0 AND access".
-			($udd_mygroupid==0 ? "=" : "<=").$udd_mygroupid." LIMIT 1";
+			($udd_mygroupid==0 ? "=" : "<=").$udd_mygroupid;
+	if (uddeIMcheckJversion()>=2) {		// Joomla 1.6+
+		$lang = &JFactory::getLanguage();
+		$udd_sql .= " AND language IN (" . $udd_database->Quote($lang->get('tag')) . ",'*')";
+	}
+	$udd_sql .= " LIMIT 1";
 	$udd_database->setQuery($udd_sql);
 	$udd_item_id = (int)$udd_database->loadResult();
 }
@@ -163,9 +168,10 @@ if ($udd_config->overwriteitemid)
 	$udd_item_id = $udd_config->useitemid;
 
 
+
 $udd_pms_link = uddeIMsefRelToAbs("index.php?option=com_uddeim&task=inbox".($udd_item_id ? "&Itemid=".$udd_item_id : ""));
 
-$udd_sql="SELECT a.*, b.".($udd_config->realnames ? "name" : "username")." AS displayname FROM #__uddeim AS a LEFT JOIN #__users AS b ON a.fromid=b.id WHERE a.toread=0 AND a.totrash=0 AND a.toid=".(int)$udd_userid." ORDER BY a.datum";
+$udd_sql="SELECT a.*, b.".($udd_config->realnames ? "name" : "username")." AS displayname FROM #__uddeim AS a LEFT JOIN #__users AS b ON a.fromid=b.id WHERE `a`.`delayed`=0 AND a.toread=0 AND a.totrash=0 AND a.toid=".(int)$udd_userid." ORDER BY a.datum";
 //if ($udd_par_manylines>0) {
 //	$udd_sql.=" LIMIT ".$udd_par_manylines;
 //}
@@ -181,8 +187,20 @@ $udd_luddeicons_modulenonewmess = $udd_pathtouser.'/templates/'.$udd_config->tem
 
 $udd_javascript = "<script type=\"text/javascript\" language=\"javascript\"><!--\n";
 
-
-
+if ($udd_sound==1) {
+	echo "\n<span id=\"uddsound\"></span>\n";
+	$udd_soundcode = "
+function playSound(soundfile) {
+	document.getElementById(\"uddsound\").innerHTML = \"<embed src=\\\"\"+soundfile+\"\\\" hidden=\\\"true\\\" autostart=\\\"true\\\" loop=\\\"false\\\" />\";
+}";
+	$udd_javascript .= $udd_soundcode;
+}
+if ($udd_sound==2) {
+	echo "\n<audio preload=\"auto\" autobuffer id=\"uddsound\">
+<source src=\"".$udd_moduleSubPath."/alert.mp3"."\" type=\"audio/mpeg\" /></source>
+<source src=\"".$udd_moduleSubPath."/alert.ogg"."\" type=\"audio/ogg\" /></source>
+</audio>\n";
+}
 
 if ($udd_cbenablepopup) {		// NEW MESSAGES, so do notification popups when enabled
 	// ALERT-POPUP-CODE ##################################################################################
@@ -200,24 +218,28 @@ if ($udd_cbenablepopup) {		// NEW MESSAGES, so do notification popups when enabl
 	// if ( 1 || $udd_DoAlert ) {
 		// ToDo: Set flag, message has been displayed
 		switch( $udd_cbDHTMLPopup ) {
+			case 0:		$udd_javascript .= uddepmscallsound($udd_DoAlert, $udd_moduleSubPath, $udd_sound);
+						break;
 			case 1:		$udd_message = _UDDEMODULE_HELLO . " " . $udd_name . "<br />";
 						$udd_message .= _UDDEMODULE_YOUHAVE." <span id=\"uddcount\">".$udd_totalmessages." ".($udd_totalmessages == 1 ? _UDDEMODULE_MESSAGE : _UDDEMODULE_MESSAGES)."</span>";
-						$udd_javascript .= uddepmscalldhtml($udd_DoAlert, $udd_message, $udd_pms_link, $udd_moduleSubPath);
+						$udd_javascript .= uddepmscalldhtml($udd_DoAlert, $udd_message, $udd_pms_link, $udd_moduleSubPath, $udd_sound);
 						break;
 			case 2:		
 			default:	$udd_message = _UDDEMODULE_HELLO . " " . $udd_name . "<br />";
 						$udd_message .= _UDDEMODULE_YOUHAVE." <span id='uddcount'>".$udd_totalmessages." ".($udd_totalmessages == 1 ? _UDDEMODULE_MESSAGE : _UDDEMODULE_MESSAGES)."</span>";
-						$udd_javascript .= uddepmscalldhtmlfloater($udd_DoAlert, $udd_timeout, $udd_rightpos, $udd_rightspeed, $udd_leftspeed, $udd_uddeicons_modulenewmess, $udd_message, $udd_pms_link, $udd_moduleSubPath);
+						$udd_javascript .= uddepmscalldhtmlfloater($udd_DoAlert, $udd_timeout, $udd_rightpos, $udd_rightspeed, $udd_leftspeed, $udd_uddeicons_modulenewmess, $udd_message, $udd_pms_link, $udd_moduleSubPath, $udd_sound);
 						break;
 		}
 	// }
 }
 
 
-if (!$udd_par_hidenotifier) {
+//if (!$udd_par_hidenotifier) {						// removed 18-1-2012
 	if (class_exists('JHTML')) {
+//		$udd_completeURL = uddeIMgetPath("live_site")."/index.php?option=com_uddeim&task=ajaxGetNewMessages&no_html=1";
 		$udd_completeURL = "index.php?option=com_uddeim&task=ajaxGetNewMessages&no_html=1";
 	} else {
+//		$udd_completeURL = uddeIMgetPath("live_site")."/index2.php?option=com_uddeim&task=ajaxGetNewMessages&no_html=1";
 		$udd_completeURL = "index2.php?option=com_uddeim&task=ajaxGetNewMessages&no_html=1";
 	}
 
@@ -306,11 +328,12 @@ function uddGetXmlHttpObject() {
 ";
 		$udd_javascript .= $udd_ajaxcode;
 	}
-}
+// }
 
 $udd_javascript .= "\n//-->\n</script>\n";
 echo $udd_javascript;
-	
+
+
 if (!$udd_par_hidenotifier) {
 	$udd_headline = "<a href='".$udd_pms_link."'>"._UDDEMODULE_PRIVATEMESSAGES."</a>";
 
@@ -322,8 +345,10 @@ if (!$udd_par_hidenotifier) {
 			echo " <a href='".$udd_pms_link."'><img id='uddeim-noimage' border='0' src='".$udd_uddeicons_modulenewmess."' alt='' /></a>";
 		echo "</p>";
 
-		if (!$udd_par_showmsg) {	// DONT SHOW NEW MESSAGES
-			echo "<p class='uddeim-module-body'><a id='uddeim-nomessage' href='".$udd_pms_link."'>"._UDDEMODULE_NEWMESSAGES." ".$udd_totalmessages."</a></p>";
+		if ($udd_par_showmsg==0 || $udd_par_showmsg==3) {	// DONT SHOW NEW MESSAGES
+			if ($udd_par_showmsg==0) {	// Show new msg counter only
+				echo "<p class='uddeim-module-body'><a id='uddeim-nomessage' href='".$udd_pms_link."'>"._UDDEMODULE_NEWMESSAGES." ".$udd_totalmessages."</a></p>";
+			}
 		} else {				// SHOW NEW MESSAGES
 
 			$udd_count=1;
@@ -430,23 +455,27 @@ function uddTeaserHead($ofwhat, $howlong, $quotedivider, $utf8) {
 	return $construct;
 }
 
-function uddepmscalldhtml($udd_DoAlert, $udd_message, $udd_pms_link, $udd_moduleSubPath){
+function uddepmscalldhtml($udd_DoAlert, $udd_message, $udd_pms_link, $udd_moduleSubPath, $udd_sound){
 	$udd_link = '<a href="'.$udd_pms_link.'"><div style="text-align: justify; padding: 2px 5px; font-size: 13px; font-family: Arial; width: 250px; background-color: #FFFFFF; color: #000000;">'.$udd_message.'</div></a>';
 //	$udd_link = '<div style="text-align: justify; padding: 2px 5px; font-size: 13px; font-family: Arial; background-color: #FFFFFF; color: #000000;">'.$udd_message.'</div>';
         $udd_title = _UDDEMODULE_EXPRESSMESSAGE;
         //$udd_title = "<img src=\"$udd_mosConfig_live_site/modules/mod_uddeim/close.gif\" style=\"vertical-align: bottom;\" width=\"16\" height=\"14\" />".$udd_title;
-	echo "<link href=\"".$udd_moduleSubPath."/popup.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
-	echo "<script language=\"Javascript\" src=\"".$udd_moduleSubPath."/domLib.js\"></script>\n"
-		. "<script language=\"Javascript\" src=\"".$udd_moduleSubPath."/domTT.js\"></script>\n"
-		. "<script language=\"Javascript\" src=\"".$udd_moduleSubPath."/domTT_drag.js\"></script>\n";
-//	$css = $udd_moduleSubPath."/popup.css"; 
-//	uddeIMaddCSS($css);
-//	$temp = $udd_moduleSubPath."/domLib.js";
-//	uddeIMaddScript($temp);
-//	$temp = $udd_moduleSubPath."/domTT.js";
-//	uddeIMaddScript($temp);
-//	$temp = $udd_moduleSubPath."/domTT_drag.js";
-//	uddeIMaddScript($temp);
+
+	if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
+		$css = $udd_moduleSubPath."/popup.css"; 
+		uddeIMaddCSS($css);
+		$temp = $udd_moduleSubPath."/domLib.js";
+		uddeIMaddScript($temp);
+		$temp = $udd_moduleSubPath."/domTT.js";
+		uddeIMaddScript($temp);
+		$temp = $udd_moduleSubPath."/domTT_drag.js";
+		uddeIMaddScript($temp);
+	} else {
+		echo "<link href=\"".$udd_moduleSubPath."/popup.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
+		echo "<script language=\"Javascript\" src=\"".$udd_moduleSubPath."/domLib.js\"></script>\n"
+			. "<script language=\"Javascript\" src=\"".$udd_moduleSubPath."/domTT.js\"></script>\n"
+			. "<script language=\"Javascript\" src=\"".$udd_moduleSubPath."/domTT_drag.js\"></script>\n";
+	}
 	$udd_ret = 
 		  " var domTT_styleClass = 'domTTWin';\n"
 		. "	var domTT_draggable = true;\n"
@@ -466,11 +495,14 @@ function uddepmscalldhtml($udd_DoAlert, $udd_message, $udd_pms_link, $udd_module
 	return $udd_ret;
 }
 
-function uddepmscalldhtmlfloater($udd_DoAlert, $udd_timeout, $udd_rightpos, $udd_rightspeed, $udd_leftspeed, $udd_uddeicons_modulenewmess, $udd_message, $udd_pms_link, $udd_moduleSubPath){
+function uddepmscalldhtmlfloater($udd_DoAlert, $udd_timeout, $udd_rightpos, $udd_rightspeed, $udd_leftspeed, $udd_uddeicons_modulenewmess, $udd_message, $udd_pms_link, $udd_moduleSubPath, $udd_sound){
 	$udd_link = "<a href='".$udd_pms_link."'>".$udd_message."</a>";
-	echo "<link href='".$udd_moduleSubPath."/popupex.css' rel='stylesheet' type='text/css' />\n";
-	// $css = $udd_moduleSubPath."/popupex.css";
-	// uddeIMaddCSS($css);
+	if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
+		$css = $udd_moduleSubPath."/popupex.css";
+		uddeIMaddCSS($css);
+	} else {
+		echo "<link href='".$udd_moduleSubPath."/popupex.css' rel='stylesheet' type='text/css' />\n";
+	}
 
 	echo "<div style='left: -450px;visibility:hidden;' id='floaterDiv' class='floaterTranslucent'>";
 	echo " <div class='floaterTitle'>"._UDDEMODULE_EXPRESSMESSAGE;
@@ -508,15 +540,64 @@ function uddstart() {
 	uddfloatIn();
 }
 
+function uddaddOnloadEvent(fnc){
+  if ( typeof window.addEventListener != "undefined" )
+    window.addEventListener( "load", fnc, false );
+  else if ( typeof window.attachEvent != "undefined" ) {
+    window.attachEvent( "onload", fnc );
+  }
+  else {
+    if ( window.onload != null ) {
+      var oldOnload = window.onload;
+      window.onload = function ( e ) {
+        oldOnload( e );
+        window[fnc]();
+      };
+    }
+    else
+      window.onload = fnc;
+  }
+}
+
 var rightpos = '.$udd_rightpos.';
 if (document.getElementById) {
 	if (rightpos<0) {
 		rightpos = document.body.clientWidth + rightpos;
 	}
 }';
-if ($udd_DoAlert)
+if ($udd_DoAlert) {
 	$udd_ret .= '
 setTimeout("uddfloatOut();", '.$udd_timeout.');
-window.onload = uddstart;';
+// window.onload = uddstart;
+// addOnloadEvent(function(){ uddstart(\'\') });
+';
+if ($udd_sound==1) {
+	$udd_ret .= 'playSound(\''.$udd_moduleSubPath.'/alert.mp3'.'\');';
+}
+if ($udd_sound==2) {
+	$udd_ret .= 'var uddaudio = document.getElementById("uddsound");
+uddaudio.play();';
+}
+	$udd_ret .= '
+uddaddOnloadEvent(uddstart);
+';
+	}
+	return $udd_ret;
+}
+
+function uddepmscallsound($udd_DoAlert, $udd_moduleSubPath, $udd_sound) {
+	if ($udd_DoAlert) {
+		$udd_ret = "";
+		if ($udd_sound==1) {
+			$udd_ret .= 'playSound(\''.$udd_moduleSubPath.'/alert.mp3'.'\');';
+		}
+		if ($udd_sound==2) {
+			$udd_ret .= 'var uddaudio = document.getElementById("uddsound");
+		uddaudio.play();';
+		}
+		//$udd_ret .= '
+		//uddaddOnloadEvent(uddstart);
+		//';
+	}
 	return $udd_ret;
 }

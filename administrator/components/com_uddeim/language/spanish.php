@@ -11,194 +11,325 @@
 // *******************************************************************
 // Language file: Castellano (source file is Latin-1)
 // Translator:     José Chancosa Gimeno <noemail> 
-// Translator:     Willieram 
+// Translator:     Willieram
+// Translator:     Pablo Baltodano
 // *******************************************************************
 
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Translated by José Chancosa Gimeno, Willieram and <a href="https://twitter.com/palinair" target="_new">Pablo Baltodano</a>');	// Enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'do not load MooTools (use MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'force loading MooTools 1.3 (use MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'No usar SEF para %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'No usar SEF para %msglink% variables contenedoras en las notificaciones de correo electrónico.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Utilice calendarios especiales');
+DEFINE ('_UDDEADM_STIME_EXP', 'Cuando está activo en sitios que utilizan el archivo de idioma farsi, el calendario persa es utilizado.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Eliminar conexiones huérfanas');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Elimine automáticamente conexiones huérfanas cuando se guarda una lista de contactos existente.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Mostrar sólo las conexiones');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'Los usuarios que aparecen en la lista se pueden limitar a conexiones CB/CBE/JS (ocultar los usuarios de la lista de usuarios no tiene ningún efecto aquí si está habilitado).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'desactivado');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'usuarios registrados');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'registrados, usuarios especiales');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'todos los usuarios (incl. administradores)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...configurar por defecto para mostrar conexiones');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Código de seguridad:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Botón "Mostrar linea CC:"');
+DEFINE ('_UDDEADM_CC_EXP', 'Cuando está activo, el usuario puede elegir si uddeIM agrega o no una línea CC: que contiene todos los destinatarios de un mensaje.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...configurar por defecto para línea CC: line, y moderación');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Centro de Mensajes');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Eliminar mensaje');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Entregar mensaje');
+DEFINE ('_UDDEADM_OOD_MCP', 'El plug-in del Centro de Mensajes está desactualizado!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Mensajes a moderar:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Enviado a papelera');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', '¿Eliminar este mensaje de la base de datos?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', '¿Entregar este mensaje al destinatario?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Mostrar/Ocultar');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Centro de Control de Mensajes');
+DEFINE ('_UDDEADM_MCP_FROM', 'De');
+DEFINE ('_UDDEADM_MCP_TO', 'Para');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Mensaje');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Eliminar');
+DEFINE ('_UDDEADM_MCP_DATE', 'Fecha');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Entregar');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Mod');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Mod -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Tus mensajes serán moderados. Un moderador los revisará antes de ser entregados a los destinatarios.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Pendientes de moderación');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Moderar nuevos usuarios');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'Cuando está activo, los mensajes de los nuevos usuarios registrados son moderados por defecto.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Moderar usuarios públicos');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'Cuando está activo, los mensajes de los usuarios públicos son moderados.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'No hay menú');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'El plug-in de interfaz pública está desactualizado!');
+DEFINE ('_UDDEADM_OOD_A', 'El plug-in de archivos adjuntos está desactualizado!');
+DEFINE ('_UDDEADM_OOD_RSS', 'El plug-in RSS está desactualizado!');
+DEFINE ('_UDDEADM_OOD_ASC', 'El plug-in del Centro de Mensajes de Reporte está desactualizado!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>Usted no tiene mensajes filtrados en su%s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'no leído');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'marcado');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'gravatar activado');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Enables gravatar support.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'conjunto de imágenes gravatar');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Seleccione el conjunto de imágenes para las imágenes por defecto.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'clasificación gravatar');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'Por defecto, sólo las imágenes clasificadas "G" son mostradas a menos que se indique clasificaciones más altas. "X" muestra todas las imágenes gravatar.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'wavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'por defecto');
+DEFINE ('_UDDEADM_GRG', 'G = General');
+DEFINE ('_UDDEADM_GRPG', 'PG = Supervisión de padres');
+DEFINE ('_UDDEADM_GRR', 'R = Restringido');
+DEFINE ('_UDDEADM_GRX', 'X = Sólo adultos');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Procesando...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'No envíe correos electrónicos de notificación');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'No serán enviadas notificaciones por correo electrónico');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'El texto será incrustado en la notificación por correo electrónico');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...configurar por defecto para las miniaturas');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Tamaño de despliegue de las miniaturas');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Anchura y altura (en píxeles) de las miniaturas (0 = tamaño no será cambiado).');
+DEFINE ('_UDDEIM_SAVE', 'Guardar');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Hola %you%,\n\n%touser% ha reportado un mensaje sospechoso de %fromuser%. Por favor, entrar y revísalo!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'Un mensaje se ha reportado en %site%');
+DEFINE ('_UDDEADM_KBYTES', 'KByte');
+DEFINE ('_UDDEADM_MBYTES', 'MByte');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'El archivo ha sido borrado');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Error: El archivo no existe');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Archivos adjuntos (max. %s por archivo):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Descargas de archivos no protegidos');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'Por lo general, uddeIM no da a conocer la ruta del servidor de archivos adjuntos, para que nadie - incluso cuando el nombre del archivo es conocido - pueda descargar el archivo. Al activar esta opción uddeIM es obligado a devolver la ruta completa del servidor. Por razones de seguridad, uddeIM añade un hash MD5 con el nombre del archivo original. Los usuarios pueden descargar el archivo directamente cuando la ruta completa es conocida. Sólo utilice con cuidado! LEA EL FAQ AL UTILIZAR ESTA OPCIÓN!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...configurar por defecto para los archivos adjuntos, interfaz pública');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Tipo de archivo no permitido');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Extensiones permitidas');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Escriba todas las extensiones permitidas (separados por ";"). Dejar en blanco para ninguna restricción.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'Correo electrónico obligatorio');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'Cuando está activa, un usuario público debe introducir una dirección de correo electrónico.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Días de espera');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Especifique el número de días que un usuario debe esperar hasta que se le permita enviar mensajes (para 3 horas introducir 0,125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'Usted tiene que esperar ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' días hasta que pueda enviar mensajes.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' horas hasta que pueda enviar mensajes.');
+
 // New: 2.0
-DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha private key');
-DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'When you want to use reCaptcha, enter your private key here.');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'reCaptcha public key');
-DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'When you want to use reCaptcha, enter your public key here.');
-DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Internal');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'Clave privada reCaptcha');
+DEFINE ('_UDDEADM_RECAPTCHAPRV_EXP', 'Cuando quiera usar reCAPTCHA, introduzca su clave privada aquí.');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_HEAD', 'Clave pública reCaptcha');
+DEFINE ('_UDDEADM_RECAPTCHAPUB_EXP', 'Cuando quiera usar reCAPTCHA, introduzca su clave pública aquí.');
+DEFINE ('_UDDEADM_CAPTCHA_INTERNAL', 'Interno');
 DEFINE ('_UDDEADM_CAPTCHA_RECAPTCHA', 'reCaptcha');
-DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Captcha service');
-DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', 'Which captcha service do you want to use: The build-in service or reCaptcha (see <a href="http://recaptcha.net" target="_new">reCaptcha</a> for more information)?');
-DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...set default for captcha service');
+DEFINE ('_UDDEADM_CAPTCHATYPE_HEAD', 'Servicio captcha');
+DEFINE ('_UDDEADM_CAPTCHATYPE_EXP', '¿Qué servicio captcha desea utilizar: el servicio incorporado o reCaptcha (ver <a href="http://recaptcha.net" target="_new">reCaptcha</a> para más información)?');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_6', '...configurar por defecto el servicio captcha');
 DEFINE ('_UDDEADM_AUP', 'AlphaUserPoints');
-DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Please move <i>\uddeimfiles</i> to <i>\images\uddeimfiles</i>. Check the documentation!');
-DEFINE ('_UDDEADM_CRYPT4', 'Strong encryption');
-DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Allow sending system messages');
-DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM supports system messages. They are sent to all users on your system. Use them sparingly.');
-DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'disabled');
-DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'admins only');
-DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'admins and managers');
+DEFINE ('_UDDEADM_CHECKFILESFOLDER', 'Por favor mover <i>\uddeimfiles</i> a <i>\images\uddeimfiles</i>. Consulte la documentación!');
+DEFINE ('_UDDEADM_CRYPT4', 'Encriptación fuerte');
+DEFINE ('_UDDEADM_ALLOWTOALL2_HEAD', 'Permitir el envío de mensajes del sistema');
+DEFINE ('_UDDEADM_ALLOWTOALL2_EXP', 'uddeIM es compatible con los mensajes del sistema. Estos son enviados a todos los usuarios de su sistema. Úselos con moderación.');
+DEFINE ('_UDDEADM_ALLOWTOALL2_0', 'desactivado');
+DEFINE ('_UDDEADM_ALLOWTOALL2_1', 'administradores solamente');
+DEFINE ('_UDDEADM_ALLOWTOALL2_2', 'administradores y gestores');
 
 // New: 1.9
-DEFINE ('_UDDEIM_FILEUPLOAD_FAILED', 'File uploading failed');
-DEFINE ('_UDDEADM_CFGFILE_CONVERTING_5', '...set default for file attachments');
-DEFINE ('_UDDEADM_ENABLEATTACHMENT_HEAD', 'Enable file attachments');
-DEFINE ('_UDDEADM_ENABLEATTACHMENT_EXP', 'This enables sending file attachments for all registered users or admins only.');
-DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_HEAD', 'Max. file size');
-DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_EXP', 'Maximum file size allowed for file attachments.');
-DEFINE ('_UDDEIM_FILESIZE_EXCEEDED', 'Maximum file size exceeded');
+DEFINE ('_UDDEIM_FILEUPLOAD_FAILED', 'Fallo en la carga de archivos');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_5', '...configurar por defecto para los archivos adjuntos');
+DEFINE ('_UDDEADM_ENABLEATTACHMENT_HEAD', 'Habilitar archivos adjuntos');
+DEFINE ('_UDDEADM_ENABLEATTACHMENT_EXP', 'Esto permite el envío de archivos adjuntos para todos los usuarios registrados o administradores solamente.');
+DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_HEAD', 'Max. tamaño de archivo');
+DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_EXP', 'Tamaño máximo de archivo permitido para los archivos adjuntos.');
+DEFINE ('_UDDEIM_FILESIZE_EXCEEDED', 'Tamaño máximo de archivo excedido');
 DEFINE ('_UDDEADM_BYTES', 'Bytes');
-DEFINE ('_UDDEADM_MAXATTACHMENTS_HEAD', 'Max. attachments');
-DEFINE ('_UDDEADM_MAXATTACHMENTS_EXP', 'Maximum number of attachments per message.');
-DEFINE ('_UDDEIM_DOWNLOAD', 'Download');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_HEAD', 'File deletions invoked');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_YES', 'by admins only');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_NO', 'by any user');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_MANUALLY', 'manually');
-DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_EXP', 'Automatic deletions create heavy server load. If you choose <b>by admins only</b> automatic deletions are invoked when an admin checks his inbox. Choose this option if an admin is checking the inbox regulary. Small or rarely administered sites may choose <b>by any user</b>.');
-DEFINE ('_UDDEADM_FILEMAINTENANCE_PRUNE', 'Prune files now');
-DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_HEAD', 'Invoke file erasing');
-DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_EXP', 'Removes deleted files from the database. This is the same as \'Prune files now\' on the system tab.');
-DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_ERASE', 'ERASE');
-DEFINE ('_UDDEIM_ATTACHMENTS', 'Attachments (max. %u bytes per file):');
-DEFINE ('_UDDEADM_MAINTENANCE_F1', 'Orphaned attachments stored in filesystem: ');
-DEFINE ('_UDDEADM_MAINTENANCE_F2', 'Deleting orphaned files');
-DEFINE ('_UDDEADM_BACKUP_DONE', 'Backup configuration done.');
-DEFINE ('_UDDEADM_RESTORE_DONE', 'Restore configuration done.');
-DEFINE ('_UDDEADM_PRUNE_DONE', 'Message pruning done.');
-DEFINE ('_UDDEADM_FILEPRUNE_DONE', 'File attachment pruning done.');
-DEFINE ('_UDDEADM_FOLDERCREATE_ERROR', 'Error creating folder: ');
-DEFINE ('_UDDEADM_ATTINSTALL_WRITEFAILED', 'Error creating file: ');
-DEFINE ('_UDDEADM_ATTINSTALL_IGNORE', 'You can ignore this error when you do not own the File attachments premium plugin (see FAQ).');
-DEFINE ('_UDDEADM_ATTACHMENTGROUPS_HEAD', 'Allowed groups');
-DEFINE ('_UDDEADM_ATTACHMENTGROUPS_EXP', 'Groups which are allowed to send file attachments.');
-DEFINE ('_UDDEIM_SELECT', 'Select');
-DEFINE ('_UDDEIM_ATTACHMENT', 'Attachment');
-DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_HEAD', 'Show attachment icons');
-DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_EXP', 'Show attachment icons in the message lists (inbox, outbox, archive).');
-DEFINE ('_UDDEIM_HELP_ATTACHMENT', 'The message contains a file attachment.');
-DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILES', 'File references in database:');
-DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILESDISTINCT', 'File attachments stored:');
-DEFINE ('_UDDEADM_SHOWMENUCOUNT_HEAD', 'Show counters');
-DEFINE ('_UDDEADM_SHOWMENUCOUNT_EXP', 'When set to <b>yes</b>, the menu bar contains message counters. Note: This will require several additional database queries so do not use on weak systems.');
-DEFINE ('_UDDEADM_CONFIG_FTPLAYER', 'Configuration (access with FTP layer):');
-DEFINE ('_UDDEADM_ENCODEHEADER_HEAD', 'Encode mail headers');
-DEFINE ('_UDDEADM_ENCODEHEADER_EXP', 'Set to <b>yes</b>, when mail headers (like the subject) should be rfc 2047 encoded. Useful when you have problems with special characters.');
-DEFINE ('_UDDEIM_UP', 'sort ascending');
-DEFINE ('_UDDEIM_DOWN', 'sort descending');
-DEFINE ('_UDDEIM_UPDOWN', 'sort');
-DEFINE ('_UDDEADM_ENABLESORT_HEAD', 'Enable sorting');
-DEFINE ('_UDDEADM_ENABLESORT_EXP', 'Set to <b>yes</b>, when the user should be able to sort the inbox, outbox and archive (creates additional load on the database server).');
+DEFINE ('_UDDEADM_MAXATTACHMENTS_HEAD', 'Max. adjuntos');
+DEFINE ('_UDDEADM_MAXATTACHMENTS_EXP', 'Número máximo de archivos adjuntos por mensaje.');
+DEFINE ('_UDDEIM_DOWNLOAD', 'Descargar');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_HEAD', 'Supresiones de archivos invocado');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_YES', 'por administradores solamente');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_NO', 'por cualquier usuario');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_MANUALLY', 'manualmente');
+DEFINE ('_UDDEADM_FILEADMINIGNITIONONLY_EXP', 'Supresiones automáticas crean una sobrecarga del servidor. Si usted elige <b>por administradores solamente</b> las supresiones automáticas se invocan cuando un administrador revisa su bandeja de entrada. Elija esta opción si un administrador revisa con regularidad la bandeja de entrada. Los sitios pequeños o administrados rara vez pueden elegir <b>por cualquier usuario</b>.');
+DEFINE ('_UDDEADM_FILEMAINTENANCE_PRUNE', 'Cortar archivos ahora');
+DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_HEAD', 'Invocar supresión de archivos');
+DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_EXP', 'Elimina los archivos borrados de la base de datos. Esto es lo mismo que \'Cortar los archivos ahora\' en la lengüeta sistema.');
+DEFINE ('_UDDEADM_FILEMAINTENANCEDEL_ERASE', 'BORRAR');
+DEFINE ('_UDDEIM_ATTACHMENTS', 'Adjuntos (max. %u bytes por archivo):');
+DEFINE ('_UDDEADM_MAINTENANCE_F1', 'Archivos adjuntos huérfanos almacenados en sistema de archivos: ');
+DEFINE ('_UDDEADM_MAINTENANCE_F2', 'Eliminando archivos huérfanos');
+DEFINE ('_UDDEADM_BACKUP_DONE', 'Respaldo de configuración hecha.');
+DEFINE ('_UDDEADM_RESTORE_DONE', 'Restauración de configuración hecha.');
+DEFINE ('_UDDEADM_PRUNE_DONE', 'Corte del mensaje realizado.');
+DEFINE ('_UDDEADM_FILEPRUNE_DONE', 'Corte del archivo adjunto realizado.');
+DEFINE ('_UDDEADM_FOLDERCREATE_ERROR', 'Error al crear carpeta: ');
+DEFINE ('_UDDEADM_ATTINSTALL_WRITEFAILED', 'Error al crear archivo: ');
+DEFINE ('_UDDEADM_ATTINSTALL_IGNORE', 'Puede pasar por alto este error cuando usted no tiene el plug-in premium de archivos adjuntos (ver FAQ).');
+DEFINE ('_UDDEADM_ATTACHMENTGROUPS_HEAD', 'Grupos permitidos');
+DEFINE ('_UDDEADM_ATTACHMENTGROUPS_EXP', 'Grupos que se les permite enviar archivos adjuntos.');
+DEFINE ('_UDDEIM_SELECT', 'Seleccionar');
+DEFINE ('_UDDEIM_ATTACHMENT', 'Adjunto');
+DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_HEAD', 'Mostrar iconos de archivo adjunto');
+DEFINE ('_UDDEADM_SHOWLISTATTACHMENT_EXP', 'Mostrar iconos de archivo adjunto en las listas de mensajes (bandeja de entrada, salida, archivo).');
+DEFINE ('_UDDEIM_HELP_ATTACHMENT', 'El mensaje contiene un archivo adjunto.');
+DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILES', 'Referencias a archivos en la base de datos:');
+DEFINE ('_UDDEADM_MAINTENANCE_COUNTFILESDISTINCT', 'Archivos adjuntos almacenados:');
+DEFINE ('_UDDEADM_SHOWMENUCOUNT_HEAD', 'Mostrar contadores');
+DEFINE ('_UDDEADM_SHOWMENUCOUNT_EXP', 'Cuando se establece en <b>si</b>, la barra de menús contiene contadores de mensajes. Nota: Esto requiere varias consultas de bases de datos adicionales así que no se use en sistemas débiles.');
+DEFINE ('_UDDEADM_CONFIG_FTPLAYER', 'Configuración (acceso con capa FTP):');
+DEFINE ('_UDDEADM_ENCODEHEADER_HEAD', 'Codificar encabezados de los mensajes');
+DEFINE ('_UDDEADM_ENCODEHEADER_EXP', 'Establecer en <b>si</b>, cuando los encabezados de correo (como el asunto) deben ser codificados rfc 2047. Resulta útil cuando se tienen problemas con caracteres especiales.');
+DEFINE ('_UDDEIM_UP', 'ordenar ascendente');
+DEFINE ('_UDDEIM_DOWN', 'ordenar descendente');
+DEFINE ('_UDDEIM_UPDOWN', 'ordenar');
+DEFINE ('_UDDEADM_ENABLESORT_HEAD', 'Habilitar ordenamiento');
+DEFINE ('_UDDEADM_ENABLESORT_EXP', 'Establecer en <b>si</b>, cuando el usuario debe ser capaz de ordenar las bandejas de entrada y salida y el archivo (crea una carga adicional en el servidor de base de datos).');
 
 // New: 1.8
 // %s will be replaced by _UDDEIM_NOMESSAGES_FILTERED_INBOX, _UDDEIM_NOMESSAGES_FILTERED_OUTBOX, _UDDEIM_NOMESSAGES_FILTERED_ARCHIVE
 // Translators help: When having problems with the grammar, you can also move some text (e.g. "in your") to _UDDEIM_NOMESSAGES_FILTERED_* variables, e.g.
 // instead of "_UDDEIM_NOMESSAGES_FILTERED_INBOX=inbox" you can also use "_UDDEIM_NOMESSAGES_FILTERED_INBOX=in your inbox"
-DEFINE ('_UDDEIM_NOMESSAGES2_FR_FILTERED', '<b>You have no messages from this user in your%s.</b>');
-DEFINE ('_UDDEIM_NOMESSAGES2_TO_FILTERED', '<b>You have no messages to this user in your%s.</b>');
-DEFINE ('_UDDEIM_NOMESSAGES2_UNFR_FILTERED', '<b>You have no unread messages from this user in your%s.</b>');
-DEFINE ('_UDDEIM_NOMESSAGES2_UNTO_FILTERED', '<b>You have no unread messages to this user in your%s.</b>');
+DEFINE ('_UDDEIM_NOMESSAGES2_FR_FILTERED', '<b>Usted no tiene mensajes de este usuario en su%s.</b>');
+DEFINE ('_UDDEIM_NOMESSAGES2_TO_FILTERED', '<b>Usted no tiene mensajes para este usuario en su%s.</b>');
+DEFINE ('_UDDEIM_NOMESSAGES2_UNFR_FILTERED', '<b>Usted no tiene mensajes no leídos de este usuario en su%s.</b>');
+DEFINE ('_UDDEIM_NOMESSAGES2_UNTO_FILTERED', '<b>Usted no tiene mensajes no leídos para este usuario en su%s.</b>');
 
 // New: 1.7
-DEFINE ('_UDDEADM_EMAILSTOPPED', '\'Email stop\' enabled.');
-DEFINE ('_UDDEIM_ACCOUNTLOCKED', 'Access to your mailbox has been locked. Please contact the site admin.');
-DEFINE ('_UDDEADM_USERSET_LOCKED', 'Locked');
-DEFINE ('_UDDEADM_USERSET_SELLOCKED', '- Locked -');
-DEFINE ('_UDDEADM_CBBANNED_HEAD', 'Check for CB banned users');
-DEFINE ('_UDDEADM_CBBANNED_EXP', 'When activated uddeIM checks if a user has been banned in CB and does not allow access to uddeIM. Additionally other users are not able to send messages to a banned user.');
-DEFINE ('_UDDEIM_YOUAREBANNED', 'You have been banned. Please contact the administrator or moderator.');
-DEFINE ('_UDDEIM_USERBANNED', 'User has been banned');
+DEFINE ('_UDDEADM_EMAILSTOPPED', '\'Detener correo\' habilitado.');
+DEFINE ('_UDDEIM_ACCOUNTLOCKED', 'El acceso a su buzón de correo ha sido bloqueado. Por favor, póngase en contacto con el administrador del sitio.');
+DEFINE ('_UDDEADM_USERSET_LOCKED', 'Bloqueado');
+DEFINE ('_UDDEADM_USERSET_SELLOCKED', '- Bloqueado -');
+DEFINE ('_UDDEADM_CBBANNED_HEAD', 'Comprobar usuarios CB suspendidos');
+DEFINE ('_UDDEADM_CBBANNED_EXP', 'Cuando se activa uddeIM revisa si un usuario ha sido suspendido en CB y no le permite el acceso a uddeIM. Además, los otros usuarios no serán capaces de enviar mensajes a un usuario suspendido.');
+DEFINE ('_UDDEIM_YOUAREBANNED', 'Has sido suspendido. Por favor, póngase en contacto con el administrador o moderador.');
+DEFINE ('_UDDEIM_USERBANNED', 'El usuario ha sido suspendido');
 DEFINE ('_UDDEADM_JOOBB', 'Joo!BB');
-DEFINE ('_UDDEPLUGIN_SEARCHSECTION', 'Private Messaging');
-DEFINE ('_UDDEPLUGIN_MESSAGES', 'Private Messages');
-DEFINE ('_UDDEADM_MAINTENANCEDEL_HEAD', 'Invoke message erasing');
+DEFINE ('_UDDEPLUGIN_SEARCHSECTION', 'Mensajería Privada');
+DEFINE ('_UDDEPLUGIN_MESSAGES', 'Mensajes Privados');
+DEFINE ('_UDDEADM_MAINTENANCEDEL_HEAD', 'Invocar borrado de mensajes');
 // note "This  is the same as _UDDEADM_MAINTENANCE_PRUNE on the system tab."
-DEFINE ('_UDDEADM_MAINTENANCEDEL_EXP', 'Removes deleted messages from the database. This is the same as \'Prune messages now\' on the system tab.');
-DEFINE ('_UDDEADM_MAINTENANCEDEL_ERASE', 'ERASE');
-DEFINE ('_UDDEADM_REPORTSPAM_HEAD', 'Report message link');
-DEFINE ('_UDDEADM_REPORTSPAM_EXP', 'When activated this show a \'Report message\' link that allows users to report SPAM to the admin.');
-DEFINE ('_UDDEIM_TOOLBAR_REMOVESPAM', 'Delete message');
-DEFINE ('_UDDEIM_TOOLBAR_REMOVEREPORT', 'Remove report');
-DEFINE ('_UDDEIM_TOOLBAR_SPAMCONTROL', 'Report Control');
-DEFINE ('_UDDEADM_INFORMATION', 'Information');
-DEFINE ('_UDDEADM_SPAMCONTROL_STAT', 'Reported messages:');
-DEFINE ('_UDDEADM_SPAMCONTROL_TRASHED', 'Trashed');
-DEFINE ('_UDDEADM_SPAMCONTROL_NOTEDEL', 'Delete this message from database?');
-DEFINE ('_UDDEADM_SPAMCONTROL_NOTEREMOVE', 'Remove this report?');
-DEFINE ('_UDDEADM_SPAMCONTROL_SHOWHIDE', 'Show/Hide');
-DEFINE ('_UDDEADM_SPAMCONTROL_EDIT', 'Report Control Center');
-DEFINE ('_UDDEADM_SPAMCONTROL_FROM', 'From');
-DEFINE ('_UDDEADM_SPAMCONTROL_TO', 'To');
-DEFINE ('_UDDEADM_SPAMCONTROL_TEXT', 'Message');
-DEFINE ('_UDDEADM_SPAMCONTROL_DELETE', 'Delete');
-DEFINE ('_UDDEADM_SPAMCONTROL_REMOVE', 'Remove');
-DEFINE ('_UDDEADM_SPAMCONTROL_DATE', 'Date');
-DEFINE ('_UDDEADM_SPAMCONTROL_REPORTED', 'Reported');
-DEFINE ('_UDDEIM_SPAMCONTROL_REPORT', 'Report message');
-DEFINE ('_UDDEIM_SPAMCONTROL_MARKED', 'Message has been reported');
-DEFINE ('_UDDEIM_SPAMCONTROL_UNREPORT', 'Recall this report');
+DEFINE ('_UDDEADM_MAINTENANCEDEL_EXP', 'Elimina los mensajes borrados de la base de datos. Esto es lo mismo que \'Cortar los mensajes ahora\' en la lengüeta sistema.');
+DEFINE ('_UDDEADM_MAINTENANCEDEL_ERASE', 'BORRAR');
+DEFINE ('_UDDEADM_REPORTSPAM_HEAD', 'Reportar enlace del mensaje');
+DEFINE ('_UDDEADM_REPORTSPAM_EXP', 'Cuando es activado éste muestra un enlace \'Reportar mensaje\' que permite a los usuarios reportar SPAM a el administrador.');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVESPAM', 'Borrar mensaje');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEREPORT', 'Eliminar reporte');
+DEFINE ('_UDDEIM_TOOLBAR_SPAMCONTROL', 'Control de Reporte');
+DEFINE ('_UDDEADM_INFORMATION', 'Información');
+DEFINE ('_UDDEADM_SPAMCONTROL_STAT', 'Mensajes reportados:');
+DEFINE ('_UDDEADM_SPAMCONTROL_TRASHED', 'Enviado a papelera');
+DEFINE ('_UDDEADM_SPAMCONTROL_NOTEDEL', 'Borrar este mensaje de la base de datos?');
+DEFINE ('_UDDEADM_SPAMCONTROL_NOTEREMOVE', 'Eliminar este reporte?');
+DEFINE ('_UDDEADM_SPAMCONTROL_SHOWHIDE', 'Mostrar/Ocultar');
+DEFINE ('_UDDEADM_SPAMCONTROL_EDIT', 'Centro de Control de Reportes');
+DEFINE ('_UDDEADM_SPAMCONTROL_FROM', 'De');
+DEFINE ('_UDDEADM_SPAMCONTROL_TO', 'Para');
+DEFINE ('_UDDEADM_SPAMCONTROL_TEXT', 'Mensaje');
+DEFINE ('_UDDEADM_SPAMCONTROL_DELETE', 'Borrar');
+DEFINE ('_UDDEADM_SPAMCONTROL_REMOVE', 'Eliminar');
+DEFINE ('_UDDEADM_SPAMCONTROL_DATE', 'Fecha');
+DEFINE ('_UDDEADM_SPAMCONTROL_REPORTED', 'Reportado');
+DEFINE ('_UDDEIM_SPAMCONTROL_REPORT', 'Reportar mensaje');
+DEFINE ('_UDDEIM_SPAMCONTROL_MARKED', 'El mensaje ha sido reportado');
+DEFINE ('_UDDEIM_SPAMCONTROL_UNREPORT', 'Recordar este informe');
 DEFINE ('_UDDEADM_JOMSOCIAL', 'JomSocial');
 DEFINE ('_UDDEADM_KUNENA', 'Kunena');
-DEFINE ('_UDDEADM_ADMIN_FILTER', 'Filter');
-DEFINE ('_UDDEADM_ADMIN_DISPLAY', 'Display #');
-DEFINE ('_UDDEADM_TRASHORIGINALSENT_HEAD', 'Trash sent message');
-DEFINE ('_UDDEADM_TRASHORIGINALSENT_EXP', 'When activated this will put a checkbox next to the \'Send\' button called \'trash message\' that is not checked by default. Users can check the box if they want to trash a message immediatly after sending it.');
-DEFINE ('_UDDEIM_TRASHORIGINALSENT', 'trash message');
-DEFINE ('_UDDEADM_CFGFILE_CONVERTING_4', '...set default for delete sent message, report spam, CB banned users');
-DEFINE ('_UDDEADM_VERSIONCHECK_IMPORTANT', 'Important links:');
-DEFINE ('_UDDEADM_VERSIONCHECK_HOTFIX', 'Hotfix');
-DEFINE ('_UDDEADM_VERSIONCHECK_NONE', 'None');
-DEFINE ('_UDDEADM_MAINTENANCEFIX_HEAD', "Compatibility maintenance");
-DEFINE ('_UDDEADM_MAINTENANCEFIX_EXP', "uddeIM uses two XML files to ensure that packages can be installed on Joomla 1.0 and 1.5. On Joomla 1.5 one XML file is not required and this makes the extension manager to show an incompatibilty warning (which is wrong). This removes the unnecessary files, so the warning is not longer displayed.");
-DEFINE ('_UDDEADM_MAINTENANCE_FIX', "FIX");
-DEFINE ('_UDDEADM_MAINTENANCE_XML1', "Joomla 1.0 and Joomla 1.5 XML installers for uddeIM packages exists.<br />");
-DEFINE ('_UDDEADM_MAINTENANCE_XML2', "This is required due to install packages on Joomla 1.0 and Joomla 1.5.<br />");
-DEFINE ('_UDDEADM_MAINTENANCE_XML3', "Since it is not required after the installation has been finished, Joomla 1.0 installer can be removed on Joomla 1.5 systems.<br />");
-DEFINE ('_UDDEADM_MAINTENANCE_XML4', "This will be done for following packages:<br />");
-DEFINE ('_UDDEADM_MAINTENANCE_FXML1', "Unnecessary XML installers for following uddeIM packages will be removed:<br />");
-DEFINE ('_UDDEADM_MAINTENANCE_FXML2', "No unnecessary XML installers for uddeIM packages found!<br />");
-DEFINE ('_UDDEADM_SHOWMENUICONS1_HEAD', 'Appearance of menu bar');
-DEFINE ('_UDDEADM_SHOWMENUICONS1_EXP', 'Here you can configure if the menu bar should be displayed with icons and/or text.');
-DEFINE ('_UDDEIM_MENUICONS_P1', 'Icons and text');
-DEFINE ('_UDDEIM_MENUICONS_P2', 'Icons only');
-DEFINE ('_UDDEIM_MENUICONS_P0', 'Text only');
-DEFINE ('_UDDEIM_LISTSLIMIT_2', 'Maximum number of recipients on list:');
-DEFINE ('_UDDEADM_ADDEMAIL_ADMIN', 'Admins can select');
-DEFINE ('_UDDEAIM_ADDEMAIL_SELECT', 'Notify with message');
-DEFINE ('_UDDEAIM_ADDEMAIL_TITLE', 'Include complete message in email notification.');
+DEFINE ('_UDDEADM_ADMIN_FILTER', 'Filtro');
+DEFINE ('_UDDEADM_ADMIN_DISPLAY', 'Visualización #');
+DEFINE ('_UDDEADM_TRASHORIGINALSENT_HEAD', 'Enviar a papelera el mensaje enviado');
+DEFINE ('_UDDEADM_TRASHORIGINALSENT_EXP', 'Cuando es activado se incluirá una casilla de verificación junto al botón \'Enviar\' llamada \'mensaje a papelera\' la cual no está marcada por defecto. Los usuarios pueden marcar ésta casilla si desean enviar a la papelera un mensaje inmediatamente después de haberlo enviado.');
+DEFINE ('_UDDEIM_TRASHORIGINALSENT', 'mensaje a papelera');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_4', '...configurar por defecto para el mensaje de eliminar enviados, reportar como spam, usuarios CB suspendidos');
+DEFINE ('_UDDEADM_VERSIONCHECK_IMPORTANT', 'Enlaces importantes:');
+DEFINE ('_UDDEADM_VERSIONCHECK_HOTFIX', 'Parche');
+DEFINE ('_UDDEADM_VERSIONCHECK_NONE', 'Ninguno');
+DEFINE ('_UDDEADM_MAINTENANCEFIX_HEAD', "Mantenimiento de compatibilidad");
+DEFINE ('_UDDEADM_MAINTENANCEFIX_EXP', "uddeIM utiliza dos archivos XML para asegurar que los paquetes se pueden instalar en Joomla 1.0 y 1.5. En Joomla 1.5 un archivo XML no es necesario y esto hace que el gestor de extensiones muestre una advertencia de incompatibilidad lo cual está mal). Esto elimina los archivos innecesarios, por lo que la advertencia no volverá a aparecer.");
+DEFINE ('_UDDEADM_MAINTENANCE_FIX', "SOLUCIÓN");
+DEFINE ('_UDDEADM_MAINTENANCE_XML1', "Existen instaladores XML de Joomla 1.0 y Joomla 1.5 para los paquetes uddeIM.<br />");
+DEFINE ('_UDDEADM_MAINTENANCE_XML2', "Esto es necesario debido a la instalación de paquetes en Joomla 1.0 y Joomla 1.5.<br />");
+DEFINE ('_UDDEADM_MAINTENANCE_XML3', "Dado que no se requiere después de que la instalación haya terminado, el instalador de Joomla 1.0 puede ser eliminado en los sistemas con Joomla 1.5.<br />");
+DEFINE ('_UDDEADM_MAINTENANCE_XML4', "Esto se hará para los siguientes paquetes:<br />");
+DEFINE ('_UDDEADM_MAINTENANCE_FXML1', "Los instaladores XML innecesarios para los siguientes paquetes uddeIM serán eliminados:<br />");
+DEFINE ('_UDDEADM_MAINTENANCE_FXML2', "No hay instaladores XML innecesarios para los paquetes de uddeIM encontrados!<br />");
+DEFINE ('_UDDEADM_SHOWMENUICONS1_HEAD', 'Apariencia de la barra de menú');
+DEFINE ('_UDDEADM_SHOWMENUICONS1_EXP', 'Aquí puedes configurar si la barra de menú se debe mostrar con iconos y/o texto.');
+DEFINE ('_UDDEIM_MENUICONS_P1', 'Iconos y texto');
+DEFINE ('_UDDEIM_MENUICONS_P2', 'Sólo iconos');
+DEFINE ('_UDDEIM_MENUICONS_P0', 'Sólo texto');
+DEFINE ('_UDDEIM_LISTSLIMIT_2', 'Número máximo de destinatarios en la lista:');
+DEFINE ('_UDDEADM_ADDEMAIL_ADMIN', 'Los administradores pueden seleccionar');
+DEFINE ('_UDDEAIM_ADDEMAIL_SELECT', 'La notificación contiene un mensaje');
+DEFINE ('_UDDEAIM_ADDEMAIL_TITLE', 'Incluir el mensaje completo en la notificación por correo electrónico.');
 
 // New: 1.6
-DEFINE ('_UDDEIM_NOLISTSELECTED', 'No userlist selected!');
-DEFINE ('_UDDEADM_NOPREMIUM', 'Premium plugin not installed');
-DEFINE ('_UDDEIM_LISTGLOBAL_CREATOR', 'Creator:');
-DEFINE ('_UDDEIM_LISTGLOBAL_ENTRIES', 'Entries');
-DEFINE ('_UDDEIM_LISTGLOBAL_TYPE', 'Type');
+DEFINE ('_UDDEIM_NOLISTSELECTED', 'Lista usuarios no seleccionada');
+DEFINE ('_UDDEADM_NOPREMIUM', 'Premium plug-in no instalado');
+DEFINE ('_UDDEIM_LISTGLOBAL_CREATOR', 'Creador:');
+DEFINE ('_UDDEIM_LISTGLOBAL_ENTRIES', 'Entradas');
+DEFINE ('_UDDEIM_LISTGLOBAL_TYPE', 'Tipo');
 DEFINE ('_UDDEIM_LISTGLOBAL_NORMAL', 'Normal');
 DEFINE ('_UDDEIM_LISTGLOBAL_GLOBAL', 'Global');
-DEFINE ('_UDDEIM_LISTGLOBAL_RESTRICTED', 'Restricted');
-DEFINE ('_UDDEIM_LISTGLOBAL_P0', 'Normal contact list');
-DEFINE ('_UDDEIM_LISTGLOBAL_P1', 'Global contact list');
-DEFINE ('_UDDEIM_LISTGLOBAL_P2', 'Restricted contact list (only list members can access the list)');
-DEFINE ('_UDDEIM_TOOLBAR_USERSETTINGS', 'User settings');
-DEFINE ('_UDDEIM_TOOLBAR_REMOVESETTINGS', 'Remove settings');
-DEFINE ('_UDDEIM_TOOLBAR_CREATESETTINGS', 'Create settings');
-DEFINE ('_UDDEIM_TOOLBAR_SAVE', 'Save');
-DEFINE ('_UDDEIM_TOOLBAR_BACK', 'Back');
-DEFINE ('_UDDEIM_TOOLBAR_TRASHMSGS', 'Trash messages');
-DEFINE ('_UDDEIM_CBPLUG_CONT', '[continue]');
-DEFINE ('_UDDEIM_CBPLUG_UNBLOCKNOW', '[unblock]');
-DEFINE ('_UDDEIM_CBPLUG_DOBLOCK', 'Block user');
-DEFINE ('_UDDEIM_CBPLUG_DOUNBLOCK', 'Unblock user');
-DEFINE ('_UDDEIM_CBPLUG_BLOCKINGCFG', 'Blocking');
-DEFINE ('_UDDEIM_CBPLUG_BLOCKED', 'You have blocked this user.');
-DEFINE ('_UDDEIM_CBPLUG_UNBLOCKED', 'This user can contact you.');
-DEFINE ('_UDDEIM_CBPLUG_NOWBLOCKED', 'The user is blocked now.');
-DEFINE ('_UDDEIM_CBPLUG_NOWUNBLOCKED', 'The user is not longer blocked.');
-DEFINE ('_UDDEADM_PARTIALIMPORTDONE', 'Partial import of messages from old PMS done. Do not import this part again because doing so will import the messages again and they will show up twice.');
-DEFINE ('_UDDEADM_IMPORT_HELP', 'Note: The messages can be imported all at once or in parts. Importing in parts can be necessary when the import dies because of too many messages to import.');
-DEFINE ('_UDDEADM_IMPORT_PARTIAL', 'Partial import:');
-DEFINE ('_UDDEADM_UPDATEYOURDB', 'Important: You have not updated your database! Please refer to the README how to update uddeIM correctly!');
-DEFINE ('_UDDEADM_RESTRALLUSERS_HEAD', 'Restrict "All users" access');
-DEFINE ('_UDDEADM_RESTRALLUSERS_EXP', 'You can restrict the access to the "All users" list. Usually the "All users" list is available for all (<i>no restriction</i>).');
-DEFINE ('_UDDEADM_RESTRALLUSERS_0', 'no restriction');
-DEFINE ('_UDDEADM_RESTRALLUSERS_1', 'special users');
-DEFINE ('_UDDEADM_RESTRALLUSERS_2', 'admins only');
-DEFINE ('_UDDEIM_MESSAGE_UNARCHIVED', 'Message unarchived.');
-DEFINE ('_UDDEADM_AUTOFORWARD_SPECIAL', 'special users');
+DEFINE ('_UDDEIM_LISTGLOBAL_RESTRICTED', 'Restringido');
+DEFINE ('_UDDEIM_LISTGLOBAL_P0', 'Lista de contactos normal');
+DEFINE ('_UDDEIM_LISTGLOBAL_P1', 'Lista de contactos global');
+DEFINE ('_UDDEIM_LISTGLOBAL_P2', 'Lista de contactos restringido (sólo los miembros pueden acceder a la lista)');
+DEFINE ('_UDDEIM_TOOLBAR_USERSETTINGS', 'Configuración de usuario');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVESETTINGS', 'Eliminar configuración');
+DEFINE ('_UDDEIM_TOOLBAR_CREATESETTINGS', 'Crear configuración');
+DEFINE ('_UDDEIM_TOOLBAR_SAVE', 'Guardar');
+DEFINE ('_UDDEIM_TOOLBAR_BACK', 'Atrás');
+DEFINE ('_UDDEIM_TOOLBAR_TRASHMSGS', 'Mensajes a papelera');
+DEFINE ('_UDDEIM_CBPLUG_CONT', '[continuar]');
+DEFINE ('_UDDEIM_CBPLUG_UNBLOCKNOW', '[desbloquear]');
+DEFINE ('_UDDEIM_CBPLUG_DOBLOCK', 'Bloquear usuario');
+DEFINE ('_UDDEIM_CBPLUG_DOUNBLOCK', 'Desbloquear usuario');
+DEFINE ('_UDDEIM_CBPLUG_BLOCKINGCFG', 'Bloqueando');
+DEFINE ('_UDDEIM_CBPLUG_BLOCKED', 'Usted ha bloqueado este usuario.');
+DEFINE ('_UDDEIM_CBPLUG_UNBLOCKED', 'Este usuario puede ponerse en contacto con usted.');
+DEFINE ('_UDDEIM_CBPLUG_NOWBLOCKED', 'El usuario está bloqueado ahora.');
+DEFINE ('_UDDEIM_CBPLUG_NOWUNBLOCKED', 'El usuario no está bloqueado.');
+DEFINE ('_UDDEADM_PARTIALIMPORTDONE', 'Se ha realizado la importación parcial de los mensajes desde el viejo PMS. No importe esta parte una vez más ya que al hacerlo va a importar los mensajes de nuevo y aparecerán dos veces.');
+DEFINE ('_UDDEADM_IMPORT_HELP', 'Nota: Los mensajes pueden ser importados todos a la vez o en partes. La importación en partes puede ser necesario cuando la importación muere a causa de demasiados mensajes a importar.');
+DEFINE ('_UDDEADM_IMPORT_PARTIAL', 'Importación parcial:');
+DEFINE ('_UDDEADM_UPDATEYOURDB', 'Importante: No se han actualizado su base de datos! Por favor, consulte el archivo README sobre cómo actualizar uddeIM correctamente!');
+DEFINE ('_UDDEADM_RESTRALLUSERS_HEAD', 'Prohibir el acceso "Todos los usuarios"');
+DEFINE ('_UDDEADM_RESTRALLUSERS_EXP', 'Puede restringir el acceso a la lista "Todos los usuarios". Por lo general, el la lista "Todos los usuarios" está disponible para todos (<i> sin restricción </ i>).');
+DEFINE ('_UDDEADM_RESTRALLUSERS_0', 'sin restricción');
+DEFINE ('_UDDEADM_RESTRALLUSERS_1', 'usuarios especiales');
+DEFINE ('_UDDEADM_RESTRALLUSERS_2', 'solo administradores');
+DEFINE ('_UDDEIM_MESSAGE_UNARCHIVED', 'Mensaje desarchivado.');
+DEFINE ('_UDDEADM_AUTOFORWARD_SPECIAL', 'usuarios especiales');
 DEFINE ('_UDDEIM_HELP', 'Ayuda');
 DEFINE ('_UDDEIM_HELP_HEADLINE1', 'Ayuda de uddeIM');
 DEFINE ('_UDDEIM_HELP_HEADLINE2', 'Breve revisión de todas las opciones');
@@ -280,7 +411,6 @@ DEFINE ('_UDDEADM_MAINTENANCE_MID', 'ID Mensaje:');
 DEFINE ('_UDDEADM_MAINTENANCE_WRITTEN', 'Escrito:');
 DEFINE ('_UDDEADM_MAINTENANCE_TIMER', 'Cronómetro:');
 
-
 // New: 1.5
 DEFINE ('_UDDEMODULE_ALLDAYS', ' mensajes');
 DEFINE ('_UDDEMODULE_7DAYS', ' mensajes en los últimos 7 días');
@@ -349,7 +479,7 @@ DEFINE ('_UDDEADM_MOOTOOLS_2', 'forzar carga de MooTools 1.2');
 DEFINE ('_UDDEADM_CFGFILE_CONVERTING_1', '...confirguando valor por omisión para MooTools');
 DEFINE ('_UDDEADM_AGORA', 'Agora');
 
-// New: 1.2
+/ New: 1.2
 DEFINE ('_UDDEADM_CRYPT3', 'Coficiación Base64');
 DEFINE ('_UDDEADM_TIMEZONE_HEAD', 'Ajustar zona horaria');
 DEFINE ('_UDDEADM_TIMEZONE_EXP', 'Cuando uddeIM muestra mal el horario puedes ajustar la zona horaria aquí. Usualmente, cuando todo se configura correctamente este valor debe ser 0, pero de todos modos puede haber casos raros donde necesites modificar este valor.');
@@ -433,7 +563,7 @@ DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'Ya estás usando la última versión de ud
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'La versión actual es ');
 DEFINE ('_UDDEADM_VERSIONCHECK_INFO', 'Información de actualización:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HEAD', 'Buscar actualizaciones');
-DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Estos contacta al sitio de uddeIM para recibir información sobre la versión actual de uddeIM. Salvo la versión de uddeIM en uso, no se transmite otra información personal.');
+DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Estos contacta al sitio de uddeIM para recibir información sobre la versión actual de uddeIM.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CHECK', 'BUSCAR AHORA');
 DEFINE ('_UDDEADM_VERSIONCHECK_ERROR', 'No fue posible obtener la información de versión.');
 DEFINE ('_UDDEIM_NOSUCHLIST', '¡Lista de contactos no encontrada!');
@@ -457,8 +587,8 @@ DEFINE ('_UDDEIM_EDITLINK', 'editar');
 DEFINE ('_UDDEIM_LISTS', 'Contactos');
 DEFINE ('_UDDEIM_STATUS_READ', 'leído');
 DEFINE ('_UDDEIM_STATUS_UNREAD', 'sin leer');
-DEFINE ('_UDDEIM_STATUS_ONLINE', 'online');
-DEFINE ('_UDDEIM_STATUS_OFFLINE', 'offline');
+DEFINE ('_UDDEIM_STATUS_ONLINE', 'conectado');
+DEFINE ('_UDDEIM_STATUS_OFFLINE', 'desconectado');
 DEFINE ('_UDDEADM_CBGALLERY_HEAD', 'Mostrar la galería de fotos de CB');
 DEFINE ('_UDDEADM_CBGALLERY_EXP', 'Por omisión uddeIM muestra sólo los avatars que los usuarios han subido. Si se habilita esta opción uddeIM también mostrará fotos de la galería de avatars de CB.');
 DEFINE ('_UDDEADM_UNBLOCKCB_HEAD', 'Desbloquear las conexiones de CB');
@@ -516,14 +646,15 @@ DEFINE ('_UDDEIM_WRONGCAPTCHA', 'Código de seguridad equivocado');
 // New: 1.0
 DEFINE ('_UDDEADM_NONEORUNKNOWN', 'ninguno o desconocido');
 DEFINE ('_UDDEADM_DONATE', 'Si te gusta uddeIM y quieres apoyar su desarrollo por favor haz una pequeña donación.');
+
 // New: 1.0rc2
 DEFINE ('_UDDEADM_BACKUPRESTORE_DATE', 'Configuración encontrada en la base de datos: ');
 DEFINE ('_UDDEADM_BACKUPRESTORE_HEAD', 'Resguardar y restaurar la configuración');
-
 DEFINE ('_UDDEADM_BACKUPRESTORE_EXP', 'Puedes resguardar tu configuración en la base de datos y reastaurarla cuando sea necesario. Esto es útil cuando actualizas uddeIM o cuando quieres guardar cierta configuración mientras haces pruebas.');
 DEFINE ('_UDDEADM_BACKUPRESTORE_BACKUP', 'BACKUP');
 DEFINE ('_UDDEADM_BACKUPRESTORE_RESTORE', 'RESTAURAR');
 DEFINE ('_UDDEADM_CANCEL', 'Cancelar');
+
 // New: 1.0rc1
 DEFINE ('_UDDEADM_LANGUAGECHARSET_HEAD', 'Código de caracteres del archivo de idiomas');
 DEFINE ('_UDDEADM_LANGUAGECHARSET_EXP', 'Generalmente <strong>default</strong> (ISO-8859-1) es la configuración correcta para Joomla 1.0 y <strong>UTF-8</strong> para Joomla 1.5.');
@@ -638,13 +769,13 @@ DEFINE ('_UDDEADM_MAINTENANCE_PRUNE', 'Podar mensajes ahora');
 DEFINE ('_UDDEADM_SHOWACTIONICONS_HEAD', 'Mostrar íconocs de acción');
 DEFINE ('_UDDEADM_SHOWACTIONICONS_EXP', 'Cuando se elige <i>sí</i>, los vínculos de acción se mostrarán con un  ícono.');
 DEFINE ('_UDDEIM_UNCHECKALL', 'desmarcar todos');
-DEFINE ('_UDDEIM_CHECKALL', 'marcar all');
+DEFINE ('_UDDEIM_CHECKALL', 'marcar todos');
 DEFINE ('_UDDEADM_SHOWBOTTOMICONS_HEAD', 'Mostrar íconos en el pie');
 DEFINE ('_UDDEADM_SHOWBOTTOMICONS_EXP', 'Cuando se elije <i>sís</i>, los vínculos del pie se mostrarán con un  ícono.');
-DEFINE ('_UDDEADM_ANIMATED_HEAD', 'Usar smileys animados');
-DEFINE ('_UDDEADM_ANIMATED_EXP', 'Usar smileys animados en lugar de los fijos.');
-DEFINE ('_UDDEADM_ANIMATEDEX_HEAD', 'Más smileys animados');
-DEFINE ('_UDDEADM_ANIMATEDEX_EXP', 'Mostrar más smileys animados.');
+DEFINE ('_UDDEADM_ANIMATED_HEAD', 'Usar emoticonos animados');
+DEFINE ('_UDDEADM_ANIMATED_EXP', 'Usar emoticonos animados en lugar de los fijos.');
+DEFINE ('_UDDEADM_ANIMATEDEX_HEAD', 'Más emoticonos animados');
+DEFINE ('_UDDEADM_ANIMATEDEX_EXP', 'Mostrar más emoticonos animados.');
 DEFINE ('_UDDEIM_PASSWORDREQ', 'Mensaje encriptado - Se requiere contraseña');
 DEFINE ('_UDDEIM_PASSWORD', '<strong>Contraseña requerida</strong>');
 DEFINE ('_UDDEIM_PASSWORDBOX', 'Contraseña');
@@ -710,7 +841,6 @@ DEFINE ('_UDDEADM_CONLISTBOX', 'Lista de conexiones');
 DEFINE ('_UDDEADM_CONLISTBOXDESC', '¡Mostrar mis conexiones en una lista o una tabla?');
 DEFINE ('_UDDEADM_LISTBOX', 'Lista');
 DEFINE ('_UDDEADM_TABLE', 'Tabla');
-
 DEFINE ('_UDDEIM_TRASHCAN_INFO', 'Los mensajes estarán en la papelera durante 24hs antes de que sean purgados. Solo puedes ver las primeras palabras del mensaje. Para leer el mensaje entero necesitas restaurarlo primero.');
 DEFINE ('_UDDEIM_TRASHCAN_INFO_1', 'Los mensajes estarán en la papelera durante ');
 DEFINE ('_UDDEIM_TRASHCAN_INFO_2', ' hs antes de que sean purgados. Solo puedes ver las primeras palabras del mensaje. Para leer el mensaje entero necesitas restaurarlo primero.');
@@ -738,7 +868,6 @@ DEFINE ('_UDDEIM_TO', 'Para');
 DEFINE ('_UDDEIM_TO_SMALL', 'para');
 DEFINE ('_UDDEIM_OUTBOX_WARNING', 'Tu bandeja de salida contiene todos los mensajes que has enviado y no has borrado todavía. Puedes memorizar un mensaje en tu bandeja de salida si este no ha sido leído. Si haces esto, ya no podrá ser leído por el destinatario del mensaje. ');
 	// changed in 0.4
-
 DEFINE ('_UDDEIM_RECALL', 'recuperar');
 DEFINE ('_UDDEIM_RECALLTHISMESSAGE', 'Recuperar este mensaje');
 DEFINE ('_UDDEIM_RESTORE', 'restaurar');
@@ -766,9 +895,7 @@ DEFINE ('_UDDEIM_NOSUCHUSER', 'No existe ning&uacute;n usuario con este nombre!'
 DEFINE ('_UDDEIM_NOTTOYOURSELF', 'No es posible enviarse mensajes a si mismo!');
 DEFINE ('_UDDEIM_VIOLATION', '<b>Acceso denegado!</b> No tienes el permiso para realizar esta acci&oacute;n!');
 DEFINE ('_UDDEIM_PRUNELINK', 'Solo administradores: Pasa');
-
 // Admin
-
 DEFINE ('_UDDEADM_SETTINGS', 'Administraci&oacute;n uddeIM ');
 DEFINE ('_UDDEADM_GENERAL', 'General');
 DEFINE ('_UDDEADM_ABOUT', 'Acerca de');
@@ -802,9 +929,7 @@ DEFINE ('_UDDEADM_ICONUNREADPIC_HEAD', 'Icono: Mensaje no leído');
 DEFINE ('_UDDEADM_ICONUNREADPIC_EXP', 'Introduce la ubicaci&oacute;n del icono que ser&aacute; mostrado para los mensajes <b>NO</b> leídos');
 DEFINE ('_UDDEADM_MODULENEWMESS_HEAD', 'Modulo: Icono de nuevos mensajes');
 DEFINE ('_UDDEADM_MODULENEWMESS_EXP', 'Esta opci&oacute;n hace referencia al modulo mod_uddeim_new. Introduce la ubicaci&oacute;n del icono que ser&aacute; mostrado cuando hayan nuevos mensajes.');
-
 // admin import tab
-
 DEFINE ('_UDDEADM_UDDEINSTALL', 'Instalaci&oacute;n uddeIM ');
 DEFINE ('_UDDEADM_FINISHED', 'La instalaci&oacute;n ha terminado. Bienvenido a uddeIM. ');
 DEFINE ('_UDDEADM_NOCB', '<span style="color: red;">No tienes el "Mambo Community Builder" instalado. no vas a poder usar uddeIM.</span><br /><br />Deberías descargar <a href="http://www.mambojoe.com">"Mambo Community Builder"</a>.');
@@ -822,7 +947,6 @@ DEFINE ('_UDDEADM_IMPORT', 'Importar');
 DEFINE ('_UDDEADM_IMPORT_HEADER', 'Importar mensajes desde PMS');
 DEFINE ('_UDDEADM_PMSNOTFOUND', 'No se ha encontrado una instalaci&oacute;n de PMS. No es posible importar.');
 DEFINE ('_UDDEADM_ALREADYIMPORTED', '<span style="color: red;">Ya has importado los mensajes de PMS a uddeIM.</span>');
-
 // new in 0.3 Frontend
 DEFINE ('_UDDEIM_BLOCKS', 'Blocked');
 DEFINE ('_UDDEIM_YOUAREBLOCKED', 'No se ha podido enviar (el usuario le ha bloqueado)');
@@ -835,7 +959,6 @@ DEFINE ('_UDDEIM_UNBLOCKNOW', '[desbloquear]');
 DEFINE ('_UDDEIM_BLOCKALERT_EXP_ON', 'Si un usuario bloqueado intenta enviarte un mensaje, &eacute;l o ella ser&aacute; informado de que ha sido bloqueado y de que el mensaje no se ha enviado.');
 DEFINE ('_UDDEIM_BLOCKALERT_EXP_OFF', 'Un usuario bloqueado no puede ver que lo has bloqueado');
 DEFINE ('_UDDEIM_CANTBLOCKADMINS', 'No puedes bloquear a los administradores.');
-
 // new in 0.3 Admin
 DEFINE ('_UDDEADM_BLOCKSYSTEM_HEAD', 'Activar el sistema de bloqueo');
 DEFINE ('_UDDEADM_BLOCKSYSTEM_EXP', 'Cuando esta activo, los usuarios pueden bloquear a otros usuarios. Un usuario bloqueado no puede enviar mensajes a el usuario que lo ha bloqueado. Los administradores no pueden ser bloqueados.');
@@ -851,7 +974,6 @@ DEFINE ('_UDDEIM_BLOCKSDISABLED', 'Sistema de bloqueo no activo');
 	// new definition right below.
 DEFINE ('_UDDEADM_DELETIONS', 'Borrados'); // changed in 0.4
 DEFINE ('_UDDEADM_BLOCK', 'Bloqueos');
-
 // new in 0.4, admin
 DEFINE ('_UDDEADM_INTEGRATION', 'Integraci&oacute;n');
 DEFINE ('_UDDEADM_EMAIL', 'E-mail');
@@ -912,20 +1034,17 @@ DEFINE ('_UDDEADM_ENABLEDOWNLOAD_EXP', 'Permitir a los usuarios descargar mensaj
 DEFINE ('_UDDEADM_ENABLEDOWNLOAD_HEAD', 'Permitir descarga');	
 DEFINE ('_UDDEADM_EXPORT_FORMAT_EXP', 'Este es el formato del correo que los usuarios recibir&aacute;n cuando se descarguen sus mensajes del archivo. No cambies las variables %user%, %msgdate% y %msgbody%. ');	
 		// translators info: Don't translate %you%, %user%, etc. in the strings above. 
-
 DEFINE ('_UDDEADM_INBOXLIMIT_HEAD', 'Activar el limite de la bandeja de entrada');		
 DEFINE ('_UDDEADM_INBOXLIMIT_EXP', 'Puedes a&ntilde;adir la cantidad de mensajes en la bandeja de entrada en el numero m&aacute;ximo de mensajes en el archivo. En este caso, el numero total de mensajes de la bandeja de entrada m&aacute;s los de el archivo no exceder&aacute; el numero fijado arriba. Alternativamente puedes fijar el limite de la bandeja de entrada sin un archivo. En este caso, los usuarios no podr&aacute;n tener en sus bandejas de entrada m&aacute;s mensajes que la cantidad fijada arriba. Si esa cantidad es alcanzada, no podr&aacute;n seguir respondiendo a los mensajes o crear nuevos hasta que hayan borrado mensajes de su bandeja de entrada o de su archivo respectivamente. (Los usuarios podr&aacute;n seguir recibiendo mensajes y leerlos.)');
 DEFINE ('_UDDEADM_SHOWINBOXLIMIT_HEAD', 'Mostrar el limite de uso en la bandeja de entrada');		
 DEFINE ('_UDDEADM_SHOWINBOXLIMIT_EXP', 'Muestra cuantos mensajes tienen los usuarios almacenados (y cuantos pueden almacenar) en una linea debajo de su bandeja de entrada.');
 		
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_INTRO', 'Has desactivado el archivo. ¿Que quieres hacer con los mensajes que hay guardados en el archivo?');		
-
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_LEAVE_LINK', 'Dejarlos');		
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_LEAVE_EXP', 'Dejarlos en el archivo (el usuario no podr&aacute; acceder a ellos y seguir&aacute;n contando para los limites de los mensajes).');		
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_INBOX_LINK', 'Moverlos a la bandeja de entrada');		
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_INBOX_DONE', 'Los mensajes archivados ser&aacute;n movidos a las bandejas de entrada');
 DEFINE ('_UDDEADM_ARCHIVETOTRASH_INBOX_EXP', 'Los mensajes ser&aacute;n movidos a las bandejas de entradas de sus respectivos usuarios ( o descartados a la papelera si son m&aacute;s antiguos de lo permitido en la bandeja de entrada).');		
-
 		
 // 0.4 frontend, admins only (no translation necessary)		
 DEFINE ('_UDDEIM_VALIDFOR_1', 'valido para ');
@@ -936,7 +1055,6 @@ DEFINE ('_UDDEIM_NOTALLOWED_SYSM_GM', 'No est&aacute;n permitidos los mensajes d
 DEFINE ('_UDDEIM_SYSGM_TYPE', 'Tipo de mensaje');
 DEFINE ('_UDDEIM_HELPON_SYSGM', 'Ayuda para los mensajes de sistema');
 DEFINE ('_UDDEIM_HELPON_SYSGM_2', '(se abre en una nueva ventana)');
-
 DEFINE ('_UDDEIM_SYSGM_PLEASECONFIRM', 'Estas a punto de enviar el mensaje mostrado abajo. Por favor revisalo y confirmalo o cancelalo!');
 DEFINE ('_UDDEIM_SYSGM_WILLSENDTOALL', 'Mensaje para <strong>todos los usuarios</strong>');
 DEFINE ('_UDDEIM_SYSGM_WILLSENDTOALLADMINS', 'Mensaje para <strong>todos los administradores</strong>');
@@ -944,7 +1062,6 @@ DEFINE ('_UDDEIM_SYSGM_WILLSENDTOALLLOGGED', 'Mensaje para <strong>todos los usu
 DEFINE ('_UDDEIM_SYSGM_WILLDISABLEREPLY', 'Los receptores no podr&aacute;n responder a este mensaje.');
 DEFINE ('_UDDEIM_SYSGM_WILLSENDAS_1', 'El mensaje sera enviado con <strong>');
 DEFINE ('_UDDEIM_SYSGM_WILLSENDAS_2', '</strong> como nombre de usuario');
-
 DEFINE ('_UDDEIM_SYSGM_WILLEXPIRE', 'El mensaje expirar&aacute; ');
 DEFINE ('_UDDEIM_SYSGM_WILLNOTEXPIRE', 'El mensaje no expirar&aacute;');
 DEFINE ('_UDDEIM_SYSGM_CHECKLINK', '<b>Revisa el enlace (haciendo clic en &eacute;l) antes de seguir!</b>');
@@ -960,18 +1077,15 @@ DEFINE ('_UDDEIM_EMNON', 'La notificaci&oacute;n por correo esta activada. ');
 DEFINE ('_UDDEIM_SETEMNON', '[activarla]');
 DEFINE ('_UDDEIM_SETEMNOFF', '[desactivarla]');
 DEFINE ('_UDDEIM_EMN_BODY_NOMESSAGE', 'Hola %you%, 
-
 %user% te ha enviado un mensaje privado en %site%.
 Por favor accede y leelo!');
 DEFINE ('_UDDEIM_EMN_BODY_WITHMESSAGE', 'Hola %you%, 
-
 %user% Te ha enviado el siguiente mensaje en %site%.
 Por favor accede para responder al mensaje!
 __________________
 %pmensaje%
 ');
 DEFINE ('_UDDEIM_EMN_FORGETMENOT', 'Hola %you%,
-
 tienes mensajes privados sin leer en %site%.
 Por favor accede y leelos! 
 ');
@@ -986,9 +1100,6 @@ DEFINE ('_UDDEIM_SEND_ASSYSM', 'enviar como mensaje del sistema (los receptores 
 DEFINE ('_UDDEIM_SEND_TOALL', 'enviar a todos los usuarios');
 DEFINE ('_UDDEIM_SEND_TOALLADMINS', 'enviar a todos los administradores');
 DEFINE ('_UDDEIM_SEND_TOALLLOGGED', 'enviar a todos los usuarios que est&aacute;n en linea');
-
-
-
 DEFINE ('_UDDEIM_UNEXPECTEDERROR_QUIT', 'Error inesperado: ');
 DEFINE ('_UDDEIM_ARCHIVENOTENABLED', 'El archivo no esta activado.');
 DEFINE ('_UDDEIM_ARCHIVE_ERROR', 'El almacenado del mensaje en el archivo ha fallado.');
@@ -1008,13 +1119,10 @@ DEFINE ('_UDDEIM_INBOX_LIMIT_3', 'El m&aacute;ximo permitido es ');
 DEFINE ('_UDDEIM_INBOX_LIMIT_4', 'Tu puedes recibir y leer mensajes pero no podr&aacute;s responderlos o crear nuevos hasta que borres mensajes.');
 DEFINE ('_UDDEIM_SHOWINBOXLIMIT_1', 'Mensajes guardados: ');
 DEFINE ('_UDDEIM_SHOWINBOXLIMIT_2', '(de un m&aacute;ximo ');
-
 DEFINE ('_UDDEIM_MESSAGE_ARCHIVED', 'Mensaje guardado en el archivo.');
 DEFINE ('_UDDEIM_STORE', 'archivar');
 		// translators info: as in: 'store this mensaje in archive now'
-
 DEFINE ('_UDDEIM_BACK', 'volver');
-
 DEFINE ('_UDDEIM_TRASHCHECKED', 'descartar seleccionados');
 	// translators info: plural!
 	
@@ -1031,17 +1139,13 @@ DEFINE ('_UDDEIM_THISISACOPY', 'Copia de el mensaje enviado para ');
 DEFINE ('_UDDEIM_SENDCOPYTOME', 'copia para mi');
 DEFINE ('_UDDEIM_SENDCOPYTOARCHIVE', 'copia para el archivo');
 DEFINE ('_UDDEIM_TRASHORIGINAL', 'descartar el original');
-
 DEFINE ('_UDDEIM_MESSAGEDOWNLOAD', 'Descarga del Mensaje');
 DEFINE ('_UDDEIM_EXPORT_MAILED', 'Env&iacute;o del correo con los mensajes exportados');
 DEFINE ('_UDDEIM_EXPORT_NOW', 'correo enviado a mi');
 DEFINE ('_UDDEIM_EXPORT_MAIL_INTRO', 'Este correo incluye tus mensajes privados.');
 DEFINE ('_UDDEIM_EXPORT_COULDNOTSEND', 'No puedo enviar el correo conteniendo los mensajes');
-
 DEFINE ('_UDDEIM_LIMITREACHED', 'Limite del mensaje! No restaurado.');
-
 DEFINE ('_UDDEIM_WRITEMSGTO', 'Escribir un mensaje a ');
-
 $udde_smon[1]="Ene";
 $udde_smon[2]="Feb";
 $udde_smon[3]="Mar";
@@ -1054,7 +1158,6 @@ $udde_smon[9]="Sep";
 $udde_smon[10]="Oct";
 $udde_smon[11]="Nov";
 $udde_smon[12]="Dic";
-
 $udde_lmon[1]="Enero";
 $udde_lmon[2]="Febrero";
 $udde_lmon[3]="Marzo";
@@ -1067,7 +1170,6 @@ $udde_lmon[9]="Septiembre";
 $udde_lmon[10]="Octubre";
 $udde_lmon[11]="Noviembre";
 $udde_lmon[12]="Diciembre";
-
 $udde_lweekday[0]="Domingo";
 $udde_lweekday[1]="Lunes";
 $udde_lweekday[2]="Martes";
@@ -1075,7 +1177,6 @@ $udde_lweekday[3]="Miercoles";
 $udde_lweekday[4]="Jueves";
 $udde_lweekday[5]="Viernes";
 $udde_lweekday[6]="Sabado";
-
 $udde_sweekday[0]="Dom";
 $udde_sweekday[1]="Lun";
 $udde_sweekday[2]="Mar";
@@ -1083,9 +1184,7 @@ $udde_sweekday[3]="Mie";
 $udde_sweekday[4]="Jue";
 $udde_sweekday[5]="Vie";
 $udde_sweekday[6]="Sab";
-
 // new in 0.5 ADMIN
-
 // Translators observe: Search for _UDDEIM_SYSGM_SHORTHELP (above)
 // and change this text so that it no longer contains 
 // information abouth the [newurl] code. [newurl] is no 
@@ -1094,19 +1193,12 @@ $udde_sweekday[6]="Sab";
 // 
 // PLEASE
 // When you're done translating, please change the
-
 	// version       0.4+
-
 // at the top of this file into
-
 	// version       0.5
-
 // and delete the line right after it that says
-
 	// (0.4 plus 0.5 strings in English)
-
 // as well as these comments. Thank you.
-
 DEFINE ('_UDDEADM_TEMPLATEDIR_HEAD', 'Plantilla uddeIM');
 DEFINE ('_UDDEADM_TEMPLATEDIR_EXP', 'Elije una plantilla para usar con uddeIM');
 DEFINE ('_UDDEADM_SHOWCONNEX_HEAD', 'Mostrar conexiones');
@@ -1131,9 +1223,7 @@ DEFINE ('_UDDEADM_STOPALLEMAIL_EXP', 'Marca esta opción para prevenir que uddeIM
 DEFINE ('_UDDEADM_ADMINIGNITIONONLY_MANUALLY', 'manualmente');
 DEFINE ('_UDDEADM_GETPICLINK_HEAD', 'Miniaturas de CB en las listas');
 DEFINE ('_UDDEADM_GETPICLINK_EXP', 'Elige <i>sí</i> si quieres mostrar las miniaturas de CB de los usuarios en las listas de mensajes (bandeja de entarada, de salida, etc.)');
-
 // new in 0.5 FRONTEND
-
 DEFINE ('_UDDEIM_SHOWUSERS', 'Mostrar Usuarios');
 DEFINE ('_UDDEIM_CONNECTIONS', 'Conexiones');
 DEFINE ('_UDDEIM_SETTINGS', 'Configuración');

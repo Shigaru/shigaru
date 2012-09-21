@@ -11,8 +11,137 @@
 // *******************************************************************
 // Language file: Czech - UTF8, translation - JardaKo - jarda(dot)ko(at)volny(dot)cz
 // comments for translation are welcome
-// 11022010 - last update
+// 01042012 - last update
 // *******************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Překlad: JardaKo, jarda(tečka)ko(zavináč)volny(tečka)cz, připomínky k překladu jsou vítány!');	// Enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'nenahrát MooTools (použít MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'vynucené nahrání MooTools 1.3 (použít MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'Nepoužít SEF pro %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Nepoužít SEF pro %msglink% v emailových upozorněních.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Použít speciální kalendář');
+DEFINE ('_UDDEADM_STIME_EXP', 'Je-li povoleno, na stránkách používajících jazyk farsi bude použit perský kalendář.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Odstranit zbytky po spojení');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Automaticky odstranit zbytky po spojení je-li ukládán existující seznam kontaktů.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Zobrazit pouze spojení');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'Uživatelé v zobrazeném seznamu budou omezeni na spojení k CB/CBE/JS (skrýt uživatele z tohoto seznamu nemá význam, je-li povolen).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'nepovoleno');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'registrovaní uživatelé');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'registrovaní, speciální uživatelé');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'všichni uživatelé (vč. adminů)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...nastavit jako defaultní pro zobrazení spojení');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Bezpečnostní kód:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Tlačítko "Zobrazit CC: řádek"');
+DEFINE ('_UDDEADM_CC_EXP', 'Je-li povoleno, uživatelé mohou zvolit, jestli uddeIM má nebo nemá přidat do zprávy CC: řádek obsahující všechny adresáty.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...set default for CC: line, and moderation');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Centrum zpráv');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Smazat zprávu');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Doručit zprávu');
+DEFINE ('_UDDEADM_OOD_MCP', 'Message Center Plugin je zastaraký!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Zpráv pro moderátora:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Smazat');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Smazat tuto zprávu z databáze?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Doručit tuto zprávu adresátovi?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Zobrazit/Skrýt');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Centrum zpráv');
+DEFINE ('_UDDEADM_MCP_FROM', 'Od');
+DEFINE ('_UDDEADM_MCP_TO', 'Pro');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Zpráva');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Smazat');
+DEFINE ('_UDDEADM_MCP_DATE', 'Datum');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Deliver');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Mod');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Mod -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Tvoje zpráva bude zkontrolována. Moderátor ji zkontroluje před jejím předáním adresátovi.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Čeká na kontrolu');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Kontrola nových uživatelů');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'Je-li povoleno, zprávy nově registrovaných uživatelů jsou defautně kotrolovány.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Kontrola návštěvníků');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'Je-li povoleno, zprávy návštěvníků jsou defautně kotrolovány.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'Žádná nabídka');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Public Frontend Plugin je zastaralý!');
+DEFINE ('_UDDEADM_OOD_A', 'File Attachment Plugin je zastaralý!');
+DEFINE ('_UDDEADM_OOD_RSS', 'RSS Plugin je zastaralý!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Message Report Center Plugin je zastaralý!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>Nemáš filtrované zprávy ve tvé %s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'nepřečteny');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'označeny');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'gravatar povolen');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Povolit podporu gravataru.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'gravatar imageset');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Vyber imageset pro defaultní obrázky.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'gravatar hodnocení');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'Defaultně - pouze obrázky s "G" ohodnocením jsou zobrazeny dokud nevybereš vyšší hodnocení. "X" zobrazí všechny gravatar obrázky.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identicon');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'wavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'defaultní');
+DEFINE ('_UDDEADM_GRG', 'G = Základní');
+DEFINE ('_UDDEADM_GRPG', 'PG = Dohled rodičů');
+DEFINE ('_UDDEADM_GRR', 'R = Omezeno');
+DEFINE ('_UDDEADM_GRX', 'X = Pouze dospělí');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Zpracovávání...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Nezasílat upozorňovací emaily');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'Emailové upozorňování nebude zasíláno');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'Text bude vložen do upozorňovacího emailu');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...nastavit defaultní pro náhledy');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Zobrazovaná velikost náhledů');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Šířka a výška (v pixelech) náhledů (0 = velikost nebude změněna).');
+DEFINE ('_UDDEIM_SAVE', 'Uložit');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Ahoj %you%,\n\n%touser% ti zaslal oznámení o podezřelé zprávě od %fromuser%. Přihlas se, abys to mohl ověřit!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'Zpráva byla zaslána na %site%');
+DEFINE ('_UDDEADM_KBYTES', 'KByte');
+DEFINE ('_UDDEADM_MBYTES', 'MByte');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'Soubor byl smazán');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Chyba: Soubor neexistuje');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Přílohy (max. %s na soubor):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Stahovat soubory nechráněně');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'uddeIM obvykle nepřidává cestu na server k souborům v příloze, takže nikdo - ikdyž zná název souboru - nemůže si tyto soubory stáhnout. Povolením této volby přinutíš uddeIM aby přidával celou cestu na server. Z bezpečnostních důvodů, uddeIM přidává MD5 hash k původnímu názvu souboru. Uživatelé tak mohou stahovat soubor přímo když je celá cesta známa. Používej tuto volbu obezřetně! PŘEČTI SI FAQ PŘEDTÍM NEŽ POVOLÍŠ TUTO MOŽNOST!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...nastav defaultní pro soubory v přílohách, public frontend');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Typ souboru není povolen');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Výjimky povoleny');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Zadej všechny povolené výjimky (odděl je ";"). Ponech prázdné, nebudou-li žádná omezení.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'Email je vyžadován');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'Je-li zatrženo, návštěvník (public user) musí zadat emailovou adresu.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Počet dnů prodlevy');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Zadej kolik dnů musí uživatel počkat, než je mu dovoleno posílat zprávy (pro 3 hodiny zadej 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'Musíš počkat ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' dnů, poté můžeš posílat zprávy.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' hodin, poté můžeš posílat zprávy.');
 
 // New: 2.0
 DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha soukromý klíč');
@@ -432,7 +561,7 @@ DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'Tvoje verze uddeIM je aktuální.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'Současná verze ');
 DEFINE ('_UDDEADM_VERSIONCHECK_INFO', 'Informace o updatu:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HEAD', 'Dostupnost nové verze');
-DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Tato volba ověří, jaká je právě aktuální verze uddeIM na stránkách jeho tvůrce. Kromě informace o tom, jako verzi uddeIM používáš, nejsou jiná data přenášena.');
+DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Tato volba ověří, jaká je právě aktuální verze uddeIM na stránkách jeho tvůrce.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CHECK', 'OVĚŘIT NYNÍ');
 DEFINE ('_UDDEADM_VERSIONCHECK_ERROR', 'Nemohu zjistit informaci o verzi.');
 DEFINE ('_UDDEIM_NOSUCHLIST', 'Seznam kontaktů nenalezen!');

@@ -331,10 +331,21 @@ var Autocompleter = new Class({
 	 * @param		{String} Text
 	 * @return		{String} Text
 	 */
-	markQueryValue: function(str) {
-		return (!this.options.markQuery || !this.queryValue) ? str
-			: str.replace(new RegExp('(' + ((this.options.filterSubset) ? '' : '^') + this.queryValue.escapeRegExp() + ')', (this.options.filterCase) ? '' : 'i'), '<span class="autocompleter-queried">$1</span>');
+	
+	// http://www.bytemycode.com/snippets/snippet/406/
+	escapeHTML: function (str) {
+		return str.replace(/&/g,'&amp;').replace(/>/g,'>').replace(/</g,'<').replace(/"/g,'&quot;');
 	},
+
+	markQueryValue: function(str) {
+		return (!this.options.markQuery || !this.queryValue) ? this.escapeHTML(str)
+			: this.escapeHTML(str).replace(new RegExp('(' + ((this.options.filterSubset) ? '' : '^') + this.escapeHTML(this.queryValue).escapeRegExp() + ')', (this.options.filterCase) ? '' : 'i'), '<span class="autocompleter-queried">$1</span>');
+	},
+
+//	markQueryValue: function(str) {
+//		return (!this.options.markQuery || !this.queryValue) ? str
+//			: str.replace(new RegExp('(' + ((this.options.filterSubset) ? '' : '^') + this.queryValue.escapeRegExp() + ')', (this.options.filterCase) ? '' : 'i'), '<span class="autocompleter-queried">$1</span>');
+//	},
 
 	/**
 	 * addChoiceEvents
@@ -346,10 +357,16 @@ var Autocompleter = new Class({
 	 */
 	addChoiceEvents: function(el) {
 		return el.addEvents({
+			'mouseover': this.choiceOver.bind(this, el),
+			'click': this.choiceSelect.bind(this, el)
+		});
+	}
+/*	addChoiceEvents: function(el) {
+		return el.addEvents({
 			'mouseover': this.choiceOver.bind(this, [el]),
 			'click': this.choiceSelect.bind(this, [el])
 		});
-	}
+	} */
 });
 
 var OverlayFix = new Class({

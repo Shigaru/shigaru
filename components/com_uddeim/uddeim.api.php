@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2008 Stephan Slabihoud
+// Author         © 2007-2010 Stephan Slabihoud
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -15,11 +15,18 @@ if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this
 
 $uddeim_isadmin = 0;
 if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
+	jimport( 'joomla.version' );
 	$ver = new JVersion();
-	if (!strncasecmp($ver->RELEASE, "1.6", 3)) {
-		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
-	} else {
+	if (!strncasecmp($ver->RELEASE, "2.5", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.5", 3)) {
 		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib15.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.6", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.7", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib17.php');
+	} else {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
 	}
 } else {
 	global $mainframe;
@@ -40,6 +47,7 @@ class uddeIMAPI {
 	var $pathtosite;
 
 	function uddeIMAPI() {
+		global $udde_smon, $udde_lmon, $udde_sweekday, $udde_lweekday;
 		$this->config 		 = new uddeimconfigclass();
 		$this->absolute_path = uddeIMgetPath('absolute_path');
 		$this->pathtoadmin   = uddeIMgetPath('admin');
@@ -49,7 +57,12 @@ class uddeIMAPI {
 	}
 
 	function version() {
-		return 2;
+		return 3;
+	}
+
+	function mainVersion() {
+		$temp = uddeIMgetVersionArray();
+		return $temp;		
 	}
 
 	function getLinkToBox($box, $sef=0) {
@@ -115,12 +128,22 @@ class uddeIMAPI {
 			return (int)$this->config->useitemid;
 
 		$sql="SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=1 AND access".
-				($gid==0 ? "=" : "<=").$gid." LIMIT 1";
+				($gid==0 ? "=" : "<=").$gid;
+		if (uddeIMcheckJversion()>=2) {		// J1.6
+			$lang = &JFactory::getLanguage();
+			$sql.=" AND language IN (" . $database->Quote($lang->get('tag')) . ",'*')";
+		}
+		$sql.=" LIMIT 1";
 		$database->setQuery($sql);
 		$found = (int)$database->loadResult();
 		if (!$found) {
 			$sql="SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=0 AND access".
-					($gid==0 ? "=" : "<=").$gid." LIMIT 1";
+					($gid==0 ? "=" : "<=").$gid;
+			if (uddeIMcheckJversion()>=2) {		// J1.6
+				$lang = &JFactory::getLanguage();
+				$sql.=" AND language IN (" . $database->Quote($lang->get('tag')) . ",'*')";
+			}
+			$sql.=" LIMIT 1";
 			$database->setQuery($sql);
 			$found = (int)$database->loadResult();
 		}
@@ -249,13 +272,13 @@ class uddeIMAPI {
 	function sendNewSysMessage($fromid, $recipients, $message, $systemmsg=0, $validfor=0, $sendnotification=0, $forceembedded=0) {
 		$database = uddeIMgetDatabase();
 
-		$sendername = uddeIMgetNameFromID($fromid, $this->config);
 		if ($systemmsg) {		// system message
 			$sendername = $this->config->sysm_username;
-			$savesysflag = addslashes($this->config->sysm_username); 	// system message
+			$savesysflag = addslashes($sendername); 			// system message
 			$savedisablereply = 1; 								// and users can't reply to them
 			$emn_fromid = 0;									// for email notifications set userid 0
 		} else {
+			$sendername = uddeIMgetNameFromID($fromid, $this->config);
 			$savesysflag = addslashes($sendername);
 			$savedisablereply = 0;
 			$emn_fromid = $fromid;
@@ -281,16 +304,16 @@ class uddeIMAPI {
 			} elseif($recipients=="online") {
 				$sql="SELECT a.id, b.userid FROM #__users AS a, #__session AS b WHERE block=0 AND a.id=b.userid";
 			} elseif($recipients=="special") {
-				$sql="SELECT u.id FROM (jos_users AS u INNER JOIN jos_user_usergroup_map AS um ON u.id=um.user_id) 
-							INNER JOIN jos_usergroups AS g ON um.group_id=g.id 
+				$sql="SELECT DISTINCT u.id FROM (#__users AS u INNER JOIN #__user_usergroup_map AS um ON u.id=um.user_id) 
+							INNER JOIN #__usergroups AS g ON um.group_id=g.id 
 							WHERE u.block=0 AND g.id IN (3,4,5,6,7,8)";
 			} elseif($recipients=="admins") {
-				$sql="SELECT u.id FROM (jos_users AS u INNER JOIN jos_user_usergroup_map AS um ON u.id=um.user_id) 
-							INNER JOIN jos_usergroups AS g ON um.group_id=g.id 
+				$sql="SELECT DISTINCT u.id FROM (#__users AS u INNER JOIN #__user_usergroup_map AS um ON u.id=um.user_id) 
+							INNER JOIN #__usergroups AS g ON um.group_id=g.id 
 							WHERE u.block=0 AND g.id IN (7,8)";
 			} else {
-				$sql="SELECT u.id FROM (jos_users AS u INNER JOIN jos_user_usergroup_map AS um ON u.id=um.user_id) 
-							INNER JOIN jos_usergroups AS g ON um.group_id=g.id 
+				$sql="SELECT DISTINCT u.id FROM (#__users AS u INNER JOIN #__user_usergroup_map AS um ON u.id=um.user_id) 
+							INNER JOIN #__usergroups AS g ON um.group_id=g.id 
 							WHERE u.block=0 AND g.id=".(int)$recipients;
 			}
 		} else {
@@ -320,13 +343,13 @@ class uddeIMAPI {
 			if ($this->config->cryptmode==1 || $this->config->cryptmode==2 || $this->config->cryptmode==4) {
 				$themode = 1;
 				$cm = uddeIMencrypt($savemessage,$this->config->cryptkey,CRYPT_MODE_BASE64);
-				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, expires, systemmessage, disablereply, totrashoutbox, totrashdateoutbox, cryptmode, crypthash) VALUES (".(int)$fromid.", ".(int)$toid.", '".$cm."', ".$savedatum.", ".$validuntil.", '".$savesysflag."', ".$savedisablereply.", 1, ".$savedatum.",1,'".md5($this->config->cryptkey)."')";
+				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, expires, systemmessage, systemflag, disablereply, totrashoutbox, totrashdateoutbox, cryptmode, crypthash) VALUES (".(int)$fromid.", ".(int)$toid.", '".$cm."', ".$savedatum.", ".$validuntil.", '".$savesysflag."', 1,".$savedisablereply.", 1, ".$savedatum.",1,'".md5($this->config->cryptkey)."')";
 			} elseif ($this->config->cryptmode==3) {
 				$themode = 3;
 				$cm = uddeIMencrypt($savemessage,"",CRYPT_MODE_STOREBASE64);
-				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, expires, systemmessage, disablereply, totrashoutbox, totrashdateoutbox, cryptmode) VALUES (".(int)$fromid.", ".(int)$toid.", '".$cm."', ".$savedatum.", ".$validuntil.", '".$savesysflag."', ".$savedisablereply.", 1, ".$savedatum.",3)";
+				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, expires, systemmessage, systemflag, disablereply, totrashoutbox, totrashdateoutbox, cryptmode) VALUES (".(int)$fromid.", ".(int)$toid.", '".$cm."', ".$savedatum.", ".$validuntil.", '".$savesysflag."', 1,".$savedisablereply.", 1, ".$savedatum.",3)";
 			} else {
-				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, expires, systemmessage, disablereply, totrashoutbox, totrashdateoutbox) VALUES (".(int)$fromid.", ".(int)$toid.", '".$savemessage."', ".$savedatum.", ".$validuntil.", '".$savesysflag."', ".$savedisablereply.", 1,".$savedatum.")";
+				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, expires, systemmessage, systemflag, disablereply, totrashoutbox, totrashdateoutbox) VALUES (".(int)$fromid.", ".(int)$toid.", '".$savemessage."', ".$savedatum.", ".$validuntil.", '".$savesysflag."', 1,".$savedisablereply.", 1,".$savedatum.")";
 			}
 			$database->setQuery($sql);
 			if (!$database->query()) {

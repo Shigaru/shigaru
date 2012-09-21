@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud
+// Author         © 2007-2010 Stephan Slabihoud
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -14,18 +14,41 @@
 if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this location is not allowed.' ); }
 
 // some global variables
-$versionstring	= "uddeIM 2.0/2010-03-01/stable";		// version string for about boxes
-$checkversion	= "2.0";							// version as above for check for update - this is the version we have
+global $versionstring, $checkversion, $checkhotfix, $configversion;
+$versionstring	= "uddeIM 2.8/stable";				// version string for about boxes
+$checkversion	= "2.8";							// version as above for check for update - this is the version we have
 $checkhotfix	= "0";								// version as above for check for update - this is the version we have
-$configversion	= "1.5";							// this is the version number of the configuration file we expect to load
+$configversion	= "2.1";							// this is the version number of the configuration file we expect to load
 
-function uddeIMcheckJversion() {			// stolen from Cummunity Builder, -1 = Mambo>=4.6, 0 = Mambo <=4.5/J1.0, 1 = J1.5
+function uddeIMgetVersionArray() {
+	global $versionstring, $checkversion, $checkhotfix;
+	$temp = Array();
+	$temp["version"] = $checkversion;		// e.g. "2.1"
+	$temp["hotfix"]  = $checkhotfix;		// e.g. "0"
+	$temp["text"]  	 = $versionstring;		// e.g. "uddeIM 2.1/stable"
+	return $temp;
+}
+
+function uddeIMcheckJversion() {					// borrowed from Cummunity Builder, -1 = Mambo>=4.6, 0 = Mambo <=4.5/J1.0, 1 = J1.5
 	// API version:
 	// =0 = mambo 4.5.0-4.5.3+Joomla 1.0.x
 	// =1 = Joomla! 1.5
 	// =2 = Joomla! 1.6
+	// =3 = Joomla! 1.7
+	// =4 = Joomla! 2.5
+	// =5 = Joomla! 3
 	// >2 = newer ones: maybe compatible
 	// <0 = -1: Mambo 4.6
+	
+    // $db = & JFactory::getDBO();         
+    // $version = new JVersion;
+    // $joomla = $version->getShortVersion();
+    // if(substr($joomla,0,3) == '1.6'){
+        //Joomla 1.6 code
+    // } else {
+        //Joomla 1.0/1.5 code
+    // }
+	
 	$version = uddeIMgetVersion();
 	if ($version->PRODUCT == "Mambo") {
 		if ( strncasecmp( $version->RELEASE, "4.6", 3 ) < 0 ) {
@@ -38,9 +61,17 @@ function uddeIMcheckJversion() {			// stolen from Cummunity Builder, -1 = Mambo>
 	} elseif ($version->PRODUCT == "MiaCMS") {
 		$ver = -1;
 	} elseif ($version->PRODUCT == "Joomla!" || $version->PRODUCT == "Accessible Joomla!") {
-		if (!strncasecmp($version->RELEASE, "1.6", 3)) {
+		if (!strncasecmp($version->RELEASE, "3", 1)) {
+			$ver = 5;
+		} elseif (!strncasecmp($version->RELEASE, "2.5", 3)) {
+			$ver = 4;
+		} elseif (!strncasecmp($version->RELEASE, "1.5", 3)) {
+			$ver = 1;
+		} elseif (!strncasecmp($version->RELEASE, "1.6", 3)) {
 			$ver = 2;
-		} else if (strncasecmp($version->RELEASE, "1.0", 3)) {
+		} elseif (!strncasecmp($version->RELEASE, "1.7", 3)) {
+			$ver = 3;
+		} elseif (strncasecmp($version->RELEASE, "1.0", 3)) {
 			$ver = 1;
 		} else {
 			$ver = 0;
@@ -51,18 +82,30 @@ function uddeIMcheckJversion() {			// stolen from Cummunity Builder, -1 = Mambo>
 	return $ver;
 }
 
+function uddeIMshowValueNULL($value) {
+	if (is_null($value))
+		return "---";
+	return ($value) ? _UDDEADM_USERSET_YES : _UDDEADM_USERSET_NO;
+}
+
 function uddeIMshowTick($value,$opacity=false) {
+	$pathtosite  = uddeIMgetPath('live_site');
 	$temp="";
 	if ($opacity)
 		$temp = "style='opacity: 0.30; -moz-opacity: 0.30; filter:alpha(opacity=30);' ";
-	echo "<img ".$temp."src='images/".($value ? "tick.png" : "publish_x.png")."' alt='".($value ? _UDDEADM_USERSET_YES : _UDDEADM_USERSET_NO)."' border='0' height='12' width='12' />";
+	// echo "<img ".$temp."src='images/".($value ? "tick.png" : "publish_x.png")."' alt='".($value ? _UDDEADM_USERSET_YES : _UDDEADM_USERSET_NO)."' border='0' height='12' width='12' />";
+	echo "<img ".$temp."src='".$pathtosite."/components/com_uddeim/templates/images/".($value ? "tick.png" : "publish_x.png")."' alt='".($value ? _UDDEADM_USERSET_YES : _UDDEADM_USERSET_NO)."' border='0' height='12' width='12' />";
 }
 
 function uddeIMcheckPlugin($plugin) {
 	$pathtoadmin = uddeIMgetPath('admin');
 	$pathtouser = uddeIMgetPath('user');
 	switch($plugin) {
+		case 'mcp':			$plugin = $pathtoadmin.'/admin.mcp.php';
+							break;
 		case 'spamcontrol':	$plugin = $pathtoadmin.'/admin.spamcontrol.php';
+							break;
+		case 'postbox':		$plugin = $pathtouser.'/postbox.php';
 							break;
 		case 'pfrontend':	$plugin = $pathtouser.'/pfrontend.php';
 							break;
@@ -75,6 +118,37 @@ function uddeIMcheckPlugin($plugin) {
 	if (file_exists($plugin) && is_file($plugin))
 		return $plugin;
 	return null;
+}
+
+function uddeIMcheckVersionPlugin($plugin) {
+	switch($plugin) {
+		case 'mcp':			if (function_exists("uddeIMcheckPluginMCP"))
+								if (uddeIMcheckPluginMCP()>=4)
+									return true;
+							break;
+		case 'spamcontrol':	if (function_exists("uddeIMcheckPluginASC"))
+								if (uddeIMcheckPluginASC()>=4)
+									return true;
+							break;
+		case 'postbox':		if (function_exists("uddeIMcheckPluginPB"))
+								if (uddeIMcheckPluginPB()>=4)
+									return true;
+							break;
+		case 'pfrontend':	if (function_exists("uddeIMcheckPluginPF"))
+								if (uddeIMcheckPluginPF()>=4)
+									return true;
+							break;
+		case 'rss':			if (function_exists("uddeIMcheckPluginRSS"))
+								if (uddeIMcheckPluginRSS()>=4)
+									return true;
+							break;
+		case 'attachment':	if (function_exists("uddeIMcheckPluginA"))
+								if (uddeIMcheckPluginA()>=4)
+									return true;
+							break;
+		default:			return false;
+	}
+	return false;
 }
 
 function uddeIMcheckCB() {
@@ -101,12 +175,16 @@ function uddeIMcheckKU() {
 	return uddeIMfileExists("/components/com_kunena/kunena.php");
 }
 
+function uddeIMcheckNB() {
+	return uddeIMfileExists("/components/com_ninjaboard/ninjaboard.php");
+}
+
 function uddeIMcheckJS() {
 	return uddeIMfileExists("/components/com_community/community.php");
 }
 
-function uddeIMcheckBB() {
-	return uddeIMfileExists("/components/com_joobb/joobb.php");
+function uddeIMcheckCM() {
+	return uddeIMfileExists("/components/com_joocm/joocm.php");
 }
 
 function uddeIMcheckAUP() {
@@ -127,25 +205,28 @@ function uddeIMquoteSmart($source) {
 	return $source; 
 } 
 
-function uddetime($timezone = 0) {
-	$mosConfig_offset = uddeIMgetOffset();
-	$rightnow=time()+(($mosConfig_offset+$timezone)*3600);
-	return $rightnow;
-}
-
-function uddeDate($ofwhat, $config) {
+function uddeDate($ofwhat, $config, $timezone=0) {
 	global $udde_smon, $udde_lmon, $udde_sweekday, $udde_lweekday;
 
-	$monat=trim(date('m', $ofwhat));
-	$monat=doubleval($monat);
-	$wochentag=trim(date('w', $ofwhat));
+	$ofwhat += (3600 * $timezone);
+	
+	$mosConfig_lang = uddeIMgetLang();
+	if ($mosConfig_lang=="farsi" && $config->stime) {
+		if (function_exists('udde_pdate')) {
+			$wert = udde_pdate($config->datumsformat, $ofwhat, 1);
+			return $wert;
+		}
+	}
 
-	$wert=date($config->datumsformat, $ofwhat);
+	$monat			= trim(date('m', $ofwhat));		// month "05"
+	$monat 			= doubleval($monat);			// month 5
+	$wochentag 		= trim(date('w', $ofwhat));		// weekday 0-6 (Su-Sa)
+	$ori_lweekday	= date('l', $ofwhat);			// Monday-Sunday
+	$ori_lmonth		= date('F', $ofwhat);			// January-December
+	$ori_sweekday	= date('D', $ofwhat);			// Mon-Sun
+	$ori_smonth		= date('M', $ofwhat);			// Jan-Dec
 
-	$ori_sweekday=date('D', $ofwhat);
-	$ori_lweekday=date('l', $ofwhat);
-	$ori_smonth=date('M', $ofwhat);
-	$ori_lmonth=date('F', $ofwhat);
+	$wert			= date($config->datumsformat, $ofwhat);	// use template for date format
 
 	if (strstr($config->datumsformat, "l")) {
 		$wert=str_replace($ori_lweekday, $udde_lweekday[$wochentag], $wert);
@@ -162,19 +243,28 @@ function uddeDate($ofwhat, $config) {
 	return $wert;
 }
 
-function uddeLdate($ofwhat, $config) {
+function uddeLdate($ofwhat, $config, $timezone=0) {
 	global $udde_smon, $udde_lmon, $udde_sweekday, $udde_lweekday;
 
-	$monat=trim(date('m', $ofwhat));
-	$monat=doubleval($monat);
-	$wochentag=trim(date('w', $ofwhat));
+	$ofwhat += (3600 * $timezone);
 
-	$wert=date($config->ldatumsformat, $ofwhat);
+	$mosConfig_lang = uddeIMgetLang();
+	if ($mosConfig_lang=="farsi" && $config->stime) {
+		if (function_exists('udde_pdate')) {
+			$wert = udde_pdate($config->ldatumsformat, $ofwhat);
+			return $wert;
+		}
+	}
 
-	$ori_sweekday=date('D', $ofwhat);
-	$ori_lweekday=date('l', $ofwhat);
-	$ori_smonth=date('M', $ofwhat);
-	$ori_lmonth=date('F', $ofwhat);
+	$monat			= trim(date('m', $ofwhat));		// month "05"
+	$monat 			= doubleval($monat);			// month 5
+	$wochentag 		= trim(date('w', $ofwhat));		// weekday 0-6 (Su-Sa)
+	$ori_lweekday	= date('l', $ofwhat);			// Monday-Sunday
+	$ori_lmonth		= date('F', $ofwhat);			// January-December
+	$ori_sweekday	= date('D', $ofwhat);			// Mon-Sun
+	$ori_smonth		= date('M', $ofwhat);			// Jan-Dec
+
+	$wert			= date($config->ldatumsformat, $ofwhat);
 
 	if (strstr($config->ldatumsformat, "l")) {
 		$wert=str_replace($ori_lweekday, $udde_lweekday[$wochentag], $wert);
@@ -279,6 +369,7 @@ function uddeIMgetCharsetMailalias($analias) {
 }
 
 function uddeIMloadLanguage($pathtoadmin, $config) {
+	global $udde_smon, $udde_lmon, $udde_sweekday, $udde_lweekday;
 	$mosConfig_lang = uddeIMgetLang();
 	// Get right language file or use english
 	$postfix = "";
@@ -286,13 +377,13 @@ function uddeIMloadLanguage($pathtoadmin, $config) {
 	if ($config->languagecharset)
 		$postfix = ".utf8";
 	if (file_exists($pathtoadmin.'/language'.$postfix.'/'.$mosConfig_lang.'.php')) {
-		include($pathtoadmin.'/language'.$postfix.'/'.$mosConfig_lang.'.php');
+		include_once($pathtoadmin.'/language'.$postfix.'/'.$mosConfig_lang.'.php');
 		$usedlanguage='/language'.$postfix.'/'.$mosConfig_lang.'.php';
 	} elseif (file_exists($pathtoadmin.'/language'.$postfix.'/english.php')) {
-		include($pathtoadmin.'/language'.$postfix.'/english.php');
+		include_once($pathtoadmin.'/language'.$postfix.'/english.php');
 		$usedlanguage='/language'.$postfix.'/english.php';
 	} elseif (file_exists($pathtoadmin.'/language/english.php')) {
-		include($pathtoadmin.'/language/english.php');
+		include_once($pathtoadmin.'/language/english.php');
 		$usedlanguage='/language/english.php';
 	}
 	// register vars from language file
@@ -318,6 +409,9 @@ function uddeIMcheckConfig($pathtouser, $pathtoadmin, &$config) {
 
 	if ((float)$config->TrashLifespan<0.01)			{ $config->TrashLifespan = 0.01; }
 	if ((float)$config->TrashLifespan>60000)		{ $config->TrashLifespan = 60000; }
+
+	if ((float)$config->waitdays<0)					{ $config->waitdays = 0; }
+	if ((float)$config->waitdays>360)				{ $config->waitdays = 360; }
 
 	if ((int)$config->firstwordsinbox<8) 			{ $config->firstwordsinbox = 8; }
 	if ((int)$config->firstwordsinbox>1024) 		{ $config->firstwordsinbox = 1024; }
@@ -367,6 +461,14 @@ function uddeIMcheckConfig($pathtouser, $pathtoadmin, &$config) {
 	if (uddeIMcheckPlugin('spamcontrol'))
 		$plugin_spamcontrol = 1;
 
+	$plugin_mcp = 0;
+	if (uddeIMcheckPlugin('mcp'))
+		$plugin_mcp = 1;
+
+	$plugin_postbox = 0;
+	if (uddeIMcheckPlugin('postbox'))
+		$plugin_postbox = 1;
+
 	if (!$plugin_attachment) {
 		$config->enableattachment = 0;
 	}
@@ -378,6 +480,13 @@ function uddeIMcheckConfig($pathtouser, $pathtoadmin, &$config) {
 	}
 	if (!$plugin_spamcontrol) {
 		$config->reportspam = 0;
+	}
+	if (!$plugin_mcp) {
+		$config->modnewusers = 0;
+		$config->modpubusers = 0;
+	}
+	if (!$plugin_postbox) {
+		$config->enablepostbox = 0;
 	}
 }
 
@@ -399,26 +508,27 @@ function uddeIMdoShowAllUsers($myself, $my_gid, $config, $mode, $enabled=1, $def
 
 		switch ($config->hideallusers) {
 			case 3:		// special users
-				$sql="SELECT u.".($config->realnames ? "name" : "username")." AS displayname, u.id 
-						FROM (jos_users AS u INNER JOIN jos_user_usergroup_map AS um ON u.id=um.user_id) 
-							INNER JOIN jos_usergroups AS g ON um.group_id=g.id 
+				$sql="SELECT DISTINCT u.".($config->realnames ? "name" : "username")." AS displayname, u.id 
+						FROM (#__users AS u INNER JOIN #__user_usergroup_map AS um ON u.id=um.user_id) 
+							INNER JOIN #__usergroups AS g ON um.group_id=g.id 
 							WHERE u.block=0 AND g.id NOT IN (3,4,5,6,7,8) AND u.id<>".$myself." ".$hide.$hide2."ORDER BY u.".($config->realnames ? "name" : "username");
 				break;
 			case 2:		// admins
-				$sql="SELECT u.".($config->realnames ? "name" : "username")." AS displayname, u.id 
-						FROM (jos_users AS u INNER JOIN jos_user_usergroup_map AS um ON u.id=um.user_id) 
-							INNER JOIN jos_usergroups AS g ON um.group_id=g.id 
+				$sql="SELECT DISTINCT u.".($config->realnames ? "name" : "username")." AS displayname, u.id 
+						FROM (#__users AS u INNER JOIN #__user_usergroup_map AS um ON u.id=um.user_id) 
+							INNER JOIN #__usergroups AS g ON um.group_id=g.id 
 							WHERE u.block=0 AND g.id NOT IN (7,8) AND u.id<>".$myself." ".$hide.$hide2."ORDER BY u.".($config->realnames ? "name" : "username");
 				break;
 			case 1:		// superadmins
-				$sql="SELECT u.".($config->realnames ? "name" : "username")." AS displayname, u.id 
-						FROM (jos_users AS u INNER JOIN jos_user_usergroup_map AS um ON u.id=um.user_id) 
-							INNER JOIN jos_usergroups AS g ON um.group_id=g.id 
+				$sql="SELECT DISTINCT u.".($config->realnames ? "name" : "username")." AS displayname, u.id 
+						FROM (#__users AS u INNER JOIN #__user_usergroup_map AS um ON u.id=um.user_id) 
+							INNER JOIN #__usergroups AS g ON um.group_id=g.id 
 							WHERE u.block=0 AND g.id NOT IN (8) AND u.id<>".$myself." ".$hide.$hide2."ORDER BY u.".($config->realnames ? "name" : "username");
 				break;
 			default:	// none
-				$sql="SELECT u.".($config->realnames ? "name" : "username")." AS displayname, u.id 
-						FROM jos_users AS u
+				$sql="SELECT DISTINCT u.".($config->realnames ? "name" : "username")." AS displayname, u.id 
+						FROM (#__users AS u INNER JOIN #__user_usergroup_map AS um ON u.id=um.user_id) 
+							INNER JOIN #__usergroups AS g ON um.group_id=g.id 
 							WHERE u.block=0 AND u.id<>".$myself." ".$hide.$hide2."ORDER BY u.".($config->realnames ? "name" : "username");
 				break;
 		}
@@ -450,9 +560,12 @@ function uddeIMdoShowAllUsers($myself, $my_gid, $config, $mode, $enabled=1, $def
 		if (uddeIMisAdmin($my_gid))		// do not hide users when it is an admin
 			$sql="SELECT ".($config->realnames ? "name" : "username")." AS displayname, id FROM #__users WHERE block=0 AND id<>".$myself." ORDER BY ".($config->realnames ? "name" : "username");
 	}
+
 	$database->setQuery($sql);
 	$rows=$database->loadObjectList();
-
+	if (!$rows)
+		$rows = array();
+	
 	if ($mode==1) {					// CREATE NEW MESSAGE
 		if ($config->allowmultipleuser)
 			$allnames="<select size=\"1\" class=\"inputbox\" name=\"userlist\" onchange=\"document.sendeform.to_name.value=(document.sendeform.to_name.value.length>0 && document.sendeform.userlist.value.length>0) ? document.sendeform.to_name.value+'".$sep."'+document.sendeform.userlist.value : document.sendeform.userlist.value; return false;\">";

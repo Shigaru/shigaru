@@ -171,16 +171,26 @@ Autocompleter.Base = new Class({
 		this.showChoices();
 	},
 
-	choiceOver: function(el) {
-		if (this.selected) this.selected.removeClass('autocompleter-selected');
-		this.selected = el.addClass('autocompleter-selected');
-	},
+    choiceOver: function(el) {
+        if (this.selected) this.selected.removeClass('autocompleter-selected');
+        if (el instanceof Array) {
+            this.selected = el[0].addClass('autocompleter-selected');
+        } else {
+            this.selected = el.addClass('autocompleter-selected');
+        }
+        //this.selected = el.addClass('autocompleter-selected');
+    },
 
-	choiceSelect: function(el) {
-		this.observer.value = this.element.value = el.inputValue;
-		this.hideChoices();
-		this.fireEvent('onSelect', [this.element], 20);
-	},
+    choiceSelect: function(el) {
+        if (el instanceof Array) {
+            this.observer.value = this.element.value = el[0].inputValue;
+        } else {
+            this.observer.value = this.element.value = el.inputValue;
+        }
+        //this.observer.value = this.element.value = el.inputValue;
+        this.hideChoices();
+        this.fireEvent('onSelect', [this.element], 20);
+    },
 
 	/**
 	 * markQueryValue
@@ -205,9 +215,14 @@ Autocompleter.Base = new Class({
 	 */
 	addChoiceEvents: function(el) {
 		return el.addEvents({
+			'mouseover': this.choiceOver.bind(this, el),
+			'click': this.choiceSelect.bind(this, el)
+		});
+/*	addChoiceEvents: function(el) {
+		return el.addEvents({
 			mouseover: this.choiceOver.bind(this, [el]),
 			mousedown: this.choiceSelect.bind(this, [el])
-		});
+		}); */
 	}
 });
 

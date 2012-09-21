@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -13,7 +13,7 @@
 
 if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this location is not allowed.' ); }
 
-function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $config, $filter_user, $filter_unread, $sort_mode) {
+function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $config, $filter_user, $filter_unread, $filter_flagged, $sort_mode) {
 	global $uddeicons_flagged, $uddeicons_unflagged, $uddeicons_onlinepic, $uddeicons_offlinepic, $uddeicons_readpic, $uddeicons_unreadpic;
 	
 	$pathtosite = uddeIMgetPath('live_site');
@@ -24,6 +24,8 @@ function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $co
 		$addlink .= "&filter_user=".(int)$filter_user;
 	if ($filter_unread)
 		$addlink .= "&filter_unread=".(int)$filter_unread;
+	if ($filter_flagged)
+		$addlink .= "&filter_flagged=".(int)$filter_flagged;
 	if ($sort_mode)
 		$addlink2 .= "&sort_mode=".(int)$sort_mode;
 
@@ -78,7 +80,7 @@ function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $co
 	}
 
 	// how many messages total in inbox?
-	$totalinbox = uddeIMgetInboxCount($myself, $filter_user, $filter_unread);	// also used for navigation
+	$totalinbox = uddeIMgetInboxCount($myself, $filter_user, $filter_unread, $filter_flagged);	// also used for navigation
 
 	if ($config->inboxlimit && $config->allowarchive) {		// inbox + archive, already stored messages in archive are not counted, when archive is disabled
 		$total = uddeIMgetInboxArchiveCount($myself);
@@ -116,14 +118,14 @@ function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $co
 	if ($limitstart>=$totalinbox)
 		$limitstart=max(0,$limitstart - $limit);
 
-	$allmessages = uddeIMselectInbox($myself, $limitstart, $limit, $config, $filter_user, $filter_unread, $sort_mode);
+	$allmessages = uddeIMselectInbox($myself, $limitstart, $limit, $config, $filter_user, $filter_unread, $filter_flagged, $sort_mode);
 
 	// write the uddeim menu
 	uddeIMprintMenu($myself, 'inbox', $item_id, $config);
 	echo "<div id='uddeim-m'>\n";
 
 	if ($config->enablefilter==1 || $config->enablefilter==3)
-		uddeIMprintFilter($myself, 'inbox', $totalinbox, $item_id, $config, $filter_user, $filter_unread);
+		uddeIMprintFilter($myself, 'inbox', $totalinbox, $item_id, $config, $filter_user, $filter_unread, $filter_flagged);
 
 //	if ($limitreached) {		// BUGBUG, not required, planned for level meter
 //		echo "<div id='uddeim-toplines'><p>".$limitreached."</p></div>\n";
@@ -131,7 +133,7 @@ function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $co
 
 	// if no messages:
 	if (count($allmessages)<1) { // no messages to list
-		uddeIMshowNoMessage('inbox', $filter_user, $filter_unread);
+		uddeIMshowNoMessage('inbox', $filter_user, $filter_unread, $filter_flagged);
 		echo "</div>\n<div id='uddeim-bottomborder'>".uddeIMcontentBottomborder($myself, $item_id, 'standard', 'none', $config)."</div>\n";
 		return;
 	}
@@ -152,24 +154,24 @@ function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $co
 		$fromname = uddeIMevaluateUsername($themessage->fromname, $themessage->fromid, $themessage->publicname);
 
 		$personalsys = 0;
-		if($themessage->systemmessage == $fromname)			// || $themessage->toid==$myself) {	dann wird auch ein Bild bei "Copy2me" angezeigt.
+		if($themessage->systemflag && $themessage->systemmessage == $fromname)			// || $themessage->toid==$myself) {	dann wird auch ein Bild bei "Copy2me" angezeigt.
 			$personalsys = 1;
 
-		if($themessage->systemmessage)
+		if($themessage->systemflag)
 			$fromname = $themessage->systemmessage;
 
 		// show links ???
 		$fromcell=$fromname;
 		if ($themessage->fromid) {
 			if ($config->showcblink && $themessage->fromname) {
-				if (!$themessage->systemmessage || $personalsys) {
+				if (!$themessage->systemflag || $personalsys) {
 					$fromcell = uddeIMshowThumbOrLink($themessage->fromid, $fromname, $config);
 				}
 			}
 
 			// is this user currently online?
 			if ($config->showonline && $themessage->fromname) {
-				if (!$themessage->systemmessage || $personalsys) {
+				if (!$themessage->systemflag || $personalsys) {
 					$isonline = uddeIMisOnline($themessage->fromid);
 					if ($isonline)
 						$fromcell.="&nbsp;".$uddeicons_onlinepic;
@@ -182,15 +184,15 @@ function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $co
 		$flagcell = "";
 		if($config->allowflagged) {
 			if($themessage->flagged)
-				$flagcell="<br /><br /><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=unflag&Itemid=".$item_id."&messageid=".$themessage->id)."'>".$uddeicons_flagged."</a>";
+				$flagcell="<br /><br /><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=unflag&Itemid=".$item_id."&messageid=".$themessage->id."&limit=".$limit."&limitstart=".$limitstart)."'>".$uddeicons_flagged."</a>";
 			else
-				$flagcell="<br /><br /><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=flag&Itemid=".$item_id."&messageid=".$themessage->id)."'>".$uddeicons_unflagged."</a>";
+				$flagcell="<br /><br /><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=flag&Itemid=".$item_id."&messageid=".$themessage->id."&limit=".$limit."&limitstart=".$limitstart)."'>".$uddeicons_unflagged."</a>";
 		}
 
 		if($themessage->toread)
-			$readcell="<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=markunread&Itemid=".$item_id."&messageid=".$themessage->id)."'>".$uddeicons_readpic."</a>";
+			$readcell="<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=markunread&Itemid=".$item_id."&messageid=".$themessage->id."&limit=".$limit."&limitstart=".$limitstart)."'>".$uddeicons_readpic."</a>";
 		else
-			$readcell="<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=markread&Itemid=".$item_id."&messageid=".$themessage->id)."'>".$uddeicons_unreadpic."</a>";
+			$readcell="<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=markread&Itemid=".$item_id."&messageid=".$themessage->id."&limit=".$limit."&limitstart=".$limitstart)."'>".$uddeicons_unreadpic."</a>";
 
 		if ($config->showlistattachment) {
 			$cnt = uddeIMgetAttachmentCount($themessage->id);
@@ -203,7 +205,7 @@ function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $co
 
 		$teasermessage=$cm;
 		// if it is a system message or bb codes allowed, parse BB codes
-		if ($themessage->systemmessage || $config->allowbb)
+		if ($themessage->systemflag || $config->allowbb)
 			$teasermessage=uddeIMbbcode_strip($teasermessage);
 
 		$teasermessage=uddeIMteaser(stripslashes($teasermessage), $config->firstwordsinbox, $config->quotedivider, $config->languagecharset);
@@ -216,7 +218,7 @@ function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $co
 		} else {							// normal message
 			$messagecell="<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=show&Itemid=".$item_id."&messageid=".$themessage->id)."'>".$teasermessage."</a>";
 		}
-		$datumcell=uddeDate($themessage->datum, $config);
+		$datumcell=uddeDate($themessage->datum, $config, uddeIMgetUserTZ());
 
 		$archivecell="";
 		$fwdcell="";
@@ -312,7 +314,7 @@ function uddeIMshowInbox($myself, $item_id, $limit, $limitstart, $cryptpass, $co
 	echo "</div>\n";
 
 	if ($config->enablefilter==2 || $config->enablefilter==3)
-		uddeIMprintFilter($myself, 'inbox', $totalinbox, $item_id, $config, $filter_user, $filter_unread);
+		uddeIMprintFilter($myself, 'inbox', $totalinbox, $item_id, $config, $filter_user, $filter_unread, $filter_flagged);
 
 	echo "</div>\n<div id='uddeim-bottomborder'>".uddeIMcontentBottomborder($myself, $item_id, 'standard', $limitreached, $config)."</div>\n";
 //	echo "</div>\n<div id='uddeim-bottomborder'>".uddeIMcontentBottomborder($myself, $item_id, 'standard', $showinboxlimit_borderbottom, $config)."</div>\n";
@@ -343,11 +345,11 @@ function uddeIMshowMessage($myself, $item_id, $messageid, $isforward, $cryptpass
 			$is_spam = uddeIMgetSpamStatus($messageid);
 
 		$fromname = uddeIMevaluateUsername($displaymessage->fromname, $displaymessage->fromid, $displaymessage->publicname);
-		if ($displaymessage->systemmessage)
+		if ($displaymessage->systemflag)
 			$fromname = $displaymessage->systemmessage;
 
 		$personalsys = 0;
-		if ($displaymessage->systemmessage==$displaymessage->fromname)
+		if ($displaymessage->systemflag && $displaymessage->systemmessage==$displaymessage->fromname)
 			$personalsys = 1;
 
 		// CRYPT
@@ -357,52 +359,23 @@ function uddeIMshowMessage($myself, $item_id, $messageid, $isforward, $cryptpass
 		$dmessage = nl2br(htmlspecialchars(stripslashes($cm), ENT_QUOTES, $config->charset));
 		$dmessage = str_replace("&amp;#", "&#", $dmessage);		// unicode workaround
 		// if system message or bbcodes allowed, call parser
-		if ($displaymessage->systemmessage || $config->allowbb)
+		if ($displaymessage->systemflag || $config->allowbb)
 			$dmessage = uddeIMbbcode_replace($dmessage, $config);
 		if ($config->allowsmile)
 			$dmessage = uddeIMsmile_replace($dmessage, $config);
 		$bodystring = $dmessage;			// converted message for email body
 
-		$replysuggest = stripslashes($cm);	// reply suggestion
-		// if allowed to contain bbcodes they should be stripped for the reply quote
-		if ($displaymessage->systemmessage || $config->allowbb)
-			$replysuggest = uddeIMbbcode_strip($replysuggest);
-
-		if ($isforward && $config->allowforwards) {
-			if ($displaymessage->toid!=$displaymessage->fromid) { 		// not a copy to myself
-				$toname = uddeIMgetNameFromID($displaymessage->toid, $config);
-				if ($config->allowbb)
-					$replysuggest="[i]"._UDDEIM_FWDFROM." ".$fromname." "._UDDEIM_FWDTO." ".$toname." (".uddeLdate($displaymessage->datum, $config)."):[/i]\n\n".$replysuggest;
-				else
-					$replysuggest=""._UDDEIM_FWDFROM." ".$fromname." "._UDDEIM_FWDTO." ".$toname." (".uddeLdate($displaymessage->datum, $config)."):\n\n".$replysuggest;
-			} else {	// its a copy2me
-				$toname = uddeIMgetNameFromID($displaymessage->toid, $config);
-				if ($config->allowbb)
-					$replysuggest="[i]"._UDDEIM_FWDFROM." ".$toname." ".$fromname." (".uddeLdate($displaymessage->datum, $config)."):[/i]\n\n".$replysuggest;
-				else
-					$replysuggest=""._UDDEIM_FWDFROM." ".$toname." ".$fromname." (".uddeLdate($displaymessage->datum, $config)."):\n\n".$replysuggest;
-			}
-		}
-		$replytomessage = "\n\n\n\n".$config->quotedivider."\n".$replysuggest;
-
-		if ($config->maxlength) {
-			if (uddeIM_utf8_strlen($config->languagecharset, $replytomessage)+3>=$config->maxlength) {
-				$mlength = $config->maxlength * 2 / 3;
-				$replytomessage = uddeIM_utf8_substr($config->languagecharset, $replytomessage,0,$mlength)."...";
-			}
-		}
-		
+		$replytomessage = uddeIMreplySuggestion($cm, $displaymessage, $fromname, "", $isforward, "inbox", $config);
 		// We used an placeholder above to insert the "reply suggestion" for the "mailto:" link
 		$urlbody = rawurlencode($replytomessage);
-
 
 		// display the message
 		$headerstring="<table class='innermost'><tr>";
 
 		// does CB have a thumbnail image of the sender?
-		if ($config->showcbpic && $displaymessage->fromname) {
+		if ($config->showcbpic && $displaymessage->fromname || $config->gravatar) {
 			$frompic = uddeIMgetPicOnly($displaymessage->fromid, $config);
-			if ($frompic && ($personalsys || !$displaymessage->systemmessage))
+			if ($frompic && ($personalsys || !$displaymessage->systemflag))
 				$headerstring.="<td valign='top' rowspan='2'>".$frompic."</td>\n";
 		}
 
@@ -412,15 +385,15 @@ function uddeIMshowMessage($myself, $item_id, $messageid, $isforward, $cryptpass
 		} else {
 			// $headerstring.=_UDDEIM_MESSAGE." ";			// BUGBUG: "Message admin"   -   sollte besser "Copy to yourself" sein
 			if ( 0 == strncasecmp($displaymessage->systemmessage, _UDDEIM_TO_SMALL." ", strlen(_UDDEIM_TO_SMALL)+1 ) )
-				$headerstring.=_UDDEIM_MESSAGE." ";			// systemmessage is "to XXX", so suppress the from (copy2me)
+				$headerstring.=_UDDEIM_MESSAGE." ";			// systemmsg is "to XXX", so suppress the from (copy2me)
 			else
-				$headerstring.=_UDDEIM_MESSAGEFROM." ";		// systemmessage is a name
+				$headerstring.=_UDDEIM_MESSAGEFROM." ";		// systemmsg is a name
 		}
 
 		// show links ???
 		$temp = $fromname;
 		if ($config->showcblink && $displaymessage->fromname) {
-			if (!$displaymessage->systemmessage || $personalsys) {
+			if (!$displaymessage->systemflag || $personalsys) {
 				$temp = uddeIMgetLinkOnly($displaymessage->fromid, $fromname, $config);
 			}
 		}
@@ -431,7 +404,7 @@ function uddeIMshowMessage($myself, $item_id, $messageid, $isforward, $cryptpass
 
 		// is this user currently online?
 		if ($config->showonline && $displaymessage->fromname) {
-			if (!$displaymessage->systemmessage || $personalsys) {
+			if (!$displaymessage->systemflag || $personalsys) {
 				$isonline = uddeIMisOnline($displaymessage->fromid);
 				if ($isonline)
 					$headerstring.="&nbsp;".$uddeicons_onlinepic;
@@ -441,20 +414,27 @@ function uddeIMshowMessage($myself, $item_id, $messageid, $isforward, $cryptpass
 		}
 
 		$headerstring.="<br />";
-		$headerstring.=uddeLdate($displaymessage->datum, $config);
+		$headerstring.=uddeLdate($displaymessage->datum, $config, uddeIMgetUserTZ());
 		$headerstring.="</div></td><td valign='top'><span class='uddeim-clear'>&nbsp;</span><ul>";
 
 		// show delete & block links
-		if (!$displaymessage->totrash) { // but only if not already moved to trash
-			$headerstring.="<li class='uddeim-messageactionlink-delete'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=delete&Itemid=".$item_id."&ret=top&messageid=".$displaymessage->id)."'>"._UDDEIM_DELETELINK."</a></li>\n";
-			if ($config->blocksystem && !$displaymessage->systemmessage && $displaymessage->fromid) {
-				$headerstring.="<li class='uddeim-messageactionlink-block'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=blockuser&Itemid=".$item_id."&recip=".$displaymessage->fromid)."'>"._UDDEIM_BLOCKNOW."</a></li>\n";
+		if ($config->allowforwards) {
+			if ($displaymessage->cryptmode==2 || $displaymessage->cryptmode==4) {	// Message is encrypted, so go to enter password page
+			   $headerstring.="<li class='uddeim-messageactionlink-forward'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=forwardpass&Itemid=".$item_id."&messageid=".$displaymessage->id)."'>"._UDDEIM_FORWARDLINK."</a></li>\n";
+			} else {	// normal message
+			   $headerstring.="<li class='uddeim-messageactionlink-forward'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=forward&Itemid=".$item_id."&messageid=".$displaymessage->id)."'>"._UDDEIM_FORWARDLINK."</a></li>\n";
 			}
 		}
 		if (!$displaymessage->archived && $config->allowarchive)
-			$headerstring.="<li class='uddeim-messageactionlink-archive'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=archivemessage&Itemid=".$item_id."&messageid=".$displaymessage->id)."'>"._UDDEIM_STORE."</a></li>";
+			$headerstring.="<li class='uddeim-messageactionlink-archive'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=archivemessage&Itemid=".$item_id."&messageid=".$displaymessage->id)."'>"._UDDEIM_STORE."</a></li>\n";
 		if ( $displaymessage->archived && $config->allowarchive)
-			$headerstring.="<li class='uddeim-messageactionlink-archive'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=unarchive&Itemid=".$item_id."&messageid=".$displaymessage->id)."'>"._UDDEIM_UNARCHIVE."</a></li>";
+			$headerstring.="<li class='uddeim-messageactionlink-archive'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=unarchive&Itemid=".$item_id."&messageid=".$displaymessage->id)."'>"._UDDEIM_UNARCHIVE."</a></li>\n";
+		if (!$displaymessage->totrash) { // but only if not already moved to trash
+			$headerstring.="<li class='uddeim-messageactionlink-delete'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=delete&Itemid=".$item_id."&ret=top&messageid=".$displaymessage->id)."'>"._UDDEIM_DELETELINK."</a></li>\n";
+			if ($config->blocksystem && !$displaymessage->systemflag && $displaymessage->fromid) {
+				$headerstring.="<li class='uddeim-messageactionlink-block'><a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=blockuser&Itemid=".$item_id."&recip=".$displaymessage->fromid)."'>"._UDDEIM_BLOCKNOW."</a></li>\n";
+			}
+		}
 
 		if ($config->reportspam) {		// uddeIMcheckPlugin('spamcontrol') &&  not required since uddeIMcheckConfig sets this 0 if plugin is missing
 			if ($is_spam)
@@ -483,6 +463,10 @@ function uddeIMshowMessage($myself, $item_id, $messageid, $isforward, $cryptpass
 					$orig = uddeIMselectInboxMessage($myself, $replyid, $config, 0);
 				else
 					$orig = uddeIMselectOutboxMessage($myself, $replyid, $config, 0);
+				$temp = Array();
+				foreach($orig as $or)
+					$temp = $or;
+				$orig = $temp;
 
 				if (count($orig)>0) {		// the message should be stored in the outbox
 					$goto = "showout";
@@ -561,6 +545,10 @@ function uddeIMshowMessage($myself, $item_id, $messageid, $isforward, $cryptpass
 			$disablereply = 1;					// ..its a deleted user so disable replies
 		if ($displaymessage->archived)
 			$disablereply = 1;					// ..no reply to archived messages
+
+		if ($displaymessage->fromid==$myself &&
+		    $displaymessage->fromid==$displaymessage->toid)
+			$disablereply = 1;					// ...no reply to copy2me messages
 	}
 
 	// read flag set to true, but only when its a forward
@@ -679,9 +667,9 @@ function uddeIMdeleteMessageInbox($myself, $messageid, $limit, $limitstart, $ite
 	uddeIMupdateToread($myself, $messageid, 1);
 	uddeIMdeleteMessageFromInbox($myself, $messageid, $deletetime);
 	
-	if($ret=='archive' && $config->allowarchive) {
+	if ($ret=='archive' && $config->allowarchive) {
 		uddeJSEFredirect("index.php?option=com_uddeim&task=archive&Itemid=".$item_id."&limit=".$limit."&limitstart=".$limitstart);
-	} elseif($ret=='top') {
+	} elseif ($ret=='top') {
 		uddeJSEFredirect("index.php?option=com_uddeim&task=inbox&Itemid=".$item_id);
 	} else {
 		uddeJSEFredirect("index.php?option=com_uddeim&task=inbox&Itemid=".$item_id."&limit=".$limit."&limitstart=".$limitstart);

@@ -25,8 +25,8 @@ function wiglwogl(uddeElement) {
 		bChecked = uddeElement[0].checked; 
 		for(i = 1; i < uddeElement.length; i++) 
 			uddeElement[i].checked = bChecked; 
-		} 
 	} 
+} 
 function inboxDelete(url) {
 	document.messages.action = url;
 	document.messages.submit();
@@ -144,4 +144,14 @@ function uddeIMtoggleLayer(itemID) {
 	document.getElementById('uddeimdivlayer_'+itemID).style.display = 'inline';
   else
 	document.getElementById('uddeimdivlayer_'+itemID).style.display = 'none';
+}
+
+function uddeIMtoggleLayer2(itemID) {
+  if (document.getElementById('uddeimdivlayer_'+itemID).style.display=='none') {
+	document.getElementById('uddeimdivlayerpreview_'+itemID).style.display = 'none';
+	document.getElementById('uddeimdivlayer_'+itemID).style.display = 'inline';
+  } else {
+	document.getElementById('uddeimdivlayer_'+itemID).style.display = 'none';
+	document.getElementById('uddeimdivlayerpreview_'+itemID).style.display = 'inline';
+  }
 }

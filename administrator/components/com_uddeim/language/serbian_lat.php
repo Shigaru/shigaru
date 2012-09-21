@@ -10,8 +10,137 @@
 //                Other licenses can be found in LICENSES folder.
 // *******************************************************************
 // Language file: Serbian Latin
-// Translator:    Miloš
+// Translator:    Fedora Srbija
 // *******************************************************************
+DEFINE ('_UDDEADM_TRANSLATORS_CREDITS', 'Preveo <a href="http://fedora.fsn.rs" target="_new">Fedora Srbija</a> tim');	// Empty for English and German language files, enter your credits line here, e.g. 'Translation by <a href="http://domain.com" target="_new">John Doe</a>'
+
+// New: 2.8
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_11', '...set default for postbox');
+DEFINE ('_UDDEADM_POSTBOX_HEAD', 'Enable Postbox');
+DEFINE ('_UDDEADM_POSTBOX_EXP', 'Enables the Postbox.');
+DEFINE ('_UDDEIM_FILTER_TITLE_POSTBOX', 'Show from/to this user only');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
+DEFINE ('_UDDEIM_POSTBOX', 'Postbox');
+DEFINE ('_UDDEIM_FILTEREDUSER', 'user filtered');
+DEFINE ('_UDDEIM_FILTEREDUSERS', 'users filtered');
+DEFINE ('_UDDEIM_NOMESSAGES_FILTERED_POSTBOX', ' postbox');
+DEFINE ('_UDDEIM_NOMESSAGES_POSTBOX', 'You have no messages in your postbox.');
+DEFINE ('_UDDEIM_DISPLAY', 'Display');
+DEFINE ('_UDDEIM_HELP_POSTBOX', 'The <b>Postbox</b> holds all your incoming and outgoing messages.');
+DEFINE ('_UDDEIM_HELP_PREAD', 'The message has been read (inbox=you can toggle the status).');
+DEFINE ('_UDDEIM_HELP_PUNREAD', 'The message is still unread (inbox=you can toggle the status).');
+
+// New: 2.7
+DEFINE ('_UDDEADM_MOOTOOLS_NONEMEIO', 'do not load MooTools (use MEIO)');
+DEFINE ('_UDDEADM_MOOTOOLS_13MEIO', 'force loading MooTools 1.3 (use MEIO)');
+
+// New: 2.6
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_HEAD', 'No SEF for %msglink%');
+DEFINE ('_UDDEADM_DONTSEFMSGLINK_EXP', 'Do not use SEF for %msglink% placeholder in email notifications.');
+DEFINE ('_UDDEADM_STIME_HEAD', 'Use special calendars');
+DEFINE ('_UDDEADM_STIME_EXP', 'When enabled on sites using the farsi language file the persian calendar is used.');
+DEFINE ('_UDDEADM_RESTRICTREM_HEAD', 'Remove orphaned connections');
+DEFINE ('_UDDEADM_RESTRICTREM_EXP', 'Automatically remove orphaned connections when saving an existing contact list.');
+DEFINE ('_UDDEADM_RESTRICTCON_HEAD', 'Show connections only');
+DEFINE ('_UDDEADM_RESTRICTCON_EXP', 'The users shown in the list can be restricted to CB/CBE/JS connections (hide users from userlist has no effect here when enabled).');
+DEFINE ('_UDDEADM_RESTRICTCON0', 'disabled');
+DEFINE ('_UDDEADM_RESTRICTCON1', 'registered users');
+DEFINE ('_UDDEADM_RESTRICTCON2', 'registered, special users');
+DEFINE ('_UDDEADM_RESTRICTCON3', 'all users (incl. admins)');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_10', '...set default for show connections');
+
+// New: 2.4
+DEFINE ('_UDDEIM_SECURITYCODE', 'Security Code:');
+
+// New: 2.3
+DEFINE ('_UDDEADM_CC_HEAD', 'Dugme „Prikaži CC: red“');
+DEFINE ('_UDDEADM_CC_EXP', 'Kada je omogućeno, korisnik može da izabere da li će uddeIM dodati CC: red koji sadrži sve primaoce poruke ili ne.');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_9', '...postavljeno podrazumevano za CC: red i moderaciju');
+DEFINE ('_UDDEIM_TOOLBAR_MCP', 'Centar za poruke');
+DEFINE ('_UDDEIM_TOOLBAR_REMOVEMESSAGE', 'Obriši poruku');
+DEFINE ('_UDDEIM_TOOLBAR_DELIVERMESSAGE', 'Dostavi poruku');
+DEFINE ('_UDDEADM_OOD_MCP', 'Dodatak centra za poruke je zastareo!');
+DEFINE ('_UDDEADM_MCP_STAT', 'Poruke za moderaciju:');
+DEFINE ('_UDDEADM_MCP_TRASHED', 'Bačeno');
+DEFINE ('_UDDEADM_MCP_NOTEDEL', 'Obrisati ovu poruku iz baze podataka?');
+DEFINE ('_UDDEADM_MCP_NOTEDELIVER', 'Dostaviti ovu poruku primaocu?');
+DEFINE ('_UDDEADM_MCP_SHOWHIDE', 'Prikaži/sakrij');
+DEFINE ('_UDDEADM_MCP_EDIT', 'Kontrolni centar za poruke');
+DEFINE ('_UDDEADM_MCP_FROM', 'Od');
+DEFINE ('_UDDEADM_MCP_TO', 'Za');
+DEFINE ('_UDDEADM_MCP_TEXT', 'Poruka');
+DEFINE ('_UDDEADM_MCP_DELETE', 'Obriši');
+DEFINE ('_UDDEADM_MCP_DATE', 'Datum');
+DEFINE ('_UDDEADM_MCP_DELIVER', 'Dostavi');
+DEFINE ('_UDDEADM_USERSET_MODERATE', 'Mod');
+DEFINE ('_UDDEADM_USERSET_SELMODERATE', '- Mod -');
+DEFINE ('_UDDEIM_MCP_MODERATED', 'Vaše poruke će biti moderisane. Moderator će ih proveriti pre nego što budu isporučene primaocima.');
+DEFINE ('_UDDEIM_STATUS_DELAYED', 'Čeka se na moderatora');
+DEFINE ('_UDDEADM_MODNEWUSERS_HEAD', 'Moderiši nove korisnike');
+DEFINE ('_UDDEADM_MODNEWUSERS_EXP', 'Kada je omogućeno, poruke novo registrovanih korisnika će biti podrazumevano moderisane.');
+DEFINE ('_UDDEADM_MODPUBUSERS_HEAD', 'Moderiši javne korisnike');
+DEFINE ('_UDDEADM_MODPUBUSERS_EXP', 'Kada je omogućeno, poruke javnih korisnika će biti moderisane.');
+DEFINE ('_UDDEIM_MENUICONS_P3', 'Bez menija');
+
+// New: 2.2
+DEFINE ('_UDDEADM_OOD_PF', 'Dodatak javnog sučelja je zastareo!');
+DEFINE ('_UDDEADM_OOD_A', 'Dodatak za prilaganje datoteka je zastareo!');
+DEFINE ('_UDDEADM_OOD_RSS', 'Dodatak za RSS je zastareo!');
+DEFINE ('_UDDEADM_OOD_ASC', 'Dodatak centra za izveštaje o porukama je zastareo!');
+DEFINE ('_UDDEIM_NOMESSAGES3_FILTERED', '<b>Nemate filtriranih poruka u%s.</b>');
+DEFINE ('_UDDEIM_FILTER_UNREAD', 'nepročitane');
+DEFINE ('_UDDEIM_FILTER_FLAGGED', 'označene');
+DEFINE ('_UDDEADM_GRAVATAR_HEAD', 'gravatari su uključeni');
+DEFINE ('_UDDEADM_GRAVATAR_EXP', 'Omogućava podršku za gravatare.');
+DEFINE ('_UDDEADM_GRAVATARD_HEAD', 'skup gravatara');
+DEFINE ('_UDDEADM_GRAVATARD_EXP', 'Izaberite skup za podrazumevane slike.');
+DEFINE ('_UDDEADM_GRAVATARR_HEAD', 'ocena gravatara');
+DEFINE ('_UDDEADM_GRAVATARR_EXP', 'Podrazumevano se prikazuju samo slike ocenjene sa „G“ osim ako ne naznačite višu ocenu. „X“ prikazuje sve slike gravatara.');
+DEFINE ('_UDDEADM_GR404', '404');
+DEFINE ('_UDDEADM_GRMM', 'mm');
+DEFINE ('_UDDEADM_GRIDENTICON', 'identikona');
+DEFINE ('_UDDEADM_GRMONSTERID', 'monsterid');
+DEFINE ('_UDDEADM_GRWAVATAR', 'vavatar');
+DEFINE ('_UDDEADM_GRRETRO', 'retro');
+DEFINE ('_UDDEADM_GRDEFAULT', 'podrazumevano');
+DEFINE ('_UDDEADM_GRG', 'G = opšte');
+DEFINE ('_UDDEADM_GRPG', 'PG = roditeljsko usmeravanje');
+DEFINE ('_UDDEADM_GRR', 'R = ograničeno');
+DEFINE ('_UDDEADM_GRX', 'X = samo za odrasle');
+DEFINE ('_UDDEADM_NINJABOARD', 'Ninjaboard');
+DEFINE ('_UDDEADM_KUNENA16', 'Kunena 1.6+');
+DEFINE ('_UDDEIM_PROCESSING', 'Obrađujem...');
+DEFINE ('_UDDEIM_SEND_NONOTIFY', 'Ne šalji e-poruke obaveštenja');
+DEFINE ('_UDDEIM_SYSGM_NONOTIFY', 'E-poruke obaveštenja neće biti poslata');
+DEFINE ('_UDDEIM_SYSGM_FORCEEMBEDDED', 'Tekst će biti ugrađen u e-poruku obaveštenja');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_8', '...postavljeno podrazumevano za sličice');
+DEFINE ('_UDDEADM_AVATARWH_HEAD', 'Veličina prikaza za sličice');
+DEFINE ('_UDDEADM_AVATARWH_EXP', 'Širina i visina (u pikselima) za sličice (0 = veličina neće biti menjana).');
+DEFINE ('_UDDEIM_SAVE', 'Sačuvaj');
+
+// New: 2.1
+DEFINE ('_UDDEIM_BODY_SPAMREPORT',
+"Zdravo %you%,\n\nkorisnik %touser% je prijavio sumnjivu poruku od korisnika %fromuser%. Prijavite se i proverite je!\n\n%livesite%");
+DEFINE ('_UDDEIM_SUBJECT_SPAMREPORT', 'Prijavljena je poruka na %site%');
+DEFINE ('_UDDEADM_KBYTES', 'kbajta');
+DEFINE ('_UDDEADM_MBYTES', 'Mbajta');
+DEFINE ('_UDDEIM_ATT_FILEDELETED', 'Datoteka je obrisana');
+DEFINE ('_UDDEIM_ATT_FILENOTEXISTS', 'Greška: Datoteka ne postoji');
+DEFINE ('_UDDEIM_ATTACHMENTS2', 'Prilozi (maks. %s po datoteci):');
+DEFINE ('_UDDEADM_JOOCM', 'Joo!CM');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_HEAD', 'Nezaštićeno preuzimanje datoteka');
+DEFINE ('_UDDEADM_UNPROTECTATTACHMENT_EXP', 'uddeIM obično ne otkriva putanju datoteka priloga na serveru, tako da niko - čak i kada je ime datoteke poznato - ne može preuzeti datoteku.  Omogućavanje ove opcije primorava uddeIM da vrati punu putanju na serveru. Iz bezbednosnih razloga, uddeIM dodaje MD5 heš originalnom imenu datoteke. Korisnici mogu preuzeti datoteku direktno kada je poznata puna putanja. Koristite samo sa pažnjom! PROČITAJTE ČPP KADA KORISTITE OVU OPCIJU!');
+DEFINE ('_UDDEADM_CFGFILE_CONVERTING_7', '...postavljeno podrazumevano za datoteke priloga, javno sučelje');
+DEFINE ('_UDDEIM_FILETYPE_NOTALLOWED', 'Vrsta datoteke nije dozvoljena');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_HEAD', 'Dozvoljeni nastavci');
+DEFINE ('_UDDEADM_ALLOWEDEXTENSIONS_EXP', 'Unesite sve dozvoljene nastavke (razdvojene sa „;“). Ostavite prazno za neograničene.');
+DEFINE ('_UDDEADM_PUBEMAIL_HEAD', 'Neophodna e-pošta');
+DEFINE ('_UDDEADM_PUBEMAIL_EXP', 'Kada je omogućeno javni korisnik mora uneti adresu e-pošte.');
+DEFINE ('_UDDEADM_WAITDAYS_HEAD', 'Dani za čekanje');
+DEFINE ('_UDDEADM_WAITDAYS_EXP', 'Odredite koliko dana registrovani korisnik mora čekati dok mu nije dozvoljeno da šalje poruke (za 3 časa unesite 0.125).');
+DEFINE ('_UDDEIM_WAITDAYS1', 'Morate čekati ');
+DEFINE ('_UDDEIM_WAITDAYS2', ' dana dok ne možete slati poruke.');
+DEFINE ('_UDDEIM_WAITDAYS2H', ' časova dok ne možete slati poruke.');
 
 // New: 2.0
 DEFINE ('_UDDEADM_RECAPTCHAPRV_HEAD', 'reCaptcha privatni ključ');
@@ -40,7 +169,7 @@ DEFINE ('_UDDEADM_ENABLEATTACHMENT_EXP', 'Ovo omogućava slanje datoteka kao pri
 DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_HEAD', 'Maks. veličina datoteke');
 DEFINE ('_UDDEADM_MAXSIZEATTACHMENT_EXP', 'Maksimalna dozvoljena veličina za priložene datoteke.');
 DEFINE ('_UDDEIM_FILESIZE_EXCEEDED', 'Maksimalna veličina datoteke je prevaziđena');
-DEFINE ('_UDDEADM_BYTES', 'Bajtova');
+DEFINE ('_UDDEADM_BYTES', 'bajtova');
 DEFINE ('_UDDEADM_MAXATTACHMENTS_HEAD', 'Maks. priloga');
 DEFINE ('_UDDEADM_MAXATTACHMENTS_EXP', 'Maksimalan broj priloga po poruci.');
 DEFINE ('_UDDEIM_DOWNLOAD', 'Preuzmi');
@@ -112,7 +241,7 @@ DEFINE ('_UDDEADM_REPORTSPAM_HEAD', 'Link za prijavu poruke');
 DEFINE ('_UDDEADM_REPORTSPAM_EXP', 'Kada je aktivirano, ovo prikazuje link „Prijavi poruku“ koja dozvoljava korisnicima da administratoru prijave SPAM.');
 DEFINE ('_UDDEIM_TOOLBAR_REMOVESPAM', 'Obriši poruku');
 DEFINE ('_UDDEIM_TOOLBAR_REMOVEREPORT', 'Ukloni izveštaj');
-DEFINE ('_UDDEIM_TOOLBAR_SPAMCONTROL', 'Kontrola prijava');
+DEFINE ('_UDDEIM_TOOLBAR_SPAMCONTROL', 'Centar za prijave');
 DEFINE ('_UDDEADM_INFORMATION', 'Informacije');
 DEFINE ('_UDDEADM_SPAMCONTROL_STAT', 'Prijavljene poruke:');
 DEFINE ('_UDDEADM_SPAMCONTROL_TRASHED', 'U smeću');
@@ -157,7 +286,7 @@ DEFINE ('_UDDEIM_MENUICONS_P2', 'Samo ikone');
 DEFINE ('_UDDEIM_MENUICONS_P0', 'Samo tekst');
 DEFINE ('_UDDEIM_LISTSLIMIT_2', 'Najveći broj primalaca u spisku:');
 DEFINE ('_UDDEADM_ADDEMAIL_ADMIN', 'Administratori mogu da biraju');
-DEFINE ('_UDDEAIM_ADDEMAIL_SELECT', 'Obaveštenje sa porukom');
+DEFINE ('_UDDEAIM_ADDEMAIL_SELECT', 'Obaveštenje sadrži poruku');
 DEFINE ('_UDDEAIM_ADDEMAIL_TITLE', 'Uključi punu poruku u e-pošti obaveštenja.');
 
 // New: 1.6
@@ -417,7 +546,7 @@ DEFINE ('_UDDEIM_USERLIST', 'Spisak korisnika');
 DEFINE ('_UDDEIM_YOUHAVETOWAIT', 'Žalim, morate sačekati pre nego što možete poslati novu poruku');
 DEFINE ('_UDDEADM_USERSET_LASTSENT', 'Poslednje poslato');
 DEFINE ('_UDDEADM_TIMEDELAY_HEAD', 'Vremenska zadrška');
-DEFINE ('_UDDEADM_TIMEDELAY_EXP', 'Vreme u sekundama koje korisnik mora sačekati pre nego što može poslati sledeću poruku (0 za nikakvu zadršku).');
+DEFINE ('_UDDEADM_TIMEDELAY_EXP', 'Vreme u sekundama koje registrovani korisnik mora sačekati pre nego što može poslati sledeću poruku (0 za nikakvu zadršku).');
 DEFINE ('_UDDEADM_SECONDS', 'sekundi');
 DEFINE ('_UDDEIM_PUBLICSENT', 'Poruka je poslata.');
 DEFINE ('_UDDEIM_ERRORINFROMNAME', 'Greška u imenu pošiljaoca');
@@ -429,7 +558,7 @@ DEFINE ('_UDDEADM_VERSIONCHECK_LATEST', 'Već koristite poslednju uddeIM verziju
 DEFINE ('_UDDEADM_VERSIONCHECK_CURRENT', 'Tekuća verzija je ');
 DEFINE ('_UDDEADM_VERSIONCHECK_INFO', 'Informacije o ažuriranju:');
 DEFINE ('_UDDEADM_VERSIONCHECK_HEAD', 'Proveri za ažuriranja');
-DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Ovo stupa u kontakt sa veb sajtom uddeIM programera kako bi se dobavile informacije o tekućoj uddeIM verziji. Sem uddeIM verzije koju koristite, nikakvi drugi ličini podaci neće biti poslati.');
+DEFINE ('_UDDEADM_VERSIONCHECK_EXP', 'Ovo stupa u kontakt sa veb sajtom uddeIM programera kako bi se dobavile informacije o tekućoj uddeIM verziji.');
 DEFINE ('_UDDEADM_VERSIONCHECK_CHECK', 'PROVERI SADA');
 DEFINE ('_UDDEADM_VERSIONCHECK_ERROR', 'Ne mogu da dobavim podatke o verziji.');
 DEFINE ('_UDDEIM_NOSUCHLIST', 'Nije pronađen spisak kontakata!');

@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud
+// Author         © 2007-2010 Stephan Slabihoud
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -15,32 +15,57 @@ if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this
 
 global $uddeim_isadmin;
 
-DEFINE ('_UDDEIM_GID_SADMIN',	25);
+DEFINE ('_UDDEIM_GID_SADMIN',		25);
+DEFINE ('_UDDEIM_GID_ADMIN',		24);
+DEFINE ('_UDDEIM_GID_MAMAGER',		23);
+DEFINE ('_UDDEIM_GID_PUBLISHER',	21);
+DEFINE ('_UDDEIM_GID_EDITOR',		20);
+DEFINE ('_UDDEIM_GID_AUTHOR',		19);
+DEFINE ('_UDDEIM_GID_REGISTERED',	18);
+DEFINE ('_UDDEIM_GID_PUBLIC',		 0);
+
+function uddeIMgetUserTZ() {
+	$mosConfig_offset = uddeIMgetOffset();
+	return $mosConfig_offset;		// not supported by Joomla 1.0, so return server TZ
+}
+
+function uddetime($timezone = 0) {
+//	$mosConfig_offset = uddeIMgetOffset();
+//	$rightnow=time()+(($mosConfig_offset+$timezone)*3600);		// store the server's time zone
+	$rightnow=time()+($timezone*3600);			// store the server's time zone
+	return $rightnow;
+}
 
 function uddeIMisAdmin($my_gid) {
-	return in_array($my_gid,array(24,25));
+	$new = array_intersect($my_gid, array(24,25));
+	return !empty($new);
 }
 
 function uddeIMisManager($my_gid) {
-	return in_array($my_gid,array(23,24,25));
+	$new = array_intersect($my_gid, array(23,24,25));
+	return !empty($new);
 }
 
 function uddeIMisSpecial($my_gid) {
-	return in_array($my_gid,array(19,20,21,23,24,25));
-}
-
-function uddeIMisReggedOnly($my_gid) {
-	return ($my_gid==18);
+	$new = array_intersect($my_gid, array(19,20,21,23,24,25));
+	return !empty($new);
 }
 
 function uddeIMisAllNotAdmin($my_gid) {
-	return in_array($my_gid,array(0,18,19,20,21,23));
+	$new = array_intersect($my_gid, array(0,18,19,20,21,23));
+	return !empty($new);
+}
+
+function uddeIMisReggedOnly($my_gid) {
+	$new = array_intersect($my_gid, array(18));
+	return !empty($new);
 }
 
 function uddeIMaddScript($value) {
 	global $mainframe;
 	if ($value) {
-		$valuelink = "<script language=\"JavaScript\" type=\"text/javascript\" src=\"".$value."\"></script>\n";
+		// $valuelink = "<script language=\"JavaScript\" type=\"text/javascript\" src=\"".$value."\"></script>\n";
+		$valuelink = "<script type=\"text/javascript\" src=\"".$value."\"></script>\n";
 		$mainframe->addCustomHeadTag( $valuelink );
 	}
 }
@@ -95,6 +120,11 @@ function uddeIMgetLocale() {
 function uddeIMgetSitename() {
 	global $mosConfig_sitename;
 	return $mosConfig_sitename;
+}
+
+function uddeIMgetMailFrom() {
+	global $mosConfig_mailfrom;
+	return $mosConfig_mailfrom;
 }
 
 function uddeIMgetMetaDesc() {

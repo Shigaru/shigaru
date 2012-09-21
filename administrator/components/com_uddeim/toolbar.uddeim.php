@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -19,12 +19,21 @@ if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
 	// $temp = JApplicationHelper::getPath('toolbar_default');
 	// require_once($temp);
 	$ver = new JVersion();
-	if (!strncasecmp($ver->RELEASE, "1.6", 3)) {
-		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
-		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib16.php');
-	} else {
+	if (!strncasecmp($ver->RELEASE, "2.5", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib25.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.5", 3)) {
 		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib15.php');
 		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib15.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.6", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib16.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.7", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib17.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib17.php');
+	} else {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib25.php');
 	}
 } else {
 	global $mainframe;
@@ -39,10 +48,18 @@ require_once(uddeIMgetPath('absolute_path').'/administrator/components/com_uddei
 $index = uddeIMredirectIndex();
 
 switch ($task) {
+	case "mcp":
+		mosMenuBar::startTable();
+		mosMenuBar::addNew('messagedeliver', _UDDEIM_TOOLBAR_DELIVERMESSAGE);				// Deliver message
+		mosMenuBar::deleteList('', 'messageremove', _UDDEIM_TOOLBAR_REMOVEMESSAGE);			// Delete Message
+		mosMenuBar::back(_UDDEIM_TOOLBAR_BACK, $index."?option=$option&task=settings");
+		mosMenuBar::spacer();
+		mosMenuBar::endTable();
+		break;
 	case "spamcontrol":
 		mosMenuBar::startTable();
-		mosMenuBar::deleteList('', 'reportremove', _UDDEIM_TOOLBAR_REMOVEREPORT);			// Report remove
-		mosMenuBar::deleteList('', 'spamremove', _UDDEIM_TOOLBAR_REMOVESPAM);				// Spam remove
+		mosMenuBar::deleteList('', 'reportremove', _UDDEIM_TOOLBAR_REMOVEREPORT);			// Remove Report
+		mosMenuBar::deleteList('', 'spamremove', _UDDEIM_TOOLBAR_REMOVESPAM);				// Delete Message
 		mosMenuBar::back(_UDDEIM_TOOLBAR_BACK, $index."?option=$option&task=settings");
 		mosMenuBar::spacer();
 		mosMenuBar::endTable();
@@ -107,8 +124,12 @@ switch ($task) {
 //		mosMenuBar::customX( 'usersettings', '../components/com_uddeim/images/user.png', '../components/com_uddeim/images/user.png', 'User settings', false );
 //		mosMenuBar::customX( 'usersettings', 'user.png', 'user.png', 'User settings', false );
 //		mosMenuBar::customX( 'backuprestore', 'archive.png', 'archive_f2.png', 'Backup &amp; Restore', false );
+		if (uddeIMcheckPlugin('mcp'))
+			if (uddeIMcheckVersionPlugin('mcp'))
+				mosMenuBar::customX( 'mcp', 'edit.png', 'edit_f2.png', _UDDEIM_TOOLBAR_MCP, false );
 		if (uddeIMcheckPlugin('spamcontrol'))
-			mosMenuBar::customX( 'spamcontrol', 'edit.png', 'edit_f2.png', _UDDEIM_TOOLBAR_SPAMCONTROL, false );
+			if (uddeIMcheckVersionPlugin('spamcontrol'))
+				mosMenuBar::customX( 'spamcontrol', 'edit.png', 'edit_f2.png', _UDDEIM_TOOLBAR_SPAMCONTROL, false );
 		mosMenuBar::customX( 'usersettings', 'edit.png', 'edit_f2.png', _UDDEIM_TOOLBAR_USERSETTINGS, false );
 		mosMenuBar::save( 'savesettings', _UDDEIM_TOOLBAR_SAVE );
 //		mosMenuBar::customX( 'usersettings', 'edit.png', 'edit_f2.png', 'User settings', false );

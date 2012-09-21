@@ -16,10 +16,16 @@ if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this
 $uddeim_isadmin = 0;
 if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
 	$ver = new JVersion();
-	if (!strncasecmp($ver->RELEASE, "1.6", 3)) {
-		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
-	} else {
+	if (!strncasecmp($ver->RELEASE, "2.5", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.5", 3)) {
 		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib15.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.6", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.7", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib17.php');
+	} else {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
 	}
 } else {
 	global $mainframe;
@@ -32,25 +38,15 @@ $uddpathtosite  = uddeIMgetPath('live_site');
 $udddatabase 	= uddeIMgetDatabase();
 $uddmosConfig_lang = uddeIMgetLang();
 
+require_once($uddpathtoadmin."/admin.shared.php");		// before includes.php is included!
+require_once($uddpathtouser.'/includes.php');
+require_once($uddpathtouser.'/includes.db.php');
 require_once($uddpathtouser.'/crypt.class.php');
-require_once($uddpathtoadmin.'/config.class.php');
+require_once($uddpathtoadmin."/config.class.php");		// get the configuration file
 $uddconfig = new uddeimconfigclass();
 
 if(!defined('_UDDEIM_INBOX')) {
-	$uddpostfix = "";
-	if ($uddconfig->languagecharset)
-		$uddpostfix = ".utf8";
-	if (file_exists($uddpathtoadmin.'/language'.$uddpostfix.'/'.$uddmosConfig_lang.'.php')) {
-		include_once($uddpathtoadmin.'/language'.$uddpostfix.'/'.$uddmosConfig_lang.'.php');
-	} elseif (file_exists($uddpathtoadmin.'/language'.$uddpostfix.'/english.php')) {
-		include_once($uddpathtoadmin.'/language'.$uddpostfix.'/english.php');
-	} elseif (file_exists($uddpathtoadmin.'/language/english.php')) {
-		include_once($uddpathtoadmin.'/language/english.php');
-	}
-	$GLOBALS['udde_smon'] = $udde_smon;
-	$GLOBALS['udde_lmon'] = $udde_lmon;
-	$GLOBALS['udde_sweekday'] = $udde_sweekday;
-	$GLOBALS['udde_lweekday'] = $udde_lweekday;
+	uddeIMloadLanguage($uddpathtoadmin, $uddconfig);
 }
 
 $uddshownew		= $params->get( 'uddshownew', 1 );
@@ -63,10 +59,20 @@ $uddshowsettings= $params->get( 'uddshowsettings', 1 );
 $uddshowcompose	= $params->get( 'uddshowcompose', 1 );
 $uddshowicons	= $params->get( 'uddshowicons', 0 );
 
-if (file_exists($uddpathtouser.'/templates/'.$uddconfig->templatedir.'/css/uddemodule.css')) {
-	echo '<link rel="stylesheet" href="'.$uddpathtosite.'/components/com_uddeim/templates/'.$uddconfig->templatedir.'/css/uddemodule.css" type="text/css" />';
-} elseif(file_exists($uddpathtouser.'/templates/default/css/uddemodule.css')) {
-	echo '<link rel="stylesheet" href="'.$uddpathtosite.'/components/com_uddeim/templates/default/css/uddemodule.css" type="text/css" />';
+if ( defined( 'JPATH_ADMINISTRATOR' ) ) {	// this works in Joomla 1.5+
+	if (file_exists($uddpathtouser.'/templates/'.$uddconfig->templatedir.'/css/uddemodule.css')) {
+		$css = $uddpathtosite."/components/com_uddeim/templates/".$uddconfig->templatedir."/css/uddemodule.css"; 
+		uddeIMaddCSS($css);
+	} elseif(file_exists($uddpathtouser.'/templates/default/css/uddemodule.css')) {
+		$css = $uddpathtosite."/components/com_uddeim/templates/default/css/uddemodule.css"; 
+		uddeIMaddCSS($css);
+	}
+} else {
+	if (file_exists($uddpathtouser.'/templates/'.$uddconfig->templatedir.'/css/uddemodule.css')) {
+		echo '<link rel="stylesheet" href="'.$uddpathtosite.'/components/com_uddeim/templates/'.$uddconfig->templatedir.'/css/uddemodule.css" type="text/css" />';
+	} elseif(file_exists($uddpathtouser.'/templates/default/css/uddemodule.css')) {
+		echo '<link rel="stylesheet" href="'.$uddpathtosite.'/components/com_uddeim/templates/default/css/uddemodule.css" type="text/css" />';
+	}
 }
 
 $udduserid    = uddeIMgetUserID();
@@ -79,29 +85,15 @@ if (!$udduserid) {
 	return;
 }
 
-$uddsql = "SELECT gid FROM #__users WHERE id=".(int)$udduserid;
-$udddatabase->setQuery($uddsql);
-$uddmy_gid=(int)$udddatabase->loadResult();
+$uddmy_gid = uddeIMgetGID((int)$udduserid);	// ARRAY(!))
 
 // first try to find a published link
-$uddsql = "SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=1 AND access".
-		($uddmygroupid==0 ? "=" : "<=").$uddmygroupid." LIMIT 1";
-$udddatabase->setQuery($uddsql);
-$udditem_id = (int)$udddatabase->loadResult();
-if (!$udditem_id) {
-	// when no published link has been found, try to find an unpublished one
-	$uddsql="SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=0 AND access".
-			($uddmygroupid==0 ? "=" : "<=").$uddmygroupid." LIMIT 1";
-	$udddatabase->setQuery($uddsql);
-	$udditem_id = (int)$udddatabase->loadResult();
-}
-if ($uddconfig->overwriteitemid)
-	$udditem_id = $uddconfig->useitemid;
+$udditem_id = uddeIMgetItemid($uddconfig);
 
 $uddout = "<div id='uddeim-module'>";
 
 if ( $uddshownew ) {
-	$uddsql="SELECT count(a.id) FROM #__uddeim AS a WHERE a.totrash=0 AND a.toread=0 AND a.toid=".(int)$udduserid;
+	$uddsql="SELECT count(a.id) FROM #__uddeim AS a WHERE `a`.`delayed`=0 AND a.totrash=0 AND a.toread=0 AND a.toid=".(int)$udduserid;
 //	$uddsql="SELECT count(a.id) FROM #__uddeim AS a LEFT JOIN #__users AS b ON a.fromid=b.id WHERE a.totrash=0 AND a.toread=0 AND a.toid=".(int)$udduserid;
 	$udddatabase->setQuery($uddsql);
 	$uddresult=(int)$udddatabase->loadResult();
@@ -113,7 +105,7 @@ if ( $uddshownew ) {
 }
 
 if ( $uddshowinbox ) {
-	$uddsql="SELECT count(a.id) FROM #__uddeim AS a WHERE a.totrash=0 AND archived=0 AND a.toid=".(int)$udduserid;
+	$uddsql="SELECT count(a.id) FROM #__uddeim AS a WHERE `a`.`delayed`=0 AND a.totrash=0 AND archived=0 AND a.toid=".(int)$udduserid;
 //	$uddsql="SELECT count(a.id) FROM #__uddeim AS a LEFT JOIN #__users AS b ON a.fromid=b.id WHERE a.totrash=0 AND archived=0 AND a.toid=".(int)$udduserid;
 	$udddatabase->setQuery($uddsql);
 	$uddresult=(int)$udddatabase->loadResult();
@@ -143,7 +135,7 @@ if ( $uddshowoutbox ) {
 }
 
 if ( $uddshowtrashcan ) {
-	$uddrightnow=moduddemailboxtime((int)$uddconfig->timezone);
+	$uddrightnow=uddetime((int)$uddconfig->timezone);
 	$uddoffset=((float)$uddconfig->TrashLifespan) * 86400;
 	$uddtimeframe=$uddrightnow-$uddoffset;
 
@@ -177,8 +169,8 @@ if ( $uddshowarchive && $uddconfig->allowarchive) {
 }
 
 if( ($uddconfig->enablelists==1) ||
-    ($uddconfig->enablelists==2 && in_array($uddmy_gid,array(19,20,21,23,24,25))) || 
-    ($uddconfig->enablelists==3 && in_array($uddmy_gid,array(24,25))) ) {
+	($uddconfig->enablelists==2 && uddeIMisSpecial($uddmy_gid)) || 
+	($uddconfig->enablelists==3 && uddeIMisAdmin($uddmy_gid)) ) {
 	// ok contact lists are enabled
 	if ( $uddshowcontacts ) {
 		$uddout .= "<p class='uddeim-module-body'>";
@@ -215,8 +207,8 @@ $uddout .= "</div>";
 
 echo $uddout;
 
-function moduddemailboxtime($uddtimezone = 0) {
-	$uddmosConfig_offset = uddeIMgetOffset();
-	$uddrightnow=time()+(($uddmosConfig_offset+$uddtimezone)*3600);
-	return $uddrightnow;
-}
+//function moduddemailboxtime($uddtimezone = 0) {
+//	$uddmosConfig_offset = uddeIMgetOffset();
+//	$uddrightnow=time()+(($uddmosConfig_offset+$uddtimezone)*3600);
+//	return $uddrightnow;
+//}

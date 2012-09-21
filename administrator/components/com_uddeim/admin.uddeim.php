@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud, © 2006 Benjamin Zweifel
+// Author         © 2007-2010 Stephan Slabihoud, © 2006 Benjamin Zweifel
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -16,12 +16,21 @@ if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this
 $uddeim_isadmin = 1;
 if ( defined( 'JPATH_ADMINISTRATOR' ) ) {
 	$ver = new JVersion();
-	if (!strncasecmp($ver->RELEASE, "1.6", 3)) {
-		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
-		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib16.php');
-	} else {
+	if (!strncasecmp($ver->RELEASE, "2.5", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib25.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.5", 3)) {
 		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib15.php');
 		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib15.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.6", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib16.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib16.php');
+	} elseif (!strncasecmp($ver->RELEASE, "1.7", 3)) {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib17.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib17.php');
+	} else {
+		require_once(JPATH_SITE.'/components/com_uddeim/uddeimlib25.php');
+		require_once(JPATH_SITE.'/administrator/components/com_uddeim/admin.uddeimlib25.php');
 	}
 } else {
 	global $mainframe;
@@ -38,24 +47,44 @@ $pathtouser  = uddeIMgetPath('user');
 //    uddeIMmosRedirect('index.php', _NOT_AUTH );
 //} 
 
-require($pathtoadmin."/admin.shared.php");
-require($pathtoadmin."/admin.includes.php");
-require($pathtoadmin."/admin.usersettings.php");
-require($pathtouser."/crypt.class.php");
+require_once($pathtoadmin."/admin.shared.php");
+require_once($pathtouser.'/includes.php');
+require_once($pathtouser.'/includes.db.php');
+require_once($pathtoadmin."/admin.includes.php");
+require_once($pathtoadmin."/admin.usersettings.php");
+require_once($pathtouser."/crypt.class.php");
 
+if ($plugin=uddeIMcheckPlugin('mcp'))
+	require_once($plugin);
 if ($plugin=uddeIMcheckPlugin('spamcontrol'))
 	require_once($plugin);
+if ($plugin=uddeIMcheckPlugin('postbox'))
+	require_once($plugin);
+if ($plugin=uddeIMcheckPlugin('attachment'))
+	require_once($plugin);
+if ($plugin=uddeIMcheckPlugin('rss'))
+	require_once($plugin);
+if ($plugin=uddeIMcheckPlugin('pfrontend'))
+	include_once($plugin);
 
 require($pathtoadmin."/config.class.php");			// configuration file
 $config = new uddeimconfigclass();
 uddeIMcheckConfig($pathtouser, $pathtoadmin, $config);
 $usedlanguage = uddeIMloadLanguage($pathtoadmin, $config);
 
-//$task		= uddeIMmosGetParam( $_REQUEST, 'task', 'settings');
-//$option		= uddeIMmosGetParam( $_REQUEST, 'option', 'com_uddeim');
+$task	= uddeIMmosGetParam( $_REQUEST, 'task', 'settings');
+$option	= uddeIMmosGetParam( $_REQUEST, 'option', 'com_uddeim');
 
 if ($config->version!=$configversion) {
 	$task='convertconfig';	// its the wrong configuration file, so we have to convert it first
+}
+
+$userid = uddeIMgetUserID();
+$my_gid = uddeIMgetGID($userid);
+if (!uddeIMisAdmin($my_gid)) {
+	$mosmsg = _UDDEIM_VIOLATION;
+	$redirecturl = uddeIMredirectIndex();
+	uddeIMmosRedirect($redirecturl, $mosmsg);
 }
 
 $act	= uddeIMmosGetParam($_REQUEST, 'act', '');
@@ -66,16 +95,25 @@ if (!is_array($uddeid)) {
 }
 
 switch ($task) {
-
+	// Report Control Center
 	case "spamcontrol":
 		uddeIMshowSpamControl($option, $task, $act, $config);
 		break;
-
 	case "reportremove":
 	case "spamremove":
 		uddeIMremoveReportSPAM($option, $task, $uddeid, $config);
 		break;
 
+	// Message Control Center
+	case "mcp":
+		uddeIMshowMCP($option, $task, $act, $config);
+		break;
+	case "messageremove":
+	case "messagedeliver":
+		uddeIMremoveMessage($option, $task, $uddeid, $config);
+		break;
+
+	// User settings
 	case "usermessagesremove":
 		uddeIMusermessagesremove($option, $task, $uddeid, $config);
 		break;
@@ -134,6 +172,8 @@ switch ($task) {
 		$config->showtitle = stripslashes(uddeIMmosGetParam($_POST,'config_showtitle', ''));			
 		$config->templatedir = uddeIMmosGetParam($_POST,'config_templatedir');					
 		$config->quotedivider = uddeIMmosGetParam ($_POST, 'config_quotedivider', '__________');		
+		$config->gravatard = uddeIMmosGetParam ($_POST, 'config_gravatard', '');		
+		$config->gravatarr = uddeIMmosGetParam ($_POST, 'config_gravatarr', 'g');		
 
 		$xxx=uddeIMmosGetParam ($_POST, 'config_blockgroups', array());  
 		if (!is_array( $xxx ))
@@ -168,117 +208,132 @@ switch ($task) {
 
 		$config->recaptchaprv = uddeIMmosGetParam($_POST,'config_recaptchaprv', '');
 		$config->recaptchapub = uddeIMmosGetParam($_POST,'config_recaptchapub', '');
+		$config->allowedextensions = uddeIMmosGetParam($_POST,'config_allowedextensions', '');
 
 		$config->TrashLifespan = (float)uddeIMmosGetParam ($_POST, 'config_TrashLifespan', 2, _MOS_ALLOWRAW);	// otherwise we will not get a float (maybe $config->TrashLifespan = (float) $_POST['config_TrashLifespan'];)
-		$config->ReadMessagesLifespan=(int)uddeIMmosGetParam ($_POST, 'config_ReadMessagesLifespan', 36524);
-		$config->UnreadMessagesLifespan=(int)uddeIMmosGetParam ($_POST, 'config_UnreadMessagesLifespan', 36524);
-		$config->SentMessagesLifespan=(int)uddeIMmosGetParam ($_POST, 'config_SentMessagesLifespan', 36524);
-		$config->ReadMessagesLifespanNote=(int)uddeIMmosGetParam ($_POST, 'config_ReadMessagesLifespanNote', 0);
-		$config->UnreadMessagesLifespanNote=(int)uddeIMmosGetParam ($_POST, 'config_UnreadMessagesLifespanNote', 0);
-		$config->SentMessagesLifespanNote=(int)uddeIMmosGetParam ($_POST, 'config_SentMessagesLifespanNote', 0);
-		$config->TrashLifespanNote=(int)uddeIMmosGetParam ($_POST, 'config_TrashLifespanNote', 1);
-		$config->adminignitiononly=(int)uddeIMmosGetParam ($_POST, 'config_adminignitiononly', 1);
-		$config->pmsimportdone=(int)uddeIMmosGetParam ($_POST, 'config_pmsimportdone', 0);
-		$config->blockalert=(int)uddeIMmosGetParam ($_POST, 'config_blockalert', 0);
-		$config->blocksystem=(int)uddeIMmosGetParam ($_POST, 'config_blocksystem', 0);
-		$config->allowemailnotify=(int)uddeIMmosGetParam ($_POST, 'config_allowemailnotify', 0);
-		$config->notifydefault =(int) uddeIMmosGetParam ($_POST, 'config_notifydefault', 0);
-		$config->popupdefault =(int) uddeIMmosGetParam ($_POST, 'config_popupdefault', 0);
-		$config->allowsysgm=(int)uddeIMmosGetParam ($_POST, 'config_allowsysgm', 0);
-		$config->emailwithmessage=(int)uddeIMmosGetParam ($_POST, 'config_emailwithmessage', 0);
-		$config->firstwordsinbox=(int)uddeIMmosGetParam ($_POST, 'config_firstwordsinbox', 40);
-		$config->longwaitingdays=(int)uddeIMmosGetParam ($_POST, 'config_longwaitingdays', 75);
-		$config->longwaitingemail=(int)uddeIMmosGetParam ($_POST, 'config_longwaitingemail', 0);
-		$config->maxlength=(int)uddeIMmosGetParam ($_POST, 'config_maxlength', 1200);
-		$config->showcblink=(int)uddeIMmosGetParam ($_POST, 'config_showcblink', 0);
-		$config->showcbpic=(int)uddeIMmosGetParam ($_POST, 'config_showcbpic', 0);
-		$config->showonline=(int)uddeIMmosGetParam ($_POST, 'config_showonline', 1);
-		$config->allowarchive=(int)uddeIMmosGetParam ($_POST, 'config_allowarchive', 0);
-		$config->maxarchive=(int)uddeIMmosGetParam ($_POST, 'config_maxarchive', 100);
-		$config->allowcopytome=(int)uddeIMmosGetParam ($_POST, 'config_allowcopytome', 0);
-		$config->trashoriginal=(int)uddeIMmosGetParam ($_POST, 'config_trashoriginal', 1);
-		$config->perpage=(int)uddeIMmosGetParam ($_POST, 'config_perpage', 8);
-		$config->enabledownload=(int)uddeIMmosGetParam ($_POST, 'config_enabledownload', 0);
-		$config->inboxlimit=(int)uddeIMmosGetParam ($_POST, 'config_inboxlimit', 0);
-		$config->showinboxlimit=(int)uddeIMmosGetParam ($_POST, 'config_showinboxlimit',0);
-		$config->allowpopup=(int)uddeIMmosGetParam ($_POST, 'config_allowpopup', 0);
-		$config->allowbb=(int)uddeIMmosGetParam ($_POST, 'config_allowbb', 1);
-		$config->allowsmile=(int)uddeIMmosGetParam ($_POST, 'config_allowsmile', 1);
-		$config->animated=(int)uddeIMmosGetParam ($_POST, 'config_animated', 0);
-		$config->animatedex=(int)uddeIMmosGetParam ($_POST, 'config_animatedex', 0);
-		$config->showmenuicons=(int)uddeIMmosGetParam ($_POST, 'config_showmenuicons', 1);
-		$config->bottomlineicons=(int)uddeIMmosGetParam ($_POST, 'config_bottomlineicons', 1);
-		$config->actionicons=(int)uddeIMmosGetParam ($_POST, 'config_actionicons', 1);
-		$config->showconnex=(int)uddeIMmosGetParam ($_POST, 'config_showconnex', 0);
-		$config->showsettingslink=(int)uddeIMmosGetParam ($_POST, 'config_showsettingslink', 0);
-		$config->connex_listbox=(int)uddeIMmosGetParam ($_POST, 'config_connex_listbox', 0);
-		$config->forgetmenotstart=(int)uddeIMmosGetParam ($_POST, 'config_forgetmenotstart', 0);
-		$config->showabout=(int)uddeIMmosGetParam ($_POST, 'config_showabout', 0);
-		$config->emailtrafficenabled=(int)uddeIMmosGetParam ($_POST, 'config_emailtrafficenabled', 0);
-		$config->getpiclink=(int)uddeIMmosGetParam ($_POST, 'config_getpiclink', 0);
-		$config->realnames=(int)uddeIMmosGetParam ($_POST, 'config_realnames', 0);
-		$config->cryptmode=(int)uddeIMmosGetParam ($_POST, 'config_cryptmode', 0);
-		$config->modeshowallusers=(int)uddeIMmosGetParam ($_POST, 'config_modeshowallusers', 0);
-		$config->useautocomplete=(int)uddeIMmosGetParam ($_POST, 'config_useautocomplete', 0);
-		$config->allowmultipleuser=(int)uddeIMmosGetParam ($_POST, 'config_allowmultipleuser', 0);
-		$config->connexallowmultipleuser=(int)uddeIMmosGetParam ($_POST, 'config_connexallowmultipleuser', 0);
-		$config->allowmultiplerecipients=(int)uddeIMmosGetParam ($_POST, 'config_allowmultiplerecipients', 0);
-		$config->showtextcounter=(int)uddeIMmosGetParam ($_POST, 'config_showtextcounter', 1);
-		$config->allowforwards=(int)uddeIMmosGetParam ($_POST, 'config_allowforwards', 1);
-		$config->showgroups=(int)uddeIMmosGetParam ($_POST, 'config_showgroups', 0);
-		$config->mailsystem=(int)uddeIMmosGetParam ($_POST, 'config_mailsystem', 0);
-		$config->searchinstring=(int)uddeIMmosGetParam ($_POST, 'config_searchinstring', 1);
-		$config->maxrecipients=(int)uddeIMmosGetParam ($_POST, 'config_maxrecipients', 0);
-		$config->languagecharset=(int)uddeIMmosGetParam ($_POST, 'config_languagecharset', 0);
-		$config->usecaptcha=(int)uddeIMmosGetParam ($_POST, 'config_usecaptcha', 0);
-		$config->captchalen=(int)uddeIMmosGetParam ($_POST, 'config_captchalen', 4);
-		$config->pubfrontend=(int)uddeIMmosGetParam ($_POST, 'config_pubfrontend', 0);
-		$config->pubfrontenddefault=(int)uddeIMmosGetParam ($_POST, 'config_pubfrontenddefault', 0);
-		$config->pubmodeshowallusers=(int)uddeIMmosGetParam ($_POST, 'config_pubmodeshowallusers', 0);
-		$config->hideallusers=(int)uddeIMmosGetParam ($_POST, 'config_hideallusers', 0);
-		$config->pubhideallusers=(int)uddeIMmosGetParam ($_POST, 'config_pubhideallusers', 0);
-		$config->unblockCBconnections=(int)uddeIMmosGetParam ($_POST, 'config_unblockCBconnections', 1);
-		$config->CBgallery=(int)uddeIMmosGetParam ($_POST, 'config_CBgallery', 0);
-		$config->enablelists=(int)uddeIMmosGetParam ($_POST, 'config_enablelists', 0);
-		$config->maxonlists=(int)uddeIMmosGetParam ($_POST, 'config_maxonlists', 100);
-		$config->timedelay=(int)uddeIMmosGetParam ($_POST, 'config_timedelay', 0);
-		$config->pubrealnames=(int)uddeIMmosGetParam ($_POST, 'config_pubrealnames', 0);
-		$config->pubreplies=(int)uddeIMmosGetParam ($_POST, 'config_pubreplies', 0);
-		$config->csrfprotection=(int)uddeIMmosGetParam ($_POST, 'config_csrfprotection', 0);
-		$config->trashrestriction=(int)uddeIMmosGetParam ($_POST, 'config_trashrestriction', 0);
-		$config->replytruncate=(int)uddeIMmosGetParam ($_POST, 'config_replytruncate', 0);
-		$config->allowflagged=(int)uddeIMmosGetParam ($_POST, 'config_allowflagged', 0);
-		$config->overwriteitemid=(int)uddeIMmosGetParam ($_POST, 'config_overwriteitemid', 0);
-		$config->useitemid=(int)uddeIMmosGetParam ($_POST, 'config_useitemid', 0);
-		$config->timezone=(float)uddeIMmosGetParam ($_POST, 'config_timezone', 0, _MOS_ALLOWRAW);	// otherwise we will not get a float
-		$config->pubuseautocomplete=(int)uddeIMmosGetParam ($_POST, 'config_pubuseautocomplete', 0);
-		$config->pubsearchinstring=(int)uddeIMmosGetParam ($_POST, 'config_pubsearchinstring', 1);
-		$config->mootools=(int)uddeIMmosGetParam ($_POST, 'config_mootools', 1);
-		$config->autoresponder=(int)uddeIMmosGetParam ($_POST, 'config_autoresponder', 0);
-		$config->autoforward=(int)uddeIMmosGetParam ($_POST, 'config_autoforward', 0);
-		$config->rows=(int)uddeIMmosGetParam ($_POST, 'config_rows', 10);
-		$config->cols=(int)uddeIMmosGetParam ($_POST, 'config_cols', 60);
-		$config->width=(int)uddeIMmosGetParam ($_POST, 'config_width', 0);
-		$config->enablefilter=(int)uddeIMmosGetParam ($_POST, 'config_enablefilter', 0);
-		$config->enablereply=(int)uddeIMmosGetParam ($_POST, 'config_enablereply', 0);
-		$config->enablerss=(int)uddeIMmosGetParam ($_POST, 'config_enablerss', 0);
-		$config->showigoogle=(int)uddeIMmosGetParam ($_POST, 'config_showigoogle', 0);
-		$config->showhelp=(int)uddeIMmosGetParam ($_POST, 'config_showhelp', 0);
-		$config->separator=(int)uddeIMmosGetParam ($_POST, 'config_separator', 0);
-		$config->rsslimit=(int)uddeIMmosGetParam ($_POST, 'config_rsslimit', 20);
-		$config->restrictallusers=(int)uddeIMmosGetParam ($_POST, 'config_restrictallusers', 0);
-		$config->trashoriginalsent=(int)uddeIMmosGetParam ($_POST, 'config_trashoriginalsent', 0);
-		$config->reportspam=(int)uddeIMmosGetParam ($_POST, 'config_reportspam', 0);
+		$config->ReadMessagesLifespan = (int)uddeIMmosGetParam ($_POST, 'config_ReadMessagesLifespan', 36524);
+		$config->UnreadMessagesLifespan = (int)uddeIMmosGetParam ($_POST, 'config_UnreadMessagesLifespan', 36524);
+		$config->SentMessagesLifespan = (int)uddeIMmosGetParam ($_POST, 'config_SentMessagesLifespan', 36524);
+		$config->ReadMessagesLifespanNote = (int)uddeIMmosGetParam ($_POST, 'config_ReadMessagesLifespanNote', 0);
+		$config->UnreadMessagesLifespanNote = (int)uddeIMmosGetParam ($_POST, 'config_UnreadMessagesLifespanNote', 0);
+		$config->SentMessagesLifespanNote = (int)uddeIMmosGetParam ($_POST, 'config_SentMessagesLifespanNote', 0);
+		$config->TrashLifespanNote = (int)uddeIMmosGetParam ($_POST, 'config_TrashLifespanNote', 1);
+		$config->adminignitiononly = (int)uddeIMmosGetParam ($_POST, 'config_adminignitiononly', 1);
+		$config->pmsimportdone = (int)uddeIMmosGetParam ($_POST, 'config_pmsimportdone', 0);
+		$config->blockalert = (int)uddeIMmosGetParam ($_POST, 'config_blockalert', 0);
+		$config->blocksystem = (int)uddeIMmosGetParam ($_POST, 'config_blocksystem', 0);
+		$config->allowemailnotify = (int)uddeIMmosGetParam ($_POST, 'config_allowemailnotify', 0);
+		$config->notifydefault = (int) uddeIMmosGetParam ($_POST, 'config_notifydefault', 0);
+		$config->popupdefault = (int) uddeIMmosGetParam ($_POST, 'config_popupdefault', 0);
+		$config->allowsysgm = (int)uddeIMmosGetParam ($_POST, 'config_allowsysgm', 0);
+		$config->emailwithmessage = (int)uddeIMmosGetParam ($_POST, 'config_emailwithmessage', 0);
+		$config->firstwordsinbox = (int)uddeIMmosGetParam ($_POST, 'config_firstwordsinbox', 40);
+		$config->longwaitingdays = (int)uddeIMmosGetParam ($_POST, 'config_longwaitingdays', 75);
+		$config->longwaitingemail = (int)uddeIMmosGetParam ($_POST, 'config_longwaitingemail', 0);
+		$config->maxlength = (int)uddeIMmosGetParam ($_POST, 'config_maxlength', 1200);
+		$config->showcblink = (int)uddeIMmosGetParam ($_POST, 'config_showcblink', 0);
+		$config->showcbpic = (int)uddeIMmosGetParam ($_POST, 'config_showcbpic', 0);
+		$config->showonline = (int)uddeIMmosGetParam ($_POST, 'config_showonline', 1);
+		$config->allowarchive = (int)uddeIMmosGetParam ($_POST, 'config_allowarchive', 0);
+		$config->maxarchive = (int)uddeIMmosGetParam ($_POST, 'config_maxarchive', 100);
+		$config->allowcopytome = (int)uddeIMmosGetParam ($_POST, 'config_allowcopytome', 0);
+		$config->trashoriginal = (int)uddeIMmosGetParam ($_POST, 'config_trashoriginal', 1);
+		$config->perpage = (int)uddeIMmosGetParam ($_POST, 'config_perpage', 8);
+		$config->enabledownload = (int)uddeIMmosGetParam ($_POST, 'config_enabledownload', 0);
+		$config->inboxlimit = (int)uddeIMmosGetParam ($_POST, 'config_inboxlimit', 0);
+		$config->showinboxlimit = (int)uddeIMmosGetParam ($_POST, 'config_showinboxlimit',0);
+		$config->allowpopup = (int)uddeIMmosGetParam ($_POST, 'config_allowpopup', 0);
+		$config->allowbb = (int)uddeIMmosGetParam ($_POST, 'config_allowbb', 1);
+		$config->allowsmile = (int)uddeIMmosGetParam ($_POST, 'config_allowsmile', 1);
+		$config->animated = (int)uddeIMmosGetParam ($_POST, 'config_animated', 0);
+		$config->animatedex = (int)uddeIMmosGetParam ($_POST, 'config_animatedex', 0);
+		$config->showmenuicons = (int)uddeIMmosGetParam ($_POST, 'config_showmenuicons', 1);
+		$config->bottomlineicons = (int)uddeIMmosGetParam ($_POST, 'config_bottomlineicons', 1);
+		$config->actionicons = (int)uddeIMmosGetParam ($_POST, 'config_actionicons', 1);
+		$config->showconnex = (int)uddeIMmosGetParam ($_POST, 'config_showconnex', 0);
+		$config->showsettingslink = (int)uddeIMmosGetParam ($_POST, 'config_showsettingslink', 0);
+		$config->connex_listbox = (int)uddeIMmosGetParam ($_POST, 'config_connex_listbox', 0);
+		$config->forgetmenotstart = (int)uddeIMmosGetParam ($_POST, 'config_forgetmenotstart', 0);
+		$config->showabout = (int)uddeIMmosGetParam ($_POST, 'config_showabout', 0);
+		$config->emailtrafficenabled = (int)uddeIMmosGetParam ($_POST, 'config_emailtrafficenabled', 0);
+		$config->getpiclink = (int)uddeIMmosGetParam ($_POST, 'config_getpiclink', 0);
+		$config->realnames = (int)uddeIMmosGetParam ($_POST, 'config_realnames', 0);
+		$config->cryptmode = (int)uddeIMmosGetParam ($_POST, 'config_cryptmode', 0);
+		$config->modeshowallusers = (int)uddeIMmosGetParam ($_POST, 'config_modeshowallusers', 0);
+		$config->useautocomplete = (int)uddeIMmosGetParam ($_POST, 'config_useautocomplete', 0);
+		$config->allowmultipleuser = (int)uddeIMmosGetParam ($_POST, 'config_allowmultipleuser', 0);
+		$config->connexallowmultipleuser = (int)uddeIMmosGetParam ($_POST, 'config_connexallowmultipleuser', 0);
+		$config->allowmultiplerecipients = (int)uddeIMmosGetParam ($_POST, 'config_allowmultiplerecipients', 0);
+		$config->showtextcounter = (int)uddeIMmosGetParam ($_POST, 'config_showtextcounter', 1);
+		$config->allowforwards = (int)uddeIMmosGetParam ($_POST, 'config_allowforwards', 1);
+		$config->showgroups = (int)uddeIMmosGetParam ($_POST, 'config_showgroups', 0);
+		$config->mailsystem = (int)uddeIMmosGetParam ($_POST, 'config_mailsystem', 0);
+		$config->searchinstring = (int)uddeIMmosGetParam ($_POST, 'config_searchinstring', 1);
+		$config->maxrecipients = (int)uddeIMmosGetParam ($_POST, 'config_maxrecipients', 0);
+		$config->languagecharset = (int)uddeIMmosGetParam ($_POST, 'config_languagecharset', 0);
+		$config->usecaptcha = (int)uddeIMmosGetParam ($_POST, 'config_usecaptcha', 0);
+		$config->captchalen = (int)uddeIMmosGetParam ($_POST, 'config_captchalen', 4);
+		$config->pubfrontend = (int)uddeIMmosGetParam ($_POST, 'config_pubfrontend', 0);
+		$config->pubfrontenddefault = (int)uddeIMmosGetParam ($_POST, 'config_pubfrontenddefault', 0);
+		$config->pubmodeshowallusers = (int)uddeIMmosGetParam ($_POST, 'config_pubmodeshowallusers', 0);
+		$config->hideallusers = (int)uddeIMmosGetParam ($_POST, 'config_hideallusers', 0);
+		$config->pubhideallusers = (int)uddeIMmosGetParam ($_POST, 'config_pubhideallusers', 0);
+		$config->unblockCBconnections = (int)uddeIMmosGetParam ($_POST, 'config_unblockCBconnections', 1);
+		$config->CBgallery = (int)uddeIMmosGetParam ($_POST, 'config_CBgallery', 0);
+		$config->enablelists = (int)uddeIMmosGetParam ($_POST, 'config_enablelists', 0);
+		$config->maxonlists = (int)uddeIMmosGetParam ($_POST, 'config_maxonlists', 100);
+		$config->timedelay = (int)uddeIMmosGetParam ($_POST, 'config_timedelay', 0);
+		$config->pubrealnames = (int)uddeIMmosGetParam ($_POST, 'config_pubrealnames', 0);
+		$config->pubreplies = (int)uddeIMmosGetParam ($_POST, 'config_pubreplies', 0);
+		$config->pubemail = (int)uddeIMmosGetParam ($_POST, 'config_pubemail', 0);
+		$config->csrfprotection = (int)uddeIMmosGetParam ($_POST, 'config_csrfprotection', 0);
+		$config->trashrestriction = (int)uddeIMmosGetParam ($_POST, 'config_trashrestriction', 0);
+		$config->replytruncate = (int)uddeIMmosGetParam ($_POST, 'config_replytruncate', 0);
+		$config->allowflagged = (int)uddeIMmosGetParam ($_POST, 'config_allowflagged', 0);
+		$config->overwriteitemid = (int)uddeIMmosGetParam ($_POST, 'config_overwriteitemid', 0);
+		$config->useitemid = (int)uddeIMmosGetParam ($_POST, 'config_useitemid', 0);
+		$config->timezone = (float)uddeIMmosGetParam ($_POST, 'config_timezone', 0, _MOS_ALLOWRAW);	// otherwise we will not get a float
+		$config->pubuseautocomplete = (int)uddeIMmosGetParam ($_POST, 'config_pubuseautocomplete', 0);
+		$config->pubsearchinstring = (int)uddeIMmosGetParam ($_POST, 'config_pubsearchinstring', 1);
+		$config->mootools = (int)uddeIMmosGetParam ($_POST, 'config_mootools', 1);
+		$config->autoresponder = (int)uddeIMmosGetParam ($_POST, 'config_autoresponder', 0);
+		$config->autoforward = (int)uddeIMmosGetParam ($_POST, 'config_autoforward', 0);
+		$config->rows = (int)uddeIMmosGetParam ($_POST, 'config_rows', 10);
+		$config->cols = (int)uddeIMmosGetParam ($_POST, 'config_cols', 60);
+		$config->width = (int)uddeIMmosGetParam ($_POST, 'config_width', 0);
+		$config->enablefilter = (int)uddeIMmosGetParam ($_POST, 'config_enablefilter', 0);
+		$config->enablereply = (int)uddeIMmosGetParam ($_POST, 'config_enablereply', 0);
+		$config->enablerss = (int)uddeIMmosGetParam ($_POST, 'config_enablerss', 0);
+		$config->showigoogle = (int)uddeIMmosGetParam ($_POST, 'config_showigoogle', 0);
+		$config->showhelp = (int)uddeIMmosGetParam ($_POST, 'config_showhelp', 0);
+		$config->separator = (int)uddeIMmosGetParam ($_POST, 'config_separator', 0);
+		$config->rsslimit = (int)uddeIMmosGetParam ($_POST, 'config_rsslimit', 20);
+		$config->restrictallusers = (int)uddeIMmosGetParam ($_POST, 'config_restrictallusers', 0);
+		$config->trashoriginalsent = (int)uddeIMmosGetParam ($_POST, 'config_trashoriginalsent', 0);
+		$config->reportspam = (int)uddeIMmosGetParam ($_POST, 'config_reportspam', 0);
 		$config->checkbanned = (int)uddeIMmosGetParam ($_POST, 'config_checkbanned', 0);
 		$config->enableattachment = (int)uddeIMmosGetParam ($_POST, 'config_enableattachment', 0);
 		$config->maxsizeattachment = (int)uddeIMmosGetParam ($_POST, 'config_maxsizeattachment', 16384);
 		$config->maxattachments = (int)uddeIMmosGetParam ($_POST, 'config_maxattachments', 1);
-		$config->fileadminignitiononly=(int)uddeIMmosGetParam ($_POST, 'config_fileadminignitiononly', 1);
-		$config->showlistattachment=(int)uddeIMmosGetParam ($_POST, 'config_showlistattachment', 1);
-		$config->showmenucount=(int)uddeIMmosGetParam ($_POST, 'config_showmenucount', 0);
-		$config->encodeheader=(int)uddeIMmosGetParam ($_POST, 'config_encodeheader', 0);
-		$config->enablesort=(int)uddeIMmosGetParam ($_POST, 'config_enablesort', 0);
-		$config->captchatype=(int)uddeIMmosGetParam ($_POST, 'config_captchatype', 0);
+		$config->fileadminignitiononly = (int)uddeIMmosGetParam ($_POST, 'config_fileadminignitiononly', 1);
+		$config->showlistattachment =(int)uddeIMmosGetParam ($_POST, 'config_showlistattachment', 1);
+		$config->showmenucount = (int)uddeIMmosGetParam ($_POST, 'config_showmenucount', 0);
+		$config->encodeheader = (int)uddeIMmosGetParam ($_POST, 'config_encodeheader', 0);
+		$config->enablesort = (int)uddeIMmosGetParam ($_POST, 'config_enablesort', 0);
+		$config->captchatype = (int)uddeIMmosGetParam ($_POST, 'config_captchatype', 0);
+		$config->unprotectdownloads = (int)uddeIMmosGetParam ($_POST, 'config_unprotectdownloads', 0);
+		$config->waitdays = (float)uddeIMmosGetParam ($_POST, 'config_waitdays', 0, _MOS_ALLOWRAW);
+		$config->avatarw = (int)uddeIMmosGetParam ($_POST, 'config_avatarw', 0);
+		$config->avatarh = (int)uddeIMmosGetParam ($_POST, 'config_avatarh', 0);
+		$config->gravatar = (int)uddeIMmosGetParam ($_POST, 'config_gravatar', 0);
+		$config->addccline = (int)uddeIMmosGetParam ($_POST, 'config_addccline', 0);
+		$config->modnewusers = (int)uddeIMmosGetParam ($_POST, 'config_modnewusers', 0);
+		$config->modpubusers = (int)uddeIMmosGetParam ($_POST, 'config_modpubusers', 0);
+		$config->restrictcon = (int)uddeIMmosGetParam ($_POST, 'config_restrictcon', 0);
+		$config->restrictrem = (int)uddeIMmosGetParam ($_POST, 'config_restrictrem', 0);
+		$config->stime = (int)uddeIMmosGetParam ($_POST, 'config_stime', 0);
+		$config->dontsefmsglink = (int)uddeIMmosGetParam ($_POST, 'config_dontsefmsglink', 0);
+		$config->enablepostbox = (int)uddeIMmosGetParam ($_POST, 'config_enablepostbox', 0);
 
 		$oldsetting_allowarchive=uddeIMmosGetParam ($_POST, 'oldsetting_allowarchive', 0);
 		$oldsetting_longwaitingemail= uddeIMmosGetParam ($_POST, 'oldsetting_longwaitingemail', 0);
@@ -624,14 +679,15 @@ function uddeIMimportPMS($option, $task, $act, $start, $count, $pathtoadmin, $co
 			$toread=$thepms->state; 
 
 			$disablereply=0;
-			if ($thepms->system)
-				$disablereply=$thepms->system;
-			// if ($thepms->disablereply)
-			//	$disablereply=$thepms->disablereply;
+			$systemflag=0;
+			if ($thepms->system) {
+				$disablereply=1;
+				$systemflag=1;
+			}
 
 			if($fromid && $toid && $pmessage) {
-				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, toread, disablereply, archived, totrash, totrashdate, totrashoutbox, totrashdateoutbox) VALUES (".
-						(int)$fromid.", ".(int)$toid.", '".$pmessage."', ".$unixdate.", ".(int)$toread.", ".(int)$disablereply.", ".(int)$archived.", ".(int)$totrash.", ".$totrashdate.", ".(int)$totrashoutbox.", ".$totrashdateoutbox.")";
+				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, toread, systemflag, disablereply, archived, totrash, totrashdate, totrashoutbox, totrashdateoutbox) VALUES (".
+						(int)$fromid.", ".(int)$toid.", '".$pmessage."', ".$unixdate.", ".(int)$toread.", ".(int)$systemflag.", ".(int)$disablereply.", ".(int)$archived.", ".(int)$totrash.", ".$totrashdate.", ".(int)$totrashoutbox.", ".$totrashdateoutbox.")";
 				$database->setQuery( $sql );
 				if (!$database->query()) {
 					die("SQL error" . $database->stderr(true));
@@ -969,6 +1025,138 @@ function uddeIMimportPMS($option, $task, $act, $start, $count, $pathtoadmin, $co
 				}	
 			}
 		}
+	// **************************************************************************************************
+	} elseif ($mypmstype==13) {
+		// import JomSocial 1.x
+
+		$sql = "SELECT m.posted_on AS thedatetime, m.subject, m.body, r.msg_from AS fromid, r.to AS toid, "
+				."r.is_read AS readstate, r.deleted AS deletestate, m.deleted AS deletestateoutbox "
+				."FROM #__community_msg AS m JOIN #__community_msg_recepient AS r "
+				."WHERE m.id=r.msg_id".$limit;
+		$database->setQuery($sql);
+		$allpms=$database->loadObjectList();
+		foreach($allpms as $thepms) {
+			$fromid = $thepms->fromid;
+			$toid   = $thepms->toid;
+
+			// convert into unix timestamp
+			$totaldate = $thepms->thedatetime;
+			$unixdate=strtotime($totaldate);
+		
+			if ($thepms->subject)
+				$pmessage="[b]".$thepms->subject."[/b]\n\n".$thepms->body;
+			else
+				$pmessage=$thepms->body;
+
+			$pmessage = uddeIMfixImport($pmessage);
+	
+			$toread = $thepms->readstate;
+
+			$totrash=0;
+			$totrashoutbox=0;
+			if ($thepms->deletestate==1)
+				$totrash=1;
+			if ($thepms->deletestateoutbox==1)
+				$totrashoutbox=1;
+
+			$totrashdate="NULL";
+			if ($totrash)
+				$totrashdate=uddetime($config->timezone);
+
+			$totrashdateoutbox="NULL";
+			if ($totrashoutbox)
+				$totrashdateoutbox=uddetime($config->timezone);
+
+			if($fromid && $toid && $pmessage) {
+				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, toread, totrash, totrashdate, totrashoutbox, totrashdateoutbox) VALUES (".(int)$fromid.", ".(int)$toid.", '".$pmessage."', ".$unixdate.", ".(int)$toread.", ".(int)$totrash.", ".$totrashdate.", ".(int)$totrashoutbox.", ".$totrashdateoutbox.")";
+				$database->setQuery( $sql );
+				if (!$database->query()) {
+					die("SQL error" . $database->stderr(true));
+				}	
+			}
+		}
+	// **************************************************************************************************
+	} elseif ($mypmstype==14) {
+		// import Messaging 1.x
+
+		$sql = "SELECT date AS thedatetime, subject, message AS body, idFrom AS fromid, idTo AS toid, "
+				."seen AS readstate FROM #__messaging".$limit;
+		$database->setQuery($sql);
+		$allpms=$database->loadObjectList();
+		foreach($allpms as $thepms) {
+			$fromid = $thepms->fromid;
+			$toid   = $thepms->toid;
+
+			// convert into unix timestamp
+			$totaldate = $thepms->thedatetime;
+			$unixdate=strtotime($totaldate);
+		
+			if ($thepms->subject)
+				$pmessage="[b]".$thepms->subject."[/b]\n\n".$thepms->body;
+			else
+				$pmessage=$thepms->body;
+
+			$pmessage = uddeIMfixImport($pmessage);
+	
+			$toread = $thepms->readstate;
+
+			$totrash=0;
+			$totrashoutbox=0;
+			$totrashdate="NULL";
+			$totrashdateoutbox="NULL";
+
+			if($fromid && $toid && $pmessage) {
+				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, toread, totrash, totrashdate, totrashoutbox, totrashdateoutbox) VALUES (".(int)$fromid.", ".(int)$toid.", '".$pmessage."', ".$unixdate.", ".(int)$toread.", ".(int)$totrash.", ".$totrashdate.", ".(int)$totrashoutbox.", ".$totrashdateoutbox.")";
+				$database->setQuery( $sql );
+				if (!$database->query()) {
+					die("SQL error" . $database->stderr(true));
+				}	
+			}
+		}
+	// **************************************************************************************************
+	} elseif ($mypmstype==15) {
+		// import CD Pure Messenger 1.x
+
+		$sql = "SELECT from_created AS thedatetime, message AS body, from_id AS fromid, to_id AS toid, "
+				."to_read AS readstate, from_deleted, to_deleted FROM #__cdpuremessenger".$limit;
+		$database->setQuery($sql);
+		$allpms=$database->loadObjectList();
+		foreach($allpms as $thepms) {
+			$fromid = $thepms->fromid;
+			$toid   = $thepms->toid;
+
+			// convert into unix timestamp
+			$totaldate = $thepms->thedatetime;
+			$unixdate=strtotime($totaldate);
+		
+			$pmessage=$thepms->body;
+			$pmessage = uddeIMfixImport($pmessage);
+	
+			$toread = $thepms->readstate;
+
+			$totrash=0;
+			$totrashoutbox=0;
+			if ($thepms->to_deleted==1)
+				$totrash=1;
+			if ($thepms->from_deleted==1)
+				$totrashoutbox=1;
+
+			$totrashdate="NULL";
+			if ($totrash)
+				$totrashdate=uddetime($config->timezone);
+
+			$totrashdateoutbox="NULL";
+			if ($totrashoutbox)
+				$totrashdateoutbox=uddetime($config->timezone);
+
+			if($fromid && $toid && $pmessage) {
+				$sql="INSERT INTO #__uddeim (fromid, toid, message, datum, toread, totrash, totrashdate, totrashoutbox, totrashdateoutbox) VALUES (".(int)$fromid.", ".(int)$toid.", '".$pmessage."', ".$unixdate.", ".(int)$toread.", ".(int)$totrash.", ".$totrashdate.", ".(int)$totrashoutbox.", ".$totrashdateoutbox.")";
+				$database->setQuery( $sql );
+				if (!$database->query()) {
+					die("SQL error" . $database->stderr(true));
+				}	
+			}
+		}
 	}
 
 	// now set the config_pmsimportdone variable in the config file to true
@@ -994,23 +1182,33 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	// Check for Attachment plugin
 	$plugin_attachment = 0;
-	if (uddeIMcheckPlugin('attachment'))
+	if (uddeIMcheckVersionPlugin('attachment'))
 		$plugin_attachment = 1;
 
 	// Check for RSS plugin
 	$plugin_rss = 0;
-	if (uddeIMcheckPlugin('rss'))
+	if (uddeIMcheckVersionPlugin('rss'))
 		$plugin_rss = 1;
 
 	// Check for Public Frontend plugin
 	$plugin_public = 0;
-	if (uddeIMcheckPlugin('pfrontend'))
+	if (uddeIMcheckVersionPlugin('pfrontend'))
 		$plugin_public = 1;
 
 	// Check for Spamcontrol plugin
 	$plugin_spamcontrol = 0;
-	if (uddeIMcheckPlugin('spamcontrol'))
+	if (uddeIMcheckVersionPlugin('spamcontrol'))
 		$plugin_spamcontrol = 1;
+
+	// Check for Message Center plugin
+	$plugin_mcp = 0;
+	if (uddeIMcheckVersionPlugin('mcp'))
+		$plugin_mcp = 1;
+
+	// Check for Postbox plugin
+	$plugin_postbox = 0;
+	if (uddeIMcheckVersionPlugin('postbox'))
+		$plugin_postbox = 1;
 
 	$is_cbe2 = uddeIMcheckCBE2();
 	$is_cbe  = uddeIMcheckCBE();
@@ -1019,8 +1217,9 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
     $is_fb   = uddeIMcheckFB();
     $is_ag   = uddeIMcheckAG();
 	$is_ku	 = uddeIMcheckKU();
+	$is_nb	 = uddeIMcheckNB();
 	$is_js	 = uddeIMcheckJS();
-	// $is_bb	 = uddeIMcheckBB();
+	$is_cm	 = uddeIMcheckCM();
 
 	// -------------------------------------------------------------------------------------------------------
 
@@ -1049,7 +1248,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 //  	}
 //	}
 ?>
-  <form action="<?php echo uddeIMredirectIndex(); ?>" method="POST" name="adminForm">
+  <form action="<?php echo uddeIMredirectIndex(); ?>" method="POST" name="adminForm" id="adminForm">
   <input type="hidden" name="oldsetting_allowarchive" value="<?php echo $oldsetting_allowarchive; ?>" />
   <input type="hidden" name="oldsetting_longwaitingemail" value="<?php echo $oldsetting_longwaitingemail; ?>" />
   <input type="hidden" name="config_quotedivider" value="<?php echo $config->quotedivider; ?>" />
@@ -1059,12 +1258,39 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
   <table cellpadding="4" cellspacing="0" border="0" width="98%">
   <tr>
     <td class="sectionname" align="left">
-      <h4><img align="middle" style="display: inline;" src="<?php echo uddeIMgetPath('live_site')."/administrator/images/inbox.png"; ?>" />&nbsp;<?php echo _UDDEADM_SETTINGS; ?></h4>
+      <h4><?php echo _UDDEADM_SETTINGS; ?></h4>
     </td>
     <td align="left" width="25%">
 	  <?php
-			if ($plugin_spamcontrol || !$config->emailtrafficenabled)
+			$plugin_error = 0;
+			if (uddeIMcheckPlugin('poxtbox'))
+				if (!uddeIMcheckVersionPlugin('postbox'))
+					$plugin_error = 1;
+			if (uddeIMcheckPlugin('mcp'))
+				if (!uddeIMcheckVersionPlugin('mcp'))
+					$plugin_error = 1;
+			if (uddeIMcheckPlugin('spamcontrol'))
+				if (!uddeIMcheckVersionPlugin('spamcontrol'))
+					$plugin_error = 1;
+			if (uddeIMcheckPlugin('rss'))
+				if (!uddeIMcheckVersionPlugin('rss'))
+					$plugin_error = 1;
+			if (uddeIMcheckPlugin('pfrontend'))
+				if (!uddeIMcheckVersionPlugin('pfrontend'))
+					$plugin_error = 1;
+			if (uddeIMcheckPlugin('attachment'))
+				if (!uddeIMcheckVersionPlugin('attachment'))
+					$plugin_error = 1;
+
+			if ($plugin_error || $plugin_spamcontrol || $plugin_mcp || !$config->emailtrafficenabled)
 				echo "<span style='padding: 3px'>"._UDDEADM_INFORMATION."</span><br />";
+
+			if ($plugin_mcp) {
+				$sql  = "SELECT count(id) FROM #__uddeim WHERE `delayed`!=0";
+				$database->setQuery($sql);
+				$temp = (int)$database->loadResult();
+				echo "<span style='padding: 3px'><a href='".uddeIMredirectIndex()."?option=com_uddeim&task=mcp'>"._UDDEADM_MCP_STAT." ".$temp."</a></span><br />";
+			}
 
 			if ($plugin_spamcontrol) {
 				$sql  = "SELECT count(a.id) FROM #__uddeim_spam AS a LEFT JOIN #__uddeim AS b ON a.mid = b.id";
@@ -1075,6 +1301,21 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 			if (!$config->emailtrafficenabled) {
 				echo "<br /><span style='color: red; padding: 3px'>"._UDDEADM_EMAILSTOPPED."</span><br />";
+			}
+
+			if ($plugin_error) {
+				if (!uddeIMcheckVersionPlugin('postbox'))
+					echo "<span style='color: red; padding: 3px'>"._UDDEADM_OOD_PB."</span><br />";
+				if (!uddeIMcheckVersionPlugin('mcp'))
+					echo "<span style='color: red; padding: 3px'>"._UDDEADM_OOD_MCP."</span><br />";
+				if (!uddeIMcheckVersionPlugin('spamcontrol'))
+					echo "<span style='color: red; padding: 3px'>"._UDDEADM_OOD_ASC."</span><br />";
+				if (!uddeIMcheckVersionPlugin('rss'))
+					echo "<span style='color: red; padding: 3px'>"._UDDEADM_OOD_RSS."</span><br />";
+				if (!uddeIMcheckVersionPlugin('pfrontend'))
+					echo "<span style='color: red; padding: 3px'>"._UDDEADM_OOD_PF."</span><br />";
+				if (!uddeIMcheckVersionPlugin('attachment'))
+					echo "<span style='color: red; padding: 3px'>"._UDDEADM_OOD_A."</span><br />";
 			}
 		?>
     </td>
@@ -1119,7 +1360,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 //	$list = mosHTML::yesnoRadioList("config_xxx", " class='inputbox' size='2'", $config->xxx);
 
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 			<?php uddeIMadmText($config->maxlength, 4, 'config_maxlength', false, _UDDEADM_MAXLENGTH_HEAD, _UDDEADM_MAXLENGTH_EXP); ?>
 			<?php uddeIMadmYesNo($config->replytruncate, 'config_replytruncate', !$config->maxlength, _UDDEADM_TRUNCATE_HEAD, _UDDEADM_TRUNCATE_EXP); ?>
 			<?php uddeIMadmYesNo($config->showtextcounter, 'config_showtextcounter', !$config->maxlength, _UDDEADM_SHOWTEXTCOUNTER_HEAD, _UDDEADM_SHOWTEXTCOUNTER_EXP); ?>
@@ -1137,13 +1378,16 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 			<?php uddeIMadmYesNo($config->allowmultiplerecipients, 'config_allowmultiplerecipients', false, _UDDEADM_ALLOWMULTIPLERECIPIENTS_HEAD, _UDDEADM_ALLOWMULTIPLERECIPIENTS_EXP, $adminstyle); ?>
 			<?php uddeIMadmText($config->maxrecipients, 4, 'config_maxrecipients', !$config->allowmultiplerecipients, _UDDEADM_MAXRECIPIENTS_HEAD, _UDDEADM_MAXRECIPIENTS_EXP); ?>
+			<?php uddeIMadmYesNo($config->addccline, 'config_addccline', false, _UDDEADM_CC_HEAD, _UDDEADM_CC_EXP); ?>
 			<?php uddeIMadmYesNo($config->allowmultipleuser, 'config_allowmultipleuser', !$config->allowmultiplerecipients, _UDDEADM_ALLOWMULTIPLEUSER_HEAD, _UDDEADM_ALLOWMULTIPLEUSER_EXP); ?>
 			<?php uddeIMadmYesNo($config->connexallowmultipleuser, 'config_connexallowmultipleuser', (!$is_cb && !$is_cbe2) || !$config->allowmultiplerecipients, _UDDEADM_CBALLOWMULTIPLEUSER_HEAD, _UDDEADM_CBALLOWMULTIPLEUSER_EXP); ?>
 			<?php uddeIMadmSelect($config->separator, 'config_separator', Array('1'=>_UDDEADM_SEPARATOR_P1, '0'=>_UDDEADM_SEPARATOR_P0), false, _UDDEADM_SEPARATOR_HEAD, _UDDEADM_SEPARATOR_EXP); ?>
 
 			<?php uddeIMadmSelect($config->enablelists, 'config_enablelists', Array('3'=>_UDDEADM_ENABLELISTS_3, '2'=>_UDDEADM_ENABLELISTS_2, '1'=>_UDDEADM_ENABLELISTS_1, '0'=>_UDDEADM_ENABLELISTS_0), !$config->allowmultiplerecipients, _UDDEADM_ENABLELISTS_HEAD, _UDDEADM_ENABLELISTS_EXP, $adminstyle); ?>
 			<?php uddeIMadmText($config->maxonlists, 4, 'config_maxonlists', !$config->enablelists || !$config->allowmultiplerecipients, _UDDEADM_MAXONLISTS_HEAD, _UDDEADM_MAXONLISTS_EXP); ?>
-
+			<?php uddeIMadmSelect($config->restrictcon, 'config_restrictcon', Array('3'=>_UDDEADM_RESTRICTCON3, '2'=>_UDDEADM_RESTRICTCON2, '1'=>_UDDEADM_RESTRICTCON1, '0'=>_UDDEADM_RESTRICTCON0), (!$is_js && !$is_cb && !$is_cbe), _UDDEADM_RESTRICTCON_HEAD, _UDDEADM_RESTRICTCON_EXP); ?>
+			<?php uddeIMadmYesNo($config->restrictrem, 'config_restrictrem', !$config->restrictcon, _UDDEADM_RESTRICTREM_HEAD, _UDDEADM_RESTRICTREM_EXP); ?>
+		
 			<?php uddeIMadmSelect($config->cryptmode, 'config_cryptmode', Array('4'=>_UDDEADM_CRYPT4, '3'=>_UDDEADM_CRYPT3, '2'=>_UDDEADM_CRYPT2, '1'=>_UDDEADM_CRYPT1, '0'=>_UDDEADM_CRYPT0), false, _UDDEADM_USEENCRYPTION, _UDDEADM_USEENCRYPTIONDESC, $adminstyle); ?>
 			<?php uddeIMadmText($config->cryptkey, 30, 'config_cryptkey', $config->cryptmode==0, _UDDEADM_OBFUSCATING_HEAD, _UDDEADM_OBFUSCATING_EXP); // BUGBUG: also cryptmode==3 ?>
 		</table>
@@ -1156,7 +1400,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	$tabs->startTab(_UDDEADM_DISPLAY,"display-tab");
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 			<?php uddeIMadmText($config->showtitle, 30, 'config_showtitle', false, _UDDEADM_SHOWTITLE_HEAD, _UDDEADM_SHOWTITLE_EXP); ?>
 			<?php
 				$tdirs = Array();
@@ -1177,7 +1421,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 				uddeIMadmSelect($config->templatedir, 'config_templatedir', $remodir, false, _UDDEADM_TEMPLATEDIR_HEAD, _UDDEADM_TEMPLATEDIR_EXP);
 			?>
 
-			<?php uddeIMadmSelect($config->showmenuicons, 'config_showmenuicons', Array('1'=>_UDDEIM_MENUICONS_P1, '2'=>_UDDEIM_MENUICONS_P2, '0'=>_UDDEIM_MENUICONS_P0), false, _UDDEADM_SHOWMENUICONS1_HEAD, _UDDEADM_SHOWMENUICONS1_EXP, $adminstyle); ?>
+			<?php uddeIMadmSelect($config->showmenuicons, 'config_showmenuicons', Array('1'=>_UDDEIM_MENUICONS_P1, '2'=>_UDDEIM_MENUICONS_P2, '3'=>_UDDEIM_MENUICONS_P3, '0'=>_UDDEIM_MENUICONS_P0), false, _UDDEADM_SHOWMENUICONS1_HEAD, _UDDEADM_SHOWMENUICONS1_EXP, $adminstyle); ?>
 			<?php uddeIMadmYesNo($config->showmenucount, 'config_showmenucount', false, _UDDEADM_SHOWMENUCOUNT_HEAD, _UDDEADM_SHOWMENUCOUNT_EXP); ?>
 			<?php uddeIMadmSelect($config->showsettingslink, 'config_showsettingslink', Array('2'=>_UDDEADM_SHOWSETTINGS_ATBOTTOM, '1'=>_UDDEADM_YES, '0'=>_UDDEADM_NO), false, _UDDEADM_SHOWSETTINGSLINK_HEAD, _UDDEADM_SHOWSETTINGSLINK_EXP); ?>
 
@@ -1225,7 +1469,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	$tabs->startTab(_UDDEADM_DELETIONS,"delete-tab");
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 			<?php uddeIMadmYesNo($config->ReadMessagesLifespanNote, 'config_ReadMessagesLifespanNote', false, _UDDEADM_DELETEREADAFTERNOTE_HEAD, _UDDEADM_DELETEREADAFTERNOTE_EXP); ?>
 			<?php uddeIMadmText($config->ReadMessagesLifespan, 4, 'config_ReadMessagesLifespan', false, _UDDEADM_DELETEREADAFTER_HEAD, _UDDEADM_DELETEREADAFTER_EXP, _UDDEADM_DAYS); ?>
 
@@ -1248,7 +1492,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	$tabs->startTab(_UDDEADM_INTEGRATION,"integration-tab");
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">	
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">	
 			<?php uddeIMadmYesNo($config->showonline, 'config_showonline', false, _UDDEADM_SHOWONLINE_HEAD, _UDDEADM_SHOWONLINE_EXP); ?>
 			<?php uddeIMadmYesNo($config->allowpopup, 'config_allowpopup', false, _UDDEADM_POPUP_HEAD, _UDDEADM_POPUP_EXP); ?>
 			<?php uddeIMadmYesNo($config->popupdefault, 'config_popupdefault', false, _UDDEADM_POPUPDEFAULT_HEAD, _UDDEADM_POPUPDEFAULT_EXP); ?>
@@ -1259,7 +1503,9 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 				</td>
 				<td align="left" valign="top"<?php echo $adminstyle; ?>>
 					<?php
-					// if ($is_bb)		$cbl[] = mosHTML::makeOption( '7', _UDDEADM_JOOBB );
+					if ($is_nb)		$cbl[] = mosHTML::makeOption( '10', _UDDEADM_NINJABOARD );
+					if ($is_ku)		$cbl[] = mosHTML::makeOption( '9', _UDDEADM_KUNENA16 );
+					if ($is_cm)		$cbl[] = mosHTML::makeOption( '8', _UDDEADM_JOOCM );
 					if ($is_aup)	$cbl[] = mosHTML::makeOption( '7', _UDDEADM_AUP );
 					if ($is_js)		$cbl[] = mosHTML::makeOption( '6', _UDDEADM_JOMSOCIAL );
 					if ($is_ku)		$cbl[] = mosHTML::makeOption( '5', _UDDEADM_KUNENA );
@@ -1282,7 +1528,9 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 				</td>
 				<td align="left" valign="top">
 					<?php
-					// if ($is_bb)		$cbp[] = mosHTML::makeOption( '7', _UDDEADM_JOOBB );
+					if ($is_nb)		$cbp[] = mosHTML::makeOption( '10', _UDDEADM_NINJABOARD );
+					if ($is_ku)		$cbp[] = mosHTML::makeOption( '9', _UDDEADM_KUNENA16 );
+					if ($is_cm)		$cbp[] = mosHTML::makeOption( '8', _UDDEADM_JOOCM );
 					if ($is_aup)	$cbp[] = mosHTML::makeOption( '7', _UDDEADM_AUP );
 					if ($is_js)		$cbp[] = mosHTML::makeOption( '6', _UDDEADM_JOMSOCIAL );
 					if ($is_ku)		$cbp[] = mosHTML::makeOption( '5', _UDDEADM_KUNENA );
@@ -1299,12 +1547,65 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 					<?php echo _UDDEADM_SHOWPIC_EXP; ?>
 				</td>
 			</tr>
-			<?php uddeIMadmYesNo($config->getpiclink, 'config_getpiclink', (!$is_cb && !$is_cbe2 && !$is_fb && !$is_ag && !$is_ku && !$is_js && !$is_aup), _UDDEADM_THUMBLISTS_HEAD, _UDDEADM_THUMBLISTS_EXP); ?>
+			<?php uddeIMadmYesNo($config->getpiclink, 'config_getpiclink', (!$is_cb && !$is_cbe2 && !$is_fb && !$is_ag && !$is_ku && !$is_cm && !$is_nb && !$is_js && !$is_aup), _UDDEADM_THUMBLISTS_HEAD, _UDDEADM_THUMBLISTS_EXP); ?>
+			<tr align="center" valign="middle">
+				<td align="left" valign="top">
+					<strong><?php echo _UDDEADM_AVATARWH_HEAD; ?></strong>
+				</td>
+				<td align="left" valign="top">
+					<input type="text" name="config_avatarw" size="4" value="<?php echo uddeIMquotecode($config->avatarw); ?>" /> /
+					<input type="text" name="config_avatarh" size="4" value="<?php echo uddeIMquotecode($config->avatarh); ?>" />
+				</td>
+				<td align="left" valign="top" width="50%">
+					<?php echo _UDDEADM_AVATARWH_EXP; ?>
+				</td>
+			</tr>
 			<?php uddeIMadmYesNo($config->showconnex, 'config_showconnex', (!$is_js && !$is_cb && !$is_cbe2), _UDDEADM_SHOWCONNEX_HEAD, _UDDEADM_SHOWCONNEX_EXP); ?>
 			<?php uddeIMadmSelect($config->connex_listbox, 'config_connex_listbox', Array('1'=>_UDDEADM_LISTBOX, '0'=>_UDDEADM_TABLE), (!$is_js && !$is_cb && !$is_cbe), _UDDEADM_CONLISTBOX, _UDDEADM_CONLISTBOXDESC); ?>
 
 			<?php uddeIMadmYesNo($config->CBgallery, 'config_CBgallery', (!$is_cb && !$is_cbe2), _UDDEADM_CBGALLERY_HEAD, _UDDEADM_CBGALLERY_EXP, $adminstyle); ?>
 			<?php uddeIMadmYesNo($config->checkbanned, 'config_checkbanned', (!$is_cb && !$is_cbe2), _UDDEADM_CBBANNED_HEAD, _UDDEADM_CBBANNED_EXP); ?>
+
+			<?php uddeIMadmYesNo($config->gravatar, 'config_gravatar', (!$is_cb && !$is_cbe && !$is_cbe2 && !$is_fb && !$is_ag && !$is_ku && !$is_nb && !$is_cm), _UDDEADM_GRAVATAR_HEAD, _UDDEADM_GRAVATAR_EXP, $adminstyle); ?>
+			<tr align="center" valign="middle">
+				<td align="left" valign="top">
+<?php				echo uddeIMprintCond((!$config->gravatar || $is_nb), _UDDEADM_GRAVATARD_HEAD, "gray", true); ?>
+				</td>
+				<td align="left" valign="top">
+					<?php
+					$grd[] = mosHTML::makeOption( '404', 		_UDDEADM_GR404 );
+					$grd[] = mosHTML::makeOption( 'mm', 		_UDDEADM_GRMM );
+					$grd[] = mosHTML::makeOption( 'identicon', 	_UDDEADM_GRIDENTICON );
+					$grd[] = mosHTML::makeOption( 'monsterid', 	_UDDEADM_GRMONSTERID );
+					$grd[] = mosHTML::makeOption( 'wavatar', 	_UDDEADM_GRWAVATAR );
+					$grd[] = mosHTML::makeOption( 'retro', 		_UDDEADM_GRRETRO );
+					$grd[] = mosHTML::makeOption( '',			_UDDEADM_GRDEFAULT );
+					$list_grd = mosHTML::selectList( $grd, 'config_gravatard', 'class="inputbox" size="1"', 'value', 'text', $config->gravatard );
+					echo $list_grd;
+					?>
+				</td>
+				<td align="left" valign="top" width="50%">
+<?php				echo uddeIMprintCond((!$config->gravatar || $is_nb), _UDDEADM_GRAVATARD_EXP, "gray", false); ?>
+				</td>
+			</tr>
+			<tr align="center" valign="middle">
+				<td align="left" valign="top">
+<?php				echo uddeIMprintCond((!$config->gravatar || $is_nb), _UDDEADM_GRAVATARR_HEAD, "gray", true); ?>
+				</td>
+				<td align="left" valign="top">
+					<?php
+					$grr[] = mosHTML::makeOption( 'g', 	_UDDEADM_GRG );
+					$grr[] = mosHTML::makeOption( 'pg', _UDDEADM_GRPG );
+					$grr[] = mosHTML::makeOption( 'r', 	_UDDEADM_GRR );
+					$grr[] = mosHTML::makeOption( 'x', 	_UDDEADM_GRX );
+					$list_grr = mosHTML::selectList( $grr, 'config_gravatarr', 'class="inputbox" size="1"', 'value', 'text', $config->gravatarr );
+					echo $list_grr;
+					?>
+				</td>
+				<td align="left" valign="top" width="50%">
+<?php				echo uddeIMprintCond((!$config->gravatar || $is_nb), _UDDEADM_GRAVATARR_EXP, "gray", false); ?>
+				</td>
+			</tr>
 		</table>
 <?php
 	$tabs->endTab(_UDDEADM_INTEGRATION,"integration-tab");			
@@ -1315,7 +1616,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	$tabs->startTab(_UDDEADM_EMAIL,"email-tab");
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">		
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">		
 			<?php uddeIMadmSelect($config->allowemailnotify, 'config_allowemailnotify', Array('2'=>_UDDEADM_ADMINSONLY, '1'=>_UDDEADM_YES, '0'=>_UDDEADM_NO), false, _UDDEADM_ALLOWEMAILNOTIFY_HEAD, _UDDEADM_ALLOWEMAILNOTIFY_EXP); ?>
 			<?php uddeIMadmSelect($config->notifydefault, 'config_notifydefault', Array('2'=>_UDDEADM_NOTIFYDEF_2, '1'=>_UDDEADM_NOTIFYDEF_1, '0'=>_UDDEADM_NOTIFYDEF_0), false, _UDDEADM_NOTIFYDEFAULT_HEAD, _UDDEADM_NOTIFYDEFAULT_EXP); ?>
 			<?php uddeIMadmSelect($config->emailwithmessage, 'config_emailwithmessage', Array('2'=>_UDDEADM_ADDEMAIL_ADMIN, '1'=>_UDDEADM_YES, '0'=>_UDDEADM_NO), false, _UDDEADM_EMAILWITHMESSAGE_HEAD, _UDDEADM_EMAILWITHMESSAGE_EXP); ?>
@@ -1337,7 +1638,10 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 			<?php uddeIMadmSelect($config->autoresponder, 'config_autoresponder', Array('2'=>_UDDEADM_ADMINSONLY, '1'=>_UDDEADM_YES, '0'=>_UDDEADM_NO), false, _UDDEADM_AUTORESPONDER_HEAD, _UDDEADM_AUTORESPONDER_EXP, $adminstyle); ?>
 			<?php uddeIMadmSelect($config->autoforward, 'config_autoforward', Array('2'=>_UDDEADM_ADMINSONLY, '3'=>_UDDEADM_AUTOFORWARD_SPECIAL, '1'=>_UDDEADM_YES, '0'=>_UDDEADM_NO), false, _UDDEADM_AUTOFORWARD_HEAD, _UDDEADM_AUTOFORWARD_EXP); ?>
 
+			<?php uddeIMadmYesNo($config->dontsefmsglink, 'config_dontsefmsglink', false, _UDDEADM_DONTSEFMSGLINK_HEAD, _UDDEADM_DONTSEFMSGLINK_EXP, $adminstyle); ?>
+
 			<?php uddeIMadmSelect($config->emailtrafficenabled, 'config_emailtrafficenabled', Array('0'=>_UDDEADM_YES, '1'=>_UDDEADM_NO), false, _UDDEADM_STOPALLEMAIL_HEAD, _UDDEADM_STOPALLEMAIL_EXP, $adminstyle); ?>
+
 		</table>
 <?php
 	$tabs->endTab(_UDDEADM_EMAIL,"email-tab");				
@@ -1348,7 +1652,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	$tabs->startTab(_UDDEADM_BLOCK,"block-tab");	
 ?>		
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 			<?php uddeIMadmYesNo($config->blocksystem, 'config_blocksystem', false, _UDDEADM_BLOCKSYSTEM_HEAD, _UDDEADM_BLOCKSYSTEM_EXP); ?>
 			<?php uddeIMadmYesNo($config->blockalert, 'config_blockalert', !$config->blocksystem, _UDDEADM_BLOCKALERT_HEAD, _UDDEADM_BLOCKALERT_EXP); ?>
 <?php
@@ -1363,12 +1667,13 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 				<td align="left" valign="top"<?php echo $adminstyle; ?>>
 <?php
 					echo '<table border="0" cellpadding="0" cellspacing="0"><tr>';
-					if (uddeIMcheckJversion()>=2)
+					if (uddeIMcheckJversion()>=2) {
 						$query = "SELECT id, title AS name FROM #__usergroups ORDER BY id";
-					else if (uddeIMcheckJversion()>=1)
+					} elseif (uddeIMcheckJversion()>=1) {
 						$query = "SELECT id, name FROM #__core_acl_aro_groups WHERE id NOT IN ( 17, 28, 29, 30 ) ORDER BY id";
-					else
+					} else {
 						$query = "SELECT group_id AS id, name FROM #__core_acl_aro_groups WHERE group_id NOT IN ( 17, 28, 29, 30 ) ORDER BY group_id";
+					}
 
 					$database->setQuery( $query );
 					$usergroups = $database->loadObjectList();
@@ -1379,7 +1684,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 						if (in_array($usergroup->id,$xxx))
 							$checked = 'checked="checked"';
 						$count++;
-						echo '<td><input type="checkbox" name="config_blockgroups['.$count.']" '.$checked.' value="'.$usergroup->id.'" id="cb'.$count.'" class="inputbox" /><label for="cb'.$count.'">'.$usergroup->name.'</label></td>';
+						echo '<td><input style="float:none;" type="checkbox" name="config_blockgroups['.$count.']" '.$checked.' value="'.$usergroup->id.'" id="cb'.$count.'" class="inputbox" /><label style="margin-left:4px;display:inline;float:none;" for="cb'.$count.'">'.$usergroup->name.'</label></td>';
 						if (!($count % $numofcol))
 							echo '</tr><tr>';
 					}
@@ -1422,7 +1727,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 						if (in_array($usergroup->id,$xxx))
 							$checked = 'checked="checked"';
 						$count++;
-						echo '<td><input type="checkbox" name="config_pubblockgroups['.$count.']" '.$checked.' value="'.$usergroup->id.'" id="pcb'.$count.'" class="inputbox" /><label for="pcb'.$count.'">'.$usergroup->name.'</label></td>';
+						echo '<td><input style="float:none;" type="checkbox" name="config_pubblockgroups['.$count.']" '.$checked.' value="'.$usergroup->id.'" id="pcb'.$count.'" class="inputbox" /><label style="margin-left:4px;display:inline;float:none;" for="pcb'.$count.'">'.$usergroup->name.'</label></td>';
 						if (!($count % $numofcol))
 							echo '</tr><tr>';
 					}
@@ -1447,7 +1752,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	$tabs->startTab(_UDDEADM_ARCHIVE,"archive-tab");	
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 			<?php uddeIMadmYesNo($config->allowarchive, 'config_allowarchive', false, _UDDEADM_ALLOWARCHIVE_HEAD, _UDDEADM_ALLOWARCHIVE_EXP); ?>
 			<?php uddeIMadmText($config->maxarchive, 4, 'config_maxarchive', false, _UDDEADM_MAXARCHIVE_HEAD, _UDDEADM_MAXARCHIVE_EXP); ?>
 			<?php uddeIMadmYesNo($config->inboxlimit, 'config_inboxlimit', false, _UDDEADM_INBOXLIMIT_HEAD, _UDDEADM_INBOXLIMIT_EXP); ?>
@@ -1463,7 +1768,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	$tabs->startTab(_UDDEADM_DATESETTINGS,"date-tab");			
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm id="adminForm">
 			<?php 
 				$df = Array();
 				$df[ 'j M, H:i' ] =    '5 Aug, 22:40';
@@ -1510,7 +1815,10 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 				uddeIMadmSelect($config->ldatumsformat, 'config_ldatumsformat', $ldf, false, _UDDEADM_LDATEFORMAT_HEAD, _UDDEADM_LDATEFORMAT_EXP);
 			?>
 
-			<?php uddeIMadmText($config->timezone, 4, 'config_timezone', false, _UDDEADM_TIMEZONE_HEAD, _UDDEADM_TIMEZONE_EXP, '', $adminstyle); ?>
+			<?php 
+				uddeIMadmText($config->timezone, 4, 'config_timezone', false, _UDDEADM_TIMEZONE_HEAD, _UDDEADM_TIMEZONE_EXP, '', $adminstyle);
+				uddeIMadmYesNo($config->stime, 'config_stime', false, _UDDEADM_STIME_HEAD, _UDDEADM_STIME_EXP);
+			?>
 		</table>														
 <?php
 	$tabs->endTab(_UDDEADM_DATESETTINGS, "date-tab");
@@ -1522,14 +1830,16 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 	if ($plugin_public) {
 		$tabs->startTab(_UDDEADM_PUBLIC,"public-tab");
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 			<?php uddeIMadmYesNo($config->pubfrontend, 'config_pubfrontend', false, _UDDEADM_PUBFRONTEND_HEAD, _UDDEADM_PUBFRONTEND_EXP); ?>
 			<?php uddeIMadmSelect($config->pubfrontenddefault, 'config_pubfrontenddefault', Array('1'=>_UDDEADM_PUBDEF1, '0'=>_UDDEADM_PUBDEF0), !$config->pubfrontend, _UDDEADM_PUBFRONTENDDEF_HEAD, _UDDEADM_PUBFRONTENDDEF_EXP); ?>
 			<?php uddeIMadmSelect($config->pubmodeshowallusers, 'config_pubmodeshowallusers', Array('2'=>_UDDEADM_MODESHOWALLUSERS_2, '1'=>_UDDEADM_MODESHOWALLUSERS_1, '0'=>_UDDEADM_MODESHOWALLUSERS_0), !$config->pubfrontend, _UDDEADM_PUBMODESHOWALLUSERS_HEAD, _UDDEADM_PUBMODESHOWALLUSERS_EXP); ?>
 			<?php uddeIMadmSelect($config->pubrealnames, 'config_pubrealnames', Array('1'=>_UDDEADM_REALNAMES, '0'=>_UDDEADM_USERNAMES), !$config->pubfrontend, _UDDEADM_PUBNAMESTEXT, _UDDEADM_PUBNAMESDESC); ?>
 			<?php uddeIMadmSelect($config->pubhideallusers, 'config_pubhideallusers', Array('3'=>_UDDEADM_HIDEALLUSERS_3, '2'=>_UDDEADM_HIDEALLUSERS_2, '1'=>_UDDEADM_HIDEALLUSERS_1, '0'=>_UDDEADM_HIDEALLUSERS_0), !$config->pubfrontend, _UDDEADM_PUBHIDEALLUSERS_HEAD, _UDDEADM_PUBHIDEALLUSERS_EXP); ?>
 			<?php uddeIMadmText($config->pubhideusers, 20, 'config_pubhideusers', !$config->pubfrontend, _UDDEADM_PUBHIDEUSERS_HEAD, _UDDEADM_PUBHIDEUSERS_EXP); ?>
+			<?php uddeIMadmYesNo($config->pubemail, 'config_pubemail', !$config->pubemail, _UDDEADM_PUBEMAIL_HEAD, _UDDEADM_PUBEMAIL_EXP); ?>
 			<?php uddeIMadmYesNo($config->pubreplies, 'config_pubreplies', !$config->pubfrontend, _UDDEADM_PUBREPLYS_HEAD, _UDDEADM_PUBREPLYS_EXP); ?>
+			<?php uddeIMadmYesNo($config->modpubusers, 'config_modpubusers', !$config->pubfrontend, _UDDEADM_MODPUBUSERS_HEAD, _UDDEADM_MODNEWUSERS_EXP); ?>
 
 			<?php uddeIMadmYesNo($config->pubuseautocomplete, 'config_pubuseautocomplete', !$config->pubfrontend, _UDDEADM_USEAUTOCOMPLETE_HEAD, _UDDEADM_USEAUTOCOMPLETE_EXP, $adminstyle); ?>
 			<?php uddeIMadmYesNo($config->pubsearchinstring, 'config_pubsearchinstring', !$config->pubuseautocomplete, _UDDEADM_SEARCHINSTRING_HEAD, _UDDEADM_SEARCHINSTRING_EXP); ?>
@@ -1544,7 +1854,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	$tabs->startTab(_UDDEADM_SYSTEM,"system-tab");	
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 			<?php 
 				$temp  = _UDDEADM_ADMINIGNITIONONLY_EXP."<br />";
 				$temp .= "<a href=".uddeIMredirectIndex()."?option=com_uddeim&task=maintenanceprune>"._UDDEADM_MAINTENANCE_PRUNE."</a>";
@@ -1564,22 +1874,33 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 			<?php uddeIMadmYesNo($config->csrfprotection, 'config_csrfprotection', false, _UDDEADM_CSRFPROTECTION_HEAD, _UDDEADM_CSRFPROTECTION_EXP); ?>
 
 			<?php uddeIMadmText($config->timedelay, 4, 'config_timedelay', false, _UDDEADM_TIMEDELAY_HEAD, _UDDEADM_TIMEDELAY_EXP, _UDDEADM_SECONDS, $adminstyle); ?>
+			<?php uddeIMadmText($config->waitdays, 4, 'config_waitdays', false, _UDDEADM_WAITDAYS_HEAD, _UDDEADM_WAITDAYS_EXP, _UDDEADM_DAYS); ?>
 
 			<?php uddeIMadmText($config->charset, 10, 'config_charset', false, _UDDEADM_CHARSET_HEAD, _UDDEADM_CHARSET_EXP, '', $adminstyle); ?>
 			<?php uddeIMadmText($config->mailcharset, 10, 'config_mailcharset', false, _UDDEADM_MAILCHARSET_HEAD, _UDDEADM_MAILCHARSET_EXP); ?>
 			<?php uddeIMadmYesNo($config->encodeheader, 'config_encodeheader', false, _UDDEADM_ENCODEHEADER_HEAD, _UDDEADM_ENCODEHEADER_EXP); ?>
 			<?php uddeIMadmSelect($config->languagecharset, 'config_languagecharset', Array('1'=>_UDDEADM_LANGUAGECHARSET_UTF8, '0'=>_UDDEADM_LANGUAGECHARSET_DEFAULT), false, _UDDEADM_LANGUAGECHARSET_HEAD, _UDDEADM_LANGUAGECHARSET_EXP); ?>
 
-			<?php uddeIMadmSelect($config->mootools, 'config_mootools', Array('5'=>_UDDEADM_MOOTOOLS_NONE12, '4'=>_UDDEADM_MOOTOOLS_NONE11, '3'=>_UDDEADM_MOOTOOLS_2, '2'=>_UDDEADM_MOOTOOLS_1, '1'=>_UDDEADM_MOOTOOLS_AUTO, '0'=>_UDDEADM_MOOTOOLS_NONE), false, _UDDEADM_MOOTOOLS_HEAD, _UDDEADM_MOOTOOLS_EXP, $adminstyle); ?>
+			<?php uddeIMadmSelect($config->mootools, 'config_mootools', Array('7'=>_UDDEADM_MOOTOOLS_13MEIO, '6'=>_UDDEADM_MOOTOOLS_NONEMEIO, '5'=>_UDDEADM_MOOTOOLS_NONE12, '4'=>_UDDEADM_MOOTOOLS_NONE11, '3'=>_UDDEADM_MOOTOOLS_2, '2'=>_UDDEADM_MOOTOOLS_1, '1'=>_UDDEADM_MOOTOOLS_AUTO, '0'=>_UDDEADM_MOOTOOLS_NONE), false, _UDDEADM_MOOTOOLS_HEAD, _UDDEADM_MOOTOOLS_EXP, $adminstyle); ?>
 
 			<?php 
 				$temp  = _UDDEADM_OVERWRITEITEMID_EXP." ";
 				$gid = uddeIMgetGroupID();
-				$sql="SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=1 AND access".($gid==0 ? "=" : "<=").$gid." LIMIT 1";
+				$sql="SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=1 AND access".($gid==0 ? "=" : "<=").$gid;
+				if (uddeIMcheckJversion()>=2) {		// J1.6
+					$lang = &JFactory::getLanguage();
+					$sql.=" AND language IN (" . $database->Quote($lang->get('tag')) . ",'*')";
+				}
+				$sql.=" LIMIT 1";
 				$database->setQuery($sql);
 				$found = (int)$database->loadResult();
 				if (!$found) {
-					$sql="SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=0 AND access".($gid==0 ? "=" : "<=").$gid." LIMIT 1";
+					$sql="SELECT id FROM #__menu WHERE link LIKE '%com_uddeim%' AND published=0 AND access".($gid==0 ? "=" : "<=").$gid;
+					if (uddeIMcheckJversion()>=2) {		// J1.6
+						$lang = &JFactory::getLanguage();
+						$sql.=" AND language IN (" . $database->Quote($lang->get('tag')) . ",'*')";
+					}
+					$sql.=" LIMIT 1";
 					$database->setQuery($sql);
 					$found = (int)$database->loadResult();
 				}
@@ -1601,6 +1922,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 			<?php uddeIMadmText($config->rsslimit, 4, 'config_rsslimit', !$config->enablerss, _UDDEADM_RSSLIMIT_HEAD, _UDDEADM_RSSLIMIT_EXP); ?>
 
 			<?php uddeIMadmYesNo($config->enableattachment, 'config_enableattachment', false, _UDDEADM_ENABLEATTACHMENT_HEAD, _UDDEADM_ENABLEATTACHMENT_EXP.uddeIMnoPremium(!$plugin_attachment), $adminstyle); ?>
+			<?php uddeIMadmYesNo($config->unprotectdownloads, 'config_unprotectdownloads', false, _UDDEADM_UNPROTECTATTACHMENT_HEAD, _UDDEADM_UNPROTECTATTACHMENT_EXP); ?>
 			<?php uddeIMadmYesNo($config->showlistattachment, 'config_showlistattachment', !$config->enableattachment, _UDDEADM_SHOWLISTATTACHMENT_HEAD, _UDDEADM_SHOWLISTATTACHMENT_EXP); ?>
 <?php
 			$xxx = explode(",", $config->attachmentgroups);
@@ -1631,7 +1953,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 						$count++;
 						echo '<td>';
 						// if (!$config->enableattachment) echo "<span style='color: gray;'>";
-						echo '<input type="checkbox" name="config_attachmentgroups['.$count.']" '.$checked.' value="'.$usergroup->id.'" id="cb'.$count.'" class="inputbox" /><label for="cb'.$count.'">'.$usergroup->name.'</label>';
+						echo '<input style="float:none;" type="checkbox" name="config_attachmentgroups['.$count.']" '.$checked.' value="'.$usergroup->id.'" id="cb'.$count.'" class="inputbox" /><label style="margin-left:4px;display:inline;float:none;" for="cb'.$count.'">'.$usergroup->name.'</label>';
 						// if (!$config->enableattachment) echo "</span>";
 						echo '</td>';
 						if (!($count % $numofcol))
@@ -1648,8 +1970,8 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 <?php				echo uddeIMprintCond(!$config->enableattachment, _UDDEADM_ATTACHMENTGROUPS_EXP, "gray", false); ?>
 				</td>
 			</tr>										
-
 			<?php uddeIMadmText($config->maxsizeattachment, 10, 'config_maxsizeattachment', !$config->enableattachment, _UDDEADM_MAXSIZEATTACHMENT_HEAD, _UDDEADM_MAXSIZEATTACHMENT_EXP); ?>
+			<?php uddeIMadmText($config->allowedextensions, 40, 'config_allowedextensions', !$config->enableattachment, _UDDEADM_ALLOWEDEXTENSIONS_HEAD, _UDDEADM_ALLOWEDEXTENSIONS_EXP); ?>
 			<?php 
 				$amatt = Array();
 				$amatt['3'] = "3";
@@ -1663,6 +1985,9 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 				uddeIMadmSelect($config->fileadminignitiononly, 'config_fileadminignitiononly', Array('1'=>_UDDEADM_FILEADMINIGNITIONONLY_YES, '0'=>_UDDEADM_FILEADMINIGNITIONONLY_NO, '2'=>_UDDEADM_FILEADMINIGNITIONONLY_MANUALLY), !$config->enableattachment, _UDDEADM_FILEADMINIGNITIONONLY_HEAD, $temp);
 			?>
 
+			<?php uddeIMadmYesNo($config->modnewusers, 'config_modnewusers', !$plugin_mcp, _UDDEADM_MODNEWUSERS_HEAD, _UDDEADM_MODNEWUSERS_EXP.uddeIMnoPremium(!$plugin_mcp), $adminstyle); ?>
+
+			<?php uddeIMadmYesNo($config->enablepostbox, 'config_enablepostbox', !$plugin_postbox, _UDDEADM_POSTBOX_HEAD, _UDDEADM_POSTBOX_EXP.uddeIMnoPremium(!$plugin_postbox), $adminstyle); ?>
 		</table>
 <?php	
 	$tabs->endTab(_UDDEADM_SYSTEM, "system-tab");	
@@ -1674,7 +1999,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 	if ($config->pmsimportdone<=1) {	// PMS found or already imported (=2 means suppress this tab, set when no PMS is found)
 		$tabs->startTab(_UDDEADM_IMPORT,"import-tab");
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 			<tr align="center" valign="middle">
 				<td align="left" valign="top">
 					<h2><?php echo _UDDEADM_IMPORT_HEADER; ?></h2>
@@ -1704,6 +2029,9 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 							case 10: $sql = "SELECT count(id) FROM #__mypms"; break;
 							case 11: $sql = "SELECT count(id) FROM #__jim"; break;
 							case 12: $sql = "SELECT count(id) FROM #__pms"; break;
+							case 13: $sql = "SELECT count(*) FROM #__community_msg_recepient"; break;
+							case 14: $sql = "SELECT count(n) FROM #__messaging"; break;
+							case 15: $sql = "SELECT count(id) FROM #__cdpuremessenger"; break;
 						}
 						$database->setQuery($sql);
 						$allpms=(int)$database->loadResult();
@@ -1759,7 +2087,7 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	$tabs->startTab(_UDDEADM_MAINTENANCE,"maintenance-tab");
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 			<tr align="center" valign="middle">
 				<td align="left" valign="top">
 					<strong><?php echo _UDDEADM_MAINTENANCE_HEAD; ?></strong>
@@ -1800,6 +2128,9 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 					<?php echo _UDDEADM_FILEMAINTENANCEDEL_EXP; ?>
 				</td>
 			</tr>						
+<?php
+		if (uddeIMcheckJversion()>0) {
+?>
 			<tr align="center" valign="middle">
 				<td align="left" valign="top">
 					<strong><?php echo _UDDEADM_MAINTENANCEFIX_HEAD; ?></strong>
@@ -1814,6 +2145,9 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 					<?php echo _UDDEADM_MAINTENANCEFIX_EXP; ?>
 				</td>
 			</tr>						
+<?php
+		}
+?>
 <?php
 				$query = "SELECT value FROM #__uddeim_config WHERE varname='_backupdate'";
 				$database->setQuery($query);
@@ -1871,18 +2205,19 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 
 	$tabs->startTab(_UDDEADM_ABOUT,"about-tab");
 ?>
-		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+		<table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 			<tr align="center" valign="middle">
 				<td align="left" valign="top">
 					<h2>uddeIM</h2>
 					<?php echo "<p><span style='color: red;'>".$uddeimversion."</span></p>\n"; ?>
 
 					<p><b>uddeIM (Instant Messsages)</b><br />
-					PMS component for Joomla 1.0, Joomla 1.5 and Mambo 4.5<br />
-					&copy; 2007-2009 Stephan Slabihoud, &copy; 2005-2006 by Benjamin Zweifel</p>
+					PMS component for Joomla 1.0, Joomla 1.5, Joomla 1.6 and Mambo 4.5<br />
+					&copy; 2007-2011 Stephan Slabihoud, &copy; 2005-2006 by Benjamin Zweifel</p>
 
 					<p>Language file: <?php echo $usedlanguage; ?></p>
-					
+					<?php echo "<p>"._UDDEADM_TRANSLATORS_CREDITS."</p>"; ?>
+
 					<p><b>Thanks in advance...</b><br />
 					You can use and distribute uddeIM freely, but if you really find it useful, a small donation would be 
 					very appreciated. uddeIM is the result of hard work, spending hours developing and testing this component.
@@ -1921,26 +2256,33 @@ function uddeIMshowSettings($option, $task, $usedlanguage, $pathtoadmin, $pathto
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" />
 <input type="hidden" name="cmd" value="_xclick" />
 <input type="hidden" name="business" value="paypal@slabihoud.de" />
-<input type="hidden" name="item_name" value="Unterstuetzung uddeIM Entwicklung" />
+<input type="hidden" name="page_style" value="uddeIM" />
+<input type="hidden" name="item_name" value="Unterstützung uddeIM Entwicklung" />
+<input type="hidden" name="charset" value="ISO-8859-1" />
+<input type="hidden" name="item_number" value="2110001" />
 <input type="hidden" name="no_shipping" value="1" />
 <input type="hidden" name="no_note" value="1" />
+<input type="hidden" name="cn" value="">
 <input type="hidden" name="currency_code" value="EUR" />
 <input type="hidden" name="tax" value="0" />
 <input type="hidden" name="lc" value="DE" />
-<input type="hidden" name="bn" value="PP-DonationsBF" />
+<input type="hidden" name="bn" value="PP-DonationsBF:donate_d.gif:NonHosted" />
 <input type="image" src="<?php echo uddeIMgetPath('live_site')."/components/com_uddeim/templates/images/donate_d.gif"; ?>" border="0" name="submit" alt="PayPal Spenden" />
 </form>
 </td><td>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" />
 <input type="hidden" name="cmd" value="_xclick" />
 <input type="hidden" name="business" value="paypal@slabihoud.de" />
+<input type="hidden" name="page_style" value="uddeIM" />
 <input type="hidden" name="item_name" value="Donation uddeIM development" />
+<input type="hidden" name="item_number" value="2110001" />
 <input type="hidden" name="no_shipping" value="1" />
 <input type="hidden" name="no_note" value="1" />
+<input type="hidden" name="cn" value="">
 <input type="hidden" name="currency_code" value="USD" />
 <input type="hidden" name="tax" value="0" />
 <input type="hidden" name="lc" value="US" />
-<input type="hidden" name="bn" value="PP-DonationsBF" />
+<input type="hidden" name="bn" value="PP-DonationsBF:donate_en.gif:NonHosted" />
 <input type="image" src="<?php echo uddeIMgetPath('live_site')."/components/com_uddeim/templates/images/donate_en.gif"; ?>" border="0" name="submit" alt="PayPal Donations" />
 </form>
 </td></tr></table>
@@ -2025,17 +2367,19 @@ function uddeIMarchivetoTrash($option, $task, $act, $config) {
 		$redirecturl = uddeIMredirectIndex()."?option=com_uddeim";
 		uddeIMmosRedirect($redirecturl, $mosmsg);
 	} else {
+
+	//			      <h4><img align=middle style="display: inline;" src="images/inbox.png" />&nbsp; echo _UDDEADM_SETTINGS; </h4>
 ?>
 
 	  <table cellpadding="4" cellspacing="0" border="0" width="100%">
 	  	<tr>
     		<td width="100%" class="sectionname">
-			      <h4><img align=middle style="display: inline;" src="images/inbox.png" />&nbsp;<?php echo _UDDEADM_SETTINGS; ?></h4>
+			      <h4><?php echo _UDDEADM_SETTINGS; ?></h4>
 		    </td>
 		</tr>
 	  </table>
 
-	  <table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm">
+	  <table width="100%" border="0" cellpadding="4" cellspacing="2" class="adminForm" id="adminForm">
 		    <tr align="center" valign="middle">
 			    <td align="left" valign="top">
 						<?php
@@ -2137,7 +2481,7 @@ function uddeIMmaintenanceCheckTrash($option, $task, $act, $config) {
 			}
 			if ($act=="trash" && ($mvon>0 || $man>0 || $memn>0 || $mbl1>0 || $mbl2>0)) {
 				echo _UDDEADM_MAINTENANCE_MT2." #$i<br />";
-				$query = "DELETE FROM #__uddeim_emn WHERE userid=".$i;
+				$query = "DELETE FROM #__uddeim_emn WHERE userid=".(int)$i;
 				$database->setQuery($query);
 				if (!$database->query()) { die("SQL error" . $database->stderr(true)); }	
 
@@ -2240,6 +2584,26 @@ function uddeIMmaintenanceCheckTrash($option, $task, $act, $config) {
 		// now prune all messages and files
 		uddeIMdoPrune($config);
 		uddeIMdoFilePrune($config);
+		
+	}
+
+	// not really a database fix but helpful for existing Joomla 1.0 installations
+	if ($act=="trash" && uddeIMcheckJversion()<=1) {
+		//$database = uddeIMgetDatabase();
+		//$query = "SELECT COUNT(id) FROM #__components WHERE admin_menu_img <> '../components/com_uddeim/templates/images/uddeim-favicon.png' WHERE admin_menu_link = 'option=com_uddeim'";
+		//$database->setQuery($query);
+		//$ret = (int)$database->loadResult();
+		//if ($ret) {
+			// ok this is not really an XML fix but its ok
+			$database = uddeIMgetDatabase();
+			$database->setQuery( "UPDATE #__components SET admin_menu_img = '../components/com_uddeim/templates/images/uddeim-favicon.png' WHERE admin_menu_link = 'option=com_uddeim'" );
+			$database->query();
+		//}
+	}
+	if ($act=="trash" && uddeIMcheckJversion()>=2) {
+		$database = uddeIMgetDatabase();
+		$database->setQuery( "UPDATE #__menu SET img = '../components/com_uddeim/templates/images/uddeim-favicon.png' WHERE link = 'index.php?option=com_uddeim'" );
+		$database->query();
 	}
 
 	if ($act=="check") {
@@ -2451,6 +2815,61 @@ function uddeIMconvertConfiguration($option, $task, $pathtoadmin, $expectedversi
 		$config->recaptchaprv = 'private-key';
 		$config->recaptchapub = 'public-key';
 	}
+	if ($config->version<="1.5") {
+		echo _UDDEADM_CFGFILE_CONVERTING_7."<br />";
+		$config->unprotectdownloads = 0;
+		$config->waitdays = 0;
+		$config->allowedextensions = "";
+		$config->pubemail = 0;
+	}
+	if ($config->version<="1.6") {
+		echo _UDDEADM_CFGFILE_CONVERTING_8."<br />";
+		$config->avatarw = 0;
+		$config->avatarh = 0;
+		if (uddeIMfileExists("/administrator/components/com_comprofiler/ue_config.php")) {
+			global $ueConfig;
+			include_once(uddeIMgetPath('absolute_path')."/administrator/components/com_comprofiler/ue_config.php");
+			if (isset($ueConfig['thumbWidth'])) {
+				if ($ueConfig['thumbWidth'])
+					$config->avatarw = (int)$ueConfig['thumbWidth'];
+			}
+			if (isset($ueConfig['thumbHeight'])) {
+				if ($ueConfig['thumbHeight'])
+					$config->avatarh = (int)$ueConfig['thumbHeight'];
+			}
+		} elseif (uddeIMfileExists("/administrator/components/com_cbe/ue_config.php")) {
+			global $ueConfig;
+			include_once(uddeIMgetPath('absolute_path')."/administrator/components/com_cbe/ue_config.php");
+			if (isset($ueConfig['thumbWidth'])) {
+				if ($ueConfig['thumbWidth'])
+					$config->avatarw = (int)$ueConfig['thumbWidth'];
+			}
+			if (isset($ueConfig['thumbHeight'])) {
+				if ($ueConfig['thumbHeight'])
+					$config->avatarh = (int)$ueConfig['thumbHeight'];
+			}
+		}
+		$config->gravatar = 0;
+		$config->gravatard = '';
+		$config->gravatarr = 'g';
+	}
+	if ($config->version<="1.8") {
+		echo _UDDEADM_CFGFILE_CONVERTING_9."<br />";
+		$config->addccline = 0;
+		$config->modnewusers = 0;
+		$config->modpubusers = 0;
+	}
+	if ($config->version<="1.9") {
+		echo _UDDEADM_CFGFILE_CONVERTING_10."<br />";
+		$config->restrictcon = 0;
+		$config->restrictrem = 0;
+		$config->stime = 0;
+		$config->dontsefmsglink = 0;
+	}
+	if ($config->version<="2.0") {
+		echo _UDDEADM_CFGFILE_CONVERTING_11."<br />";
+		$config->enablebostbox = 0;
+	}
 	echo "</p>";
 
 	// do the converting here
@@ -2463,7 +2882,7 @@ function uddeIMbackupRestoreConfig($option, $task, $act, $pathtoadmin, $config) 
 	$database = uddeIMgetDatabase();
 	if ($act=="backup") {
 		$backup = array();
-		$backup['_backupdate']					= uddeDate(uddetime($config->timezone), $config);
+		$backup['_backupdate']					= uddeLdate(uddetime($config->timezone), $config, uddeIMgetUserTZ());
 		$backup['version'] 						= $config->version;
 		$backup['cryptkey'] 					= $config->cryptkey;
 		$backup['datumsformat'] 				= $config->datumsformat;
@@ -2485,6 +2904,11 @@ function uddeIMbackupRestoreConfig($option, $task, $act, $pathtoadmin, $config) 
 		$backup['hideusers'] 					= $config->hideusers;
 		$backup['pubhideusers'] 				= $config->pubhideusers;
 		$backup['attachmentgroups'] 			= $config->attachmentgroups;
+		$backup['recaptchaprv'] 				= $config->recaptchaprv;
+		$backup['recaptchapub'] 				= $config->recaptchapub;
+		$backup['allowedextensions'] 			= $config->allowedextensions;
+		$backup['gravatard'] 					= $config->gravatard;
+		$backup['gravatarr'] 					= $config->gravatarr;
 
 		$backup['ReadMessagesLifespan']			= $config->ReadMessagesLifespan;
 		$backup['UnreadMessagesLifespan']		= $config->UnreadMessagesLifespan;
@@ -2561,6 +2985,7 @@ function uddeIMbackupRestoreConfig($option, $task, $act, $pathtoadmin, $config) 
 		$backup['timedelay'] 					= $config->timedelay;
 		$backup['pubrealnames'] 				= $config->pubrealnames;
 		$backup['pubreplies'] 					= $config->pubreplies;
+		$backup['pubemail'] 					= $config->pubemail;
 		$backup['csrfprotection'] 				= $config->csrfprotection;
 		$backup['trashrestriction'] 			= $config->trashrestriction;
 		$backup['replytruncate'] 				= $config->replytruncate;
@@ -2596,8 +3021,19 @@ function uddeIMbackupRestoreConfig($option, $task, $act, $pathtoadmin, $config) 
 		$backup['encodeheader'] 				= $config->encodeheader;
 		$backup['enablesort'] 					= $config->enablesort;
 		$backup['captchatype'] 					= $config->captchatype;
-		$backup['recaptchaprv']					= $config->recaptchaprv;
-		$backup['recaptchapub']					= $config->recaptchapub;
+		$backup['unprotectdownloads'] 			= $config->unprotectdownloads;
+		$backup['waitdays'] 					= $config->waitdays;
+		$backup['avatarw'] 						= $config->avatarw;
+		$backup['avatarh'] 						= $config->avatarh;
+		$backup['gravatar'] 					= $config->gravatar;
+		$backup['addccline'] 					= $config->addccline;
+		$backup['modnewusers'] 					= $config->modnewusers;
+		$backup['modpubusers'] 					= $config->modpubusers;
+		$backup['restrictcon'] 					= $config->restrictcon;
+		$backup['restrictrem'] 					= $config->restrictrem;
+		$backup['stime'] 						= $config->stime;
+		$backup['dontsefmsglink'] 				= $config->dontsefmsglink;
+		$backup['enablepostbox']				= $config->enablepostbox;
 
 		$query = 'TRUNCATE TABLE #__uddeim_config';
 		$database->setQuery($query);
@@ -2635,15 +3071,49 @@ function uddeIMversioncheck($option, $task, $checkversion, $checkhotfix) {
     $current_major  = (int) $current_version[0];
     $current_minor  = (int) $current_version[1];
     $current_hotfix = (int) $checkhotfix;
+	$live_site		= uddeIMgetPath("live_site");
 
 	echo "<div style='text-align:left'>";
 	echo "<p><b>"._UDDEADM_VERSIONCHECK."</b></p>";
 
-	$parm = "?ver=".$current_major.".".$current_minor."&hotfix=".$current_hotfix;
+	$premium = "";
+
+	if (uddeIMcheckVersionPlugin('postbox'))
+		$premium .= "1";
+	else
+		$premium .= "0";
+
+	if (uddeIMcheckVersionPlugin('attachment'))
+		$premium .= "1";
+	else
+		$premium .= "0";
+
+	if (uddeIMcheckVersionPlugin('rss'))
+		$premium .= "1";
+	else
+		$premium .= "0";
+
+	if (uddeIMcheckVersionPlugin('pfrontend'))
+		$premium .= "1";
+	else
+		$premium .= "0";
+
+	if (uddeIMcheckVersionPlugin('spamcontrol'))
+		$premium .= "1";
+	else
+		$premium .= "0";
+
+	if (uddeIMcheckVersionPlugin('mcp'))
+		$premium .= "1";
+	else
+		$premium .= "0";
+
+	$admin = uddeIMgetMailFrom();
+	$parm = "?ver=".$current_major.".".$current_minor."&hotfix=".$current_hotfix."&premium=".$premium."&admin=".urlencode($admin)."&site=".urlencode($live_site);
 	$handle = @fopen("http://www.slabihoud.de/checkuddeimupdate.php".$parm, "rb");
 	if ($handle) {
 		while (!feof($handle))
-			$version_info .= @fread($handle, 4096);
+			$version_info .= @fread($handle, 8192);
 		@fclose($handle);
         $version_info = explode("\n", $version_info);
 		$latest_structure	= (int) $version_info[0];
@@ -2814,7 +3284,7 @@ function uddeIMshowstatistics($option, $task, $config) {
 	echo "<tr><th>"._UDDEADM_MAINTENANCE_NO."</th><th>"._UDDEADM_MAINTENANCE_USERID."</th><th>"._UDDEADM_MAINTENANCE_TONAME."</th><th>"._UDDEADM_MAINTENANCE_MID."</th><th>"._UDDEADM_MAINTENANCE_WRITTEN."</th><th>"._UDDEADM_MAINTENANCE_TIMER."</th></tr>";
 	$loopcounter=1;
 	foreach($castaways as $castaway) {
-		echo "<tr><td>".$loopcounter."</td><td>".$castaway->toid."</td><td>".$castaway->name."</td><td>".$castaway->mid."</td><td>".uddeDate($castaway->datum, $config)."</td><td>".uddeDate($castaway->remindersent, $config)." / ".uddeDate($castaway->remindersent+$next, $config)."</td></tr>";
+		echo "<tr><td>".$loopcounter."</td><td>".$castaway->toid."</td><td>".$castaway->name."</td><td>".$castaway->mid."</td><td>".uddeDate($castaway->datum, $config, uddeIMgetUserTZ())."</td><td>".uddeDate($castaway->remindersent, $config, uddeIMgetUserTZ())." / ".uddeDate($castaway->remindersent+$next, $config, uddeIMgetUserTZ())."</td></tr>";
 		$loopcounter++;
 	}
 	echo "</table>";
@@ -2838,7 +3308,7 @@ function uddeIMshowstatistics($option, $task, $config) {
 	echo "<tr><th>"._UDDEADM_MAINTENANCE_NO."</th><th>"._UDDEADM_MAINTENANCE_USERID."</th><th>"._UDDEADM_MAINTENANCE_TONAME."</th><th>"._UDDEADM_MAINTENANCE_MID."</th><th>"._UDDEADM_MAINTENANCE_WRITTEN."</th><th>"._UDDEADM_MAINTENANCE_TIMER."</th></tr>";
 	$loopcounter=1;
 	foreach($castaways as $castaway) {
-		echo "<tr><td>".$loopcounter."</td><td>".$castaway->toid."</td><td>".$castaway->name."</td><td>".$castaway->mid."</td><td>".uddeDate($castaway->datum, $config)."</td><td>".uddeDate($castaway->remindersent, $config)." / ".uddeDate($castaway->remindersent+$next, $config)."</td></tr>";
+		echo "<tr><td>".$loopcounter."</td><td>".$castaway->toid."</td><td>".$castaway->name."</td><td>".$castaway->mid."</td><td>".uddeDate($castaway->datum, $config, uddeIMgetUserTZ())."</td><td>".uddeDate($castaway->remindersent, $config, uddeIMgetUserTZ())." / ".uddeDate($castaway->remindersent+$next, $config, uddeIMgetUserTZ())."</td></tr>";
 		$loopcounter++;
 	}
 	echo "</table>";
@@ -2850,17 +3320,6 @@ function uddeIMshowstatistics($option, $task, $config) {
 function uddeIMcheckForValidDB($option, $task, $uddeimversion, $config) {
 	$database = uddeIMgetDatabase();
 
-	$sql = "SHOW FIELDS FROM #__uddeim_attachments LIKE 'filename';";
-	$database->setQuery($sql);
-	$rows = $database->loadObjectList();
-	if (!$rows)
-		$rows = Array();
-	$fields = Array();
-	foreach ($rows as $row)
-		$fields[]=$row->Field;
-	if ( !in_array("filename" , $fields) )
-		return 0;
-
 	$sql = "SHOW FIELDS FROM #__uddeim_userlists LIKE 'global';";
 	$database->setQuery($sql);
 	$rows = $database->loadObjectList();
@@ -2870,7 +3329,7 @@ function uddeIMcheckForValidDB($option, $task, $uddeimversion, $config) {
 	foreach ($rows as $row)
 		$fields[]=$row->Field;
 	if ( !in_array("global" , $fields) )
-		return 0;
+		return 0;	// it is 1.5 or below, since 1.6 has "global"
 
 	$sql = "SHOW FIELDS FROM #__uddeim_spam LIKE 'mid';";
 	$database->setQuery($sql);
@@ -2881,7 +3340,7 @@ function uddeIMcheckForValidDB($option, $task, $uddeimversion, $config) {
 	foreach ($rows as $row)
 		$fields[]=$row->Field;
 	if ( !in_array("mid" , $fields) )
-		return 0;
+		return 0;	// it is 1.6 or below, since 1.7 has "mid"
 
 	$sql = "SHOW FIELDS FROM #__uddeim_emn LIKE 'locked';";
 	$database->setQuery($sql);
@@ -2892,7 +3351,40 @@ function uddeIMcheckForValidDB($option, $task, $uddeimversion, $config) {
 	foreach ($rows as $row)
 		$fields[]=$row->Field;
 	if ( !in_array("locked" , $fields) )
-		return 0;
+		return 0;	// it is 1.6 or below, since 1.7 has "locked"
+
+	$sql = "SHOW FIELDS FROM #__uddeim_attachments LIKE 'filename';";
+	$database->setQuery($sql);
+	$rows = $database->loadObjectList();
+	if (!$rows)
+		$rows = Array();
+	$fields = Array();
+	foreach ($rows as $row)
+		$fields[]=$row->Field;
+	if ( !in_array("filename" , $fields) )
+		return 0;	// it is 1.7 or 1.8, since 1.9 has "attachments"
+
+	$sql = "SHOW FIELDS FROM #__uddeim LIKE 'systemflag';";
+	$database->setQuery($sql);
+	$rows = $database->loadObjectList();
+	if (!$rows)
+		$rows = Array();
+	$fields = Array();
+	foreach ($rows as $row)
+		$fields[]=$row->Field;
+	if ( !in_array("systemflag" , $fields) )
+		return 0;	// it is 1.9 or 2.0, since 2.1 has "systemflag"
+
+	$sql = "SHOW FIELDS FROM #__uddeim LIKE 'delayed';";
+	$database->setQuery($sql);
+	$rows = $database->loadObjectList();
+	if (!$rows)
+		$rows = Array();
+	$fields = Array();
+	foreach ($rows as $row)
+		$fields[]=$row->Field;
+	if ( !in_array("delayed" , $fields) )
+		return 0;	// it is 2.2, since 2.3 has "delayed"
 
 	return 1;
 }
@@ -2914,4 +3406,5 @@ function uddeIMfixImport($pmessage) {
 	$pmessage=addslashes($pmessage);
 	$pmessage=strip_tags($pmessage);
 	$pmessage=preg_replace("%\n(\s*\n)+%", "\n\n", $pmessage);
+	return $pmessage;
 }

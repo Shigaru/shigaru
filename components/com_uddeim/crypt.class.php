@@ -2,7 +2,7 @@
 // ********************************************************************************************
 // Title          udde Instant Messages (uddeIM)
 // Description    Instant Messages System for Mambo 4.5 / Joomla 1.0 / Joomla 1.5
-// Author         © 2007-2009 Stephan Slabihoud
+// Author         © 2007-2010 Stephan Slabihoud
 // License        This is free software and you may redistribute it under the GPL.
 //                uddeIM comes with absolutely no warranty.
 //                Use at your own risk. For details, see the license at
@@ -12,6 +12,19 @@
 // ********************************************************************************************
 
 if (!(defined('_JEXEC') || defined('_VALID_MOS'))) { die( 'Direct Access to this location is not allowed.' ); }
+
+define('CRYPT_MODE_BINARY'     		 ,  0);		// Vernam
+define('CRYPT_MODE_BASE64'     		 ,  1);
+define('CRYPT_MODE_HEXADECIMAL'		 ,  2);
+define('CRYPT_MODE_STOREBINARY'		 , 16);		// Store only
+define('CRYPT_MODE_STOREBASE64'		 , 17);
+define('CRYPT_MODE_STOREHEXADECIMAL' , 18);
+define('CRYPT_MODE_3DESBINARY'		 , 32);		// 3-DES
+define('CRYPT_MODE_3DESBASE64'		 , 33);
+define('CRYPT_MODE_3DESHEXADECIMAL'	 , 34);
+
+define('CRYPT_HASH_MD5' , 'md5');
+define('CRYPT_HASH_SHA1', 'sha1');
 
 function uddeIMgetMessage($message, $cryptpass, $cryptmode, $crypthash, $cryptkey) {
 	$ret = "";
@@ -41,19 +54,6 @@ function uddeIMgetMessage($message, $cryptpass, $cryptmode, $crypthash, $cryptke
 	}
 	return $ret;
 }
-
-define('CRYPT_MODE_BINARY'     		 ,  0);		// Vernam
-define('CRYPT_MODE_BASE64'     		 ,  1);
-define('CRYPT_MODE_HEXADECIMAL'		 ,  2);
-define('CRYPT_MODE_STOREBINARY'		 , 16);		// Store only
-define('CRYPT_MODE_STOREBASE64'		 , 17);
-define('CRYPT_MODE_STOREHEXADECIMAL' , 18);
-define('CRYPT_MODE_3DESBINARY'		 , 32);		// 3-DES
-define('CRYPT_MODE_3DESBASE64'		 , 33);
-define('CRYPT_MODE_3DESHEXADECIMAL'	 , 34);
-
-define('CRYPT_HASH_MD5' , 'md5');
-define('CRYPT_HASH_SHA1', 'sha1');
 
 function uddeIMencrypt($data,$key,$mode) {
 	$data = (string) $data;
