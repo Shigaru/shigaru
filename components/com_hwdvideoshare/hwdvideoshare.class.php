@@ -3056,7 +3056,7 @@ $app = & JFactory::getApplication();
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
 		for($i = 0; $i < sizeof($wordList); ++$i){
-			$wordList[$i] =constant($wordList[$i]);
+			$wordList[$i] =constant($wordList[$i]).',';
 		} 
 		return $wordList;
     }
@@ -3179,8 +3179,33 @@ $app = & JFactory::getApplication();
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
+		for($i = 0; $i < sizeof($wordList); ++$i){
+			$wordList[$i] =$wordList[$i].',';
+		}
 		return $wordList;
     }
+    
+    
+    /**
+     * Generates list of most songs tags
+     *
+     * 
+     * @return        $wordList
+     */
+	function getSongsTags() {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT label FROM #__hwdvidssongs AS a, #__hwdvidsvideos as b'; 
+		$query .= ' WHERE a.id = b.song_id';
+		$query .= ' LIMIT 0,10';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$wordList = $db->loadResultArray();
+		for($i = 0; $i < sizeof($wordList); ++$i){
+			$wordList[$i] =$wordList[$i].',';
+		}
+		return $wordList;
+    }
+    
     
     /**
      * Generates list of most popular tags
@@ -3197,7 +3222,7 @@ $app = & JFactory::getApplication();
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
 		for($i = 0; $i < sizeof($wordList); ++$i){
-			$wordList[$i] =constant($wordList[$i]);
+			$wordList[$i] =constant($wordList[$i]).',';
 		} 
 		return $wordList;
     }
@@ -3230,7 +3255,7 @@ $app = & JFactory::getApplication();
 	
 	function concatenateWords($dataObj)
 	{
-		//var_dump($dataObj);
+		
 		$words = '';
 		$words = implode(' ',$dataObj);
 		$words = strip_tags($words);
@@ -3251,10 +3276,10 @@ $app = & JFactory::getApplication();
 		
 		//convert everything to lower case for ease in next parts.
 		$input = strtolower($input);
-		$input = str_replace(",", " ", $input);
+		//$input = str_replace(",", " ", $input);
 		//preg_replace only works with under 94236 chars, so break up if necessary
 		if (strlen($input) > 94000)
-		{echo 'if------';
+		{
 			$chunks = str_split($input, 94000);
 			//remove all non alpha chars, 0-9.,!/? etc
 			$input .= '';
@@ -3263,50 +3288,42 @@ $app = & JFactory::getApplication();
 				$input .= ' '.preg_replace('/[^\p{L}\s]/', '', $chunk);
 			}
 		}
-		else
-		{
-			//remove all non alpha chars, 0-9.,!/? etc			
-			$input = preg_replace('/[^\p{L}\s]/', '', $input);
-		}
-		//remove all non alpha chars, 0-9.,!/? etc
-		$input = preg_replace('/[^\p{L}\s]/', '', $input);
-		
-		//strip out common words.
-		$input = preg_replace('/\b('.implode('|',$commonWords).')\b/','',$input);
-
 		return $input;
 	}
 	
 	function parseTagsString($string, $count = 25)
 	{
 		//filters through words to get occurence value.
-		$topList = array();			
-		$wordList = str_word_count($string,1,'!@[]~#;?><,.!');
-		$uniqueWordList = array_unique($wordList);
-
-		foreach ($uniqueWordList as $word)
+		;
+		$topList = array();	
+		$arrayWordList = explode(',',$string);
+		$wordList = array_count_values($arrayWordList);
+		foreach ($wordList as $word => $wordNo)
 		{
 			if (strlen($word) > 3)
 			{
-				$wordCount = array_keys($wordList,$word,false);
+				$wordCount = array_keys($wordList,$wordNo,false);
+				
 				$wordCount = count($wordCount);
 				//glitch in rsort puts 1,2,3 above 15, 16 etc
 				if (strlen($wordCount) < 2) { $wordCount = '0'.$wordCount; } 
-				$topList[$word] = $wordCount .'~'. $word;
+				$topList[$word] = $wordNo .'~'. $word;
 			}
 		}
 		
 		//sorts the array descending and only returns the ones the
 		//amount the user wants.
+		
 		rsort($topList);
 		$i = 1;
+		
 		$finalList = array();
 		while ($i <= $count)
 		{
 			array_push($finalList,$topList[$i-1]);
 			$i++;
 		}
-
+		$finalList = array_unique($finalList);
 		return $finalList;
 	}
 	

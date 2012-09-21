@@ -56,7 +56,7 @@
 											{/foreach}
 									</ul>		
 								</div>
-								<!--<div class="viewmore"><a href="{$viewed_link}dsadasdas" title="{$smarty.const._HWDVIDS_WATCHMORE}">{$smarty.const._HWDVIDS_WATCHMORE}</a></div>-->
+								<!--<div class="viewmore"><a href="{$viewed_link}" title="{$smarty.const._HWDVIDS_WATCHMORE}">{$smarty.const._HWDVIDS_WATCHMORE}</a></div>-->
 							</div>
 							
 							{/if}
@@ -144,7 +144,8 @@
 					<div class="video_activity_header">
 						<div>
 							<ul>
-								<li class="selected"><a href="#bands" title="Click to see more Bands">Bands</a></li>
+								<li class="selected"><a href="#videos" title="Click to see more Bands">Videos</a></li>
+								<li><a href="#bands" title="Click to see more Bands">Bands</a></li>
 								<li><a href="#instruments" title="Click to see more Instruments">Instruments</a></li>
 								<li><a href="#songs" title="Click to see more Songs">Songs</a></li>
 								<li><a href="#genre" title="Click to see Genres">Genre</a></li>
@@ -153,13 +154,16 @@
 					</div>
 					<div class="slidesWrapper">
 						<div id="bands" class="tab_wrapper tags">
+							{$tagsList}
+						</div>
+						<div id="bands" class="tab_wrapper tags">
 							{$bandtagsList}
 						</div>
 						<div id="instruments" class="tab_wrapper tags">
 							{$instagsList}
 						</div>
 						<div id="songs" class="tab_wrapper tags">
-							{$instagsList}
+							{$songtagsList}
 						</div>
 						<div id="genre" class="tab_wrapper tags">
 							{$gentagsList}

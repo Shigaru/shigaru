@@ -451,7 +451,11 @@ class hwd_vs_html
 		
 		// GENRES TAGS
 		$genwordList = hwd_vs_tools::getGenreTags();
+		var_dump($genwordList);
+		var_dump('#################');
 		$gentagsList = hwd_vs_tools::concatenateWords($genwordList);
+		var_dump($gentagsList);
+		var_dump('#################');
 		$gentagsList = hwd_vs_tools::filterWords($gentagsList);
 		$gentagsList = hwd_vs_tools::parseTagsString($gentagsList,50);
 		$gentagsList = hwd_vs_tools::outputWords($gentagsList,10,25);
@@ -465,6 +469,14 @@ class hwd_vs_html
 		$bantagsList = hwd_vs_tools::outputWords($bantagsList,10,25);
 		$smartyvs->assign("bandtagsList", $bantagsList);
 		$smartyvs->assign("totalvideos", $total);
+		
+		// SONGS TAGS
+		$songwordList = hwd_vs_tools::getSongsTags();
+		$songtagsList = hwd_vs_tools::concatenateWords($songwordList);
+		$songtagsList = hwd_vs_tools::filterWords($songtagsList);
+		$songtagsList = hwd_vs_tools::parseTagsString($songtagsList,50);
+		$songtagsList = hwd_vs_tools::outputWords($songtagsList,10,25);
+		$smartyvs->assign("songtagsList", $songtagsList);
 		
 		/* most commented */
 		
