@@ -47,26 +47,93 @@ class hwd_vs_usrfunc
     */
 	function yourVideos()
 	{
-		global $hwdvsItemid;
+		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-		$app = & JFactory::getApplication();
-		$my->paramId = & JRequest::getVar('userId');
-		if (!$my->id && $my->paramId) {
-			$user_id = $my->paramId;
-		}else{
-				$user_id = $my->id;
-			}
-		$app->redirect(JRoute::_('index.php?option=com_hwdvideoshare&task=viewChannel&Itemid='.$hwdvsItemid.'&user_id='.$user_id.'&sort=uploads'));
+
+		if (!$my->id) {
+			$msg = _HWDVIDS_ALERT_LOG2CYV;
+			$mainframe->enqueueMessage($msg);
+			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
+		}
+
+		$limit 	= intval($c->vpp);
+
+		$user_id = $my->id;
+
+		$where = ' WHERE video.approved = "yes"';
+		$where .= ' AND video.published = 1';
+		$where .= ' AND video.user_id = '.$user_id;
+
+		$db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 . $where
+					 );
+  		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+
+		$query = 'SELECT'.$hwdvs_selectv
+               	. ' FROM #__hwdvidsvideos AS video'
+				. $hwdvs_joinv
+				. $where
+				. ' ORDER BY video.date_uploaded DESC'
+				;
+
+		$db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
+		$rows = $db->loadObjectList();
+
+		hwd_vs_html::yourVideos($rows, $pageNav, $total);
 	}
    /**
     * List User Favourite Videos
     */
 	function yourFavourites()
 	{
-		global $hwdvsItemid;
+		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-		$app = & JFactory::getApplication();
-		$app->redirect(JRoute::_('index.php?option=com_hwdvideoshare&task=viewChannel&Itemid='.$hwdvsItemid.'&user_id='.$my->id.'&sort=favourites'));
+
+		if (!$my->id) {
+			$msg = _HWDVIDS_ALERT_LOG2CYF;
+			$mainframe->enqueueMessage($msg);
+			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
+		}
+
+		$limit 	= intval($c->vpp);
+		$gid 	= intval($my->gid);
+
+		$user_id = $my->id;
+
+		$where = ' WHERE video.approved = "yes"';
+		$where .= ' AND video.published = 1';
+		$where .= ' AND f.userid = '.$user_id;
+
+		$db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 . ' LEFT JOIN #__hwdvidsfavorites AS f ON video.id = f.videoid'
+					 . $where
+					 );
+  		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+
+		$query = 'SELECT'.$hwdvs_selectv
+               	. ' FROM #__hwdvidsvideos AS video'
+				. $hwdvs_joinv
+				. ' LEFT JOIN #__hwdvidsfavorites AS f ON video.id = f.videoid'
+				. $where
+				. ' ORDER BY video.date_uploaded DESC'
+				;
+
+		$db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
+		$rows = $db->loadObjectList();
+
+		hwd_vs_html::yourFavourites($rows, $pageNav, $total);
 	}
    /**
     * List User Favourite Videos

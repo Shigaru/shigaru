@@ -10,7 +10,6 @@ function hwdVideoShareBuildRoute(&$query)
 	$db =& JFactory::getDBO();
 	jimport('joomla.filter.output');
 	$escapeRouteChar	= array('.', '\\', '/', '@', '#', '?', '!', '^', '&', '<', '>', '\'' , '"', '*', ',' );
-
 	if (isset($query['task']))
 	{
 		switch ($query['task'])

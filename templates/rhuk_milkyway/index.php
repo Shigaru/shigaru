@@ -127,16 +127,19 @@ function freichatx_get_hash($ses){
 									echo '<a href="index.php?option=com_comprofiler&task=logout">Logout</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
+									echo '<a href="index.php?option=com_uddeim">Inbox</a>';
+								echo '</div>';
+								echo '<div class="userzoneitem">';
 									echo '<a href="index.php?option=com_hwdvideoshare&task=yourfavourites">Videos I liked</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_comprofiler&task=logout">Inbox</a>';
+									echo '<a href="index.php?option=com_hwdvideoshare&task=yourvideos">My Videos</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_hwdvideoshare&task=yourvideos">Edit Profile</a>';
+									echo '<a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails">Edit Profile</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_hwdvideoshare&task=yourvideos">My videos</a>';
+									echo '<a href="index.php?option=com_comprofiler&Itemid=53">View Profile</a>';
 								echo '</div>';
 								
 								
