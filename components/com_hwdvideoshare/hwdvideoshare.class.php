@@ -1458,7 +1458,7 @@ class hwd_vs_tools {
 
 			if ($hwdvsTemplateOverride['show_thumbnail'] == 1) {       $code[$i]->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, $k, $twidth, $theight, $tclass, null, $hwdvs_itemid, $onclick_js, $tooltip_data, $lightbox, $row->video_length); }
 			if ($hwdvsTemplateOverride['show_views']) {                $code[$i]->views = $row->number_of_views; }
-			$code[$i]->comments = $row->cnt;
+			$code[$i]->comments = $row->number_of_comments;
 			$code[$i]->duration = $row->video_length;
 			if ($hwdvsTemplateOverride['show_uploader']) {             $code[$i]->uploader = hwd_vs_tools::generateUserFromID($row->user_id, $row->username, $row->name); }
 			if ($hwdvsTemplateOverride['show_timesince']) {            $code[$i]->timesince = hwd_vs_tools::generateTimeSinceUpload($row->date_uploaded); }

@@ -18,8 +18,8 @@ if (defined('_uddeConfig')) {
   var $emn_body_withmessage = '';
   var $emn_forgetmenot = '';
   var $export_format = '';
-  var $showtitle = 'Inbox';
-  var $templatedir = 'default';
+  var $showtitle = 'Shigaru e-mail account';
+  var $templatedir = 'monoblue';
   var $quotedivider = '__________';
   var $blockgroups = '';
   var $pubblockgroups = '';

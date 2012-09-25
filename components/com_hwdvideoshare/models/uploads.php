@@ -1213,7 +1213,7 @@ class hwd_vs_uploads
 				$category_id = JRequest::getInt( "category_id", "0", "post" );
 
 		//$checkform = hwd_vs_tools::checkFormComplete($title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings);
-
+		$band;$band_id;$song;$song_id;
 		if($category_id==1){
 			//band and songs stuff
 			$band = Jrequest::getVar( 'originalband', '' );
@@ -1242,7 +1242,7 @@ class hwd_vs_uploads
 		}
 
 		$_POST['video_type'] 		= $regs['domain'];
-		$_POST['video_id'] 			= $ext_v_code[1];
+		$_POST['video_id'] 			= $ext_v_code;
 		$_POST['title'] 			= $title;
 		$_POST['description'] 		= $description;
 		$_POST['category_id'] 		= $category_id;
@@ -1251,11 +1251,12 @@ class hwd_vs_uploads
 		$_POST['allow_comments'] 	= $allow_comments;
 		$_POST['allow_embedding'] 	= $allow_embedding;
 		$_POST['allow_ratings'] 	= $allow_ratings;
-		$_POST['video_length'] 		= $ext_v_durat[1];
+		$_POST['video_length'] 		= $ext_v_durat;
 		$_POST['date_uploaded'] 	= date('Y-m-d H:i:s');
-		$_POST['video_length'] 		= $ext_v_durat[1];
+		if($category_id==1){
 		$_POST['song_id'] 			= $song_id;
 		$_POST['band_id'] 			= $band_id;
+		}
 		$_POST['language_id'] 		= Jrequest::getVar( 'language_id', '' );
 		$_POST['level_id'] 			= Jrequest::getVar( 'level_id', '' );
 		$_POST['genre_id'] 			= Jrequest::getVar( 'genre_id', '' );
@@ -1315,7 +1316,7 @@ class hwd_vs_uploads
 
 		// save remote thumbnail to disk
 		$data = @explode(",", $row->video_id);
-		$thumburl = hwd_vs_tools::get_final_url( @$ext_v_code[2] );
+		$thumburl = hwd_vs_tools::get_final_url( "http://img.youtube.com/vi/".$ext_v_code."/default.jpg");
 		$thumbbase = "tp-".$row->id.".jpg";
 		$thumbpath = PATH_HWDVS_DIR.DS."thumbs".DS.$thumbbase;
                     

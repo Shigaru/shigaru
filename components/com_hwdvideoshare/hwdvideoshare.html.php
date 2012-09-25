@@ -788,7 +788,7 @@ class hwd_vs_html
 		global $smartyvs, $Itemid;
 		$c = hwd_vs_Config::get_instance();
   		$db =& JFactory::getDBO();
-
+		$my = & JFactory::getUser();
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');

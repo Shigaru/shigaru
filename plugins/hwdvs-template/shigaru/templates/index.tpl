@@ -148,7 +148,7 @@
 								<li><a href="#bands" title="Click to see more Bands">Bands</a></li>
 								<li><a href="#instruments" title="Click to see more Instruments">Instruments</a></li>
 								<li><a href="#songs" title="Click to see more Songs">Songs</a></li>
-								<li><a href="#genre" title="Click to see Genres">Genre</a></li>
+								<li><a href="#genre" title="Click to see Genres">Genres</a></li>
 							</ul>
 						</div>
 					</div>

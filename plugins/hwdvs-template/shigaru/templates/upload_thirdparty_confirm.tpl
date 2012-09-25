@@ -19,10 +19,6 @@
   </div>
 </div>
 
-{if $showEditForm}
-{include file='video_edit_form.tpl'}
-{/if}
-
 {include file='footer.tpl'}
 
 
