@@ -274,7 +274,7 @@
 							</div>
 							<div class="clear"></div>
 							<a href="#" id="cancel" class="fontbold mleft6" title="Click to cancel the changes">Cancel</a>
-							<input type="button" value="Save changes" id="yes" class="mtop24 reddbuttonsubmit">
+							<input type="button" value="{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SAVECHANG}" id="yes" class="mtop24 reddbuttonsubmit">
 					</div>
 				</div>
 				<div class="mbot20">
@@ -296,7 +296,7 @@
 								</div>
 								<div class="clear"></div>
 								 <a href="#" id="cancel" class="fontbold mleft6" title="Click to cancel the changes">Cancel</a>
-								<input type="button" value="Save changes" id="yes" class="mtop24 reddbuttonsubmit">
+								<input type="button" value="{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SAVECHANG}" id="yes" class="mtop24 reddbuttonsubmit">
 						</div>				 
 					  
 				</div>
@@ -319,7 +319,7 @@
 								</div>
 								<div class="clear"></div>
 								<a href="#" id="cancel" class="fontbold mleft6" title="Click to cancel the changes">Cancel</a>
-								<input type="button" value="Save changes" id="yes" class="mtop24 reddbuttonsubmit">
+								<input type="button" value="{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SAVECHANG}" id="yes" class="mtop24 reddbuttonsubmit">
 						</div>	  
 				</div>
             </div>

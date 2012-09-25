@@ -164,7 +164,7 @@ class plgSystemePrivacy extends JPlugin {
         $msg.= '<p class="shigarunotice"><span class="close"></span>'.JText::_('PLG_SYS_EPRIVACY_MESSAGE');
         
         if(strlen(trim($this->params->get('policyurl','')))) {
-            $msg.= '<a target="_blank" href="'.trim($this->params->get('policyurl','')).'">'.JText::_('PLG_SYS_EPRIVACY_POLICYTEXT').'</a>'.JText::_('PLG_SYS_EPRIVACY_POLICYTEXTEND').'</p>';
+            $msg.= '<a target="_blank" title="'.JText::_('PLG_SYS_EPRIVACY_POLICYTEXTTITLE').'" href="'.trim($this->params->get('policyurl','')).'">'.JText::_('PLG_SYS_EPRIVACY_POLICYTEXT').'</a>'.JText::_('PLG_SYS_EPRIVACY_POLICYTEXTEND').'</p>';
         }
         
         if($this->params->get('lawlink',1)) {

@@ -605,6 +605,8 @@ span.reference a:hover{color:#000;}
 .songtutorialfields{display:none;}
 #sexmessage{font-size:90%;}
 #signupdemo{float:right;margin:52px 26px 0 35px;}
+#steps button#registerButton{clear:none;float:left;margin:12px 30px;}
+#videoupload a#cancel{float:left;}
 .shigarunotice{
     color: #000000;
     font-size: 80%;
