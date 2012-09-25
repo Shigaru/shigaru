@@ -1,0 +1,1 @@
+Currently there are no "noir" animated icons available.

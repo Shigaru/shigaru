@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5.2" type="plugin" group="system" method="upgrade">
+	<name>System - EU e-Privacy Directive</name>
+	<author>Michael Richey</author>
+	<creationDate>June 2012</creationDate>
+	<copyright>Copyright (C) 2012 Michael Richey. All rights reserved.</copyright>
+	<license>GNU General Public License</license>
+	<authorEmail>eprivacy@richeyweb.com</authorEmail>
+	<authorUrl>http://www.richeyweb.com</authorUrl>
+	<version>1.8</version>
+	<description>PLG_SYS_EPRIVACY_XML_DESC</description>
+	<files>
+		<filename plugin="eprivacy">eprivacy.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_eprivacy.ini</language>
+		<language tag="en-GB">en-GB.plg_system_eprivacy.sys.ini</language>
+                <language tag="nl-NL">nl-NL.plg_system_eprivacy.ini</language>
+                <language tag="nl-NL">nl-NL.plg_system_eprivacy.sys.ini</language>
+	</languages>
+	<params>
+                <field type="radio" name="messagetype" default="message" label="PLG_SYS_EPRIVACY_MESSAGETYPE_LABEL" description="PLG_SYS_EPRIVACY_MESSAGETYPE_DESC">
+                    <option value="message">MESSAGE</option>
+                    <option value="notice">NOTICE</option>
+                    <option value="warning">WARNING</option>
+                </field>
+                <field type="radio" name="longtermcookie" default="0" label="PLG_SYS_EPRIVACY_LONGTERMCOOKIE_LABEL" description="PLG_SYS_EPRIVACY_LONGTERMCOOKIE_DESC">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </field>
+                <field type="radio" name="lawlink" default="1" label="PLG_SYS_EPRIVACY_LAWLINK_LABEL" description="PLG_SYS_EPRIVACY_LAWLINK_DESC">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </field>
+                <field type="text" name="policyurl" default="" label="PLG_SYS_EPRIVACY_POLICYURL_LABEL" description="PLG_SYS_EPRIVACY_policyurl_DESC" />
+	</params>
+</install>
