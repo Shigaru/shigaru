@@ -197,7 +197,7 @@
 						<div class="clear"></div>
 					</p>   
 					<p class="submit fright">
-						<a href="#" id="cancel" class="mtop24 fontbold mleft6" title="Click to cancel the changes">{$smarty.const._HWDVIDS_BUTTON_CANX}</a>
+						<a href="{$referrer}" id="cancel" class="mtop24 fontbold mleft6" title="Click to cancel the changes">{$smarty.const._HWDVIDS_BUTTON_CANX}</a>
 						<button id="registerButton" type="submit">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SAVECHANG}</button>
 					</p>
 				   </fieldset>

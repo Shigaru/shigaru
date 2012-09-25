@@ -606,6 +606,7 @@ div.cbclearboth {display: block;}
 	margin: 0px;
 	padding: 0px;
 	border-width: 0px;
+	clear:both;
 }
 .cb_result_ok, .cb_result_info, .cb_result_warning, .cb_result_error {
 	clear: both;
