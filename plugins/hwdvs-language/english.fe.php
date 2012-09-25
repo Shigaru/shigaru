@@ -100,7 +100,7 @@ DEFINE("_HWDVIDS_TITLE_GROUPCOMMS","Group Comments");
 DEFINE("_HWDVIDS_TITLE_CATEGORYVIDS","Category Videos");
 DEFINE("_HWDVIDS_TITLE_FEATUREDGROUPS","Featured Groups");
 DEFINE("_HWDVIDS_TITLE_GROUPS","Groups");
-DEFINE("_HWDVIDS_TITLE_UPLOADSUCCESS","Upload Successful");
+DEFINE("_HWDVIDS_TITLE_UPLOADSUCCESS","The video was submitted successfully!");
 DEFINE("_HWDVIDS_TITLE_EDITVID","Edit Video Details");
 DEFINE("_HWDVIDS_TITLE_NEWTHUMB","Upload a New Thumbnail Image");
 DEFINE("_HWDVIDS_TITLE_UPLDFAIL","Upload Failed");
@@ -278,6 +278,9 @@ DEFINE("_HWDVIDS_INFO_NUV","You have not uploaded any videos");
 DEFINE("_HWDVIDS_INFO_RATED","Rating: ");
 DEFINE("_HWDVIDS_INFO_VIDEMBEDCODE","Embed Code");
 DEFINE("_HWDVIDS_INFO_UPLDANOTHER","Upload another?");
+DEFINE("_HWDVIDS_INFO_UPLDGREET"," for sharing the following music tutorial with the Shigaru community:");
+DEFINE("_HWDVIDS_INFO_UPLDTELLYOURFRIENDS","Tell your friends");
+DEFINE("_HWDVIDS_INFO_UPLDTELLYOURFRIENDSTEXT","It will take a second to let your friends know about the video you just shared with the Shigaru community!");
 DEFINE("_HWDVIDS_INFO_SUCUPLD","Successfully Uploaded");
 DEFINE("_HWDVIDS_INFO_VIDEOWAIT1","Your video is queued for conversion and will appear on our website once this is complete.");
 DEFINE("_HWDVIDS_INFO_VIDEOWAIT2","Your video is now waiting approval from our website moderators. Your video will appear once it has been reviewed and accepted.");
@@ -892,6 +895,7 @@ DEFINE("_HWDVIDS_SHIGARU_SHIGAR_ADDTIONAL_DETAILS","Additional Details");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_OTHER_STUFF","Other Stuff");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_CONFIRMATION","Confirmation");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_SAVECHANG","Save changes");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_WHYNOT","Why not");
 
 
 

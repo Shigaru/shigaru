@@ -814,9 +814,8 @@ class hwd_vs_html
 		hwd_vs_tools::generateActiveLink(4);
 		hwd_vs_tools::generateBreadcrumbs();
 		hwd_vs_javascript::checkuploadform();
-
 		$smartyvs->assign("referrer", 'http://'.$_SERVER['HTTP_HOST'].JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewvideo&video_id=".$row->id));
-		$smartyvs->assign("videolink", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewvideo&video_id=".$row->id));
+		$smartyvs->assign("videolink", 'http://'.$_SERVER['HTTP_HOST'].JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewvideo&video_id=".$row->id));
 		$smartyvs->assign("failures", $failures);
 		$smartyvs->assign("thumbnail", hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, 0, $c->thumbwidth, $c->thumbwidth*3/4, null));
 		$smartyvs->assign("title", stripslashes(htmlentities($row->title)));
@@ -828,6 +827,9 @@ class hwd_vs_html
 		$smartyvs->assign("url_upld_another", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=upload"));
 		$smartyvs->assign("form_save_video", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=savevideo"));
 		$smartyvs->assign("uploadname", stripslashes($uploadname));
+		$smartyvs->assign("username", stripslashes($my->username)); 
+		$thumbbase = hwd_vs_tools::generateThumbnailURL( $row->id, $row->video_id, $row->video_type, $row->thumbnail, "large" );
+		$smartyvs->assign("thumbpath", $thumbbase); 
 		if ($c->aav == 1) {
 			$smartyvs->assign("waitmessage", _HWDVIDS_INFO_VIDEOWAIT3);
 		} else {

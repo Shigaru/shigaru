@@ -390,7 +390,7 @@
                                 <input id="security_code" class="required" placeholder="Enter code" class="required mbot6" id="security_code" name="security_code" type="text" />
                                 <br class="clear"/>
                             </p>
-                            <p class="submit">
+                            <p class="submit fright">
                                 <button id="registerButton" type="submit">{$smarty.const._HWDVIDS_BUTTON_ADD}</button>
                             </p>
                            </fieldset>

@@ -623,6 +623,19 @@ margin:-11px;
 cursor:pointer;
 background:url("../images/close_icon.gif") no-repeat scroll 0 0 #FFEFD8;
 }    
+
+#sharefacebook{
+color:#fff;
+display:block;
+float:left;
+width:122px;
+height:42px;
+margin:0 12px 0 0;
+cursor:pointer;
+background:url("../images/facebook_button.png") no-repeat scroll 0 0 #FFEFD8;
+}
+#sharefacebook span{display: block;
+    margin: 12px 12px 12px 44px;}
 #captchanewcode{
     float: left;
     line-height: 28px;
