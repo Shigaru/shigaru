@@ -2949,7 +2949,7 @@ class CBfield_image extends cbFieldHandler {
 			$avatar_images				=	display_avatar_gallery( $avatar_gallery_path );
 
 			$html	.=	'<div id="cbimg_gallery_' . $name . '">'
-					.		"\n\t<table width='100%' border='0' cellpadding='4' cellspacing='2'>"
+					.		"\n\t<div id=\"galleryavat\" style=\"height:300px; overflow:auto;\"><table width='100%' border='0' cellpadding='4' cellspacing='2'>"
 					.	"\n\t\t<tr align='center' valign='middle'>"
 					;
 			for ( $i = 0 ; $i < count($avatar_images) ; $i++ ) {
@@ -2958,7 +2958,7 @@ class CBfield_image extends cbFieldHandler {
 				$html	.=	"\n\t\t\t<td>"
 						.		'<input type="radio" name="' . $name . '__gallery" id="' . $name . '__gallery_' . $i . '" value="' . $avatar_images[$i] . '" />'
 						.		'<label for="' . $name . '__gallery_' . $i . '">'
-						.			'<img src="' . $live_site . '/images/comprofiler/gallery/'. $avatar_images[$i] . '" alt="' . $avatar_name . '" title="' . $avatar_name . '" />'
+						.			'<img style="width:80px;" src="' . $live_site . '/images/comprofiler/gallery/'. $avatar_images[$i] . '" alt="' . $avatar_name . '" title="' . $avatar_name . '" />'
 						.		'</label>'
 						.	'</td>'
 						;
@@ -2974,7 +2974,7 @@ class CBfield_image extends cbFieldHandler {
 
 			}
 			$html	.=	"\n\t\t</tr>\n\t\t"
-					.	"\n\t</table>"
+					.	"\n\t</table></div>"
 					.	'</div>'
 					;
 		}
