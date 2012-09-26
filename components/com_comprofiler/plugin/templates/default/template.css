@@ -920,7 +920,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 -webkit-border-radius: 0 0 5px 5px;
 border-radius: 0 0 5px 5px;
 margin: -0.9px 0 0 1px;
-padding: 12px;max-height: 300px;overflow: auto;}
+padding: 12px}
 .cbPosTabMain .cb_tab_div .cbft_text,.cbPosTabMain .cb_tab_div .cbft_select,
 .cbPosTabMain .cb_tab_div .cbft_radio,.cbPosTabMain .cb_tab_div .cbft_multiselect,
 .cbPosTabMain .cb_tab_div .cbft_datetime {float:left;width:47%;}

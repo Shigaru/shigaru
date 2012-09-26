@@ -52,6 +52,12 @@ $link_cb = $grRoute->_("$link&amp;task=userProfile&amp;user=".$user->id.$cb_item
     $data = $database->loadObjectList();
     $dat = $data[0];
     $userid = $dat->id;
+    $doc = JFactory::getDocument();
+	$script=array();
+	$script[]='jQuery(document).ready(function($){';
+	$script[]="\tjQuery('.shigarunotice .close').click(function(){jQuery(this).parent().fadeOut('slow');});";
+	$script[]='});';
+	$doc->addScriptDeclaration(implode("\n",$script));
     if ($s == "u.name") {$usernames = $dat->name;}
     else {$usernames = $dat->username;}
     $echo = "<div id='custommenu'>";

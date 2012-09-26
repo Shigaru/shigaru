@@ -106,7 +106,7 @@ padding: 16px 30px;border-right:1px solid #d6d6d6;font-size: 91%;-moz-box-shadow
 #nav_tabs ul li:first-child {-moz-border-radius:3px 0 0 3px;-webkit-border-radius:3px 0 0 3px;border-radius:3px 0 0 3px;}
 #nav_tabs ul li.last {background: url("../images/back_main_tabs_myprofile.png") repeat-x scroll 0 0 transparent;float:right;-moz-border-radius:2px 0 0 2px;-webkit-border-radius:2px 0 0 2px;border-radius:2px 0 0 2px;}
 #nav_tabs ul li.last a{color:#fff;}
-#nav_tabs ul li.last a#active_menu-nav{text-shadow: 1px 2px 2px #000;}
+#nav_tabs ul li.last a#active_menu-nav{color:#fff;text-shadow: 1px 2px 2px #000;}
 #nav_tabs ul li.last span{}
 #nav_tabs ul li.last span a{color:#fff;}
 #nav_tabs ul li.last span a#active_menu-nav:hover{color:#c1c1c1;}

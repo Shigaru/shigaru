@@ -74,7 +74,7 @@
 						<div class="fleft w70pc">  
 							<div class="mbot12">  
 								<span class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_DESC}</span><br />
-								<p id="truncateMe" class="mtop12">{$videoplayer->description}</p>
+								<p id="truncateMe" class="mtop12"><span id="videodecription">{$videoplayer->description} </span><a href="#" title="Click here to show full description" id="showmore">... [More]</a></p>
 							</div>	
 							 <span class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_TAGS}</span><br />
 							<p class="mtop12"> {$videoplayer->tags}</p>
@@ -137,29 +137,33 @@
 	  {literal}
 	  <script type="text/javascript">
 	   
-	  var len = 200;
-	  var p = document.getElementById('truncateMe');
-	  if (p) {
-	   
-	    var trunc = p.innerHTML;
-	    if (trunc.length > len) {
-	   
-	      /* Truncate the content of the P, then go back to the end of the
-	         previous word to ensure that we don't truncate in the middle of
-	         a word */
-	      trunc = trunc.substring(0, len);
-	      trunc = trunc.replace(/\w+$/, '');
-	   
-	      /* Add an ellipses to the end and make it a link that expands
-	         the paragraph back to its original size */
-	      trunc += '<a href="#" ' +
-	        'onclick="this.parentNode.innerHTML=' +
-	        'unescape(\''+escape(p.innerHTML)+'\');return false;">' +
-	        '... [ More ]<\/a>';
-	      p.innerHTML = trunc;
-	    }
-	  }
+	  
 	   jQuery(document).ready(function() {
+		
+			
+		  var len = 200;
+		  var p = jQuery('#videodecription').html();
+		  console.log(p.length);
+		  if(p.length < len){
+			  jQuery('#showmore').hide();
+			  }else{
+				 var trunc = p;
+				 trunc = trunc.substring(0, len);
+				 trunc = trunc.replace(/\w+$/, ''); 
+				 jQuery('#videodecription').html(trunc);
+				jQuery('#showmore').click(function(){
+				  if(jQuery(this).html() == '... [Less]'){
+				  jQuery('#videodecription').html(trunc);
+				  jQuery(this).html('... [More]').attr('title',"Click here to show full description");
+					}else{
+						jQuery('#videodecription').html(p);
+						jQuery(this).html('... [Less]').attr('title',"Click here to hide full description");
+					  }
+				  return false;
+				  });
+		  }	  
+		 
+		   
 		jQuery('.sic-right .video_activity_header').shigaruTabs({slidesSelector:'.tab_wrapper',slidesWrapper:'.sic-right'});	
 		jQuery('.workarea div.video_activity div.scoller').jScrollPane({showArrows:true});
         var delay = 40, delayTime, btns = jQuery('.btn');
