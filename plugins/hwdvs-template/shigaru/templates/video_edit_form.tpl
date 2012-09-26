@@ -7,7 +7,8 @@
 //////
 *}
 <script type="text/javascript" src="{$domain}components/com_comprofiler/js/jquery-1.5.2/jquery.validate.min.js?v=020b12f257965e65"></script>
-
+<script type="text/javascript" src="{$domain}templates/rhuk_milkyway/js/jquery.tagsinput.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{$domain}templates/rhuk_milkyway/css/jquery.tagsinput.css" />
 <script type="text/javascript">
 	
 	var intrument_id = "{$intrument_id}";
@@ -35,7 +36,7 @@
 					jQuery('.songtutorialfields').slideUp();
 			});	
 			
-			
+			jQuery('#tags').tagsInput({width:'auto'});
 		});
 		
 		jQuery.extend(jQuery.validator.messages, {

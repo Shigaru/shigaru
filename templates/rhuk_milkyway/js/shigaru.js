@@ -71,6 +71,7 @@ jQuery(document).ready(function($){
                 }
                 jQuery(e.target).parent("a").siblings(".floatingBox").toggle();
                 jQuery(e.target).parent("a").parent(".topbuttons").toggleClass("menu-open");
+                return false;
             });
 
             jQuery(".topbuttons").mouseup(function() {

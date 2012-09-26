@@ -880,7 +880,7 @@ DEFINE("_HWDVIDS_SHIGARU_INFOTOBETTERCATEG","This information will help us to be
 DEFINE("_HWDVIDS_SHIGARU_COPYRIGHTREASONS","We only ask this for copyright reasons, so we don’t upset anyone.");
 DEFINE("_HWDVIDS_SHIGARU_TEXTDESCRIPTION","In your video description you may include web links (For example, you may want to link to your own music related website. Or why not link to the website of the original band/artist whose song is covered in the tutorial?");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS","Search tags:");
-DEFINE("_HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS_INFO","Search tags are key words to describe your video, separated by a space and commas. For example, for a The Police video you could include: Sting, Stewart Copeland, Rock, British Rock, English, Synchronicity ");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS_INFO","Search tags are key words to describe your video. For example, for a The Police video you could include: Sting, Stewart Copeland, Rock, British Rock, English, Synchronicity ");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE","Music genre:");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE_INFO","If your genre is not included simply select  \"Other\" to enter it manually.");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_INSTRUMENT","Instrument:");

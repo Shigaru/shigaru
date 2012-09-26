@@ -7,6 +7,8 @@
 //////
 *}
 <script type="text/javascript" src="{$domain}components/com_comprofiler/js/jquery-1.5.2/jquery.validate.min.js?v=020b12f257965e65"></script>
+<script type="text/javascript" src="{$domain}templates/rhuk_milkyway/js/jquery.tagsinput.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{$domain}templates/rhuk_milkyway/css/jquery.tagsinput.css" />
 {literal}
 <style>
 
@@ -22,7 +24,9 @@
 	var fromError = {$fromerror};
 	{literal}
 	function showGrabbedInfo(){
+				
 				jQuery('#infograbbed').show();
+				jQuery('#tags').tagsInput({width:'auto'});
 				jQuery('#infograbbed #yesall').click(function() {
 					jQuery.unblockUI({onUnblock: function() { jQuery('#infograbbed').hide(); }}); 
 					jQuery('#infograbbed').hide();
@@ -48,11 +52,12 @@
 			}
 	jQuery(document).ready(function() {
 		if(fromError ==0){	
+				
 				showGrabbedInfo();
 				jQuery("#language_id").val(currentLang);
 				jQuery("#intrument_id").val("102");
 				jQuery("#level_id").val("30");
-				jQuery('#infograbbed .w80pc .mbot20 a').click(function() { 
+				jQuery('#infograbbed .w80pc .mbot20 a.fontbold').click(function() { 
 					var oId= jQuery(this).attr('id');
 					oId = oId.substring(oId.indexOf('-')+1,oId.length);
 					var isEditor = oId.indexOf('descrip');
@@ -72,9 +77,12 @@
 					$clicked.parent().parent().find('.usermessages input#yes').click(function() {
 						jQuery('.viewmode,#yesall').fadeIn('slow');
 						$clicked.parent().siblings('.usermessages').hide(); 
-						if(isEditor == -1)
-						$clicked.siblings('.grabbedtext').html($clicked.parent().parent().find('.usermessages input.required').val());
-						else{
+						if(isEditor == -1){
+							$clicked.siblings('.grabbedtext').html($clicked.parent().parent().find('.usermessages input.required').val());
+							if(updateTagsField){
+								
+								}
+						}else{
 							$clicked.siblings('.grabbedtext').html(tinyMCE.activeEditor.getContent());
 							tinyMCE.activeEditor.save();
 						}
@@ -313,10 +321,6 @@
 									<br />
 									<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS_INFO}</span>
 								</p>
-								<div class="current">
-									<span class="fontbold">Current text: </span>
-									<span class="grabbedtext">{$videoInfo->tags}</span>
-								</div>
 								<div class="clear"></div>
 								<a href="#" id="cancel" class="fontbold mleft6" title="Click to cancel the changes">Cancel</a>
 								<input type="button" value="{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SAVECHANG}" id="yes" class="mtop24 reddbuttonsubmit">
@@ -394,7 +398,6 @@
                                 <button id="registerButton" type="submit">{$smarty.const._HWDVIDS_BUTTON_ADD}</button>
                             </p>
                            </fieldset>
-                        <input type="hidden" value="" id="tags" name="tags" />
                         <input type="hidden" value="" name="videotitle" id="videotitle">    
                         <input type="hidden" value="{$username}" id="shigaruuser" name="shigaruuser"/>
                         <input type="hidden" value="{$ipaddress}" id="ip_address" name="ip_address"/>
