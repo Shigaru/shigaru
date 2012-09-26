@@ -728,11 +728,11 @@ width: 75%;}
     font-size: 0.875em;
     padding: 10px;
 }
-#searchpages .pagination {
+.pagination {
     margin-bottom: 20px;
     padding: 20px;
 }
-#searchpages a.page,#searchpages span.page {
+.pagination a.page,.pagination span.page {
     background: none repeat scroll 0 0 #E9E9E9;
     border: 1px solid #C0C0C0;
     border-radius: 3px 3px 3px 3px;
@@ -746,18 +746,18 @@ width: 75%;}
     text-decoration: none;
     text-shadow: 0 1px 0 #FFFFFF;
 }
-#searchpages span.page {
+.pagination span.page {
     color: #ccc;
 }
-#searchpages span.link span.page{background: none repeat scroll 0 0 #616161;
+.pagination span.link span.page{background: none repeat scroll 0 0 #616161;
     border: medium none;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.5) inset, 0 1px 0 rgba(255, 255, 255, 0.8);
     color: #F0F0F0;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);}
-#searchpages a.page:hover, #searchpages a.page.gradient:hover {
+.pagination a.page:hover, .pagination a.page.gradient:hover {
     background: -moz-linear-gradient(0% 0 270deg, #FEFEFE, #F0F0F0) repeat scroll 0 0 transparent;
 }
-#searchpages a.page.gradient {
+.pagination a.page.gradient {
     background: -moz-linear-gradient(0% 0 270deg, #F8F8F8, #E9E9E9) repeat scroll 0 0 transparent;
 }
 .pin-it-button{margin: 11px 12px 0 12px;

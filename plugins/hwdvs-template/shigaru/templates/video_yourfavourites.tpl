@@ -8,14 +8,17 @@
 *}
 
 {include file='header.tpl'}
-
-<div class="standard">
-  <h2>{$smarty.const._HWDVIDS_TITLE_YOURFAVS}</h2>
+<div class="content_box">
+<h3 class="mbot12">{$smarty.const._HWDVIDS_TITLE_YOURFAVS}</h3>
+</div>
+<div id="resultwrapper">
   {if $print_videolist}
     {foreach name=outer item=data from=$list}
-          <div class="videoBox">
+          <div class="searchResultItem">
+          <div>
 	  {include file="video_list_full.tpl"}
-	  </div>
+			</div>
+		</div>
 	  {if $smarty.foreach.outer.last}
 	     <div style="clear:both;"></div>
 	  {elseif $smarty.foreach.outer.index % $vpr-($vpr-1) == 0}
@@ -25,7 +28,8 @@
   {else}
     <div class="padding">{$smarty.const._HWDVIDS_INFO_NFV}</div>
   {/if}
+  <div align="center" class="mtop25">
   {$pageNavigation}
+  </div>
 </div>
 
-{include file='footer.tpl'}

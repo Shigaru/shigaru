@@ -8,13 +8,16 @@
 *}
 
 {include file='header.tpl'}
-
-<div class="standard">
-  <h2>{$smarty.const._HWDVIDS_TITLE_YOURVIDS}</h2>
+<div class="content_box">
+<h3 class="mbot12">{$smarty.const._HWDVIDS_TITLE_YOURVIDS}</h3>
+</div>
+<div id="resultwrapper">
   {if $print_videolist}
     {foreach name=outer item=data from=$list}
-          <div class="videoBox">
+          <div class="searchResultItem">
+          <div>
 	  {include file="video_list_full.tpl"}
+		</div>
 	  </div>
 	  {if $smarty.foreach.outer.last}
 	     <div style="clear:both;"></div>
@@ -25,7 +28,8 @@
   {else}
     <div class="padding">{$smarty.const._HWDVIDS_INFO_NUV}</div>
   {/if}
+  <div align="center" class="mtop25">
   {$pageNavigation}
+  </div>
 </div>
 
-{include file='footer.tpl'}
