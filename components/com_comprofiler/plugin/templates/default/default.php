@@ -240,9 +240,8 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 	</div>
 	<script language='javascript' type='text/javascript'>
 		jQuery(document).ready(function($){
-				$('#fromhwdshare').show();
 				$('#fromhwdshare #yes').click(function() { 
-					//$('#fromhwdshare').hide();
+					$('#fromhwdshare').hide();
 					$.unblockUI(); 
 					return false; 
 				});	
@@ -269,17 +268,12 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 	</div>
 	<script language='javascript' type='text/javascript'>
 		jQuery(document).ready(function($){
-				$('#fromprofiler').show();
 				$('#fromprofiler #yes').click(function() { 
-					//$('#fromhwdshare').hide();
+					$('#fromprofiler').hide();
 					$.unblockUI(); 
 					return false; 
 				});	
 				$.blockUI({ message: $('#fromprofiler'), css: { width: '600px' } }); 
-				$('.usermessages #no').click(function() { 
-					$.unblockUI(); 
-					return false; 
-				});	
 			});
 	</script>
 
