@@ -531,12 +531,19 @@ $('#cbbtncancel').click( function() {
 		$title		=	cbSetTitlePath( $row, _UE_UPDATEAVATAR, _UE_EDIT_OTHER_USER_TITLE );
 ?>
 <!-- TAB -->
-<div class="componentheading"><?php echo $title; ?></div><br />
+ <div class="content_box">
+<h3><?php echo $title; ?></h3>
+ </div>
+<script> 
+ jQuery(document).ready(function($){
+	jQuery('#galleryavat').jScrollPane({showArrows:true});
+});	
+</script>	
 <?php                       
 		if($ueConfig['allowAvatarUpload']){
-			echo "<div class='contentheading'>"._UE_UPLOAD_SUBMIT."</div>";
+			//echo "<div class='contentheading'>"._UE_UPLOAD_SUBMIT."</div>";
 			echo sprintf( _UE_UPLOAD_DIMENSIONS_AVATAR, $ueConfig['avatarWidth'], $ueConfig['avatarHeight'], $ueConfig['avatarSize'] );
-			echo "\n<form action='".cbSef("index.php?option=com_comprofiler&amp;task=userAvatar".getCBprofileItemid(true))."' method='post' name='adminForm' enctype='multipart/form-data'>";
+			echo "\n<form action='".cbSef("index.php?option=com_comprofiler&amp;task=userAvatar".getCBprofileItemid(true))."' method='post' id='adminForm' name='adminForm' enctype='multipart/form-data'>";
 			echo "\n\t<input type='hidden' name='do' value='validate' />";
 			if ( $_CB_framework->myId() != $row->id ) {
 				echo "\n\t<input type='hidden' name='uid' value='" . $row->id . "' />";
@@ -545,8 +552,8 @@ $('#cbbtncancel').click( function() {
 			echo "\n\t\t<tr align='center' valign='middle'>\n\t\t\t<td align='center' valign='top'>";
 
 			//echo " <input type='hidden' name='MAX_FILE_SIZE' value='".$maxAllowed."' />";
-			echo _UE_UPLOAD_SELECT_FILE." <input type='file' name='avatar' value='' />";
-			echo " <input type='submit' class='button' value='"._UE_UPLOAD_UPLOAD."' />";
+			echo " <input type='file' name='avatar' class=\"mtop24 fleft\" value='' />";
+			echo " <input type='submit' class=\"mtop24 reddbuttonsubmit fleft\" value='"._UE_UPLOAD_UPLOAD."' />";
 			echo "</td>\n\t\t</tr>";
 			echo "\n\t\t<tr align='center' valign='middle'>\n\t\t\t<td align='center' valign='top'>";
 			echo ( $ueConfig['reg_enable_toc'] ? sprintf( _UE_AVATAR_UPLOAD_DISCLAIMER_TERMS, "<a href='".cbSef(htmlspecialchars($ueConfig['reg_toc_url']))."' target='_BLANK'> " . _UE_AVATAR_TOC_LINK . "</a>" ) : _UE_AVATAR_UPLOAD_DISCLAIMER );
@@ -559,12 +566,12 @@ $('#cbbtncancel').click( function() {
 
 		if($ueConfig['allowAvatarGallery']){
 			echo "\n<div class='contentheading'>"._UE_UPLOAD_GALLERY."</div>";
-			echo "\n<form action='".cbSef("index.php?option=com_comprofiler&amp;task=userAvatar".getCBprofileItemid(true))."' method='post' name='adminForm'>";
+			echo "\n<form action='".cbSef("index.php?option=com_comprofiler&amp;task=userAvatar".getCBprofileItemid(true))."' method='post' id='adminForm' name='adminForm'>";
 			echo "\n\t<input type='hidden' name='do' value='fromgallery' />";
 			if ( $_CB_framework->myId() != $row->id ) {
 				echo "\n\t<input type='hidden' name='uid' value='" . $row->id . "' />";
 			}
-			echo "\n\t<table width='100%' border='0' cellpadding='4' cellspacing='2'>";
+			echo "\n\t<div id=\"galleryavat\" style=\"height:300px; overflow:auto;\"><table width='100%'  border='0' cellpadding='4' cellspacing='2'>";
 			echo "\n\t\t<tr align='center' valign='middle'>";
 			echo '<td colspan="5">&nbsp;</td></tr>';
 			echo "\n\t\t<tr align='center' valign='middle'>";
@@ -575,7 +582,7 @@ $('#cbbtncancel').click( function() {
 				$j=$i+1;
 				echo "\n\t\t\t<td>";
 				$avatar_name = ucfirst(str_replace("_", " ", preg_replace('/^(.*)\..*$/', '\1', $avatar_images[$i])));
-				echo '<img src="' . $live_site . '/images/comprofiler/gallery/'. $avatar_images[$i].'" alt="'.$avatar_name.'" title="'.$avatar_name.'" />';
+				echo '<img style="width:80px;" src="' . $live_site . '/images/comprofiler/gallery/'. $avatar_images[$i].'" alt="'.$avatar_name.'" title="'.$avatar_name.'" />';
 				echo '<input type="radio" name="newavatar" value="'.$avatar_images[$i].'" />';
 				echo '</td>';
 				if (function_exists('fmod')) {
@@ -585,13 +592,14 @@ $('#cbbtncancel').click( function() {
 				}
 
 			}
-			echo "\n\t\t</tr>\n\t\t";
-			echo '<tr><td colspan="5" align="center"><input class="button"  type="submit" value="'._UE_UPLOAD_CHOOSE.'" /> ';
-			echo '<input type="button" class="button" name="btncancel" value="' . _UE_CANCEL . '" onclick="window.location=\''
+			echo "\n\t\t</tr>\n\t\t\n\t</table></div><div class=\"fright mtop24 mbot20\">";
+			
+			echo '<input type="button" class="mtop24 reddbuttonsubmit fleft" name="btncancel" value="' . _UE_CANCEL . '" onclick="window.location=\''
 					. cbSef("index.php?option=" . htmlspecialchars( cbGetParam( $_REQUEST, 'option' ) ) . ( ( $row->id == $_CB_framework->myId() ) ? '' : ( '&amp;user=' . $row->id ) ) . getCBprofileItemid( true ))
 					. '\';" />';
-			echo '</td></tr>';
-			echo "\n\t</table>";
+			echo '';
+			echo '<input class="mtop24 reddbuttonsubmit fleft"  type="submit" value="'._UE_UPLOAD_CHOOSE.'" /> ';
+			echo "\n\t<div class=\"clear\"></div></div><div class=\"clear\"></div>";
 			echo "\n";
 			echo cbGetSpoofInputTag( 'userAvatar' );
 			echo "</form>\n";

@@ -945,6 +945,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 border-radius: 0 0 5px 5px;
 margin: 12px 0 0 1px;
 padding: 12px;}
+#adminForm .reddbuttonsubmit{clear:none;float:left;margin:12px 30px;}
 .cbPosTabMain .cb_tab_div .cbft_editorta{clear:both;}
 #cbProfileInner div.cbMenuList{margin-top:16px}
 #cbProfileInner div.cbMenuList .graybar{height:5px; background:#c1c1c1;}

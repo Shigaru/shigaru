@@ -607,14 +607,14 @@ span.reference a:hover{color:#000;}
 #signupdemo{float:right;margin:52px 26px 0 35px;}
 #steps button#registerButton{clear:none;float:left;margin:12px 30px;}
 #videoupload a#cancel{float:left;}
-.shigarunotice{
+#system-message{
     color: #000000;
     font-size: 80%;
     margin: 12px 0;
     padding: 10px 10px 10px 40px;
     background:url("../images/icon_info_bip.png") no-repeat scroll 12px 12px #FFEFD8;
     border:1px solid #FFD69B;}
-.shigarunotice .close{
+#system-message .close{
 display:block;
 float:right;
 width:15px;
