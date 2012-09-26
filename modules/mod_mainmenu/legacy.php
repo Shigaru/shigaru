@@ -371,7 +371,7 @@ function mosShowHFMenu(& $params, $style = 0)
 				echo '<ul id="' . $menuclass . '">';
 				foreach ($links as $link) {
 					if($counter == count($links)-1)$lastchild = 'class="last"';
-					echo '<li '.$lastchild.' id="tab'.$counter.'" ><span class="fleft"></span><span class="fright">' . $link . '</span><span class="clear nonvis"></span></li>';
+					echo '<li '.$lastchild.' id="tab'.$counter.'" >' . $link . '</li>';
 					$counter++;
 					$lastchild = '';
 				}
