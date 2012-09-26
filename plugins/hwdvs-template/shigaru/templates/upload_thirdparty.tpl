@@ -87,6 +87,7 @@
 						
 						if((jQuery(window).height()/3 < 300)){
 									jQuery('.blockUI .grabbedtext').css({'max-height':'100px'});
+									jQuery('.blockUI .grabbedtext').jScrollPane({showArrows:true});
 								}
 						return false;  
 					});
