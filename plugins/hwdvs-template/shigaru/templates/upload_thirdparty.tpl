@@ -79,13 +79,15 @@
 						$clicked.parent().siblings('.usermessages').hide(); 
 						if(isEditor == -1){
 							$clicked.siblings('.grabbedtext').html($clicked.parent().parent().find('.usermessages input.required').val());
-							if((jQuery(window).height()/3 < 300)){
-									jQuery('.blockUI .grabbedtext').css({'height':'150px'});
-								}
+							
 						}else{
 							$clicked.siblings('.grabbedtext').html(tinyMCE.activeEditor.getContent());
 							tinyMCE.activeEditor.save();
 						}
+						
+						if((jQuery(window).height()/3 < 300)){
+									jQuery('.blockUI .grabbedtext').css({'max-height':'100px'});
+								}
 						return false;  
 					});
 					$clicked.parent().parent().find('.usermessages a#cancel').click(function() {

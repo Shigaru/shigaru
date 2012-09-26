@@ -714,7 +714,7 @@ width: 75%;}
 .blockUI #description_parent .button2-left{display:none;}
 .blockUI .grabbedtext{display: block;
     max-height: 250px;
-    overflow-y: auto;}
+    overflow-y: auto;word-wrap: break-word;}
 .blockUI .current .grabbedtext{display: block;
     max-height: 200px;
     overflow-y: auto;}    
