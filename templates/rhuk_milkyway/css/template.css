@@ -299,7 +299,12 @@ div.searchResultItem{
     border-radius: 5px;
     -moz-box-shadow:0px 0px 3px #aaa;
     -webkit-box-shadow:0px 0px 3px #aaa;
-    box-shadow:0px 0px 3px #aaa}
+    box-shadow:0px 0px 3px #aaa;}
+.cbPosUnderAll div.searchResultItem{
+    width:100%;
+    margin: 15px 0 5px -9px;
+    padding: 10px;
+    font-size:125% !important;}
 div.searchResultInfo{ width: 100%;}
 div.searchResultThumb{ float:right;}
 .quicksearch{clear:both;margin:5px 0px;background-color:#E8F3F6;border:1px solid #fff;width:90%;margin: 5px 0 5px 15px;

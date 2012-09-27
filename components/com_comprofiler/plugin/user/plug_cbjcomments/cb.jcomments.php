@@ -133,8 +133,10 @@ class JCommentsMyLatestComments extends cbTabHandler
 
 				// group comments by objects
 				$list = self::groupBy($list, 'object_title');
-
-				$content = '<ul class="cb-jcomments-latest">';
+				 $content = '<div class="content_box">
+								<h3>Your comments</h3>
+							</div>';
+				$content .= '<ul class="cb-jcomments-latest">';
 
 				// display comments list
 				foreach ($list as $group_name => $group)

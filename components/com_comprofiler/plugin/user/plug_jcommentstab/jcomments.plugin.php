@@ -69,9 +69,12 @@ class JCommentsTab extends cbTabHandler
 
 			$dbo->setQuery($query, 0, $count);
 			$rows = $dbo->loadObjectList();
+			$content = '<div class="content_box">
+								<h3>Your comments</h3>
+							</div>';
 
 			if (sizeof($rows)) {
-
+				//var_dump($rows);
 				$content .= '<ul class="jclist">'."\n";
 
 				$bbcode = & JCommentsFactory::getBBCode();
@@ -123,7 +126,9 @@ class JCommentsTab extends cbTabHandler
 
 				}
 				$content .= '</ul>'."\n";
-			}
+			}else{
+				$content = 'NO comments for this user';
+				}
 		}
 		return $content;
 	}
