@@ -24,7 +24,7 @@
 		This plugin displays a menu item page in a CB tab.
 	</description>
 	<files>
-		<filename plugin="menupage">menupage.php</filename>
+		<filename plugin="menupage">menupage2.php</filename>
 		<filename>index.html</filename>
 	</files>
 

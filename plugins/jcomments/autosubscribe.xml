@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="plugin" group="jcomments" version="1.5.0" method="upgrade">
+	<name>JComments - AutoSubscribe</name>
+	<creationDate>07/06/2012</creationDate>
+	<author>smart</author>
+	<copyright>Copyright 2006-2012 JoomlaTune.ru All rights reserved!</copyright>
+	<authorEmail>smart@joomlatune.ru</authorEmail>
+	<authorUrl>http://www.joomlatune.ru</authorUrl>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<version>2.1</version>
+	<description>PLG_JCOMMENTS_AUTOSUBSCRIBE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="autosubscribe">autosubscribe.php</filename>
+		<folder>elements</folder> 
+	</files>
+	<languages folder="language">
+	    <language tag="en-GB">en-GB/en-GB.plg_jcomments_autosubscribe.ini</language>
+	    <language tag="ru-RU">ru-RU/ru-RU.plg_jcomments_autosubscribe.ini</language>
+	</languages>
+	<params addpath="/plugins/jcomments/elements">
+		<param
+			name="object_group"
+			type="jcommentsobjectgroup"
+			default="com_content"
+			multiple="true"
+			size="10"
+			label="PLG_JCOMMENTS_AUTOSUBSCRIBE_FIELD_COMPONENTS_LABEL"
+			description="PLG_JCOMMENTS_AUTOSUBSCRIBE_FIELD_COMPONENTS_DESC" />
+	</params>
+</install>

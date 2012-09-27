@@ -54,20 +54,53 @@ $link_cb = $grRoute->_("$link&amp;task=userProfile&amp;user=".$user->id.$cb_item
     $userid = $dat->id;
     $doc = JFactory::getDocument();
 	$script=array();
-	$script[]='jQuery(document).ready(function($){';
-	$script[]="\tjQuery('.shigarunotice .close').click(function(){jQuery(this).parent().fadeOut('slow');});";
+	$script[]="function changeProfileTabs(e){jQuery('#custommenu a').removeClass('current');";
+	$script[]="			var oTarget = jQuery(e.target);";
+	$script[]="			var oTargetId = jQuery(e.target).attr('id');";
+	$script[]="			oTarget.addClass('current');";
+	$script[]="			if(oTargetId=='aaboutme'){";
+	$script[]="				jQuery('.cbPosUnderAll').hide();";
+	$script[]="				jQuery('.cbPosTabMain').fadeIn();";
+	$script[]="				";
+	$script[]="				";
+	$script[]="			}else{";
+	$script[]="				if(oTargetId=='acomments'){";
+	$script[]="					jQuery('#cb_tabid_32').hide();";
+	$script[]="					jQuery('#cb_tabid_30').fadeIn();";
+	$script[]="				}else{";
+	$script[]="					jQuery('#cb_tabid_30').hide();";
+	$script[]="					jQuery('#cb_tabid_32').fadeIn();";
+	$script[]="					if(oTargetId=='afavour'){";
+	$script[]="						jQuery('#pageload').hide();";
+	$script[]="						jQuery('#pageload2').fadeIn();";
+	$script[]="					}else{";
+	$script[]="							jQuery('#pageload').fadeIn();";
+	$script[]="							jQuery('#pageload2').hide();";
+	$script[]="					}";
+	$script[]="				}";
+	$script[]="				jQuery('.cbPosTabMain').hide();";
+	$script[]="				jQuery('.cbPosUnderAll').fadeIn();";
+	$script[]="				";
+	$script[]="				}";
+	$script[]="			";
+	$script[]="}";
+	$script[]='jQuery(document).ready(function($){jQuery(\'.cbPosUnderAll\').hide();';
+	$script[]="\tjQuery('#custommenu a').click(function(e){";
+	$script[]="changeProfileTabs(e);return false;";
+	$script[]="";
+	$script[]="";
+	$script[]="";
+	$script[]="});";
 	$script[]='});';
 	$doc->addScriptDeclaration(implode("\n",$script));
     if ($s == "u.name") {$usernames = $dat->name;}
     else {$usernames = $dat->username;}
     $echo = "<div id='custommenu'>";
     //if ($user->id == $myid OR $user->id == 0) {
-      $echo.= '<a href="#" class="current">'._UE_ABOUTME.'</a>&nbsp;|&nbsp;';
-      $echo.= '<a href="#">'._UE_VIDEOSUBMITED.'</a>&nbsp;|&nbsp;';
-      $echo.= '<a href="#">'._UE_FAVOURITES.'</a>&nbsp;|&nbsp;';
-      $echo.= '<a href="#">'._UE_COMMENTS.'</a>&nbsp;|&nbsp;';
-      $echo.= '<a href="#">'._UE_MYBAND.'</a>&nbsp;|&nbsp;';
-      $echo.= '<a href="#">'._UE_MYOTHERBAND.'</a>';
+      $echo.= '<a id="aaboutme" href="#" class="current">'._UE_ABOUTME.'</a>&nbsp;|&nbsp;';
+      $echo.= '<a id="avideossubmi" href="#">'._UE_VIDEOSUBMITED.'</a>&nbsp;|&nbsp;';
+      $echo.= '<a id="afavour" href="#">'._UE_FAVOURITES.'</a>&nbsp;|&nbsp;';
+      $echo.= '<a id="acomments" href="#">'._UE_COMMENTS.'</a>';
     //} 
     
     /*else {

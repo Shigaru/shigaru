@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Joomla Community Builder User Plugin: plug_cbmenupagetab
+* @version $Id$
+* @package plug_cbmenupagetab
+* @subpackage menupage.xml
+* @author Brian Shaughnessy
+* @copyright (C) Brian Shaughnessy, www.lcdservices.biz
+* @license Limited  http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* @final 1.0
+*/
+-->
+<cbinstall version="1.0.0" type="plugin" group="user">
+	<name>CB Menu Page Tab</name>
+	<author>Brian Shaughnessy</author>
+	<creationDate>September, 2009</creationDate>
+	<copyright>Brian Shaughnessy</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>brian@lcdservies.biz</authorEmail>
+	<authorUrl>www.lcdservices.biz</authorUrl>
+	<version>1.0</version>
+	<description>
+		This plugin displays a menu item page in a CB tab.
+	</description>
+	<files>
+		<filename plugin="menupage2">menupage2.php</filename>
+		<filename>index.html</filename>
+	</files>
+
+	<tabs>
+		<tab name="MenuPage2" description="This tab displays a menu item page in a CB tab." class="getMenuPageTab2" fields="0" position="cb_tabmain" displaytype="tab">
+			<params>
+				<param name="menu_id2" type="text" label="Menu Item ID" default="" description="Enter the id (ItemID) for the menu item you wish to include in a tab." />
+			</params>
+			<fields>
+			</fields>
+		</tab>
+	</tabs>
+	<install>
+		<queries>
+		</queries>
+	</install>
+	<uninstall>
+	</uninstall>
+</cbinstall>
