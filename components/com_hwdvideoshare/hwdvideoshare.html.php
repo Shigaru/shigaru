@@ -385,8 +385,8 @@ class hwd_vs_html
 		
 		jimport( 'joomla.methods' ); 
 		$tenreasonstext = JText::_('10 reasons to join!');
-		$tenreasonstemp = 'index.php?option=com_content&id=56';
-		$tenreasonsurl = JRoute::_($tenreasonstemp);
+		$tenreasonstemp = $live_path .'index.php?option=com_content&id=56';
+		$tenreasonsurl = $tenreasonstemp;
 		$smartyvs->assign("tenreasonstext", $tenreasonstext);
 		$smartyvs->assign("tenreasonsurl", $tenreasonsurl);
 		$shiggymemberssurl = $live_path . "modules/mod_zncbmembers/tmpl/js/shiggymembers.js";
