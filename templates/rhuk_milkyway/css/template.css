@@ -268,7 +268,32 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #footer #leftcolumn ul li:last-child{border-bottom:none;}
 #footer #leftcolumn div div.fright{margin:0 10% 0 0;}
 #footer #leftcolumn div div.fright input.submit{padding: 8px 18px 8px 58px;background: url("../images/sprite.png") no-repeat scroll 18px -44px #EFCD9D;}
-
+#theidea{padding: 15px 30px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    margin:40px 0;
+    background: #f5f5f5 url("../images/shiggywhatermark.png") no-repeat 45% -7px;
+    border:1px solid #ccc;-moz-box-shadow: 0px 0px 6px 4px #CCCCCC;
+-webkit-box-shadow: 0px 0px 6px 4px #CCCCCC;
+box-shadow: 0px 0px 6px 4px #CCCCCC;color:#000;}
+#theidea h3{color:#944a4a;font-size:220%;margin:12px 0 30px;}
+#theidea ul li{  min-height: 55px;display: inline-block;
+    list-style: none outside none;
+    padding: 0 0 0 65px;
+    vertical-align: top;
+    width: 26%;color:#666666;}
+#theidea ul{}
+#theidea li#finding{background: transparent url("../images/youtubeicon.png") no-repeat 0 0;}
+#theidea li#categorizing{background: transparent url("../images/categorizeicon.png") no-repeat 0 0;}
+#theidea li#notaggregator{background: transparent url("../images/hearticon.png") no-repeat 0 0;}
+#theidea li#submit{background: transparent url("../images/submiticon.png") no-repeat 0 0;}
+#theidea li#grabbed{background: transparent url("../images/funnyfaceicon.png") no-repeat 0 0;}
+#theidea li#fillout{background: transparent url("../images/greentickmarkicon.png") no-repeat 0 0;}
+#theidea li#signupto{background: transparent url("../images/arrowicon.png") no-repeat 0 0;}
+#theidea li#coolprofile{background: transparent url("../images/profileicon.png") no-repeat 0 0;}
+#theidea div#thanks{background: transparent url("../images/thnkyou.png") no-repeat 0 bottom;height: 100px;width: 250px;float:right;margin-top: -50px;}
+#theidea div#thanks div{background: transparent url("../images/logoicon.png") no-repeat 111px 0;height: 120px;width: 250px;}
 #topnavmenu div.menu-open {background:#fff;border-radius: 5px 5px 0 0;}
 
 #topnavmenu .floatingBox{-moz-border-radius-topleft:5px;-moz-border-radius-bottomleft:5px;-moz-border-radius-bottomright:5px;-webkit-border-top-left-radius:5px;-webkit-border-bottom-left-radius:5px;
@@ -422,7 +447,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 ;-moz-border-radius:5px;
     -webkit-border-radius:5px;
     border-radius:5px;}
-#videouploadwrap .reddbuttonsubmit{display:inline;}    
+#videouploadwrap .reddbuttonsubmit,.cb_button_wrapper .reddbuttonsubmit{display:inline;}    
 #videouploadwrap #videourl{   -moz-border-radius:10px;
     -webkit-border-radius:10px;
     border-radius:10px;border: 4px solid #A1959B;
@@ -833,7 +858,6 @@ table.contentpaneopen tbody tr td .addtoany{
 .videoinfolabel{width:30%;text-align:right !important;font-weight:bold;margin-right: 12px;margin-top: 6px;}
 .headerText{font-size:1.5em;font-weight:bold;color:#000;}
 .boldred{font-weight:bold;color:red;}
-
 ul.jc_top_posters {padding: 0; list-style-image: none; list-style-type: none;}
 ul.jc_top_posters li {background-image: none !important; list-style: none; list-style-image: none !important; margin-left: 5px !important; margin-left: 0; padding: 0 !important; display: block; overflow: hidden; line-height: 1.2em;}
 ul.jc_top_posters li div {margin: 0; padding: 5px 0 0 0;}
@@ -886,6 +910,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .mtop12{margin-top:12px;}
 .mbot12{margin-bottom:12px;}
 .mbot20{margin-bottom:20px !important;}
+.mbot30{margin-bottom:30px !important;}
 .boxwhite{background-color:#fff;border-radius: 5px 5px 5px 5px;box-shadow: 0 0 3px #AAAAAA; border: 1px solid #C1C1C1;color:#000;}
 .mtopl6{margin-top:-6px;}
 .mtop25{margin-top:25px;}

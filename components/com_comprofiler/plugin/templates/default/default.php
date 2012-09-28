@@ -184,9 +184,11 @@ class CBProfileView_html_default extends cbProfileView {
 	function _renderEdit( ) {
 		echo $this->tabcontent;
 ?>
-
-		<span class="cb_button_wrapper"><input class="button cbProfileEditSubmit" type="submit" id="cbbtneditsubmit" value="<?php echo $this->submitValue; ?>" /></span>
-		<span class="cb_button_wrapper"><input class="button cbProfileEditCancel" type="button" id="cbbtncancel" name="btncancel" value="<?php echo $this->cancelValue; ?>" /></span>
+		<div class="fright mtop24 mbot20">
+		<span class="cb_button_wrapper"><input class="button cbProfileEditCancel reddbuttonsubmit" type="button" id="cbbtncancel" name="btncancel" value="<?php echo $this->cancelValue; ?>" /></span>
+		<span class="cb_button_wrapper"><input class="button cbProfileEditSubmit reddbuttonsubmit" type="submit" id="cbbtneditsubmit" value="<?php echo $this->submitValue; ?>" /></span>
+		<div class="clear"></div>
+		</div>
 		<div id="cbIconsBottom">
 			<?php echo $this->bottomIcons; ?>
 

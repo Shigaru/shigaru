@@ -298,13 +298,8 @@ div.cbUserListChanger div.cbUserListChangeItem	{	margin-bottom: 6px;		text-align
 }
 .dynamic-tab-pane-control .tab-page {
 	clear:			both;
-	border:			1px solid #666;
-	background:		#FFF;
 	z-index:		2;
 	position:		relative;
-	top:			-2px;
-	color:			#000;
-	font-family:		Message-Box,sans-serif;
 	width:			100%;
 }
 .dynamic-tab-pane-control .tab-row {

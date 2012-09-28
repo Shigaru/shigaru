@@ -6,7 +6,6 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-
 {include file='header.tpl'}
 <div class="content_box">
 <h3 class="mbot12">{$smarty.const._HWDVIDS_TITLE_YOURVIDS}</h3>
@@ -32,4 +31,5 @@
   {$pageNavigation}
   </div>
 </div>
+
 

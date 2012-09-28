@@ -337,7 +337,9 @@ $('#cbbtncancel').click( function() {
 		echo implode( '', $results );
 	}
 ?>
-<div class="componentheading"><?php echo htmlspecialchars( $title ); ?></div>
+ <div class="content_box">
+<h3><?php echo htmlspecialchars( $title ); ?></h3>
+ </div>
 <div class="cbEditProfile"><div id="cbEditProfileInner" class="cbHtmlEdit">
 	<form action="<?php echo cbSef("index.php?option=$option".getCBprofileItemid(true)); ?>" method="post" id="cbcheckedadminForm" name="adminForm" enctype="multipart/form-data" class="cb_form" autocomplete="off">
 		<input type="hidden" name="id" value="<?php echo $user->id;?>" />
