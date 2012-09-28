@@ -6,7 +6,7 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<div class="workarea">
+<div class="workarea" id="workareainit">
 	<div class="workarea_wrapper">
 		<div id="homepromo">
 			{$smarty.const._HWDVIDS_HOMEPROMO} 

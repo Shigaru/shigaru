@@ -12,10 +12,12 @@ jQuery(document).ready(function($){
 	}
 	
 	jQuery('.usermessages div a.close').click(function(){
+			jQuery.unblockUI();
 			jQuery(this).parent().parent().fadeOut();
 		});
 	
 	jQuery('.shigaruinfo a.close').click(function(){
+			jQuery.unblockUI();
 			jQuery(this).parent().fadeOut();
 		});
 		

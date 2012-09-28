@@ -268,15 +268,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #footer #leftcolumn ul li:last-child{border-bottom:none;}
 #footer #leftcolumn div div.fright{margin:0 10% 0 0;}
 #footer #leftcolumn div div.fright input.submit{padding: 8px 18px 8px 58px;background: url("../images/sprite.png") no-repeat scroll 18px -44px #EFCD9D;}
-#theidea{padding: 15px 30px;
+#theidea{padding: 15px 30px;display:none;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    margin:40px 0;
     background: #f5f5f5 url("../images/shiggywhatermark.png") no-repeat 45% -7px;
     border:1px solid #ccc;-moz-box-shadow: 0px 0px 6px 4px #CCCCCC;
 -webkit-box-shadow: 0px 0px 6px 4px #CCCCCC;
 box-shadow: 0px 0px 6px 4px #CCCCCC;color:#000;}
+#workareainit #theidea{margin:30px 0;}
+#theidea #close{display: block;
+background: url("../images/close.png") no-repeat scroll left top transparent;
+float: right;
+height: 50px;
+width: 50px;
+cursor: pointer;
+margin: -40px -50px 0 0}
 #theidea h3{color:#944a4a;font-size:220%;margin:12px 0 30px;}
 #theidea ul li{  min-height: 55px;display: inline-block;
     list-style: none outside none;
