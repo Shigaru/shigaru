@@ -37,7 +37,7 @@ class plgSystemePrivacy extends JPlugin {
         parent::__construct($subject, $config);
     }
 
-    function onAfterInitialise() {
+    function onAfterDispatch() {
         $app = JFactory::getApplication();
 
         // plugin should only run in the front-end
@@ -153,7 +153,7 @@ class plgSystemePrivacy extends JPlugin {
          $doc = JFactory::getDocument();
         $script=array();
         $script[]='jQuery(document).ready(function($){';
-        $script[]="\tjQuery('.shigarunotice .close').click(function(){jQuery(this).parent().fadeOut('slow');});";
+        $script[]="\tjQuery('.shigarunotice .close').click(function(){jQuery(this).parents('#system-message').fadeOut('slow');});";
         $script[]='});';
         $doc->addScriptDeclaration(implode("\n",$script));
         if (count($query_string) && strlen($query_string[0])) {
