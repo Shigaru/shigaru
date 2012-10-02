@@ -18,7 +18,9 @@ $mh = $module_height . 'px';
 
 
 echo	"<div class=\"pe-container\"><ul id=\"pe-thumbs\" class=\"pe-thumbs\">";
+//var_dump($zncbmembers[1]);
 foreach ( $zncbmembers as $row ) {
+	
 	// Check if user has an avatar	
 	if ($row->avatar != NULL) {
                
@@ -41,7 +43,7 @@ foreach ( $zncbmembers as $row ) {
 		
 		//Show gender?
 		if ($show_gender == 1) {
-			$zngender = '- ' . $row->$gender;
+			$zngender = ' ' . JText::_($row->cb_sex);
 		} else {
 			$zngender = '';
 		}
@@ -49,16 +51,16 @@ foreach ( $zncbmembers as $row ) {
 		$years = $row->age;
 				//Show location?
 		if ($show_location == 1) {
-			$znlocation = ' - ' . $row->$location;
+			$znlocation = ' ' . JText::_($row->cb_country);
 		} else {
 			$znlocation = '';
 		}
-		$titleimg = 'Username: '.$znname.'<br/> Status: '.$zngender.'<br /> Age: '.$years.'<br /> Location: '.$znlocation.'<br /> Gender: '.$znlocation;
+		$titleimg = 'Username: '.$znname.'<br/> Sex: '.$zngender.'<br /> Age group: '.$years.'<br /> Country: '.$znlocation.'<br /> Gender: '.$znlocation;
 	
 	if ($imagelinked == 1) {
 		echo "<li><a href=\"index.php?option=com_comprofiler&task=userprofile&user=$row->id\" >";
 		echo $img;
-		echo "<div class=\"pe-description\"><h3>".$znname."</h3><p>Status: ".constant($zngender)."<br /> Age: ".$years."<br /> Location: ".constant($znlocation)."<br /></p></div></a></li>	";	
+		echo "<div class=\"pe-description\" ><h4 id='".$row->cb_country."'>".$znname."</h4><p >Sex: ".$zngender."<br /> Age group: ".$years."<br /> Country: ".$znlocation."<br /></p></div></a></li>	";	
 		}
 	else {
 	echo $img;

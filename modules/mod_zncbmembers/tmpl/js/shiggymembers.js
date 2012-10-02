@@ -150,11 +150,11 @@ jQuery(function() {
 				var Photo	= (function() {
 					
 						// list of thumbs
-					var $list		= jQuery('#pe-thumbs'),
+					var $list		= jQuery('.pe-container ul'),
 						// list's width and offset left.
 						// this will be used to know the position of the description container
-						listW		= $list.width(),
-						listL		= $list.offset().left,
+						listW		= $list.parent().parent().width()-150,
+						listL		= $list.parent().parent().offset().left,
 						// the images
 						$elems		= $list.find('img'),
 						// the description containers
@@ -220,7 +220,6 @@ jQuery(function() {
 									space_l = ( img_n_w - img_w ) / 2;
 								
 								$el.data( 'space_l', space_l ).css({
-									height	: settings.maxScale * $el.height(),
 									top		: -space_t,
 									left	: img_n_w - space_l
 								});
@@ -244,13 +243,13 @@ jQuery(function() {
 									
 									$li.css( 'z-index', 10000 );
 									$li.css( 'position', 'relative' );
-									if( $desc.offset().left + $desc.width() > listL + listW ) {
+									if( $desc.offset().left + $desc.width() > listL  ) {
 										
 										$desc.css( 'left', -$desc.width() - $desc.data( 'space_l' ) );
 									
 									}
 									
-									$desc.fadeIn( 800 );
+									$desc.fadeIn( 200 );
 									
 								}	
 								else {

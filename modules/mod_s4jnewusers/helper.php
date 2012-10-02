@@ -736,12 +736,10 @@ class s4jLibNewUsers {
         } else {
             $href = '#';
         }
-        $tooltip = str_replace('"', "'", $tooltip);
-        $mousover = 'return overlib(unescape(\'' . addslashes($tooltip) . '\')' . $title . ', BELOW, RIGHT' . $width . ');';
 
-        $tip = "<!-- Tooltip -->\n";
+        $tip = "";
         if ($link) {
-            $tip .= '<a href="' . $href . '" onmouseover="' . $mousover . '" onmouseout="return nd();" ' . $style . '>' . $text . '</a>';
+            $tip .= '<a href="' . $href . '" ' . $style . '>' . $text . $tooltip.'</a>';
         } else {
             $tip .= '<span onmouseover="' . $mousover . '" onmouseout="return nd();" ' . $style . '>' . $text . '</span>';
         }

@@ -141,7 +141,7 @@ padding: 16px 30px;border-right:1px solid #d6d6d6;font-size: 91%;-moz-box-shadow
 .workarea div.video_activity div.slidesWrapper{
 padding-left:1px;border:1px solid #dbdbdb; border-top:none;-moz-border-radius:0px 0px 5px 5px;-webkit-border-radius:0px 0px 5px 5px;border-radius:0px 0px 5px 5px;}
 .workarea div.video_activity div.tab_wrapper{height: 330px;overflow-x: hidden !important;width: 100%;}
-.workarea div.video_activity div.community{height: 200px;}
+.workarea div.video_activity div.community{height: 210px;}
 .workarea div.video_activity div.tab_wrapper li{font-size:120%;}
 .workarea div.video_activity div.tags ul li {border-bottom:1px solid #dbdbdb;}
 .workarea div.video_activity div.tags ul li:hover {background: rgb(246,248,249); /* Old browsers */
@@ -177,8 +177,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', end
 .workarea div.video_activity div.comments ul li p{margin:12px 6px 25px 0;}
 .workarea div.video_activity div.community {padding-bottom:18px;}
 .workarea div.video_activity div.community ul{padding:12px 20px 0 60px;}
-.workarea div.video_activity div.community ul li{float:left; display:block; width:auto;}
-.workarea div.video_activity div.community ul li img{float:left; display:block; width:auto;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; margin-bottom:6px;}
+.workarea div.video_activity div.community ul li{float:left; display:block; width:auto;overflow: visible;}
+.workarea div.video_activity div.community ul li img{float:left; display:block; width:auto; margin-bottom:6px;}
 #beingwatched{font-size:90%;}
 #beingwatched .slidesWrapper a{text-decoration:none;display:block;}
 #beingwatched .slidesWrapper .tab_wrapper li span{padding-top:10px; display:block;}

@@ -452,13 +452,14 @@ class CBListView_html_default extends cbListView {
 		// users-count:
 ?>
 
-	<div class="contentdescription cbUserListResultCount"><?php
+	 <div class="content_box">
+<h3><?php
 		if ( $this->totalIsAllUsers ) {
 			echo $_CB_framework->getCfg( 'sitename' ) . " " . _UE_HAS . " <strong>" . $this->total . "</strong> " . _UE_USERS;
 		} else {
 			echo "<strong>" . $this->total . "</strong> " . _UE_USERPENDAPPRACTION . ":";
 		}
-	  ?></div>
+	  ?></h3></div>
 		<div class="cbClr"></div>
 <?php
 		if ( $this->searchTabContent ) {
@@ -497,14 +498,7 @@ class CBListView_html_default extends cbListView {
 	 */
 	function _renderBody( ) {
 ?>
-<?php
-		// table headers:
-	
-			$colsNbr = count( $this->columns );
-			foreach ( $this->columns as $column ) {
-				echo "<b>" . $column->titleRendered . "</b>\n";
-			}
-?>
+
 <div id="cbUserTable" class="cbUserListTable cbUserListT_<?php echo $this->listid ?>">
 	<ul id="pe-thumbs" class="pe-thumbs">
 					<?php

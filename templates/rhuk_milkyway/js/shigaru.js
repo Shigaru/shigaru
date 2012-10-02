@@ -2,7 +2,7 @@ var $jq = jQuery.noConflict();
 jQuery(document).ready(function($){
 	/* Scroll bars */
 	if(jQuery('#the_most .tab_wrapper').length>0){
-	jQuery('#the_most .tab_wrapper, .workarea div.video_activity div.tab_wrapper').jScrollPane({showArrows:true});
+	jQuery('#the_most .tab_wrapper, .workarea .leftcolumn div.video_activity div.tab_wrapper, .workarea .rightcolumn div.video_activity div.tab_wrapper').jScrollPane({showArrows:true});
 	/* Tabs */
 	jQuery('#the_most_title').shigaruTabs({slidesWrapper:'#the_most_wrapper',effect:'fade'});
 	jQuery('.beingwatched_header').shigaruTabs({slidesWrapper:'#beingwatched .slidesWrapper',controls:true,hideTabs:true,directionOfSorting:'left'});

@@ -56,6 +56,7 @@ if( !class_exists("s4jNewUsers") ) {
 						u.id, u.username, u.name,
 						s.userid as s4jonline";
 			$sql .= $this->_s4j->GetFields();
+			
 			$sql .= " FROM ". $this->_s4j->GetTables();
 			$sql .= $this->_s4j->GetFilter("c", "u", "WHERE");
 			$sql .=	" ORDER BY registerdate DESC
@@ -74,7 +75,7 @@ if( !class_exists("s4jNewUsers") ) {
 			$ind			= 1;
 			$rows_count		= count($rows); //NOTE: Improve later
 	
-			$result 		= "<ul>"; // TODO: Change template
+			$result 		= "<div class=\"pe-container\"><ul id=\"pe-thumbs\" class=\"pe-thumbs\">"; // TODO: Change template
 			foreach ($rows as $row) {
 				if( $tr == 1) 
 					$result .= "";
@@ -96,7 +97,7 @@ if( !class_exists("s4jNewUsers") ) {
 	
 			}
 	
-			$result 		.= "</ul>";
+			$result 		.= "</ul></div>";
 			return $result;
 		}
 	}
