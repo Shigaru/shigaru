@@ -54,7 +54,7 @@ $tempday = "*";
 // *********************************************  
 
 
-?><div class="activity_wrapper"><?php
+?><div class="pe-container"><ul id="pe-thumbs" class="pe-thumbs"><?php
 // *********************************************  
 // START LOOP
 // *********************************************  
@@ -68,11 +68,11 @@ include $grpath.'/helpers/loop_vars.php';
 $i ++;
 
 if ($modulename==5) { // MOST POPULAR USERS
-  ?><div class="activity_inner"><?php
+  ?><?php
   $what = _ACT_MOST_POPULAR;
   include $grpath.'/views/defaultdisplay.php';
   echo $output;
-  ?></div><?php
+  ?><?php
   if ($spacerline) echo "<hr/>";
 } else {
 
@@ -306,7 +306,7 @@ if ($noactiv==1 && $modulename!=5) {
 //  echo "Viewer: $viewer MyID:".$myid."<br/>";
 }
 // *********************************************
-?></div><?php
+?></ul></div><?php
   
 //if ($datetimepattern) date_default_timezone_set($servertimezone);
 

@@ -689,7 +689,7 @@ global $grsite, $shownotavatar, $height_thumbcb, $width_thumbcb, $useratio, $ueC
     if (ereg("^gallery", $img) == false) {
       $img = "tn" . $img;
     }
-    $avatarimg = "<img class=\"activity_image\" $height_thumbcb $width_thumbcb src=\"$grsite/images/comprofiler/$img\" title=\"$name\">";
+    $avatarimg = "<img class=\"activity_image\" height=\"80\" width=\"60\" $height_thumbcb $width_thumbcb src=\"$grsite/images/comprofiler/$img\" title=\"$name\">";
   } else {
       if ($shownotavatar == 1) {
         include './administrator/components/com_comprofiler/ue_config.php';
@@ -736,28 +736,61 @@ function fetchGroupImage($groupimg) {
 }
 // ************************
 
-
+function IncludeLanguageFiles() {
+        $lang = & JFactory::getLanguage();
+        //$langname 		= strtolower($lang->getName());
+        $langtag = strtolower($lang->getTag());
+        $langRoot = JPATH_BASE . DS . 'components' . DS . 'com_comprofiler' . DS . 'plugin' . DS . 'language' . DS;
+		
+        //CB Languagefiles		
+        //if (file_exists($langRoot . $langname .DS. $langname.'.php')) { 
+        if (file_exists($langRoot . $langtag . DS . 'language.php')) {
+            //if( defined('_VALID_MOS') && !defined('_UE_NAME_FORMAT'))
+            if (!defined('_UE_NAME_FORMAT'))
+                require_once($langRoot . $langtag . DS . 'language.php');
+            //$this->_lang = $langname;
+            $this->_lang = $langtag;
+        } else {
+            //if( defined('_VALID_MOS') && !defined('_UE_NAME_FORMAT'))
+            if (!defined('_UE_NAME_FORMAT'))
+                require_once( $langRoot . 'default_language' . DS . 'default_language.php');
+        }
+    }
 
 // ************************
 // FETCH CURRENT USER
 // ************************
-function newfetchuser($name,$img,$id,$itemid,$gender) {
+function newfetchuser($name,$img,$id,$itemid,$gender,$sex='',$country='',$agegroup='') {
 
 global $grguest, $guestlink, $grRoute, $imageinc, $online, $imagelinked, $shownamedetails, $usernamelinked, $activity;
 
-$echo = '<td>';
-
-  if ($online == 1) { $echo .= newOnline($id)."</td><td>"; }
+$echo = '<li>';
+IncludeLanguageFiles();
+  if ($online == 1) { $echo .= newOnline($id).""; }
 
 $link_cb = $grRoute->_("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=$id$itemid");
 if ($guestlink!='GUESTS ALLOWED' && $grguest) $link_cb=$guestlink;
 
 if ($imageinc) {
-  if ($imagelinked == 1) $echo.="<a href='$link_cb' title=".$name.">";
+  if ($imagelinked == 1) $echo.="<a href='$link_cb'>";
   $avatarimg = ResizeAvatar($name,$img,$id,$gender);
   if (!$avatarimg) {$tempnamedetails=$shownamedetails;$shownamedetails=1;} else $echo.=$avatarimg;
-  if ($imagelinked == 1) $echo.="</a>";
-  $echo.='</td><td>';
+  if ($imagelinked == 1) {
+	  $echo.="<div class=\"pe-description\">";
+	  $echo.="<h4 id=\"".$country."\"> ".$name." </h4>";
+	  $echo.="<p>";
+	  $echo.=constant('_UE_SEX').": ".constant($sex);
+	  $echo.="<br/>";
+	  $echo.=constant('_UE_AGEGROUP').": ".$agegroup;
+	  $echo.="<br/>";
+	  $echo.=constant('_UE_Country').": ".constant($country);
+	  $echo.="<br/>";
+	  $echo.="</p>";
+	  $echo.="</div>";
+	  $echo.="</a>";
+  
+  }
+  $echo.='</li>';
 }
 
   if ($shownamedetails == 1) {

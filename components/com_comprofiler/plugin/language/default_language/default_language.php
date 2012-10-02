@@ -1656,7 +1656,8 @@ DEFINE('_UE_ENABLESPOOFCHECK_DESC','Choose if you want spoof checking enabled on
 DEFINE('_UE_AFGHANISTAN','Afghanistan');
 DEFINE('_UE_LANGUAGE','Language');
 DEFINE('_UE_ENGLISH','English');
-DEFINE('_UE_YOURAGEGROUP','Your age group'); 
+DEFINE('_UE_YOURAGEGROUP','Your age group');
+DEFINE('_UE_AGEGROUP','Age group'); 
 DEFINE('_UE_SEX','Sex'); 
 DEFINE('_UE_SEXMALE','Male');
 DEFINE('_UE_SEXFEMALE','Female');

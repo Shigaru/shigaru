@@ -676,6 +676,10 @@ class s4jLibNewUsers {
         $result = str_replace("G%", $this->GetGender($row, $this->_cb_gender_tooltip), $result);
         //Onlinestatus
         $result = str_replace("O%", $this->GetOnlineStatus($row, $this->_show_online_tooltip > 0), $result);
+        //Onlinestatus
+        //var_dump($row);
+        $result = str_replace("ID%", $row->s4jcustom3, $result);
+        
         //Usericon
         $result = str_replace("I%", $this->GetUserIcon($row), $result);
         //Chat

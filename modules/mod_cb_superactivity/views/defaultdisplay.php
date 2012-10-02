@@ -8,7 +8,7 @@
 */
 // Direct Acess not allowed!
 defined('_JEXEC') or die(dirname(__FILE__).DS.'Restricted access');
-$output .= "<ul>";
+$output .= "";
   $receiver = "";
   $tempid = $userid;
 // *********************************************  
@@ -16,7 +16,7 @@ $output .= "<ul>";
 // *********************************************  
 if ($flag==7) {
     $posterid = $newfriend;
-    $postersql = "select u.name, u.username, c.avatar FROM #__users u, #__comprofiler c WHERE u.id=c.user_id AND user_id = ".$posterid;
+    $postersql = "select u.name, u.username, c.cb_sex, c.cb_country, c.cb_youragegroup, c.avatar FROM #__users u, #__comprofiler c WHERE u.id=c.user_id AND user_id = ".$posterid;
     $db->setQuery($postersql);
     $datposter = $db->loadObject();
     $posterimg = $datposter->avatar;
@@ -41,14 +41,18 @@ if ($flag==7) {
       }
   } else $receiver_gender = "other";
   $friendfinished.='|'.$posterid.'|';
-  $receiver = newfetchuser($postername,$posterimg,$posterid,$cb_itemid,$receiver_gender);
+  $receiver = newfetchuser($postername,$posterimg,$posterid,$cb_itemid,$receiver_gender,$datposter->cb_sex,$datposter->cb_country,$datposter->cb_youragegroup);
   //--------------------
 //  $name = $postername;
 //  $userid = $posterid;
 //  $img = $posterimg;
 }
 // *********************************************  
-$echo = newfetchuser($name,$img,$userid,$cb_itemid,$gender);
+
+$postersql = "select c.cb_sex, c.cb_country, c.cb_youragegroup, c.avatar FROM #__comprofiler c WHERE user_id = ".$userid;
+    $db->setQuery($postersql);
+    $datposter = $db->loadObject(); 
+$echo = newfetchuser($name,$img,$userid,$cb_itemid,$gender,$datposter->cb_sex,$datposter->cb_country,$datposter->cb_youragegroup);
 
 if ($ecreate!=2) { // FOR EVENT FEED...
   $output .= $echo;
@@ -71,5 +75,5 @@ $output .= "</span>";
 
   $output .= $receiver; // for profilebook entries
 }
-$output .= "</ul>";
+$output .= "";
 ?>

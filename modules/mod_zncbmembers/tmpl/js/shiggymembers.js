@@ -243,7 +243,12 @@ jQuery(function() {
 									
 									$li.css( 'z-index', 10000 );
 									$li.css( 'position', 'relative' );
-									if( $desc.offset().left + $desc.width() > listL  ) {
+									console.log("#########################");
+									console.log($desc.offset().left );
+									console.log($desc.width());
+									console.log(listL);
+									console.log("#########################");
+									if( $desc.offset().left + $desc.width() > listL + listW ) {
 										
 										$desc.css( 'left', -$desc.width() - $desc.data( 'space_l' ) );
 									
