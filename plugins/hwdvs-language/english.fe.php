@@ -843,7 +843,7 @@ DEFINE("pl-PL","Polish");
 DEFINE("it-IT","Italian");
 DEFINE("zh-TW","Chinese");
 DEFINE("de-DE","Deutch");
-DEFINE("_HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU","Submit a video to Shigaru.com");
+DEFINE("_HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU","Submit a video to Shigaru");
 DEFINE("_HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING","for deciding to share a video tutorial with the Shigaru community. It will take approx. 3 minutes to do!");
 DEFINE("_HWDVIDS_SHIGARU_THANKYOU","Thank you");
 DEFINE("_HWDVIDS_SHIGARU_YES","Yes");

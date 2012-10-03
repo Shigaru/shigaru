@@ -20,12 +20,17 @@
 						<div  class="tright">
 						  <input name="videourl" id="videourl" placeholder="Paste or type here the URL of the video. Example: http://www.youtube.com/watch?v=B6lbqdKC5NQy" value="" class="inputtext mbot12" size="42" />
 						  <br />
+						</div>  
+						<div class="fleft">
 						  <span class="mright6 mtopl6">{$smarty.const._HWDVIDS_TITLE_SUPWEB}</span>
 						  {$supported_websites}
-						  <br class="clear"/>
+						  
+						</div>  
+						<div  class="fright tright">
 						  <input type="submit" name="send"  class="reddbuttonsubmit button fnone mtop12" value="{$smarty.const._HWDVIDS_SHIGARU_SUBMITURL}" />
 						  <input type="hidden" name="videotype" value="thirdparty" />
 					  </div>
+					  <br class="clear"/>
 					</form>
 				</div>
 				<div id="uploadlegal">
@@ -47,14 +52,7 @@
  
 </div>
 
-<div>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr>
-      <td width="150"></td>
-      <td></td>
-    </tr>
-  </table>
-</div>
+
 
 </form>
 

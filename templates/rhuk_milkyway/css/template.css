@@ -468,11 +468,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #videouploadwrap #videourl:-moz-placeholder {color:#997c99;}
 #videouploadwrap #videourl:focus{-moz-box-shadow: 0 0 15px 1px #f2f2fb;
 -webkit-box-shadow: 0 0 15px 1px #f2f2fb;box-shadow: 0 0 7px 1px #f2f2fb;}
-#canesWrap{float:right;margin: 26px 2px 21px 12px;}
+#canesWrap{margin: 26px 2px 21px 12px;}
 .canes{width:33px;height:64px;float:left;}
 .youtubeCan{background: url("../../../modules/mod_socialmedialinks/icons/drink/size3/youtube.png") no-repeat scroll 0 0 transparent;}
 .googleCan{background: url("../../../modules/mod_socialmedialinks/icons/drink/size3/google.png") no-repeat scroll 0 0 transparent;}
-#videouploadwrap ul{ list-style:none; margin:0;padding:0;}
+#videouploadwrap form div.fleft{ margin:0 0 0 10%;}
 #videouploadwrap ul li{font-size: 90%;
     margin: 0 0 0 60px;
     padding: 6px 20px 6px 6px;}
