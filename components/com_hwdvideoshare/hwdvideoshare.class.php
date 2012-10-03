@@ -3070,12 +3070,12 @@ $app = & JFactory::getApplication();
 	function addSong($song, $band_id) {
 		$db = & JFactory::getDBO();
 		$row = new hwdvidssongs($db);
-		
+		if($song!='' && $song != null){
 		$_POST['label'] 		= $song;
 		$_POST['description'] 	= $song;
 		$_POST['band_id'] 		= $band_id;
 		$_POST['externallink'] 	= $song;
-		
+		}
 		// bind it to the table
 		if (!$row->bind($_POST))
 		{
@@ -3142,12 +3142,12 @@ $app = & JFactory::getApplication();
 	function addBand($band) {
 		$db = & JFactory::getDBO();
 		$row = new hwdvidsbands($db);
-		
+		if($band!='' && $band != null){
 		$_POST['label'] 			= $band;
 		$_POST['description'] 		= $band;
 		$_POST['website'] 			= $band;
 		$_POST['externallink'] 		= $band;
-		
+		}
 		// bind it to the table
 		if (!$row->bind($_POST))
 		{
@@ -3215,7 +3215,7 @@ $app = & JFactory::getApplication();
 	function getBandTags() {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT label FROM #__hwdvidsbands AS a, #__hwdvidsvideos as b'; 
-		$query .= ' WHERE a.id = b.band_id';
+		$query .= ' WHERE a.id = b.band_id and b.band_id IS NOT NULL';
 		$query .= ' LIMIT 0,10';
 		$db->setQuery($query);
 		$db->loadObjectList();
@@ -3236,7 +3236,7 @@ $app = & JFactory::getApplication();
 	function getSongsTags() {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT label FROM #__hwdvidssongs AS a, #__hwdvidsvideos as b'; 
-		$query .= ' WHERE a.id = b.song_id';
+		$query .= ' WHERE a.id = b.song_id and b.song_id IS NOT NULL';
 		$query .= ' LIMIT 0,10';
 		$db->setQuery($query);
 		$db->loadObjectList();
