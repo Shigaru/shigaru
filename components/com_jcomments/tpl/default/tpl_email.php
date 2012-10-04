@@ -59,7 +59,7 @@ background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 
 background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* IE10+ */
 background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 ); /* IE6-8 */ font-size:90%;">
-	<p style="font: normal 1em Verdana, Arial, Sans-Serif; font-size: 120%;margin: -30px 0 0 159px;"><?php echo $HINAME ?></p>
+	<p style="font: normal 1em Verdana, Arial, Sans-Serif; font-size: 120%;margin: 0;"><?php echo $HINAME ?></p>
 	<div style="margin: 0 20px 10px 150px; padding: 0 0 0 10px; font: normal 1em Verdana, Arial, Sans-Serif;">
 			<p><?php echo $comment->author; ?> <?php echo $COMMENTEDONYOUR; ?></p>
 			<p><?php echo $comment->comment; ?></p>
