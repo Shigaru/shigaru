@@ -1084,18 +1084,23 @@ class JComments
 			$tmpl->addVar('tpl_email', 'comment-object_link', $object_link);
 			
 			$tmpl->addObject('tpl_email', 'comment', $comment);
-
 			if ($isNew) {
 				$subject = JText::sprintf('NOTIFICATION_SUBJECT_NEW', $object_title);
 			} else {
 				$subject = JText::sprintf('NOTIFICATION_SUBJECT_UPDATED', $object_title);
 			}
+			
 
 			if (isset($subject)) {
 				$mailFrom = $mainframe->getCfg('mailfrom');
 				$fromName = $mainframe->getCfg('fromname');
 
 				foreach ($rows as $row) {
+					if ($isNew) {
+							$subject = JText::sprintf('NOTIFICATION_SUBJECT_NEW', $row->name);
+						} else {
+							$subject = JText::sprintf('NOTIFICATION_SUBJECT_UPDATED', $row->name);
+						}
 					$tmpl->addVar('tpl_email', 'hash', $row->hash);
 					$tmpl->addVar('tpl_email', 'comment-hiname', $row->name);
 					$message = $tmpl->renderTemplate('tpl_email');
