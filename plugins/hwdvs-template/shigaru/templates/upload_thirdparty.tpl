@@ -67,7 +67,7 @@
 					if(isEditor != -1){
 						$clicked.parent().siblings('.usermessages').find('.fieldexplanation').css({'margin':'-12px 0 0 0'});
 					}
-					$clicked.parent().parent().siblings('.fright').css({'margin-top':'-45px'});
+					//$clicked.parent().parent().siblings('.fright').css({'margin-top':'-45px'});
 					$clicked.parent().siblings('.usermessages').css({'margin-top':'-63px'});
 					$clicked.parent().siblings('.usermessages').fadeIn('slow');
 					$clicked.parent().parent().find('.usermessages input.required').keyup(function() {
