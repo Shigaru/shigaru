@@ -22,7 +22,11 @@ class jtt_tpl_email extends JoomlaTuneTemplate
 		$link = '<a href="' . $object_link . '" target="_blank">' . $object_title . '</a>';
 		$unsubscribeMessage = JText::sprintf('NOTIFICATION_COMMENT_UNSUBSCRIBE', $link);
 		$unsubscribeLink = JoomlaTuneRoute::_('index.php?option=com_jcomments&task=unsubscribe&hash=' . $hash);
-		$myImgUrl = JURI::base();
+		$HINAME = JText::sprintf('HINAME',$hiname);
+		$COMMENTEDONYOUR = JText::_('NOTIFICATION_COMMENTEDONYOURLINK');
+		$THECOMM = JText::_('NOTIFICATION_THECOMMUNITY');
+		$SEECOMMTIT = JText::_('NOTIFICATION_SEECOMMENTTHREADTITLE');
+		$SEECOMM = JText::_('NOTIFICATION_SEECOMMENTTHREAD');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -35,13 +39,14 @@ class jtt_tpl_email extends JoomlaTuneTemplate
 	<div style="background: url('<?php echo JURI::base() ?>/templates/rhuk_milkyway/images/head_back.png') repeat-x scroll 0 0 transparent;color: #FFFFFF;height: 73px;">
 		<div id="head_logo" style="clear: both;height: 140px;">
 			<a style="float:left;" title="Shigaru.com Home page" href="/" class="fleft">
-				<img width="145" style="margin-top: 3px;" height="140" alt="Shigaru.com" src="<?php echo JURI::base() ?>/templates/rhuk_milkyway/images/head_logo.png">
+				<img width="145" style="margin-top: 3px;" height="140" alt="Shigaru.com" src="<?php echo JURI::base() ?>templates/rhuk_milkyway/images/head_logo.png">
 			</a>
 			<a style=" color: #FFFFFF;float: left;font-size: 70%;font-weight: bold;height: 30px;line-height: 30px;margin: 25px 0 0 5px;text-decoration: none;text-shadow: 1px 2px 2px #000000;" title="Shigaru.com Home page" 
 			href="<?php echo JURI::base() ?>" id="head_title_text">
 				<h1>SHIGARU</h1>
 			</a>
-			<span style="color: #E3CDE1;display: inline-block;float: left;font-size: 0.9em; margin: 47px 0 0 17px;" id="head_comm_text"><?php echo JText::_('NOTIFICATION_THECOMMUNITY');?></span>
+			<span style="color: #E3CDE1;display: inline-block;float: left;font-size: 0.9em; margin: 47px 0 0 17px;" id="head_comm_text">
+					<?php echo $THECOMM;?></span>
 		</div>
 	</div>	
 	<div style="background: rgb(255,255,255); /* Old browsers */
@@ -54,14 +59,14 @@ background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 
 background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* IE10+ */
 background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 ); /* IE6-8 */ font-size:90%;">
-	<p style="font: normal 1em Verdana, Arial, Sans-Serif; font-size: 120%;margin: 20px 0 0 159px;"><?php echo JText::sprintf('HINAME',$hiname);?></p>
+	<p style="font: normal 1em Verdana, Arial, Sans-Serif; font-size: 120%;margin: 20px 0 0 159px;"><?php echo $HINAME ?></p>
 	<div style="margin: 0 20px 10px 150px; padding: 0 0 0 10px; font: normal 1em Verdana, Arial, Sans-Serif;">
-			<p><?php echo $comment->author; ?> <?php echo JText::_('NOTIFICATION_COMMENTEDONYOURLINK');?></p>
+			<p><?php echo $comment->author; ?> <?php echo $COMMENTEDONYOUR; ?></p>
 			<p><?php echo $comment->comment; ?></p>
 			<p style="margin:40px 12px 12px 12px;">
 				<a style="padding: 12px; color: #fff; background:red;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius: 5px; " 
-				title="<?php echo JText::_('NOTIFICATION_SEECOMMENTTHREADTITLE');?>" href="<?php echo $object_link; ?>#comment-<?php echo $comment->id; ?>" class="fleft">
-				<?php echo JText::_('NOTIFICATION_SEECOMMENTTHREAD');?></a>
+				title="<?php echo $SEECOMMTIT; ?>" href="<?php echo $object_link; ?>#comment-<?php echo $comment->id; ?>" class="fleft">
+				<?php echo $SEECOMM;?></a>
 			</p>
 			<p style="border-top: 1px solid #ccc; margin: 22px 20px 10px 150px; padding: 12px; color: #555;"><?php echo $unsubscribeMessage; ?>:
 				<a href="<?php echo $unsubscribeLink; ?>" target="_blank"><?php echo JText::_('Unsubscribe');?></a>
