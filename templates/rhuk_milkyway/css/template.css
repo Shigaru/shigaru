@@ -922,6 +922,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .boxwhite{background-color:#fff;border-radius: 5px 5px 5px 5px;box-shadow: 0 0 3px #AAAAAA; border: 1px solid #C1C1C1;color:#000;}
 .mtopl6{margin-top:-6px;}
 .mtop25{margin-top:25px;}
+.mtopl25{margin-top:-25px;}
 .mtopl50{margin-top:-50px;}
 .mtop12{margin-top:12px;}
 .mtop6{margin-top:6px;}

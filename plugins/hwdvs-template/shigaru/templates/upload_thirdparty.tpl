@@ -86,7 +86,7 @@
 						}
 						
 						if((jQuery(window).height()/3 < 300)){
-									jQuery('.blockUI .grabbedtext').css({'max-height':'100px'});
+									jQuery('.blockUI .grabbedtext').css({'max-height':'50px'});
 									jQuery('.blockUI .grabbedtext').jScrollPane({showArrows:true});
 								}
 						return false;  
@@ -262,15 +262,15 @@
 				<div class="mtop12"><span>{$videoInfo->video_length} min</span></div>
 				
 			</div>
-			<div class="fleft w80pc pad12">
+			<div class="fleft w80pc pad12 mtopl25">
 				<div class="fright">
 					<a href="{$videourl}" target="_blank" title="Go to Youtube.com"></a>
 				</div>	
 				<div class="mtop12 mbot20">
 					<div class="viewmode">
-						<span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</span>	
+						<span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</span>	<a href="#" id="grabbed-title" class="fontbold mleft6" title="Click to edit">(Edit)</a>
 						<span class="grabbedtext">{$titleplain}</span>
-						<a href="#" id="grabbed-title" class="fontbold mleft6" title="Click to edit">Edit</a>
+						
 					</div> 
 					<div class="usermessages dispnon">
 							<p id="titlebox">
@@ -290,9 +290,9 @@
 				</div>
 				<div class="mbot20">
 						<div class="viewmode">
-							<span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_VIDEODESCRIP}</span>	
+							<span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_VIDEODESCRIP}</span>	<a href="#" id="grabbed-descrip" class="fontbold mleft6" title="Click to edit">(Edit)</a>
 							<span id="descgrabbedtext" class="grabbedtext">{$descriptionplain}</span>
-							<a href="#" id="grabbed-descrip" class="fontbold mleft6" title="Click to edit">Edit</a>
+							
 						</div> 
 						<div class="usermessages dispnon">
 								<p id="titlebox">
@@ -313,9 +313,9 @@
 				</div>
 				<div class="mbot20">
 					<div class="viewmode">
-					   <span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS}</span>	
+					   <span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS}</span>	<a href="#" id="grabbed-tags" class="fontbold mleft6" title="Click to edit">(Edit)</a>
 					  <span class="grabbedtext">{$videoInfo->tags}</span>
-					  <a href="#" id="grabbed-tags" class="fontbold mleft6" title="Click to edit">Edit</a>
+					  
 					</div> 
 						<div class="usermessages dispnon">
 								<p id="tagsbox">
