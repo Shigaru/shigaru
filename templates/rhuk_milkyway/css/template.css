@@ -437,6 +437,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     -webkit-border-radius: 5px;
     border-radius: 5px; padding:6px; margin-bottom:12px;}
 #infocontext div span{color:red;}
+#infocontext div span.ajaxsuccess{color:blue;}
 #infocontext div#currentlikes{background:none;}
 #infocontext div.clear{background:none;}
 #infocontext div#currentlikes div,#infocontext div#ratingsnow div{padding:0; }

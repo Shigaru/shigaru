@@ -615,7 +615,7 @@ class hwd_vs_tools {
     public static function makeClickableLinks($s) {
 			$pattern = "@\b(https?://)?(([0-9a-zA-Z_!~*'().&=+$%-]+:)?[0-9a-zA-Z_!~*'().&=+$%-]+\@)?(([0-9]{1,3}\.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+\.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z]\.[a-zA-Z]{2,6})(:[0-9]{1,4})?((/[0-9a-zA-Z_!~*'().;?:\@&=+$,%#-]+)*/?)@";
 
-			return preg_replace($pattern, '<a href="\0">\0</a>', $s);
+			return preg_replace($pattern, '<a href="\0" target="_blank">\0</a>', $s);
 	}
     
     
@@ -2696,7 +2696,7 @@ $app = & JFactory::getApplication();
 			           <li id="3" class="rate three"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=3").'" onclick="ajaxFunctionRate(3, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_3STAR.'" rel="nofollow">3</a></li>
 			           <li id="4" class="rate four"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=4").'" onclick="ajaxFunctionRate(4, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_4STAR.'" rel="nofollow">4</a></li>
 			           <li id="5" class="rate five"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=5").'" onclick="ajaxFunctionRate(5, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_5STAR.'" rel="nofollow">5</a></li>
-			         </ul>'._HWDVIDS_SHIGARU_SHIGAR_CLICKTOVOTE.'
+			         </ul><span> ('._HWDVIDS_SHIGARU_SHIGAR_CLICKTOVOTE.')</span>
 			       <div>'._HWDVIDS_INFO_RATED.'<strong> '.$rating1.'</strong> ('.$count.' '.$tense.')</div>
 			       <!--<script>
                    $$(\'.rate\').each(function(element,i){
