@@ -1082,6 +1082,7 @@ class JComments
 			$tmpl->addVar('tpl_email', 'comment-isnew', ($isNew) ? 1 : 0);
 			$tmpl->addVar('tpl_email', 'comment-object_title', $object_title);
 			$tmpl->addVar('tpl_email', 'comment-object_link', $object_link);
+			
 			$tmpl->addObject('tpl_email', 'comment', $comment);
 
 			if ($isNew) {
@@ -1096,6 +1097,7 @@ class JComments
 
 				foreach ($rows as $row) {
 					$tmpl->addVar('tpl_email', 'hash', $row->hash);
+					$tmpl->addVar('tpl_email', 'comment-hiname', $row->name);
 					$message = $tmpl->renderTemplate('tpl_email');
 
 					JCommentsMail::send($mailFrom, $fromName, $row->email, $subject, $message, true);
