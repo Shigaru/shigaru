@@ -37,7 +37,7 @@ class plgSystemePrivacy extends JPlugin {
         parent::__construct($subject, $config);
     }
 
-    function onAfterDispatch() {
+    function onAfterInitialise() {
         $app = JFactory::getApplication();
 
         // plugin should only run in the front-end
