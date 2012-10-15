@@ -1334,19 +1334,10 @@ class getMenuTab  extends cbTabHandler {
 															});
 															</script>
 														<div class="cbMenuList">
-														<div class="fleft cbusermenubutton mleft6">
-															<a href="'.cbSef("index.php?option=com_uddeim").'" title="'._UE_PM_INBOX.'">'._UE_INBOX.
-															'</a></div>
-														<div class="cbusermenubutton mright6 fright" id="profileopts"><a href="#" title="'._UE_DISPLAYOPTIONS.'">'.
-																	_UE_PROFILEOPTIONS.
-														'<div class="drop"></div>
-														</div>
-														<div class="graybar">
-															<div>
-																<div id="profileoptswrapper" class="dispnon">' . $tableContent . 
-																'</div>
-															</div>
-														 </div>
+														<div class="cbusermenubutton mleft6">
+																<div id="profileoptswrapper"><a href="'.cbSef("index.php?option=com_uddeim").'" title="'._UE_PM_INBOX.'">'._UE_INBOX.
+															'</a>' . $tableContent . 
+														'</div></div>
 														</div><div class="clear"></div>';
 				}
 				break;

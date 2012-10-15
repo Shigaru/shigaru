@@ -153,7 +153,7 @@ div.cbSideSetting { text-align: right; margin: 6px 2%; }
 .subFieldSpan { position: absolute; top: 0px; left: 9em; }
 
 /* For positioning user profile div positions: trick needed to workaround templates with floating uncleared divs */
-.cbPageOuter, .cbProfile, .cbEditProfile, .cbUsersList	 {	margin: 0px;	border-width: 0px;	padding: 0px;		width:99.6%;	}
+.cbPageOuter, .cbProfile, .cbEditProfile, .cbUsersList	 {	margin: 16px 0 0;	border-width: 0px;	padding: 0px;		width:99.6%;	}
 .cbPageInner, #cbProfileInner, #cbEditProfileInner, #cbUsersListInner	 {	margin: 0px;	border-width: 0px;	padding: 8px;	float: none;	width:auto;	 font-size:80%;	}
 .cbPosHead, .cbPosTop, .cbPosLeft, .cbPosMiddle, .cbPosRight, .cbPosTabMain, .cbPosUnderAll {
 				margin: 0px 0px 10px 0px;	border-width: 0px;	padding: 0px;	}
@@ -863,39 +863,32 @@ ul.cbMenuULlist li.cbMenu_UE_STATISTICS a:hover {background:#dee1e3 url(images/m
 
 /* shigaru profile*/
 
-#cb_tabid_20{float:right;width:26%;margin-top: 12px;}
+#cb_tabid_20{float:right;padding: 6px;margin: 12px;border:1px solid #E6E6E6;
+background:#fff;}
 #cb_tabid_20 img{ -webkit-box-shadow: 1px 1px 4px #222;
-box-shadow: 1px 1px 4px #222;
--moz-border-radius: 0 0 5px 5px;
--webkit-border-radius: 0 0 5px 5px;
-border-radius: 0 0 5px 5px;}
+width: 150px;}
 #cb_tabid_20 .cbft_image{}
-#cb_tabid_19{float:left;width:77%;margin-left: -50px;}
-#cb_tabid_39{width:70%;}
+#cb_tabid_19{float:left;}
+#cb_tabid_17{}
+#cb_tabid_39{width:70%;  clear: both;}
 #cb_tabid_11{margin-top:0px;}
 #cb_tabid_31{}
-
-#custommenu{background:rgb(255,255,255); /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U1ZTVlNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-background: -moz-linear-gradient(-45deg,  rgba(255,255,255,1) 0%, rgba(229,229,229,1) 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1))); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* IE10+ */
-background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */ 			
-padding: 10px; margin:20px 0 0 0;
--webkit-box-shadow: 1px 1px 4px #222;
-box-shadow: 1px 1px 4px #222;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
-border-radius: 5px;}
+#profilename{padding:0 24px 24px 24px;border-right:1px solid #E6E6E6;}
+#profilenamewrapper{border-right:2px solid #fff;margin-top:10px;}
+.cbProfile .cbPosHead h3{font-size:350%;}
+.cbProfile .cbMenuList li {
+    display: block;
+}
+.cbProfile .cbPosHead{margin-bottom: 60px;background:#F9F9F9;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius: 5px;border:1px solid #E6E6E6;}
+#custommenu{ font-size: 120%;
+    padding: 24px 0;
+    position: absolute;}
 #custommenu a{margin:0 6px 0 6px;color:#74748e;}
 #custommenu a.current{font-weight:bold;font-size:120%;color:#18A;cursor:default;text-decoration:none;}
 .tab_Description{display:none;}
-.profileheaderitem{float:left;margin: 20px 0 0 0;font-size:1.1em;}
-.profileheaderitem label{font-weight:bold;color:#000;width: 122px;text-align:right;display:block;float:left;margin-right: 6px;}
+.profileheaderitem{float:left;font-size:1.1em;padding: 20px;}
+.profileheaderitem label{color:#000;margin-right: 6px;font-size:.9em;display:block;}
+.profileheaderitem span{font-size:250%; float:right;}
 .cbMenuList li{display:inline-block;}
 .cbPosTabMain .cb_tab_div .contentheading{font-weight:bold;
 padding: 12px 12px 12px 12px;color:#909090; font-size:200%;}
@@ -943,44 +936,11 @@ padding: 12px;}
 #adminForm .reddbuttonsubmit{clear:none;float:left;margin:12px 30px;}
 .cbPosTabMain .cb_tab_div .cbft_editorta{clear:both;}
 #cbProfileInner div.cbMenuList{margin-top:16px}
-#cbProfileInner div.cbMenuList .graybar{height:5px; background:#c1c1c1;}
+#cbProfileInner div.cbMenuList .graybar{}
 .profileoptsopen{
 background:url("../images/arrow_top.gif") no-repeat scroll 95% 53% transparent !important;}
-#profileoptswrapper{-moz-border-radius: 0 0 5px 5px;
--webkit-border-radius: 0 0 5px 5px;
-border-radius: 0 0 5px 5px;background: #c1c1c1; /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIxJSIgc3RvcC1jb2xvcj0iI2MxYzFjMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjY5JSIgc3RvcC1jb2xvcj0iI2YxZjFmMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjkzJSIgc3RvcC1jb2xvcj0iI2UxZTFlMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmNmY2ZjYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-background: -moz-linear-gradient(top,  #c1c1c1 1%, #f1f1f1 69%, #e1e1e1 93%, #f6f6f6 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#c1c1c1), color-stop(69%,#f1f1f1), color-stop(93%,#e1e1e1), color-stop(100%,#f6f6f6)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #c1c1c1 1%,#f1f1f1 69%,#e1e1e1 93%,#f6f6f6 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #c1c1c1 1%,#f1f1f1 69%,#e1e1e1 93%,#f6f6f6 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #c1c1c1 1%,#f1f1f1 69%,#e1e1e1 93%,#f6f6f6 100%); /* IE10+ */
-background: linear-gradient(to bottom,  #c1c1c1 1%,#f1f1f1 69%,#e1e1e1 93%,#f6f6f6 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c1c1c1', endColorstr='#f6f6f6',GradientType=0 ); /* IE6-8 */
-
-    float: right;
-    margin: 4px 0 0;
-    padding: 36px;
-    position: relative;
-    text-align: center;-moz-box-shadow:0 1px 1px #000;
-    -webkit-box-shadow:0 1px 1px #000;box-shadow:0 1px 1px #000;}
-#cbProfileInner div.cbMenuList .cbusermenubutton {color:#ffab2d; font-weight:bold;
--moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;margin: 6px;padding: 7px 20px;border: 1px solid #CCCCCC;
-    text-decoration: none;color: #666;
-    background: #ffffff; /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ3JSIgc3RvcC1jb2xvcj0iI2Y2ZjZmNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZGVkZWQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* IE10+ */
-background: linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-8 */
-margin-top: -13px;}
+#profileoptswrapper{float: right;}
+#cbProfileInner div.cbMenuList .cbusermenubutton {}
 #cbProfileInner div.cbMenuList .drop{
 background:url("../images/arrow_langs.gif") no-repeat scroll 95% 53% transparent;cursor:pointer;}
 #cbProfileInner div.cbMenuList .cbusermenubutton:hover{color: #000;cursor:pointer;-moz-box-shadow:0px 0px 3px #aaa;

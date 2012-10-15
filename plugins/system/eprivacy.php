@@ -37,7 +37,7 @@ class plgSystemePrivacy extends JPlugin {
         parent::__construct($subject, $config);
     }
 
-    function onAfterInitialise() {
+    function onAfterDispatch() {
         $app = JFactory::getApplication();
 
         // plugin should only run in the front-end
@@ -145,8 +145,6 @@ class plgSystemePrivacy extends JPlugin {
 
     function _requestAccept() {
         if(JFactory::getUser()->id) return true;
-        $menu = JSite::getMenu();
-		if ($menu->getActive() == $menu->getDefault()) {
         $this->_blockJSCookies();
         $lang = JFactory::getLanguage();
         $this->loadLanguage('plg_system_eprivacy',JPATH_ADMINISTRATOR);
@@ -182,6 +180,5 @@ class plgSystemePrivacy extends JPlugin {
         
         $app = JFactory::getApplication();
         $app->enqueueMessage($msg, '');
-		}
     }
 }
