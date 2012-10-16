@@ -349,6 +349,7 @@ div.cbUserListChanger div.cbUserListChangeItem	{	margin-bottom: 6px;		text-align
 	border: 1px solid #CCC;
 	text-align: center;
 }
+.connectionBox div a img{width:;}
 /* For tab positions: */
 #cbPosUpper		{	border: 0px solid;	width:100%	}
 #cbPosHead		{	text-align: left;	border: 0px;	vertical-align: top; 	width:	100%;	}
@@ -873,40 +874,37 @@ width: 150px;}
 #cb_tabid_39{width:70%;  clear: both;}
 #cb_tabid_11{margin-top:0px;}
 #cb_tabid_31{}
+#cb_tabid_27{float: right;
+margin-top: -40px;}
+#cb_tabid_27 a{text-decoration:none;}
 #profilename{padding:0 24px 24px 24px;border-right:1px solid #E6E6E6;}
 #profilenamewrapper{border-right:2px solid #fff;margin-top:10px;}
-.cbProfile .cbPosHead h3{font-size:350%;}
+.cbProfile .cbPosHead h3{font-size: 50px;color:#604860;
+margin-bottom: 30px;}
+.cbProfile .cbPosHead #profilename a {color:red}
 .cbProfile .cbMenuList li {
     display: block;
 }
 .cbProfile .cbPosHead{margin-bottom: 60px;background:#F9F9F9;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius: 5px;border:1px solid #E6E6E6;}
+.cbProfile .cb_form_line label{line-height:14px !important;}
 #custommenu{ font-size: 120%;
-    padding: 24px 0;
+    padding: 35px 0 24px 0;
     position: absolute;}
 #custommenu a{margin:0 6px 0 6px;color:#74748e;}
 #custommenu a.current{font-weight:bold;font-size:120%;color:#18A;cursor:default;text-decoration:none;}
 .tab_Description{display:none;}
-.profileheaderitem{float:left;font-size:1.1em;padding: 20px;}
-.profileheaderitem label{color:#000;margin-right: 6px;font-size:.9em;display:block;}
-.profileheaderitem span{font-size:250%; float:right;}
+.profileheaderitem{float:left;font-size:1.1em;padding: 20px 20px 20px 30px}
+.profileheaderitem .profileheaderitemwrap{background: #604860;padding: 12px 6px 0 17px;
+-moz-border-radius:20px;-webkit-border-radius:20px;border-radius: 20px;}
+.profileheaderitem label{color:#fff;margin-right: 6px;font-size:.9em;display:block;}
+.profileheaderitem span{margin-right: 20px;font-size:250%; color:#fff;float:right;font-weight:bold;}
 .cbMenuList li{display:inline-block;}
 .cbPosTabMain .cb_tab_div .contentheading{font-weight:bold;
-padding: 12px 12px 12px 12px;color:#909090; font-size:200%;}
+padding: 12px 12px 12px 12px;color:#000; font-size:200%;}
 .cbPosTabMain .cb_tab_div{margin:40px 0 0 0;clear: both;}
-.cbPosTabMain .cb_tab_div .contentpaneopen{background:rgb(255,255,255); /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U1ZTVlNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-background: -moz-linear-gradient(-45deg,  rgba(255,255,255,1) 0%, rgba(229,229,229,1) 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1))); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* IE10+ */
-background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
-;
--moz-border-radius: 0 0 5px 5px;
--webkit-border-radius: 0 0 5px 5px;
-border-radius: 0 0 5px 5px;
+.cbPosTabMain .cb_tab_div .contentpaneopen{  background: none repeat scroll 0 0 #F9F9F9;
+    border: 1px solid #E6E6E6;
+    border-radius: 5px 5px 5px 5px;
 margin: -0.9px 0 0 1px;
 padding: 12px}
 .cbPosTabMain .cb_tab_div .cbft_text,.cbPosTabMain .cb_tab_div .cbft_select,
@@ -939,7 +937,10 @@ padding: 12px;}
 #cbProfileInner div.cbMenuList .graybar{}
 .profileoptsopen{
 background:url("../images/arrow_top.gif") no-repeat scroll 95% 53% transparent !important;}
-#profileoptswrapper{float: right;}
+#profileoptswrapper{float: right;border-left: 1px solid #E6E6E6;
+}
+#profileoptswrapper div{border-left: 2px solid white;padding-left: 20px;}
+
 #cbProfileInner div.cbMenuList .cbusermenubutton {}
 #cbProfileInner div.cbMenuList .drop{
 background:url("../images/arrow_langs.gif") no-repeat scroll 95% 53% transparent;cursor:pointer;}

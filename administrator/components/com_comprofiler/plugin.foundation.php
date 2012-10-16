@@ -2934,9 +2934,9 @@ class CBframework {
 				}
 			}
 			
-				$document =& JFactory::getDocument();
+			$app = JFactory::getApplication();
 			
-			if ( ! defined( 'J_JQUERY_LOADED' ) && strpos($document->base,'administrator')) {
+			if ( ! defined( 'J_JQUERY_LOADED' ) && $app->isAdmin()) {
 				$this->document->addHeadScriptUrl( '/components/com_comprofiler/js/jquery-' . _CB_JQUERY_VERSION . '/jquery-' . _CB_JQUERY_VERSION . '.js', true, null, 'jQuery.noConflict();' );
 				define( 'J_JQUERY_LOADED', 1 );
 			}

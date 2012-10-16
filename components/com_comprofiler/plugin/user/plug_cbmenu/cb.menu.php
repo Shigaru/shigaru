@@ -1335,9 +1335,9 @@ class getMenuTab  extends cbTabHandler {
 															</script>
 														<div class="cbMenuList">
 														<div class="cbusermenubutton mleft6">
-																<div id="profileoptswrapper"><a href="'.cbSef("index.php?option=com_uddeim").'" title="'._UE_PM_INBOX.'">'._UE_INBOX.
+																<div id="profileoptswrapper"><div><a href="'.cbSef("index.php?option=com_uddeim").'" title="'._UE_PM_INBOX.'">'._UE_INBOX.
 															'</a>' . $tableContent . 
-														'</div></div>
+														'</div></div></div>
 														</div><div class="clear"></div>';
 				}
 				break;

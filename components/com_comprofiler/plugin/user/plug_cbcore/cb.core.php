@@ -3967,15 +3967,15 @@ class getPageTitleTab  extends cbTabHandler {
 						.'</div>'
 					.'</div>'
 						.'<div class="profileheaderitem fleft">'
-							.'<label>'._UE_PROFILEVIEWS.': </label>'
-							.'<span class="">'.$user->hits.'</span>'
+							.'<div class="profileheaderitemwrap"><label>'._UE_PROFILEVIEWS.': </label>'
+							.'<span class="">'.$user->hits.'</span><div class="clear"></div></div>'
 						.'</div>'
 						.'<div class="profileheaderitem fleft">'
-							.'<label>'._UE_VIDEOSUBMITED.': </label>'
-							.'<span class="">'.$total.'</span>'
+							.'<div class="profileheaderitemwrap"><label>'._UE_VIDEOSUBMITED.': </label>'
+							.'<span class="">'.$total.'</span><div class="clear"></div></div>'
 						.'</div>'
 						.'<div class="clear">'
-						.'</div>'
+						
 					.'</div>';
 		
 		//$return	.=	$this->_writeTabDescription( $tab, $user );
