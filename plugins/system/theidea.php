@@ -136,12 +136,12 @@ class plgSystemtheidea extends JPlugin {
 		$script[]='var oObjectHeight = jQuery(\'#theidea\').height()+110;';
 		$script[]='var oTopPosition  = ((oWindowHeight - oObjectHeight)) / 2;';
 		$script[]='if(oTopPosition < 100){';
-		$script[]='jQuery(\'#theidea\').css({\'height\':(oWindowHeight-150)+\'px\',\'overflow-y\':\'auto\'});';
+		$script[]='jQuery(\'#theidea\').css({\'height\':(oWindowHeight-100)+\'px\',\'overflow-y\':\'auto\'});';
 		$script[]='oTopPosition = 25;';
 		$script[]='}';
 		
 		$script[]="\tjQuery.blockUI({ message: jQuery('#theidea'),css : { border : 'none', height: 'auto', 'text-align':'left','cursor': 'auto', 'width': (oObjectwidth+20)+'px', 'top': oTopPosition, 'left' : oLeftPosition   } });";
-		$script[]="\tjQuery('.blockUI #theidea #close').click(function(){jQuery('#workareainit .workarea_wrapper #theidea').parent().fadeOut('slow'); jQuery.unblockUI(); });";
+		$script[]="\tjQuery('.blockUI #theidea #close').click(function(){jQuery('#workareainit .workarea_wrapper #theidea').fadeOut('slow'); jQuery.unblockUI(); });";
 		$script[]="\tjQuery('#theidea').clone().prependTo( '#workareainit .workarea_wrapper' );jQuery('#theidea').hide();";
 		$script[]="\tsetTimeout(function() {jQuery('#theidea').show();";
 		$script[]="\tjQuery.unblockUI({ ";
