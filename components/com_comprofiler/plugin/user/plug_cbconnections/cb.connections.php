@@ -279,14 +279,15 @@ class getConnectionTab extends cbTabHandler {
 			if ( $_CB_framework->myId() == $user->id ) {
 				$return		.=	"<div class=\"connectionBox\" style=\"position:relative;height:" . ( $boxHeight + 24 ) . "px;width:" . $boxWidth . "px;\">" 
 							. "<div style=\"position:absolute; top:3px; width:auto;left:5px;right:5px;\">" . $actionIMG . '</div>' 
-							. "<div style=\"position:absolute; top:18px; width:auto;left:5px;right:5px;\">" . $tooltipAvatar . '</div>' 
+							. "<div class=\"avatar\" style=\"position:absolute; top:18px; width:auto;left:5px;right:5px;\">" . $tooltipAvatar . '</div>' 
 							. "<div style=\"position:absolute; bottom:0px; width:auto;left:5px;right:5px;\">" 
 								. $onlineIMG . " " . getNameFormat( $connection->name, $connection->username, $ueConfig['name_format'] ) 
 								. "<br /><a href=\"" . cbSef( "index.php?option=com_comprofiler&amp;task=userProfile&amp;user=" . $connection->memberid ) 
 								. '"><img src="' . $live_site . "/components/com_comprofiler/images/profiles.gif\" border=\"0\" alt=\"" 
 								. _UE_VIEWPROFILE . "\" title=\"" . _UE_VIEWPROFILE . "\" /></a> " . $emailIMG . " " . $pmIMG . "\n";
 			} else {
-				$return		.=	"<div class=\"connectionBox\" style=\"position:relative;height:" . $boxHeight . "px;width:" . $boxWidth . "px;\">" . "<div style=\"position:absolute; top:10px; width:auto;left:5px;right:5px;\">" . $tooltipAvatar . '</div>' . "<div style=\"position:absolute; bottom:0px; width:auto;left:5px;right:5px;\">" . $onlineIMG . " " . getNameFormat( $connection->name, $connection->username, $ueConfig['name_format'] ) . "\n";
+				$return		.=	"<div class=\"connectionBox\" style=\"position:relative;height:" . $boxHeight . "px;width:" . $boxWidth . "px;\">" . 
+				"<div  style=\"position:absolute; top:10px; width:auto;left:5px;right:5px;\">" . $tooltipAvatar . '</div>' . "<div style=\"position:absolute; bottom:0px; width:auto;left:5px;right:5px;\">" . $onlineIMG . " " . getNameFormat( $connection->name, $connection->username, $ueConfig['name_format'] ) . "\n";
 			}
 			$return			.=	"</div></div>\n";
 		}

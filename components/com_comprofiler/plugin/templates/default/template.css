@@ -343,13 +343,9 @@ div.cbUserListChanger div.cbUserListChangeItem	{	margin-bottom: 6px;		text-align
 	float:left;
 	padding: 4px;
 	margin: 5px 3px;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border: 1px solid #CCC;
 	text-align: center;
 }
-.connectionBox div a img{width:;}
+.connectionBox div.avatar a img{width:80px;}
 /* For tab positions: */
 #cbPosUpper		{	border: 0px solid;	width:100%	}
 #cbPosHead		{	text-align: left;	border: 0px;	vertical-align: top; 	width:	100%;	}
@@ -888,7 +884,7 @@ margin-bottom: 30px;}
     display: block;
 }
 .cbProfile .cbPosHead{margin-bottom: 60px;background:#F9F9F9;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius: 5px;border:1px solid #E6E6E6;}
-.cbProfile .cb_form_line label{line-height:14px !important;}
+.cbProfile .cb_form_line label{line-height:19px !important;}
 #custommenu{ font-size: 120%;
     padding: 35px 0 24px 0;
     position: absolute;}
