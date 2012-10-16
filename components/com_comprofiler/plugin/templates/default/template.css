@@ -809,6 +809,8 @@ ul.cbMenuULlist li.cbMenu_UE_PM_OPTIONS a:hover {background:#dee1e3 url(images/m
 
 ul.cbMenuULlist li.cbMenu_UE_PM_SENDMESSAGE a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -2600px; display:block;}
 ul.cbMenuULlist li.cbMenu_UE_PM_SENDMESSAGE a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -2700px;}
+ul.cbMenuULlist li.Private a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -2600px; display:block;}
+ul.cbMenuULlist li.Private a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -2700px;}
 
 ul.cbMenuULlist li.cbMenu_UE_MENU_SENDUSEREMAIL a {background:url(images/mini-icons/cbicons.png) repeat-y 0px -2800px; display:block;}
 ul.cbMenuULlist li.cbMenu_UE_MENU_SENDUSEREMAIL a:hover {background:#dee1e3 url(images/mini-icons/cbicons.png) repeat-y 0px -2900px;}
@@ -900,7 +902,7 @@ margin-bottom: 30px;}
 .profileheaderitem span{margin-right: 20px;font-size:250%; color:#fff;float:right;font-weight:bold;}
 .cbMenuList li{display:inline-block;}
 .cbPosTabMain .cb_tab_div .contentheading{font-weight:bold;
-padding: 12px 12px 12px 12px;color:#000; font-size:200%;}
+padding: 12px 12px 12px 12px;color:#604860; font-size:200%;}
 .cbPosTabMain .cb_tab_div{margin:40px 0 0 0;clear: both;}
 .cbPosTabMain .cb_tab_div .contentpaneopen{  background: none repeat scroll 0 0 #F9F9F9;
     border: 1px solid #E6E6E6;
