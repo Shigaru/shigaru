@@ -69,10 +69,8 @@ class JCommentsTab extends cbTabHandler
 
 			$dbo->setQuery($query, 0, $count);
 			$rows = $dbo->loadObjectList();
-			$content = '<div class="content_box">
-								<h3>Your comments</h3>
-							</div>';
-
+			$content = '';
+			
 			if (sizeof($rows)) {
 				//var_dump($rows);
 				$content .= '<ul class="jclist">'."\n";
@@ -82,13 +80,28 @@ class JCommentsTab extends cbTabHandler
 
 			        $smilesList = $smiles->get();
 
-				$label4more = $params->get( 'label4more', 'More...' );
+				$label4more = _UE_MORE;
 				$maxlen = intval( $params->get( 'length' ));
 
 				$lastArticleId = -1;
-
+				$c = true;
 				foreach ($rows as $row) {
-
+					$thumbnail='';
+					$query = 'SELECT a.thumbnail'
+						. ' FROM #__hwdvidsvideos AS a'
+						. ' WHERE a.id = '.$row->object_id
+						. ' AND a.published = 1'
+						. ' AND a.approved = "yes"'
+						. ' ORDER BY a.date_uploaded'
+						. ' LIMIT 0, 1'
+						;
+					$dbo->SetQuery($query);
+					$group_video = $dbo->loadObject();
+					http://localhost/shigaru/hwdvideos/thumbs/tp-219.jpg
+					if($group_video->thumbnail)
+						$thumbnail = '<img src="'.JURI::base()."hwdvideos/thumbs/".$group_video->thumbnail.'" alt="'.$label4more.'" border="0" width="100" height="75" title="" class="thumb0">';
+						else
+							$thumbnail = '<img src="'.JURI::base()."hwdvideos/thumbs/default_thumb.jpg".'" alt="'.$label4more.'" border="0" width="100" height="75" title="" class="thumb0">';;
 					$link  = JCommentsObjectHelper::getLink($row->object_id, $row->object_group) . '#comment-' . $row->id;
 
 					if ($row->title == '') {
@@ -115,14 +128,15 @@ class JCommentsTab extends cbTabHandler
 					        	$content .= '</ul></li>';
 					        }
 
-						$content .= '<li>' . $row->title . '<ul>';
+						$content .= '<li '.(($c = !$c)?' class="odd"':'class="even"').'>' . $row->title .$thumbnail. '<ul>';
 						$lastArticleId = $row->object_id;
 					}
 
 					$content .= '<li>'
-							. date('Y-m-d H:i:s', strtotime($row->date))
+							
 							. '<p>' . $link_text . '</p>'
-							. '&nbsp;<a href="' . $link . '" title="' . $link_title . '">' . $label4more . '</a></li>'."\n";
+							. date('Y-m-d H:i:s', strtotime($row->date))
+							. '<a href="' . $link . '" title="' . $link_title . '">' . $label4more . '</a></li>'."\n";
 
 				}
 				$content .= '</ul>'."\n";

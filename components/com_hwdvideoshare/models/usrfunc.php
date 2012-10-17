@@ -50,8 +50,10 @@ class hwd_vs_usrfunc
 		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
+		$otheruser = Jrequest::getVar( 'guid', 'no' );
 		$my = & JFactory::getUser();
 
+		
 		if (!$my->id) {
 			$msg = _HWDVIDS_ALERT_LOG2CYV;
 			$mainframe->enqueueMessage($msg);
@@ -59,8 +61,10 @@ class hwd_vs_usrfunc
 		}
 
 		$limit 	= intval($c->vpp);
-
-		$user_id = $my->id;
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 
 		$where = ' WHERE video.approved = "yes"';
 		$where .= ' AND video.published = 1';
@@ -85,7 +89,7 @@ class hwd_vs_usrfunc
 		$db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
 		$rows = $db->loadObjectList();
 
-		hwd_vs_html::yourVideos($rows, $pageNav, $total);
+		hwd_vs_html::yourVideos($rows, $pageNav, $total,$otheruser);
 	}
    /**
     * List User Favourite Videos
@@ -96,7 +100,7 @@ class hwd_vs_usrfunc
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-
+		$otheruser = Jrequest::getVar( 'guid', 'no' );
 		if (!$my->id) {
 			$msg = _HWDVIDS_ALERT_LOG2CYF;
 			$mainframe->enqueueMessage($msg);
@@ -106,7 +110,10 @@ class hwd_vs_usrfunc
 		$limit 	= intval($c->vpp);
 		$gid 	= intval($my->gid);
 
-		$user_id = $my->id;
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 
 		$where = ' WHERE video.approved = "yes"';
 		$where .= ' AND video.published = 1';
@@ -133,7 +140,7 @@ class hwd_vs_usrfunc
 		$db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
 		$rows = $db->loadObjectList();
 
-		hwd_vs_html::yourFavourites($rows, $pageNav, $total);
+		hwd_vs_html::yourFavourites($rows, $pageNav, $total, $otheruser);
 	}
    /**
     * List User Favourite Videos

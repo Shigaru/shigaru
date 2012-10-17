@@ -76,7 +76,7 @@ class getMenuPageTab extends cbTabHandler {
 	function getDisplayTab($tab,$user,$ui) {
 		
 		$params = $this->params; // get parameters (plugin and related tab
-		$menuitem_id = 'index.php?option=com_hwdvideoshare&task=yourvideos&format=raw&lang=';
+		$menuitem_id = 'index.php?option=com_hwdvideoshare&task=yourvideos&format=raw&guid='.$user->user_id;
 		
 		
 		

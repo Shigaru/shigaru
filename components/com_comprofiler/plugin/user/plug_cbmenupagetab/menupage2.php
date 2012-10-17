@@ -76,7 +76,7 @@ class getMenuPageTab2 extends cbTabHandler {
 	function getDisplayTab($tab,$user,$ui) {
 		
 		$params = $this->params; // get parameters (plugin and related tab
-		$menuitem_id = 'index.php?option=com_hwdvideoshare&task=yourfavourites&format=raw&lang=';
+		$menuitem_id = 'index.php?option=com_hwdvideoshare&task=yourfavourites&format=raw&guid='.$user->user_id;
 		
 		// Use ItemID to retrieve full url for menu item	
 		
@@ -95,7 +95,7 @@ class getMenuPageTab2 extends cbTabHandler {
 
 		//$page = 'index2.php?option=com_civicrm&view=Dashboard&Itemid=65';
 		$page = $link;
-		$fullurl = JURI::base().$menuitem_id;
+		$fullurl = JURI::base().$menuitem_id.$link;
 		//echo $fullurl.'<br />';
 		
 		//$fullpath = str_replace('index.php','',$_SERVER['PHP_SELF']).$page;

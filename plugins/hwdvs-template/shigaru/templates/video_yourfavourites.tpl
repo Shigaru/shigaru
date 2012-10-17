@@ -8,9 +8,11 @@
 *}
 
 {include file='header.tpl'}
+{if $otheruser eq 'no'}
 <div class="content_box">
 <h3 class="mbot12">{$smarty.const._HWDVIDS_TITLE_YOURFAVS}</h3>
 </div>
+{/if}
 <div id="resultwrapper">
   {if $print_videolist}
     {foreach name=outer item=data from=$list}

@@ -48,6 +48,7 @@ DEFINE('_UE_FAVALBUMS','MY FAVOURITE ALBUMS');
 DEFINE('_UE_FAVSITES','Favourite music-related websites');
 DEFINE('_UE_FAVOURITES','Favourites');
 DEFINE('_UE_COMMENTS','Comments');
+DEFINE('_UE_MORE','View this comment');
 DEFINE('_UE_MYBAND','My Band');
 DEFINE('_UE_MYOTHERBAND','My Other Band');
 

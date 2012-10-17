@@ -887,8 +887,13 @@ ul.jclist img { width: 32px; height: 32px; margin: 0 5px 5px 0;	float: left;}
 ul.jclist span img {width: auto; height: auto; float: none;}
 ul.jclist .jcl_objtitle{margin:16px 0 12px 0; display:block;}
 ul.jclist { padding: 0; list-style-image: none; list-style-type: none; }
-ul.jclist li {background-image: none; list-style: none; list-style-image: none; margin-left: 5px !important; margin-left: 0; display: block; overflow: hidden; }
+ul.jclist li {padding: 12px 0;border-bottom: 1px solid #E6E6E6;font-size: 120%;margin:0 ;font-weight: bold;background-image: none; list-style: none; list-style-image: none; margin-left: 5px !important; margin-left: 0; display: block; overflow: hidden; }
+ul.jclist li.odd{background:#fff;}
+ul.jclist li ul li{padding: 0;border-bottom: none;font-size: 100%;font-weight: normal;margin:0;}
+ul.jclist li ul li a{margin: 0 0 0 40px;}
+ul.jclist li p{margin: 10px 10px 30px 10px;font-style: italic;}
 ul.jclist img { width: 32px; height: 32px; margin: 0 5px 5px 0;	float: left;}
+ul.jclist img.thumb0{width: auto; height: auto; float: left;margin: 0 30px 5px 0;}
 ul.jclist span img {width: auto; height: auto; float: none;}
 /* GENERAL CLASSES */
 .cb_result_warning {
