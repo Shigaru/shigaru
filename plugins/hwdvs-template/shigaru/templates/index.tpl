@@ -40,27 +40,15 @@
 						<div id="the_most_title">
 							<h6><span>MOST</span></h6>
 							<ul>
-								<li class="first selected"><a href="#tabs-1">{$title_mostviewed}</a></li>
-								<li><a href="#tabs-2">{$smarty.const._HWDVIDS_MOST_RECENT}</a></li>
+								<li class="first selected"><a href="#tabs-2">{$smarty.const._HWDVIDS_MOST_RECENT}</a></li>
+								<li ><a href="#tabs-1">{$title_mostviewed}</a></li>
 								<li><a href="#tabs-3">{$smarty.const._HWDVIDS_MOST_RATED}</a></li>
 								<li><a href="#tabs-4">{$title_mostfavoured}</a></li>
 								<li class="last"><a href="#tabs-5">{$smarty.const._HWDVIDS_MOST_COMMENTED}</a></li>
 							</ul>
 						</div>
-						{if $print_mostpopular}
-							<div id="the_most_wrapper">	
-								<div id="tabs-1" class="tab_wrapper">
-									<ul>
-								  			{foreach name=outer item=data from=$mostviewedlist}
-											{include file="video_list_small_viewed.tpl"}
-											{/foreach}
-									</ul>		
-								</div>
-								<!--<div class="viewmore"><a href="{$viewed_link}" title="{$smarty.const._HWDVIDS_WATCHMORE}">{$smarty.const._HWDVIDS_WATCHMORE}</a></div>-->
-							</div>
-							
-							{/if}
-							<div id="the_most_wrapper">	
+						
+						<div id="the_most_wrapper">	
 								<div id="tabs-2" class="tab_wrapper">
 								<ul id="recentvideoslist">
 									{if $print_videolist}
@@ -79,6 +67,21 @@
 								</ul>	  
 								</div>
 							</div>
+						
+						{if $print_mostpopular}
+							<div id="the_most_wrapper">	
+								<div id="tabs-1" class="tab_wrapper">
+									<ul>
+								  			{foreach name=outer item=data from=$mostviewedlist}
+											{include file="video_list_small_viewed.tpl"}
+											{/foreach}
+									</ul>		
+								</div>
+								<!--<div class="viewmore"><a href="{$viewed_link}" title="{$smarty.const._HWDVIDS_WATCHMORE}">{$smarty.const._HWDVIDS_WATCHMORE}</a></div>-->
+							</div>
+							
+							{/if}
+							
 							
 							<div id="the_most_wrapper">	
 								<div id="tabs-3" class="tab_wrapper">
