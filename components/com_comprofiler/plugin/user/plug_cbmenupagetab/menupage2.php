@@ -95,7 +95,7 @@ class getMenuPageTab2 extends cbTabHandler {
 
 		//$page = 'index2.php?option=com_civicrm&view=Dashboard&Itemid=65';
 		$page = $link;
-		$fullurl = JURI::base().$menuitem_id.$link;
+		$fullurl = JURI::base().$menuitem_id;
 		//echo $fullurl.'<br />';
 		
 		//$fullpath = str_replace('index.php','',$_SERVER['PHP_SELF']).$page;

@@ -1660,7 +1660,7 @@ $app = & JFactory::getApplication();
     /**
      *
      */
-    function yourFavourites($rows, $pageNav, $total)
+    function yourFavourites($rows, $pageNav, $total,$otheruser='no')
     {
 		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
@@ -1696,7 +1696,6 @@ $app = & JFactory::getApplication();
 			$list = hwd_vs_tools::generateVideoListFromSql($rows);
 			$smartyvs->assign("list", $list);
 		}
-
 		$page = $total - $c->vpp;
 		$pageNavigation = null;
 		if ( $page > 0 )

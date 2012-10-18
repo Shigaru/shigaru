@@ -1472,8 +1472,14 @@ class hwd_vs_tools {
 			$code[$i]->editvideo = hwd_vs_tools::generateEditVideoLink($row);
 			$code[$i]->publishvideo = hwd_vs_tools::generatePublishVideoLink($row);
 			$code[$i]->approvevideo = hwd_vs_tools::generateApproveVideoLink($row);
-
+			$oSide = hwd_vs_tools::generateSideDetails($row);
 			$code[$i]->counter = $i;
+			$code[$i]->genre = $oSide->genre;
+			$code[$i]->level = $oSide->level;
+			$code[$i]->instrument = $oSide->instrument;
+			$code[$i]->language = $oSide->language;
+			
+			
 			$code[$i]->k = $k;
 			$k = 1 - $k;
 		}

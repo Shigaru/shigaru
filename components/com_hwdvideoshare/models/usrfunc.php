@@ -88,7 +88,6 @@ class hwd_vs_usrfunc
 
 		$db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
 		$rows = $db->loadObjectList();
-
 		hwd_vs_html::yourVideos($rows, $pageNav, $total,$otheruser);
 	}
    /**

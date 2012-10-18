@@ -51,22 +51,22 @@
 								<div class="padtop12">
 									<div class="fleft w20pc">
 										<label for="username" class="searchLabels">
-										Instrument: <br />
+										Instrument: <br /> {$data->instrument}
 										</label>
 									</div>	
 									<div class="fleft w20pc">
 										<label for="username" class="searchLabels">
-										Genre:<br />
+										Genre:<br /> {$data->genre}
 										</label>
 									</div>	
 									<div class="fleft w20pc">
 										<label for="username" class="searchLabels">
-										Level:<br />
+										Level:<br /> {$data->level}
 										</label>
 									</div>	
 									<div class="fleft w20pc">
 										<label for="username" class="searchLabels">
-										Language:<br />
+										Language:<br /> {$data->language}
 										</label>
 									</div>
 								</div>
