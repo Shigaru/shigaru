@@ -287,7 +287,7 @@ class getConnectionTab extends cbTabHandler {
 								. _UE_VIEWPROFILE . "\" title=\"" . _UE_VIEWPROFILE . "\" /></a> " . $emailIMG . " " . $pmIMG . "\n";
 			} else {
 				$return		.=	"<div class=\"connectionBox\" style=\"position:relative;height:" . $boxHeight . "px;width:" . $boxWidth . "px;\">" . 
-				"<div  style=\"position:absolute; top:10px; width:auto;left:5px;right:5px;\">" . $tooltipAvatar . '</div>' . "<div style=\"position:absolute; bottom:0px; width:auto;left:5px;right:5px;\">" . $onlineIMG . " " . getNameFormat( $connection->name, $connection->username, $ueConfig['name_format'] ) . "\n";
+				"<div  style=\"position:absolute; top:10px; width:auto;left:5px;right:5px;\" class=\"avatar\">" . $tooltipAvatar . '</div>' . "<div style=\"position:absolute; bottom:0px; width:auto;left:5px;right:5px;\">" . $onlineIMG . " " . getNameFormat( $connection->name, $connection->username, $ueConfig['name_format'] ) . "\n";
 			}
 			$return			.=	"</div></div>\n";
 		}

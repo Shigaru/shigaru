@@ -884,7 +884,7 @@ margin-bottom: 30px;}
     display: block;
 }
 .cbProfile .cbPosHead{margin-bottom: 60px;background:#F9F9F9;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius: 5px;border:1px solid #E6E6E6;}
-.cbProfile .cb_form_line label{line-height:19px !important;}
+
 #custommenu{ font-size: 120%;
     padding: 35px 0 24px 0;
     position: absolute;}
@@ -905,28 +905,37 @@ padding: 12px 12px 12px 12px;color:#604860; font-size:200%;}
     border-radius: 5px 5px 5px 5px;
 margin: -0.9px 0 0 1px;
 padding: 12px}
+#cbProfileInner form.cb_form .cb_form_line label, .cb_tab_content .cb_form_line label {
+    font-weight: bold !important;
+    line-height: normal !important;
+    font-size: 100% !important;
+    padding-right: 12px;
+    text-align: right;
+    vertical-align: top;
+    width: 220px !important;
+}
+#cbfr_126,#cbfr_125 {
+    float: none;
+    width: 95%;
+}
+#cbfv_80,#cblabcbfv_80{
+    font-size: 200% !important;
+}
+#cbfv_80{  color: red;
+}
 .cbPosTabMain .cb_tab_div .cbft_text,.cbPosTabMain .cb_tab_div .cbft_select,
 .cbPosTabMain .cb_tab_div .cbft_radio,.cbPosTabMain .cb_tab_div .cbft_multiselect,
-.cbPosTabMain .cb_tab_div .cbft_datetime {float:left;width:47%;}
+.cbPosTabMain .cb_tab_div .cbft_datetime {}
 .cbPosTabMain .cb_tab_div .cb_form_line:last-child{float:none;}
 .cbPosUnderAll .cbFieldsContentsTab .cbft_text,.cbPosUnderAll .cbFieldsContentsTab .cbft_select,
 .cbPosUnderAll .cbFieldsContentsTab .cbft_radio,.cbPosUnderAll .cbFieldsContentsTab .cbft_multiselect,
-.cbPosUnderAll .cbFieldsContentsTab .cbft_datetime,.cbPosUnderAll .cbFieldsContentsTab .cbft_webaddress {float:left;width:47%;}
+.cbPosUnderAll .cbFieldsContentsTab .cbft_datetime,.cbPosUnderAll .cbFieldsContentsTab .cbft_webaddress {}
 .cbPosUnderAll .cbFieldsContentsTab .cb_form_line:last-child{float:none;}
-
-.cbPosUnderAll .cb_tab_content{background:rgb(255,255,255); /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U1ZTVlNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-background: -moz-linear-gradient(-45deg,  rgba(255,255,255,1) 0%, rgba(229,229,229,1) 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1))); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* IE10+ */
-background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */ 			
--moz-border-radius: 0 0 5px 5px;
--webkit-border-radius: 0 0 5px 5px;
-border-radius: 0 0 5px 5px;
+.cbPosTabMain .cb_tab_div .cbft_text,.cbPosTabMain .cb_tab_div .cbft_select,
+.cbPosTabMain .cb_tab_div .cbft_radio,.cbPosTabMain .cb_tab_div .cbft_multiselect,
+.cbPosTabMain .cb_tab_div .cbft_datetime,.cbPosTabMain .cb_tab_div .cbft_webaddress{width:49%;float:left;}
+.cbPosTabMain .cb_tab_div .cbft_webaddress a{float:left;}
+.cbPosUnderAll .cb_tab_content{
 margin: 12px 0 0 1px;}
 #adminForm .reddbuttonsubmit{clear:none;float:left;margin:12px 30px;}
 .cbPosTabMain .cb_tab_div .cbft_editorta{clear:both;}
