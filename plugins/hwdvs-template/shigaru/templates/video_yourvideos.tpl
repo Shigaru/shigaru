@@ -12,6 +12,7 @@
 <h3 class="mbot12">{$smarty.const._HWDVIDS_TITLE_YOURVIDS}</h3>
 </div>
 {/if}
+<span class="mleft12 f15em fontbold">{$total}</span> <span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_VIDEOSSUBMITTED}</span>
 <div id="resultwrapper">
   {if $print_videolist}
     {foreach name=outer item=data from=$list}

@@ -1315,6 +1315,17 @@ class getMenuTab  extends cbTabHandler {
 				// $this->menuBar->addSeparator($mi);
 				$idCounter						=	$_CB_OneTwoRowsStyleToggle;
 				$tableContent					=	$this->menuBar->displayMenu($idCounter);
+				$inbox =''; 
+				if($_CB_framework->myId()==$user->id){
+				$inbox =	'<ul class="cbMenuULlist">
+																			<li class="cbMenuItem cbMenuEogr1 cbMenu_UE_MENU_SENDUSEREMAIL" >
+																				<a href="'.cbSef("index.php?option=com_uddeim").'" title="'._UE_PM_INBOX.'">'._UE_INBOX.
+																				'</a>
+																			</li>
+																		</ul>';
+					}
+				
+				
 				if ( $tableContent != '' ) {
 					$_CB_OneTwoRowsStyleToggle	=	($idCounter&1 ? 2 : 1);
 					$return						.=	'<script type="text/javascript">
@@ -1335,10 +1346,15 @@ class getMenuTab  extends cbTabHandler {
 															</script>
 														<div class="cbMenuList">
 														<div class="cbusermenubutton mleft6">
-																<div id="profileoptswrapper"><div><ul class="cbMenuULlist"><li class="cbMenuItem cbMenuEogr1 cbMenu_UE_MENU_SENDUSEREMAIL" ><a href="'.cbSef("index.php?option=com_uddeim").'" title="'._UE_PM_INBOX.'">'._UE_INBOX.
-															'</a></li></ul>' . $tableContent . 
-														'</div></div></div>
-														</div><div class="clear"></div>';
+																<div id="profileoptswrapper">
+																	<div>'. $tableContent . $inbox.
+																		
+																	'</div>
+																</div>
+														</div>
+														</div>
+														<div class="clear">
+														</div>';
 				}
 				break;
 			case "menuList":

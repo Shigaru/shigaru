@@ -726,6 +726,8 @@ DEFINE("_HWDVIDS_RECENTUPDATES","Recent <br /> Status <br /> Updates");
 DEFINE("_HWDVIDS_RECENTACTVITY","Recent <br /> Profile <br /> Activity");
 DEFINE("_HWDVIDS_TOPPOSTERS","Top <br /> Video <br /> Posters");
 DEFINE("_HWDVIDS_TOPPAGE","Top of page");
+DEFINE("_HWDVIDS_SHIGARU_VIDEOSSUBMITTED","videos submitted");
+DEFINE("_HWDVIDS_SHIGARU_VIDEOSFAVORITED","favourite videos");
 DEFINE("_HWDVIDS_SHIGARU_DATEADDED","Date submitted");
 DEFINE("_HWDVIDS_SHIGARU_INSTRUMENT","Instrument");
 DEFINE("_HWDVIDS_SHIGARU_GENRE","Genre");

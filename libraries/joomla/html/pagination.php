@@ -216,7 +216,6 @@ class JPagination extends JObject
 				$listOverride = true;
 			}
 		}
-
 		// Build the select list
 		if ($data->all->base !== null) {
 			$list['all']['active'] = true;
@@ -446,7 +445,7 @@ class JPagination extends JObject
 			else
 				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=0; submitform();return false;\">".$item->text."</a>";
 		} else {
-			return "<a title=\"".$item->text."\" href=\"".$item->link."\" class=\"pagenav\">".$item->text."</a>";
+			return "<a title=\"".$item->text."\" href=\"".$item->link."&format=html\" class=\"pagenav\">".$item->text."</a>";
 		}
 	}
 
@@ -475,7 +474,7 @@ class JPagination extends JObject
 		$data->all	= new JPaginationObject(JText::_('View All'));
 		if (!$this->_viewall) {
 			$data->all->base	= '0';
-			$data->all->link	= JRoute::_("&limitstart=");
+			$data->all->link	= JRoute::_("&format=html&limitstart=");
 		}
 
 		// Set the start and previous data objects
@@ -489,9 +488,9 @@ class JPagination extends JObject
 			$page = $page == 0 ? '' : $page; //set the empty for removal from route
 
 			$data->start->base	= '0';
-			$data->start->link	= JRoute::_("&limitstart=");
+			$data->start->link	= JRoute::_("&format=html&limitstart=");
 			$data->previous->base	= $page;
-			$data->previous->link	= JRoute::_("&limitstart=".$page);
+			$data->previous->link	= JRoute::_("&format=html&limitstart=".$page);
 		}
 
 		// Set the next and end data objects
@@ -504,9 +503,9 @@ class JPagination extends JObject
 			$end  = ($this->get('pages.total') -1) * $this->limit;
 
 			$data->next->base	= $next;
-			$data->next->link	= JRoute::_("&limitstart=".$next);
+			$data->next->link	= JRoute::_("&format=html&limitstart=".$next);
 			$data->end->base	= $end;
-			$data->end->link	= JRoute::_("&limitstart=".$end);
+			$data->end->link	= JRoute::_("&format=html&limitstart=".$end);
 		}
 
 		$data->pages = array();
@@ -521,7 +520,7 @@ class JPagination extends JObject
 			if ($i != $this->get('pages.current') || $this->_viewall)
 			{
 				$data->pages[$i]->base	= $offset;
-				$data->pages[$i]->link	= JRoute::_("&limitstart=".$offset);
+				$data->pages[$i]->link	= JRoute::_("&format=html&limitstart=".$offset);
 			}
 		}
 		return $data;

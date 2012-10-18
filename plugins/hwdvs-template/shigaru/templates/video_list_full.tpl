@@ -20,7 +20,7 @@
 										<label for="username" class="searchLabels">
 										Rating:<br />
 										</label>
-										{$data->rating}
+										<span>{$data->rating}</span>
 									</div>
 									<div>
 										<label for="username" class="searchLabels">
@@ -35,7 +35,7 @@
 										<label for="title" class="searchLabels">
 										Video Title:
 										</label>
-										{$data->title}
+										<span>{$data->title}</span>
 										<span id="videosearchtitle"></span>
 									</div>	
 									<div class="mbot20">
@@ -51,22 +51,22 @@
 								<div class="padtop12">
 									<div class="fleft w20pc">
 										<label for="username" class="searchLabels">
-										Instrument: <br /> {$data->instrument}
+										Instrument: <br /> <span>{$data->instrument}</span>
 										</label>
 									</div>	
 									<div class="fleft w20pc">
 										<label for="username" class="searchLabels">
-										Genre:<br /> {$data->genre}
+										Genre:<br /> <span>{$data->genre}</span>
 										</label>
 									</div>	
 									<div class="fleft w20pc">
 										<label for="username" class="searchLabels">
-										Level:<br /> {$data->level}
+										Level:<br /> <span>{$data->level}</span>
 										</label>
 									</div>	
 									<div class="fleft w20pc">
 										<label for="username" class="searchLabels">
-										Language:<br /> {$data->language}
+										Language:<br /> <span>{$data->language}</span>
 										</label>
 									</div>
 								</div>

@@ -326,7 +326,7 @@ DEFINE('_UE_UPLOAD_GALLERY','Choose one from the image gallery');
 DEFINE('_UE_UPLOAD_CHOOSE','Confirm choice');
 DEFINE('_UE_UPLOAD_UPDATED','Your image has been set.');
 DEFINE('_UE_USER_PROFILE_NOT','Your profile could not be updated.');
-DEFINE('_UE_USER_PROFILE_UPDATED','Your profile is updated.');
+DEFINE('_UE_USER_PROFILE_UPDATED','Your profile has been updated successfully.');
 DEFINE('_UE_USER_RETURN_A','If you are not taken back to your profile in a few moments ');
 DEFINE('_UE_USER_RETURN_B','click here');
 //DEFINE('_UPDATE','UPDATE');

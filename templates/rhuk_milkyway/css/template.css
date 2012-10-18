@@ -655,6 +655,7 @@ span.reference a:hover{color:#000;}
     padding: 10px 10px 10px 40px;
     background:url("../images/icon_info_bip.png") no-repeat scroll 12px 12px #FFEFD8;
     border:1px solid #FFD69B;}
+#system-message dt{font-weight:bold;}    
 #system-message .close{
 display:block;
 float:right;
@@ -836,7 +837,8 @@ float: left;
     }
 
 .boxwhite{background-color:#fff;border-radius: 5px 5px 5px 5px;box-shadow: 0 0 3px #AAAAAA; border: 1px solid #C1C1C1;color:#000;}
-.searchLabels{color:#827D7E; }
+.searchLabels{color:#827D7E#494344; font-weight:bold;}
+.searchLabels span{font-weight:normal;}
 #infocontext div#ratingsnow div#loadingMessage{padding:12px;}
 #infocontext div#loadingMessage,div#loadingMessage{
 	background-image: url("../images/loading.gif") !important;

@@ -1599,7 +1599,7 @@ $app = & JFactory::getApplication();
     /**
      *
      */
-    function yourVideos($rows, $pageNav, $totalif,$otheruser='no')
+    function yourVideos($rows, $pageNav, $total,$otheruser='no')
     {
 		global $smartyvs, $Itemid;
 		$c = hwd_vs_Config::get_instance();
@@ -1653,6 +1653,7 @@ $app = & JFactory::getApplication();
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 		$smartyvs->assign("otheruser", $otheruser);
+		$smartyvs->assign("total", $total);
 		
 		$smartyvs->display('video_yourvideos.tpl');
 		return;
@@ -1713,6 +1714,7 @@ $app = & JFactory::getApplication();
 		}
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 		$smartyvs->assign("otheruser", $otheruser);
+		$smartyvs->assign("total", $total);
 		$smartyvs->display('video_yourfavourites.tpl');
 		return;
 
