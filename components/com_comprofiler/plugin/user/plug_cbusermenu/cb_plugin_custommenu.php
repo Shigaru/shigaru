@@ -87,9 +87,14 @@ $link_cb = $grRoute->_("$link&amp;task=userProfile&amp;user=".$user->id.$cb_item
 	$script[]='jQuery(document).ready(function($){jQuery(\'.cbPosUnderAll\').hide();';
 	$script[]="\tjQuery('#custommenu a').click(function(e){";
 	$script[]="changeProfileTabs(e);return false;";
-	$script[]="";
-	$script[]="";
-	$script[]="";
+	$script[]="});";
+	$script[]="jQuery('.cbMenu_UE_DELETE_AVATAR').click(function(){";
+	$script[]="		jQuery('.usermessages div a.close').parent().parent().fadeIn();";
+	$script[]="		jQuery.blockUI({ message: $('.usermessages'), css: { width: '455px' } }); ";
+	$script[]="return false;});";
+	$script[]="jQuery('.usermessages #yes').click(function() { ";
+	$script[]="		var _url =jQuery('.cbMenu_UE_DELETE_AVATAR a').attr('href');";
+	$script[]="		window.location = _url;";
 	$script[]="});";
 	$script[]='});';
 	$doc->addScriptDeclaration(implode("\n",$script));
@@ -97,6 +102,13 @@ $link_cb = $grRoute->_("$link&amp;task=userProfile&amp;user=".$user->id.$cb_item
     else {$usernames = $dat->username;}
     $echo = "<div id='custommenu'>";
     //if ($user->id == $myid OR $user->id == 0) {
+	 $echo.= '	<div class="usermessages" style="display:none; cursor: default"> 
+	<div id="flagquestionwrap">         
+		<div><a id="no" class="close"></a></div>
+		<h1>'._UE_AREYOUSUREREMOVEIMAGE.'?</h1> 
+        <input type="button" class="reddbuttonsubmit" id="yes" value="Go" /> 
+	</div>         
+</div>';
       $echo.= '<a id="aaboutme" href="#" class="current">'._UE_ABOUTME.'</a>&nbsp;|&nbsp;';
       $echo.= '<a id="avideossubmi" href="#">'._UE_VIDEOSUBMITED.'</a>&nbsp;|&nbsp;';
       $echo.= '<a id="afavour" href="#">'._UE_FAVOURITES.'</a>&nbsp;|&nbsp;';

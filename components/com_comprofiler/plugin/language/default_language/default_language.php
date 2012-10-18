@@ -163,7 +163,10 @@ DEFINE('_UE_FAVBOOKS','Favourite books:');
 DEFINE('_UE_FAVMOVIES','Favourite movies');
 DEFINE('_UE_FAVTV','Favourite tv');
 DEFINE('_UE_HOBBIES','Hobbies');
+DEFINE('_UE_CLICKTOVISIT','Click on this link visit');
+DEFINE('_UE_AREYOUSUREREMOVEIMAGE','Are you sure you wish to remove your image');
 
+DEFINE('_UE_ON','on');
 DEFINE('_UE_USERNAME','Username');
 DEFINE('_UE_Address','Address');
 DEFINE('_UE_City','City');

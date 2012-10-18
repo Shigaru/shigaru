@@ -22,43 +22,43 @@ class getsocialpagesURL extends cbTabHandler {
 		$return ='';
 		/*$myspacepage ='tom';*/
 		if($myspacepage  !=''){
-		$ocode .= '<a href="http://home.myspace.com/'.$myspacepage.'" target="_blank"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/myspace.png">&nbsp;&nbsp;</a>';
+		$ocode .= '<a title="'._UE_CLICKTOVISIT.' '.$user->username.' '._UE_ON.' '.$user->name.' '._UE_ON.' myspace" href="http://home.myspace.com/'.$myspacepage.'" target="_blank"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/myspace.png">&nbsp;&nbsp;</a>';
 		} 
 		$twitterpage = $user->cb_twitterpageURL;
 		if($twitterpage  !=''){
-		$ocode .= '<a href="http://twitter.com/'.$twitterpage.'" target="_blank"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/twitter.png">&nbsp;&nbsp;</a>';	
+		$ocode .= '<a title="'._UE_CLICKTOVISIT.' '.$user->name.' '._UE_ON.' twitter" href="http://twitter.com/'.$twitterpage.'" target="_blank"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/twitter.png">&nbsp;&nbsp;</a>';	
 		}
 		$facebook = $user->cb_facebookURL;
 		if($facebook  !=''){
-		$ocode .= '<a target="_blank" href="http://www.facebook.com/'.$facebook.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/facebook.png">&nbsp;&nbsp;</a>';			
+		$ocode .= '<a  title="'._UE_CLICKTOVISIT.' '.$user->name.' '._UE_ON.' facebook" target="_blank" href="http://www.facebook.com/'.$facebook.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/facebook.png">&nbsp;&nbsp;</a>';			
 		}	
 		$linkedin = $user->cb_linkedinURL;
 		if($linkedin  !=''){
-		$ocode .= '<a target="_blank" href="http://www.linkedin.com/in/'.$linkedin.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/linkedin.png" alt="linkedin">&nbsp;&nbsp;</a>';			
+		$ocode .= '<a title="'._UE_CLICKTOVISIT.' '.$user->name.' '._UE_ON.' linkedin" target="_blank" href="http://www.linkedin.com/in/'.$linkedin.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/linkedin.png" alt="linkedin">&nbsp;&nbsp;</a>';			
 		}
 		$hi5 = $user->cb_hi5URL;
 		if($hi5  !=''){
-		$ocode .= '<a target="_blank" href="http://'.$hi5.'.hi5.com/"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/hi5.png" alt="hi5">&nbsp;&nbsp;</a>';			
+		$ocode .= '<a title="'._UE_CLICKTOVISIT.' '.$user->name.' '._UE_ON.' hi5" target="_blank" href="http://'.$hi5.'.hi5.com/"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/hi5.png" alt="hi5">&nbsp;&nbsp;</a>';			
 		}	
 		$google = $user->cb_googleURL;
 		if($google  !=''){
-		$ocode .= '<a target="_blank" href="http://google.com/'.$google.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/google.png" alt="Google">&nbsp;&nbsp;</a>';			
+		$ocode .= '<a title="'._UE_CLICKTOVISIT.' '.$user->name.' '._UE_ON.' google" target="_blank" href="http://google.com/'.$google.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/google.png" alt="Google">&nbsp;&nbsp;</a>';			
 		}	
 		$youtube = $user->cb_youtubeURL;
 		if($youtube  !=''){
-		$ocode .= '<a target="_blank" href="http://youtube.com/'.$youtube.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/youtube.png" alt="YouTube">&nbsp;&nbsp;</a>';			
+		$ocode .= '<a title="'._UE_CLICKTOVISIT.' '.$user->name.' '._UE_ON.' youtube" target="_blank" href="http://youtube.com/'.$youtube.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/youtube.png" alt="YouTube">&nbsp;&nbsp;</a>';			
 		}	
 		$flickr = $user->cb_flickrURL;
 		if($flickr  !=''){
-		$ocode .= '<a target="_blank" href="http://flickr.com/'.$flickr.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/flickr.png" alt="flickr">&nbsp;&nbsp;</a>';			
+		$ocode .= '<a title="'._UE_CLICKTOVISIT.' '.$user->name.' '._UE_ON.' flickr" target="_blank" href="http://flickr.com/'.$flickr.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/flickr.png" alt="flickr">&nbsp;&nbsp;</a>';			
 		}	
 		$blogger = $user->cb_bloggerURL;
 		if($blogger  !=''){
-		$ocode .= '<a target="_blank" href="http://blogger.com/profile/'.$blogger.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/blogger.png" alt="blogger">&nbsp;&nbsp;</a>';			
+		$ocode .= '<a title="'._UE_CLICKTOVISIT.' '.$user->name.' '._UE_ON.' blogger" target="_blank" href="http://blogger.com/profile/'.$blogger.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/blogger.png" alt="blogger">&nbsp;&nbsp;</a>';			
 		}	
 		$wordpress = $user->cb_wordpressURL;
 		if($wordpress  !=''){
-		$ocode .= '<a target="_blank" href="http://'.$wordpress.'.wordpress.com/"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/wordpress.png" alt="wordpress"></a>';			
+		$ocode .= '<a title="'._UE_CLICKTOVISIT.' '.$user->name.' '._UE_ON.' wordpress" target="_blank" href="http://'.$wordpress.'.wordpress.com/"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/wordpress.png" alt="wordpress"></a>';			
 		}	
 		if($ocode !=''){
 			$return .= '<div align="center">';

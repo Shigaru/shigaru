@@ -762,8 +762,8 @@ class cbMenuULlist extends cbMenu {
 						.	( $this->menuid ? ' cbMenu' . $this->menuid : '' )
 						.	( ( isset( $this->class ) && $this->class ) ? ' ' . $this->class : '' )
 						.	'"'
-						.	( ( isset( $this->tooltip ) && $this->tooltip ) ? ' title="' . $this->tooltip . '"' : '' )
 						;
+		$oTitle = 		( ( isset( $this->tooltip ) && $this->tooltip ) ? ' title="' . $this->tooltip . '"' : '' );		
 		switch ($level) {
 			case 0:
 				$ret 			.= '<li' . $menuidClass . '>' . $this->name . '</li>';		// when only a text to diplay as whole menu!
@@ -773,7 +773,7 @@ class cbMenuULlist extends cbMenu {
 				if ( substr( ltrim( $this->link ), 0, 1 ) == '<' ) {
 					$ret		.=	$this->link;
 				} else {
-					$ret		.=	"<a href=\"".$this->link."\"";
+					$ret		.=	"<a href=\"".$this->link."\"".$oTitle;
 					if (isset($this->target) && $this->target) {
 						$ret	.=	' target="' . $this->target . '"';
 					}
