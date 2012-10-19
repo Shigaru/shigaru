@@ -410,7 +410,7 @@ class CBListView_html_default extends cbListView {
 		if ( ( count( $this->lists ) > 0 ) || $this->searchTabContent ) {
 ?>
 
-		<div class="cbUserListChanger">
+		<div class="cbUserListChanger dispnon">
 <?php
 			// selector for user-list:
 			if ( count( $this->lists ) > 0 ) {
@@ -464,7 +464,7 @@ class CBListView_html_default extends cbListView {
 <?php
 		if ( $this->searchTabContent ) {
 ?>
-		<div class="contentdescription cbUserListSearch" id="cbUserListsSearcher">
+		<div class=" contentdescription cbUserListSearch" id="cbUserListsSearcher">
 			<div class="componentheading"><?php echo $this->searchCriteriaTitleHtml; ?></div>
 			<div class="cbUserListSearchFields">
 <?php
@@ -498,8 +498,9 @@ class CBListView_html_default extends cbListView {
 	 */
 	function _renderBody( ) {
 ?>
-
-<div id="cbUserTable" class="cbUserListTable cbUserListT_<?php echo $this->listid ?>">
+<link rel="stylesheet" href="<?php echo JURI::base(); ?>modules/mod_zncbmembers/tmpl/css/default.css" type="text/css" />
+<script type="text/javascript" src="<?php echo JURI::base(); ?>modules/mod_zncbmembers/tmpl/js/shiggymembers.js"></script>
+<div id="cbUserTable" class="pe-container cbUserListTable cbUserListT_<?php echo $this->listid ?>">
 	<ul id="pe-thumbs" class="pe-thumbs">
 					<?php
 
@@ -528,8 +529,22 @@ class CBListView_html_default extends cbListView {
 					echo "\t\t\t<li><div class=\"cbUserListCol" . $colIdx . "\">" . $this->_getUserListCell( $this->tableContent[$userIdx][$colIdx] ) . "\t\t\t</div></li>\n";
 				}
 				*/
-					
-					echo "\t\t\t<li>" . getFieldValue('image',$user->avatar,$user) . "\t\t\t</li>\n";
+					$ocbUser		=&	CBuser::getInstance( null );
+					$ocbUser->loadCbRow( $user );
+					$oValue		=	$ocbUser->avatarFilePath( );
+					$onclick = null;
+					$aTag = null;
+					$profileURL = cbSef("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=".$user->id.getCBprofileItemid(true));
+					$aTag = "<a href=\"".$profileURL."\">";
+					$oReturn = $aTag."<img height='80' width='60' src=\"".$oValue. "\" ".$onclick." alt=\"\" style=\"border-style: none;\" />";
+					$oReturn .='<div class="pe-description"><h4 id="'.$ocbUser->getField( 'cb_country', null, 'text', 'none', 'profile' ).'">'.$user->username.'</h4><p>'
+								._UE_SEX.': '.constant($ocbUser->getField( 'cb_sex', null, 'text', 'none', 'profile' )).
+								' <br />'
+								._UE_AGEGROUP.': '.$ocbUser->getField( 'cb_youragegroup', null, 'text', 'none', 'profile' ).
+								'<br />'
+								._UE_Country.': '.constant($ocbUser->getField( 'cb_country', null, 'text', 'none', 'profile' )).
+								'<br /> </p></div></a>';
+					echo "\t\t\t<li>" . $oReturn . "\t\t\t</li>\n";
 				
 				$i++;
 			}
