@@ -341,6 +341,7 @@ $('#cbbtncancel').click( function() {
 <h3><?php echo htmlspecialchars( $title ); ?></h3>
  </div>
 <div class="cbEditProfile"><div id="cbEditProfileInner" class="cbHtmlEdit">
+	<p class="mtopl25 mbot6"><?php echo _UE_EDITPROFILENOTE; ?></p>
 	<form action="<?php echo cbSef("index.php?option=$option".getCBprofileItemid(true)); ?>" method="post" id="cbcheckedadminForm" name="adminForm" enctype="multipart/form-data" class="cb_form" autocomplete="off">
 		<input type="hidden" name="id" value="<?php echo $user->id;?>" />
 		<input type="hidden" name="task" value="saveUserEdit" />

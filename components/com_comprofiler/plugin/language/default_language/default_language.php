@@ -165,7 +165,7 @@ DEFINE('_UE_FAVTV','Favourite tv');
 DEFINE('_UE_HOBBIES','Hobbies');
 DEFINE('_UE_CLICKTOVISIT','Click on this link visit');
 DEFINE('_UE_AREYOUSUREREMOVEIMAGE','Are you sure you wish to remove your image');
-
+DEFINE('_UE_EDITPROFILENOTE',"Note that the fields marked * are required. All other fields are optional. This means if you don’t fill them out they will not appear in your profile… you can put as much or as little as you wish! Remember to click “Update” at the very end after making any changes.");
 DEFINE('_UE_ON','on');
 DEFINE('_UE_USERNAME','Username');
 DEFINE('_UE_Address','Address');

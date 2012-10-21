@@ -255,15 +255,14 @@ div.cbUserListChanger div.cbUserListChangeItem	{	margin-bottom: 6px;		text-align
 	margin:		0px;
 }
 .dynamic-tab-pane-control .tab-row .tab {
-	font-family:	Menu,Arial,Verdana,sans-serif;
 	cursor:			pointer;
 	display:		inline;
 	margin:			1px -1px 1px 4px;
 	float:			left;
 	padding:		2px 3px 3px 3px;
-	background:		#E4E4E4;
+	background:		#fff;
 	border:			1px solid #CCC;
-	border-width:	0px;
+	border-width:	1px;
 	z-index:		1;
 	white-space:	nowrap;
 	position:		relative;
@@ -898,7 +897,8 @@ padding: 12px 12px 12px 12px;color:#604860; font-size:200%;}
     border-radius: 5px 5px 5px 5px;
 margin: -0.9px 0 0 1px;
 padding: 12px}
-#cbProfileInner form.cb_form .cb_form_line label, .cb_tab_content .cb_form_line label {
+#cbProfileInner form.cb_form .cb_form_line label, .cb_tab_content .cb_form_line label,
+#cbEditProfileInner form.cb_form .cb_form_line label {
     font-weight: bold !important;
     line-height: normal !important;
     font-size: 100% !important;
@@ -910,11 +910,12 @@ padding: 12px}
 #cbfr_126,#cbfr_125 {
     float: none;
     width: 95%;
+    clear:both;
 }
-#cbfv_80,#cblabcbfv_80{
+#cbProfileInner #cbfv_80,#cbProfileInner #cblabcbfv_80{
     font-size: 200% !important;
 }
-#cbfv_80{  color: red;
+#cbProfileInner #cbfv_80{  color: red;
 }
 .cbPosTabMain .cb_tab_div .cbft_text,.cbPosTabMain .cb_tab_div .cbft_select,
 .cbPosTabMain .cb_tab_div .cbft_radio,.cbPosTabMain .cb_tab_div .cbft_multiselect,
@@ -928,6 +929,24 @@ padding: 12px}
 .cbPosTabMain .cb_tab_div .cbft_radio,.cbPosTabMain .cb_tab_div .cbft_multiselect,
 .cbPosTabMain .cb_tab_div .cbft_datetime,.cbPosTabMain .cb_tab_div .cbft_webaddress{width:49%;float:left;}
 .cbPosTabMain .cb_tab_div .cbft_webaddress a{float:left;}
+#cbEditProfileInner .cbft_predefined,#cbEditProfileInner .cbft_param,
+#cbEditProfileInner .cbft_primaryemailaddress,#cbEditProfileInner .cbft_text,
+#cbEditProfileInner .cbft_radio,#cbEditProfileInner .cbft_multiselect,
+#cbEditProfileInner .cbft_select,#cbEditProfileInner .cbft_webaddress{width:49%;float:left;}
+#cbEditProfileInner .cbft_editorta,#cbEditProfileInner #cbfr_userparam_1{clear:both; float:none;}
+#cbEditProfileInner .cb_template_default{margin-top: 20px;}
+#cbEditProfileInner .cbFieldsContentsTab{padding-top: 24px;}
+#cbEditProfileInner input[type="text"], #cbEditProfileInner input[type="password"], 
+#cbEditProfileInner textarea, #cbEditProfileInner select {
+margin-left: 5px;
+border: 1px solid #DDD;
+-moz-border-radius: 5px;
+-webkit-border-radius: 53px;
+border-radius: 5px;
+outline: none;
+padding: 5px;
+float: left;
+}
 .cbPosUnderAll .cb_tab_content{
 margin: 12px 0 0 1px;}
 #adminForm .reddbuttonsubmit{clear:none;float:left;margin:12px 30px;}
