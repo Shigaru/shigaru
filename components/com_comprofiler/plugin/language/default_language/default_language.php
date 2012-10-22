@@ -29,7 +29,7 @@ DEFINE('_UE_PERSONALSITES','PERSONAL SITES');
 DEFINE('_UE_MYWEB1','My website (1)');
 DEFINE('_UE_MYWEB2','My website (2)');
 DEFINE('_UE_MYWEBDESC','Description');
-DEFINE('_UE_CATCHUP','Catch up with me on');
+DEFINE('_UE_CATCHUP','FOLLOW ME');
 DEFINE('_UE_INSTRUMIPLAY','INSTRUMENTS I PLAY');
 DEFINE('_UE_INSTRUMPLAY','Instruments play');
 DEFINE('_UE_INSTRPICS','Pictures of these');
@@ -873,7 +873,7 @@ DEFINE('_UE_CHARACTERS','characters');
 DEFINE('_UE_NEVER','Never');
 DEFINE('_UE_NOFORUMPOSTSFOUND','No matching forum posts found.');
 
-DEFINE('_UE_PORTRAIT','Portrait');
+DEFINE('_UE_PORTRAIT','PORTRAIT');
 DEFINE('_UE_CONNECTIONPATHS','Connection Paths');
 
 DEFINE('_UE_PROFILE_PAGE_TITLE','User Profile Page Title');

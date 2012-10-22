@@ -183,6 +183,7 @@ form.cb_form .cb_form_line .cb_field input, form.cb_form .cb_form_line .cb_field
 	margin-left:0px;
 	vertical-align: top;
 }
+#cbEditProfileInner .cb_field .cbSnglCtrlLbl input{margin-top: 9px;}
 
 /* For table-based forms */
 table#registrationTable	{	width:98%;	border-width: 0px;	border-collapse: collapse;	margin: 0px;	padding: 0px;	}
@@ -925,6 +926,7 @@ padding: 12px}
 #cbEditProfileInner #cbfr_104,#cbEditProfileInner #cbfr_105,#cbEditProfileInner #cbfr_106,#cbEditProfileInner #cbfr_96{float: none;
     width: 95%;
     clear:both;}
+#cbfv_42{padding-top: 5px;}
 #cbEditProfileInner #cbfr_104{margin-top: -47px;}
 #cbProfileInner #cbfv_80,#cbProfileInner #cblabcbfv_80{
     font-size: 200% !important;
