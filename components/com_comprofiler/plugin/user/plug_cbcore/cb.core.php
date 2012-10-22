@@ -1778,7 +1778,7 @@ class CBfield_editorta extends cbFieldHandler {
 					$value				=	$cbFields->clean( $badHtmlFilter, $value );
 					unset( $cbFields );
 
-					$html				=	$_CB_framework->displayCmsEditor( $field->name, $value, 600, 350, $field->cols, $field->rows )
+					$html				=	$_CB_framework->displayCmsEditor( $field->name, $value, 600, 150, $field->cols, $field->rows )
 										.	$this->_fieldIconsHtml( $field, $user, $output, $reason, null, $field->type, $value, 'input', null, true, ( $this->_isRequired( $field, $user, $reason ) && ( ! $this->_isReadOnly( $field, $user, $reason ) ) ) );
 					$this->_addSaveAndValidateCode( $field, $user, $reason );
 				} else {

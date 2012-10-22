@@ -191,30 +191,10 @@ class getgeocodefactoryTab extends cbTabHandler {
 			}
 		}
 		' ;
-		$ret.= ' function fetchCoordinates() { '."\n";
-		$ret.= ' 	if (GBrowserIsCompatible()) {'."\n";
-		$ret.= ' 		geocoder = new GClientGeocoder(); '."\n";
-
-		if (strlen($this->params->get('gfZip'))>3)		$ret.= ' 	var postalcode = document.getElementById("'.$this->params->get('gfZip').	'").value; '."\n";
-		else 											$ret.= ' 	var postalcode = ""; '."\n";
 		
-		if (strlen($this->params->get('gfCity'))>3)		$ret.= ' 	var city 	= document.getElementById("'.$this->params->get('gfCity').	'").value; '."\n";
-		else 											$ret.= ' 	var city 	= ""; '."\n";
-		
-		if (strlen($this->params->get('gfAddress'))>3)	$ret.= ' 	var street 	= document.getElementById("'.$this->params->get('gfAddress').	'").value; '."\n";
-		else 											$ret.= ' 	var street 	= ""; '."\n";
-		
-		if (strlen($this->params->get('gfCountry'))>3)	$ret.= ' 	var country = document.getElementById("'.$this->params->get('gfCountry').	'").value; '."\n";
-		else 											$ret.= ' 	var country = ""; '."\n";
-			
-		$ret.= '    adresse = street + " " + postalcode + " " + city + " " + country ; '."\n";
-		$ret.= ' 	showAddress(adresse);'."\n";
-		$ret.= '	} '."\n";
-		$ret.= '} '."\n";
 
 		$ret.= ' //]]> </script> '."\n";
-		$ret.= ' <input id="fetchcoord" type="button" class="button mustardbutton" onclick="fetchCoordinates();" value="Fetch coordinates" /> '."\n";
-
+		
 		return $ret ;
 	}
 	
