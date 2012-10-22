@@ -539,7 +539,7 @@ $('#cbbtncancel').click( function() {
  </div>
 <script> 
  jQuery(document).ready(function($){
-	jQuery('#galleryavat').jScrollPane({showArrows:true});
+	//jQuery('#galleryavat').jScrollPane({showArrows:true});
 });	
 </script>	
 <?php                       

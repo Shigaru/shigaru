@@ -213,7 +213,7 @@ class getgeocodefactoryTab extends cbTabHandler {
 		$ret.= '} '."\n";
 
 		$ret.= ' //]]> </script> '."\n";
-		$ret.= ' <input type="button" class="button" onclick="fetchCoordinates();" value="Fetch coordinates" /> '."\n";
+		$ret.= ' <input id="fetchcoord" type="button" class="button mustardbutton" onclick="fetchCoordinates();" value="Fetch coordinates" /> '."\n";
 
 		return $ret ;
 	}

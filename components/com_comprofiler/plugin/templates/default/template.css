@@ -897,8 +897,16 @@ padding: 12px 12px 12px 12px;color:#604860; font-size:200%;}
     border-radius: 5px 5px 5px 5px;
 margin: -0.9px 0 0 1px;
 padding: 12px}
-#cbProfileInner form.cb_form .cb_form_line label, .cb_tab_content .cb_form_line label,
 #cbEditProfileInner form.cb_form .cb_form_line label {
+    line-height: 30px !important;
+     font-weight: bold !important;
+    font-size: 100% !important;
+    padding-right: 12px;
+    text-align: right;
+    vertical-align: top;
+    width: 220px !important;
+}
+#cbProfileInner form.cb_form .cb_form_line label, .cb_tab_content .cb_form_line label {
     font-weight: bold !important;
     line-height: normal !important;
     font-size: 100% !important;
@@ -907,16 +915,25 @@ padding: 12px}
     vertical-align: top;
     width: 220px !important;
 }
+
 #cbfr_126,#cbfr_125 {
     float: none;
     width: 95%;
     clear:both;
 }
+#cbEditProfileInner .pecCbMaps{margin-top: 25px;}
+#cbEditProfileInner #cbfr_104,#cbEditProfileInner #cbfr_105,#cbEditProfileInner #cbfr_106,#cbEditProfileInner #cbfr_96{float: none;
+    width: 95%;
+    clear:both;}
+#cbEditProfileInner #cbfr_104{margin-top: -47px;}
 #cbProfileInner #cbfv_80,#cbProfileInner #cblabcbfv_80{
     font-size: 200% !important;
 }
 #cbProfileInner #cbfv_80{  color: red;
 }
+#fetchcoord{position: absolute;
+top: 285px;
+right: 0;}
 .cbPosTabMain .cb_tab_div .cbft_text,.cbPosTabMain .cb_tab_div .cbft_select,
 .cbPosTabMain .cb_tab_div .cbft_radio,.cbPosTabMain .cb_tab_div .cbft_multiselect,
 .cbPosTabMain .cb_tab_div .cbft_datetime {}
@@ -936,6 +953,7 @@ padding: 12px}
 #cbEditProfileInner .cbft_editorta,#cbEditProfileInner #cbfr_userparam_1{clear:both; float:none;}
 #cbEditProfileInner .cb_template_default{margin-top: 20px;}
 #cbEditProfileInner .cbFieldsContentsTab{padding-top: 24px;}
+#cbEditProfileInner #cbfr_106{margin-bottom:30px; clear:both;float:none;}
 #cbEditProfileInner input[type="text"], #cbEditProfileInner input[type="password"], 
 #cbEditProfileInner textarea, #cbEditProfileInner select {
 margin-left: 5px;
