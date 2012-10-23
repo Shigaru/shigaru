@@ -5,26 +5,55 @@
 			jQuery( "#searchinputcat" ).autocomplete({
 					source: availableTags
 				});*/
-			jQuery('#searchtabs').shigaruTabs({slidesWrapper:'.searchtabs',slidesSelector:'.quicksearch',effect:'fade'});	
+			//jQuery('#searchtabs').shigaruTabs({slidesWrapper:'.searchtabs',slidesSelector:'.quicksearch',effect:'fade'});	
 		});
 </script>
+<div class="searchwrapper">
 <div class="f90">
 <div id="searchtabs">
-	<ul>
+	<!--<ul>
 		<li class="selected"><a href="#quicksearch"><?php echo JText::_( 'Quick Search' ); ?></a></li>
 		<li><a href="#catsearch"><?php echo JText::_( 'Category Search' ); ?></a></li>
 	</ul>
-	<div class="searchtabs" id="tabs-1">
+	<div class="searchtabs" id="tabs-1">-->
 		<div id="quicksearch" class="quicksearch">
-			<span class="mtop12"><?php echo JText::_('Type at least the first 3 letters of the name of a band or song and watch how the system suggests stuff for you to watch. Or simply click "Go" if you know what you’re looking for!'); ?></span>
+			<span class="mtop12"><?php echo JText::_('Start typing and see our suggestions...'); ?></span>
 			<form class="mtop12 mbot12" id="searchForm" action="<?php echo JRoute::_( 'index.php?option=com_search' );?>" method="post" name="searchForm">
-					<input type="text" name="searchword" id="searchinput" size="30" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox w70pc" />
-					<input id="searchgo" class="button fnone" type="submit" onclick="this.form.submit();" value="<?php echo JText::_('Go'); ?>" name="Submit">
+				<div class="w50 fleft">
+					<input type="text" name="searchword" id="searchinput" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
+					<button id="searchgo" class= button fnone" type="submit" onclick="this.form.submit();" name="Submit"><span class="gbqfi"></span></button>
 					<input type="hidden" name="task"   value="search" />
+				</div>	
+				<div class="search-results-filter-categories fleft" style="display: block; ">
+					<p class="search-results-categories search-results-category-default_collection">
+						<input name="search-results-category" type="checkbox" checked="" id="search-results-input-category-default_collection" value="default_collection" style="position: absolute; left: -9999px; ">
+						<span class="styledCheckbox styledCheckboxChecked" for="search-results-input-category-default_collection">
+							<label for="search-results-input-category-default_collection">Videos </label>
+						</span>
+					</p>
+					<p class="search-results-categories search-results-category-smartphones">
+						<input name="search-results-category" type="checkbox" id="search-results-input-category-smartphones" value="smartphones" style="position: absolute; left: -9999px; ">
+						<span class="styledCheckbox" for="search-results-input-category-smartphones">
+							<label for="search-results-input-category-smartphones">Comments </label>
+						</span>
+					</p>
+					<p class="search-results-categories search-results-category-help search-results-categories-last">
+						<input name="search-results-category" type="checkbox" id="search-results-input-category-help" value="help" style="position: absolute; left: -9999px; ">
+						<span class="styledCheckbox" for="search-results-input-category-help">
+							<label for="search-results-input-category-help">Users</label>
+						</span>
+					</p>
+					<p class="search-results-categories search-results-category-help search-results-categories-last">
+						<input name="search-results-category" type="checkbox" id="search-results-input-category-help" value="help" style="position: absolute; left: -9999px; ">
+						<span class="styledCheckbox" for="search-results-input-category-help">
+							<label for="search-results-input-category-help">All</label>
+						</span>
+					</p>
+				</div>		
 			</form>
-			<?php echo JText::_('Recently searched >>'); ?> <?php echo $this->getLatestSearchs(); ?></dd>
+			<!--<?php echo JText::_('Recently searched >>'); ?> <?php echo $this->getLatestSearchs(); ?></dd>-->
 		</div>
-    </div>
+    <!--</div>
     <div class="searchtabs" id="tabs-2">
 		<div id="catsearch" class="quicksearch">
 			<span class="mtop12"><?php echo JText::_('Search our growing multi-lingual video library for music tutorials. Various instruments, levels, styles and genres.'); ?></span>
@@ -77,27 +106,10 @@
 			</form>
 			<span class="searchLabels"><?php echo JText::_('Recently searched >>'); ?></span> <?php echo $this->getLatestSearchs(); ?></dd>
 		</div>
-			
-    </div>
+		</div>
+		-->	
+    
 </div>    
-<?php if(strlen($this->escape($this->searchword))> 0) : ?>
 
-<!--<?php echo $this->lists['searchphrase']; ?>-->
-					<?php echo JText::_( 'Search Keyword' ) .' <b>'. $this->escape($this->searchword) .'</b>'; ?>
-					<?php echo $this->result; ?>
-			<br />
-			<?php if($this->total > 0) : ?>
-			<div align="center">
-				<div style="float: right;">
-					<label for="limit">
-						<?php echo JText::_( 'Display Num' ); ?>
-					</label>
-					<?php echo $this->pagination->getLimitBox( ); ?>
-				</div>
-				<div>
-					<?php echo $this->pagination->getPagesCounter(); ?>
-				</div>
-			</div>
-			<?php endif; ?>
-<?php endif; ?>
 </div> 
+
