@@ -19,7 +19,7 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
-
+require_once(JPATH_SITE.DS.'plugins'.DS.'search'.DS.'sphinxapi.php');
 /**
  * ACL functions: original code from com_comprofiler
  *
@@ -31,11 +31,201 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
  */
 class hwd_vs_search
 {
+	/**
+     * Total sphinx search time in seconds
+     * @var float
+     */
+    var $_searchTime = 0;
+
+    /**
+     * Total sphinx search records found
+     * @var int
+     */
+    var $_total = 0;
+
+    var $_query = '';
+
+    /**
+     * Sphinx index name
+     * @var string
+     */
+    var $_index = '';
+
+    /**
+     * Sphinx Search object
+     * @var SphinxClient
+     */
+    var $_sphinx = null;
     /**
      * Query SQL for all accessible category data
      *
      * @return       Nothing
      */
+     
+     /**
+     * Constructor
+     * @param string $hostname
+     * @param int $port
+     * @param string $index
+     */
+    function init($hostname, $port, $index)
+    {
+        
+        $pServer		= 'localhost' ;
+		$pPort	 	= (int) 9312 ;
+		$pIndex 		= 'indexVideos';
+		$this->_index = $pIndex;
+        $this->_sphinx = new SphinxClient();
+        $this->_sphinx->SetServer($pServer, (int) $pPort);
+        $this->_sphinx->SetMatchMode(SPH_MATCH_EXTENDED2);
+    }
+     
+     
+     /**
+     *
+     * @return boolean
+     */
+    function isConnected()
+    {
+        return $this->_sphinx->IsConnectError();
+    }
+
+    function setLimit($offset=0, $limit=20)
+    {
+        $this->_sphinx->SetLimits($offset, $limit);
+    }
+
+    /**
+     * Perform search
+     * @param string $query
+     * @return boolean
+     */
+    function search($query)
+    {
+       hwd_vs_search::init();
+		$limit              = isset($_REQUEST['limit']) ? (int) $_REQUEST['limit'] : 50 ;
+		if(0 === $limit) {
+			$limit = 1000;
+		}
+		// clean up our search text
+		$text = trim( $query );
+		$text = str_replace("#__", "jos_", $text);
+		$searchText = $text;
+		$this->_query = $query;
+        $result = $this->_sphinx->Query($searchText, $this->_index);
+
+        if ( $result === false ) {
+            //echo "Query failed: " . $this->_sphinx->GetLastError() . ".\n";
+            //return false;
+	} else if ( $this->_sphinx->GetLastWarning() ) {
+            //echo "WARNING: " . $this->_sphinx->GetLastWarning() . "\n";
+            //return false;
+        }
+
+        if ( ! empty($result["matches"]) ) {
+            $this->_matches = $result["matches"];
+	}
+        $this->_searchTime = $result['time'];
+        $this->_total = $result['total_found'];
+       
+        return $result;
+    }
+    
+    function getDisplayVideoResults($limitstart, $limitv){
+		$db =& JFactory::getDBO();
+        $user   =& JFactory::getUser();
+		$ids = hwd_vs_search::getIds();
+		if (!empty($ids)) {
+				$limitend = ((count($ids)-$limitstart)>$limitv)?$limitv:(count($ids)-$limitstart)+1;
+				$limitstart=($limitstart-1>0)?($limitstart-1):0;
+				$ids = array_slice($ids, $limitstart, $limitend);
+			}
+		
+        $results = array();
+        if (!empty($ids)) {
+
+            $query ='SELECT DISTINCT v.id as id, v.video_type,v.video_id,v.title,v.description,v.tags,v.song_id,v.band_id,v.language_id,v.category_id,v.genre_id,v.intrument_id,v.level_id,
+			UNIX_TIMESTAMP(v.date_uploaded) AS date_added,v.video_length,v.allow_comments,v.allow_embedding,v.allow_ratings,v.rating_number_votes,v.rating_total_points,v.user_id,
+			v.updated_rating,v.published,v.number_of_comments,v.public_private,v.thumb_snap,v.thumbnail,v.approved,v.number_of_views,u.username as username 
+			FROM #__hwdvidsvideos AS v JOIN #__users AS u ON v.user_id = u.id'
+			. ' WHERE v.id in ( ' . implode(', ',$ids) . ')'
+            . " ORDER BY FIELD(v.id, ". implode(', ', $ids) . ")"
+            ;
+            
+
+            $db->setQuery($query);
+            $results = $db->loadObjectList();
+            if (empty ($results)){
+            $query ='SELECT DISTINCT v.id as id, v.video_type,v.video_id,v.title,v.description,v.tags,v.song_id,v.band_id,v.language_id,v.category_id,v.genre_id,v.intrument_id,v.level_id,
+			UNIX_TIMESTAMP(v.date_uploaded) AS date_added,v.video_length,v.allow_comments,v.allow_embedding,v.allow_ratings,v.rating_number_votes,v.rating_total_points,v.user_id,
+			v.updated_rating,v.number_of_comments,v.public_private,v.thumb_snap,v.thumbnail,v.approved,v.number_of_views,u.username as username 
+			FROM #__hwdvidsvideos AS v JOIN #__users AS u ON v.user_id = u.id'
+			. ' WHERE 1=1'
+            . " ORDER BY v.rating_total_points ASC"
+            ;
+            
+
+            $db->setQuery($query);
+            $results = $db->loadObjectList();
+            }
+		}
+            return $results;
+		
+		}
+
+    function getResults()
+    {
+        return array();
+    }
+
+    function getIds()
+    {
+        if (!empty($this->_matches) && is_array($this->_matches)){
+            return array_keys($this->_matches);
+        }
+    }
+
+    function setMatchMode($mode)
+    {
+        switch ($mode) {
+            case 'exact':
+                $this->_sphinx->SetMatchMode(SPH_MATCH_PHRASE);
+                break;
+            case 'all':
+                $this->_sphinx->SetMatchMode(SPH_MATCH_ALL);
+                break;
+            case 'any':
+            default:
+                $this->_sphinx->SetMatchMode(SPH_MATCH_ANY);
+                break;
+        }
+
+    }
+
+    function setOrder($order)
+    {
+        switch ($order) {
+            case 'newest':
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'date_added');
+                break;
+            case 'oldest':
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'date_added');
+                break;
+            case 'popular':
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'date_added');
+                break;
+            case 'category':
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'date_added');
+                break;
+            case 'alpha':
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'date_added');
+                break;
+            default:
+                break;
+        }
+
+    }
+     
 	function search_split_terms($terms){
 		$terms = preg_replace("/\"(.*?)\"/e", "hwd_vs_search::search_transform_term('\$1')", $terms);
 		$terms = preg_split("/\s+|,/", $terms);

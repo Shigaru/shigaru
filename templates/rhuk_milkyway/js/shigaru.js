@@ -190,6 +190,43 @@ jQuery(document).ready(function($){
   
 })(jQuery);
 
+(function(jQuery) {
+  jQuery.fn.shigaruSearch = function(options) {
+	  
+	var opts 										= jQuery.extend({}, jQuery.fn.shigaruSearch.defaults, options);
+	var oCurrentUrl, oCurrentFilters, 
+	oCurrentPattern									= null;
+	var oCurrentIndex								= 0;
+	
+    return this.each(function() {
+			
+	});
+	
+	function rotateTabs(e){	
+		
+	}
+	
+	function fadeTabs(e){
+		
+	}
+	
+	function updateSelection(oHRef){
+		
+	}
+
+  }
+
+  jQuery.fn.shigaruSearch.defaults = {
+	slidesSelector:'.tab_wrapper',
+	slidesWrapper:'#slidesWrapper',
+	directionOfSorting:'left',
+	effect: 'rotate',
+	controls: false,
+	hideTabs:false
+  }
+  
+})(jQuery);
+
 function shigaruAjax(url,elementToBLock,styles, message,showOverlay){
 	var _message='<div class="loadingMessage">Processing</div>';
 	var _styles={ "background-image": "url(\"/shigaru/templates/rhuk_milkyway/images/loading.gif\")", border:'none',backgroundColor: 'transparent','background-repeat':'no-repeat'};

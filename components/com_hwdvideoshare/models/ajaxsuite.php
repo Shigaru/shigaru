@@ -222,6 +222,9 @@ class hwd_vs_ajax
 		echo json_encode($code);
 		exit;
 		}
+	function ajax_search()	{
+		
+		}
 	
     /**
      * Outputs frontpage HTML

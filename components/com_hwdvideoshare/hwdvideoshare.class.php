@@ -2122,16 +2122,16 @@ $app = & JFactory::getApplication();
 				$url_thumbd = URL_HWDVS_DIR."/thumbs/".$video_code.".gif";
 				$rand = rand();
 
-				$thumb.= "<img src=\"".$thumbnailURL."\" border=\"0\" alt=\""._HWDVIDS_DETAILS_VIEWVID."\" width=\"".$width."\" height=\"".$height."\" title=\"".$thumb_title."\" class=\"".$class."\" name=\"".$video_code.$rand."\" onmouseover=\"roll_over('".$video_code.$rand."', '".$url_thumbd."')\" onmouseout=\"roll_over('".$video_code.$rand."', '".$thumbnailURL."')\" />";
+				$thumb.= "<img src=\"".$thumbnailURL."\" border=\"0\" alt=\""._HWDVIDS_DETAILS_VIEWVID."\" width=\"".$width."\" height=\"".$height."\" title=\"".$thumb_title."\" class=\"bradius5 ".$class."\" name=\"".$video_code.$rand."\" onmouseover=\"roll_over('".$video_code.$rand."', '".$url_thumbd."')\" onmouseout=\"roll_over('".$video_code.$rand."', '".$thumbnailURL."')\" />";
 			}
 			else
 			{
-				$thumb.= "<img src=\"".$thumbnailURL."\" border=\"0\" alt=\""._HWDVIDS_DETAILS_VIEWVID."\" width=\"".$width."\" height=\"".$height."\" title=\"".$thumb_title."\" class=\"".$class."\" />";
+				$thumb.= "<img src=\"".$thumbnailURL."\" border=\"0\" alt=\""._HWDVIDS_DETAILS_VIEWVID."\" width=\"".$width."\" height=\"".$height."\" title=\"".$thumb_title."\" class=\"bradius5 ".$class."\" />";
 			}
 		}
 		else
 		{
-			$thumb.= "<img src=\"".$thumbnailURL."\" alt=\""._HWDVIDS_DETAILS_VIEWVID."\" border=\"0\" width=\"".$width."\" height=\"".$height."\" title=\"".$thumb_title."\" class=\"".$class."\" />";
+			$thumb.= "<img src=\"".$thumbnailURL."\" alt=\""._HWDVIDS_DETAILS_VIEWVID."\" border=\"0\"  title=\"".$thumb_title."\" class=\"bradius5 ".$class."\" />";
 		}
 
 		if ($c->thumb_ts == 1)

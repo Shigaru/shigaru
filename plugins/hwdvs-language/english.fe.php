@@ -188,6 +188,7 @@ DEFINE("_HWDVIDS_ALERT_CSAVED","Your channel has been setup correctly.");
 DEFINE("_HWDVIDS_META_DEFAULT","Videos");
 DEFINE("_HWDVIDS_META_FP","Frontpage");
 DEFINE("_HWDVIDS_META_SR","Search Results");
+DEFINE("_HWDVIDS_META_SRF","results found for");
 DEFINE("_HWDVIDS_META_UPLD","Upload Your Videos");
 DEFINE("_HWDVIDS_META_UPLDSUC","Successfully Uploaded Your Video");
 DEFINE("_HWDVIDS_META_ADDSUC","Successfully Added Your Video");

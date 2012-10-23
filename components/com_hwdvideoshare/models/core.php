@@ -786,17 +786,18 @@ class hwd_vs_core
 			$orderVideos = "";
 		}
 
-		$db->SetQuery( "SELECT count(*) FROM #__hwdvidsvideos AS video $whereVideos");
-		$totalVideos = $db->loadResult();
-
-		jimport('joomla.html.pagination');
-		$videoNav = new JPagination( $totalVideos, $limitstart, $limitv );
+		
+		
 
 		$query = "SELECT $hwdvs_selectv FROM #__hwdvidsvideos AS video $hwdvs_joinv $whereVideos $orderVideos";
-		//echo $query;
-		$db->SetQuery($query, $videoNav->limitstart, $videoNav->limit);
 		$matchingVideos = $db->loadObjectList();
-
+		$matchingVideos = hwd_vs_search::search($pattern);
+		$totalVideos = $matchingVideos['total_found'];
+		$_searchTime = $matchingVideos['time'];
+		$matchingVideos = hwd_vs_search::getDisplayVideoResults($limitstart, $limitv);
+		
+		jimport('joomla.html.pagination');
+		$videoNav = new JPagination( $totalVideos, $limitstart, $limitv );
         if ($c->diable_nav_groups == 0)
         {
 			// count matching groups
@@ -820,7 +821,7 @@ class hwd_vs_core
 		}
 
         // sent out
-        hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id);
+        hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime);
     }
     /**
      * Query SQL for all accessible category data

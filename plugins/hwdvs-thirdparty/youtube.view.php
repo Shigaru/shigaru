@@ -165,7 +165,7 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 			$height = $width*$c->tar_fb;
 		}
 
-		$code = "<img src=\"".youtubeComPrepareThumbURL($option, $vid)."\" border=\"0\" width=\"".$width."\" height=\"".$height."\" title=\"".$tooltip_data[1]." :: ".$tooltip_data[2]."\" class=\"".$class."\" />";
+		$code = "<img src=\"".youtubeComPrepareThumbURL($option, $vid)."\" border=\"0\" width=\"".$width."\" height=\"".$height."\" title=\"".$tooltip_data[1]." :: ".$tooltip_data[2]."\" class=\"bradius5 ".$class."\" />";
 		return $code;
 	}
     /**

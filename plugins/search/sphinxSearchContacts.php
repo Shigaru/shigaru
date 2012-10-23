@@ -41,9 +41,7 @@ function plgSphinxSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 
     // clean up our search text
     $text = trim( $text );
-    /*if ($text == '') {
-        return array();
-    }*/
+
 
     $sphinxPlugin = new PlgSphinxSearchContacts($pServer, $pPort, $pIndex);
     $sphinxPlugin->setMatchMode($phrase);

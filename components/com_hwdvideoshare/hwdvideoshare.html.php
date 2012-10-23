@@ -493,7 +493,7 @@ class hwd_vs_html
     /**
      *
      */
-    function search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $searchterm, $category_id=0)
+    function search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $searchterm, $category_id=0,$timetaken=0)
     {
 		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
@@ -522,21 +522,31 @@ class hwd_vs_html
 		hwd_vs_tools::generateBreadcrumbs();
 
 		$smartyvs->assign("searchterm", $searchterm);
+		$smartyvs->assign("totalvideos", $totalvids);
+		$smartyvs->assign("timetaken", $timetaken);
 		$smartyvs->assign("categorySearchSelect", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, $category_id, _HWDVIDS_INFO_NOCATS, 1, "category_id", 0));
-
+		$smartyvs->assign("formurl", JRoute::_( 'index.php?option=com_hwdvideoshare&task=search&Itemid=28' ));
+		
 		if (count($matchingvids) > 0) {
+			/*echo '<pre>';
+				var_dump($matchingvids[0]);
+			echo '</pre>';*/
 			$smartyvs->assign("print_matchvids", 1);
 			$matchingvids = hwd_vs_tools::generateVideoListFromSql($matchingvids);
 			$smartyvs->assign("matchingvids", $matchingvids);
 
 			$vpage = $totalvids - $c->vpp;
 			$vpageNavigation = null;
+			$vpageCounter= null;
 			if ( $vpage > 0 )
 			{
 				$vpageNavigation.= $videoNav->getPagesLinks()."<br />";
-				$vpageNavigation.= $videoNav->getPagesCounter();
+				$vpageCounter= '('.$videoNav->getPagesCounter().')';
+				$vpageLimits= $videoNav->getLimitBox( );
 			}
 			$smartyvs->assign("vpageNavigation", $vpageNavigation);
+			$smartyvs->assign("vpageCounter", $vpageCounter);
+			$smartyvs->assign("vpageLimits", $vpageLimits);
 
 
 		} else {
@@ -547,7 +557,7 @@ class hwd_vs_html
 			$smartyvs->assign("print_matchgrps", 1);
 			$matchinggroups = hwd_vs_tools::generateGroupListFromSql($matchinggroups);
 			$smartyvs->assign("matchinggroups", $matchinggroups);
-
+			
 			$gpage = $totalgroups - $c->gpp;
 			$gpageNavigation = null;
 			if ( $gpage > 0 )
@@ -561,6 +571,23 @@ class hwd_vs_html
 		} else {
 			$smartyvs->assign("mgempty", _HWDVIDS_INFO_NMG);
 		}
+		
+		// get the actual links from Joomla (maintains clean urls but is probably quite slow)
+           /* foreach($matchingvids as $key => $item) {
+                $rating = 0;
+                $matchingvids[$key]->href = 'index.php?option=com_hwdvideoshare&task=viewvideo&Itemid=28&video_id='.$item->id.'&lang=en';
+                $matchingvids[$key]->thumbnail = 'hwdvideos/thumbs/'.$item->thumbnail;
+                $matchingvids[$key]->userlink = 'index.php?option=com_comprofiler&Itemid=0&task=userProfile&user='.$item->user_id;
+                $matchingvids[$key]->instrument = constant(hwd_vs_tools::getVideoInstrument($item->intrument_id));
+                $matchingvids[$key]->genre = constant(hwd_vs_tools::getVideoGenre($item->genre_id));
+                $matchingvids[$key]->language = constant($item->language_id);
+                $matchingvids[$key]->level = constant(hwd_vs_tools::getVideoLevel($item->level_id));
+				if(($item->rating_total_points/$item->rating_number_votes)>0)$rating=$item->rating_total_points/$item->rating_number_votes;
+					if ($rating > 5 || $rating < 0) { $rating = "0"; }
+					$rating = round($rating, 0);
+					$matchingvids[$key]->rating = "<img src=\"".JURI::base()."/components/com_hwdvideoshare/assets/images/ratings/stars".intval($rating)."0.png\" width=\"80\" height=\"16\" alt=\"".constant("_HWDVIDS_ALT_RATED")." ".$rating."\" />";
+                $texts[] = strip_tags($matchingvids[$key]->description);
+            }*/
 
 		$smartyvs->display('search.tpl');
 		return;
