@@ -25,7 +25,7 @@
 									<div>
 										<label for="username" class="searchLabels">
 										Comments:<br />
-										<div class="boxwhite pad2 tright">1</div>
+										<div class="boxwhite pad2 tright">{$data->comments}</div>
 										</label>
 									</div>
 							</div>	

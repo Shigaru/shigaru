@@ -32,7 +32,7 @@ var oSearchParams = {
 								<a id="date_uploaded" class="order" href="#">Date uploaded</a>
 								<a id="updated_rating" class="order" href="#">Rating</a>
 								<a id="number_of_views" class="order" href="#">Views</a>
-								<a id="number_of_comments" class="order" href="#">Comments</a>
+								<!--<a id="number_of_comments" class="order" href="#">Comments</a>-->
 								{if $totalvideos gt 0}
 										<div class="fright mright12">
 											<label for="limit">

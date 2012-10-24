@@ -234,10 +234,10 @@ class hwd_vs_search
                 $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'updated_rating');
                 break;
             case 'number_of_views':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'number_of_views');
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'number_of_views');
                 break;
             case 'number_of_comments':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'number_of_comments');
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'number_of_comments');
                 break;
             default:
                 $this->_sphinx->SetSortMode(SPH_SORT_RELEVANCE);
