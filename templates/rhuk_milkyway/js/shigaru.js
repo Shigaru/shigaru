@@ -225,6 +225,12 @@ jQuery(document).ready(function($){
 		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
 		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 		oCurrentUrl = oCurrentUrl.replace(/&sort(=[^&]*)?|^sort(=[^&]*)?&?/, '&sort='+e.target.id);
+		
+		if(oCurrentUrl.indexOf('&sort=')<0){
+			oCurrentUrl = oCurrentUrl.replace('#','');
+			oCurrentUrl += '&sort='+e.target.id;
+			console.log(oCurrentUrl);
+		}
 		return oCurrentUrl;
 	}
 	
