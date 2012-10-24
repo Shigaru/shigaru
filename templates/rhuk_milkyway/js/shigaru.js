@@ -269,7 +269,7 @@ jQuery(document).ready(function($){
 	paginationLinks:'.searchwrapper .pagination a',
 	targetDiv:'#resultwrapper',
 	orderLinks:'#resultordering a',
-	sortDefault: 'date_uploaded',
+	sortDefault: 'relevance',
 	controls: false,
 	hideTabs:false
   }

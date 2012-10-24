@@ -68,16 +68,17 @@ class hwd_vs_search
      * @param int $port
      * @param string $index
      */
-    function init($hostname, $port, $index)
+    function init($index='indexVideos',$sortingfield='relevance')
     {
         
         $pServer		= 'localhost' ;
 		$pPort	 	= (int) 9312 ;
-		$pIndex 		= 'indexVideos';
+		$pIndex 		= $index;
 		$this->_index = $pIndex;
         $this->_sphinx = new SphinxClient();
         $this->_sphinx->SetServer($pServer, (int) $pPort);
         $this->_sphinx->SetMatchMode(SPH_MATCH_EXTENDED2);
+        hwd_vs_search::setOrder($sortingfield);
     }
      
      
@@ -100,9 +101,9 @@ class hwd_vs_search
      * @param string $query
      * @return boolean
      */
-    function search($query,$limitstart, $limitv)
+    function search($query,$limitstart, $limitv,$sort)
     {
-       hwd_vs_search::init();
+       hwd_vs_search::init('indexVideos',$sort);
 		$limit              = isset($_REQUEST['limit']) ? (int) $_REQUEST['limit'] : 50 ;
 		if(0 === $limit) {
 			$limit = 1000;
@@ -113,12 +114,14 @@ class hwd_vs_search
 		$this->_query = $searchText;
 		hwd_vs_search::setLimit($limitstart, $limitv);
         $result = $this->_sphinx->Query($searchText, $this->_index);
-
+       /* echo '<pre>';
+		var_dump($result);
+		echo '</pre>';*/
         if ( $result === false ) {
-            //echo "Query failed: " . $this->_sphinx->GetLastError() . ".\n";
+            echo "Query failed: " . $this->_sphinx->GetLastError() . ".\n";
             //return false;
 	} else if ( $this->_sphinx->GetLastWarning() ) {
-            //echo "WARNING: " . $this->_sphinx->GetLastWarning() . "\n";
+            echo "WARNING: " . $this->_sphinx->GetLastWarning() . "\n";
             //return false;
         }
 
@@ -140,9 +143,9 @@ class hwd_vs_search
         $results = array();
         if (!empty($ids)) {
 			$orderVideos ='';
-			if ($sort == 1)
+			if ($sort == 'relevance')
 				{
-					$orderVideos = " ORDER BY v.title ASC";
+					$orderVideos = " ORDER BY FIELD(v.id, ". implode(', ', $ids) . ")";
 				}
 				else if ($sort == 'date_uploaded')
 				{
@@ -177,7 +180,7 @@ class hwd_vs_search
 			v.updated_rating,v.number_of_comments,v.public_private,v.thumb_snap,v.thumbnail,v.approved,v.number_of_views,u.username as username 
 			FROM #__hwdvidsvideos AS v JOIN #__users AS u ON v.user_id = u.id'
 			. ' WHERE 1=1'
-            . " ORDER BY v.rating_total_points ASC"
+            . $orderVideos
             ;
             
 
@@ -221,22 +224,23 @@ class hwd_vs_search
     function setOrder($order)
     {
         switch ($order) {
-            case 'newest':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'date_added');
+            case 'relevance':
+                $this->_sphinx->SetSortMode(SPH_SORT_RELEVANCE);
                 break;
-            case 'oldest':
+            case 'date_uploaded':
                 $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'date_added');
                 break;
-            case 'popular':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'date_added');
+            case 'updated_rating':
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'updated_rating');
                 break;
-            case 'category':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'date_added');
+            case 'number_of_views':
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'number_of_views');
                 break;
-            case 'alpha':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'date_added');
+            case 'number_of_comments':
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'number_of_comments');
                 break;
             default:
+                $this->_sphinx->SetSortMode(SPH_SORT_RELEVANCE);
                 break;
         }
 

@@ -12,7 +12,7 @@ jQuery(document).ready(function($){
 	jQuery('.searchwrapper').shigaruSearch();
 });
 var oSearchParams = {
-		ordering:'date_uploaded',
+		ordering:'relevance',
 		filtering:null
 	};
 </script>
@@ -171,9 +171,11 @@ var oSearchParams = {
 								<div>
 									<h4>Order by:</h4>
 								</div>	
-								<a id="date_uploaded" href="#" class="order orderselected">Date uploaded</a>
+								<a id="relevance" href="#" class="order orderselected">Relevance</a>
+								<a id="date_uploaded" class="order" href="#">Date uploaded</a>
 								<a id="updated_rating" class="order" href="#">Rating</a>
 								<a id="number_of_views" class="order" href="#">Views</a>
+								<a id="number_of_comments" class="order" href="#">Comments</a>
 								{if $totalvideos gt 0}
 										<div class="fright mright12">
 											<label for="limit">
