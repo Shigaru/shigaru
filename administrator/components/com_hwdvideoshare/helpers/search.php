@@ -100,7 +100,7 @@ class hwd_vs_search
      * @param string $query
      * @return boolean
      */
-    function search($query)
+    function search($query,$limitstart, $limitv)
     {
        hwd_vs_search::init();
 		$limit              = isset($_REQUEST['limit']) ? (int) $_REQUEST['limit'] : 50 ;
@@ -109,9 +109,9 @@ class hwd_vs_search
 		}
 		// clean up our search text
 		$text = trim( $query );
-		$text = str_replace("#__", "jos_", $text);
 		$searchText = $text;
-		$this->_query = $query;
+		$this->_query = $searchText;
+		hwd_vs_search::setLimit($limitstart, $limitv);
         $result = $this->_sphinx->Query($searchText, $this->_index);
 
         if ( $result === false ) {
@@ -131,25 +131,41 @@ class hwd_vs_search
         return $result;
     }
     
-    function getDisplayVideoResults($limitstart, $limitv){
+    function getDisplayVideoResults($matchingVideos,$sort=0){
 		$db =& JFactory::getDBO();
         $user   =& JFactory::getUser();
-		$ids = hwd_vs_search::getIds();
-		if (!empty($ids)) {
-				$limitend = ((count($ids)-$limitstart)>$limitv)?$limitv:(count($ids)-$limitstart)+1;
-				$limitstart=($limitstart-1>0)?($limitstart-1):0;
-				$ids = array_slice($ids, $limitstart, $limitend);
-			}
+		$ids = hwd_vs_search::getIds($matchingVideos);
+		
 		
         $results = array();
         if (!empty($ids)) {
-
+			$orderVideos ='';
+			if ($sort == 1)
+				{
+					$orderVideos = " ORDER BY v.title ASC";
+				}
+				else if ($sort == 'date_uploaded')
+				{
+					$orderVideos = " ORDER BY v.date_uploaded DESC";
+				}
+				else if ($sort == 'updated_rating')
+				{
+					$orderVideos = " ORDER BY v.updated_rating DESC";
+				}
+				else if ($sort == 'number_of_views')
+				{
+					$orderVideos = " ORDER BY v.number_of_views DESC";
+				}
+				else
+				{
+					$orderVideos = " ORDER BY FIELD(v.id, ". implode(', ', $ids) . ")";
+				}
             $query ='SELECT DISTINCT v.id as id, v.video_type,v.video_id,v.title,v.description,v.tags,v.song_id,v.band_id,v.language_id,v.category_id,v.genre_id,v.intrument_id,v.level_id,
 			UNIX_TIMESTAMP(v.date_uploaded) AS date_added,v.video_length,v.allow_comments,v.allow_embedding,v.allow_ratings,v.rating_number_votes,v.rating_total_points,v.user_id,
 			v.updated_rating,v.published,v.number_of_comments,v.public_private,v.thumb_snap,v.thumbnail,v.approved,v.number_of_views,u.username as username 
 			FROM #__hwdvidsvideos AS v JOIN #__users AS u ON v.user_id = u.id'
 			. ' WHERE v.id in ( ' . implode(', ',$ids) . ')'
-            . " ORDER BY FIELD(v.id, ". implode(', ', $ids) . ")"
+            . $orderVideos
             ;
             
 
@@ -178,10 +194,10 @@ class hwd_vs_search
         return array();
     }
 
-    function getIds()
+    function getIds($matchingVideos)
     {
-        if (!empty($this->_matches) && is_array($this->_matches)){
-            return array_keys($this->_matches);
+        if (!empty($matchingVideos["matches"]) && is_array($matchingVideos["matches"])){
+            return array_keys($matchingVideos["matches"]);
         }
     }
 

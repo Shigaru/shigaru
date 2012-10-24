@@ -6,7 +6,17 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-
+{literal}
+<script type="text/javascript">
+jQuery(document).ready(function($){
+	jQuery('.searchwrapper').shigaruSearch();
+});
+var oSearchParams = {
+		ordering:'date_uploaded',
+		filtering:null
+	};
+</script>
+{/literal}
 <div class="searchwrapper">
 <div class="f90">
 <div id="searchtabs">
@@ -92,28 +102,28 @@
 			</div>
 			<div id="builttype" class="filter">
 				<label>
-				Genre
+				{$smarty.const._HWDVIDS_SHIGARU_GENRE}
 				</label>
 				<div id="builttype" class="widget">
-					<?php echo $this->genresCombo; ?>
+					{$genresCombo}
 				</div>
 				
 			</div>
 			<div id="builttype" class="filter">
 				<label>
-				Language
+				{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}
 				</label>
 				<div id="builttype" class="widget">
-					<?php echo $this->languagesCombo; ?>
+					{$languagesCombo}
 				</div>
 				
 			</div>
 			<div id="builttype" class="filter">
 				<label>
-				<?php echo JText::_( 'Instrument' ); ?>
+				{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENT}
 				</label>
 				<div id="builttype" class="widget">
-					<?php echo $this->instrumentsCombo; ?>
+					{$instrumentsCombo}
 				</div>
 				
 			</div>
@@ -146,6 +156,7 @@
 		</div>	
 		
 		<div id="resultwrapper">
+			
 						<div class="f15em mbot12 mleft30">
 									{$totalvideos} {$smarty.const._HWDVIDS_META_SRF}
 									<b> {$searchterm}</b>
@@ -160,9 +171,9 @@
 								<div>
 									<h4>Order by:</h4>
 								</div>	
-								<a href="#" class="order orderselected">Date uploaded</a>
-								<a class="order" href="#">Rating</a>
-								<a class="order" href="#">Views</a>
+								<a id="date_uploaded" href="#" class="order orderselected">Date uploaded</a>
+								<a id="updated_rating" class="order" href="#">Rating</a>
+								<a id="number_of_views" class="order" href="#">Views</a>
 								{if $totalvideos gt 0}
 										<div class="fright mright12">
 											<label for="limit">
@@ -174,24 +185,23 @@
 									{/if}	
 						</div>		
 		
-
+									<div id="videoresultwrapper">
 									  {if $print_matchvids}
+									  
 										{foreach name=outer item=data from=$matchingvids}
 											  <div class="searchResultItem">
 											  <div>
 										  {include file="video_list_full.tpl"}
 										  </div>
 										  </div>
-										  {if $smarty.foreach.outer.last}
-											 <div style="clear:both;"></div>
-										  {elseif $smarty.foreach.outer.index % 4-3 == 0}
-											 <div style="clear:both;"></div>
-										  {/if}
+										  
 										{/foreach}
+										
 									  {else}
 										<div class="padding">{$mvempty}</div>
 									  {/if}
 									  {$vpageNavigation}
+									   </div>
 	</div>
 </div>
 

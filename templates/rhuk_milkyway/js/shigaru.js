@@ -199,28 +199,77 @@ jQuery(document).ready(function($){
 	var oCurrentIndex								= 0;
 	
     return this.each(function() {
-			
+		transformPageLinks();
+		transformOrderBys();
+		
 	});
 	
-	function rotateTabs(e){	
-		
+	function transformOrderBys(){
+		jQuery(opts.orderLinks).removeClass('orderselected');
+		jQuery('#'+oSearchParams.ordering).addClass('orderselected');
+		jQuery(opts.orderLinks).click(function(e){
+				getPageResults(composeOrderUrl(e));
+				e.preventDefault();
+			});
+		}
+	
+	function transformPageLinks(){	
+			jQuery(opts.paginationLinks).click(function(e){
+					getPageResults(composePageUrl(e));
+					e.preventDefault();
+				});
 	}
 	
-	function fadeTabs(e){
-		
+	function composeOrderUrl(e){
+		oCurrentUrl = window.location.href;
+		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
+		oCurrentUrl = oCurrentUrl.replace(/&sort(=[^&]*)?|^sort(=[^&]*)?&?/, '&sort='+e.target.id);
+		return oCurrentUrl;
 	}
 	
-	function updateSelection(oHRef){
-		
+	function composePageUrl(e){
+		oCurrentUrl = e.target.href;
+		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
+		return oCurrentUrl;
 	}
+	
+	function getPageResults(paramUrl){
+		jQuery.blockUI({ 
+						message: jQuery('<div class="searchloading">Loading...</div>'),
+						css : { 
+								border : 'none', 
+								height: 'auto', 
+								'text-align':'left',
+								'cursor': 'auto'
+								} 
+						});
+		jQuery.ajax({
+			  url: paramUrl,
+			  context: document.body,
+			  success: function(data){
+				  jQuery(opts.targetDiv).html(data);
+					 transformPageLinks();
+					 transformOrderBys();
+				  jQuery.unblockUI({ 
+					onUnblock: function(){   
+					  }
+					 });
+				var oPosition = jQuery(opts.targetDiv).position();	  
+				jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');	  
+				
+			  }
+			});
+		}
 
   }
 
   jQuery.fn.shigaruSearch.defaults = {
-	slidesSelector:'.tab_wrapper',
-	slidesWrapper:'#slidesWrapper',
-	directionOfSorting:'left',
-	effect: 'rotate',
+	paginationLinks:'.searchwrapper .pagination a',
+	targetDiv:'#resultwrapper',
+	orderLinks:'#resultordering a',
+	sortDefault: 'date_uploaded',
 	controls: false,
 	hideTabs:false
   }

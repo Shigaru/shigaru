@@ -223,7 +223,15 @@ class hwd_vs_ajax
 		exit;
 		}
 	function ajax_search()	{
+		header('Content-type: text/html; charset=utf-8');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
+		$app = & JFactory::getApplication();
+		$uri = & JFactory::getURI();
+		$pageURL = $uri->toString();
 		
+		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
+		$pageURL .= '&ajax=yes';
+		$app->redirect($pageURL);
 		}
 	
     /**

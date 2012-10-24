@@ -493,7 +493,7 @@ class hwd_vs_html
     /**
      *
      */
-    function search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $searchterm, $category_id=0,$timetaken=0)
+    function search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $searchterm, $category_id=0,$timetaken=0,$isAjax='no')
     {
 		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
@@ -526,7 +526,12 @@ class hwd_vs_html
 		$smartyvs->assign("timetaken", $timetaken);
 		$smartyvs->assign("categorySearchSelect", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, $category_id, _HWDVIDS_INFO_NOCATS, 1, "category_id", 0));
 		$smartyvs->assign("formurl", JRoute::_( 'index.php?option=com_hwdvideoshare&task=search&Itemid=28' ));
-		
+		$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);				
+		$languagesCombo = hwd_vs_tools::generateVideoCombos('code as a, code as b','languages','id','language_id',true,false,true);	
+		$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);	
+		$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
+		$smartyvs->assign("genresCombo", $genresCombo);
+		$smartyvs->assign("languagesCombo", $languagesCombo);
 		if (count($matchingvids) > 0) {
 			/*echo '<pre>';
 				var_dump($matchingvids[0]);
@@ -572,24 +577,13 @@ class hwd_vs_html
 			$smartyvs->assign("mgempty", _HWDVIDS_INFO_NMG);
 		}
 		
-		// get the actual links from Joomla (maintains clean urls but is probably quite slow)
-           /* foreach($matchingvids as $key => $item) {
-                $rating = 0;
-                $matchingvids[$key]->href = 'index.php?option=com_hwdvideoshare&task=viewvideo&Itemid=28&video_id='.$item->id.'&lang=en';
-                $matchingvids[$key]->thumbnail = 'hwdvideos/thumbs/'.$item->thumbnail;
-                $matchingvids[$key]->userlink = 'index.php?option=com_comprofiler&Itemid=0&task=userProfile&user='.$item->user_id;
-                $matchingvids[$key]->instrument = constant(hwd_vs_tools::getVideoInstrument($item->intrument_id));
-                $matchingvids[$key]->genre = constant(hwd_vs_tools::getVideoGenre($item->genre_id));
-                $matchingvids[$key]->language = constant($item->language_id);
-                $matchingvids[$key]->level = constant(hwd_vs_tools::getVideoLevel($item->level_id));
-				if(($item->rating_total_points/$item->rating_number_votes)>0)$rating=$item->rating_total_points/$item->rating_number_votes;
-					if ($rating > 5 || $rating < 0) { $rating = "0"; }
-					$rating = round($rating, 0);
-					$matchingvids[$key]->rating = "<img src=\"".JURI::base()."/components/com_hwdvideoshare/assets/images/ratings/stars".intval($rating)."0.png\" width=\"80\" height=\"16\" alt=\"".constant("_HWDVIDS_ALT_RATED")." ".$rating."\" />";
-                $texts[] = strip_tags($matchingvids[$key]->description);
-            }*/
 
-		$smartyvs->display('search.tpl');
+		
+		if($isAjax=='yes'){
+			$smartyvs->display('search_ajax.tpl');	
+			exit;
+		}	
+		$smartyvs->display('search.tpl');	
 		return;
     }
     /**

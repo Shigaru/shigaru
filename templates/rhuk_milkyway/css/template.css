@@ -1075,7 +1075,11 @@ input.search::-webkit-input-placeholder {color:#997c99;}
 input.search:-moz-placeholder {color:#997c99;}
 input.search:focus{-moz-box-shadow: 0 0 15px 1px #f2f2fb;
 -webkit-box-shadow: 0 0 15px 1px #f2f2fb;box-shadow: 0 0 7px 1px #f2f2fb;}
-
+.searchloading{background: url("../images/loading.gif") no-repeat scroll 12px 12px transparent;
+    border: 3px solid #6E5A6E;
+    font-size: 150%;
+    font-weight: bold;
+    padding: 20px 20px 20px 60px;}
 div.info {
 -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 border: 1px solid;

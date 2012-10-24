@@ -383,7 +383,6 @@ array(4) {
 			if (!empty($buffer))
 			{
 				preg_match('/<gd:feedLink rel=(.*?)href=(.*?)countHint=(.*?)\/>/', $buffer, $match);
-				var_dump($match);
 				if (!empty($match[2]))
 				{
 					$ext_v_keywo[0] = 1;

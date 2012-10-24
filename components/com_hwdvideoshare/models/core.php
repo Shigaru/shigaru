@@ -699,7 +699,7 @@ class hwd_vs_core
         $pattern     = JRequest::getVar( 'pattern', '' );
         $category_id = JRequest::getInt( 'category_id', '0' );
         $rpp         = JRequest::getInt( 'rpp', '0' );
-        $sort        = JRequest::getInt( 'sort', '0' );
+        $sort        = JRequest::getVar( 'sort', '0' );
         $ep          = JRequest::getVar( 'ep', '' );
         $ex          = JRequest::getVar( 'ex', '' );
 
@@ -715,7 +715,6 @@ class hwd_vs_core
 		{
 			$url = $url."&pattern=$pattern&rpp=$rpp&sort=$sort&ep=$ep&ex=$ex";
 		}
-
 		$app->redirect($url);
     }
     /**
@@ -734,10 +733,10 @@ class hwd_vs_core
         $category_id = JRequest::getInt( 'category_id', '0' );
         $vpp         = JRequest::getInt( 'rpp', '0' );
         $gpp         = JRequest::getInt( 'rpp', '0' );
-        $sort        = JRequest::getInt( 'sort', '0' );
+        $sort        = JRequest::getVar( 'sort', '0' );
         $ep          = JRequest::getVar( 'ep', '' );
         $ex          = JRequest::getVar( 'ex', '' );
-
+		$isAjax      = JRequest::getVar( 'ajax', 'no' );
         if (empty($vpp) || $vpp == 0)
         {
         	$limitv     = intval($c->vpp);
@@ -765,63 +764,25 @@ class hwd_vs_core
         $whereVideos = hwd_vs_search::search_perform_videos();
         $whereGroups = hwd_vs_search::search_perform_groups();
 
-		if ($sort == 1)
-		{
-			$orderVideos = " ORDER BY video.title ASC";
-		}
-		else if ($sort == 2)
-		{
-			$orderVideos = " ORDER BY video.date_uploaded DESC";
-		}
-		else if ($sort == 3)
-		{
-			$orderVideos = " ORDER BY video.updated_rating DESC";
-		}
-		else if ($sort == 4)
-		{
-			$orderVideos = " ORDER BY video.number_of_views DESC";
-		}
-		else
-		{
-			$orderVideos = "";
-		}
+		
 
 		
 		
 
-		$query = "SELECT $hwdvs_selectv FROM #__hwdvidsvideos AS video $hwdvs_joinv $whereVideos $orderVideos";
-		$matchingVideos = $db->loadObjectList();
-		$matchingVideos = hwd_vs_search::search($pattern);
+		$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $limitv);
 		$totalVideos = $matchingVideos['total_found'];
 		$_searchTime = $matchingVideos['time'];
-		$matchingVideos = hwd_vs_search::getDisplayVideoResults($limitstart, $limitv);
-		
+		$matchingVideos = hwd_vs_search::getDisplayVideoResults($matchingVideos,$sort);
 		jimport('joomla.html.pagination');
 		$videoNav = new JPagination( $totalVideos, $limitstart, $limitv );
-        if ($c->diable_nav_groups == 0)
-        {
-			// count matching groups
-			$db->SetQuery("SELECT count(*) FROM #__hwdvidsgroups AS g $hwdvs_joing $whereGroups");
-			$totalGroups = $db->loadResult();
-			echo $db->getErrorMsg();
 
-			// pagination
-			$groupNav = new JPagination( $totalGroups, $limitstart, $limitg );
-
-			// get matching group data
-			$query = "SELECT $hwdvs_selectg FROM #__hwdvidsgroups AS g $hwdvs_joing $whereGroups";
-			$db->SetQuery($query, $groupNav->limitstart, $groupNav->limit);
-			$matchingGroups = $db->loadObjectList();
-		}
-		else
-		{
 			$totalGroups = 0;
 			$groupNav = null;
 			$matchingGroups = null;
-		}
+		
 
         // sent out
-        hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime);
+        hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax);
     }
     /**
      * Query SQL for all accessible category data
