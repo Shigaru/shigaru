@@ -146,8 +146,6 @@ jQuery(document).ready(function($){
 	
 	function rotateTabs(e){	
 		oHRef = jQuery(this).attr('href');
-		console.log(e.target);
-		console.log(this);
 		updateSelection(oHRef);
 		jQuery(oSlides).each(function(i,e){
 								if(i!=oCurrentIndex)
@@ -223,7 +221,18 @@ jQuery(document).ready(function($){
 	
 	function transformFiltersLinks(){	
 			jQuery(opts.filtersLinks).click(function(e){
+					if(!jQuery(e.target).is('input')){
+						if(jQuery(e.target).siblings().is(':checked') || jQuery(e.target).parent().siblings().is(':checked')){
+							jQuery(e.target).siblings().attr('checked',false);
+							jQuery(e.target).parent().siblings().attr('checked',false);
+						}else{
+							jQuery(e.target).siblings().attr('checked','checked');
+							jQuery(e.target).parent().siblings().attr('checked','checked');
+							}
+						e.preventDefault();	
+					}
 					getPageResults(composeFiltersUrl(e));
+					
 				});
 			jQuery(opts.filtersSelects).change(function(e){
 					getPageResults(composeFiltersUrl(e));
@@ -235,13 +244,13 @@ jQuery(document).ready(function($){
 			oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
 			oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 			oCurrentUrl = oCurrentUrl.replace('#','');
-			oCurrentUrl = oCurrentUrl.replace(/&level_id(=[^&]*)?|^level_id(=[^&]*)?&?/, '');
-			oCurrentUrl = oCurrentUrl.replace(/&category_id(=[^&]*)?|^category_id(=[^&]*)?&?/, '');
-			oCurrentUrl = oCurrentUrl.replace(/&genre_id(=[^&]*)?|^genre_id(=[^&]*)?&?/, '');
-			oCurrentUrl = oCurrentUrl.replace(/&language_id(=[^&]*)?|^language_id(=[^&]*)?&?/, '');
-			oCurrentUrl = oCurrentUrl.replace(/&daterange(=[^&]*)?|^daterange(=[^&]*)?&?/, '');
-			oCurrentUrl = oCurrentUrl.replace(/&intrument_id(=[^&]*)?|^intrument_id(=[^&]*)?&?/, '');
-			oCurrentUrl = oCurrentUrl.replace(/&video_length(=[^&]*)?|^video_length(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]level_id(=[^&]*)?|^level_id(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]category_id(=[^&]*)?|^category_id(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]genre_id(=[^&]*)?|^genre_id(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]language_id(=[^&]*)?|^language_id(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]daterange(=[^&]*)?|^daterange(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]intrument_id(=[^&]*)?|^intrument_id(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]video_length(=[^&]*)?|^video_length(=[^&]*)?&?/, '');
 		}	
 	
 	function composeFiltersUrl(e){
@@ -255,17 +264,17 @@ jQuery(document).ready(function($){
 				if(jQuery(this).hasClass('filtercheck')){
 						var $oThis = jQuery(this).find('input:checked');
 						jQuery($oThis).each(function(i){
-							if(i==0)
-								oCurrentUrl += oParamName;
-							if(i==$oThis.length-1)	
-								oCurrentUrl += jQuery(this).val();
-								else
-									oCurrentUrl += jQuery(this).val()+',';
+							if(jQuery(this).val() !=''){
+								if(i==0)
+									oCurrentUrl += oParamName;
+								if(i==$oThis.length-1)	
+									oCurrentUrl += jQuery(this).val();
+									else
+										oCurrentUrl += jQuery(this).val()+',';
+							}		
 						});
 					}else{
 						var $oThis = jQuery(this).find('select');
-						console.log(jQuery(this).val());
-						console.log(jQuery(this));
 						jQuery($oThis).each(function(i){
 								if(jQuery(this).val())
 									oCurrentUrl += oParamName+jQuery(this).val();
@@ -282,11 +291,11 @@ jQuery(document).ready(function($){
 		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
 		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 		var oSort = '';
-		if(oCurrentUrl.indexOf('&')<0)
+		if(oCurrentUrl.indexOf('?sort')>0)
 			oSort = '?sort=';
 				else
 					oSort = '&sort=';
-		oCurrentUrl = oCurrentUrl.replace(/&sort(=[^&]*)?|^sort(=[^&]*)?&?/, oSort+e.target.id);
+		oCurrentUrl = oCurrentUrl.replace(/[?&]sort(=[^&]*)?|^sort(=[^&]*)?&?/, oSort+e.target.id);
 		
 		if(oCurrentUrl.indexOf('sort=')<0){
 			oCurrentUrl = oCurrentUrl.replace('#','');

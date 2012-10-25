@@ -697,7 +697,7 @@ class hwd_vs_core
 		$app = & JFactory::getApplication();
 
         $pattern     = JRequest::getVar( 'pattern', '' );
-        $category_id = JRequest::getInt( 'category_id', '' );
+        $category_id = JRequest::getInt( 'category_id', '0' );
         $rpp         = JRequest::getInt( 'rpp', '0' );
         $sort        = JRequest::getVar( 'sort', 'relevance' );
         $ep          = JRequest::getVar( 'ep', '' );

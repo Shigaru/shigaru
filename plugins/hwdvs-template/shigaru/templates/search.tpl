@@ -94,11 +94,18 @@ var oSearchParams = {
 			<div id="category_id" class="filter filtercheck">
 				<label>Type of video</label>
 				<div class="widget">
-					<label for="iadfilter_builttype_default">
-					<input type="radio" value="" id="iadfilter_builttype_default" name="adfilter_builttype" checked="checked"><span><a href="#">All</a></span></label><label for="iadfilter_builttype_2">
-					<input type="radio" value="1" id="iadfilter_builttype_2" name="adfilter_builttype"><span><a href="#">Tutorial - How to play a song/tune</a></span></label><label for="iadfilter_builttype_3">
-					<input type="radio" value="2" id="iadfilter_builttype_3" name="adfilter_builttype"><span><a href="#">Music Theory Tutorial</a></span></label><label for="iadfilter_builttype_1">
-					<input type="radio" value="3" id="iadfilter_builttype_1" name="adfilter_builttype"><span><a href="#">Non Tutorial (Watch me play!)</a></span></label>
+					<label for="category_id_default">
+						<input type="radio" value="" id="category_id_default" name="category_id" checked="checked"><span><a href="#">All</a></span>
+					</label>
+					<label for="category_id_3">
+						<input type="radio" value="1" id="category_id_1" name="category_id"><span><a href="#">Tutorial - How to play a song/tune</a></span>
+					</label>
+					<label for="category_id_3">
+						<input type="radio" value="2" id="category_id_2" name="category_id"><span><a href="#">Music Theory Tutorial</a></span>
+					</label>
+					<label for="category_id_3">
+						<input type="radio" value="3" id="category_id_3" name="category_id"><span><a href="#">Non Tutorial (Watch me play!)</a></span>
+					</label>
 				</div>
 			</div>
 			<div id="genre_id" class="filter filtercombo">
@@ -134,11 +141,18 @@ var oSearchParams = {
 				Date
 				</label>
 				<div class="widget">
-					<label for="iadfilter_builttype_default">
-					<input type="radio" value="" id="iadfilter_builttype_default" name="adfilter_builttype" checked="checked"><span><a href="#">Anytime</a></span></label><label for="iadfilter_builttype_2">
-					<input type="radio" value="1" id="iadfilter_builttype_2" name="adfilter_builttype"><span><a href="#">Last week</a></span></label><label for="iadfilter_builttype_3">
-					<input type="radio" value="2" id="iadfilter_builttype_3" name="adfilter_builttype"><span><a href="#">Last month</a></span></label><label for="iadfilter_builttype_1">
-					<input type="radio" value="3" id="iadfilter_builttype_1" name="adfilter_builttype"><span><a href="#">Last year</a></span></label>
+					<label for="daterange_default">
+						<input type="radio" value="" id="daterange_default" name="daterange" checked="checked"><span><a href="#">Anytime</a></span>
+					</label>
+					<label for="daterange_1">
+						<input type="radio" value="1" id="daterange_1" name="daterange"><span><a href="#">Last week</a></span>
+					</label>
+					<label for="daterange_2">
+						<input type="radio" value="2" id="daterange_2" name="daterange"><span><a href="#">Last month</a></span>
+					</label>
+					<label for="daterange_3">
+						<input type="radio" value="3" id="daterange_3" name="daterange"><span><a href="#">Last year</a></span>
+					</label>
 				</div>
 				
 			</div>
@@ -146,12 +160,19 @@ var oSearchParams = {
 				<label>
 				Duration
 				</label>
-				<divclass="widget">
-					<label for="iadfilter_builttype_default">
-					<input type="radio" value="" id="iadfilter_builttype_default" name="adfilter_builttype" checked="checked"><span><a href="#">All</a></span></label><label for="iadfilter_builttype_2">
-					<input type="radio" value="2" id="iadfilter_builttype_2" name="adfilter_builttype"><span><a href="#">Short videos (1-3min)</a></span></label><label for="iadfilter_builttype_3">
-					<input type="radio" value="3" id="iadfilter_builttype_3" name="adfilter_builttype"><span><a href="#">Medium videos (3-10min)</a></span></label><label for="iadfilter_builttype_1">
-					<input type="radio" value="1" id="iadfilter_builttype_1" name="adfilter_builttype"><span><a href="#">Long videos (+10min)</a></span></label>
+				<div class="widget">
+					<label for="video_length_default">
+						<input type="radio" value="" id="video_length_default" name="video_length" checked="checked"><span><a href="#">All</a></span>
+					</label>
+					<label for="video_length_1">
+						<input type="radio" value="2" id="video_length_1" name="video_length"><span><a href="#">Short videos (1-3min)</a></span>
+					</label>
+					<label for="video_length_2">
+						<input type="radio" value="3" id="video_length_2" name="video_length"><span><a href="#">Medium videos (3-10min)</a></span>
+					</label>
+					<label for="video_length_3">
+						<input type="radio" value="1" id="video_length_3" name="video_length"><span><a href="#">Long videos (+10min)</a></span>
+					</label>
 				</div>			
 			</div>
 		</div>	
