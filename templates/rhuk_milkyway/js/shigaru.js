@@ -244,7 +244,11 @@ jQuery(document).ready(function($){
 	function composeFiltersUrl(e){
 		cleanUpFilters();
 		jQuery('#resultfilters .filter').each(function(){
-				var oParamName = '&'+jQuery(this).attr('id')+'=';
+			var oParamName = '';
+			if(oCurrentUrl.indexOf('&')<0)
+				oParamName = '?'+jQuery(this).attr('id')+'=';
+					else
+						oParamName = '&'+jQuery(this).attr('id')+'=';
 				if(jQuery(this).hasClass('filtercheck')){
 						var $oThis = jQuery(this).find('input:checked');
 						jQuery($oThis).each(function(i){
@@ -268,11 +272,16 @@ jQuery(document).ready(function($){
 		oCurrentUrl = window.location.href;
 		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
 		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
-		oCurrentUrl = oCurrentUrl.replace(/&sort(=[^&]*)?|^sort(=[^&]*)?&?/, '&sort='+e.target.id);
+		var oSort = '';
+		if(oCurrentUrl.indexOf('&')<0)
+			oSort = '?sort=';
+				else
+					oSort = '&sort=';
+		oCurrentUrl = oCurrentUrl.replace(/&sort(=[^&]*)?|^sort(=[^&]*)?&?/, oSort+e.target.id);
 		
-		if(oCurrentUrl.indexOf('&sort=')<0){
+		if(oCurrentUrl.indexOf('sort=')<0){
 			oCurrentUrl = oCurrentUrl.replace('#','');
-			oCurrentUrl += '&sort='+e.target.id;
+			oCurrentUrl += oSort+e.target.id;
 		}
 		return oCurrentUrl;
 	}
