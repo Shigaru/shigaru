@@ -258,7 +258,7 @@ jQuery(document).ready(function($){
 		cleanUpFilters();
 		jQuery('#resultfilters .filter').each(function(){
 			var oParamName = '';
-			if(oCurrentUrl.indexOf('&')<0)
+			if(oCurrentUrl.indexOf('?')<0)
 				oParamName = '?'+jQuery(this).attr('id')+'=';
 					else
 						oParamName = '&'+jQuery(this).attr('id')+'=';
