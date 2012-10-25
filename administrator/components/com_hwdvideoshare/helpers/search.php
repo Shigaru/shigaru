@@ -251,15 +251,14 @@ class hwd_vs_search
     
     function setFilters($level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length)
     {
-		
-        if($level_id != ''){
-				$this->_sphinx->SetFilter('level_id', hwd_vs_search::convertArrayString2Int(explode(",", $level_id)), FALSE);
-			}
-       /* if($category_id != '')
-        if($genre_id != '')
-        if($language_id != '')
-        if($daterange != '')
-        if($intrument_id != '')
+		//var_dump($genre_id);
+        if($level_id != '')$this->_sphinx->SetFilter('level_id', hwd_vs_search::convertArrayString2Int(explode(",", $level_id)), FALSE);
+        if($category_id != '')$this->_sphinx->SetFilter('category_id', hwd_vs_search::convertArrayString2Int(explode(",", $category_id)), FALSE);
+        if($genre_id != '')$this->_sphinx->SetFilter('genre_id', (int)$genre_id, FALSE);
+        if($language_id != '')$this->_sphinx->SetFilter('language_id', (int)$language_id, FALSE);
+        if($intrument_id != '')$this->_sphinx->SetFilter('intrument_id', (int)$intrument_id, FALSE);
+       /* if($daterange != '')
+        
         if($video_length != '')*/
 
     }

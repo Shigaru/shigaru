@@ -95,7 +95,7 @@ var oSearchParams = {
 				<label>Type of video</label>
 				<div class="widget">
 					<label for="iadfilter_builttype_default">
-					<input type="radio" value="0" id="iadfilter_builttype_default" name="adfilter_builttype" checked="checked"><span><a href="#">All</a></span></label><label for="iadfilter_builttype_2">
+					<input type="radio" value="" id="iadfilter_builttype_default" name="adfilter_builttype" checked="checked"><span><a href="#">All</a></span></label><label for="iadfilter_builttype_2">
 					<input type="radio" value="1" id="iadfilter_builttype_2" name="adfilter_builttype"><span><a href="#">Tutorial - How to play a song/tune</a></span></label><label for="iadfilter_builttype_3">
 					<input type="radio" value="2" id="iadfilter_builttype_3" name="adfilter_builttype"><span><a href="#">Music Theory Tutorial</a></span></label><label for="iadfilter_builttype_1">
 					<input type="radio" value="3" id="iadfilter_builttype_1" name="adfilter_builttype"><span><a href="#">Non Tutorial (Watch me play!)</a></span></label>
@@ -135,7 +135,7 @@ var oSearchParams = {
 				</label>
 				<div class="widget">
 					<label for="iadfilter_builttype_default">
-					<input type="radio" value="0" id="iadfilter_builttype_default" name="adfilter_builttype" checked="checked"><span><a href="#">Anytime</a></span></label><label for="iadfilter_builttype_2">
+					<input type="radio" value="" id="iadfilter_builttype_default" name="adfilter_builttype" checked="checked"><span><a href="#">Anytime</a></span></label><label for="iadfilter_builttype_2">
 					<input type="radio" value="1" id="iadfilter_builttype_2" name="adfilter_builttype"><span><a href="#">Last week</a></span></label><label for="iadfilter_builttype_3">
 					<input type="radio" value="2" id="iadfilter_builttype_3" name="adfilter_builttype"><span><a href="#">Last month</a></span></label><label for="iadfilter_builttype_1">
 					<input type="radio" value="3" id="iadfilter_builttype_1" name="adfilter_builttype"><span><a href="#">Last year</a></span></label>
@@ -148,7 +148,7 @@ var oSearchParams = {
 				</label>
 				<divclass="widget">
 					<label for="iadfilter_builttype_default">
-					<input type="radio" value="0" id="iadfilter_builttype_default" name="adfilter_builttype" checked="checked"><span><a href="#">All</a></span></label><label for="iadfilter_builttype_2">
+					<input type="radio" value="" id="iadfilter_builttype_default" name="adfilter_builttype" checked="checked"><span><a href="#">All</a></span></label><label for="iadfilter_builttype_2">
 					<input type="radio" value="2" id="iadfilter_builttype_2" name="adfilter_builttype"><span><a href="#">Short videos (1-3min)</a></span></label><label for="iadfilter_builttype_3">
 					<input type="radio" value="3" id="iadfilter_builttype_3" name="adfilter_builttype"><span><a href="#">Medium videos (3-10min)</a></span></label><label for="iadfilter_builttype_1">
 					<input type="radio" value="1" id="iadfilter_builttype_1" name="adfilter_builttype"><span><a href="#">Long videos (+10min)</a></span></label>

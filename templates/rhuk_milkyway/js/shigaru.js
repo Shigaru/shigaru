@@ -225,6 +225,9 @@ jQuery(document).ready(function($){
 			jQuery(opts.filtersLinks).click(function(e){
 					getPageResults(composeFiltersUrl(e));
 				});
+			jQuery(opts.filtersSelects).change(function(e){
+					getPageResults(composeFiltersUrl(e));
+				});	
 	}
 	
 	function cleanUpFilters(){
@@ -260,9 +263,15 @@ jQuery(document).ready(function($){
 									oCurrentUrl += jQuery(this).val()+',';
 						});
 					}else{
-							if(jQuery(this).val())
-								oCurrentUrl += oParamName+jQuery(this).val();
-							}
+						var $oThis = jQuery(this).find('select');
+						console.log(jQuery(this).val());
+						console.log(jQuery(this));
+						jQuery($oThis).each(function(i){
+								if(jQuery(this).val())
+									oCurrentUrl += oParamName+jQuery(this).val();
+								
+							});
+						}	
 				
 			});		
 		return oCurrentUrl;
@@ -334,6 +343,7 @@ jQuery(document).ready(function($){
 	orderLinks:'#resultordering a',
 	sortDefault: 'relevance',
 	filtersLinks: '#resultfilters .filter .widget input,#resultfilters .filter .widget a',
+	filtersSelects: '#resultfilters .filter .widget select',
 	hideTabs:false
   }
   
