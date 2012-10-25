@@ -85,9 +85,7 @@ class plgSystemtheidea extends JPlugin {
             }
        $this->_theidea = true;
                 $app->setUserState('plg_system_theidea', true);
-                if($this->params->get('longtermcookie',0)) {
                     setcookie('plg_system_theidea',date('%Y-%m-%d %H:%i:%s'),time()+60*60*24*30);
-                }    
         }
         return true;
     }
@@ -156,7 +154,8 @@ class plgSystemtheidea extends JPlugin {
     function _requestAccept() {
         if(JFactory::getUser()->id) return true;
         $menu = JSite::getMenu();
-		if ($menu->getActive() == $menu->getDefault()) {
+        $oTask = JRequest::getVar( 'task', '' );
+		if ($menu->getActive() == $menu->getDefault() && $oTask  == '' ) {
 				$this->_blockJSCookies();
 				$lang = JFactory::getLanguage();
 				$this->loadLanguage('plg_system_theidea',JPATH_ADMINISTRATOR);

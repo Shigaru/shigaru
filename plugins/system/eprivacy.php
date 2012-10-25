@@ -86,9 +86,7 @@ class plgSystemePrivacy extends JPlugin {
          // force accepted cookies
 		$this->_eprivacy = true;
 		$app->setUserState('plg_system_eprivacy', true);
-		if($this->params->get('longtermcookie',0)) {
 			setcookie('plg_system_eprivacy',date('%Y-%m-%d %H:%i:%s'),time()+60*60*24*30);
-		}   
         }
         
         return true;
@@ -145,7 +143,6 @@ class plgSystemePrivacy extends JPlugin {
 
     function _requestAccept() {
         if(JFactory::getUser()->id) return true;
-        $this->_blockJSCookies();
         $lang = JFactory::getLanguage();
         $this->loadLanguage('plg_system_eprivacy',JPATH_ADMINISTRATOR);
         $uri = $_SERVER['REQUEST_URI'];

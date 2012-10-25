@@ -10,7 +10,8 @@
 <script type="text/javascript">
 var oSearchParams = {
 		ordering:'{/literal}{$sort}{literal}',
-		filtering:null
+		filtering:null,
+		currentUrl:'{/literal}{$pageURL}{literal}' 
 	};
 </script>
 {/literal}

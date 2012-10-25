@@ -78,9 +78,15 @@ class hwd_vs_search
         $this->_sphinx = new SphinxClient();
         $this->_sphinx->SetServer($pServer, (int) $pPort);
         $this->_sphinx->SetMatchMode(SPH_MATCH_EXTENDED2);
-        hwd_vs_search::setOrder($sortingfield);
+        
     }
      
+     function initSearch($index='indexVideos',$sortingfield='relevance')
+    {
+        if(!$this->_sphinx)
+			hwd_vs_search::init();
+        hwd_vs_search::setOrder($sortingfield);
+    }
      
      /**
      *
@@ -101,9 +107,9 @@ class hwd_vs_search
      * @param string $query
      * @return boolean
      */
-    function search($query,$limitstart, $limitv,$sort)
+    function search($query,$limitstart, $limitv,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length)
     {
-       hwd_vs_search::init('indexVideos',$sort);
+       hwd_vs_search::initSearch('indexVideos',$sort);
 		$limit              = isset($_REQUEST['limit']) ? (int) $_REQUEST['limit'] : 50 ;
 		if(0 === $limit) {
 			$limit = 1000;
@@ -112,6 +118,7 @@ class hwd_vs_search
 		$text = trim( $query );
 		$searchText = $text;
 		$this->_query = $searchText;
+		hwd_vs_search::setFilters($level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
 		hwd_vs_search::setLimit($limitstart, $limitv);
         $result = $this->_sphinx->Query($searchText, $this->_index);
        /* echo '<pre>';
@@ -215,7 +222,7 @@ class hwd_vs_search
                 $this->_sphinx->SetSortMode(SPH_SORT_RELEVANCE);
                 break;
             case 'date_uploaded':
-                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_ASC, 'date_added');
+                $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'date_added');
                 break;
             case 'updated_rating':
                 $this->_sphinx->SetSortMode(SPH_SORT_ATTR_DESC, 'updated_rating');
@@ -230,6 +237,31 @@ class hwd_vs_search
                 $this->_sphinx->SetSortMode(SPH_SORT_RELEVANCE);
                 break;
         }
+
+    }
+    
+    function convertArrayString2Int($array){
+		$oArray = $array;
+			foreach ($oArray as $key => $var) {
+				$oArray[$key] = (int)$var;
+			}
+		var_dump($oArray);	
+		return $oArray;
+		
+		}
+    
+    function setFilters($level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length)
+    {
+		
+        if($level_id != ''){
+				$this->_sphinx->SetFilter('level_id', array(40), false);
+			}
+       /* if($category_id != '')
+        if($genre_id != '')
+        if($language_id != '')
+        if($daterange != '')
+        if($intrument_id != '')
+        if($video_length != '')*/
 
     }
      

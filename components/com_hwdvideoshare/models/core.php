@@ -736,7 +736,14 @@ class hwd_vs_core
         $sort        = JRequest::getVar( 'sort', 'relevance' );
         $ep          = JRequest::getVar( 'ep', '' );
         $ex          = JRequest::getVar( 'ex', '' );
-		$isAjax      = JRequest::getVar( 'ajax', 'no' );
+        $isAjax      = JRequest::getVar( 'ajax', 'no' );
+		$level_id    = JRequest::getVar( 'level_id', '' );
+		$category_id = JRequest::getVar( 'category_id', '' );
+		$genre_id    = JRequest::getVar( 'genre_id', '' );
+		$language_id = JRequest::getVar( 'language_id', '' );
+		$daterange   = JRequest::getVar( 'daterange', '' );
+		$intrument_id= JRequest::getVar( 'intrument_id', '' );
+		$video_length= JRequest::getVar( 'video_length', '' );
         if (empty($vpp) || $vpp == 0)
         {
         	$limitv     = intval($c->vpp);
@@ -768,8 +775,8 @@ class hwd_vs_core
 
 		
 		
-
-		$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $limitv,$sort);
+		
+		$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $limitv,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
 		$totalVideos = $matchingVideos['total_found'];
 		$_searchTime = $matchingVideos['time'];
 		$matchingVideos = hwd_vs_search::getDisplayVideoResults($matchingVideos,$sort);

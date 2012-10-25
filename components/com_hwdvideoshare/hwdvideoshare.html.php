@@ -532,6 +532,11 @@ class hwd_vs_html
 		$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
 		$smartyvs->assign("genresCombo", $genresCombo);
 		$smartyvs->assign("languagesCombo", $languagesCombo);
+		$uri = & JFactory::getURI();
+		$pageURL = $uri->toString();
+		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
+		$pageURL = str_replace("&ajax=yes", "", $pageURL);
+		$smartyvs->assign("pageURL", $pageURL);
 		if (count($matchingvids) > 0) {
 			/*echo '<pre>';
 				var_dump($matchingvids[0]);
