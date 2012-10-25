@@ -245,6 +245,8 @@ jQuery(document).ready(function($){
 			oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 			oCurrentUrl = oCurrentUrl.replace('#','');
 			oCurrentUrl = oCurrentUrl.replace('?0','');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]start(=[^&]*)?|^start(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]limitstart(=[^&]*)?|^limitstart(=[^&]*)?&?/, '');
 			oCurrentUrl = oCurrentUrl.replace(/[?&]level_id(=[^&]*)?|^level_id(=[^&]*)?&?/, '');
 			oCurrentUrl = oCurrentUrl.replace(/[?&]category_id(=[^&]*)?|^category_id(=[^&]*)?&?/, '');
 			oCurrentUrl = oCurrentUrl.replace(/[?&]genre_id(=[^&]*)?|^genre_id(=[^&]*)?&?/, '');
