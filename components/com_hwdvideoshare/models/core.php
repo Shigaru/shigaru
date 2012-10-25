@@ -697,13 +697,13 @@ class hwd_vs_core
 		$app = & JFactory::getApplication();
 
         $pattern     = JRequest::getVar( 'pattern', '' );
-        $category_id = JRequest::getInt( 'category_id', '0' );
+        $category_id = JRequest::getInt( 'category_id', '' );
         $rpp         = JRequest::getInt( 'rpp', '0' );
         $sort        = JRequest::getVar( 'sort', 'relevance' );
         $ep          = JRequest::getVar( 'ep', '' );
         $ex          = JRequest::getVar( 'ex', '' );
 
-		$url = JRoute::_("index.php?option=com_hwdvideoshare&task=displayresults&Itemid=$hwdvsItemid&category_id=$category_id");
+		$url = JRoute::_("index.php?option=com_hwdvideoshare&task=displayresults&Itemid=$hwdvsItemid");
 		$url = str_replace("&amp;", "&", $url);
 
 		$pos = strpos($url, "?");

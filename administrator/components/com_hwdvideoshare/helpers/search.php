@@ -249,14 +249,19 @@ class hwd_vs_search
 		
 		}
     
+    function crc32($val){
+        $checksum = crc32($val);
+        if($checksum < 0) $checksum += 4294967296;
+        return $checksum;
+    }
+    
     function setFilters($level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length)
     {
-		//var_dump($genre_id);
         if($level_id != '')$this->_sphinx->SetFilter('level_id', hwd_vs_search::convertArrayString2Int(explode(",", $level_id)), FALSE);
         if($category_id != '')$this->_sphinx->SetFilter('category_id', hwd_vs_search::convertArrayString2Int(explode(",", $category_id)), FALSE);
-        if($genre_id != '')$this->_sphinx->SetFilter('genre_id', (int)$genre_id, FALSE);
-        if($language_id != '')$this->_sphinx->SetFilter('language_id', (int)$language_id, FALSE);
-        if($intrument_id != '')$this->_sphinx->SetFilter('intrument_id', (int)$intrument_id, FALSE);
+        if($genre_id != '')$this->_sphinx->SetFilter('genre_id', array((int)$genre_id), FALSE);
+        if($language_id != '')$this->_sphinx->SetFilter('language_int', array(crc32( $language_id )), FALSE);
+        if($intrument_id != '')$this->_sphinx->SetFilter('intrument_id', array((int)$intrument_id), FALSE);
        /* if($daterange != '')
         
         if($video_length != '')*/
