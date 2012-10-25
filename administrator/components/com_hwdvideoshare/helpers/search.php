@@ -262,9 +262,38 @@ class hwd_vs_search
         if($genre_id != '')$this->_sphinx->SetFilter('genre_id', array((int)$genre_id), FALSE);
         if($language_id != '')$this->_sphinx->SetFilter('language_int', array(crc32( $language_id )), FALSE);
         if($intrument_id != '')$this->_sphinx->SetFilter('intrument_id', array((int)$intrument_id), FALSE);
-       /* if($daterange != '')
-        
-        if($video_length != '')*/
+		if($daterange != ''){
+				switch ($daterange) {
+					case '1':
+						$this->_sphinx->SetFilterRange('date_added', time() - (60 * 60 * 24 * 7),time());
+						break;
+					case '2':
+						$this->_sphinx->SetFilterRange('date_added', time() - (60 * 60 * 24 * 30),time());
+						break;
+					case '3':
+						$this->_sphinx->SetFilterRange('date_added', time() - (60 * 60 * 24 * 365),time());
+						break;	
+					default:
+						break;
+					}
+				
+			}
+        if($video_length != ''){
+				switch ($video_length) {
+					case '1':
+						$this->_sphinx->SetFilterFloatRange('vid_length', floatval('0.00'), floatval('3.00'));
+						break;
+					case '2':
+						$this->_sphinx->SetFilterFloatRange('vid_length', floatval('3.00'), floatval('10.00'));
+						break;
+					case '3':
+						$this->_sphinx->SetFilterFloatRange('vid_length', floatval('10.00'), floatval('99999999.99'));
+						break;	
+					default:
+						break;
+					}
+				
+			}
 
     }
      

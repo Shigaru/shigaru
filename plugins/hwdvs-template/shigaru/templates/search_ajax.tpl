@@ -16,13 +16,17 @@ var oSearchParams = {
 </script>
 {/literal}
 <div class="f15em mbot12 mleft30">
-									{$totalvideos} {$smarty.const._HWDVIDS_META_SRF}
+									{$totalvideos} 
+									{if $searchterm eq ''}
+										{$smarty.const._HWDVIDS_META_SRCC}
+									{else}
+										{$smarty.const._HWDVIDS_META_SRF}
+									{/if}	
 									<b> {$searchterm}</b>
 									{if $totalvideos gt 0}
 									<span class="f80">
 										{$vpageCounter}
 									</span>
-									<?php endif; ?>
 									{/if}	
 						</div>
 						<div id="resultordering">
@@ -42,7 +46,9 @@ var oSearchParams = {
 											{$vpageLimits}
 										</div>
 										<div class="clear"></div>
-									{/if}	
+									{else}
+										<div class="clear"></div>
+									  {/if}	
 						</div>
 									  {if $print_matchvids}
 										{foreach name=outer item=data from=$matchingvids}
@@ -53,7 +59,8 @@ var oSearchParams = {
 										  </div>
 										{/foreach}
 									  {else}
-										<div class="padding">{$mvempty}</div>
+										<div class="clear"></div>
+										<div class="padding novideos">{$mvempty}</div>
 									  {/if}
 									  {$vpageNavigation}
 

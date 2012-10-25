@@ -165,13 +165,13 @@ var oSearchParams = {
 						<input type="radio" value="" id="video_length_default" name="video_length" checked="checked"><span><a href="#">All</a></span>
 					</label>
 					<label for="video_length_1">
-						<input type="radio" value="2" id="video_length_1" name="video_length"><span><a href="#">Short videos (1-3min)</a></span>
+						<input type="radio" value="1" id="video_length_1" name="video_length"><span><a href="#">Short videos (1-3min)</a></span>
 					</label>
 					<label for="video_length_2">
-						<input type="radio" value="3" id="video_length_2" name="video_length"><span><a href="#">Medium videos (3-10min)</a></span>
+						<input type="radio" value="2" id="video_length_2" name="video_length"><span><a href="#">Medium videos (3-10min)</a></span>
 					</label>
 					<label for="video_length_3">
-						<input type="radio" value="1" id="video_length_3" name="video_length"><span><a href="#">Long videos (+10min)</a></span>
+						<input type="radio" value="3" id="video_length_3" name="video_length"><span><a href="#">Long videos (+10min)</a></span>
 					</label>
 				</div>			
 			</div>
@@ -180,13 +180,18 @@ var oSearchParams = {
 		<div id="resultwrapper">
 			
 						<div class="f15em mbot12 mleft30">
-									{$totalvideos} {$smarty.const._HWDVIDS_META_SRF}
+									
+									{if $searchterm eq ''}
+										{$smarty.const._HWDVIDS_META_SRCCEE}
+									{else}
+										{$totalvideos} 
+										{$smarty.const._HWDVIDS_META_SRF}
+									{/if}	
 									<b> {$searchterm}</b>
 									{if $totalvideos gt 0}
 									<span class="f80">
 										{$vpageCounter}
 									</span>
-									<?php endif; ?>
 									{/if}	
 						</div>
 						<div id="resultordering">
@@ -206,7 +211,9 @@ var oSearchParams = {
 											{$vpageLimits}
 										</div>
 										<div class="clear"></div>
-									{/if}	
+									{else}
+										<div class="clear"></div>
+									  {/if}
 						</div>		
 		
 									<div id="videoresultwrapper">
@@ -222,7 +229,8 @@ var oSearchParams = {
 										{/foreach}
 										
 									  {else}
-										<div class="padding">{$mvempty}</div>
+										<div class="clear"></div>
+										<div class="padding novideos">{$mvempty}</div>
 									  {/if}
 									  {$vpageNavigation}
 									   </div>

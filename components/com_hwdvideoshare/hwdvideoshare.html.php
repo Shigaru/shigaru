@@ -585,6 +585,7 @@ class hwd_vs_html
 
 		
 		if($isAjax=='yes'){
+			$smartyvs->assign("mvempty", _HWDVIDS_INFO_NMVFILT);
 			$smartyvs->display('search_ajax.tpl');	
 			exit;
 		}	

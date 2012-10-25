@@ -278,8 +278,14 @@ padding: 5px;
     border-radius: 12px 12px 12px 12px;}
 
 #resultfilters{box-shadow: 5px 3px 5px #E6E6E6;font-size: 0.7em;background:whiteSmoke;float:left;width:20%;padding: 12px 0 12px 10px;  border: 1px solid #E6E6E6;
-    border-radius: 5px 5px 5px 5px;}
+    border-radius: 5px 5px 5px 5px;margin-bottom: 50px;}
 .searchLabels{color:#827D7E; }
+.searchwrapper .novideos{background: url("../images/sadface.png") no-repeat scroll 0 0 transparent;
+    font-size: 200%;
+    height: 500px;
+    margin: 20px;
+    padding: 130px 0 0 330px;
+    width: 450px;}
 #resultfilters .filter{min-height: 43px;
 margin-bottom: 15px;}
 #resultfilters label {
