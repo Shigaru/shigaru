@@ -292,7 +292,7 @@ jQuery(document).ready(function($){
 		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
 		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 		var oSort = '';
-		if(oCurrentUrl.indexOf('?sort')>0)
+		if(oCurrentUrl.indexOf('?sort')>0 || oCurrentUrl.indexOf('?')<0)
 			oSort = '?sort=';
 				else
 					oSort = '&sort=';
