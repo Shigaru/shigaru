@@ -245,7 +245,6 @@ class hwd_vs_search
 			foreach ($oArray as $key => $var) {
 				$oArray[$key] = (int)$var;
 			}
-		var_dump($oArray);	
 		return $oArray;
 		
 		}
@@ -254,7 +253,7 @@ class hwd_vs_search
     {
 		
         if($level_id != ''){
-				$this->_sphinx->SetFilter('level_id', array(40), false);
+				$this->_sphinx->SetFilter('level_id', hwd_vs_search::convertArrayString2Int(explode(",", $level_id)), FALSE);
 			}
        /* if($category_id != '')
         if($genre_id != '')
