@@ -180,11 +180,10 @@ var oSearchParams = {
 		<div id="resultwrapper">
 			
 						<div class="f15em mbot12 mleft30">
-									
+									{$totalvideos} 
 									{if $searchterm eq ''}
 										{$smarty.const._HWDVIDS_META_SRCCEE}
 									{else}
-										{$totalvideos} 
 										{$smarty.const._HWDVIDS_META_SRF}
 									{/if}	
 									<b> {$searchterm}</b>
