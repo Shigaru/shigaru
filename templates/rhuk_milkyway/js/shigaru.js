@@ -200,7 +200,7 @@ jQuery(document).ready(function($){
 		transformPageLinks();
 		transformOrderBys();
 		transformFiltersLinks();
-		
+		transformLimitBox();		
 	});
 	
 	function transformOrderBys(){
@@ -209,8 +209,36 @@ jQuery(document).ready(function($){
 		jQuery(opts.orderLinks).click(function(e){
 				getPageResults(composeOrderUrl(e));
 				e.preventDefault();
+			});	
+		}
+	
+	function transformLimitBox(){
+		jQuery("#limit option[value='0']").remove();
+		jQuery('#limit').change(function(e){
+				getPageResults(composeLimitUrl(e));
+				e.preventDefault();
 			});
 		}
+	
+	function composeLimitUrl(e){
+		oCurrentUrl = window.location.href;
+		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
+		var oLimit = '';
+		if(oCurrentUrl.indexOf('?limit')>0 || oCurrentUrl.indexOf('?')<0)
+			oLimit = '?limit=';
+				else
+					oLimit = '&limit=';		
+		oCurrentUrl = oCurrentUrl.replace(/[?&]limit(=[^&]*)?|^limit(=[^&]*)?&?/, oLimit+jQuery(e.target).val());
+		oCurrentUrl = oCurrentUrl.replace(/[?&]start(=[^&]*)?|^start(=[^&]*)?&?/, '');
+		oCurrentUrl = oCurrentUrl.replace(/[?&]limitstart(=[^&]*)?|^limitstart(=[^&]*)?&?/, '');
+		if(oCurrentUrl.indexOf('limit=')<0){
+			oCurrentUrl = oCurrentUrl.replace('#','');
+			oCurrentUrl += oLimit+jQuery(e.target).val();
+		}
+		return oCurrentUrl;
+	}
+	
 	
 	function transformPageLinks(){	
 			jQuery(opts.paginationLinks).click(function(e){
@@ -332,6 +360,7 @@ jQuery(document).ready(function($){
 				  jQuery(opts.targetDiv).html(data);
 					 transformPageLinks();
 					 transformOrderBys();
+					 transformLimitBox();
 				  jQuery.unblockUI({ 
 					onUnblock: function(){   
 					  }

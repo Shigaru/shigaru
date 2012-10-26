@@ -744,6 +744,8 @@ class hwd_vs_core
 		$daterange   = JRequest::getVar( 'daterange', '' );
 		$intrument_id= JRequest::getVar( 'intrument_id', '' );
 		$video_length= JRequest::getVar( 'video_length', '' );
+		$rlimit		 = JRequest::getInt( 'limit', '20' );
+		
         if (empty($vpp) || $vpp == 0)
         {
         	$limitv     = intval($c->vpp);
@@ -776,12 +778,12 @@ class hwd_vs_core
 		
 		
 		
-		$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $limitv,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
+		$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $rlimit,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
 		$totalVideos = $matchingVideos['total_found'];
 		$_searchTime = $matchingVideos['time'];
 		$matchingVideos = hwd_vs_search::getDisplayVideoResults($matchingVideos,$sort);
 		jimport('joomla.html.pagination');
-		$videoNav = new JPagination( $totalVideos, $limitstart, $limitv );
+		$videoNav = new JPagination( $totalVideos, $limitstart, $rlimit );
 
 			$totalGroups = 0;
 			$groupNav = null;

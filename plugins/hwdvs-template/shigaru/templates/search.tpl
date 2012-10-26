@@ -232,7 +232,9 @@ var oSearchParams = {
 										<div class="clear"></div>
 										<div class="padding novideos">{$mvempty}</div>
 									  {/if}
-									  {$vpageNavigation}
+										  <div class="videopagination">
+											{$vpageNavigation}
+										  </div>
 									   </div>
 	</div>
 </div>

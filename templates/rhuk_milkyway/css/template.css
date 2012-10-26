@@ -872,6 +872,8 @@ width: 75%;}
     font-size: 0.875em;
     padding: 10px;
 }
+.videopagination{   margin-top: 20px;
+    text-align: center;}
 .pagination {
     margin-bottom: 20px;
     padding: 20px;

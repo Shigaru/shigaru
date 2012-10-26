@@ -551,7 +551,9 @@ class hwd_vs_html
 			if ( $vpage > 0 )
 			{
 				$vpageNavigation.= $videoNav->getPagesLinks()."<br />";
-				$vpageCounter= '('.$videoNav->getPagesCounter().')';
+				if ($videoNav->get('pages.current') < $videoNav->get('pages.total')) 
+					$vpageCounter= '('.$videoNav->getPagesCounter().')';
+					
 				$vpageLimits= $videoNav->getLimitBox( );
 			}
 			$smartyvs->assign("vpageNavigation", $vpageNavigation);
