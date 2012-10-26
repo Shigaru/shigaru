@@ -2,20 +2,24 @@
 #roksearch_search_str.loading {background: transparent url(../images/spinner.gif) no-repeat scroll 98% 50%}
 #roksearch_results {z-index: 10000;position: absolute;width: 400px;float: right;margin-top: -1px;text-align: left;visibility: hidden;}
 #roksearch_results a#roksearch_link {float: right;padding-right: 5px;margin-top: 4px;display: block;height: 16px;width: 16px;}
-#roksearch_results h3 {margin-top: 0;margin-bottom: 0;line-height: 110%;font-size: 120%;padding-bottom: 0;}
+#roksearch_results h3 {color:#9C5352;}
 #roksearch_results span {display: block;line-height: 120%;font-size: 90%;}
 #roksearch_results .container-wrapper {overflow: hidden;}
 #roksearch_results .page {float: left;}
 #roksearch_results .roksearch_header, #roksearch_results .roksearch_row_btm {padding: 6px 15px;line-height: 100%;text-transform: uppercase;font-weight: normal;font-size: 100%;}
 #roksearch_results .roksearch_row_btm {overflow: hidden;}
 #roksearch_results .roksearch_row_btm span {line-height: 140%;}
-#roksearch_results span.small {display: block;position: absolute;bottom: 6px;right: 10px;text-align: right;}
+#roksearch_results a.small {display: block;position: absolute;bottom: 6px;right: 10px;text-align: right; color:red;}
 #roksearch_results span.highlight {display: inline;padding:2px;}
 #roksearch_results a.clr {font-size: 100%;}
-#roksearch_results a:hover {text-decoration: none;}
+#roksearch_results a:hover {text-decoration: underline;}
+#roksearch_results a {text-decoration: none;}
+#roksearch_results a.mustardbutton {color: #000000;
+    margin-bottom: 14px;
+    padding: 6px;}
 #roksearch_results .roksearch_odd {padding: 15px;position: relative;}
 #roksearch_results .roksearch_even {padding: 15px;position: relative;}
-#roksearch_results .roksearch_odd-hover h3, #roksearch_results .roksearch_even-hover h3 {padding-left: 12px;}
+#roksearch_results .roksearch_odd-hover h3, #roksearch_results .roksearch_even-hover h3 {}
 .results ol.list {padding-left: 30px;margin-top: 0;}
 .results ol.list h4 {border: 0;margin-top: 0;margin-bottom: 0;}
 .results ol.list li {padding: 10px 5px;margin-bottom: 5px;}

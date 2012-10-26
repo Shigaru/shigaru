@@ -62,7 +62,7 @@ class modRokajaxsearchHelper {
 					'imagesize': '".$params->get('image_size', 'MEDIUM')."',
 					'safesearch': '".$params->get('safesearch', 'MODERATE')."',
 					'search': '".JText::_('SEARCH')."',
-					'readmore': '".JText::_('READMORE')."',
+					'readmore': '".JText::_('ver video')."',
 					'noresults': '".JText::_('NORESULTS')."',
 					'advsearch': '".JText::_('ADVSEARCH')."',
 					'page': '".JText::_('PAGE')."',

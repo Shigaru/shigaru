@@ -31,14 +31,14 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 <form name="rokajaxsearch" id="rokajaxsearch" class="<?php echo $theme; ?>" action="<?php echo JURI::Base()?>" method="get">
 <div class="rokajaxsearch <?php echo $params->get('moduleclass_sfx'); ?>">
 	<div class="roksearch-wrapper">
-		<input id="roksearch_search_str" name="searchword" type="text" placeholder="Search bands, songs, authors, we have 3.500 videos" class="inputbox search" value="<?php echo JText::_('SEARCH'); ?>" />
+		<input id="roksearch_search_str" name="pattern" type="text" placeholder="Search bands, songs, authors, we have 3.500 videos" class="inputbox search" value="<?php echo JText::_('SEARCH'); ?>" />
 	</div>
 	<input type="hidden" name="searchphrase" value="<?php echo $params->get("searchphrase")?>"/>
 	<input type="hidden" name="limit" value="<?php echo $limit; ?>" />
-	<input type="hidden" name="ordering" value="<?php echo $params->get("ordering")?>" />
-	<input type="hidden" name="view" value="search" />
-	<input type="hidden" name="Itemid" value="99999999" />
-	<input type="hidden" name="option" value="com_search" />
+	<input type="hidden" name="order" value="<?php echo $params->get("ordering")?>" />
+	<input type="hidden" name="task" value="displayresults" />
+	<input type="hidden" name="Itemid" value="28" />
+	<input type="hidden" name="option" value="com_hwdvideoshare" />
 	<?php if (($websearch || $blogsearch || $imagesearch || $videosearch) && $api): ?>
 		<div class="search_options">
 			<label style="float: left; margin-right: 8px">

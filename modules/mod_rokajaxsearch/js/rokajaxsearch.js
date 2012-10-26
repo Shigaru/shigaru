@@ -286,12 +286,12 @@ var RokAjaxSearch = new Class({
                             delay: 200,
                             data: {
                                 'type': 'raw',
-                                'option': 'com_search',
-                                'view': 'search',
-                                'searchphrase': this.options.phrase,
-                                'ordering': this.options.ordering,
+                                'option': 'com_hwdvideoshare',
+                                'task':'displayresults',
+                                'pattern': this.options.phrase,
+                                'order': this.options.ordering,
                                 'limit': this.options.limit,
-                                'searchword': this.inputBox.value.replace(/\"/g, ''),
+                                'pattern': this.inputBox.value.replace(/\"/g, ''),
                                 'tmpl': 'component',
                                 'r': $time()
                             },
@@ -452,10 +452,10 @@ var RokAjaxSearch = new Class({
                                 var c = new Element('div', {
                                     'class': this.rows[i % 2] + ' png'
                                 });
-                                var im = new Element('img').setProperty('src', q.getElement('.searchResultThumb img')[0].getProperty('src')).injectInside(c);
+                                q.getElement('.searchResultThumb')[0].injectInside(c);
                                 var d = new Element('a').setProperty('href', b).injectInside(c);
                                 //console.log(q.getElement('#videosearchtitle'));
-                                var e = new Element('h3').setHTML(q.getElement('#videosearchtitle')[0].getText()).injectInside(d);
+                                var e = new Element('h3').setHTML(q.getElement('.boxwhite .fleft .mbot12 .mbot20 span')[0].getText()).injectInside(d);
                                 this.els.push(c);
                                 c.addEvents({
                                     'mouseenter': function () {
@@ -468,19 +468,22 @@ var RokAjaxSearch = new Class({
                                     }
                                 });
                                 var f = '';
+                                var frf = '';
+								q.getElements('.boxwhite .fleft .mbot12 .mbot20').each(function(el, i){
+										frf = el.getElements('a')[1];
+									});
+                                //frf = frf[1].replace(',','');
                                 if (this.options.showdescription) f = q.getElement('#videosearchusername')[0].getText();
                                 var g = new Element('span').setHTML(f).injectAfter(d);
                                 if (this.options.showcategory) {
-                                    var h = new Element('span', {
-                                        'class': 'small'
-                                    }).setHTML('videossss').injectAfter(d);
-                                    var k = new Element('br').injectAfter(h)
+                                    frf.addClass('small').injectAfter(d);
+                                    //var k = new Element('br').injectAfter(h)
                                 }
                                 if (this.options.showreadmore) {
                                     d = new Element('a', {
                                         'class': 'clr'
-                                    }).setProperty('href', b).setHTML(this.options.readmore).injectAfter(g);
-                                    if (this.options.showdescription) k = new Element('br').injectAfter(g)
+                                    }).setProperty('class','topbuttons mustardbutton').setProperty('href', b).setHTML(this.options.readmore).injectAfter(g);
+                                    new Element('br').setProperty('class','clear').injectAfter(g)
                                 }
                                 var l = new Element('div', {
                                     'class': 'roksearch_result_wrapper1 png'
@@ -843,14 +846,14 @@ window.addEvent((window.webkit) ? 'load' : 'domready', function() {
 					'imagesize': 'MEDIUM',
 					'safesearch': 'MODERATE',
 					'search': ' Search...',
-					'readmore': ' Read more...',
+					'readmore': ' View video',
 					'noresults': ' No results',
 					'advsearch': ' Advanced search',
 					'page': ' Page',
 					'page_of': ' of',
-					'searchlink': '/index.php?option=com_search&amp;view=search',
-					'advsearchlink': '/index.php?option=com_search&amp;view=search',
-					'uribase': 'http://test.shigaru.com/',
+					'searchlink': '/index.php?option=com_hwdvideoshare&task=displayresults',
+					'advsearchlink': '/index.php?option=com_hwdvideoshare&task=displayresults',
+					'uribase': 'http://test.shigaru.com',
 					'limit': '10',
 					'perpage': '5',
 					'ordering': 'newest',

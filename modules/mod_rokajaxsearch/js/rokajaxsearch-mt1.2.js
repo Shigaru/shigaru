@@ -348,7 +348,7 @@ var RokAjaxSearch = new Class({
                         } else {
                             this.timer = n.get.delay(500, n, [{
                                 'type': 'raw',
-                                'option': 'com_search',
+                                'option': 'com_hwdvideoshare&task=displayresults',
                                 'view': 'search',
                                 'searchphrase': this.options.phrase,
                                 'ordering': this.options.ordering,
