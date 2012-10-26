@@ -127,6 +127,8 @@ padding: 16px 30px;border-right:1px solid #d6d6d6;font-size: 91%;-moz-box-shadow
 .workarea div.tab_wrapper a.jcl_comment:hover{ color:#9C5352; text-decoration:underline;}
 .workarea div.tab_wrapper h6 a{ text-decoration:none; margin-bottom:6px;width: 95%;}
 .workarea div.tab_wrapper ul li img{margin:0 12px 0 0;}
+.workarea div#the_most_wrapper ul li img,.videoplayer div.tab_wrapper ul li img{-moz-border-radius:0px 0px 0px 0px;-webkit-border-radius:0px 0px 0px 0px;border-radius:0px 0px 0px 0px; height:75px;}
+.videoplayer div.tab_wrapper ul li img{height:72px;}
 .workarea div.tab_wrapper ul li {overflow: hidden;width: 100%;}
 .workarea div.video_activity{}
 .workarea div.video_activity div.video_activity_header{overflow: auto;width: 100%;}
@@ -260,7 +262,7 @@ padding-left: 27px;
 margin: 20px 0 0 20px;
 background: url("../images/sprite-search-results.png") no-repeat scroll 0 0 transparent;}
 .searchwrapper{}
-#resultwrapper{margin-bottom:36px; float:left;width:77%;}
+.searchwrapper #resultwrapper{margin-bottom:36px; float:left;width:77%;}
 .searchwrapper input[type="text"], .searchwrapper input[type="password"],.searchwrapper textarea, .searchwrapper select {
 margin-left: 5px;
 border: 1px solid #DDD;
