@@ -102,7 +102,7 @@ $ueConfig['autoAddConnections']='1';
 $ueConfig['connection_categories']='Friend
 Co Worker';
 $ueConfig['translations_debug']='0';
-$ueConfig['enableSpoofCheck']='1';
+$ueConfig['enableSpoofCheck']='0';
 $ueConfig['noVersionCheck']='0';
 $ueConfig['version']='1.7';
 ?>

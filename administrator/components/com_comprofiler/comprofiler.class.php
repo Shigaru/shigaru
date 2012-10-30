@@ -2141,13 +2141,14 @@ function cbRegAntiSpamCheck( $mode = 1 ) {
 			$i					=	2;
 		}
 	}
+	/*
 	if ( $i == 2 ) {
 		if ( $mode == 2 ) {
 			return false;
 		}
 		_cbExpiredSessionJSterminate( 200 );
 		exit;
-	}
+	}*/
 	return true;
 }
 
@@ -2193,13 +2194,13 @@ function cbAntiSpamCheck( $autoBack = true ) {
 	if ( ( count( $parts0 ) == 3 ) && ( count( $parts1 ) == 3 ) ) {
 		$validate			=	cbGetAntiSpams( $parts0[2], $parts1[2] );
 	}
-	if ( ( count( $parts0 ) != 3 ) || ( count( $parts1 ) != 3 ) || ( $validateValuePost !== $validate[0] ) || ( $validateValueCookie !== $validate[1] ) ) {
+	/*if ( ( count( $parts0 ) != 3 ) || ( count( $parts1 ) != 3 ) || ( $validateValuePost !== $validate[0] ) || ( $validateValueCookie !== $validate[1] ) ) {
 		if ( $autoBack ) {
 			_cbExpiredSessionJSterminate();
 		} else {
 			return _UE_SESSION_EXPIRED . ' ' . _UE_PLEASE_REFRESH;
 		}
-	}
+	}*/
 	return null;
 }
 function cbSpamProtect( $userid, $count ) {
