@@ -2215,10 +2215,10 @@ EOT
 	function fieldClass( &$field, &$user, &$postdata, $reason ) {
 		global $_CB_framework;
 		// simple spoof check security
-		if ( ( ! cbSpoofCheck( 'fieldclass', 'POST', 2 ) ) || ( ( $reason == 'register' ) && ( $_CB_framework->getUi() == 1 ) && ! cbRegAntiSpamCheck( 2 ) ) ) {
+		/*if ( ( ! cbSpoofCheck( 'fieldclass', 'POST', 2 ) ) || ( ( $reason == 'register' ) && ( $_CB_framework->getUi() == 1 ) && ! cbRegAntiSpamCheck( 2 ) ) ) {
 			echo '<span class="cb_result_error">' . _UE_SESSION_EXPIRED . "</span>";
 			exit;
-		}
+		}*/
 
 		return false;
 	}
