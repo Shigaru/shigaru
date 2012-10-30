@@ -499,11 +499,10 @@ class CBfield_password extends CBfield_text {
 		global $ueConfig, $_CB_OneTwoRowsStyleToggle;
 
 		$results								=	null;
-
+		if($reason != 'edit'){
 		if ( $output == 'htmledit' ) {
 
 			if ( ( $field->name != 'password' ) || ( $reason != 'register' ) || ! ( isset( $ueConfig['emailpass'] ) && ( $ueConfig['emailpass'] == "1" ) ) ) {
-
 				$verifyField					=	new moscomprofilerFields( $field->_db );
 				foreach ( array_keys( get_object_vars( $verifyField ) ) as $k ) {
 					$verifyField->$k			=	$field->$k;
@@ -524,13 +523,14 @@ class CBfield_password extends CBfield_text {
 	
 				unset( $verifyField );
 
-			} else {
+			} else{
 				// case of "sending password by email" at registration time for main password field:
 				$results						=	parent::getFieldRow( $field, $user, $output, $formatting, $reason, $list_compare_types );
 			}
 		} else {
 			$results							=	parent::getFieldRow( $field, $user, $output, $formatting, $reason, $list_compare_types );
 		}
+	}
 		return $results;
 	}
 	/**
