@@ -200,7 +200,8 @@ jQuery(document).ready(function($){
 		transformPageLinks();
 		transformOrderBys();
 		transformFiltersLinks();
-		transformLimitBox();		
+		transformLimitBox();	
+		transformSearchTypeLinks();	
 	});
 	
 	function transformOrderBys(){
@@ -247,6 +248,33 @@ jQuery(document).ready(function($){
 				});
 	}
 	
+	function composeSearchTypeUrl(e){
+		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
+		var oSearchType = '';
+		if(oCurrentUrl.indexOf('?searchcategory')>0 || oCurrentUrl.indexOf('?')<0)
+			oSearchType = '?searchcategory=';
+				else
+					oSearchType = '&searchcategory=';		
+		oCurrentUrl = oCurrentUrl.replace(/[?&]searchcategory(=[^&]*)?|^searchcategory(=[^&]*)?&?/, oSearchType+jQuery(e.target).attr('id'));
+		if(oCurrentUrl.indexOf('searchcategory=')<0){
+			oCurrentUrl = oCurrentUrl.replace('#','');
+			oCurrentUrl += oSearchType+jQuery(e.target).attr('id');
+		}
+		return oCurrentUrl;
+	}
+	
+	function transformSearchTypeLinks(){	
+			jQuery(opts.searchTypeLinks).click(function(e){
+					jQuery(opts.searchTypeLinks).parent().removeClass('styledCheckboxChecked');
+					jQuery(e.target).parent().addClass('styledCheckboxChecked');
+					composeFiltersUrl();
+					getPageResults(composeSearchTypeUrl(e));
+					jQuery('#resultfilters .filter').hide();
+					jQuery('#resultfilters .'+e.target.id).show();
+				});
+	}
+	
 	function transformFiltersLinks(){	
 			jQuery(opts.filtersLinks).click(function(e){
 					if(!jQuery(e.target).is('input')){
@@ -282,11 +310,28 @@ jQuery(document).ready(function($){
 			oCurrentUrl = oCurrentUrl.replace(/[?&]daterange(=[^&]*)?|^daterange(=[^&]*)?&?/, '');
 			oCurrentUrl = oCurrentUrl.replace(/[?&]intrument_id(=[^&]*)?|^intrument_id(=[^&]*)?&?/, '');
 			oCurrentUrl = oCurrentUrl.replace(/[?&]video_length(=[^&]*)?|^video_length(=[^&]*)?&?/, '');
-		}	
+		}
+	
+	function cleanUpUserFilters(){
+			oCurrentUrl = window.location.href;
+			oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+			oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
+			oCurrentUrl = oCurrentUrl.replace('#','');
+			oCurrentUrl = oCurrentUrl.replace('?0','');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]start(=[^&]*)?|^start(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]limitstart(=[^&]*)?|^limitstart(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]cb_sex(=[^&]*)?|^cb_sex(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]cb_agegroup(=[^&]*)?|^cb_agegroup(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]cb_country(=[^&]*)?|^cb_country(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]instrumentsplay(=[^&]*)?|^instrumentsplay(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]instrumentlevel(=[^&]*)?|^instrumentlevel(=[^&]*)?&?/, '');
+			oCurrentUrl = oCurrentUrl.replace(/[?&]languagesspoken(=[^&]*)?|^languagesspoken(=[^&]*)?&?/, '');
+		}		
 	
 	function composeFiltersUrl(e){
 		cleanUpFilters();
-		jQuery('#resultfilters .filter').each(function(){
+		cleanUpUserFilters();
+		jQuery('#resultfilters .filter:visible').each(function(){
 			var oParamName = '';
 			if(oCurrentUrl.indexOf('?')<0)
 				oParamName = '?'+jQuery(this).attr('id')+'=';
@@ -368,7 +413,11 @@ jQuery(document).ready(function($){
 				oCurrentUrl = paramUrl.replace('&ajax=yes','');
 				oCurrentUrl = oCurrentUrl.replace('ajax_search','displayresults');
 				oCurrentUrl = oCurrentUrl.replace('#','');	 
-				window.history.pushState({"html":data,"pageTitle":document.title},"", oCurrentUrl);
+				if(window.history.pushState)
+					window.history.pushState({"html":data,"pageTitle":document.title},"", oCurrentUrl);
+					else
+						window.location.href = oCurrentUrl;
+					
 				var oPosition = jQuery(opts.targetDiv).position();	  
 				jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');	  
 				
@@ -383,6 +432,7 @@ jQuery(document).ready(function($){
 	targetDiv:'#resultwrapper',
 	orderLinks:'#resultordering a',
 	sortDefault: 'relevance',
+	searchTypeLinks:'.search-results-filter-categories p label',
 	filtersLinks: '#resultfilters .filter .widget input,#resultfilters .filter .widget a',
 	filtersSelects: '#resultfilters .filter .widget select',
 	hideTabs:false

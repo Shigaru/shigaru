@@ -356,6 +356,8 @@ class hwd_vs_usrfunc
 			//band and songs stuff
 			$band = Jrequest::getVar( 'originalband', '' );
 			$band_id = hwd_vs_tools::checkBand($band);
+			//var_dump($band_id);
+			//exit();
 			$song = Jrequest::getVar( 'songtitle', '' );
 			$song_id = hwd_vs_tools::checkSong($song);
 			if($band_id==null){

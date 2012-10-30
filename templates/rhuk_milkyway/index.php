@@ -178,7 +178,7 @@ function freichatx_get_hash($ses){
 <?php		
       if ($user->get('guest') != 1 && $user->lastvisitDate == "0000-00-00 00:00:00")
       {
-         echo 'amos pichica';       
+         //echo 'amos pichica';       
       }		
 ?>      
 <jdoc:include type="message" />

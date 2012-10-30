@@ -84,7 +84,7 @@ class hwd_vs_search
      function initSearch($index='indexVideos',$sortingfield='relevance')
     {
         if(!$this->_sphinx)
-			hwd_vs_search::init();
+			hwd_vs_search::init($index);
         hwd_vs_search::setOrder($sortingfield);
     }
      
@@ -141,12 +141,70 @@ class hwd_vs_search
         return $result;
     }
     
+    /**
+     * Perform search
+     * @param string $query
+     * @return boolean
+     */
+    function searchUsers($query,$limitstart, $limitv,$sort)
+    {
+       hwd_vs_search::initSearch('indexUsers');
+		$limit              = isset($_REQUEST['limit']) ? (int) $_REQUEST['limit'] : 50 ;
+		if(0 === $limit) {
+			$limit = 1000;
+		}
+		// clean up our search text
+		$text = trim( $query );
+		$searchText = $text;
+		$this->_query = $searchText;
+		//hwd_vs_search::setFilters($level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
+		hwd_vs_search::setLimit($limitstart, $limitv);
+        $result = $this->_sphinx->Query($searchText, $this->_index);
+        /*echo '<pre>';
+		var_dump($result);
+		echo '</pre>';*/
+        if ( $result === false ) {
+            echo "Query failed: " . $this->_sphinx->GetLastError() . ".\n";
+            //return false;
+	} else if ( $this->_sphinx->GetLastWarning() ) {
+            echo "WARNING: " . $this->_sphinx->GetLastWarning() . "\n";
+            //return false;
+        }
+
+        if ( ! empty($result["matches"]) ) {
+            $this->_matches = $result["matches"];
+	}
+        $this->_searchTime = $result['time'];
+        $this->_total = $result['total_found'];
+       
+        return $result;
+    }
+    
+    function getDisplayUserResults($matchingVideos){
+		$db =& JFactory::getDBO();
+        $user   =& JFactory::getUser();
+		$ids = hwd_vs_search::getIds($matchingVideos);
+        $results = array();
+        if (!empty($ids)) {
+			$orderVideos = " ORDER BY FIELD(p.user_id, ". implode(', ', $ids) . ")";	
+            $query ='SELECT DISTINCT u.registerDate,u.lastvisitDate,u.id as id,UNIX_TIMESTAMP(u.registerDate) AS date_added,u.name,u.username,u.email,p.id,p.user_id,p.firstname, 
+            p.cb_youragegroup,p.avatar,p.cb_fname, p.cb_lname, p.cb_country,p.cb_language, p.cb_sex, p.cb_countryiam, p.cb_cityiam, 
+			p.cb_instruplay, p.cb_instruequip, p.cb_instrulearn,p.cb_instrusing,p.cb_instruteach
+			FROM jos_comprofiler AS p LEFT JOIN jos_users AS u ON p.user_id = u.id'
+			. ' WHERE p.user_id in ( ' . implode(', ',$ids) . ')'
+            . $orderVideos
+            ;
+            $db->setQuery($query);
+            $results = $db->loadObjectList();
+		}
+            return $results;
+		
+		}
+    
     function getDisplayVideoResults($matchingVideos,$sort=0){
 		$db =& JFactory::getDBO();
         $user   =& JFactory::getUser();
 		$ids = hwd_vs_search::getIds($matchingVideos);
-		
-		
         $results = array();
         if (!empty($ids)) {
 			$orderVideos ='';

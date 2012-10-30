@@ -745,7 +745,7 @@ class hwd_vs_core
 		$intrument_id= JRequest::getVar( 'intrument_id', '' );
 		$video_length= JRequest::getVar( 'video_length', '' );
 		$rlimit		 = JRequest::getInt( 'limit', '20' );
-		
+		$searchtype	 = JRequest::getVar( 'searchcategory', 'videos' );
         if (empty($vpp) || $vpp == 0)
         {
         	$limitv     = intval($c->vpp);
@@ -772,26 +772,52 @@ class hwd_vs_core
 		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'search.php');
         $whereVideos = hwd_vs_search::search_perform_videos();
         $whereGroups = hwd_vs_search::search_perform_groups();
-
-		
-
-		
-		
-		
-		$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $rlimit,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
-		$totalVideos = $matchingVideos['total_found'];
-		$_searchTime = $matchingVideos['time'];
-		$matchingVideos = hwd_vs_search::getDisplayVideoResults($matchingVideos,$sort);
-		jimport('joomla.html.pagination');
-		$videoNav = new JPagination( $totalVideos, $limitstart, $rlimit );
-
+		if($searchtype == 'videos'){
+			$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $rlimit,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
+			$totalVideos = $matchingVideos['total_found'];
+			$_searchTime = $matchingVideos['time'];
+			$matchingVideos = hwd_vs_search::getDisplayVideoResults($matchingVideos,$sort);
+			jimport('joomla.html.pagination');
+			$videoNav = new JPagination( $totalVideos, $limitstart, $rlimit );
 			$totalGroups = 0;
 			$groupNav = null;
 			$matchingGroups = null;
-		
-
-        // sent out
-        hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax);
+			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype);
+		}else if($searchtype == 'scomments'){
+			$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $rlimit,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
+			$totalVideos = $matchingVideos['total_found'];
+			$_searchTime = $matchingVideos['time'];
+			$matchingVideos = hwd_vs_search::getDisplayVideoResults($matchingVideos,$sort);
+			jimport('joomla.html.pagination');
+			$videoNav = new JPagination( $totalVideos, $limitstart, $rlimit );
+			$totalGroups = 0;
+			$groupNav = null;
+			$matchingGroups = null;
+			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype);
+			
+		}else if($searchtype == 'users'){
+			$matchingVideos = hwd_vs_search::searchUsers($pattern,$limitstart, $rlimit,$sort);
+			$totalVideos = $matchingVideos['total_found'];
+			$_searchTime = $matchingVideos['time'];
+			$matchingVideos = hwd_vs_search::getDisplayUserResults($matchingVideos,$sort);
+			jimport('joomla.html.pagination');
+			$videoNav = new JPagination( $totalVideos, $limitstart, $rlimit );
+			$totalGroups = 0;
+			$groupNav = null;
+			$matchingGroups = null;
+			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype);
+		}else if($searchtype == 'all'){
+			$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $rlimit,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
+			$totalVideos = $matchingVideos['total_found'];
+			$_searchTime = $matchingVideos['time'];
+			$matchingVideos = hwd_vs_search::getDisplayVideoResults($matchingVideos,$sort);
+			jimport('joomla.html.pagination');
+			$videoNav = new JPagination( $totalVideos, $limitstart, $rlimit );
+			$totalGroups = 0;
+			$groupNav = null;
+			$matchingGroups = null;
+			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype);
+		}
     }
     /**
      * Query SQL for all accessible category data

@@ -290,6 +290,7 @@ padding: 5px;
     width: 450px;}
 #resultfilters .filter{min-height: 43px;
 margin-bottom: 15px;}
+#resultfilters .users{display:none;}
 #resultfilters label {
 display: block;
 margin-bottom: 3px;

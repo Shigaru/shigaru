@@ -32,30 +32,22 @@ var oSearchParams = {
 					<input type="hidden" name="task"   value="search" />
 				</div>	
 				<div class="search-results-filter-categories fleft" style="display: block; ">
-					<p class="search-results-categories search-results-category-default_collection">
-						<input name="search-results-category" type="checkbox" checked="" id="search-results-input-category-default_collection" value="default_collection" style="position: absolute; left: -9999px; ">
+					<!--<p class="search-results-categories search-results-category-default_collection">
 						<span class="styledCheckbox styledCheckboxChecked" for="search-results-input-category-default_collection">
-							<label for="search-results-input-category-default_collection">Videos </label>
+							<label id="videos" for="search-results-input-category-default_collection">Videos </label>
 						</span>
 					</p>
 					<p class="search-results-categories search-results-category-smartphones">
-						<input name="search-results-category" type="checkbox" id="search-results-input-category-smartphones" value="smartphones" style="position: absolute; left: -9999px; ">
 						<span class="styledCheckbox" for="search-results-input-category-smartphones">
-							<label for="search-results-input-category-smartphones">Comments </label>
+							<label id="scomments" for="search-results-input-category-smartphones">Comments </label>
 						</span>
 					</p>
 					<p class="search-results-categories search-results-category-help search-results-categories-last">
-						<input name="search-results-category" type="checkbox" id="search-results-input-category-help" value="help" style="position: absolute; left: -9999px; ">
 						<span class="styledCheckbox" for="search-results-input-category-help">
-							<label for="search-results-input-category-help">Users</label>
+							<label id="users" for="search-results-input-category-help">Users</label>
 						</span>
 					</p>
-					<p class="search-results-categories search-results-category-help search-results-categories-last">
-						<input name="search-results-category" type="checkbox" id="search-results-input-category-help" value="help" style="position: absolute; left: -9999px; ">
-						<span class="styledCheckbox" for="search-results-input-category-help">
-							<label for="search-results-input-category-help">All</label>
-						</span>
-					</p>
+					-->
 				</div>		
 			</form>
 			
@@ -71,7 +63,7 @@ var oSearchParams = {
 			<div>
 				<h4>Filters</h4>
 			</div>	
-			<div id="level_id" class="filter filtercheck">
+			<div id="level_id" class="filter filtercheck videos">
 				<label>Difficulty level</label>
 				<div class="widget">
 					<label>
@@ -91,7 +83,7 @@ var oSearchParams = {
 					</label>
 				</div>
 			</div>
-			<div id="category_id" class="filter filtercheck">
+			<div id="category_id" class="filter filtercheck videos">
 				<label>Type of video</label>
 				<div class="widget">
 					<label for="category_id_default">
@@ -108,25 +100,25 @@ var oSearchParams = {
 					</label>
 				</div>
 			</div>
-			<div id="genre_id" class="filter filtercombo">
+			<div id="genre_id" class="filter filtercombo videos">
 				<label>
 				{$smarty.const._HWDVIDS_SHIGARU_GENRE}
 				</label>
-				<div id="builttype" class="widget">
+				<div  class="widget">
 					{$genresCombo}
-				</div>
+			</div>
 				
 			</div>
-			<div id="language_id" class="filter filtercombo">
+			<div id="language_id" class="filter filtercombo videos">
 				<label>
 				{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}
 				</label>
-				<div id="builttype" class="widget">
+				<div  class="widget">
 					{$languagesCombo}
 				</div>
 				
 			</div>
-			<div id="intrument_id" class="filter filtercombo">
+			<div id="intrument_id" class="filter filtercombo videos">
 				<label>
 				{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENT}
 				</label>
@@ -136,7 +128,7 @@ var oSearchParams = {
 				
 			</div>
 			
-			<div id="daterange" class="filter filtercheck">
+			<div id="daterange" class="filter filtercheck videos">
 				<label>
 				Date
 				</label>
@@ -156,7 +148,7 @@ var oSearchParams = {
 				</div>
 				
 			</div>
-			<div id="video_length" class="filter filtercheck">
+			<div id="video_length" class="filter filtercheck videos">
 				<label>
 				Duration
 				</label>
@@ -175,6 +167,86 @@ var oSearchParams = {
 					</label>
 				</div>			
 			</div>
+			
+		<!--	<div id="cb_sex" class="filter filtercheck users">
+				<label>Sex</label>
+				<div class="widget">
+					<label>
+					<input type="radio" value="1"><a href="#">Male</a>
+					</label>
+					<label>
+					<input type="radio" value="2"><a href="#">Female</a>
+					</label>
+					<label>
+					<input type="radio" checked="checked" value=""><a href="#">Male and female</a>
+					</label>
+				</div>
+			</div>
+			<div id="cb_agegroup" class="filter filtercombo users">
+				<label>
+				Age between:
+				</label>
+				<div  class="widget">
+					<select name="cb_youragegroup" id="cb_youragegroup" class="required inputbox">
+						<option value=""> </option>
+						<option value="10 - 15" >10 - 15</option>
+						<option value="15 - 20" >15 - 20</option>
+						<option value="20 - 25" >20 - 25</option>
+						<option value="25 - 30" >25 - 30</option>
+						<option value="30 - 35" >30 - 35</option>
+						<option value="35 - 40" >35 - 40</option>
+						<option value="40 - 45" >40 - 45</option>
+						<option value="45 - 50" >45 - 50</option>
+						<option value="50 - 55" >50 - 55</option>
+						<option value="55 - 60" >55 - 60</option>
+						<option value="60 - 65" >60 - 65</option>
+						<option value="65 - 70" >65 - 70</option>
+						<option value="70 - 75" >70 - 75</option>
+						<option value="75 - 80" >75 - 80</option>
+						<option value="80 - 85" >80 - 85</option>
+						<option value="85 - 90" >85 - 90</option>
+						<option value="90 - 95" >90 - 95</option>
+						<option value="95 -100" >95 -100</option>
+						<option value="100 - 105">100 - 105</option>
+					</select>
+					<label>
+					<input type="checkbox" value="1"><a href="#">with picture</a>
+					</label>
+				</div>
+			</div>	
+			<div id="cb_country" class="filter filtercombo users">
+				<label>
+				Country
+				</label>
+				<div  class="widget">
+					{$countries}
+				</div>
+			</div>	
+			<div id="instrumentsplay" class="filter filtercombo users">
+				<label>
+				Plays
+				</label>
+				<div  class="widget">
+					{$instrumentsPlay}
+				</div>	
+			</div>
+			<div id="instrumentlevel" class="filter filtercombo users">
+				<label>
+				Level
+				</label>
+				<div  class="widget">
+					{$levelsCombo}
+				</div>	
+			</div>
+			<div id="languagesspoken" class="filter filtercombo users">
+				<label>
+				Speaks
+				</label>
+				<div  class="widget">
+					{$languagesspoken}
+				</div>	
+			</div>
+			-->
 		</div>	
 		
 		<div id="resultwrapper">
@@ -205,7 +277,7 @@ var oSearchParams = {
 								{if $totalvideos gt 0}
 										<div class="fright mright12">
 											<label for="limit">
-												<?php echo JText::_( 'Display Num' ); ?>
+												Display
 											</label>
 											{$vpageLimits}
 										</div>

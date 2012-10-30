@@ -1380,6 +1380,52 @@ class hwd_vs_tools {
 		}
 		return $code;
     }
+    
+    /**
+     * Generates the array of information for a standard video list from sql queries
+     *
+     * @param array  $rows  the list from a standard sql queries
+     * @param string $thumbclass(optional)  the class for the thumbnail images
+     * @param int    $thumbwidth(optional)  the thumbnail width
+     * @param int    $thumbheight(optional)  the thumbnail height
+     * @return       $code  the array prepared for Smarty template
+     */
+    function generateUserListFromSql( $rows, $thumbclass=null, $thumbwidth=null, $thumbheight=null, $hwdvs_itemid=null, $onclick_js=null, $tooltip=null, $or_title_trunc=null, $or_descr_trunc=null, $lightbox=false)
+    {
+		global $hwdvsTemplateOverride;
+		$acl= & JFactory::getACL();
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		$c = hwd_vs_Config::get_instance();
+
+		for ($i=0, $n=count($rows); $i < $n; $i++)
+		{
+			$row = $rows[$i];
+
+			
+
+			if (!isset($row->avatar)) {                                $code->avatar = null; }
+			if (!isset($row->username)) {                              $row->username = ''; }
+			if (!isset($row->name)) {                                  $row->name = ''; }
+
+			$code[$i]->avatar = hwd_vs_tools::generateAvatar($row->user_id, $row->avatar, $k, $width, $height, $class); 
+			$code[$i]->userlink = hwd_vs_tools::generateUserFromID($row->user_id, $row->username, $row->name); 
+			//if ($hwdvsTemplateOverride['show_timesince']) {            $code[$i]->timesince = hwd_vs_tools::generateTimeSinceUpload($row->date_uploaded); }
+			$code[$i]->member_since = strftime("%l%P - %b %e, %Y", strtotime($row->registerDate));
+			$code[$i]->last_login = strftime("%l%P - %b %e, %Y", strtotime($row->lastvisitDate));
+			$code[$i]->cb_age = $row->cb_youragegroup;
+			$code[$i]->cb_country = $row->cb_country;
+			$code[$i]->cb_language = $row->cb_language;
+			$code[$i]->instruments = $row->cb_instruplay.''.$row->cb_instrulearn;
+			$code[$i]->teacher = $row->cb_instruteach;
+			$code[$i]->cb_favmusicgenre = $row->cb_favmusicgenre;
+			//if ($hwdvsTemplateOverride['show_tags']) {                 $code[$i]->tags	= hwd_vs_tools::generateTagListString($row->tags); }
+			
+			$code[$i]->k = $k;
+			$k = 1 - $k;
+		}
+		return $code;
+    }
+    
     /**
      * Generates the array of information for a standard video list from sql queries
      *
@@ -1936,20 +1982,22 @@ $app = & JFactory::getApplication();
 		$db =& JFactory::getDBO();
 		$db->setQuery("SELECT DISTINCT ".$fields." from #__".$tablename." ORDER BY ".$orderby.";"
 		                );
+		         
 		if($selectquestion)                
 			$options[] = JHTML::_('select.option', '', constant('_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT'));                
 		$mitems = $db->loadObjectList();
 		  foreach($mitems as $mitem) :
 			$options[] = JHTML::_('select.option', $mitem->a, constant($mitem->b));
 		  endforeach;
+		  
 		if($others)
-			$options[] = JHTML::_('select.option', 'OTHER', constant('_HWDVIDS_SHIGARU_SHIGAR_COMBO_OTHER'));      
+			$options[] = JHTML::_('select.option', 'OTHER', constant('_HWDVIDS_SHIGARU_SHIGAR_COMBO_OTHER')); 
+			   
 		$classCombo;
 		if($required)
 			$classCombo = 'class="inputbox required"';
 			else
 				$classCombo='class="inputbox"';
-			
 		  ## Create <select name="month" class="inputbox"></select> ##
 		  $code = JHTML::_('select.genericlist', $options, $elementid, $classCombo, 'value', 'text', $default);
 		
@@ -3129,7 +3177,7 @@ $app = & JFactory::getApplication();
      */
 	function checkSong($band) {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT label FROM #__hwdvidssongs AS a'; 
+		$query = 'SELECT id, label FROM #__hwdvidssongs AS a'; 
 		$query .= ' WHERE a.label ="'.$band.'"';
 		$db->setQuery($query);
 		$db->loadObjectList();
@@ -3202,7 +3250,7 @@ $app = & JFactory::getApplication();
      */
 	function checkBand($band) {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT label FROM #__hwdvidsbands AS a'; 
+		$query = 'SELECT id,label FROM #__hwdvidsbands AS a'; 
 		$query .= ' WHERE a.label ="'.$band.'"';
 		$db->setQuery($query);
 		$db->loadObjectList();

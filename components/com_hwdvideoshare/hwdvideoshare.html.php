@@ -493,7 +493,7 @@ class hwd_vs_html
     /**
      *
      */
-    function search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $searchterm, $category_id=0,$timetaken=0,$isAjax='no')
+    function search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $searchterm, $category_id=0,$timetaken=0,$isAjax='no',$searchtype='videos')
     {
 		global $Itemid, $smartyvs;
 		$c = hwd_vs_Config::get_instance();
@@ -520,29 +520,45 @@ class hwd_vs_html
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
-
+	
 		$smartyvs->assign("searchterm", $searchterm);
 		$smartyvs->assign("totalvideos", $totalvids);
 		$smartyvs->assign("timetaken", $timetaken);
-		$smartyvs->assign("categorySearchSelect", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, $category_id, _HWDVIDS_INFO_NOCATS, 1, "category_id", 0));
-		$smartyvs->assign("formurl", JRoute::_( 'index.php?option=com_hwdvideoshare&task=search&Itemid=28' ));
+		$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);
 		$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);				
-		$languagesCombo = hwd_vs_tools::generateVideoCombos('code as a, code as b','languages','id','language_id',true,false,true);	
+		$languagesCombo = hwd_vs_tools::generateVideoCombos('id as a, literalkey as b','hwdvidslanguages','id','languages',true,true,true);
 		$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);	
+		$languagesspoken = hwd_vs_tools::generateVideoCombos('id as a, literalkey as b','hwdvidslanguages','id','languagesspoken',true,true,true);
+		$countries = hwd_vs_tools::generateVideoCombos('id as a, literalkey as b','countries','id','countries',true,true,true);
+		$instrumentsPlay = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrumentplays',true,true,true);				
 		$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
 		$smartyvs->assign("genresCombo", $genresCombo);
 		$smartyvs->assign("languagesCombo", $languagesCombo);
+		$smartyvs->assign("languagesspoken", $languagesspoken);
+		$smartyvs->assign("instrumentsPlay", $instrumentsPlay);
+		$smartyvs->assign("countries", $countries);
+		$smartyvs->assign("levelsCombo", $levelsCombo);
+		$smartyvs->assign("categorySearchSelect", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, $category_id, _HWDVIDS_INFO_NOCATS, 1, "category_id", 0));
+		$smartyvs->assign("formurl", JRoute::_( 'index.php?option=com_hwdvideoshare&task=search&Itemid=28' ));
 		$uri = & JFactory::getURI();
 		$pageURL = $uri->toString();
 		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
 		$pageURL = str_replace("&ajax=yes", "", $pageURL);
 		$smartyvs->assign("pageURL", $pageURL);
-		if (count($matchingvids) > 0) {
-			/*echo '<pre>';
+		/*echo '<pre>';
 				var_dump($matchingvids[0]);
 			echo '</pre>';*/
+		if (count($matchingvids) > 0) {
+			
 			$smartyvs->assign("print_matchvids", 1);
+			if($searchtype == 'videos'){
 			$matchingvids = hwd_vs_tools::generateVideoListFromSql($matchingvids);
+			}else if($searchtype == 'users'){
+				$matchingvids = hwd_vs_tools::generateUserListFromSql($matchingvids);
+				/*echo '<pre>';
+				var_dump($matchingvids[1]);
+			echo '</pre>';*/
+				}
 			$smartyvs->assign("matchingvids", $matchingvids);
 
 			$vpage = $totalvids - $c->vpp;
@@ -588,7 +604,10 @@ class hwd_vs_html
 		
 		if($isAjax=='yes'){
 			$smartyvs->assign("mvempty", _HWDVIDS_INFO_NMVFILT);
-			$smartyvs->display('search_ajax.tpl');	
+			if($searchtype == 'videos')
+				$smartyvs->display('search_ajax.tpl');	
+				else if ($searchtype == 'users')
+					$smartyvs->display('search_ajax_users.tpl');	
 			exit;
 		}	
 		$smartyvs->display('search.tpl');	
