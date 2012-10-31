@@ -61,6 +61,7 @@ class plgSystemtheidea extends JPlugin {
         }
         if ($app->getUserState('plg_system_theidea', false)) {
             $this->_theidea = true;
+            $app->setUserState('plg_system_theidea', true);
             // user has already accepted cookies
             if($this->params->get('longtermcookie',0)) {
                 $accepted = JRequest::getVar('plg_system_theidea',false,'COOKIE');

@@ -330,7 +330,7 @@ jQuery(document).ready(function($){
 	
 	function composeFiltersUrl(e){
 		cleanUpFilters();
-		cleanUpUserFilters();
+		//cleanUpUserFilters();
 		jQuery('#resultfilters .filter:visible').each(function(){
 			var oParamName = '';
 			if(oCurrentUrl.indexOf('?')<0)

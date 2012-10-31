@@ -59,8 +59,9 @@ class plgSystemePrivacy extends JPlugin {
             setcookie('plg_system_eprivacy',$accepted,time()+60*60*24*30);
             return true;
         }
-        if ($app->getUserState('plg_system_eprivacy', false)) {
+        if (!$app->getUserState('plg_system_eprivacy', false)) {
             $this->_eprivacy = true;
+            $app->setUserState('plg_system_eprivacy', true);
             // user has already accepted cookies
             if($this->params->get('longtermcookie',0)) {
                 $accepted = JRequest::getVar('plg_system_eprivacy',false,'COOKIE');
