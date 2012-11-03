@@ -127,11 +127,9 @@ class hwd_vs_tp_YoutubeCom
 		{
 			$curl_handle=curl_init();
 			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
 			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
 			$buffer = curl_exec($curl_handle);
-			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
-			var_dump(curl_exec($curl_handle));
 			curl_close($curl_handle);
 
 			if (!empty($buffer))
@@ -226,7 +224,7 @@ class hwd_vs_tp_YoutubeCom
 		{
 			$curl_handle=curl_init();
 			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
 			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
 			$buffer = curl_exec($curl_handle);
 			curl_close($curl_handle);
@@ -310,7 +308,7 @@ class hwd_vs_tp_YoutubeCom
 		{
 			$curl_handle=curl_init();
 			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
 			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
 			$buffer = curl_exec($curl_handle);
 			curl_close($curl_handle);
@@ -373,10 +371,9 @@ class hwd_vs_tp_YoutubeCom
 		{
 			$curl_handle=curl_init();
 			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
 			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
 			$buffer = curl_exec($curl_handle);
-			var_dump($buffer);
 			curl_close($curl_handle);/*
 array(4) { 
 			[0]=> string(152) "" 
@@ -459,7 +456,7 @@ array(4) {
 		{
 			$curl_handle=curl_init();
 			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
 			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
 			$buffer = curl_exec($curl_handle);
 			curl_close($curl_handle);
@@ -482,7 +479,7 @@ array(4) {
 
 				$curl_handle=curl_init();
 				curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-				curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,15);
+				curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,25);
 				curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
 				$buffer = curl_exec($curl_handle);
 				curl_close($curl_handle);
