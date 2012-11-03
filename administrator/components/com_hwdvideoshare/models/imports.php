@@ -1225,7 +1225,7 @@ class hwdvids_BE_imports
 			$embeddump = $data[0];
 
 			$pos = strpos($embeddump, "p=");
-			$posNew = strpos($embeddump, "playlist?list=");
+			$posNew = strpos($embeddump, "&list=");
 
 			if ($pos === false && $posNew === false)
                         {
