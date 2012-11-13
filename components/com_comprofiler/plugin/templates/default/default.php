@@ -455,7 +455,7 @@ class CBListView_html_default extends cbListView {
 	 <div class="content_box">
 <h3><?php
 		if ( $this->totalIsAllUsers ) {
-			echo $_CB_framework->getCfg( 'sitename' ) . " " . _UE_HAS . " <strong>" . $this->total . "</strong> " . _UE_USERS;
+			//echo $_CB_framework->getCfg( 'sitename' ) . " " . _UE_HAS . " <strong>" . $this->total . "</strong> " . _UE_USERS;
 		} else {
 			echo "<strong>" . $this->total . "</strong> " . _UE_USERPENDAPPRACTION . ":";
 		}

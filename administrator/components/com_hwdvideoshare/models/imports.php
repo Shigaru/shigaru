@@ -1225,7 +1225,7 @@ class hwdvids_BE_imports
 			$embeddump = $data[0];
 
 			$pos = strpos($embeddump, "p=");
-			$posNew = strpos($embeddump, "&list=");
+			$posNew = strpos($embeddump, "playlist?list=");
 
 			if ($pos === false && $posNew === false)
                         {
@@ -1270,7 +1270,7 @@ class hwdvids_BE_imports
 
 				$curl_handle=curl_init();
 				curl_setopt($curl_handle,CURLOPT_URL,$playlist_url);
-				curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+				curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
 				curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
 				$buffer = curl_exec($curl_handle);
 				curl_close($curl_handle);
