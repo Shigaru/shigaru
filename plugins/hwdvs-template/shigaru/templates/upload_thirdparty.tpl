@@ -103,7 +103,7 @@
 				
 		}
 			jQuery('#category_id').change(function() {	
-				if(jQuery(this).val()=='1')
+				if(jQuery(this).val()!='3')
 				jQuery('.songtutorialfields').fadeIn(500,function () {
 				  });
 				else

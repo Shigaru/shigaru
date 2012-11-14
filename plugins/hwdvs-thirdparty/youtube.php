@@ -157,7 +157,7 @@ class hwd_vs_tp_YoutubeCom
 					$extra = stristr($fcontents, '</title>');
 					$titlelen = strlen($rest) - strlen($extra);
 					$gettitle = trim(substr($rest, 0, $titlelen));
-					$gettitle = substr($gettitle, 14);
+					//$gettitle = substr($gettitle, 14);
 
 					if (!empty($gettitle))
 					{
