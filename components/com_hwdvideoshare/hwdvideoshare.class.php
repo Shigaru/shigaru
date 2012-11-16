@@ -1990,6 +1990,8 @@ $app = & JFactory::getApplication();
 			$options[] = JHTML::_('select.option', $mitem->a, constant($mitem->b));
 		  endforeach;
 		  
+		if($tablename=='hwdvidslanguages') 
+			$options[] = JHTML::_('select.option', 'NONE', constant('UE_NOLANG')); 
 		if($others)
 			$options[] = JHTML::_('select.option', 'OTHER', constant('_HWDVIDS_SHIGARU_SHIGAR_COMBO_OTHER')); 
 			   

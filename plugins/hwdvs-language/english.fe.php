@@ -267,6 +267,8 @@ DEFINE("UE_CHINESE_HONG_KONG","Chinese (Hong Kong)");
 DEFINE("UE_CHINESE_SINGAPORE","Chinese (Singapore)");
 DEFINE("UE_CHINESE_TAIWAN","Chinese (Taiwan)");
 DEFINE("UE_ZULU","Zulu");
+DEFINE("UE_NOLANG","No language (Visual lesson)");
+
 
 //countries
 
