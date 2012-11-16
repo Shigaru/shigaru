@@ -4624,6 +4624,26 @@ $app = & JFactory::getApplication();
 		return $grows[0]->genre;
 	}	
     
+    
+    /**
+     * Generates multilanguage text for Video Genre
+     *
+     * @return       $genre
+     */
+    
+    function getVideoLanguage($lang_id){
+		
+		$db = & JFactory::getDBO();
+		$db->SetQuery( 'SELECT literalkey'
+								. ' FROM #__hwdvidslanguages'
+								. ' WHERE iso_code = "'.$lang_id.'"'
+								);
+		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		$grows = $db->loadObjectList();
+		return $grows[0]->literalkey;
+	}
+    
     /**
      * Generates the contextual details of the video
      *
@@ -4634,7 +4654,7 @@ $app = & JFactory::getApplication();
 		$oDetails->genre = constant(hwd_vs_tools::getVideoGenre($row->genre_id));
 		$oDetails->level = constant(hwd_vs_tools::getVideoLevel($row->level_id));
 		$oDetails->instrument = constant(hwd_vs_tools::getVideoInstrument($row->intrument_id));
-		$oDetails->language = constant($row->language_id);
+		$oDetails->language = constant(hwd_vs_tools::getVideoLanguage($row->language_id));
 		return $oDetails;
 		}
     

@@ -524,13 +524,13 @@ class hwd_vs_html
 		$smartyvs->assign("searchterm", $searchterm);
 		$smartyvs->assign("totalvideos", $totalvids);
 		$smartyvs->assign("timetaken", $timetaken);
-		$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);
-		$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);				
-		$languagesCombo = hwd_vs_tools::generateVideoCombos('id as a, literalkey as b','hwdvidslanguages','id','languages',true,true,true);
-		$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);	
-		$languagesspoken = hwd_vs_tools::generateVideoCombos('id as a, literalkey as b','hwdvidslanguages','id','languagesspoken',true,true,true);
+		$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','label','level_id',true,false,true);
+		$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','instrument','intrument_id',true,true,true);				
+		$languagesCombo = hwd_vs_tools::generateVideoCombos('id, iso_code as a, literalkey as b','hwdvidslanguages','id','language_id',true,true,true);
+		$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','genre','genre_id',true,true,true);	
+		$languagesspoken = hwd_vs_tools::generateVideoCombos('id, iso_code as a, literalkey as b','hwdvidslanguages','id','languagesspoken',true,true,true);
 		$countries = hwd_vs_tools::generateVideoCombos('id as a, literalkey as b','countries','id','countries',true,true,true);
-		$instrumentsPlay = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrumentplays',true,true,true);				
+		$instrumentsPlay = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','instrument','intrumentplays',true,true,true);				
 		$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
 		$smartyvs->assign("genresCombo", $genresCombo);
 		$smartyvs->assign("languagesCombo", $languagesCombo);
@@ -700,10 +700,10 @@ class hwd_vs_html
 						$oThirdPartyVideoInfo=$paramPartyVideoInfo;
 						$oFromError = '1';
 					}
-			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		
-			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);		
-			$languagesCombo = hwd_vs_tools::generateVideoCombos('code as a, code as b','languages','id','language_id',true,false,true);	
-			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);		
+			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','instrument','intrument_id',true,true,true);		
+			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','label','level_id',true,false,true);		
+			$languagesCombo = hwd_vs_tools::generateVideoCombos('id, iso_code as a, literalkey as b','hwdvidslanguages','id','language_id',true,true,true);
+			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','genre','genre_id',true,true,true);		
 			$captcha = hwd_vs_tools::generateCaptcha();
 			$editor =& JFactory::getEditor();
 			$editorparams = array( 'smilies'=> '0' ,
@@ -741,10 +741,10 @@ class hwd_vs_html
 
 		} else if ($uploadpage == "1") {
 			JHTML::_('behavior.formvalidation');
-			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		
-			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);		
-			$languagesCombo = hwd_vs_tools::generateVideoCombos('code as a, code as b','languages','id','language_id',true,false,true);	
-			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);
+			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','instrument','intrument_id',true,true,true);		
+			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','label','level_id',true,false,true);		
+			$languagesCombo = hwd_vs_tools::generateVideoCombos('id, iso_code as a, literalkey as b','hwdvidslanguages','id','language_id',true,true,true);
+			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','genre','genre_id',true,true,true);
 			$editor =& JFactory::getEditor();
 			$smartyvs->assign( "description", $editor->display("description",$oThirdPartyVideoInfo->description,350,200,20,20,1) );
             
@@ -2140,10 +2140,10 @@ $app = & JFactory::getApplication();
 				$selected = $row->category_id;
 			}
 			$smartyvs->assign("categoryselect", hwd_vs_tools::categoryList(_HWDVIDS_SHIGARU_SHIGAR_COMBO_SELECT, $selected, _HWDVIDS_INFO_NOCATS, 1) );
-			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','id','intrument_id',true,true,true);		
-			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);		
-			$languagesCombo = hwd_vs_tools::generateVideoCombos('code as a, code as b','languages','id','language_id',true,false,true);	
-			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','id','genre_id',true,true,true);		
+			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','instrument','intrument_id',true,true,true);		
+			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','label','level_id',true,false,true);		
+			$languagesCombo = hwd_vs_tools::generateVideoCombos('id, iso_code as a, literalkey as b','hwdvidslanguages','id','language_id',true,true,true);	
+			$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','genre','genre_id',true,true,true);		
 			$captcha = hwd_vs_tools::generateCaptcha();
 			$editor =& JFactory::getEditor();
 			$editorparams = array( 'smilies'=> '0' ,
