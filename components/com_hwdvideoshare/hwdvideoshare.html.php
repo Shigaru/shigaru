@@ -2170,6 +2170,7 @@ $app = & JFactory::getApplication();
 			$smartyvs->assign("currentlang", $lang->getTag());
 			$smartyvs->assign("genresCombo", $genresCombo);
 			$smartyvs->assign("intrument_id", $row->intrument_id);
+			$smartyvs->assign("original_autor", $row->original_autor);
 			$smartyvs->assign("level_id", $row->level_id);
 			$smartyvs->assign("genre_id", $row->genre_id);
 			$smartyvs->assign("language_id", $row->language_id);
