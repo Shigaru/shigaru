@@ -3273,10 +3273,8 @@ $app = & JFactory::getApplication();
      */
 	function getBandTags() {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT a.label FROM FROM #__hwdvidsbands AS a, #__hwdvidsvideos as b'; 
-		$query .= ' #__hwdvidsvideos as b INNER JOIN #__hwdvidsbands AS a ON a.id = b.band_id and b.band_id IS NOT NULL LIMIT 0,1000';
-		$query .= ' LIMIT 0,10';
-		var_dump($query );
+		$query = 'SELECT a.label as label FROM #__hwdvidsvideos as b'; 
+		$query .= ' INNER JOIN #__hwdvidsbands AS a ON a.id = b.band_id and b.band_id IS NOT NULL LIMIT 0,1000;';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -3295,9 +3293,9 @@ $app = & JFactory::getApplication();
      */
 	function getSongsTags() {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT label FROM #__hwdvidssongs AS a, #__hwdvidsvideos as b'; 
-		$query .= ' WHERE a.id = b.song_id and b.song_id IS NOT NULL';
-		$query .= ' LIMIT 0,10';
+		$query = 'SELECT a.label as label FROM #__hwdvidsvideos as b INNER JOIN #__hwdvidssongs AS a'; 
+		$query .= ' ON a.id = b.song_id and b.song_id IS NOT NULL';
+		$query .= ' LIMIT 0,1000';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -3316,9 +3314,9 @@ $app = & JFactory::getApplication();
      */
 	function getInstrumentsTags() {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT instrument FROM #__hwdvidsinstruments AS a, #__hwdvidsvideos as b'; 
-		$query .= ' WHERE a.Id = b.intrument_id';
-		$query .= ' LIMIT 0,10';
+		$query = 'SELECT a.instrument as instrument FROM #__hwdvidsvideos as b'; 
+		$query .= ' INNER JOIN #__hwdvidsinstruments AS a ON a.Id = b.intrument_id';
+		$query .= ' LIMIT 0,1000';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
