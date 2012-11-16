@@ -3267,14 +3267,16 @@ $app = & JFactory::getApplication();
     /**
      * Generates list of most bands tags
      *
-     * 
+     * SELECT a.label FROM jos_hwdvidsvideos as b INNER
+  JOIN jos_hwdvidsbands AS a ON a.id = b.band_id and b.band_id IS NOT NULL LIMIT 0,1000
      * @return        $wordList
      */
 	function getBandTags() {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT label FROM #__hwdvidsbands AS a, #__hwdvidsvideos as b'; 
-		$query .= ' WHERE a.id = b.band_id and b.band_id IS NOT NULL';
+		$query = 'SELECT a.label FROM FROM #__hwdvidsbands AS a, #__hwdvidsvideos as b'; 
+		$query .= ' #__hwdvidsvideos as b INNER JOIN #__hwdvidsbands AS a ON a.id = b.band_id and b.band_id IS NOT NULL LIMIT 0,1000';
 		$query .= ' LIMIT 0,10';
+		var_dump($query );
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
