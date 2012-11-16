@@ -54,7 +54,7 @@ class hwd_vs_usrfunc
 		$my = & JFactory::getUser();
 
 		
-		if (!$my->id) {
+		if (!$my->id && $otheruser=='no') {
 			$msg = _HWDVIDS_ALERT_LOG2CYV;
 			$mainframe->enqueueMessage($msg);
 			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
@@ -98,7 +98,7 @@ class hwd_vs_usrfunc
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$otheruser = Jrequest::getVar( 'guid', 'no' );
-		if (!$my->id) {
+		if (!$my->id && $otheruser=='no') {
 			$msg = _HWDVIDS_ALERT_LOG2CYF;
 			$mainframe->enqueueMessage($msg);
 			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );

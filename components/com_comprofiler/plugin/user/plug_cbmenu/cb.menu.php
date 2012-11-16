@@ -1136,20 +1136,21 @@ class getMenuTab  extends cbTabHandler {
 						$fmsgdesc = _UE_ADDCONNECTION_DESC;
 					}
 					if($ueConfig['conNotifyType']!=0) {
-						$connectionurl="javascript:void(0)\" onclick=\"return overlib('"
+						$connectionurl="javascript:void(0)\" onclick=\"jQuery.blockUI({ message:('"
 						. str_replace(array("<",">"), array("&lt;","&gt;"),
 						_UE_CONNECTIONINVITATIONMSG."<br /><form action=&quot;".$connectionurl
 						."&quot; method=&quot;post&quot; id=&quot;connOverForm&quot; name=&quot;connOverForm&quot;>"._UE_MESSAGE
 						."<br /><textarea cols=&quot;40&quot; rows=&quot;8&quot; name=&quot;message&quot;></textarea><br />"
-						. "<input type=&quot;button&quot; class=&quot;inputbox&quot; onclick=&quot;cbConnSubmReq();&quot; value=&quot;"
-						._UE_SENDCONNECTIONREQUEST."&quot; />&nbsp;&nbsp;"
-						."<input type=&quot;button&quot; class=&quot;inputbox&quot; onclick=&quot;cClick();&quot;  value=&quot;"
-						._UE_CANCELCONNECTIONREQUEST."&quot; /></form>")
-						."', STICKY, CAPTION,'"
-						.sprintf(_UE_CONNECTTO,htmlspecialchars(str_replace("'","&#039;",getNameFormat($user->name,$user->username,$ueConfig['name_format'])),ENT_QUOTES))
-						."', CENTER,CLOSECLICK,CLOSETEXT,'"._UE_CLOSE_OVERLIB."',WIDTH,350, ANCHOR,'cbAddConn',CENTERPOPUP,'LR','UR');";
+						."<input type=&quot;button&quot; class=&quot;inputbox&quot; id=&quot;no&quot;  value=&quot;"
+						._UE_CANCELCONNECTIONREQUEST."&quot; />"
+						. "<input type=&quot;button&quot; class=&quot;inputbox&quot; onclick=&quot;jQuery.ajax({url:\'".$connectionurl."\' ,cache: false,complete: function() {jQuery.unblockUI();}});&quot; value=&quot;"
+						._UE_SENDCONNECTIONREQUEST."&quot; />&nbsp;&nbsp;</form>")
+						."'";
+						//."', STICKY, CAPTION,'"
+						//.sprintf(_UE_CONNECTTO,htmlspecialchars(str_replace("'","&#039;",getNameFormat($user->name,$user->username,$ueConfig['name_format'])),ENT_QUOTES))
+						//."', CENTER,CLOSECLICK,CLOSETEXT,'"._UE_CLOSE_OVERLIB."',WIDTH,350, ANCHOR,'cbAddConn',CENTERPOPUP,'LR','UR');";
 						// $flink="<a href=\"".$connectionurl."\" id=\"cbAddConn\" name=\"cbAddConn\" title=\"".$fmsgdesc."\">".getLangDefinition($fmsg)."</a>";
-						$flink = $connectionurl."\" name=\"cbAddConn";	//BBTRYREMOVED: "\" title=\"".$fmsgdesc."\">".getLangDefinition($fmsg)."</a>";
+						$flink = $connectionurl.")}); jQuery('#connOverForm #no').click(function() { jQuery.unblockUI(); return false; }); return false;\" name=\"cbAddConn";	//BBTRYREMOVED: "\" title=\"".$fmsgdesc."\">".getLangDefinition($fmsg)."</a>";
 					} else {
 						$flink=$connectionurl;
 					}
