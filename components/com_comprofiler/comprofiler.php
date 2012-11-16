@@ -661,12 +661,12 @@ function userProfile( $option, $uid, $submitvalue) {
 			return;
 		}
 	} else {
-		if ($uid==0) {
+		/*if ($uid==0) {
 			$lang =& JFactory::getLanguage();
 			$url    = 'index.php?option=com_comprofiler&task=registers&redirected=profiler&profilerfrom=ownprofile';
 			JFactory::getApplication()->redirect(JURI::getInstance($url)->toString());  
 			return;
-		}
+		}*/
 	}
 
 	$user					=&	loadComprofilerUser( $uid );
