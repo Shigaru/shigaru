@@ -3396,7 +3396,7 @@ $app = & JFactory::getApplication();
 		$topList = array();	
 		$arrayWordList = explode(',',$string);
 		$wordList = array_count_values($arrayWordList);
-		arsort($wordList);
+		//arsort($wordList);
 		foreach ($wordList as $word => $wordNo)
 		{
 			if (strlen($word) > 3)
