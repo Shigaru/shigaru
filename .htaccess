@@ -5,7 +5,10 @@
 # @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 # Joomla! is Free Software
 ##
-
+RewriteCond %{HTTP_HOST} ^shigaru\.com$ [NC]
+RewriteRule ^(.*)$ http://www.shigaru.coml/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^shigaru\.es$ [NC]
+RewriteRule ^(.*)$ http://www.shigaru.coml/$1 [R=301,L]
 
 #####################################################
 #  READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE
@@ -71,14 +74,3 @@ RewriteRule (.*) index.php
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 #
 ########## End - Joomla! core SEF Section
-
-# Are you coming to the site without www. at the start of the host? [NC] means ignore case.
-RewriteCond %{HTTP_HOST} !^www\. [NC]
-#Does your domain comprise of letters and dots (this means that going to the IP address will 
-#not fire the rewrite rule). Grab the domain in a capture group.
-RewriteCond %{HTTP_HOST} ^([a-z.]+)$ [NC]
-
-#Rewrite the URL with a www at the front, and keep the hostname from the previous 
-#condition  and the path after the domain . Use a status code 301, 
-#to tell the client that this is a permanent redirect.
-RewriteRule ^/(.*)$ http://www.%1/$1 [R=301,L]
