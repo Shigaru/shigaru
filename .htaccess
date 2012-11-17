@@ -1,5 +1,5 @@
 ##
-# @version $Id: htaccess.txt 21064 2011-04-03 22:12:19Z dextercowley $
+# @version $Id: htaccess.txt 14401 2010-01-26 14:10:00Z louis $
 # @package Joomla
 # @copyright Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
 # @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
@@ -38,30 +38,19 @@ RewriteEngine On
 #Satisfy all
 #</Files>
 ## End of deny access to extension xml files
-# Block out any script trying to set a mosConfig value through the URL
 RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
-# Block out any script trying to base64_encode data within the URL
-RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
+# Block out any script trying to base64_encode crap to send via URL
+RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
 # Block out any script that includes a <script> tag in URL
-RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
 # Block out any script trying to set a PHP GLOBALS variable via URL
 RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
 # Block out any script trying to modify a _REQUEST variable via URL
 RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
-# Return 403 Forbidden header and show the content of the root homepage
-RewriteRule .* index.php [F]
+# Send all blocked request to homepage with 403 Forbidden error!
+RewriteRule ^(.*)$ index.php [F,L]
 #
 ########## End - Rewrite rules to block out some common exploits
-
-
-########## Begin - Custom redirects
-#
-# If you need to redirect some pages, or set a canonical non-www to
-# www redirect (or vice versa), place that code here. Ensure those
-# redirects use the correct RewriteRule syntax and the [R=301,L] flags.
-#
-########## End - Custom redirects
-
 
 #  Uncomment following line if your webserver's URL
 #  is not directly related to physical file paths.
@@ -72,65 +61,11 @@ RewriteRule .* index.php [F]
 
 ########## Begin - Joomla! core SEF Section
 #
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-#
-# If the requested path and file is not /index.php and the request
-# has not already been internally rewritten to the index.php script
-RewriteCond %{REQUEST_URI} !^/index\.php
-# and the request is for root, or for an extensionless URL, or the
-# requested URL ends with one of the listed extensions
-RewriteCond %{REQUEST_URI} (/[^.]*|\.(php|html?|feed|pdf|raw))$ [NC]
-# and the requested path and file doesn't directly match a physical file
 RewriteCond %{REQUEST_FILENAME} !-f
-# and the requested path and file doesn't directly match a physical folder
 RewriteCond %{REQUEST_FILENAME} !-d
-# Are you coming to the site without www. at the start of the host? [NC] means ignore case.
-RewriteCond %{HTTP_HOST} !^www\. [NC]
-#Does your domain comprise of letters and dots (this means that going to the IP address will 
-#not fire the rewrite rule). Grab the domain in a capture group.
-RewriteCond %{HTTP_HOST} ^([a-z.]+)$ [NC]
-
-##
-##  Commented version of Rewrite rules attributed to Ronald van den Heetkamp
-##  Comments by http://bodvoc.com
-#
-# Prevent use of specified methods in HTTP Request
-RewriteCond %{REQUEST_METHOD} ^(HEAD|TRACE|DELETE|TRACK) [NC,OR]
-# Block out use of illegal or unsafe characters in the HTTP Request
-RewriteCond %{THE_REQUEST} ^.*(\\r|\\n|%0A|%0D).* [NC,OR]
-# Block out use of illegal or unsafe characters in the Referer Variable of the HTTP Request
-RewriteCond %{HTTP_REFERER} ^(.*)(<|>|'|%0A|%0D|%27|%3C|%3E|%00).* [NC,OR]
-# Block out use of illegal or unsafe characters in any cookie associated with the HTTP Request
-RewriteCond %{HTTP_COOKIE} ^.*(<|>|'|%0A|%0D|%27|%3C|%3E|%00).* [NC,OR]
-# Block out use of illegal characters in URI or use of malformed URI
-RewriteCond %{REQUEST_URI} ^/(,|;|:|<|>|">|"<|/|\\\.\.\\).{0,9999}.* [NC,OR]
-# NOTE - disable this rule if your site is integrated with Payment Gateways such as PayPal 
-# Block out  use of empty User Agent Strings
-RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
-# Block out  use of User Agent Strings beginning with java, curl or wget
-RewriteCond %{HTTP_USER_AGENT} ^(java|curl|wget).* [NC,OR]
-# Block out  use of User Agent Strings containing specific robot (crawler) identifiers
-RewriteCond %{HTTP_USER_AGENT} ^.*(winhttp|HTTrack|clshttp|archiver|loader|email|harvest|extract|grab|miner).* [NC,OR]
-# Block out  use of User Agent Strings containing references to specific crawler libraries
-RewriteCond %{HTTP_USER_AGENT} ^.*(libwww-perl|curl|wget|python|nikto|scan).* [NC,OR]
-# Block out  use of illegal or unsafe characters in the User Agent variable
-RewriteCond %{HTTP_USER_AGENT} ^.*(<|>|'|%0A|%0D|%27|%3C|%3E|%00).* [NC,OR]
-# Measures to block out  SQL injection attacks
-RewriteCond %{QUERY_STRING} ^.*(;|<|>|'|"|\)|%0A|%0D|%22|%27|%3C|%3E|%00).*(/\*|union|select|insert|cast|set|declare|drop|update|md5|benchmark).* [NC,OR]
-# Block out  reference to localhost/loopback/127.0.0.1 in the Query String
-RewriteCond %{QUERY_STRING} ^.*(localhost|loopback|127\.0\.0\.1).* [NC,OR]
-# Block out  use of illegal or unsafe characters in the Query String variable
-RewriteCond %{QUERY_STRING} ^.*(<|>|'|%0A|%0D|%27|%3C|%3E|%00).* [NC]
-#
-## End of commented Rewrite directives
-#
-# internally rewrite the request to the index.php script
-RewriteRule .* index.php [L]
-#Rewrite the URL with a www at the front, and keep the hostname from the previous 
-#condition  and the path after the domain . Use a status code 301, 
-#to tell the client that this is a permanent redirect.
-RewriteRule ^/(.*)$ http://www.%1/$1 [R=301,L]
-# Handle requests for components
-RewriteRule ^(.*)/component/(.*)$ /$1 [R=301,L,NC]
+RewriteCond %{REQUEST_URI} !^/index.php
+RewriteCond %{REQUEST_URI} (/|\.php|\.html|\.htm|\.feed|\.pdf|\.raw|/[^.]*)$  [NC]
+RewriteRule (.*) index.php
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 #
 ########## End - Joomla! core SEF Section
