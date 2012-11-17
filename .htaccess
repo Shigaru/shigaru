@@ -26,6 +26,13 @@ Options +FollowSymLinks
 
 RewriteEngine On
 
+RewriteCond %{HTTP_HOST} ^shigaru\.com$ [NC]
+RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^shigaru\.es$ [NC]
+RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^www.shigaru\.es$ [NC]
+RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
+
 ########## Begin - Rewrite rules to block out some common exploits
 ## If you experience problems on your site block out the operations listed below
 ## This attempts to block the most common type of exploit `attempts` to Joomla!
@@ -71,9 +78,3 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 #
 ########## End - Joomla! core SEF Section
 
-RewriteCond %{HTTP_HOST} ^shigaru\.com$ [NC]
-RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
-RewriteCond %{HTTP_HOST} ^shigaru\.es$ [NC]
-RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
-RewriteCond %{HTTP_HOST} ^www.shigaru\.es$ [NC]
-RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
