@@ -5,12 +5,7 @@
 # @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 # Joomla! is Free Software
 ##
-RewriteCond %{HTTP_HOST} ^shigaru\.com$ [NC]
-RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
-RewriteCond %{HTTP_HOST} ^shigaru\.es$ [NC]
-RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
-RewriteCond %{HTTP_HOST} ^www.shigaru\.es$ [NC]
-RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
+
 #####################################################
 #  READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE
 #
@@ -75,3 +70,10 @@ RewriteRule (.*) index.php
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 #
 ########## End - Joomla! core SEF Section
+
+RewriteCond %{HTTP_HOST} ^shigaru\.com$ [NC]
+RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^shigaru\.es$ [NC]
+RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^www.shigaru\.es$ [NC]
+RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
