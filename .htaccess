@@ -47,18 +47,10 @@ RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
 RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
 # Block out any script trying to modify a _REQUEST variable via URL
 RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
-# Are you coming to the site without www. at the start of the host? [NC] means ignore case.
-RewriteCond %{HTTP_HOST} !^www\. [NC]
-#Does your domain comprise of letters and dots (this means that going to the IP address will 
-#not fire the rewrite rule). Grab the domain in a capture group.
-RewriteCond %{HTTP_HOST} ^([a-z.]+)$ [NC]
+
 
 # Send all blocked request to homepage with 403 Forbidden error!
 RewriteRule ^(.*)$ index.php [F,L]
-#Rewrite the URL with a www at the front, and keep the hostname from the previous 
-#condition  and the path after the domain . Use a status code 301, 
-#to tell the client that this is a permanent redirect.
-RewriteRule ^/(.*)$ http://www.%1/$1 [R=301,L]
 #
 ########## End - Rewrite rules to block out some common exploits
 
@@ -79,3 +71,14 @@ RewriteRule (.*) index.php
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 #
 ########## End - Joomla! core SEF Section
+
+# Are you coming to the site without www. at the start of the host? [NC] means ignore case.
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+#Does your domain comprise of letters and dots (this means that going to the IP address will 
+#not fire the rewrite rule). Grab the domain in a capture group.
+RewriteCond %{HTTP_HOST} ^([a-z.]+)$ [NC]
+
+#Rewrite the URL with a www at the front, and keep the hostname from the previous 
+#condition  and the path after the domain . Use a status code 301, 
+#to tell the client that this is a permanent redirect.
+RewriteRule ^/(.*)$ http://www.%1/$1 [R=301,L]
