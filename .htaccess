@@ -6,7 +6,7 @@
 # Joomla! is Free Software
 ##
 RewriteCond %{HTTP_HOST} ^shigaru\.com$ [NC]
-RewriteRule ^(.*)$ http://www.shigaru.coml/$1 [R=301,L]
+RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
 RewriteCond %{HTTP_HOST} ^shigaru\.es$ [NC]
 RewriteRule ^(.*)$ http://www.shigaru.com/$1 [R=301,L]
 
