@@ -192,6 +192,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', end
 	border:0;margin-right:3px;}
 #beingwatched .beingwatched_header li.selected a{background-position:0 -22px;}
 .thumbplay{width:29px;height:29px;background: url("../images/sprite.png") no-repeat scroll -131px 0 transparent; display:block; position:absolute; margin: 29px 0 0 41px;}
+.videotime{ background: none repeat scroll 0 0 #000000;
+    color: #FFFFFF;
+    float: right;
+    font-size: 80%;
+    margin-top: -19px;
+    padding: 2px;
+    position: relative;}
+.videoplayer .videotime{margin-top: -23px;margin-right: 3px;}
 #random_video h6{margin:23px 0 0 0; font-size:110%; }
 #random_video h6 a{text-decoration:none;}
 #random_video p{margin:10px 0 0 0; font-size:90%;}

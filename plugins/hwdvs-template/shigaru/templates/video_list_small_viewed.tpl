@@ -7,11 +7,10 @@
 //////
 *}
 <li>
-	<div class="fleft thumb">{$data->thumbnail}</div>
+	<div class="fleft thumb">{$data->thumbnail}<span class="videotime"> {$data->duration} </span></div>
 	<div class="fleft">
 		<h6>{$data->title} {$data->editvideo} {$data->deletevideo}</h6>
 		<span class="fleft mright6">{$smarty.const._HWDVIDS_INFO_SHARED} </span>{$data->uploader}
-		<span> - {$data->duration} </span>
 	</div>
 	<div class="plays">
 		<div class="fright">
