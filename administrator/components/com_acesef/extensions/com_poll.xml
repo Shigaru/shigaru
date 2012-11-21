@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="acesef_ext" version="1.5.0" method="upgrade">
+	<name>Polls</name>
+	<author>JoomAce LLC</author>
+	<creationDate>June 2010</creationDate>
+	<copyright>(C) 2009-2010 JoomAce LLC</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>info@joomace.net</authorEmail>
+	<authorUrl>www.joomace.net</authorUrl>
+	<version>1.5.0</version>
+	<description>Polls extension for AceSEF.</description>
+	<files>
+		<filename acesef_ext="com_poll">com_poll.php</filename>
+	</files>
+	<install>
+		<defaultParams>
+			<defaultParam name="prefix" value="poll" />
+		</defaultParams>
+	</install>
+	<params group="url">
+		<param name="poll_part" type="list" default="global" label="ACESEF_PARAMS_POLLS_PART_POLL" description="ACESEF_PARAMS_POLLS_PART_POLL">
+ 			<option value="global">Use Global</option>
+ 			<option value="title">ACESEF_COMMON_TITLE_FIELD</option>
+ 			<option value="alias">ACESEF_COMMON_ALIAS_FIELD</option>
+ 		</param>
+		<param type="spacer" default="&lt;hr/&gt;" />
+		<param name="pollid_inc" type="radio" default="1" label="ACESEF_PARAMS_POLLS_POLL_ID" description="ACESEF_PARAMS_POLLS_POLL_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+	</params>
+</install>

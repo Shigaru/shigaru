@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="acesef_ext" version="1.5.0" method="upgrade">
+	<name>uddeIM</name>
+	<author>JoomAce LLC</author>
+	<creationDate>August 2010</creationDate>
+	<copyright>(C) 2009-2010 JoomAce LLC</copyright>
+	<license>GNU GPL, http://www.joomace.net/company/license</license>
+	<authorEmail>info@joomace.net</authorEmail>
+	<authorUrl>www.joomace.net</authorUrl>
+	<version>1.5.0</version>
+	<description>uddeIM extension for AceSEF.</description>
+	<files>
+		<filename acesef_ext="com_uddeim">com_uddeim.php</filename>
+	</files>
+</install>

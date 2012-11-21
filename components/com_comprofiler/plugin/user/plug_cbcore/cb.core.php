@@ -3950,6 +3950,7 @@ class getPageTitleTab  extends cbTabHandler {
 		$params	=	$this->params;
 		$title	=	_PROMPT_UNAME;
 		$name	=	getNameFormat( $user->name, $user->username, $ueConfig['name_format'] );
+		$profileURL = cbSef("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=".$user->id.getCBprofileItemid(true));
 		$pageURL = 'http://www.shigaru.com/'.$user->username;
 		
 		 // get video count
@@ -3963,7 +3964,7 @@ class getPageTitleTab  extends cbTabHandler {
 					.'<div id="profilenamewrapper" class="fleft">'
 						.'<div id="profilename" >'
 							.'<h3 class="">'.$name.'</h3>'
-							.'<a class="mleft12 f12em" href="'.$pageURL.'" title="'._UE_VIEWPROFILE.'">'.$pageURL.'</a>'
+							.'<a class="mleft12 f12em" href="'.$profileURL.'" title="'._UE_VIEWPROFILE.'">'.$profileURL.'</a>'
 						.'</div>'
 					.'</div>'
 						.'<div class="profileheaderitem fleft">'

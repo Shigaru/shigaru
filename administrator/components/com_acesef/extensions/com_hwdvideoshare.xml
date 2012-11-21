@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="acesef_ext" version="1.5.0" method="upgrade">
+	<name>hwdVideoShare</name>
+	<author>JoomAce LLC</author>
+	<creationDate>January 2012</creationDate>
+	<copyright>(C) 2009-2012 JoomAce LLC</copyright>
+	<license>GNU GPL, http://www.joomace.net/company/license</license>
+	<authorEmail>info@joomace.net</authorEmail>
+	<authorUrl>www.joomace.net</authorUrl>
+	<version>1.5.5</version>
+	<description>hwdVideoShare extension for AceSEF.</description>
+	<files>
+		<filename acesef_ext="com_hwdvideoshare">com_hwdvideoshare.php</filename>
+	</files>
+	<params group="url">
+		<param name="videoid_inc" type="radio" default="1" label="ACESEF_PARAMS_HWDVIDEOSHARE_VIDEO_ID" description="ACESEF_PARAMS_HWDVIDEOSHARE_VIDEO_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+ 		<param name="category_inc" type="list" default="3" label="ACESEF_PARAMS_URL_CATEGORY" description="ACESEF_PARAMS_URL_CATEGORY_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">ACESEF_PARAMS_URL_CATEGORY_LAST</option>
+ 			<option value="3">ACESEF_PARAMS_URL_CATEGORY_ALL</option>
+ 		</param>
+ 		<param name="categoryid_inc" type="radio" default="1" label="ACESEF_PARAMS_URL_CATEGORY_ID" description="ACESEF_PARAMS_URL_CATEGORY_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+		<param name="groupid_inc" type="radio" default="1" label="ACESEF_PARAMS_HWDVIDEOSHARE_GROUP_ID" description="ACESEF_PARAMS_HWDVIDEOSHARE_GROUP_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+		<param name="playlistid_inc" type="radio" default="1" label="Add playlist ID" description="If set to Yes, playlist ID will be prepended to playlist name.">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+ 		<param name="name_inc" type="radio" default="2" label="ACESEF_PARAMS_COMPROFILER_TYPE_NAME">
+ 			<option value="1">ACESEF_PARAMS_COMPROFILER_TYPE_NAME_1</option>
+ 			<option value="2">ACESEF_PARAMS_COMPROFILER_TYPE_NAME_2</option>
+ 		</param>
+ 		<param name="userid_inc" type="radio" default="1" label="ACESEF_PARAMS_URL_USER_ID" description="ACESEF_PARAMS_URL_USER_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+	</params>
+	<params group="categorylist">
+ 		<param name="categorylist" type="text" label="" description=""/>
+	</params>
+	<params group="download_id">
+		<param name="download_id" type="password" size="60" default="" label="ACESEF_CONFIG_MAIN_UPGRADE_ID" description="ACESEF_PARAMS_DOWNLOAD_ID" />
+	</params>
+</install>

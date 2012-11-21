@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
+<install type="component" version="1.5.0" method="upgrade">
+	<!-- Start -->
+	<name>AceSEF</name>
+	<author>JoomAce LLC</author>
+	<creationDate>21 September 2012</creationDate>
+	<copyright>2009-2012 JoomAce LLC</copyright>
+	<license>GNU GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<authorEmail>info@joomace.net</authorEmail>
+	<authorUrl>www.joomace.net</authorUrl>
+	<version>1.5.21</version>
+	<description>AceSEF is a flexible and powerful SEF URLs, Metadata, Sitemap and Tags generator with an easy-to-use graphical user interface that simplifies the management of your site SEO rank.</description>
+	
+	<!-- Frontend -->
+	<files folder="site">
+		<!-- Files -->
+		<filename>acesef.php</filename>
+		<filename>index.html</filename>
+		<!-- Folders -->
+		<folder>assets</folder>
+		<folder>controllers</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+	</files>
+	
+	<languages folder="languages/site">
+		<language tag="en-GB">en-GB/en-GB.com_acesef.ini</language>
+	</languages>
+	
+	<!-- Backend -->
+	<administration>
+		<menu img="components/com_acesef/assets/images/acesef.png">AceSEF</menu>
+		<submenu>
+	    	<menu link="option=com_acesef" img="components/com_acesef/assets/images/acesef.png">Control Panel</menu>
+	    	<menu link="option=com_acesef&amp;controller=config&amp;task=edit" img="components/com_acesef/assets/images/icon-16-config.png">Configuration</menu>
+	      	<menu link="option=com_acesef&amp;controller=extensions&amp;task=view" img="components/com_acesef/assets/images/icon-16-extensions.png">Extensions</menu>
+	      	<menu link="option=com_acesef&amp;controller=sefurls&amp;task=view" img="components/com_acesef/assets/images/icon-16-urls.png">URLs</menu>
+	      	<menu link="option=com_acesef&amp;controller=metadata&amp;task=view" img="components/com_acesef/assets/images/icon-16-metadata.png">Metadata</menu>
+	      	<menu link="option=com_acesef&amp;controller=sitemap&amp;task=view" img="components/com_acesef/assets/images/icon-16-sitemap.png">Sitemap</menu>
+	      	<menu link="option=com_acesef&amp;controller=tags&amp;task=view" img="components/com_acesef/assets/images/icon-16-tags.png">Tags</menu>
+	      	<menu link="option=com_acesef&amp;controller=ilinks&amp;task=view" img="components/com_acesef/assets/images/icon-16-ilinks.png">Internal Links</menu>
+	      	<menu link="option=com_acesef&amp;controller=bookmarks&amp;task=view" img="components/com_acesef/assets/images/icon-16-bookmarks.png">S. Bookmarks</menu>
+	      	<menu link="option=com_acesef&amp;controller=upgrade&amp;task=view" img="components/com_acesef/assets/images/icon-16-upgrade.png">Upgrade</menu>
+	      	<menu link="option=com_acesef&amp;controller=support&amp;task=support" img="components/com_acesef/assets/images/icon-16-support.png">Support</menu>
+	    </submenu>
+		
+		<files folder="admin">
+			<!-- Files -->
+			<filename>index.html</filename>
+			<filename>acesef.php</filename>
+			<filename>install.sql</filename>
+			<filename>uninstall.sql</filename>
+			<filename>toolbar.acesef.php</filename>
+			<!-- Folders -->
+			<folder>adapters</folder>
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder writable="yes">extensions</folder>
+			<folder>library</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="languages/admin">
+			<language tag="en-GB">en-GB/en-GB.com_acesef.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_acesef.menu.ini</language>
+		</languages>
+	</administration>
+	
+	<!-- Install/Uninstall SQL -->
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">install.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file charset="utf8" driver="mysql">uninstall.sql</file>
+		</sql>
+	</uninstall>
+	
+	<!-- Install/Uninstall File -->
+	<installfile>install.php</installfile>
+	<uninstallfile>uninstall.php</uninstallfile>
+	
+	<!-- Extensions -->
+	<extensions>
+		<extension option="com_acesef" />
+		<extension option="com_banners" />
+		<extension option="com_contact" />
+		<extension option="com_content" />
+		<extension option="com_mailto" />
+		<extension option="com_newsfeeds" />
+		<extension option="com_poll" />
+		<extension option="com_search" />
+		<extension option="com_user" />
+		<extension option="com_weblinks" />
+		<extension option="com_wrapper" />
+	</extensions>
+	
+	<!-- Plugins -->
+	<plugins>
+		<plugin plugin="acesef" title="AceSEF" group="system" order="3">
+			<files folder="plugins/acesef">
+				<file>acesef.php</file>
+				<file>acesef.xml</file>
+			</files>
+		</plugin>
+		<plugin plugin="acesefmetacontent" title="AceSEF Metadata (Content)" group="system" order="0">
+			<files folder="plugins/acesefmetacontent">
+				<file>acesefmetacontent.xml</file>
+				<file>acesefmetacontent.php</file>
+				<file>acesefmetacontent_tmpl.php</file>
+			</files>
+		</plugin>
+	</plugins>
+	
+	<!-- Modules -->
+	<modules>
+		<module module="mod_acesef_quickicons" title="AceSEF - Quick Icons" position="icon" client="administrator">
+			<files folder="modules/mod_acesef_quickicons">
+				<file>index.html</file>
+				<file>mod_acesef_quickicons.php</file>
+				<file>mod_acesef_quickicons.xml</file>
+			</files>
+			<languages folder="modules/mod_acesef_quickicons/language">
+				<language tag="en-GB">en-GB.mod_acesef_quickicons.ini</language>
+			</languages>
+		</module>
+	</modules>
+	
+	<!-- Akeeba Backup -->
+	<restorepoint>
+		<customdirs>
+			<!-- Add the site and administrator modules -->
+			<dir>administrator/modules/mod_acesef_quickicons</dir>
+		</customdirs>
+		<customfiles>
+			<!-- Add the plugin (Joomla! 1.5) -->
+			<file>plugins/system/acesef.php</file>
+			<file>plugins/system/acesef.xml</file>
+			<file>plugins/system/acesefmetacontent.php</file>
+			<file>plugins/system/acesefmetacontent.xml</file>
+			<file>plugins/system/acesefmetacontent_tmpl.php</file>
+		</customfiles>
+		<langfiles>
+			<!-- Language files of the modules -->
+			<lang>mod_acesef_quickicons</lang>
+		</langfiles>
+	</restorepoint>
+	
+	<!-- Finish -->
+</install>

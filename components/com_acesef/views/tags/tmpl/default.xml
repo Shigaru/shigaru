@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Default Layout">
+		<message>
+			<![CDATA[This layout will display the list of items associated with the selected tag.]]>
+		</message>
+	</layout>
+	<state>
+		<name>Tags</name>
+		<description>This layout will display the list of items associated with the selected tag.</description>
+		<url addpath="/administrator/components/com_acesef/library/elements">
+			<param name="tag" type="tags" size="6" default="" label="Select Tag" description="Select any tag to display or leave empty for all tags." />
+		</url>
+	</state>
+</metadata>

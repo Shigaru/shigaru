@@ -223,7 +223,10 @@ jQuery(document).ready(function($){
 	
 	function composeLimitUrl(e){
 		oCurrentUrl = window.location.href;
-		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+		if(oCurrentUrl.indexOf('?')<0)
+		   oCurrentUrl += '?ajax=yes';
+			else
+				oCurrentUrl += '&ajax=yes';
 		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 		var oLimit = '';
 		if(oCurrentUrl.indexOf('?limit')>0 || oCurrentUrl.indexOf('?')<0)
@@ -249,7 +252,7 @@ jQuery(document).ready(function($){
 	}
 	
 	function composeSearchTypeUrl(e){
-		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+//		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
 		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 		var oSearchType = '';
 		if(oCurrentUrl.indexOf('?searchcategory')>0 || oCurrentUrl.indexOf('?')<0)
@@ -297,7 +300,11 @@ jQuery(document).ready(function($){
 	
 	function cleanUpFilters(){
 			oCurrentUrl = window.location.href;
-			oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+			if(oCurrentUrl.indexOf('?')<0)
+		   oCurrentUrl += '?ajax=yes';
+			else
+				oCurrentUrl += '&ajax=yes';
+//			oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
 			oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 			oCurrentUrl = oCurrentUrl.replace('#','');
 			oCurrentUrl = oCurrentUrl.replace('?0','');
@@ -314,7 +321,11 @@ jQuery(document).ready(function($){
 	
 	function cleanUpUserFilters(){
 			oCurrentUrl = window.location.href;
-			oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+			if(oCurrentUrl.indexOf('?')<0)
+		   oCurrentUrl += '?ajax=yes';
+			else
+				oCurrentUrl += '&ajax=yes';
+//			oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
 			oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 			oCurrentUrl = oCurrentUrl.replace('#','');
 			oCurrentUrl = oCurrentUrl.replace('?0','');
@@ -364,7 +375,11 @@ jQuery(document).ready(function($){
 	
 	function composeOrderUrl(e){
 		oCurrentUrl = window.location.href;
-		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+		if(oCurrentUrl.indexOf('?')<0)
+		   oCurrentUrl += '?ajax=yes';
+			else
+				oCurrentUrl += '&ajax=yes';
+//		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
 		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 		var oSort = '';
 		if(oCurrentUrl.indexOf('?sort')>0 || oCurrentUrl.indexOf('?')<0)
@@ -382,7 +397,7 @@ jQuery(document).ready(function($){
 	
 	function composePageUrl(e){
 		oCurrentUrl = e.target.href;
-		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+//		oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
 		oCurrentUrl = oCurrentUrl.replace('displayresults','ajax_search');
 		return oCurrentUrl;
 	}
@@ -410,7 +425,9 @@ jQuery(document).ready(function($){
 					onUnblock: function(){   
 					  }
 					 });
-				oCurrentUrl = paramUrl.replace('&ajax=yes','');
+//				oCurrentUrl = paramUrl.replace('&ajax=yes','');
+				oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+				oCurrentUrl = oCurrentUrl.replace('?ajax=yes','');
 				oCurrentUrl = oCurrentUrl.replace('ajax_search','displayresults');
 				oCurrentUrl = oCurrentUrl.replace('#','');	 
 				if(window.history.pushState)

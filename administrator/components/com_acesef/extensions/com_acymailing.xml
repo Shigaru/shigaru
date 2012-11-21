@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="acesef_ext" version="1.5.0" method="upgrade">
+	<name>AcyMailing</name>
+	<author>JoomAce LLC</author>
+	<creationDate>August 2010</creationDate>
+	<copyright>(C) 2009-2010 JoomAce LLC</copyright>
+	<license>GNU GPL, http://www.joomace.net/company/license</license>
+	<authorEmail>info@joomace.net</authorEmail>
+	<authorUrl>www.joomace.net</authorUrl>
+	<version>1.5.2</version>
+	<description>AcyMailing extension for AceSEF.</description>
+	<files>
+		<filename acesef_ext="com_acymailing">com_acymailing.php</filename>
+	</files>
+	<install>
+		<defaultParams>
+			<defaultParam name="non_sef_vars" value="sub, urlid" />
+			<defaultParam name="disable_sef_vars" value="ctrl=cron, key" />
+		</defaultParams>
+	</install>
+	<params group="url">
+		<param name="listid_inc" type="radio" default="1" label="ACESEF_PARAMS_ACYMAILING_LIST_ID" description="ACESEF_PARAMS_ACYMAILING_LIST_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+		<param name="mailid_inc" type="radio" default="1" label="ACESEF_PARAMS_ACYMAILING_MAIL_ID" description="ACESEF_PARAMS_ACYMAILING_MAIL_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+		<param name="subscriberid_inc" type="radio" default="1" label="ACESEF_ACYMAILING_SUBS_ID" description="ACESEF_ACYMAILING_SUBS_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+	</params>
+	<params group="categorylist">
+ 		<param name="categorylist" type="text" label="" description=""/>
+	</params>
+</install>

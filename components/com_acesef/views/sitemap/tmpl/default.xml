@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Default Layout">
+		<message>
+			<![CDATA[This layout will display the HTML view of Sitemap.]]>
+		</message>
+	</layout>
+	<state>
+		<name>Sitemap</name>
+		<description>This layout will display the HTML view of Sitemap.</description>
+		<params addpath="/administrator/components/com_acesef/library/elements">
+			<param type="componentlist" name="components" default="all" label="Components" />
+			<param name="display_num" type="list" default="50" label="Items per page" description="Number of Items to display per page.">
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="30">30</option>
+				<option value="50">50</option>
+				<option value="100">100</option>
+				<option value="500">500</option>
+				<option value="1000">1000</option>
+				<option value="0">All</option>
+			</param>
+		</params>
+	</state>
+</metadata>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="acesef_ext" version="1.5.0" method="upgrade">
+	<name>Community Builder</name>
+	<author>JoomAce LLC</author>
+	<creationDate>August 2010</creationDate>
+	<copyright>(C) 2009-2010 JoomAce LLC</copyright>
+	<license>GNU GPL, http://www.joomace.net/company/license</license>
+	<authorEmail>info@joomace.net</authorEmail>
+	<authorUrl>www.joomace.net</authorUrl>
+	<version>1.5.2</version>
+	<description>Community Builder extension for AceSEF.</description>
+	<files>
+		<filename acesef_ext="com_comprofiler">com_comprofiler.php</filename>
+	</files>
+	<install>
+		<defaultParams>
+			<defaultParam name="non_sef_vars" value="username, search, confirmcode, cbsecuritym3" />
+		</defaultParams>
+	</install>
+	<params group="url">
+ 		<param name="name_inc" type="radio" default="2" label="ACESEF_PARAMS_COMPROFILER_TYPE_NAME">
+ 			<option value="1">ACESEF_PARAMS_COMPROFILER_TYPE_NAME_1</option>
+ 			<option value="2">ACESEF_PARAMS_COMPROFILER_TYPE_NAME_2</option>
+ 		</param>
+ 		<param name="userid_inc" type="radio" default="1" label="ACESEF_PARAMS_URL_USER_ID" description="ACESEF_PARAMS_URL_USER_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+		<param name="list_prefix" type="text" default="" label="ACESEF_PARAMS_COMPROFILER_PREFIX" description="ACESEF_PARAMS_COMPROFILER_PREFIX_HELP" />
+ 	</params>
+</install>
