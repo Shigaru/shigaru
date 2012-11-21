@@ -143,6 +143,7 @@ padding: 16px 30px;border-right:1px solid #d6d6d6;font-size: 91%;-moz-box-shadow
 .workarea div.video_activity div.slidesWrapper{
 padding-left:1px;border:1px solid #dbdbdb; border-top:none;-moz-border-radius:0px 0px 5px 5px;-webkit-border-radius:0px 0px 5px 5px;border-radius:0px 0px 5px 5px;}
 .workarea div.video_activity div.tab_wrapper{height: 330px;overflow-x: hidden !important;width: 100%;}
+.videoplayer div.video_activity div.tab_wrapper{height: 550px;}
 .workarea div.video_activity div.community{height: 210px;}
 .workarea div.video_activity div.tab_wrapper li{font-size:120%;}
 .workarea div.video_activity div.tags ul li {border-bottom:1px solid #dbdbdb;}

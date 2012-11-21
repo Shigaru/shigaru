@@ -159,8 +159,8 @@
 			overflow-x:hidden;
 		}
 		
-		.videoplayer .scoller {
-			height:450px;
+		.videoplayer #tabs .scoller {
+			height:550px;
 			overflow-y:scroll;
 			overflow-x:hidden;
 		}
