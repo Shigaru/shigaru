@@ -55,7 +55,7 @@
 				
 				showGrabbedInfo();
 				jQuery("#language_id").val(currentLang);
-				jQuery("#intrument_id").val("102");
+				jQuery("#intrument_id").val("103");
 				jQuery("#level_id").val("30");
 				jQuery('#infograbbed .w80pc .mbot20 a.fontbold').click(function() { 
 					var oId= jQuery(this).attr('id');
