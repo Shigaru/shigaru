@@ -3964,7 +3964,7 @@ class getPageTitleTab  extends cbTabHandler {
 					.'<div id="profilenamewrapper" class="fleft">'
 						.'<div id="profilename" >'
 							.'<h3 class="">'.$name.'</h3>'
-							.'<a class="mleft12 f12em" href="'.$profileURL.'" title="'._UE_VIEWPROFILE.'">'.$profileURL.'</a>'
+							.'<a class="f100" href="'.$profileURL.'" title="'._UE_VIEWPROFILE.'">'.$profileURL.'</a>'
 						.'</div>'
 					.'</div>'
 						.'<div class="profileheaderitem fleft">'

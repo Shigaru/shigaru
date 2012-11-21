@@ -427,7 +427,9 @@ jQuery(document).ready(function($){
 					 });
 //				oCurrentUrl = paramUrl.replace('&ajax=yes','');
 				oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
-				oCurrentUrl = oCurrentUrl.replace('?ajax=yes','');
+				if(oCurrentUrl.indexOf('?ajax=yes&')>0){
+					oCurrentUrl = oCurrentUrl.replace('?ajax=yes&','?');
+					}
 				oCurrentUrl = oCurrentUrl.replace('ajax_search','displayresults');
 				oCurrentUrl = oCurrentUrl.replace('#','');	 
 				if(window.history.pushState)
