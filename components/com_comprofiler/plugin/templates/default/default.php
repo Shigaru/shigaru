@@ -452,14 +452,14 @@ class CBListView_html_default extends cbListView {
 		// users-count:
 ?>
 
-	 <div class="content_box">
-<h3><?php
+	 <!--<div class="content_box">
+<h3>--><?php
 		if ( $this->totalIsAllUsers ) {
 			//echo $_CB_framework->getCfg( 'sitename' ) . " " . _UE_HAS . " <strong>" . $this->total . "</strong> " . _UE_USERS;
 		} else {
 			echo "<strong>" . $this->total . "</strong> " . _UE_USERPENDAPPRACTION . ":";
 		}
-	  ?></h3></div>
+	  ?><!--</h3></div>-->
 		<div class="cbClr"></div>
 <?php
 		if ( $this->searchTabContent ) {
@@ -501,6 +501,7 @@ class CBListView_html_default extends cbListView {
 <link rel="stylesheet" href="<?php echo JURI::base(); ?>modules/mod_zncbmembers/tmpl/css/default.css" type="text/css" />
 <script type="text/javascript" src="<?php echo JURI::base(); ?>modules/mod_zncbmembers/tmpl/js/shiggymembers.js"></script>
 <div id="cbUserTable" class="pe-container cbUserListTable cbUserListT_<?php echo $this->listid ?>">
+<p class="mbot12">Hover over an image to view details of each Shigaru member and click on an image to view their profile page.</p>
 	<ul id="pe-thumbs" class="pe-thumbs">
 					<?php
 
