@@ -3443,8 +3443,23 @@ $app = & JFactory::getApplication();
 			$details = explode('~',$word);
 			if(trim($details[0]) != ''){
 			$percent = round(($details[0] - $smallest) / $difference,1);
-			$fontSize = round($minSize + ($fontDifference*$percent));			
-			$url = JRoute::_("index.php?searchword=".$details[1]."&ordering=newest&searchphrase=all&Itemid=29&option=com_search&lang=en");
+			$fontSize = round($minSize + ($fontDifference*$percent));	
+					$url = JRoute::_("index.php?option=com_hwdvideoshare&task=search&Itemid=$Itemid");
+					$url = str_replace("&amp;", "&", $url);
+
+					$pos = strpos($url, "?");
+					if ($pos === false)
+					{
+						$url = $url."?pattern=".$details[1];
+					}
+					else
+					{
+						$url = $url."&pattern=".$details[1];
+
+					}
+				
+					
+			//$url = JRoute::_("index.php?searchword=".$details[1]."&ordering=newest&searchphrase=all&Itemid=29&option=com_search&lang=en");
 			$code.= '<li><a href="'.$url.'"><span class="fleft">'.$details[1].'</span><span class="hits">'.floor($details[0]).'</span></a></li>';
 			}
 		}
