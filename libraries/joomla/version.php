@@ -1,8 +1,8 @@
 <?php
 /**
- * @version		$Id: version.php 21080 2011-04-04 22:01:17Z dextercowley $
+ * @version		$Id: version.php 22952 2012-03-27 00:40:16Z dextercowley $
  * @package	Joomla.Framework
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -26,13 +26,13 @@ class JVersion
 	/** @var string Development Status */
 	var $DEV_STATUS = 'Stable';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '23';
+	var $DEV_LEVEL 	= '26';
 	/** @var int build Number */
 	var $BUILD	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'senu takaa ama baji';
+	var $CODENAME 	= 'senu takaa ama busani';
 	/** @var string Date */
-	var $RELDATE 	= '04-March-2011';
+	var $RELDATE 	= '27-March-2012';
 	/** @var string Time */
 	var $RELTIME 	= '18:00';
 	/** @var string Timezone */

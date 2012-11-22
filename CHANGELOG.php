@@ -1,8 +1,8 @@
 <?php
 /**
-* @version		$Id: CHANGELOG.php 21080 2011-04-04 22:01:17Z dextercowley $
+* @version		$Id: CHANGELOG.php 22952 2012-03-27 00:40:16Z dextercowley $
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -36,6 +36,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.26 Stable Release [27-March-2012] ------------------
+
+-------------------- 1.5.25 Stable Release [14-November-2011] ------------------
+
+-------------------- 1.5.24 Stable Release [17-October-2011] ------------------
+
+30-Sept-2011 Jean-Marie Simonet
+ +$ Adding ka-GE installation language
+
+19-Apri-2011 Andrew Eddie
+ # Fixed [#21622] 303 redirections cause page subresources to be reloaded on WebKit browsers (Nicholas Dionysopoulos).
+
 -------------------- 1.5.23 Stable Release [04-March-2011] ------------------
 
 04-Apr-2011 Mark Dexter
@@ -48,7 +60,7 @@ $ -> Language fix or change
  # [#23746] Add a system plugin event called onBeforeCompileHead
  # [#25090] Improve .htaccess rewrite efficency
  # [#21676] Article Manager - Select Author
- # [#20423] Warning: realpath() [function.realpath]: Unable to access .../path.php 
+ # [#20423] Warning: realpath() [function.realpath]: Unable to access .../path.php
  # [#16605] PHP notice when selecting a menu type
  # [#20536] Category Blog Layout - View Article - Editing Article - Click Images - 500 Layout "blog" not found
 
@@ -70,7 +82,7 @@ $ -> Language fix or change
 02-Nov-2010 Jean-Marie Simonet
  ^ [#22961] Installation language modifications: aa-AA et-EE
  ^ [#23098] Credits.php update
- 
+
 20-Oct-2010 Ian MacLennan
  # [#21489] CHANGELOG.php - segment twice exists
  # [#21769] toolbar.content.html.php allow direct access
@@ -92,7 +104,7 @@ $ -> Language fix or change
 
 14-July-2010 Ian MacLennan
  + [#21404] New installation language bs-BA
- + [#20984] New installation language ta-IN 
+ + [#20984] New installation language ta-IN
 
 14-July-2010 Louis Landry
  + [#21416] Mootools 1.2.4 Upgrade Plugin
