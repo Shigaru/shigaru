@@ -989,7 +989,7 @@ class hwd_vs_uploads
 			//hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_UPLD_NOT_AUTHORIZED, "exclamation.png", 0);
 			$return = JURI::getInstance()->toString();
 			$lang =& JFactory::getLanguage();
-			$url    = 'index.php?option=com_comprofiler&task=registers&redirected=hwdshare';
+			$url    = JRoute::_('index.php?option=com_comprofiler&task=registers&redirected=hwdshare');
 			JFactory::getApplication()->redirect(JURI::getInstance($url)->toString());  
 			return;
 		}

@@ -248,8 +248,8 @@
 							<h3>Community</h3>
 							<div class="video_activity_header bwhite">
 								<ul>
-									<li><a href="#recently" title="Click to see more Instruments">Recently Online Members</a></li>
-									<li class="selected"><a href="#newusers" title="Click to see more Bands">New users</a></li>
+									<li class="selected"><a href="#recently" title="Click to see more Instruments">Recently Online Members</a></li>
+									<li ><a href="#newusers" title="Click to see more Bands">New users</a></li>
 									<!--<li><a href="#topvideo" title="Click to see more Songs">Top Video Posters</a></li>
 									<li><a href="#recentstatus" title="Click to see Genres">Recent Status Updates</a></li>-->
 									<li><a href="#recentprofile" title="Click to see Genres">Recent Profile Activity</a></li>
