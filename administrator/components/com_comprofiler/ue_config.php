@@ -40,9 +40,9 @@ To log in to your account you will need the following information:
 
 [DETAILS]
 
-To log in: http://test.shigaru.com/index.php/my-profile/login
+To log in:http://www.shigaru.com/users/login
 
-To view your profile: http://test.shigaru.com/index.php/my-profile
+To view your profile: http://www.shigaru.com/users
 
 Please do not reply to this email as it has been generated automatically. If you have any questions or need to contact us please email us at info@shigaru.com
 
