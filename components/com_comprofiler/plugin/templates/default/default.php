@@ -226,9 +226,9 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 			echo $this->moduleContent;
 			echo '</div></div></div><div id="cb_comp_register">';
 		}
-		$redirected = JRequest::getVar('redirected','none');
+		$redirected = JRequest::getVar('rted','none');
 		if($redirected == 'none'){
-			}else if($redirected =='hwdshare'){
+			}else if($redirected =='submit'){
 ?>	
 	<div id="fromhwdshare" class="usermessages">
 		<div id="fromhwdsharewrap">         
