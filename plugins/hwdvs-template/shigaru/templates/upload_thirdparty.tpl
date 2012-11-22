@@ -349,13 +349,13 @@
                             </p>     
 							<p class="songtutorialfields">
 								<label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
-								<input type="text" value="" id="originalband" name="originalband" size="20" class="required" placeholder="Enter Band Name..." minlength="2"/>
+								<input type="text" value="" id="originalband" name="originalband" size="40" class="required" placeholder="Enter Band Name..." minlength="2"/>
 								<br class="clear"/>
 								<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
 							</p>
 							<p class="songtutorialfields">
 								<label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
-								<input type="text" value="" id="songtitle" name="songtitle" size="20" placeholder="Enter Song Title..."/>
+								<input type="text" value="" id="songtitle" name="songtitle" size="40" placeholder="Enter Song Title..."/>
 								<br class="clear"/>
 							   <span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
 							</p>

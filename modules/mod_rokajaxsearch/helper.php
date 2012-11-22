@@ -140,7 +140,7 @@ class modRokajaxsearchHelper {
 	function getLatestSearchs() {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT search_term FROM #__core_log_searches'; 
-		$query .= ' WHERE 1  ORDER BY hits  DESC';
+		$query .= ' WHERE 1';
 		$query .= ' LIMIT 0,6';
 		$db->setQuery($query);
 		$db->loadObjectList();
@@ -160,7 +160,25 @@ class modRokajaxsearchHelper {
 		}
 		
 		function getAnchor($word) {
-				$searchLink = '<a href="'.JURI::base().'index.php?option=com_search&view=search&searchphrase=any&ordering=category&limit=10&searchword='.$word.'&r='.rand().'" title="'.JText::_('View results for ').$word.'">'.$word.'</a>';
+			$url ='';
+				if(trim($word) != ''){	
+					$url = JRoute::_("index.php?option=com_hwdvideoshare&task=search&Itemid=$Itemid");
+					$url = str_replace("&amp;", "&", $url);
+
+					$pos = strpos($url, "?");
+					if ($pos === false)
+					{
+						$url = $url."?pattern=".$word;
+					}
+					else
+					{
+						$url = $url."&pattern=".$word;
+
+					}
+				}
+			
+			
+				$searchLink = '<a href="'.$url.'&r='.rand().'" title="'.JText::_('View results for ').$word.'">'.$word.'</a>';
 				return $searchLink ;
 			}
 	

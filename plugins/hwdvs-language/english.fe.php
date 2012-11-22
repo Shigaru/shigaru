@@ -795,7 +795,7 @@ DEFINE("_HWDVIDS_VIDEOS","Videos");
 DEFINE("_HWDVIDS_SUBCATS","Subcategories");
 DEFINE("_HWDVIDS_SELECT_TEMPLATE","Select Template");
 DEFINE("_HWDVIDS_DEFAULT_TEMPLATE","Default Template");
-DEFINE("_HWDVIDS_INFO_SECURECODE","Security Code");
+DEFINE("_HWDVIDS_INFO_SECURECODE","Security code");
 DEFINE("_HWDVIDS_ALERT_ADMIN_USERVIDDEL","Your video has been successfully removed");
 DEFINE("_HWDVIDS_ALERT_NOEMBEDCODE","Please enter the URL of a video page.");
 DEFINE("_HWDVIDS_UNREAD","UNREAD");

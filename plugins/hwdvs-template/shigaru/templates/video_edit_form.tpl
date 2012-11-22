@@ -24,12 +24,12 @@
 			jQuery('#intrument_id').val(intrument_id);
 			jQuery('#level_id').val(level_id);
 			jQuery('#language_id').val(language_id);
-			if(category_id=='1')
+			if(category_id=='1' || category_id=='2')
 				jQuery('.songtutorialfields').fadeIn(500,function () {
 				  });
 		
 			jQuery('#category_id').change(function() {	
-				if(jQuery(this).val()=='1')
+				if(jQuery(this).val()=='1' || jQuery(this).val()=='2')
 				jQuery('.songtutorialfields').fadeIn(500,function () {
 				  });
 				else
@@ -145,7 +145,7 @@
 					</p>
 					<p>
 						<label for="title">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</label>
-						<input type="text" class="required" value="{$titleplain}" size="40" name="title" id="title">
+						<input type="text" class="required" value="{$titleplain}" size="60" name="title" id="title">
 						<div class="clear"></div>
 						</p>
                     <p>
@@ -162,12 +162,12 @@
 						</p>			     
 					<p class="songtutorialfields">
 						<label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
-						<input type="text" id="originalband" name="originalband" size="20" class="required" value="{$band_id}" minlength="2"/>
+						<input type="text" id="originalband" name="originalband" size="40" class="required" value="{$band_id}" minlength="2"/>
 						<br class="clear"/>
 						</p>
 					<p class="songtutorialfields">
 						<label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
-						<input type="text" id="songtitle" name="songtitle" size="20" value="{$song_id}"/>
+						<input type="text" id="songtitle" name="songtitle" size="40" value="{$song_id}"/>
 						<br class="clear"/>
 					  </p>
 				   <p>
