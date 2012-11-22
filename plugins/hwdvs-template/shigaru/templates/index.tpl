@@ -248,21 +248,22 @@
 							<h3>Community</h3>
 							<div class="video_activity_header bwhite">
 								<ul>
+									<li><a href="#recently" title="Click to see more Instruments">Recently Online Members</a></li>
 									<li class="selected"><a href="#newusers" title="Click to see more Bands">New users</a></li>
-									<li><a href="#recently" title="Click to see more Instruments">Recenty Online Members</a></li>
 									<!--<li><a href="#topvideo" title="Click to see more Songs">Top Video Posters</a></li>
 									<li><a href="#recentstatus" title="Click to see Genres">Recent Status Updates</a></li>-->
 									<li><a href="#recentprofile" title="Click to see Genres">Recent Profile Activity</a></li>
 								</ul>
 							</div>
 							<div class="slidesWrapper">
-								<div id="newusers" class="tab_wrapper community bwhite">
-									{$s4jnewusers}
-								</div>
 								<div id="recently" class="tab_wrapper community bwhite">
 									<script type="text/javascript" src="{$shiggymemberssurl}"></script>
 									{$zncbmembers}
 								</div>
+								<div id="newusers" class="tab_wrapper community bwhite">
+									{$s4jnewusers}
+								</div>
+								
 								<!--<div id="topvideo" class="tab_wrapper community bwhite">
 									<ul>
 										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_5.jpg" alt="Shigaru.com" /></a></li>
