@@ -8,11 +8,8 @@
 *}
 {literal}
 <script type="text/javascript">
-var oSearchParams = {
-		ordering:'{/literal}{$sort}{literal}',
-		filtering:null,
-		currentUrl:'{/literal}{$pageURL}{literal}' 
-	};
+oSearchParams.ordering='{/literal}{$sort}{literal}',
+oSearchParams.filtering=null;
 </script>
 {/literal}
 <div class="f15em mbot12 mleft30">

@@ -90,6 +90,3 @@ require($layout);
 $db->_profile("langlayout");
 $version = new JoomFishVersion();
 ?>
-<!--JoomFish <?php echo $version->getVersion();?>-->
-<!-- <?php echo $version->getCopyright();?> Think Network, released under the GPL. -->
-<!-- More information: at http://www.joomfish.net -->
