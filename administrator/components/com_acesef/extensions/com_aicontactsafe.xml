@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="acesef_ext" version="1.5.0" method="upgrade">
+	<name>aiContactSafe</name>
+	<author>JoomAce LLC</author>
+	<creationDate>August 2010</creationDate>
+	<copyright>(C) 2009-2010 JoomAce LLC</copyright>
+	<license>GNU GPL, http://www.joomace.net/company/license</license>
+	<authorEmail>info@joomace.net</authorEmail>
+	<authorUrl>www.joomace.net</authorUrl>
+	<version>1.5.1</version>
+	<description>aiContactSafe extension for AceSEF.</description>
+	<files>
+		<filename acesef_ext="com_aicontactsafe">com_aicontactsafe.php</filename>
+	</files>
+	<params group="url">
+ 		<param name="profileid_inc" type="radio" default="1" label="ACESEF_PARAMS_AICONTACT_PROFILE_ID" description="ACESEF_PARAMS_AICONTACT_PROFILE_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+ 	</params>
+</install>
