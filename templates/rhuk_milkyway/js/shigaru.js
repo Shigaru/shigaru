@@ -264,9 +264,11 @@ jQuery(document).ready(function($){
 	
 	
 	function composeUrl(e){
-		if(oSearchParams.currentUrl.indexOf('?')>0)
+		if(oSearchParams.currentUrl.indexOf('?')>0 && oSearchParams.currentUrl.indexOf('search-results')>0)
 			oCurrentUrl = oSearchParams.currentUrl.substring(0,oSearchParams.currentUrl.indexOf('?'))+'?ajax=yes';
-		else
+			else if (oSearchParams.currentUrl.indexOf('search-results')<0)
+				oCurrentUrl = oSearchParams.currentUrl.substring(0,oSearchParams.currentUrl.indexOf('?'))+'/videos/search-results?ajax=yes';
+				else
 			oCurrentUrl = oSearchParams.currentUrl+'?ajax=yes';
 		if(jQuery(e.target).parent().parent().hasClass('videopagination')){
 			var oLimitStart = e.target.href.substring(e.target.href.indexOf("&limitstart=")+12,e.target.href.length);
