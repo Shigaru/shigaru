@@ -270,13 +270,10 @@ jQuery(document).ready(function($){
 				oCurrentUrl = oSearchParams.currentUrl.substring(0,oSearchParams.currentUrl.indexOf('?'))+'/videos/search-results?ajax=yes';
 				else
 			oCurrentUrl = oSearchParams.currentUrl+'?ajax=yes';
-			console.log(jQuery(e.target).parent().parent());
 		if(jQuery(e.target).parent().parent().hasClass('videopagination') || jQuery(e.target).parent().parent().hasClass('pagination')){
 			var oLimitStart = e.target.href.substring(e.target.href.indexOf("&limitstart=")+12,e.target.href.length);
-			console.log(oLimitStart);
 				if(oLimitStart.indexOf('&')>0)
 					oLimitStart = oLimitStart.substring(0,oLimitStart.indexOf('&'));
-				console.log(oCurrentUrl);	
 				oCurrentUrl +=  "&limitstart="+oLimitStart;
 			}
 		oCurrentUrl +=composeFiltersUrl();
