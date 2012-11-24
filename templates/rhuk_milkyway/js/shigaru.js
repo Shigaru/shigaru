@@ -264,9 +264,10 @@ jQuery(document).ready(function($){
 	
 	
 	function composeUrl(e){
-		oCurrentUrl = oSearchParams.currentUrl+'?ajax=yes';
-		console.log(jQuery(e.target).parent().parent());
-		console.log(jQuery(e.target).parent().parent().hasClass('videopagination'));
+		if(oSearchParams.currentUrl.indexOf('?')>0)
+			oCurrentUrl = oSearchParams.currentUrl.substring(0,oSearchParams.currentUrl.indexOf('?'))+'?ajax=yes';
+		else
+			oCurrentUrl = oSearchParams.currentUrl+'?ajax=yes';
 		if(jQuery(e.target).parent().parent().hasClass('videopagination')){
 			var oLimitStart = e.target.href.substring(e.target.href.indexOf("&limitstart=")+12,e.target.href.length);
 			console.log(oLimitStart);
@@ -278,14 +279,19 @@ jQuery(document).ready(function($){
 		oCurrentUrl +=composeFiltersUrl();
 		oCurrentUrl +=composeOrderUrl(e);
 		oCurrentUrl +=composeLimitUrl(e);
+		oCurrentUrl +=composePatternUrl(e);
 		//oCurrentUrl +=composeSearchTypeUrl(e);
 		return oCurrentUrl;
 		}
 	
 	function composeLimitUrl(e){
-		
 		var oLimit = (jQuery('#resultordering #limit').length>0)?'&limit='+jQuery('#resultordering #limit').val():'';
 		return oLimit;
+	}
+	
+	function composePatternUrl(e){
+		var oPattern = (jQuery('#searchinput').val()!='')?'&pattern='+jQuery('#searchinput').val()+'&ep=&ex=&rpp=0':'';
+		return oPattern;
 	}
 	
 	function composeSearchTypeUrl(e){
