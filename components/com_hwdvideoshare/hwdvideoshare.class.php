@@ -4676,7 +4676,10 @@ $app = & JFactory::getApplication();
 			}
 		$oDetails->level = constant(hwd_vs_tools::getVideoLevel($row->level_id));
 		$oDetails->instrument = constant(hwd_vs_tools::getVideoInstrument($row->intrument_id));
-		$oDetails->language = constant(hwd_vs_tools::getVideoLanguage($row->language_id));
+		if($row->language_id=='NONE')
+			$oDetails->language = UE_NOLANG;
+			else
+				$oDetails->language = constant(hwd_vs_tools::getVideoLanguage($row->language_id));
 		return $oDetails;
 		}
     

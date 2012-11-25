@@ -20,7 +20,10 @@
 	jQuery(document).ready(function() {
 		
 			jQuery('#category_id').val(category_id);
-			jQuery('#genre_id').val(genre_id);
+			if(genre_id=='0')
+				jQuery('#genre_id').val('OTHER');
+				else
+				jQuery('#genre_id').val(genre_id);
 			jQuery('#intrument_id').val(intrument_id);
 			jQuery('#level_id').val(level_id);
 			jQuery('#language_id').val(language_id);
