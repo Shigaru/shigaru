@@ -972,7 +972,6 @@ class hwd_vs_html
 
 		jimport( 'joomla.document.document' );
 		$doc = & JFactory::getDocument();
-
 		$active = &$menu->getActive();
 
 		if (!empty($mparams_pt)) {

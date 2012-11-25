@@ -4669,7 +4669,11 @@ $app = & JFactory::getApplication();
      */
     
     function generateSideDetails($row){
-		$oDetails->genre = constant(hwd_vs_tools::getVideoGenre($row->genre_id));
+		if($row->genre_id ==0){
+			$oDetails->genre = _HWDVIDS_SHIGARU_OTHER;
+		}else{
+				$oDetails->genre = constant(hwd_vs_tools::getVideoGenre($row->genre_id));
+			}
 		$oDetails->level = constant(hwd_vs_tools::getVideoLevel($row->level_id));
 		$oDetails->instrument = constant(hwd_vs_tools::getVideoInstrument($row->intrument_id));
 		$oDetails->language = constant(hwd_vs_tools::getVideoLanguage($row->language_id));
