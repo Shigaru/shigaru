@@ -27,7 +27,9 @@
 					 <div class="fright mbot12">
 							
 							<div class="fleft mright6">{$smarty.const._HWDVIDS_INFO_SHARED}<br />{$videoplayer->uploader}</div><div class="fleft">{$videoplayer->avatar}</div>
+							{if $contentauthor}
 							<div class="contentautor">Content <br /> Author</div>
+							{/if}
 					</div>
 				  </div>
 				  <div class="padding clear">
