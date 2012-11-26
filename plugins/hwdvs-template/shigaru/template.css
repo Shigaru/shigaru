@@ -214,9 +214,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9ddd42', end
 		}	
 		#categoryinfo a,#categoryinfo span{
 			color:#000;
-			font-weight:bold;
-			text-decoration:none;
 		}
+		#categoryinfo a{font-weight:bold;}
 		#videoTitle .tuto a,#videoTitle .tuto span{color:#fff;}
 		#categoryinfo a:hover{
 			text-decoration:underline;
