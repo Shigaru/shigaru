@@ -360,7 +360,7 @@ class hwd_vs_access
 						{
 							$smartyvs->assign("showconnectionbox", 1);
 						}
-						hwd_vs_tools::infomessage($nav, $usernav, $title, $message_denied, $icon, $backlink);
+						//hwd_vs_tools::infomessage($nav, $usernav, $title, $message_denied, $icon, $backlink);
 						return false;
 					}
 				}

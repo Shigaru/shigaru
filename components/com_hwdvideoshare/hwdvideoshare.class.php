@@ -3128,7 +3128,9 @@ $app = & JFactory::getApplication();
 	function addSong($song, $band_id) {
 		$db = & JFactory::getDBO();
 		$row = new hwdvidssongs($db);
+		$temppostid = $_POST['id'] ;
 		if($song!='' && $song != null){
+	    $_POST['id'] 		= null;			
 		$_POST['label'] 		= $song;
 		$_POST['description'] 	= $song;
 		$_POST['band_id'] 		= $band_id;
@@ -3140,14 +3142,13 @@ $app = & JFactory::getApplication();
 			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
 			exit();
 		}
-
 		// store it in the db
 		if (!$row->store())
 		{
 			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
 			exit();
 		}
-		
+		$_POST['id'] 		= $temppostid;
 		return $row->id;
     }
     
@@ -3179,15 +3180,14 @@ $app = & JFactory::getApplication();
      */
 	function checkSong($band) {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT id, label FROM #__hwdvidssongs AS a'; 
+		$query = 'SELECT a.id, label FROM #__hwdvidssongs AS a'; 
 		$query .= ' WHERE a.label ="'.$band.'"';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$bandList = $db->loadResultArray();
+		$bandMatched = null;
 		if(sizeof($bandList)>0)
 			$bandMatched = $bandList[0];
-				else
-					$bandMatched =null;
 		return $bandMatched;
     }
     
@@ -3200,7 +3200,9 @@ $app = & JFactory::getApplication();
 	function addBand($band) {
 		$db = & JFactory::getDBO();
 		$row = new hwdvidsbands($db);
+		$temppostid = $_POST['id'] ;
 		if($band!='' && $band != null){
+		$_POST['id'] 		= null;
 		$_POST['label'] 			= $band;
 		$_POST['description'] 		= $band;
 		$_POST['website'] 			= $band;
@@ -3219,7 +3221,7 @@ $app = & JFactory::getApplication();
 			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
 			exit();
 		}
-		
+		$_POST['id'] 		= $temppostid;
 		return $row->id;
     }
     
@@ -3252,15 +3254,14 @@ $app = & JFactory::getApplication();
      */
 	function checkBand($band) {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT id,label FROM #__hwdvidsbands AS a'; 
+		$query = 'SELECT a.id,label FROM #__hwdvidsbands AS a'; 
 		$query .= ' WHERE a.label ="'.$band.'"';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$bandList = $db->loadResultArray();
+		$bandMatched = null;
 		if(sizeof($bandList)>0)
 			$bandMatched = $bandList[0];
-				else
-					$bandMatched =null;
 		return $bandMatched;
     }
     

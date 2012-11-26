@@ -216,7 +216,7 @@ class hwd_vs_usrfunc
 
 		$uid = JRequest::getInt( 'owner', 0, 'post' );
 		$rowid = JRequest::getInt( 'id', 0, 'post' );
-		$referrer = JRequest::getVar( 'referrer', JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
+		$referrer = JRequest::getVar( 'referrer', JRoute::_(JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid ));
 
 		if (!hwd_vs_access::checkAccess($c->gtree_mdrt, $c->gtree_mdrt_child, 1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORACCESS, _HWDVIDS_ALERT_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.moderator"))
 		{
@@ -264,7 +264,7 @@ class hwd_vs_usrfunc
 			{
 				$msg = $upload_result[1];
 				$app->enqueueMessage($msg);
-				$app->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid.'&task=editvideo&video_id='.$row->id );
+				$app->redirect( JRoute::_(JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid.'&task=editvideo&video_id='.$row->id ));
 			}
 			else
 			{
@@ -352,27 +352,28 @@ class hwd_vs_usrfunc
 		$allow_embedding 	= JRequest::getInt( "allow_embedding", $c->shareoption3, "post" );
 		$allow_ratings 		= JRequest::getInt( "allow_ratings", $c->shareoption4, "post" );
 		
-		if($category_id==1){
+		if($category_id!=3){
 			//band and songs stuff
 			$band = Jrequest::getVar( 'originalband', '' );
+			$band_id = null;
 			$band_id = hwd_vs_tools::checkBand($band);
-			//var_dump($band_id);
-			//exit();
+			
 			$song = Jrequest::getVar( 'songtitle', '' );
+			$song_id = null;
 			$song_id = hwd_vs_tools::checkSong($song);
-			if($band_id==null){
-					$band_id = hwd_vs_tools::addBand($band);
-					if($song_id==null){
-					$song_id = hwd_vs_tools::addSong($song,$band_id);
-					}
-				}else{
-					if($song_id==null){
+
+			if($song !=''){
+				if($band_id==null && $band !=''){
+						$band_id = hwd_vs_tools::addBand($band);
 						$song_id = hwd_vs_tools::addSong($song,$band_id);
-					}
-					}
+					}else{
+							if($song_id==null){
+								$song_id = hwd_vs_tools::addSong($song,$band_id);
+							}
+						}
+			}		
 			
 		}
-
 		$_POST['id'] 				= $rowid;
 		$_POST['title'] 			= $title;
 		$_POST['description'] 		= $description;

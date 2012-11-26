@@ -1213,22 +1213,22 @@ class hwd_vs_uploads
 
 		//$checkform = hwd_vs_tools::checkFormComplete($title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings);
 		$band;$band_id;$song;$song_id;
-		if($category_id==1){
+		if($category_id!=3){
 			//band and songs stuff
 			$band = Jrequest::getVar( 'originalband', '' );
 			$band_id = hwd_vs_tools::checkBand($band);
 			$song = Jrequest::getVar( 'songtitle', '' );
 			$song_id = hwd_vs_tools::checkSong($song);
-			if($band_id==null){
-					$band_id = hwd_vs_tools::addBand($band);
-					if($song_id==null){
-					$song_id = hwd_vs_tools::addSong($song,$band_id);
-					}
-				}else{
-					if($song_id==null){
+			if($song !=''){
+				if($band_id==null && $band !=''){
+						$band_id = hwd_vs_tools::addBand($band);
 						$song_id = hwd_vs_tools::addSong($song,$band_id);
-					}
-					}
+					}else{
+							if($song_id==null){
+								$song_id = hwd_vs_tools::addSong($song,$band_id);
+							}
+						}
+			}		
 			
 		}
 		$row = new hwdvids_video($db);
