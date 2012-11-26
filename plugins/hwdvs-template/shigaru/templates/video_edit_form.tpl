@@ -24,7 +24,10 @@
 				jQuery('#genre_id').val('OTHER');
 				else
 				jQuery('#genre_id').val(genre_id);
-			jQuery('#intrument_id').val(intrument_id);
+			if(intrument_id=='0')
+				jQuery('#intrument_id').val('OTHER');
+				else
+				jQuery('#intrument_id').val(intrument_id);
 			jQuery('#level_id').val(level_id);
 			jQuery('#language_id').val(language_id);
 			if(category_id=='1' || category_id=='2')

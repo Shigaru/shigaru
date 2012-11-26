@@ -4669,13 +4669,16 @@ $app = & JFactory::getApplication();
      */
     
     function generateSideDetails($row){
-		if($row->genre_id ==0){
+		if($row->genre_id ==0)
 			$oDetails->genre = _HWDVIDS_SHIGARU_OTHER;
-		}else{
+			else
 				$oDetails->genre = constant(hwd_vs_tools::getVideoGenre($row->genre_id));
-			}
+			
 		$oDetails->level = constant(hwd_vs_tools::getVideoLevel($row->level_id));
-		$oDetails->instrument = constant(hwd_vs_tools::getVideoInstrument($row->intrument_id));
+		if($row->intrument_id ==0)
+			$oDetails->instrument = _HWDVIDS_SHIGARU_OTHER;
+		 else
+			$oDetails->instrument = constant(hwd_vs_tools::getVideoInstrument($row->intrument_id));
 		if($row->language_id=='NONE')
 			$oDetails->language = UE_NOLANG;
 			else
