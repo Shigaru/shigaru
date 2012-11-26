@@ -1002,7 +1002,7 @@ class hwd_vs_html
 				else if($row->category_id == '3')
 					$smartyvs->assign("catclass", 'theory');
 		$smartyvs->assign("videoplayer", hwd_vs_tools::generateVideoDetails($row, null, null, null, $Itemid, null, null));
-		if($row->category_id =='2')
+		if($row->category_id !='2')
 			$smartyvs->assign("showlevel", 1);
 			else
 				$smartyvs->assign("showlevel", 0);
