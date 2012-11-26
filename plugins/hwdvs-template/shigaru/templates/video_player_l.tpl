@@ -22,12 +22,22 @@
 				  <div>
 					 <div class="fleft titleText">
 					 {$videoplayer->titleText} {$videoplayer->editvideo} {$videoplayer->deletevideo}
+					 
 					 </div>
 					 <div class="fright mbot12">
+							
 							<div class="fleft mright6">{$smarty.const._HWDVIDS_INFO_SHARED}<br />{$videoplayer->uploader}</div><div class="fleft">{$videoplayer->avatar}</div>
+							<div class="contentautor">Content <br /> Author</div>
 					</div>
 				  </div>
-				  <div class="padding clear"><center>{$videoplayer->player}</center></div>
+				  <div class="padding clear">
+					<div id="categoryinfo">  
+								{$videoplayer->category} 
+							</div>
+					<center>
+						{$videoplayer->player}
+					</center>
+				  </div>
 				  <div class="padding mtop24">
 					  
 						<div class="videoactions"> 
@@ -71,7 +81,8 @@
 						  
 						   
 						</div>
-						<div class="fleft w70pc">  
+						<div class="fleft w70pc"> 
+							
 							<div class="mbot12">  
 								<span class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_DESC}</span><br />
 								<p id="truncateMe" class="mtop12"><span id="videodecription">{$videoplayer->description} </span><a href="#" title="Click here to show full description" id="showmore">... [More]</a></p>
@@ -89,7 +100,9 @@
       <div id="infocontext" class="fleft">
 		  <div><span>{$smarty.const._HWDVIDS_INFO_PLAYS}</span><br /><b>{$videoplayer->views}</b></div>
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_DATEADDED}</span><br />{$videoplayer->upload_date}</div>
+		  {if $showlevel}
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_VIDEOLEVEL}</span><br />{$videoplayer->level}</div>
+		  {/if}
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENT}</span><br />{$videoplayer->instrument}</div>
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_GENRE}</span><br />{$videoplayer->genre}</div>
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}</span><br />{$videoplayer->language}</div>

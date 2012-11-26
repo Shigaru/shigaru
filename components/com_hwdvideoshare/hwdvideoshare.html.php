@@ -997,6 +997,10 @@ class hwd_vs_html
 		hwd_vs_tools::generateBreadcrumbs($row, $meta_title);
 
 		$smartyvs->assign("videoplayer", hwd_vs_tools::generateVideoDetails($row, null, null, null, $Itemid, null, null));
+		if($row->category_id =='2')
+			$smartyvs->assign("showlevel", 1);
+			else
+				$smartyvs->assign("showlevel", 0);
 		//$smartyvs->assign("videoplayer", $videoplayer);
 		//var_dump(hwd_vs_tools::generateVideoDetails($row, null, null, null, $Itemid, null, null));
 		if (count($related_videos) > 0 && $c->showrevi == "1")
