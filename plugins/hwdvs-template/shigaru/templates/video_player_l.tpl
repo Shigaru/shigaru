@@ -20,22 +20,27 @@
 
         <div id="videoTitle" class="fleft mbot20">
 				  <div>
-					 <div class="fleft titleText">
-					 {$videoplayer->titleText} {$videoplayer->editvideo} {$videoplayer->deletevideo}
 					 
-					 </div>
 					 <div class="fright mbot12">
 							
-							<div class="fleft mright6">{$smarty.const._HWDVIDS_INFO_SHARED}<br />{$videoplayer->uploader}</div><div class="fleft">{$videoplayer->avatar}</div>
+							<div class="fleft">{$videoplayer->avatar}</div>
 							{if $contentauthor}
-							<div class="contentautor">Content <br /> Author</div>
+							<div class="contentautor"><span>Content Owner</span></div>
 							{/if}
 					</div>
+					<div class="fleft titleText">
+					 <h2>{$videoplayer->titleText}</h2> {$videoplayer->editvideo} {$videoplayer->deletevideo}
+					 
+					 </div>
+					 <div class="clear"></div>
 				  </div>
 				  <div class="padding clear">
-					<div id="categoryinfo">  
-								{$videoplayer->category} 
-							</div>
+					<div id="categoryinfo" class="{$catclass}">  
+								
+								<div class="fleft mright6"><span class="fontbold">{$videoplayer->category}</span></div>
+								<div class="fright mright6"><span>{$smarty.const._HWDVIDS_INFO_SHARED}</span> {$videoplayer->uploader}</div>
+								<div class="clear"></div>
+					</div>
 					<center>
 						{$videoplayer->player}
 					</center>

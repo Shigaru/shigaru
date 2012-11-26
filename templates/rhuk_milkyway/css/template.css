@@ -259,18 +259,24 @@ padding: 6px 16px 0 10px;
 .search-results-filter-categories .styledCheckboxChecked, .search-results-filter-categories .styledCheckboxChecked label {
 background: url("../images/sprite-search-results-tabs.png") no-repeat scroll 0 0 transparent;
 }
-.contentautor{
-			position:absolute;
-			height:90px;
-			width:90px;
-			margin-top: 35px;
-			background:url("../images/star_full.png") no-repeat scroll 0 0 transparent;
-			color: white;
-text-shadow: 2px 2px #CCC;
+
+.contentautor {
+    background: url("../images/star_full.png") no-repeat scroll 0 0 transparent;
+    float: right;
+    height: 87px;
+    margin: -18px 0;
+    text-align: center;
+    width: 90px;
+}
+
+.contentautor span {
+    display: block;
+padding-top: 23px;
+padding-left: 3px;
+text-shadow: 1px 1px black;
+color: white;
 font-weight: bold;
-padding: 22px;
-		}
-			
+}			
 #searchtabs ul{text-align:left;}
 #searchtabs #searchinput{  border: 2px solid #CFCFCF;
     border-radius: 10px 10px 10px 10px; margin: 4px 12px 0 0;
@@ -547,7 +553,16 @@ background:url("../images/arrow_top.gif") no-repeat scroll 95% 53% transparent !
 #viewvideotext{font-size: 1.2em;font-weight: bold;margin: 21px 0 0 64px;}
 #tabs,#whitebox,#comments-tabs,#tabs-tags {margin-bottom:18px;}
 #videoTitle{width: 65%;}
-#videoTitle div div.titleText{width:488px;font-size:1.5em; color:#909090; font-weight:bold;line-height:1em;margin-bottom:24px;}
+
+#videoTitle div div.titleText {
+    color: #909090;
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 1em;
+    margin-bottom: 24px;
+    margin-left: 20px;
+    width: 65%;
+}
 #videoTitle div div.right{}
 #infocontext{padding-left:20px;width: 25%;}
 #infocontext div{background:rgb(255,255,255); /* Old browsers */

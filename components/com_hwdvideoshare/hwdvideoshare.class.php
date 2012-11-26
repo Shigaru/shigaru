@@ -1489,7 +1489,7 @@ class hwd_vs_tools {
 				}
 				else
 				{
-					$code[$i]->category = hwd_vs_tools::generateCategoryLink($row->category_id);
+					$code[$i]->category = hwd_vs_tools::generateCategory($row->category_id);
 				}
 			}
 			if ($hwdvsTemplateOverride['show_description']) {          $code[$i]->description = hwd_vs_tools::truncateText(strip_tags(stripslashes($row->description)), $trunvdesc); }
@@ -4776,7 +4776,7 @@ $app = & JFactory::getApplication();
 		}
 		else
 		{
-			$details->category = hwd_vs_tools::generateCategoryLink($row->category_id);
+			$details->category = hwd_vs_tools::generateCategory($row->category_id);
 		}
 
 		$details->description_truncated = hwd_vs_tools::makeClickableLinks(hwd_vs_tools::truncateText(stripslashes($row->description), $c->trunvdesc));

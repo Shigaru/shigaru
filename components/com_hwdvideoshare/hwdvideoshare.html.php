@@ -995,6 +995,12 @@ class hwd_vs_html
 		$doc->addCustomTag('<link rel="image_src" href="'.hwd_vs_tools::generateThumbnailURL( $row->id, $row->video_id, $row->video_type, $row->thumbnail ).'" />');
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs($row, $meta_title);
+		if($row->category_id == '1')
+			$smartyvs->assign("catclass", 'tuto');
+			else if($row->category_id == '2')
+				$smartyvs->assign("catclass", 'nontuto');
+				else if($row->category_id == '3')
+					$smartyvs->assign("catclass", 'theory');
 		$smartyvs->assign("videoplayer", hwd_vs_tools::generateVideoDetails($row, null, null, null, $Itemid, null, null));
 		if($row->category_id =='2')
 			$smartyvs->assign("showlevel", 1);
