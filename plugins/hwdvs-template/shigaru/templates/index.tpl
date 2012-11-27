@@ -147,24 +147,25 @@
 					<div class="video_activity_header">
 						<div>
 							<ul>
-								<li class="selected"><a href="#videos" title="Click to see more Bands">Videos</a></li>
-								<li><a href="#bands" title="Click to see more Bands">Bands</a></li>
-								<li><a href="#instruments" title="Click to see more Instruments">Instruments</a></li>
-								<li><a href="#songs" title="Click to see more Songs">Songs</a></li>
-								<li><a href="#genre" title="Click to see Genres">Genres</a></li>
+								<li class="selected"><a href="#instruments" title="Click to see popular Instruments">Instruments</a></li>
+								<li ><a href="#videos" title="Click to see tags assigned to videos">Videos</a></li>
+								<li><a href="#bands" title="Click to see popular bands">Bands</a></li>
+								<li><a href="#songs" title="Click to see popular Songs">Songs</a></li>
+								<li><a href="#genre" title="Click to popular Genres">Genres</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="slidesWrapper">
-						<div id="bands" class="tab_wrapper tags">
+						<div id="instruments" class="tab_wrapper tags">
+							{$instagsList}
+						</div>
+						<div id="videos" class="tab_wrapper tags">
 							{$tagsList}
 						</div>
 						<div id="bands" class="tab_wrapper tags">
 							{$bandtagsList}
 						</div>
-						<div id="instruments" class="tab_wrapper tags">
-							{$instagsList}
-						</div>
+						
 						<div id="songs" class="tab_wrapper tags">
 							{$songtagsList}
 						</div>
