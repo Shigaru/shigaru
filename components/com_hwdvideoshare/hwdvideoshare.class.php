@@ -3397,8 +3397,8 @@ $app = & JFactory::getApplication();
 		$topList = array();	
 		$arrayWordList = explode(',',$string);
 		$wordList = array_count_values($arrayWordList);
-		
 		arsort($wordList);
+		
 		foreach ($wordList as $word => $wordNo)
 		{
 			if (strlen($word) > 3)
@@ -3414,16 +3414,29 @@ $app = & JFactory::getApplication();
 		
 		//sorts the array descending and only returns the ones the
 		//amount the user wants.
-		
-		rsort($topList);
+		//rsort($topList);
 		$i = 1;
-		
+		/*echo '<pre>';
+		var_dump($topList);
+		echo '</pre>';*/
 		$finalList = array();
-		while ($i <= $count)
+		
+		foreach ($topList as $word => $wordNo)
+		{
+			array_push($finalList,$wordNo);
+			$i++;
+			if($i > $count)
+			break;
+		}
+		
+		/*while ($i <= $count)
 		{
 			array_push($finalList,$topList[$i-1]);
 			$i++;
-		}
+		}*/
+		/*echo '<pre>';
+		var_dump($topList);
+		echo '</pre>';*/
 		$finalList = array_unique($finalList);
 		return $finalList;
 	}
