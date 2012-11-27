@@ -200,7 +200,7 @@ class hwd_vs_core
 					. $where
 					. ' AND l.date > NOW() - INTERVAL 1440 MINUTE'
 					. ' ORDER BY l.date DESC'
-					. ' LIMIT 0, 10'
+					. ' LIMIT 0, 100'
 					;
 					$db->SetQuery($query);
 					$rowsnow = $db->loadObjectList();
