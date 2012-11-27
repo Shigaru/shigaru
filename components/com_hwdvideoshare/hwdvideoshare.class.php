@@ -3107,9 +3107,9 @@ $app = & JFactory::getApplication();
      */
 	function getGenreTags() {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT genre FROM #__hwdvidsgenres AS a, #__hwdvidsvideos as b'; 
-		$query .= ' WHERE a.Id = b.genre_id';
-		$query .= ' LIMIT 0,10';
+		$query = 'SELECT a.genre as genre FROM #__hwdvidsvideos as b'; 
+		$query .= ' INNER JOIN #__hwdvidsgenres AS a ON a.Id = b.genre_id';
+		$query .= ' LIMIT 0,1000';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -3412,13 +3412,7 @@ $app = & JFactory::getApplication();
 			}
 		}
 		
-		//sorts the array descending and only returns the ones the
-		//amount the user wants.
-		//rsort($topList);
 		$i = 1;
-		/*echo '<pre>';
-		var_dump($topList);
-		echo '</pre>';*/
 		$finalList = array();
 		
 		foreach ($topList as $word => $wordNo)
@@ -3429,14 +3423,6 @@ $app = & JFactory::getApplication();
 			break;
 		}
 		
-		/*while ($i <= $count)
-		{
-			array_push($finalList,$topList[$i-1]);
-			$i++;
-		}*/
-		/*echo '<pre>';
-		var_dump($topList);
-		echo '</pre>';*/
 		$finalList = array_unique($finalList);
 		return $finalList;
 	}
