@@ -3306,6 +3306,26 @@ $app = & JFactory::getApplication();
 		return $wordList;
     }
     
+     /**
+     * Generates list of most songs tags
+     *
+     * 
+     * @return        $wordList
+     */
+	function getVideoTags() {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT tags FROM #__hwdvidsvideos'; 
+		$query .= ' WHERE tags IS NOT NULL ORDER BY date_uploaded DESC';
+		$query .= ' LIMIT 0,1000';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$wordList = $db->loadResultArray();
+		for($i = 0; $i < sizeof($wordList); ++$i){
+			$wordList[$i] =$wordList[$i].',';
+		}
+		return $wordList;
+    }
+    
     
     /**
      * Generates list of most popular tags

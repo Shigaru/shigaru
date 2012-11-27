@@ -435,10 +435,11 @@ class hwd_vs_html
 		$smartyvs->assign("AddThis", $AddThis);
 		
 		// VIDEO TAGS
+		$wordList = hwd_vs_tools::getVideoTags();
 		$tagsList =hwd_vs_tools::concatenateWords($wordList);
 		$tagsList = hwd_vs_tools::filterWords($tagsList);
 		$tagsList = hwd_vs_tools::parseTagsString($tagsList,50);
-		$tagsList =hwd_vs_tools::outputWords($tagsList,10,25);
+		$tagsList =hwd_vs_tools::outputWords($tagsList,10,50);
 		$smartyvs->assign("tagsList", $tagsList);
 		
 		// INSTRUMENTS TAGS
