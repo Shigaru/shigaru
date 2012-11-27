@@ -189,9 +189,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', end
 #beingwatched .slidesWrapper ul li img{-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
 #beingwatched .beingwatched_header ul{text-align: center;padding:6px;margin-bottom:6px;}
 #beingwatched .beingwatched_header li{display:inline-block;}
-#beingwatched .beingwatched_header a {display:inline-block;width:22px;height:22px;background:url("../images/bullets.png") no-repeat;text-indent:-9999px;
+#beingwatched .beingwatched_header a {display:inline-block;width:22px;height:22px;background:url("../images/bullets.png") no-repeat 0 -22px;text-indent:-9999px;
 	border:0;margin-right:3px;}
-#beingwatched .beingwatched_header li.selected a{background-position:0 -22px;}
+#beingwatched .beingwatched_header li.selected a{background-position:0 0;}
 .thumbplay{width:29px;height:29px;background: url("../images/sprite.png") no-repeat scroll -131px 0 transparent; display:block; position:absolute; margin: 29px 0 0 41px;}
 .videotime{ background: none repeat scroll 0 0 #000000;
     color: #FFFFFF;
