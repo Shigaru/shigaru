@@ -275,7 +275,7 @@ class HWDVS_xmlOutput
 			hwdvsDrawFile::XMLDataFile($rows_featured, 'featured');
 			hwdvsDrawFile::XMLPlaylistFile($rows_featured, 'featured');
 
-			$db->SetQuery('SELECT DISTINCT #__hwdvidsvideos.*, '.$select_f.' FROM #__hwdvidsvideos '.$join.' LEFT JOIN #__hwdvidslogs_views ON #__hwdvidslogs_views.videoid = #__hwdvidsvideos.id WHERE #__hwdvidsvideos.approved = "yes" AND #__hwdvidsvideos.published = 1 AND #__hwdvidslogs_views.date > NOW() - INTERVAL 1440 MINUTE ORDER BY #__hwdvidslogs_views.date DESC LIMIT 0, 10');
+			$db->SetQuery('SELECT DISTINCT #__hwdvidsvideos.*, '.$select_f.' FROM #__hwdvidsvideos '.$join.' LEFT JOIN #__hwdvidslogs_views ON #__hwdvidslogs_views.videoid = #__hwdvidsvideos.id WHERE #__hwdvidsvideos.approved = "yes" AND #__hwdvidsvideos.published = 1 AND #__hwdvidslogs_views.date > NOW() - INTERVAL 1440 MINUTE ORDER BY #__hwdvidslogs_views.date DESC LIMIT 0, 60');
 			$rows_bwn = $db->loadObjectList();
 			hwdvsDrawFile::XMLDataFile($rows_bwn, 'bwn');
 			hwdvsDrawFile::XMLPlaylistFile($rows_bwn, 'bwn');
