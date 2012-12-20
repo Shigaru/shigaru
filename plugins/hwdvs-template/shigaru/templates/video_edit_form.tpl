@@ -151,7 +151,7 @@
 					</p>
 					<p>
 						<label for="title">{$smarty.const._HWDVIDS_SHIGARU_TITLEVIDEO}</label>
-						<input type="text" class="required" value="{$titleplain}" size="60" name="title" id="title">
+						<input type="text" class="required w63" value="{$titleplain}" name="title" id="title">
 						<div class="clear"></div>
 						</p>
                     <p>
