@@ -71,7 +71,7 @@
 						{if $print_mostpopular}
 							<div id="the_most_wrapper">	
 								<div id="tabs-1" class="tab_wrapper">
-									<ul>
+									<ul >
 								  			{foreach name=outer item=data from=$mostviewedlist}
 											{include file="video_list_small_viewed.tpl"}
 											{/foreach}
@@ -85,7 +85,7 @@
 							
 							<div id="the_most_wrapper">	
 								<div id="tabs-3" class="tab_wrapper">
-								  <ul>
+								  <ul id="popuvideoslist">
 								  {foreach name=outer item=data from=$mostpopularlist}
 									{include file="video_list_small_popular.tpl"}
 								  {/foreach}

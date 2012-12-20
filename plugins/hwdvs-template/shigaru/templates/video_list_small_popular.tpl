@@ -14,8 +14,7 @@
 	</div>
 	<div class="plays">
 		<div class="fright">
-			<span>{$data->views}</span>
-			<span class="fright playstext">{$smarty.const._HWDVIDS_INFO_PLAYS}</span>
+			<span>{$data->rating}</span>
 		</div>
 	</div>
 </li>

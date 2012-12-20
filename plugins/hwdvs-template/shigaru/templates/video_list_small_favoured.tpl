@@ -16,7 +16,7 @@
 	<div class="plays">
 		<div class="fright">
 			<span>{$data->numfavoured}</span>
-			<span class="fright playstext">{$smarty.const._HWDVIDS_INFO_PLAYS}</span>
+			<span class="fright playstext">{$smarty.const._HWDVIDS_INFO_TIMESFAV}</span>
 		</div>
 	</div>
 </li>

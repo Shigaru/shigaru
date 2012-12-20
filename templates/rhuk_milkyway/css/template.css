@@ -126,8 +126,8 @@ padding: 16px 30px;border-right:1px solid #d6d6d6;font-size: 91%;-moz-box-shadow
 .workarea div.tab_wrapper a.jcl_comment{clear:both;color:#666666; text-decoration:none;}
 .workarea div.tab_wrapper a.jcl_comment:hover{ color:#9C5352; text-decoration:underline;}
 .workarea div.tab_wrapper h6 a{ text-decoration:none; margin-bottom:6px;width: 95%;}
-.workarea div.tab_wrapper ul li img{margin:0 12px 0 0;}
-.workarea div#the_most_wrapper ul li img,.videoplayer div.tab_wrapper ul li img{-moz-border-radius:0px 0px 0px 0px;-webkit-border-radius:0px 0px 0px 0px;border-radius:0px 0px 0px 0px; height:75px;}
+.workarea div.tab_wrapper ul li div.thumb img{margin:0 12px 0 0;}
+.workarea div#the_most_wrapper ul li div.thumb img,.videoplayer div.tab_wrapper ul li img{-moz-border-radius:0px 0px 0px 0px;-webkit-border-radius:0px 0px 0px 0px;border-radius:0px 0px 0px 0px; height:75px;}
 .videoplayer div.tab_wrapper ul li img{height:72px;}
 .workarea div.tab_wrapper ul li {overflow: hidden;width: 100%;}
 .workarea div.video_activity{}
@@ -353,7 +353,7 @@ float: left;line-height: 36px;}
 #hwdvids div.tab_wrapper ul li div.thumb{width:100px; height:75px;border:1px solid #8d808d; margin-right:8px;}
 #the_most div.tab_wrapper ul li div.fright,
 #the_most div.tab_wrapper ul li div.fright,#hwdvids div.tab_wrapper ul li div.fright{width:23%;}
-#recentvideoslist li div.fright{width:28% !important;margin-top:-35px !important;}
+#recentvideoslist li div.fright,#popuvideoslist li div.fright{width:28% !important;margin-top:-35px !important;}
 div.tab_wrapper .plays div.fright{margin-top: -45px;background:#f6eadc; padding:10px 8px;color:#9c5352; font-weight:bold;}
 div.tab_wrapper .plays div.fright span{display:block;text-align:right;}
 #recentvideoslist li div.fright span{font-size:90%;font-weight:normal;}
