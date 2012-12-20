@@ -19,9 +19,17 @@
 {include file='header.tpl'}
  </div>
 <script>
-	var domain = "{$domain}";
-	var currentLang = "{$currentlang}";
-	var fromError = {$fromerror};
+	var domain 				= "{$domain}";
+	var currentLang 		= "{$currentlang}";
+	var fromError 			= {$fromerror};
+	var selectedgenre 		= "{$selectedgenre}";
+	var selectedtype 		= "{$selectedtype}";
+	var selectedtareyou 	= "{$selectedtareyou}";
+	var selectedtinst 		= "{$selectedtinst}";
+	var selectedband 		= "{$selectedband}";
+	var selectedsong 		= "{$selectedsong}";
+	var selectedlevel 		= "{$selectedlevel}";
+	var selectedlang 		= "{$selectedlang}";
 	{literal}
 	function showGrabbedInfo(){
 				
@@ -101,7 +109,23 @@
 				});	
 				
 				
-		}
+		}else{
+				jQuery("#language_id").val(currentLang);
+				jQuery('#category_id').val(selectedtype);
+				jQuery('#genre_id').val(selectedgenre);
+				jQuery("#intrument_id").val(selectedtinst);
+				jQuery("#original_autor").val(selectedtareyou);
+				jQuery("#originalband").val(selectedband);
+				jQuery("#songtitle").val(selectedsong);
+				jQuery("#level_id").val(selectedlevel);
+				jQuery("#language_id").val(selectedlang);
+				
+				if(jQuery('#category_id').val()=='1' || jQuery('#category_id').val()=='2')
+				jQuery('.songtutorialfields').fadeIn(500,function () {
+				  });
+				else
+					jQuery('.songtutorialfields').slideUp();
+			}
 			jQuery('#category_id').change(function() {	
 				if(jQuery(this).val()=='1' || jQuery(this).val()=='2')
 				jQuery('.songtutorialfields').fadeIn(500,function () {
@@ -378,8 +402,8 @@
 				 		  
                             <p id="originalautorfields">
                                 <label for="original_autor">{$smarty.const._HWDVIDS_SHIGARU_AREYOUCREATOR} <font class="required">*</font></label>
-								<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_YES}<input type="radio" name="original_autor" value="1"></label>
-								<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_NO}<input type="radio" name="original_autor" checked="true" value="0"></label>
+								<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_YES}<input type="radio" {if $selectedtareyou eq 1}checked="true"{/if} name="original_autor" value="1"></label>
+								<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_NO}<input type="radio" name="original_autor" {if $selectedtareyou eq 0}checked="true"{/if} value="0"></label>
 								<div class="clear"></div>
 								<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_COPYRIGHTREASONS}</span>
                             </p> 
@@ -401,7 +425,7 @@
                                 <button id="registerButton" type="submit">{$smarty.const._HWDVIDS_BUTTON_ADD}</button>
                             </p>
                            </fieldset>
-                        <input type="hidden" value="" name="videotitle" id="videotitle">    
+                        <input type="hidden" value="{$videoInfo->video_title}" name="videotitle" id="videotitle">    
                         <input type="hidden" value="{$username}" id="shigaruuser" name="shigaruuser"/>
                         <input type="hidden" value="{$ipaddress}" id="ip_address" name="ip_address"/>
                         <input type="hidden" name="videotype" value="{$videotype}" />
@@ -415,6 +439,8 @@
 				</div>
 		</div>
 	</div>
-
+{if $fromerror eq 1}
+</div>
+{/if}
 
 

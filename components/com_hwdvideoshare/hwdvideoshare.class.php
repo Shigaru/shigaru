@@ -3315,7 +3315,7 @@ $app = & JFactory::getApplication();
 	function getVideoTags() {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT tags FROM #__hwdvidsvideos'; 
-		$query .= ' WHERE tags IS NOT NULL ORDER BY date_uploaded DESC';
+		$query .= ' WHERE tags IS NOT NULL ORDER BY date_uploaded ';
 		$query .= ' LIMIT 0,1000';
 		$db->setQuery($query);
 		$db->loadObjectList();

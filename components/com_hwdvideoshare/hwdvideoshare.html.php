@@ -695,10 +695,18 @@ class hwd_vs_html
 
 		} else if ($uploadpage == "thirdparty") {
 			$app->setUserState( "com_hwdvideoshare.upload_selection", "tp" );
-			if(!$fromError)
+			if($paramPartyVideoInfo == null)
 				$oThirdPartyVideoInfo = hwd_vs_tools::getThirdPartyVideoInfo($videourl);		
 				else{
 						$oThirdPartyVideoInfo=$paramPartyVideoInfo;
+						$smartyvs->assign( "selectedgenre",$paramPartyVideoInfo->genre_id);
+						$smartyvs->assign( "selectedtype",$paramPartyVideoInfo->category_id);
+						$smartyvs->assign( "selectedtareyou",$paramPartyVideoInfo->original_autor);
+						$smartyvs->assign( "selectedtinst",$paramPartyVideoInfo->intrument_id);
+						$smartyvs->assign( "selectedband",$paramPartyVideoInfo->originalband);
+						$smartyvs->assign( "selectedsong",$paramPartyVideoInfo->songtitle);
+						$smartyvs->assign( "selectedlevel",$paramPartyVideoInfo->level_id);
+						$smartyvs->assign( "selectedlang",$paramPartyVideoInfo->language_id);
 						$oFromError = '1';
 					}
 			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','instrument','intrument_id',true,true,true);		

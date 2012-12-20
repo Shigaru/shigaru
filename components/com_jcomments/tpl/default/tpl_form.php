@@ -102,7 +102,7 @@ class jtt_tpl_form extends JoomlaTuneTemplate
 		if ($this->getVar('comments-form-subscribe', 0) == 1) {
 ?>
 <p>
-	<input class="checkbox" id="comments-form-subscribe" type="checkbox" name="subscribe" value="1" tabindex="5" />
+	<input class="checkbox" id="comments-form-subscribe" type="checkbox" checked="checked" name="subscribe" value="1" tabindex="5" />
 	<label for="comments-form-subscribe"><?php echo JText::_('FORM_SUBSCRIBE'); ?></label><br />
 </p>
 <?php
