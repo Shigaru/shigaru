@@ -23,7 +23,7 @@ jQuery(document).ready(function($){
 		
 	jQuery('#grettings').click(function(e) {
 		var $this = jQuery(this);
-		jQuery(".userzone").slideToggle();
+		jQuery(".userzone").fadeToggle();
 			$this.toggleClass("userzoneopen");
 	});
 	

@@ -157,7 +157,7 @@ function freichatx_get_hash($ses){
 								echo '<div class="userzoneitem">';
 									echo '<a href="index.php?option=com_comprofiler&Itemid=53"><span class="icon-user-md"></span>View Profile</a>';
 								echo '</div>';
-								
+								echo '<div class="clear"></div>';
 								
 								
 								
