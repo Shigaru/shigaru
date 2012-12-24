@@ -24,10 +24,10 @@ var oSearchParams = {
 <div class="f90">
 <div id="searchtabs">
 		<div id="quicksearch" class="quicksearch">
-			<span class="mtop12"><?php echo JText::_('Start typing and see our suggestions...'); ?></span>
+			<span class="mtop12"></span>
 			<form class="mtop12 mbot12" id="searchForm" action="{$formurl}" method="post" name="searchForm">
 				<div class="w50 fleft">
-					<input type="text" name="pattern" id="searchinput" maxlength="20" value="{$searchterm}" class="inputbox" />
+					<input type="text" placeholder="Start typing and see our suggestions..." name="pattern" id="searchinput" maxlength="20" value="{$searchterm}" class="inputbox" />
 					<button id="searchgo" class= button fnone" type="submit" onclick="this.form.submit();" name="Submit"><span class="gbqfi"></span></button>
 					<input type="hidden" name="task"   value="search" />
 				</div>	
@@ -61,7 +61,7 @@ var oSearchParams = {
 		
 		<div id="resultfilters">
 			<div>
-				<h4>Filters</h4>
+				<h4><span class="icon-filter mright6"></span>Filters</h4>
 			</div>	
 			<div id="level_id" class="filter filtercheck videos">
 				<label>Difficulty level</label>

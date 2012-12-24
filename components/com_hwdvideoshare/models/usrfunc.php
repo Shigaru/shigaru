@@ -217,7 +217,8 @@ class hwd_vs_usrfunc
 		$uid = JRequest::getInt( 'owner', 0, 'post' );
 		$rowid = JRequest::getInt( 'id', 0, 'post' );
 		$referrer = JRequest::getVar( 'referrer', JRoute::_(JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid ));
-
+		if(strpos($referrer, "ajax=yes") !== false)
+			$referrer = str_replace("ajax=yes&", "", $referrer);
 		if (!hwd_vs_access::checkAccess($c->gtree_mdrt, $c->gtree_mdrt_child, 1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORACCESS, _HWDVIDS_ALERT_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.moderator"))
 		{
 			if ($my->id == $uid) {

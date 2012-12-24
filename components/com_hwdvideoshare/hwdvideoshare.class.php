@@ -3774,7 +3774,7 @@ $app = & JFactory::getApplication();
 		$code.="<form name=\"deletevideo\" style=\"display: inline;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=deletevideo&video_id=".$row->id)."\" method=\"post\">";
 		$code.="<input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />";
 		$code.="<input type=\"hidden\" name=\"url\" value=\"".$url."\" />";
-		$code.="<input type=\"image\" src=\"".URL_HWDVS_IMAGES."icons/delete.png\" alt=\""._HWDVIDS_DETAILS_DELETEVID."\" onClick=\"return confirmDelete()\">";
+		$code.="<button type=\"submit\" value=\"Delete\" alt=\""._HWDVIDS_DETAILS_DELETEVID."\" onClick=\"return confirmDelete()\" ><span class=\"icon-trash\"></span>"._HWDVIDS_DETAILS_DELETEALL."</button>";
 		$code.="</form>";
 
 		return $code;
@@ -4078,7 +4078,7 @@ $app = & JFactory::getApplication();
 		$code.="<input type=\"hidden\" name=\"user_id\" value=\"".$my->id."\" />";
 		$code.="<input type=\"hidden\" name=\"video_id\" value=\"".$row->id."\" />";
 		$code.="<input type=\"hidden\" name=\"url\" value=\"".$url."\" />";
-		$code.="<input type=\"image\" src=\"".URL_HWDVS_IMAGES."icons/edit.png\" alt=\""._HWDVIDS_DETAILS_EDITVID."\">";
+		$code.="<button type=\"submit\" value=\"Edit\" alt=\""._HWDVIDS_DETAILS_EDITVID."\" ><span class=\"icon-pencil\"></span>"._HWDVIDS_DETAILS_EDITALL."</button>";
 		$code.="</form>";
 
 		return $code;

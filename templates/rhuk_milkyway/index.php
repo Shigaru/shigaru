@@ -25,10 +25,12 @@ $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.js"></script>
-<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jjmenu.js"></script>	
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery.qtip.css" />
 <link href='http://fonts.googleapis.com/css?family=Ubuntu:light' rel='stylesheet' type='text/css'/>
+<!--[if IE 7]>
+  <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/font-awesome-ie7.css">
+<![endif]-->
 <?php
 $session = JSession::getInstance("none",array());
 $host = JURI::root();
@@ -138,22 +140,22 @@ function freichatx_get_hash($ses){
 					if ($user && !$user->guest){
 						echo '<div class="userzone f80">';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_comprofiler&task=logout">Logout</a>';
+									echo '<a href="index.php?option=com_comprofiler&task=logout"><span class="icon-off"></span>Logout</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_uddeim">Inbox</a>';
+									echo '<a href="index.php?option=com_uddeim"><span class="icon-envelope"></span>Inbox</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_hwdvideoshare&task=yourfavourites">Videos I liked</a>';
+									echo '<a href="index.php?option=com_hwdvideoshare&task=yourfavourites"><span class="icon-heart"></span>Videos I liked</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_hwdvideoshare&task=yourvideos">My Videos</a>';
+									echo '<a href="index.php?option=com_hwdvideoshare&task=yourvideos"><span class="icon-headphones"></span>My Videos</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails">Edit Profile</a>';
+									echo '<a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails"><span class="icon-edit"></span>Edit Profile</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_comprofiler&Itemid=53">View Profile</a>';
+									echo '<a href="index.php?option=com_comprofiler&Itemid=53"><span class="icon-user-md"></span>View Profile</a>';
 								echo '</div>';
 								
 								
