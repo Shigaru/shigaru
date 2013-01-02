@@ -1177,6 +1177,141 @@ class hwdvids_BE_imports
 		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=import' );
 
 	}
+	
+	
+	function parseYoutubePlaylist($idvideo){
+		$app = & JFactory::getApplication();
+		define('YT_API_URL', 'https://gdata.youtube.com/feeds/api/playlists/');
+		$video_id = $idvideo.'?v=2';
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, YT_API_URL . $video_id);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		//$feed holds a rss feed xml returned by youtube API
+		$feed = curl_exec($ch);
+		curl_close($ch);
+		 
+		//Using SimpleXML to parse youtube's feed
+		$xml = simplexml_load_string($feed);
+
+		$entry = $xml->entry[0];
+		//If no entry whas found, then youtube didn't find any video with specified id
+		if(!$entry) {
+			$app->enqueueMessage("NO videos found, sorry pichon.");
+			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=import' );
+			}
+		foreach ($xml->entry as $entry) {	
+			$media = $entry->children('media', true);
+			$group = $media->group;
+			hwdvids_BE_imports::addYoutubeVideo($group);
+		}
+		$app->enqueueMessage(count($xml->entry)." VIdeos added.");
+		
+	}
+	
+	function isDuplicated($videoide){
+			//check if already exists
+			$db = & JFactory::getDBO();
+			$db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos WHERE video_id = "'.$videoide.'"' );
+			$duplicatecount = $db->loadResult();
+
+			if ($duplicatecount > 0) {
+				return true;
+			} else{
+				return false;
+			}
+		
+		}
+		
+		function addYoutubeVideo($oVideoGroup){
+						
+			$db = & JFactory::getDBO();
+			$yt = $oVideoGroup->children('http://gdata.youtube.com/schemas/2007');
+			$content_attributes = $oVideoGroup->content->attributes();
+			$vid_duration = $content_attributes['duration'];
+			$duration_formatted = str_pad(floor($vid_duration/60), 2, '0', STR_PAD_LEFT) . ':' . str_pad($vid_duration%60, 2, '0', STR_PAD_LEFT);
+			if(!hwdvids_BE_imports::isDuplicated((string)$yt->videoid)){
+			$row = new hwdvids_video($db);
+			$_POST['video_type'] 		= 'youtube.com';
+			$_POST['video_id'] 			= (string)$yt->videoid;
+			$_POST['title'] 			= (string)$oVideoGroup->title;
+			$_POST['description'] 		= (string)$oVideoGroup->description;
+			$_POST['category_id'] 		= '1';
+			$_POST['tags'] 				= '';
+			$_POST['public_private'] 	= 'public';
+			$_POST['allow_comments'] 	= '1';
+			$_POST['allow_embedding'] 	= '0';
+			$_POST['allow_ratings'] 	= '1';
+			$_POST['video_length'] 		= $duration_formatted;
+			$_POST['date_uploaded'] 	= date('Y-m-d H:i:s');
+			$_POST['language_id'] 		= 'en-GB';
+			$_POST['level_id'] 			= '30';
+			$_POST['genre_id'] 			= '66';
+			$_POST['intrument_id'] 		= '103';
+			$_POST['ip_added'] 			= '127.0.0.1';
+			$_POST['original_autor'] 	= '0';
+			$_POST['approved'] 			= "yes";
+			$_POST['published']			= "1";
+			$_POST['user_id'] 			= "100";
+			
+			// bind it to the table
+			if (!$row->bind($_POST))
+			{
+				echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+				exit();
+			}
+
+			// store it in the db
+			if (!$row->store())
+			{
+				echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+				exit();
+			}
+
+			include_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'events.php');
+
+			$params->title = (string)$oVideoGroup->title;
+			$params->id = $row->id;
+			$params->category_id = $row->category_id;
+			$params->type = $row->video_type;
+			$params->user_id = $row->user_id;
+
+			hwdvsEvent::onAfterVideoUpload($params);
+
+			// save remote thumbnail to disk
+			$data = @explode(",", $row->video_id);
+			$thumburl = hwd_vs_tools::get_final_url( "http://img.youtube.com/vi/".(string)$yt->videoid."/default.jpg");
+			$thumbbase = "tp-".$row->id.".jpg";
+			$thumbpath = PATH_HWDVS_DIR.DS."thumbs".DS.$thumbbase;
+						
+			$ch = curl_init ($thumburl);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+			curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+			$rawdata=curl_exec($ch);
+			curl_close ($ch);
+			if(file_exists($thumbpath))
+			{
+				unlink($thumbpath);
+			}
+			$fp = fopen($thumbpath,'x');
+			fwrite($fp, $rawdata);
+			fclose($fp);
+
+			if(file_exists($thumbpath))
+			{
+				$db->SetQuery( "UPDATE #__hwdvidsvideos SET `thumbnail` = \"$thumbbase\" WHERE id = $row->id" );
+				$db->Query();
+			}
+
+			$video = new hwdvids_video($db);
+			$video->load( $row->id );
+			
+			}
+			
+			return true;
+			
+			
+			}
 	/**
 	* Import Data
 	*/
@@ -1225,7 +1360,7 @@ class hwdvids_BE_imports
 			$embeddump = $data[0];
 
 			$pos = strpos($embeddump, "p=");
-			$posNew = strpos($embeddump, "playlist?list=");
+			$posNew = strpos($embeddump, "list=");
 
 			if ($pos === false && $posNew === false)
                         {
@@ -1234,32 +1369,16 @@ class hwdvids_BE_imports
 			} 
                         else
                         {
-                                if ($pos === false)
-                                {
-                                        $pos_srt = $posNew + 14;
-                                } 
-                                else 
-                                {
-                                        $pos_srt = $pos + 2;
-                                }
-
-                                $pos_end = strpos($embeddump, '&', $pos_srt);
-				if ($pos_end === false) {
-
-					$playlist_no =  substr($embeddump, $pos_srt);
-
-				} else {
-
-					$length = $pos_end - $pos_srt;
-					$playlist_no =  substr($embeddump, $pos_srt, $length);
-
-				}
-
-				$playlist_no = strip_tags($playlist_no);
-				$playlist_no = preg_replace("/[^a-zA-Z0-9s_-]/", "", $playlist_no);
-
+                                
+                                        $oQuery = parse_url($requestarray['embeddump'], PHP_URL_QUERY);
+										$oParamArr;
+										parse_str($oQuery, $oParamArr); 
+										$playlist_no = $oParamArr["list"];
 			}
-
+			
+			
+			hwdvids_BE_imports::parseYoutubePlaylist($playlist_no);
+/*
 			for ($i = 0; $i <= 4; $i++) {
 
 				$playlist_url = "http://www.youtube.com/view_play_list?p=".$playlist_no."&page=".$i;
@@ -1285,7 +1404,7 @@ class hwdvids_BE_imports
 
 				}
 
-			}
+			}*/
 
 		} else if ($video_type == 3) {
 
@@ -1443,6 +1562,7 @@ class hwdvids_BE_imports
 
 		} else {
 
+/*
 			$embeddump 			= urlencode($embeddump_original);
 			$videotype 			= JRequest::getInt( 'videotype', 0 );
 			$category_id 		= JRequest::getInt( 'category_id', 0 );
@@ -1452,7 +1572,7 @@ class hwdvids_BE_imports
 			$allow_ratings 		= JRequest::getInt( 'allow_ratings', 0 );
 
 			$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=redoListImport&embeddump='.$embeddump.'&videotype='.$videotype.'&category_id='.$category_id.'&public_private='.$public_private.'&allow_comments='.$allow_comments.'&allow_embedding='.$allow_embedding.'&allow_ratings='.$allow_ratings );
-
+*/
 		}
 
 	}
