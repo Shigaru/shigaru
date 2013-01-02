@@ -273,10 +273,10 @@ class JComments
 			$tmpl->addVar('tpl_index', 'comments-anticache', 1);
 		}
 
-		if (!$cacheEnabled || $load_cached_comments === 1) {
-			if ($config->get('template_view') == 'tree') {
+		if (!$cacheEnabled || $load_cached_comments === 1) {var_dump("1");
+			if ($config->get('template_view') == 'tree') {var_dump("2");
 				$tmpl->addVar('tpl_index', 'comments-list', JComments::getCommentsTree($object_id, $object_group));
-			} else {
+			} else {var_dump("3");
 				$tmpl->addVar('tpl_index', 'comments-list', JComments::getCommentsList($object_id, $object_group));
 			}
 		}
@@ -583,13 +583,13 @@ class JComments
 				."\nORDER BY c.date " . $config->get('comments_order')
 				.(($comments_per_page > 0) ? "\nLIMIT $limitstart, $comments_per_page" : "")
 				;
-			//var_dump($query);	
+			
 			$dbo->setQuery($query);
 			$rows = $dbo->loadObjectList();
 		} else {
 			$rows = array();
 		}
-
+var_dump(count($rows));	
 		$tmpl = & JCommentsFactory::getTemplate($object_id, $object_group);
 		$tmpl->load('tpl_list');
 		$tmpl->load('tpl_comment');
