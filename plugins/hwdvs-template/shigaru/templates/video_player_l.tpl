@@ -301,7 +301,7 @@
         <div class="content_box">   
 	<div id="comments-tabs">
 
-		<h3>{$smarty.const._HWDVIDS_TITLE_VIDCOMMS} {$print_comments}</h3>
+		<h3>{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</h3>
 	
 	
 	<div id="comments-tabs-1" class="standard">
