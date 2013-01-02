@@ -57,6 +57,7 @@ function freichatx_get_hash($ses){
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-768264-1']);
   _gaq.push(['_setDomainName', 'shigaru.com']);
+  _gaq.push(['_setAllowLinker', true]);
   _gaq.push(['_trackPageview']);
 
   (function() {
