@@ -272,7 +272,8 @@ class JComments
 		if ($cacheEnabled) {
 			$tmpl->addVar('tpl_index', 'comments-anticache', 1);
 		}
-
+var_dump("cacheEnabled:  ".$cacheEnabled);
+var_dump("load_cached_comments:  ".$load_cached_comments);
 		if (!$cacheEnabled || $load_cached_comments === 1) {var_dump("1");
 			if ($config->get('template_view') == 'tree') {var_dump("2");
 				$tmpl->addVar('tpl_index', 'comments-list', JComments::getCommentsTree($object_id, $object_group));
