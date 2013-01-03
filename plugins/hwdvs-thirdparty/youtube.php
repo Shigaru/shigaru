@@ -24,7 +24,6 @@ class hwd_vs_tp_YoutubeCom
 		$code = hwd_vs_tp_YoutubeCom::YoutubeComGetCode($raw_code);
 		if (!empty($code))
 		{
-			$thumbnail = hwd_vs_tp_YoutubeCom::YoutubeComGetThumbnail($code);
 			$ext_v_code[0] = true;
 			$ext_v_code[1] = $code;
 			$ext_v_code[2] = $thumbnail;
@@ -81,207 +80,64 @@ class hwd_vs_tp_YoutubeCom
 		}
 		return $code;
 	}
+
     /**
-     * Extracts the appropriate third party video code used to generate
-     * the player and thumbnail images
+     * Extracts the Video of the third party 
      */
-	function YoutubeComGetThumbnail($code)
-	{
-		$thumbnail = "http://img.youtube.com/vi/".$code."/default.jpg";
-		$thumbnail = trim(strip_tags($thumbnail));
-		return $thumbnail;
-	}
-    /**
-     * Extracts the title of the third party video
-     */
-	function YoutubeComProcessTitle($raw_code, $processed_code=null)
+	function YoutubeComProcessVideo($raw_code, $processed_code=null)
 	{
 		$c = hwd_vs_Config::get_instance();
-
-		if (empty($processed_code))
-		{
-			$code = hwd_vs_tp_YoutubeCom::YoutubeComGetCode($raw_code);
-		}
-		else
-		{
-			$code = $processed_code;
-		}
-
-		if ( $code[0] == '-')
-		{
-			$watchvideourl = "http://www.youtube.com/watch?v=".$code;
-			$feeddata = false;
-		}
-		else
-		{
-			$watchvideourl = "http://gdata.youtube.com/feeds/api/videos/".$code;
-			$feeddata = true;
-		}
-		$watchvideourl = hwd_vs_tools::get_final_url( $watchvideourl );
-
-		$ext_v_title    = array();
-		$ext_v_title[0] = "";
-		$ext_v_title[1] = "";
-
-		if (function_exists('curl_init'))
-		{
-			$curl_handle=curl_init();
-			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
-			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
-			$buffer = curl_exec($curl_handle);
-			curl_close($curl_handle);
-
-			if (!empty($buffer))
-			{
-				if ($feeddata)
-				{
-					preg_match('/<title(.*?)>(.*?)<\/title>/', $buffer, $match);
-
-					if (!empty($match[2]))
-					{
-						$ext_v_title[0] = 1;
-						$ext_v_title[1] = $match[2];
-						$ext_v_title[1] = strip_tags($ext_v_title[1]);
-						$ext_v_title[1] = trim($ext_v_title[1]);
-						$ext_v_title[1] = hwdEncoding::XMLEntities($ext_v_title[1]);
-						$ext_v_title[1] = hwdEncoding::charset_decode_utf_8($ext_v_title[1]);
-						$ext_v_title[1] = addslashes($ext_v_title[1]);
-						$ext_v_title[1] = hwd_vs_tools::truncateText($ext_v_title[1], 500);
-					}
-				}
-				else
-				{
-					$fcontents = stristr($buffer, '<title>');
-					$rest = substr($fcontents, 7);
-					$extra = stristr($fcontents, '</title>');
-					$titlelen = strlen($rest) - strlen($extra);
-					$gettitle = trim(substr($rest, 0, $titlelen));
-					//$gettitle = substr($gettitle, 14);
-
-					if (!empty($gettitle))
-					{
-						$ext_v_title[0] = 1;
-						$ext_v_title[1] = $gettitle;
-						$ext_v_title[1] = strip_tags($ext_v_title[1]);
-						$ext_v_title[1] = trim($ext_v_title[1]);
-						$ext_v_title[1] = hwdEncoding::XMLEntities($ext_v_title[1]);
-						$ext_v_title[1] = hwdEncoding::charset_decode_utf_8($ext_v_title[1]);
-						$ext_v_title[1] = addslashes($ext_v_title[1]);
-						$ext_v_title[1] = hwd_vs_tools::truncateText($ext_v_title[1], 500);
-					}
-				}
+		$app = & JFactory::getApplication();
+		define('YTV_API_URL', 'http://gdata.youtube.com/feeds/api/videos/');
+		
+		if (empty($processed_code))$code = hwd_vs_tp_YoutubeCom::YoutubeComGetCode($raw_code);
+				else $code = $processed_code;
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, YTV_API_URL . $code);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		//$feed holds a rss feed xml returned by youtube API
+		$feed = curl_exec($ch);
+		curl_close($ch);
+		 
+		//Using SimpleXML to parse youtube's feed
+		$xml = simplexml_load_string($feed);
+		//If no entry whas found, then youtube didn't find any video with specified id
+		if(!$xml) {
+			$app->enqueueMessage("We couldn't find any video with this URL sorry...   ");
+			return false;
 			}
-		}
+		$media = $xml->children('media', true);
+		$oVideoGroup = $media->group;
+		
+		$oThirdPartyVideoInfo->video_type		= 'youtube.com';
+		$oThirdPartyVideoInfo->video_id			= $processed_code;
+		
+		$content_attributes = $oVideoGroup->content->attributes();
+		$vid_duration = $content_attributes['duration'];
+		$duration_formatted = str_pad(floor($vid_duration/60), 2, '0', STR_PAD_LEFT) . ':' . str_pad($vid_duration%60, 2, '0', STR_PAD_LEFT);
+			
+		$oTitle = (string)$oVideoGroup->title;
+		$oDesc  = (string)$oVideoGroup->description;
+		$oTags 	= hwd_vs_tp_YoutubeCom::YoutubeComProcessKeywords($raw_code, $processed_code);
+		
+		$oThumbnail = "http://img.youtube.com/vi/".$processed_code."/default.jpg";
 
-		if ($ext_v_title[0] == '1')
-		{
-			if ($ext_v_title[1] == '')
-			{
-				$ext_v_title[1] = _HWDVIDS_UNKNOWN;
-			}
-		}
-		else
-		{
-			$ext_v_title[0] = 0;
-			$ext_v_title[1] = _HWDVIDS_UNKNOWN;
-		}
-		return $ext_v_title;
+		$oThirdPartyVideoInfo->video_title		= $oTitle;
+		$oThirdPartyVideoInfo->description		= $oDesc;
+		$oThirdPartyVideoInfo->tags				= $oTags[1];
+		$oThirdPartyVideoInfo->video_length		= $duration_formatted;
+		$oThirdPartyVideoInfo->date_uploaded	= date('Y-m-d H:i:s');
+		$oThirdPartyVideoInfo->remote_verified 	= $remote_verified;
+		$oThirdPartyVideoInfo->thumbnail		= $oThumbnail;
+		$oThirdPartyVideoInfo->error_msg 		= $failures;
+		$oThirdPartyVideoInfo->videoclass		= 'youtube';
+		
+		return $oThirdPartyVideoInfo;
 	}
-    /**
-     * Extracts the description of the third party video
-     */
-	function YoutubeComProcessDescription($raw_code, $processed_code=null)
-	{
-		$c = hwd_vs_Config::get_instance();
-
-		if (empty($processed_code))
-		{
-			$code = hwd_vs_tp_YoutubeCom::YoutubeComGetCode($raw_code);
-		}
-		else
-		{
-			$code = $processed_code;
-		}
-
-		if ( $code[0] == '-' )
-		{
-			$watchvideourl = "http://www.youtube.com/watch?v=".$code;
-			$feeddata = false;
-		}
-		else
-		{
-			$watchvideourl = "http://gdata.youtube.com/feeds/api/videos/".$code;
-			$feeddata = true;
-		}
-		$watchvideourl = hwd_vs_tools::get_final_url( $watchvideourl );
-
-		$ext_v_descr    = array();
-		$ext_v_descr[0] = "";
-		$ext_v_descr[1] = "";
-
-		if (function_exists('curl_init'))
-		{
-			$curl_handle=curl_init();
-			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
-			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
-			$buffer = curl_exec($curl_handle);
-			curl_close($curl_handle);
-
-			if (!empty($buffer))
-			{
-				//var_dump($buffer);
-				if ($feeddata)
-				{
-					preg_match('/<media\:description ?.* <\/media\:description>/isx',$buffer,$match);
-					if (!empty($match[0]))
-					{
-						$ext_v_descr[0] = 1;
-						$ext_v_descr[1] = $match[0];
-						$ext_v_descr[1] = str_replace("<media:description type='plain'>", "", $ext_v_descr[1]);
-						$ext_v_descr[1] = str_replace("</media:description>", "", $ext_v_descr[1]);
-						$ext_v_descr[1] = strip_tags($ext_v_descr[1]);
-						$ext_v_descr[1] = trim($ext_v_descr[1]);
-						$ext_v_descr[1] = hwdEncoding::XMLEntities($ext_v_descr[1]);
-						$ext_v_descr[1] = hwdEncoding::charset_decode_utf_8($ext_v_descr[1]);
-						$ext_v_descr[1] = addslashes($ext_v_descr[1]);
-						$ext_v_descr[1] = hwd_vs_tools::truncateText($ext_v_descr[1], 5000);
-					}
-				}
-				else
-				{
-					preg_match('/<meta name="description" content="([^"]+)/', $buffer, $match);
-					if (!empty($match[1]))
-					{
-						$ext_v_descr[0] = 1;
-						$ext_v_descr[1] = $match[1];
-						$ext_v_descr[1] = strip_tags($ext_v_descr[1]);
-						$ext_v_descr[1] = trim($ext_v_descr[1]);
-						$ext_v_descr[1] = hwdEncoding::XMLEntities($ext_v_descr[1]);
-						$ext_v_descr[1] = hwdEncoding::charset_decode_utf_8($ext_v_descr[1]);
-						$ext_v_descr[1] = addslashes($ext_v_descr[1]);
-						$ext_v_descr[1] = hwd_vs_tools::truncateText($ext_v_descr[1], 5000);
-					}
-				}
-			}
-		}
-
-		if ($ext_v_descr[0] == '1')
-		{
-			if ($ext_v_descr[1] == '')
-			{
-				$ext_v_descr[1] = _HWDVIDS_UNKNOWN;
-			}
-		}
-		else
-		{
-			$ext_v_descr[0] = 0;
-			$ext_v_descr[1] = _HWDVIDS_UNKNOWN;
-		}
-		return $ext_v_descr;
-	}
-    /**
+	
+	
+	/**
      * Extracts the keywords of the third party video
      */
 	function YoutubeComProcessKeywords($raw_code, $processed_code=null)
@@ -343,174 +199,8 @@ class hwd_vs_tp_YoutubeCom
 		}
 		return $ext_v_keywo;
 	}
+    
 	
-	 /**
-     * Extracts the keywords of the third party video
-     */
-	function YoutubeComProcessComments($raw_code, $processed_code=null)
-	{
-		$c = hwd_vs_Config::get_instance();
-
-		if (empty($processed_code))
-		{
-			$code = hwd_vs_tp_YoutubeCom::YoutubeComGetCode($raw_code);
-		}
-		else
-		{
-			$code = $processed_code;
-		}
-
-		$watchvideourl = "http://gdata.youtube.com/feeds/api/videos/".$code;
-		$watchvideourl = hwd_vs_tools::get_final_url( $watchvideourl );
-
-		$ext_v_keywo    = array();
-		$ext_v_keywo[0] = "";
-		$ext_v_keywo[1] = "";
-
-		if (function_exists('curl_init'))
-		{
-			$curl_handle=curl_init();
-			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
-			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
-			$buffer = curl_exec($curl_handle);
-			curl_close($curl_handle);/*
-array(4) { 
-			[0]=> string(152) "" 
-			[1]=> string(49) "'http://gdata.youtube.com/schemas/2007#comments' " 
-			[2]=> string(65) "'http://gdata.youtube.com/feeds/api/videos/KWtzxco7d1c/comments' " 
-			[3]=> string(4) "'49'" }*/
-			if (!empty($buffer))
-			{
-				preg_match('/<gd:feedLink rel=(.*?)href=(.*?)countHint=(.*?)\/>/', $buffer, $match);
-				if (!empty($match[2]))
-				{
-					$ext_v_keywo[0] = 1;
-					$ext_v_keywo[1] = $match[2];
-					$ext_v_keywo[1] = trim($ext_v_keywo[1]);
-					$ext_v_keywo[1] = str_replace("'", "", $ext_v_keywo[1]);
-					var_dump($ext_v_keywo[1]);
-				}
-				/*
-				if (!empty($match[1]))
-				{
-					$ext_v_keywo[0] = 1;
-					$ext_v_keywo[1] = $match[1];
-					$ext_v_keywo[1] = strip_tags($ext_v_keywo[1]);
-					$ext_v_keywo[1] = trim($ext_v_keywo[1]);
-					$ext_v_keywo[1] = hwdEncoding::XMLEntities($ext_v_keywo[1]);
-					$ext_v_keywo[1] = hwdEncoding::charset_decode_utf_8($ext_v_keywo[1]);
-					$ext_v_keywo[1] = addslashes($ext_v_keywo[1]);
-					$ext_v_keywo[1] = hwd_vs_tools::truncateText($ext_v_keywo[1], 1000);
-				}*/
-			}
-		}
-		if ($ext_v_keywo[0] == '1')
-		{
-			if ($ext_v_keywo[1] == '')
-			{
-				$ext_v_keywo[1] = _HWDVIDS_UNKNOWN;
-			}
-		}
-		else
-		{
-			$ext_v_keywo[0] = 0;
-			$ext_v_keywo[1] = _HWDVIDS_UNKNOWN;
-		}
-		return $ext_v_keywo;
-	}
-	
-    /**
-     * Extracts the duration of the third party video
-     */
-	function YoutubeComProcessDuration($raw_code, $processed_code=null)
-	{
-		$c = hwd_vs_Config::get_instance();
-
-		if (empty($processed_code))
-		{
-			$code = hwd_vs_tp_YoutubeCom::YoutubeComGetCode($raw_code);
-		}
-		else
-		{
-			$code = $processed_code;
-		}
-
-		if ( $code[0] == '-' )
-		{
-			$ext_v_durat[0] = 0;
-			$ext_v_durat[1] = "0:00:00";
-			return $ext_v_durat;
-		}
-		else
-		{
-			$watchvideourl = "http://gdata.youtube.com/feeds/base/videos?q=".$code;
-		}
-		$watchvideourl = hwd_vs_tools::get_final_url( $watchvideourl );
-
-		$ext_v_durat    = array();
-		$ext_v_durat[0] = "";
-		$ext_v_durat[1] = "";
-
-		if (function_exists('curl_init'))
-		{
-			$curl_handle=curl_init();
-			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
-			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
-			$buffer = curl_exec($curl_handle);
-			curl_close($curl_handle);
-
-			$buffer = trim($buffer);
-
-			if (!empty($buffer))
-			{
-				preg_match_all('/&gt;(.*?)&lt;/', $buffer, $match);
-				if (!empty($match[1][37]))
-				{
-					$ext_v_durat[0] = 1;
-					$ext_v_durat[1] = $match[1][37];
-					$ext_v_durat[1] = preg_replace("/[^0-9:]/", "", $ext_v_durat[1]);
-				}
-			}
-			else
-			{
-				$watchvideourl = "http://www.youtube.com/watch?v=".$code;
-
-				$curl_handle=curl_init();
-				curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
-				curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,25);
-				curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
-				$buffer = curl_exec($curl_handle);
-				curl_close($curl_handle);
-
-				$buffer = trim($buffer);
-
-				if (!empty($buffer))
-				{
-					preg_match('/&length_seconds=(.*?)&/', $buffer, $match);
-					if (!empty($match[1]))
-					{
-						$ext_v_durat[0] = 1;
-						$ext_v_durat[1] = hwd_vs_tools::sec2hms($match[1]);
-						$ext_v_durat[1] = preg_replace("/[^0-9:]/", "", $ext_v_durat[1]);
-					}
-				}
-			}
-		}
-		if ($ext_v_durat[0] == '1')
-		{
-			if ($ext_v_durat[1] == '')
-			{
-				$ext_v_durat[1] = "0:00:00";
-			}
-		}
-		else
-		{
-			$ext_v_durat[0] = 0;
-			$ext_v_durat[1] = "0:00:00";
-		}
-		return $ext_v_durat;
-	}
+   
 }
 ?>

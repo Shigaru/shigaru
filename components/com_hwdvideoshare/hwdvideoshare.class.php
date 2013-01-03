@@ -793,62 +793,35 @@ class hwd_vs_tools {
 		if (empty($parsedurl['host'])) { $parsedurl['host'] = ''; }
 		preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $parsedurl['host'], $regs);
 		if (empty($regs['domain'])) { $regs['domain'] = ''; }
-		if ($j16)
-		{
-			if ($regs['domain'] == 'youtube.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube'.DS.'youtube.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube'.DS.'youtube.php');
+		$oDomain = $regs['domain'];
+		if (empty($oDomain)) { $oDomain = ''; }
+		
+		switch ($oDomain) {
+				case 'youtube.com':
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube.php');
+					break;
+				case 'google.com':
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google.php');
+					break;
+				case 'metacafe.com':
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'metacafe.php');
+					break;
+				default:
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
+					break;
 			}
-			else if ($regs['domain'] == 'google.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google'.DS.'google.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google'.DS.'google.php');
-			}
-			else if (file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'thirdpartysupportpack'.DS.$regs['domain'].'.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'thirdpartysupportpack'.DS.$regs['domain'].'.php');
-			}
-			else
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote'.DS.'remote.php');
-				$regs['domain'] = 'remote';
-			}
-		}
-		else
-		{
-			if ($regs['domain'] == 'youtube.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube.php');
-			}
-			else if ($regs['domain'] == 'google.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google.php');
-			}
-			else if (file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.$regs['domain'].'.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.$regs['domain'].'.php');
-			}
-			else
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
-				$regs['domain'] = 'remote';
-			}
-		}
-
+		
 		$failures = "";
 		if (!isset($remote_verified)) {
 
-			$cn = 'hwd_vs_tp_'.preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']);
-			$f_processc = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processCode';
-			$f_processi = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processThumbnail';
-			$f_processt = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processTitle';
-			$f_processd = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDescription';
-			$f_processk = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processKeywords';
-			$f_processl = preg_replace("/[^a-zA-Z0-9s_-]/", "", $regs['domain']).'processDuration';
+			$cn = 'hwd_vs_tp_'.preg_replace("/[^a-zA-Z0-9s_-]/", "", $oDomain);
+			$f_processc = preg_replace("/[^a-zA-Z0-9s_-]/", "", $oDomain).'processCode';
+			
+			$f_processvideo = preg_replace("/[^a-zA-Z0-9s_-]/", "", $oDomain).'processVideo';
 
 			$tp = new $cn();
 
 			$ext_v_code  = $tp->$f_processc($embeddump);
-
 			//check if already exists
 			$db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos WHERE video_id = "'.$ext_v_code[1].'"' );
 			$duplicatecount = $db->loadResult();
@@ -860,53 +833,9 @@ class hwd_vs_tools {
 				return false;
 			}
 
-			$ext_v_title = $tp->$f_processt($embeddump, @$ext_v_code[1]);
-			$ext_v_descr = $tp->$f_processd($embeddump, @$ext_v_code[1]);
-			$ext_v_keywo = $tp->$f_processk($embeddump, @$ext_v_code[1]);
-			$ext_v_durat = $tp->$f_processl($embeddump, @$ext_v_code[1]);
+			$oThirdPartyVideoInfo = $tp->$f_processvideo($embeddump, @$ext_v_code[1]);
 
-			if ($ext_v_code[0] == "0")
-			{
-				if ($j16)
-				{
-					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote'.DS.'remote.php');
-					$regs['domain'] = 'remote';
-				}
-				else
-				{
-					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
-					$regs['domain'] = 'remote';
-				}
-
-				$tp = new hwd_vs_tp_remote();
-				$ext_v_code  = $tp->remoteProcessCode($embeddump);
-				$ext_v_title = $tp->remoteProcessTitle($embeddump, @$ext_v_code[1]);
-				$ext_v_descr = $tp->remoteProcessDescription($embeddump, @$ext_v_code[1]);
-				$ext_v_keywo = $tp->remoteProcessKeywords($embeddump, @$ext_v_code[1]);
-				$ext_v_durat = $tp->remoteProcessDuration($embeddump, @$ext_v_code[1]);
-
-				if ($ext_v_code[0] == "0") {
-					
-					hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_INFO_TPPROCESSFAIL, "exclamation.png", 0);
-					return;
-				}
-
-				//check if already exists
-				$db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos WHERE video_id = "'.$ext_v_code[1].'"' );
-				$duplicatecount = $db->loadResult();
-
-				if ($duplicatecount > 0 && $admin_import == false) {
-					hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_DUPLICATE, "exclamation.png", 0);
-					return;
-				} else if ($duplicatecount > 0 && $admin_import == true) {
-					return false;
-				}
-			}
-
-			if ($ext_v_title[0] == 0) {$failures.=_HWDVIDS_INFO_TPTITLEFAIL."<br />";}
-			if ($ext_v_descr[0] == 0) {$failures.=_HWDVIDS_INFO_TPDESCFAIL."<br />";}
-			if ($ext_v_keywo[0] == 0) {$failures.=_HWDVIDS_INFO_TPKWFAIL."<br />";}
-			if ($ext_v_durat[0] == 0) {$failures.=_HWDVIDS_INFO_TPDRFAIL."<br />";}
+			if ($oThirdPartyVideoInfo->error_msg != '') {$failures.=$oThirdPartyVideoInfo->error_msg."<br />";}
 
 		} else if ($remote_verified == 0) {
 
@@ -916,20 +845,9 @@ class hwd_vs_tools {
 
 		}
 
-		$title 			= hwd_vs_tools::generatePostTitle($ext_v_title[1]);
-		$description 		= hwd_vs_tools::generatePostDescription($ext_v_descr[1]);
-		$tags 			= hwd_vs_tools::generatePostTags($ext_v_keywo[1]);
-		
-		$oThirdPartyVideoInfo->video_type		= $regs['domain'];
-		$oThirdPartyVideoInfo->video_id			= $ext_v_code[1];
-		$oThirdPartyVideoInfo->video_title		= trim($title);
-		$oThirdPartyVideoInfo->description		= $description;
-		$oThirdPartyVideoInfo->category_id 		= $category_id;
-		$oThirdPartyVideoInfo->tags				= $tags;
-		$oThirdPartyVideoInfo->video_length		= $ext_v_durat[1];
-		$oThirdPartyVideoInfo->date_uploaded	= date('Y-m-d H:i:s');
-		$oThirdPartyVideoInfo->remote_verified = $remote_verified;
-		$oThirdPartyVideoInfo->error_msg = $failures;
+		/*$title 			= hwd_vs_tools::generatePostTitle($ext_v_title[1]);
+		$description 	= hwd_vs_tools::generatePostDescription($ext_v_descr[1]);
+		$tags 			= hwd_vs_tools::generatePostTags($ext_v_keywo[1]);*/
 		
 		
 		return $oThirdPartyVideoInfo;
@@ -7070,37 +6988,8 @@ function isSSL()
 	 */
 	function getPluginDetails($type)
 	{
-		global $j15, $j16;
-
-		if ($j16)
-		{
-			if ($type == 'youtube.com' && file_exists(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."youtube".DS."youtube.view.php"))
-			{
-				require_once(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."youtube".DS."youtube.view.php");
-			}
-			else if ($type == 'google.com' && file_exists(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."google".DS."google.view.php"))
-			{
-				require_once(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."google".DS."google.view.php");
-			}
-			else if ($type == 'remote' && file_exists(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."remote".DS."remote.view.php"))
-			{
-				require_once(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."remote".DS."remote.view.php");
-			}
-			else if ($type == 'rtmp' && file_exists(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."rtmp".DS."rtmp.view.php"))
-			{
-				require_once(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."rtmp".DS."rtmp.view.php");
-			}
-			else if (file_exists(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."thirdpartysupportpack".DS."$type.view.php"))
-			{
-				require_once(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."thirdpartysupportpack".DS."$type.view.php");
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
+		
+		
 			if ($type == 'youtube.com' && file_exists(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."youtube.view.php"))
 			{
 				require_once(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."youtube.view.php");
@@ -7108,6 +6997,9 @@ function isSSL()
 			else if ($type == 'google.com' && file_exists(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."google.view.php"))
 			{
 				require_once(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."google.view.php");
+			}else if ($type == 'metacafe.com' && file_exists(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."google.view.php"))
+			{
+				require_once(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."metacafe.view.php");
 			}
 			else if (file_exists(JPATH_SITE.DS."plugins".DS."hwdvs-thirdparty".DS."$type.view.php"))
 			{
@@ -7117,7 +7009,7 @@ function isSSL()
 			{
 				return false;
 			}
-		}
+		
 
 		return true;
 	}

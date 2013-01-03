@@ -1202,7 +1202,7 @@ class hwdvids_BE_imports
 		foreach ($xml->entry as $entry) {	
 			$media = $entry->children('media', true);
 			$group = $media->group;
-			hwdvids_BE_imports::addYoutubeVideo($group);
+			hwdvids_BE_imports::addYoutubeVideo($group,$idvideo);
 		}
 		$app->enqueueMessage(count($xml->entry)." VIdeos added.");
 		
@@ -1222,12 +1222,13 @@ class hwdvids_BE_imports
 		
 		}
 		
-		function addYoutubeVideo($oVideoGroup){
+		function addYoutubeVideo($oVideoGroup,$idvideo){
 						
 			$db = & JFactory::getDBO();
 			$yt = $oVideoGroup->children('http://gdata.youtube.com/schemas/2007');
 			$content_attributes = $oVideoGroup->content->attributes();
 			$vid_duration = $content_attributes['duration'];
+			$oTags 	= hwdvids_BE_imports::YoutubeComProcessKeywords($raw_code, $processed_code);
 			$duration_formatted = str_pad(floor($vid_duration/60), 2, '0', STR_PAD_LEFT) . ':' . str_pad($vid_duration%60, 2, '0', STR_PAD_LEFT);
 			if(!hwdvids_BE_imports::isDuplicated((string)$yt->videoid)){
 			$row = new hwdvids_video($db);
@@ -1236,7 +1237,7 @@ class hwdvids_BE_imports
 			$_POST['title'] 			= (string)$oVideoGroup->title;
 			$_POST['description'] 		= (string)$oVideoGroup->description;
 			$_POST['category_id'] 		= '1';
-			$_POST['tags'] 				= '';
+			$_POST['tags'] 				= $oTags[1].', how to play, how to, Learn how, learn to, lesson, teach, tutorial, teacher, explained, class, music, learn how, educational, instructional, learning, watch, repeat, visual, break down, step by step';
 			$_POST['public_private'] 	= 'public';
 			$_POST['allow_comments'] 	= '1';
 			$_POST['allow_embedding'] 	= '0';
@@ -1312,6 +1313,61 @@ class hwdvids_BE_imports
 			
 			
 			}
+			
+	/**
+     * Extracts the keywords of the third party video
+     */
+	function YoutubeComProcessKeywords($processed_code)
+	{
+		$c = hwd_vs_Config::get_instance();
+		
+		$watchvideourl = "http://www.youtube.com/watch?v=".$processed_code;
+		$watchvideourl = hwd_vs_tools::get_final_url( $watchvideourl );
+
+		$ext_v_keywo    = array();
+		$ext_v_keywo[0] = "";
+		$ext_v_keywo[1] = "";
+
+		if (function_exists('curl_init'))
+		{
+			$curl_handle=curl_init();
+			curl_setopt($curl_handle,CURLOPT_URL,$watchvideourl);
+			curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
+			curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+			$buffer = curl_exec($curl_handle);
+			curl_close($curl_handle);
+
+			if (!empty($buffer))
+			{
+				preg_match('/<meta name="keywords" content="([^"]+)/',$buffer, $match);
+				if (!empty($match[1]))
+				{
+					$ext_v_keywo[0] = 1;
+					$ext_v_keywo[1] = $match[1];
+					$ext_v_keywo[1] = strip_tags($ext_v_keywo[1]);
+					$ext_v_keywo[1] = trim($ext_v_keywo[1]);
+					$ext_v_keywo[1] = hwdEncoding::XMLEntities($ext_v_keywo[1]);
+					$ext_v_keywo[1] = hwdEncoding::charset_decode_utf_8($ext_v_keywo[1]);
+					$ext_v_keywo[1] = addslashes($ext_v_keywo[1]);
+					$ext_v_keywo[1] = hwd_vs_tools::truncateText($ext_v_keywo[1], 1000);
+				}
+			}
+		}
+		if ($ext_v_keywo[0] == '1')
+		{
+			if ($ext_v_keywo[1] == '')
+			{
+				$ext_v_keywo[1] = _HWDVIDS_UNKNOWN;
+			}
+		}
+		else
+		{
+			$ext_v_keywo[0] = 0;
+			$ext_v_keywo[1] = _HWDVIDS_UNKNOWN;
+		}
+		return $ext_v_keywo;
+	}
+			
 	/**
 	* Import Data
 	*/
@@ -1378,33 +1434,6 @@ class hwdvids_BE_imports
 			
 			
 			hwdvids_BE_imports::parseYoutubePlaylist($playlist_no);
-/*
-			for ($i = 0; $i <= 4; $i++) {
-
-				$playlist_url = "http://www.youtube.com/view_play_list?p=".$playlist_no."&page=".$i;
-				$playlist_url = hwd_vs_tools::get_final_url( $playlist_url );
-
-				$msg = 'Searching page: '.$playlist_url;
-				$app->enqueueMessage($msg);
-
-				$curl_handle=curl_init();
-				curl_setopt($curl_handle,CURLOPT_URL,$playlist_url);
-				curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,20);
-				curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
-				$buffer = curl_exec($curl_handle);
-				curl_close($curl_handle);
-
-				if (empty($buffer))	{
-
-					return null;
-
-				} else {
-
-					hwdvids_BE_imports::scanYoutubePage($buffer);
-
-				}
-
-			}*/
 
 		} else if ($video_type == 3) {
 

@@ -1154,47 +1154,24 @@ class hwd_vs_uploads
 		$parsedurl = parse_url($embeddump);
 		if (empty($parsedurl['host'])) { $parsedurl['host'] = ''; }
 		preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $parsedurl['host'], $regs);
-		if (empty($regs['domain'])) { $regs['domain'] = ''; }
-		if ($j16)
-		{
-			if ($regs['domain'] == 'youtube.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube'.DS.'youtube.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube'.DS.'youtube.php');
+		$oDomain = $regs['domain'];
+		if (empty($oDomain)) { $oDomain = ''; }
+		
+		switch ($oDomain) {
+				case 'youtube.com':
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube.php');
+					break;
+				case 'google.com':
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google.php');
+					break;
+				case 'metacafe.com':
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'metacafe.php');
+					break;
+				default:
+					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
+					break;
 			}
-			else if ($regs['domain'] == 'google.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google'.DS.'google.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google'.DS.'google.php');
-			}
-			else if (file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'thirdpartysupportpack'.DS.$regs['domain'].'.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'thirdpartysupportpack'.DS.$regs['domain'].'.php');
-			}
-			else
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote'.DS.'remote.php');
-				$regs['domain'] = 'remote';
-			}
-		}
-		else
-		{
-			if ($regs['domain'] == 'youtube.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'youtube.php');
-			}
-			else if ($regs['domain'] == 'google.com' && file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'google.php');
-			}
-			else if (file_exists(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.$regs['domain'].'.php'))
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.$regs['domain'].'.php');
-			}
-			else
-			{
-				require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
-				$regs['domain'] = 'remote';
-			}
-		}
+		
 
 		$failures = "";
 		$ext_v_code  = Jrequest::getVar( 'video_id', '' );
@@ -1319,10 +1296,9 @@ class hwd_vs_uploads
 		$params->user_id = $row->user_id;
 
 		hwdvsEvent::onAfterVideoUpload($params);
-
 		// save remote thumbnail to disk
 		$data = @explode(",", $row->video_id);
-		$thumburl = hwd_vs_tools::get_final_url( "http://img.youtube.com/vi/".$ext_v_code."/default.jpg");
+		$thumburl = hwd_vs_tools::get_final_url(Jrequest::getVar( 'thumbnailgrab', '' ));
 		$thumbbase = "tp-".$row->id.".jpg";
 		$thumbpath = PATH_HWDVS_DIR.DS."thumbs".DS.$thumbbase;
                     

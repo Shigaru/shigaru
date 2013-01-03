@@ -851,8 +851,9 @@ background: -ms-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(229,229,229
 background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 ;display:none;text-align:left; cursor:default;padding: 20px 20px 0 20px ;}
-#infograbbed div.w80pc div.fright a{background:url("../images/youtube_logo_standard_againstwhite.png") no-repeat scroll left 12px transparent;
-display:block;width:120px;height:60px;margin: -10px 0px 0 16px;padding: 6px;} 
+#infograbbed div.w80pc div.fright a{display:block;width:120px;height:60px;margin: -10px 0px 0 16px;padding: 6px;} 
+#infograbbed div.w80pc div.fright a.youtube{background:url("../images/youtube_logo_standard_againstwhite.png") no-repeat scroll left 12px transparent;}
+#infograbbed div.w80pc div.fright a.metacafe{background:url("../images/metacafe_logo_standard_againstwhite.png") no-repeat scroll left 12px transparent;}
 #infograbbed div.w80pc div.fright a,#infograbbed div.w80pc div.fright a:visited,#infograbbed div.w80pc div.fright a:link,
 #infograbbed div.w80pc div.fright a:active{color:blue;}
 .blockUI .usermessages{margin:0;}
@@ -1878,9 +1879,9 @@ li[class^="icon-"].icon-large:before, li[class*=" icon-"].icon-large:before {
 
 .icon-user-md:before              { content: "\f200"; }
 
-.buttonbar button span,.userzone .userzoneitem span,.jspPane button span{padding-right:6px;}
+.buttonbar button span,.userzone .userzoneitem span,.jspPane button span,#videoTitle button span{padding-right:6px;}
 
-.buttonbar button,.jspPane button,.userzone .userzoneitem a{background: rgb(249,214,164); /* Old browsers */
+.buttonbar button,.jspPane button,.userzone .userzoneitem a,#videoTitle button{background: rgb(249,214,164); /* Old browsers */
 background: -moz-linear-gradient(top,  rgba(249,214,164,1) 0%, rgba(221,187,146,1) 100%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,214,164,1)), color-stop(100%,rgba(221,187,146,1))); /* Chrome,Safari4+ */
 background: -webkit-linear-gradient(top,  rgba(249,214,164,1) 0%,rgba(221,187,146,1) 100%); /* Chrome10+,Safari5.1+ */
@@ -1892,3 +1893,5 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9d6a4', end
 border: 2px solid #907B5E;
 cursor:pointer;
 }
+
+#videoTitle button{font-size:70%;}

@@ -724,7 +724,7 @@ class hwd_vs_html
 			$domain = JURI::root();
 			// save remote thumbnail to disk
 			$data = $oThirdPartyVideoInfo->video_id;
-			$thumburl = hwd_vs_tools::get_final_url( "http://img.youtube.com/vi/".$data."/default.jpg");
+			$thumburl = $oThirdPartyVideoInfo->thumbnail;
 			$smartyvs->assign( "thumburl",$thumburl);
 			$smartyvs->assign( "fromerror",$oFromError);
 			$smartyvs->assign( "titleplain",htmlspecialchars(stripslashes($oThirdPartyVideoInfo->video_title)));
@@ -1010,7 +1010,7 @@ class hwd_vs_html
 				$smartyvs->assign("catclass", 'nontuto');
 				else if($row->category_id == '3')
 					$smartyvs->assign("catclass", 'theory');
-		$smartyvs->assign("videoplayer", hwd_vs_tools::generateVideoDetails($row, null, null, null, $Itemid, null, null));
+		$smartyvs->assign("videoplayer", hwd_vs_tools::generateVideoDetails($row, null, null, null, $Itemid, null, true));
 		if($row->category_id !='2')
 			$smartyvs->assign("showlevel", 1);
 			else

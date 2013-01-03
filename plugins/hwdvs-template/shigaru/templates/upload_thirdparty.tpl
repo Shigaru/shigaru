@@ -282,13 +282,13 @@
 				<p class="f120 mbot20 pad12 fontbold">OK, we have been able to get the following information for this video. Feel free to edit it, we are sure you can make it better ;-)</p>
 			</div>
 			<div class="fleft">
-				<div class="mtop25"><img src="{$thumburl}" title="{$videoInfo->video_title}" /></div>
+				<div class="mtop25"><img src="{$videoInfo->thumbnail}" title="{$videoInfo->video_title}" /></div>
 				<div class="mtop12"><span>{$videoInfo->video_length} min</span></div>
 				
 			</div>
 			<div class="fleft w80pc pad12 mtopl25">
 				<div class="fright">
-					<a href="{$videourl}" target="_blank" title="Go to Youtube.com"></a>
+					<a href="{$videourl}" target="_blank" class="{$videoInfo->videoclass}" title="Go to Youtube.com"></a>
 				</div>	
 				<div class="mtop12 mbot20">
 					<div class="viewmode">
@@ -338,13 +338,13 @@
 				<div class="mbot20">
 					<div class="viewmode">
 					   <span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS}</span>	<a href="#" id="grabbed-tags" class="fontbold mleft6" title="Click to edit">(Edit)</a>
-					  <span class="grabbedtext">{$videoInfo->tags}</span>
+					  <span class="grabbedtext">{$videoInfo->tags},how to play, how to, Learn how, learn to, lesson, teach, tutorial, teacher, explained, class, music, learn how, educational, instructional, learning, watch, repeat, visual, break down, step by step</span>
 					  
 					</div> 
 						<div class="usermessages dispnon">
 								<p id="tagsbox">
 									<label for="tags">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS} <font class="required">*</font></label>
-									<input type="text" value="{$videoInfo->tags}" class="required" id="tags" name="tags" size="40"/>
+									<input type="text" value="{$videoInfo->tags},how to play, how to, Learn how, learn to, lesson, teach, tutorial, teacher, explained, class, music, learn how, educational, instructional, learning, watch, repeat, visual, break down, step by step" class="required" id="tags" name="tags" size="40"/>
 									<br />
 									<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_SEARCH_TAGS_INFO}</span>
 								</p>
@@ -433,6 +433,7 @@
 						<input type="hidden" name="video_length" value="{$videoInfo->video_length}" />
 						<input type="hidden" name="infopassed" value="{$infoPassed}" />
 						<input type="hidden" name="ip_added" value="{$ipaddress}" />
+						<input type="hidden" name="thumbnailgrab" value="{$videoInfo->thumbnail}" />
 						<input name="embeddump" value="{$videourl}" class="inputbox" type="hidden" />
 						{include file='sharingoptions.tpl'}
 				</form>
