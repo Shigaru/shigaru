@@ -1,5 +1,6 @@
 .pe-thumbs{
 	position: relative;
+	padding: 12px 20px 0 60px;
 }
 .pe-thumbs:before {
 	content: "";
@@ -11,8 +12,10 @@
 	height: 100%;
 }
 .pe-thumbs li{
-	float:left;
-	position: relative;
+	float: left;
+display: block;
+width: auto;
+overflow: visible;
 }
 .pe-thumbs li a,
 .pe-thumbs li a img{
@@ -20,8 +23,10 @@
 	position: relative;
 }
 .pe-thumbs li a img{
-	width:100px;
-	opacity: 0.6;
+	width:100px;float: left;
+display: block;
+width: auto;
+margin-bottom: 6px;opacity: 0.6;
 }
 .pe-thumbs li a div.pe-description{
 	background: #BBBBDD;

@@ -537,7 +537,7 @@ class CBListView_html_default extends cbListView {
 					$aTag = null;
 					$profileURL = cbSef("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=".$user->id.getCBprofileItemid(true));
 					$aTag = "<a href=\"".$profileURL."\">";
-					$oReturn = $aTag."<img height='80' width='60' src=\"".$oValue. "\" ".$onclick." alt=\"\" style=\"border-style: none;\" />";
+					$oReturn = $aTag."<img height='80px' width='60px' src=\"".$oValue. "\" ".$onclick." alt=\"\" style=\"border-style: none;\" />";
 					$oReturn .='<div class="pe-description"><h4 id="'.$ocbUser->getField( 'cb_country', null, 'text', 'none', 'profile' ).'">'.$user->username.'</h4><p>'
 								._UE_SEX.': '.constant($ocbUser->getField( 'cb_sex', null, 'text', 'none', 'profile' )).
 								' <br />'

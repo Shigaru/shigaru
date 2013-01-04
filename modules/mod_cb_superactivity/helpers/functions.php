@@ -705,7 +705,7 @@ global $grsite, $shownotavatar, $height_thumbcb, $width_thumbcb, $useratio, $ueC
                 $tn_photo="tnnophoto_n.png";
             }
         //echo " | template:".$templatedir."/".$tn_photo;
-        $avatarimg = "<img class=\"activity_image\" $height_thumbcb $width_thumbcb src=\"$grsite/components/com_comprofiler/plugin/templates/$templatedir/images/avatar/$tn_photo\" title=\"$name\">";
+        $avatarimg = "<img class=\"activity_image\" height=\"80\" width=\"60\" $height_thumbcb $width_thumbcb src=\"$grsite/components/com_comprofiler/plugin/templates/$templatedir/images/avatar/$tn_photo\" title=\"$name\">";
       } else {$avatarimg = "";}
   }
   return $avatarimg;
