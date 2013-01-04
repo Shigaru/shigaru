@@ -71,13 +71,14 @@ function submitbutton(pressbutton) {
                   <td valign="top">{$smarty.const._HWDVIDS_CATEGORY}</td>
                   <td>{$categorylist}</td>
                 </tr>
-                <tr>
-                  <td valign="top">{$smarty.const._HWDVIDS_TAGS}</td>
-                  <td><input name="tags" value="{$tags}" size="55" maxlength="1000"></td>
-                </tr>
+                
                 <tr>
                   <td valign="top">{$smarty.const._HWDVIDS_DESC}</td>
                   <td>{$description}</td>
+                </tr>
+                <tr>
+                  <td valign="top">{$smarty.const._HWDVIDS_TAGS}</td>
+                  <td colspan="2"><input style="height: 100px;width: 430px;font-size: 160%;" name="tags" value="{$tags}" size="55" maxlength="1000"></td>
                 </tr>
                 <tr><td colspan="2"><br /></td></tr>
                 <tr><td colspan="2"><h1>Shigaru Info</h1></td></tr>
