@@ -88,7 +88,7 @@ function submitbutton(pressbutton) {
                 </tr>
                 <tr>
                   <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENT}</td>
-                  <td>{$languagesCombo}</td>
+                  <td>{$instrumentsCombo}</td>
                 </tr>
                 <tr>
                   <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_GENRE}</td>
