@@ -12,6 +12,13 @@
 {literal}
 <script language="javascript" type="text/javascript">
 function submitbutton(pressbutton) {
+	{/literal}
+	var intrument_id = "{$intrument_id}";
+	var level_id = "{$level_id}";
+	var genre_id = "{$genre_id}";
+	var language_id = "{$language_id}";
+	var category_id = "{$category_id}";
+	{literal}
 	var form = document.adminForm;
 	if (pressbutton == 'cancelvid') {
 		submitform( pressbutton );
@@ -71,6 +78,38 @@ function submitbutton(pressbutton) {
                 <tr>
                   <td valign="top">{$smarty.const._HWDVIDS_DESC}</td>
                   <td>{$description}</td>
+                </tr>
+                <tr><td colspan="2"><br /></td></tr>
+                <tr><td colspan="2"><h1>Shigaru Info</h1></td></tr>
+                <tr>
+                  <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_VIDEOLEVEL}</td>
+                  <td>{$levelsCombo}</td>
+                </tr>
+                <tr>
+                  <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENT}</td>
+                  <td>{$languagesCombo}</td>
+                </tr>
+                <tr>
+                  <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_GENRE}</td>
+                  <td>{$genresCombo}</td>
+                </tr>
+                <tr>
+                  <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}</td>
+                  <td>{$languagesCombo}</td>
+                </tr>
+                <tr>
+                  <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND}</td>
+                  <td><input name="originalband" value="{$band_id}" size="55" maxlength="500"></td>
+                </tr>
+                <tr>
+                  <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE}</td>
+                  <td><input name="songtitle" value="{$song_id}" size="55" maxlength="500"></td>
+                </tr>
+                 <tr>
+                  <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_AREYOUCREATOR}</td>
+                  <td><label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_YES}<input type="radio" {if $original_autor eq 1}checked="true"{/if} name="original_autor" value="1"></label>
+						<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_NO}<input type="radio" name="original_autor" {if $original_autor eq 0}checked="true"{/if} value="0"></label>
+						<div class="clear"></div></td>
                 </tr>
               </table>
             </td>

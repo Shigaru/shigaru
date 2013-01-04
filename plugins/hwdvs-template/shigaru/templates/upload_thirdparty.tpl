@@ -209,6 +209,7 @@
 						}
 					},
 					beforeSubmit: function() { 
+						jQuery("#registerButton").attr("disabled", "disabled");
 						tinyMCE.activeEditor.save();
 						return false;
 					}

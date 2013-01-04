@@ -1896,7 +1896,7 @@ $app = & JFactory::getApplication();
      * @param string $orderby order column
      * @return       $code 
      */
-    function generateVideoCombos($fields,$tablename,$orderby,$elementid, $selectquestion=true,$others=false,$required=true){
+    function generateVideoCombos($fields,$tablename,$orderby,$elementid, $selectquestion=true,$others=false,$required=true,$choosenval = null){
 		$db =& JFactory::getDBO();
 		$db->setQuery("SELECT DISTINCT ".$fields." from #__".$tablename." ORDER BY ".$orderby.";"
 		                );
@@ -1919,7 +1919,7 @@ $app = & JFactory::getApplication();
 			else
 				$classCombo='class="inputbox"';
 		  ## Create <select name="month" class="inputbox"></select> ##
-		  $code = JHTML::_('select.genericlist', $options, $elementid, $classCombo, 'value', 'text', $default);
+		  $code = JHTML::_('select.genericlist', $options, $elementid, $classCombo, 'value', 'text', $choosenval);
 		
 		return $code;
 		}

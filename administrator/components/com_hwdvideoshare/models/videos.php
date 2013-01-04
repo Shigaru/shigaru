@@ -112,9 +112,10 @@ class hwdvids_BE_videos
 		$app = & JFactory::getApplication();
 
 		$row = new hwdvids_video( $db );
+		
 		$row->load( $cid );
 		$c = hwd_vs_Config::get_instance();
-
+//var_dump($row);
         // get view count
         require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
         hwd_vs_recount::recountVideoViews($row->id);
@@ -252,6 +253,30 @@ class hwdvids_BE_videos
                 $c = hwd_vs_Config::get_instance();
                 
 		$db = & JFactory::getDBO();
+		
+		
+		$band;$band_id;$song;$song_id;
+		if($category_id!=3){
+			//band and songs stuff
+			$band = Jrequest::getVar( 'originalband', '' );
+			$band_id = hwd_vs_tools::checkBand($band);
+			$song = Jrequest::getVar( 'songtitle', '' );
+			$song_id = hwd_vs_tools::checkSong($song);
+			if($song !=''){
+				if($band_id==null && $band !=''){
+						$band_id = hwd_vs_tools::addBand($band);
+						$song_id = hwd_vs_tools::addSong($song,$band_id);
+					}else{
+							if($song_id==null){
+								$song_id = hwd_vs_tools::addSong($song,$band_id);
+							}
+						}
+			}		
+			
+		}
+		$_POST['song_id'] 			= $song_id;
+		$_POST['band_id'] 			= $band_id;
+		
 		$row = new hwdvids_video($db);
 
 		$requestarray = JRequest::get( 'default', 2 );

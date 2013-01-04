@@ -562,6 +562,10 @@ class hwdvids_HTML
                 {
                         $smartyvs->assign( "category", hwd_vs_tools::generateCategory( $row->category_id ) );
                 }
+        $instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','instrument','intrument_id',true,true,true,$row->intrument_id);		
+		$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true,$row->level_id);		
+		$languagesCombo = hwd_vs_tools::generateVideoCombos('id, iso_code as a, literalkey as b','hwdvidslanguages','id','language_id',true,true,true,$row->language_id);	
+		$genresCombo = hwd_vs_tools::generateVideoCombos('id as a, genre as b','hwdvidsgenres','genre','genre_id',true,true,true,$row->genre_id);		
 		$smartyvs->assign( "description", $editor->display("description",stripslashes($row->description),350,250,40,20,1) );
 		$smartyvs->assign( "tags", str_replace('"', "&#34;", $row->tags) );
 		$smartyvs->assign( "published", hwd_vs_tools::yesnoSelectList( 'published', 'class="inputbox"', $row->published ) );
@@ -584,6 +588,20 @@ class hwdvids_HTML
 		$smartyvs->assign( "views", $row->number_of_views );
 		$smartyvs->assign( "user", $usr->username );
 		$smartyvs->assign( "favoured", $favs );
+		$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
+		$smartyvs->assign("levelsCombo", $levelsCombo);
+		$smartyvs->assign("languagesCombo", $languagesCombo);
+		$lang =& JFactory::getLanguage();
+		$smartyvs->assign("currentlang", $lang->getTag());
+		$smartyvs->assign("genresCombo", $genresCombo);
+		$smartyvs->assign("intrument_id", $row->intrument_id);
+		$smartyvs->assign("original_autor", $row->original_autor);
+		$smartyvs->assign("level_id", $row->level_id);
+		$smartyvs->assign("genre_id", $row->genre_id);
+		$smartyvs->assign("language_id", $row->language_id);
+		$smartyvs->assign("category_id", $row->category_id);
+		$smartyvs->assign("song_id", hwd_vs_tools::getSongById($row->song_id));
+		$smartyvs->assign("band_id", hwd_vs_tools::getBandById($row->band_id));
 
 		if ($row->video_type == "local" || $row->video_type == "mp4")
 		{

@@ -1236,10 +1236,8 @@ class hwd_vs_uploads
 		$_POST['allow_ratings'] 	= $allow_ratings;
 		$_POST['video_length'] 		= $ext_v_durat;
 		$_POST['date_uploaded'] 	= date('Y-m-d H:i:s');
-		if($category_id==1){
 		$_POST['song_id'] 			= $song_id;
 		$_POST['band_id'] 			= $band_id;
-		}
 		$_POST['language_id'] 		= Jrequest::getVar( 'language_id', '' );
 		$_POST['level_id'] 			= Jrequest::getVar( 'level_id', '' );
 		$_POST['genre_id'] 			= Jrequest::getVar( 'genre_id', '' );
