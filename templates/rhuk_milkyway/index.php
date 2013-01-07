@@ -251,9 +251,6 @@ function freichatx_get_hash($ses){
 			<div class="footer_links">
 				<jdoc:include type="modules" name="pagefooter" /> 
 			</div>
-			
-			<?php echo JRequest::getVar('view'); ?>			
-			
 			<div class="copyright">&reg; 2012 Shigaru.com. &copy; All rights reserved. Contact: <a href="mailto:info@shigaru.com">info@shigaru.com</a></div>
 		</div>
 	</div>
