@@ -1228,7 +1228,7 @@ class hwdvids_BE_imports
 			$yt = $oVideoGroup->children('http://gdata.youtube.com/schemas/2007');
 			$content_attributes = $oVideoGroup->content->attributes();
 			$vid_duration = $content_attributes['duration'];
-			$oTags 	= hwdvids_BE_imports::YoutubeComProcessKeywords($raw_code, $processed_code);
+			$oTags 	= hwdvids_BE_imports::YoutubeComProcessKeywords((string)$yt->videoid);
 			$duration_formatted = str_pad(floor($vid_duration/60), 2, '0', STR_PAD_LEFT) . ':' . str_pad($vid_duration%60, 2, '0', STR_PAD_LEFT);
 			if(!hwdvids_BE_imports::isDuplicated((string)$yt->videoid)){
 			$row = new hwdvids_video($db);
@@ -1323,7 +1323,6 @@ class hwdvids_BE_imports
 		
 		$watchvideourl = "http://www.youtube.com/watch?v=".$processed_code;
 		$watchvideourl = hwd_vs_tools::get_final_url( $watchvideourl );
-
 		$ext_v_keywo    = array();
 		$ext_v_keywo[0] = "";
 		$ext_v_keywo[1] = "";
