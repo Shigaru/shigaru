@@ -1048,6 +1048,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .tcenter{text-align:center;}
 .bwhite{background:#fff;}
 .tItalic{color:#d0a8d0;font-style: italic;}
+.tshadowblack{text-shadow: 1px 1px black;}
 .fontred {color: red;}
 .fontblack {color: #000;}
 .fontwhite {color: #fff !important;}
@@ -1073,6 +1074,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .mright12{margin-right:12px;}
 .mright24{margin-right:24px;}
 .ml35pt{margin-left:35%;}
+.m50lx50{margin: -50px 0 50px 0;}
 .w20pc{width:20%;}
 .w40pc{width:40%;}
 .w70pc{width: 70%;}
