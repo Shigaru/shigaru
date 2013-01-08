@@ -1036,6 +1036,8 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 	background: #000 url("/components/com_comprofiler/plugin/templates/default/images/mini-icons/icon-16-warning.png") no-repeat 5px 2px;
 	-moz-opacity:.60; filter:alpha(opacity=60); opacity:.60;
 }
+.logoicon{background: transparent url("../images/logoicon.png") no-repeat 0 0;height: 120px;width: 105px;}
+.dblock{display: block;}
 .nonvis{visibility:hidden;}
 .dispnon{display:none;}
 .fleft{float:left;}
