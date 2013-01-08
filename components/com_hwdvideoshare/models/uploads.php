@@ -1125,6 +1125,7 @@ class hwd_vs_uploads
 				$oThirdPartyVideoInfo->originalband		= Jrequest::getVar( 'originalband', '' );
 				$oThirdPartyVideoInfo->songtitle		= Jrequest::getVar( 'songtitle', '' );
 				$oThirdPartyVideoInfo->level_id			= Jrequest::getVar( 'level_id', '' );
+				$oThirdPartyVideoInfo->thumbnail		= Jrequest::getVar( 'thumbnailgrab', '' );
 				$oThirdPartyVideoInfo->language_id		= Jrequest::getVar( 'language_id', '' );
 				$oThirdPartyVideoInfo->category_id 		= JRequest::getVar( "category_id", "0", "post" );
 				$oThirdPartyVideoInfo->tags				= Jrequest::getVar( 'tags', '' );
