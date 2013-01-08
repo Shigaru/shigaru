@@ -83,7 +83,7 @@ if ( !defined( '_JCOMMENTS_MODULE' ) ) {
 					. "\n FROM #__jcomments AS cc"
 					. "\n LEFT JOIN #__content AS c ON c.id = cc.object_id"
 					. "\n WHERE cc.published = " . ($unpublished ? '0' : '1')
-					. "\n   AND c.access <= '$my->gid'"
+					. "\n   AND cc.userid !=0 AND c.access <= '$my->gid'"
 					. "\n   AND (c.publish_up = '0000-00-00 00:00:00' OR c.publish_up <= '$now')"
 					. "\n   AND (c.publish_down = '0000-00-00 00:00:00' OR c.publish_down >= '$now')"
 					. "\n   AND cc.object_group = 'com_content'"
@@ -101,7 +101,7 @@ if ( !defined( '_JCOMMENTS_MODULE' ) ) {
 
 				$query = "SELECT cc.id, cc.userid, cc.comment, cc.name, cc.username, cc.email, cc.date, cc.object_id, cc.object_group, '' as avatar "
 					. "\n FROM #__jcomments AS cc"
-					. "\n WHERE cc.published = " . ($unpublished ? '0' : '1')
+					. "\n WHERE cc.userid !=0 AND cc.published = " . ($unpublished ? '0' : '1')
 					. (count($groups) ? "\n   AND (cc.object_group = '" . implode( "' OR cc.object_group='", $groups ) . "')" : '')
 					.$goodmore
 					. (JCommentsMultilingual::isEnabled() ? "\nAND cc.lang = '" . JCommentsMultilingual::getLanguage() . "'" : "")
@@ -207,7 +207,7 @@ if ( !defined( '_JCOMMENTS_MODULE' ) ) {
 			. "\n FROM #__content AS c"
 			. "\n LEFT JOIN #__jcomments AS cc ON c.id = cc.object_id"
 			. "\n LEFT JOIN #__categories AS ct ON ct.id = c.catid"
-			. "\n WHERE c.state = 1"
+			. "\n WHERE c.state = 1 AND cc.userid !=0"
 			. "\n   AND c.access <= '$my->gid'"
 			. "\n   AND (c.publish_up = '0000-00-00 00:00:00' OR c.publish_up <= '$now')"
 			. "\n   AND (c.publish_down = '0000-00-00 00:00:00' OR c.publish_down >= '$now')"

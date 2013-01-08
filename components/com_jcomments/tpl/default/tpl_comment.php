@@ -73,7 +73,7 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
 <?php
 				} else {
 ?>
-<span class="comment-author"><?php echo $comment->author?></span>
+<span class="comment-author"><?php echo $comment->author; if($comment->profileLink=='') echo '<br /> '.JText::_('USER_GEST');?></span>
 <?php
 				}
 ?>
@@ -94,7 +94,7 @@ class jtt_tpl_comment extends JoomlaTuneTemplate
  ?>
 								
 <div class="comment-body" id="comment-body-<?php echo $comment->id; ?>"><?php echo $comment->comment; ?></div>
-<span class="comment-date"><?php echo JCommentsText::formatDate($comment->datetime, JText::_('DATE_FORMAT_LC2')); ?></span>
+<span class="comment-date"><?php echo strftime("%B %d %Y %R",$comment->datetime); ?></span>
 </div>
 <div class="comments-buttons">
 

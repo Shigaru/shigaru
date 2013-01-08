@@ -124,7 +124,7 @@ function freichatx_get_hash($ses){
 							echo '<div id="grettings">';
 							echo $cbUser->getField( 'avatar' , null, 'html', 'div', 'profile' );
 							echo '<div class="mtop12 mleft6">';
-							echo JText::sprintf( 'LOGIN_GREETING', $user->username );
+							echo $user->username;
 							echo '</div>';
 							echo '</div>';
 						}
