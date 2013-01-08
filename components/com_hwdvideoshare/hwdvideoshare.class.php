@@ -107,6 +107,56 @@ class hwdvidsbands extends JTable
  * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @version    1.1.3
  */
+class hwdvidssearchlog_term extends JTable
+{
+ 	var $id = null;
+ 	var $pattern = null;
+ 	var $count = null;
+ 	var $last_update = null;
+
+    /**
+     * Constructor
+     * @param database A database connector object
+     */
+	function hwdvidssearchlog_term(&$db){
+        parent::__construct( '#__hwdvidssearchlog_term', 'id', $db );
+	}
+}
+
+/**
+ * @package    hwdVideoShare
+ * @author     SHIGARU 
+ * @copyright  SHIGARU
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @version    1.1.3
+ */
+class hwdvidssearchlog_hits extends JTable
+{
+ 	var $id = null;
+ 	var $term_id = null;
+ 	var $user_id = null;
+ 	var $date_searched = null;
+ 	var $number_results = null;
+ 	var $is_refined = null;
+ 	var $language_id = null;
+ 	var $type_search = null;
+
+    /**
+     * Constructor
+     * @param database A database connector object
+     */
+	function hwdvidssearchlog_hits(&$db){
+        parent::__construct( '#__hwdvidssearchlog_hits', 'id', $db );
+	}
+}
+
+/**
+ * @package    hwdVideoShare
+ * @author     SHIGARU 
+ * @copyright  SHIGARU
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @version    1.1.3
+ */
 class hwdvidssongs extends JTable
 {
  	var $id = null;

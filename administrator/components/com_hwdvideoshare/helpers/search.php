@@ -101,7 +101,103 @@ class hwd_vs_search
     {
         $this->_sphinx->SetLimits($offset, $limit);
     }
-
+    
+    function storeSearch($parampattern, $paramtotalfound,$paramsearchtype){
+		$app = & JFactory::getApplication();
+		if($app->getUserState("com_hwdvideoshare.searchpattern")!=$parampattern && strlen($parampattern) > 2)
+			hwd_vs_search::saveSearch($parampattern,$paramtotalfound,$paramsearchtype);
+		}
+	
+	function saveSearchPattern($parampattern){
+		$checkedpattern = hwd_vs_search::checkSearchPattern($parampattern);
+		if($checkedpattern)
+			return $checkedpattern[0]->id;
+			else
+				return hwd_vs_search::doSavePattern($parampattern);
+		}
+	
+	function doSavePattern($parampattern){
+		$db 			= & JFactory::getDBO();
+		$row 			= new hwdvidssearchlog_term($db);
+		$app 			= & JFactory::getApplication();
+		$_POST['pattern'] 		= $parampattern;
+		$_POST['last_update'] = date("Y-m-d h:i:s");
+		if (!$row->bind($_POST)){
+			// Add a message to the message queue
+			$app->enqueueMessage('Error storing search', 'error');
+			return false;
+		}
+		if (!$row->store())		{
+			// Add a message to the message queue
+			$app->enqueueMessage('Error storing search', 'error');
+			return false;
+			}
+			
+		return $row->id;			
+		}
+		
+		
+	
+	function checkSearchPattern($parampattern){
+		$db 	= & JFactory::getDBO();
+		$rowid 	= null;
+        $query 	= 'SELECT * FROM #__hwdvidssearchlog_term WHERE pattern=\''.$parampattern.'\'';
+        $db->SetQuery($query);
+        $row 	= $db->loadObjectList();
+		if($row)
+			hwd_vs_search::increasePatternHitsCounter($row);
+			
+		return $row;
+		}	
+	
+	function increasePatternHitsCounter($paramrow){
+		$db 			= & JFactory::getDBO();
+		$row 			= new hwdvidssearchlog_term($db);
+		$counthits 		= intval($paramrow->count)+1;
+		$query 	= 'UPDATE  #__hwdvidssearchlog_term SET  count = '.$counthits.',last_update =  \''.date("Y-m-d h:i:s").'\' WHERE  id='.$paramrow[0]->id;
+		$db->SetQuery($query);
+        $row 	= $db->loadObjectList();
+        return $row;
+		}
+		
+	function saveSearch($parampattern, $totalfound, $searchtype){
+		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+		$app = & JFactory::getApplication();
+		$termsaved = hwd_vs_search::saveSearchPattern($parampattern);
+		$_POST['term_id'] 		= $termsaved;
+		if($my->id)$_POST['user_id']= $my->id; else $_POST['user_id'] 		= 0;			
+		$_POST['date_searched'] = date("Y-m-d h:i:s");
+		$_POST['number_results']= $totalfound;
+		if(strstr($parampattern,$app->getUserState("com_hwdvideoshare.searchpattern")))
+			$_POST['is_refined'] 	= 1;
+			else
+				$_POST['is_refined'] 	= 0;
+		$lang =& JFactory::getLanguage();
+		$_POST['language_id'] 	= $lang->getTag();
+		$_POST['type_search'] 	= $searchtype;
+		$row 			= new hwdvidssearchlog_term($db);
+		hwd_vs_search::doSaveSearchPatternHit($_POST);
+		$app->setUserState( "com_hwdvideoshare.searchpattern",$parampattern);
+		}
+	
+	function doSaveSearchPatternHit($parampostobj){
+		$db 			= & JFactory::getDBO();
+		$row 			= new hwdvidssearchlog_hits($db);
+		$app 			= & JFactory::getApplication();
+		if (!$row->bind($parampostobj)){
+			// Add a message to the message queue
+			$app->enqueueMessage('Error storing search hit', 'error');
+			return false;
+		}
+		if (!$row->store())		{
+			// Add a message to the message queue
+			$app->enqueueMessage('Error storing search hit', 'error');
+			return false;
+			}
+		return $row;	
+		}
+		
     /**
      * Perform search
      * @param string $query
@@ -134,6 +230,7 @@ class hwd_vs_search
 
         if ( ! empty($result["matches"]) ) {
             $this->_matches = $result["matches"];
+            hwd_vs_search::storeSearch($searchText,$result['total_found'],0);
 	}
         $this->_searchTime = $result['time'];
         $this->_total = $result['total_found'];

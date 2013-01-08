@@ -139,9 +139,9 @@ class modRokajaxsearchHelper {
 	
 	function getLatestSearchs() {
 		$db = & JFactory::getDBO();
-		$query = 'SELECT search_term FROM #__core_log_searches'; 
+		$query = 'SELECT pattern FROM #__hwdvidssearchlog_term'; 
 		$query .= ' WHERE 1';
-		$query .= ' LIMIT 0,6';
+		$query .= ' ORDER BY last_update DESC LIMIT 0,6';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
