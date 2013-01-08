@@ -132,7 +132,10 @@
 				jQuery('#genrehint').fadeOut();
 				}else{
 					jQuery('.songtutorialfields').slideUp();
+					if(jQuery(this).val()=='3')
 					jQuery('#genrehint').fadeIn();
+					else
+					jQuery('#genrehint').fadeOut();
 				}
 				
 						
