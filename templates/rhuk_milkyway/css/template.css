@@ -396,7 +396,7 @@ text-align: center;}
 #footer div.copyright{text-align: center;font-size:75%;width:50%;margin: 0 auto; color:#bf9abf}
 #footer div.copyright a{color:#fff;text-decoration:none;}
 #footer #leftcolumn div.clear ul li{display:inline-block; margin-right:20px; width:auto;border:none;}
-#footer #rightcolmn div.w75{margin-top:50px;}
+#footer #rightcolmn div.w75{margin-top:30px;}
 #footer #rightcolmn div.w75 p{text-align:right; margin-bottom:6px;}
 #footer #leftcolumn div.clear ul li div.facebook{background: url("../images/sprite.png") no-repeat scroll -197px 0 transparent; width:43px;height:45px;}
 #footer #leftcolumn div.clear ul li div.twitter{background: url("../images/sprite.png") no-repeat scroll -250px 0 transparent; width:43px;height:45px;}

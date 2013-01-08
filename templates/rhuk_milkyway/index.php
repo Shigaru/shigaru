@@ -237,9 +237,8 @@ function freichatx_get_hash($ses){
 			
 			<div>
 				<h3>Sign up for our Newsletters</h3>
-				<input type="text" value="" class="fleft search" placeholder="Enter email address to subscribe" />			
-				<input value="Subscribe" class="submit fleft" type="submit" />
-			</div>
+				<jdoc:include type="modules" name="subscribelink" /> 
+				</div>
 			
 			<div class="clear w75">
 				<p>"Without music, life would be a mistake."</p>
