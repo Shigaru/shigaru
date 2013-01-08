@@ -127,11 +127,15 @@
 					jQuery('.songtutorialfields').slideUp();
 			}
 			jQuery('#category_id').change(function() {	
-				if(jQuery(this).val()=='1' || jQuery(this).val()=='2')
-				jQuery('.songtutorialfields').fadeIn(500,function () {
-				  });
-				else
+				if(jQuery(this).val()=='1' || jQuery(this).val()=='2'){
+				jQuery('.songtutorialfields').fadeIn(500,function () { });
+				jQuery('#genrehint').fadeOut();
+				}else{
 					jQuery('.songtutorialfields').slideUp();
+					jQuery('#genrehint').fadeIn();
+				}
+				
+						
 			});	
 			
 			jQuery.extend(jQuery.validator.messages, {
@@ -390,6 +394,7 @@
                            <p>
                                 <label for="genre_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE} <font class="required">*</font></label>
                                 {$genresCombo}
+                                <span id="genrehint" class="dispnon f80 fleft mleft12 mtop12"><span class="icon-key pad6 fontgreen"></span> Select &quot;Instructional &amp; theory&quot; if not applicable or if you are unsure</span>
                                 <div class="clear"></div>
                             </p>       
 							<p>
