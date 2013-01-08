@@ -208,8 +208,11 @@
 							required: "Please insert the name of the song / tune in this box"
 						}
 					},
+					submitHandler: function(form) {
+					   jQuery("#registerButton").attr("disabled", "disabled").attr("value","Submitting...");;
+					   form.submit();
+					 },
 					beforeSubmit: function() { 
-						jQuery("#registerButton").attr("disabled", "disabled");
 						tinyMCE.activeEditor.save();
 						return false;
 					}
