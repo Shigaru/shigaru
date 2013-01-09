@@ -176,7 +176,50 @@ class plgSystemePrivacy extends JPlugin {
             $msg.= '<p><a href="http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=CELEX:32002L0058:'.$linklang.':NOT" onclick="window.open(this.href);return false;">'.JText::_('PLG_SYS_LAWLINK_TEXT').'</a></p>';
         }
         
+        $msge = '</div><div class="content_box" id="theidea">
+					<a id="close" class="close"></a>
+					<h3>What is the shigaru community about?</h3>
+					<ul class="mbot30">
+						<li id="finding">Finding and sharing the best music video tutorials already on the web (Youtube, Google Videos, etc.)
+						</li>
+						<li id="categorizing">Categorizing them by instrument, level, genre and language.
+						</li>
+						<li id="notaggregator">Not just another content aggregator website.
+						</li>
+					</ul>
+					<h3>Why categorize video tutorials already on Youtube, etc.?</h3>
+					<ul class="mbot30">
+						<li id="submit">It\'s really quick to submit a video url.
+						</li>
+						<li id="grabbed">The original title, video description and tags are automatically copied for you!
+						</li>
+						<li id="fillout">All you have to do is fill out a few more fields, that\'s all.
+						</li>
+					</ul>
+					<h3>Help us grow this music tutorial database!</h3>
+					<ul>
+						<li id="signupto">
+							<a href="" title="Click on this link to navigate to the sign up form">Sign up</a> and start submitting videos
+						</li>
+						<li id="coolprofile">Create your own cool profile page, make friends, promote your music or music related services... for free!
+						</li>
+						
+					</ul>
+					<div id="thanks">
+						<div>
+							<span class="nonvis">Thank you!</span>
+						</div>	
+					</div>
+					<div class="clear"></div>
+					</div>';
+		
+		
+		$doc = JFactory::getDocument();
+		$doc->addCustomTag( $msge);
+        
+        
         $app = JFactory::getApplication();
         $app->enqueueMessage($msg, '');
+        $app->enqueueMessage($msge, '');
     }
 }

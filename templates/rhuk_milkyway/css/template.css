@@ -219,7 +219,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', end
 	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#4495E7),color-stop(100%,#0053A6));
 	background-image: -webkit-linear-gradient(top,#4495E7 0,#0053A6 100%);
 	background-image: linear-gradient(to bottom,#4495E7 0,#0053A6 100%);
-	color:#fff;
+	color:#fff !important;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, .5);
 }
 

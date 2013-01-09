@@ -1194,7 +1194,7 @@ class hwd_vs_tools {
 		switch(intval($category_id)){
 			case 1:
 				$classcategory = 'tuto';
-				$textcategory  = 'Tutorial';
+				$textcategory  = 'Song Tutorial';
 				break;
 			case 2:
 				$classcategory = 'nontuto';
