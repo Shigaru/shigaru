@@ -40,9 +40,12 @@ fieldset.phrase, fieldset.word, fieldset.only {padding: 10px 2px;}
 .searchintro {margin-bottom: 10px;overflow: hidden;}
 
 #roksearch_results .videotime {float:none;
-    position: absolute;
-    right: 27px;
-    bottom: 38px;
+    float: none;
+position: absolute;
+right: 27px;
+bottom: 40px;
+font-size: 70%;
+color: white;
 }
 #jquery-live-search {
 	background: #fff;
