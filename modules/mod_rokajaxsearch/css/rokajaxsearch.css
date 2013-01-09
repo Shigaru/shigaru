@@ -2,7 +2,7 @@
 #roksearch_search_str.loading {background: transparent url(../images/spinner.gif) no-repeat scroll 98% 50%}
 #roksearch_results {}
 #roksearch_results a#roksearch_link {float: right;padding-right: 5px;margin-top: 4px;display: block;height: 16px;width: 16px;}
-#roksearch_results h3 a{color:#9C5352;font-size:90%;}
+#roksearch_results h3 a{color:#9C5352;font-size:80%;}
 #roksearch_results h3{}
 #roksearch_results span {}
 #roksearch_results .container-wrapper {overflow: hidden;}
