@@ -121,7 +121,7 @@ class hwd_vs_search
 		$row 			= new hwdvidssearchlog_term($db);
 		$app 			= & JFactory::getApplication();
 		$_POST['pattern'] 		= $parampattern;
-		$_POST['last_update'] = date("Y-m-d h:i:s");
+		$_POST['last_update'] = date("Y-m-d H:i:s");
 		if (!$row->bind($_POST)){
 			// Add a message to the message queue
 			$app->enqueueMessage('Error storing search', 'error');
@@ -167,7 +167,7 @@ class hwd_vs_search
 		$termsaved = hwd_vs_search::saveSearchPattern($parampattern);
 		$_POST['term_id'] 		= $termsaved;
 		if($my->id)$_POST['user_id']= $my->id; else $_POST['user_id'] 		= 0;			
-		$_POST['date_searched'] = date("Y-m-d h:i:s");
+		$_POST['date_searched'] = date("Y-m-d H:i:s");
 		$_POST['number_results']= $totalfound;
 		if(strstr($parampattern,$app->getUserState("com_hwdvideoshare.searchpattern")))
 			$_POST['is_refined'] 	= 1;
