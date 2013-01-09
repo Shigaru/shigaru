@@ -26,9 +26,10 @@
 						<ul>
 					{foreach name=outer key=k item=data from=$nowlist}
 							<li>
+								
 								{$data->thumbnail}
 								{$data->title}
-								<span>{$smarty.const._HWDVIDS_INFO_SHARED}{$data->uploader}</span>								
+								<span class="viduploader">{$smarty.const._HWDVIDS_INFO_SHARED}{$data->uploader}</span>								
 							</li>
 						{if ($smarty.foreach.outer.iteration is div by 6 or ($smarty.foreach.outer.iteration) eq $smarty.foreach.outer.total) and $smarty.foreach.outer.index neq 0}	
 							</ul>

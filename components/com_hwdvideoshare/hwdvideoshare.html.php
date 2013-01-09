@@ -494,9 +494,9 @@ class hwd_vs_html
     /**
      *
      */
-    function search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $searchterm, $category_id=0,$timetaken=0,$isAjax='no',$searchtype='videos')
+    function search($totalvids, $matchingvids, $videoNav, $totalgroups, $matchinggroups, $groupNav, $searchterm, $category_id=0,$timetaken=0,$isAjax='no',$searchtype='videos',$fromtop=0)
     {
-		global $Itemid, $smartyvs;
+		global $Itemid, $smartyvs, $hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
 		// load the menu name
 		jimport( 'joomla.application.menu' );
@@ -547,15 +547,15 @@ class hwd_vs_html
 		$pageURL = str_replace("&ajax=yes", "", $pageURL);
 		$smartyvs->assign("pageURL", $pageURL);
 		/*echo '<pre>';
-				var_dump($matchingvids[0]);
+				var_dump($hwdvsTemplateOverride['thumbWidth1']);
 			echo '</pre>';*/
 		if (count($matchingvids) > 0) {
 			
 			$smartyvs->assign("print_matchvids", 1);
 			if($searchtype == 'videos'){
-			$matchingvids = hwd_vs_tools::generateVideoListFromSql($matchingvids);
+			$matchingvids = hwd_vs_tools::generateVideoListFromSql($matchingvids, null, $hwdvsTemplateOverride['thumbWidth1']);
 			}else if($searchtype == 'users'){
-				$matchingvids = hwd_vs_tools::generateUserListFromSql($matchingvids);
+				$matchingvids = hwd_vs_tools::generateUserListFromSql($matchingvids, null, $hwdvsTemplateOverride['thumbWidth1']);
 				/*echo '<pre>';
 				var_dump($matchingvids[1]);
 			echo '</pre>';*/
@@ -605,11 +605,15 @@ class hwd_vs_html
 		
 		if($isAjax=='yes'){
 			$smartyvs->assign("mvempty", _HWDVIDS_INFO_NMVFILT);
-			if($searchtype == 'videos')
+			if($fromtop){
+				$smartyvs->display('search_ajax_header.tpl');				
+			}else{
+				if($searchtype == 'videos')
 				$smartyvs->display('search_ajax.tpl');	
 				else if ($searchtype == 'users')
-					$smartyvs->display('search_ajax_users.tpl');	
-			exit;
+					$smartyvs->display('search_ajax_users.tpl');
+				}
+			exit;	
 		}	
 		$smartyvs->display('search.tpl');	
 		return;
@@ -1029,7 +1033,7 @@ class hwd_vs_html
 				$thumbwidth = null;
 			}
 			$smartyvs->assign("print_relatedlist", 1);
-			$listrelated = hwd_vs_tools::generateVideoListFromSql($related_videos, "", $thumbwidth);
+			$listrelated = hwd_vs_tools::generateVideoListFromSql($related_videos, "", $hwdvsTemplateOverride['thumbWidth1']);
 			$smartyvs->assign("listrelated", $listrelated);
 		}
 		else
@@ -1049,7 +1053,7 @@ class hwd_vs_html
 			}
 			
 			$smartyvs->assign("print_uservideolist", 1);
-			$userlist = hwd_vs_tools::generateVideoListFromSql($userrows, "", $thumbwidth);
+			$userlist = hwd_vs_tools::generateVideoListFromSql($userrows, "", $hwdvsTemplateOverride['thumbWidth1']);
 			$smartyvs->assign("userlist", $userlist);
 			// Fix needed for Joomla template issue
 			jimport('joomla.html.pane');
@@ -1073,7 +1077,7 @@ class hwd_vs_html
 				$thumbwidth = null;
 			}
 			$smartyvs->assign("print_categoryvideolist", 1);
-			$categoryvideolist = hwd_vs_tools::generateVideoListFromSql($categoryrows, "", $thumbwidth);
+			$categoryvideolist = hwd_vs_tools::generateVideoListFromSql($categoryrows, "", $hwdvsTemplateOverride['thumbWidth1']);
 			$smartyvs->assign("categoryvideolist", $categoryvideolist);
 		}
 		else
@@ -1667,7 +1671,7 @@ $app = & JFactory::getApplication();
      */
     function yourVideos($rows, $pageNav, $total,$otheruser='no')
     {
-		global $smartyvs, $Itemid;
+		global $smartyvs, $Itemid,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
 
 		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
@@ -1698,7 +1702,7 @@ $app = & JFactory::getApplication();
 
 		if (count($rows) > 0) {
 			$smartyvs->assign("print_videolist", 1);
-			$list = hwd_vs_tools::generateVideoListFromSql($rows);
+			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,$hwdvsTemplateOverride['thumbWidth1']);
 			$smartyvs->assign("list", $list);
 		}
 
@@ -1729,7 +1733,7 @@ $app = & JFactory::getApplication();
      */
     function yourFavourites($rows, $pageNav, $total,$otheruser='no')
     {
-		global $Itemid, $smartyvs;
+		global $Itemid, $smartyvs,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
 
 		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
@@ -1760,7 +1764,7 @@ $app = & JFactory::getApplication();
 
 		if (count($rows) > 0) {
 			$smartyvs->assign("print_videolist", 1);
-			$list = hwd_vs_tools::generateVideoListFromSql($rows);
+			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,$hwdvsTemplateOverride['thumbWidth1']);
 			$smartyvs->assign("list", $list);
 		}
 		$page = $total - $c->vpp;
@@ -1790,7 +1794,7 @@ $app = & JFactory::getApplication();
      */
     function featuredVideos($rows, $pageNav, $total)
     {
-		global $Itemid, $smartyvs;
+		global $Itemid, $smartyvs,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
 
 		// load the menu name
@@ -1820,7 +1824,7 @@ $app = & JFactory::getApplication();
 
 		if (count($rows) > 0) {
 			$smartyvs->assign("print_videolist", 1);
-			$list = hwd_vs_tools::generateVideoListFromSql($rows);
+			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,$hwdvsTemplateOverride['thumbWidth1']);
 			$smartyvs->assign("list", $list);
 		}
 

@@ -10,11 +10,18 @@
  */
 
 // no direct access
+//remove mootools.js and caption.js
+		  $headerstuff = $this->getHeadData();  
+		  $scripts = $headerstuff['scripts']; 
+		  foreach ($scripts as $path => $val) 
+		  { 
+			if (strpos($path, 'mootools.js') !== false || strpos($path, 'caption.js') !== false) unset($scripts[$path]); 
+		  } 
+		  $headerstuff['scripts'] = $scripts;
+		  $this->setHeadData($headerstuff);  
 defined( '_JEXEC' ) or die( 'Restricted access' );
-$this->addScript($this->baseurl."/media/system/js/mootools.js");
-$this->addScript($this->baseurl."/modules/mod_rokajaxsearch/js/rokajaxsearch.js");
 $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js");
-
+$this->addScript($this->baseurl."/modules/mod_rokajaxsearch/js/rokajaxsearch.js");
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -177,6 +177,7 @@ class JPaneTabs extends JPane
 	 */
 	function _loadBehavior($params = array())
 	{
+		if(JFactory::getApplication()->isAdmin()){
 		// Include mootools framework
 		JHTML::_('behavior.mootools');
 
@@ -201,6 +202,7 @@ class JPaneTabs extends JPane
 
 		$document->addScriptDeclaration( $js );
 		$document->addScript( JURI::root(true). '/media/system/js/tabs.js' );
+		}
 	}
 }
 

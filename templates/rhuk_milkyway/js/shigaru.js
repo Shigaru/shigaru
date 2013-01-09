@@ -10,7 +10,7 @@ jQuery(document).ready(function($){
 	jQuery('.rightcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.rightcolumn .slidesWrapper'});
 	jQuery('.workarea_odd .video_activity .video_activity_header').shigaruTabs({slidesWrapper:'.workarea_odd .video_activity .slidesWrapper'});
 	}
-	
+	jQuery('#roksearch_search_str').liveSearch({url: '/shigaru/videos/search-results?fromtop=1&ajax=yes&pattern='});
 	jQuery('.usermessages div a.close').click(function(){
 			jQuery.unblockUI();
 			jQuery(this).parent().parent().fadeOut();
@@ -118,8 +118,10 @@ jQuery(document).ready(function($){
 		switch(opts.effect){
 			case 'rotate':
 						jQuery(oSlides).each(function(i,e){
-								if(i!=0)
+								if(i!=0){
 								jQuery(e).find('ul li a.thumbplay').css('display','none');
+								jQuery(e).find('ul li a .categoryinfothumb').css('display','none');
+								}
 							});
 						
 						jQuery(opts.slidesWrapper).css('overflow', 'hidden');
@@ -146,11 +148,13 @@ jQuery(document).ready(function($){
 		oHRef = jQuery(this).attr('href');
 		updateSelection(oHRef);
 		jQuery(oSlides).each(function(i,e){
-								if(i!=oCurrentIndex)
+								if(i!=oCurrentIndex){
 									jQuery(e).find('ul li a.thumbplay').css('display','none');
-								else{
+									jQuery(e).find('ul li a .categoryinfothumb').css('display','none');
+								}else{
 									jQuery(opts.slidesWrapper +' .slideInner').animate({'marginLeft' : -(oCurrentIndex * oSlideWidth)},function(){
 										jQuery(e).find('ul li a.thumbplay').css('display','block');
+										jQuery(e).find('ul li a .categoryinfothumb').css('display','block');
 									});
 							}
 			});	

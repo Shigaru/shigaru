@@ -1139,7 +1139,7 @@ class hwd_vs_tools {
      * @param string $target(optional)  the target for the link
      * @return       $code
      */
-	function generateVideoThumbnailLink( $video_id, $video_code, $video_type, $video_thumbnail, $k, $width, $height, $class, $target="_top", $hwdvs_itemid=null, $onclick_js=null, $tooltip_data=null, $lightbox=false, $video_duration=null)
+	function generateVideoThumbnailLink( $video_id, $video_code, $video_type, $video_thumbnail, $k, $width, $height, $class, $target="_top", $hwdvs_itemid=null, $onclick_js=null, $tooltip_data=null, $lightbox=false, $video_duration=null,$category_id=null)
 	{
 		global $option, $hwdvsItemid, $smartyvs, $mooVersion;
 		$doc = & JFactory::getDocument();
@@ -1165,50 +1165,7 @@ class hwd_vs_tools {
 			//if (!defined( 'HWDVS_LB' ))
                         if (1 == 1)
 			{
-				define( 'HWDVS_LB', 1 );
-				if ($mooVersion == "1.2" || $mooVersion == "1.3")
-				{
-					if($doc->getType() == 'html')
-					{
-						$doc->addCustomTag('<script type="text/javascript" src="'.JURI::root(true).'/components/com_hwdvideoshare/assets/js/mb/overlay.js"></script>');
-						$doc->addCustomTag('<script type="text/javascript" src="'.JURI::root(true).'/components/com_hwdvideoshare/assets/js/mb/multiBox.js"></script>');
-						$doc->addCustomTag('<link rel="stylesheet" href="'.JURI::root(true).'/components/com_hwdvideoshare/assets/css/mb/multibox.css" media="screen,projection" type="text/css" />');
-						$doc->addCustomTag('<script type="text/javascript">
-						window.addEvent(\'domready\', function(){
-							//call multiBox
-							var initMultiBox = new multiBox({
-								mbClass: \'.'.$lightbox.'\',
-								container: $(document.body),
-								descClassName: \'\',
-								useOverlay: true,
-								maxSize: null,
-								addDownload: false,//do you want the files to be downloadable?
-								addRollover: true,//add rollover fade to each multibox link
-								addOverlayIcon: false,//adds overlay icons to images within multibox links
-								addChain: false,//cycle through all images fading them out then in
-								recalcTop: true,//subtract the height of controls panel from top position
-								addTips: false,//adds MooTools built in \'Tips\' class to each element (see: http://mootools.net/docs/Plugins/Tips)
-								autoOpen: 0//to auto open a multiBox element on page load change to (1, 2, or 3 etc)
-							});
-						});
-						</script>');
-					}
-				}
-				else
-				{
-					if($doc->getType() == 'html')
-					{
-						$doc->addCustomTag('<script type="text/javascript" src="'.JURI::root(true).'/components/com_hwdvideoshare/assets/js/overlay.js"></script>');
-						$doc->addCustomTag('<script type="text/javascript" src="'.JURI::root(true).'/components/com_hwdvideoshare/assets/js/multibox.js"></script>');
-						$doc->addCustomTag('<link rel="stylesheet" href="'.JURI::root(true).'/components/com_hwdvideoshare/assets/css/multibox.css" media="screen,projection" type="text/css" />');
-					}
-
-					if (substr($lightbox, 0, 2) == "mb")
-					{
-						$smartyvs->assign("print_mb_initialize", 1);
-						$smartyvs->assign("mb_id", $lightbox);
-					}
-				}
+				
 			}
 
 			$v_width = intval($c->flvplay_width)+15;
@@ -1230,7 +1187,25 @@ class hwd_vs_tools {
 						<a class="options" title="Options" class="options selectbox"></a>
 					</div>
 					<a rel="1" class="play paused"></a>';
-		$code.= "<a href=\"".$link."\" ".$onclick_txt." title=\"".$tooltip_data[2]."\">";
+		if(!$width)			
+			$width = '120';
+		$classcategory = '';
+		$textcategory = '';
+		switch(intval($category_id)){
+			case 1:
+				$classcategory = 'tuto';
+				$textcategory  = 'Tutorial';
+				break;
+			case 2:
+				$classcategory = 'nontuto';
+				$textcategory  = 'Watch me play';
+				break;
+			case 3:
+				$classcategory = 'theory';
+				$textcategory  = 'Theory';
+				break;
+		}	
+		$code.= "<a href=\"".$link."\" ".$onclick_txt." title=\"".$tooltip_data[2]."\"><span style=\"width:".$width."px\" class=\"categoryinfothumb ".$classcategory." \">".$textcategory."</span>";
 		$code.= hwd_vs_tools::generateThumbnail( $video_id, $video_code, $video_type, $video_thumbnail, $k, $width, $height, $class, $tooltip_data, $video_duration );
 		$code.= "</a>";
 
@@ -1472,7 +1447,7 @@ class hwd_vs_tools {
 				$code[$i]->showrating = 1;
 			}
 
-			if ($hwdvsTemplateOverride['show_thumbnail'] == 1) {       $code[$i]->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, $k, $twidth, $theight, $tclass, null, $hwdvs_itemid, $onclick_js, $tooltip_data, $lightbox, $row->video_length); }
+			if ($hwdvsTemplateOverride['show_thumbnail'] == 1) {       $code[$i]->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, $k, $twidth, $theight, $tclass, null, $hwdvs_itemid, $onclick_js, $tooltip_data, $lightbox, $row->video_length,$row->category_id); }
 			if ($hwdvsTemplateOverride['show_views']) {                $code[$i]->views = $row->number_of_views; }
 			$code[$i]->comments = $row->number_of_comments;
 			$code[$i]->duration = $row->video_length;
@@ -1592,7 +1567,7 @@ class hwd_vs_tools {
 				$code[$i]->showrating = 1;
 			}
 
-			if ($hwdvsTemplateOverride['show_thumbnail'] == 1) {       $code[$i]->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($rows[$i]["id"], $rows[$i]["videocode"], $rows[$i]["videotype"], $rows[$i]["thumbnail"], $k, $twidth, $theight, $class, null, $hwdvs_itemid, $onclick_js, $tooltip_data, $lightbox, $rows[$i]["duration"]); }
+			if ($hwdvsTemplateOverride['show_thumbnail'] == 1) {       $code[$i]->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($rows[$i]["id"], $rows[$i]["videocode"], $rows[$i]["videotype"], $rows[$i]["thumbnail"], $k, $twidth, $theight, $class, null, $hwdvs_itemid, $onclick_js, $tooltip_data, $lightbox, $rows[$i]["duration"],$rows[$i]["category_id"]); }
 			if ($hwdvsTemplateOverride['show_views']) {                $code[$i]->views = $rows[$i]["views"]; }
 			if ($hwdvsTemplateOverride['show_comments']) {             $code[$i]->comments = $rows[$i]["comments"]; }
 			if ($hwdvsTemplateOverride['show_duration']) {             $code[$i]->duration = $rows[$i]["duration"]; }
@@ -4751,7 +4726,7 @@ $app = & JFactory::getApplication();
 		$details->duration = $row->video_length;
 		$details->ratingsystem = hwd_vs_tools::generateRatingSystem($row);
 		$details->favouritebutton = hwd_vs_tools::generateFavouriteButton($row);
-		$details->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, 0, $thumb_width, null, null, null, $hwdvsItemid, null, $tooltip, $lightbox, $row->video_length);
+		$details->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, 0, $thumb_width, null, null, null, $hwdvsItemid, null, $tooltip, $lightbox, $row->video_length,$sideDetails->category);
 		$details->avatar = hwd_vs_tools::generateAvatar($row->user_id, $row->avatar, 0);
 		$details->username = $row->username;
 		$details->song = $sideDetails->song;

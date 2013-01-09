@@ -702,6 +702,7 @@ class hwd_vs_core
         $sort        = JRequest::getVar( 'sort', 'relevance' );
         $ep          = JRequest::getVar( 'ep', '' );
         $ex          = JRequest::getVar( 'ex', '' );
+        
 
 		$url = JRoute::_("index.php?option=com_hwdvideoshare&task=displayresults&Itemid=$hwdvsItemid");
 		$url = str_replace("&amp;", "&", $url);
@@ -746,6 +747,9 @@ class hwd_vs_core
 		$video_length= JRequest::getVar( 'video_length', '' );
 		$rlimit		 = JRequest::getInt( 'limit', '20' );
 		$searchtype	 = JRequest::getVar( 'searchcategory', 'videos' );
+		$fromtop     = JRequest::getVar( 'fromtop', '0' );
+		
+		
         if (empty($vpp) || $vpp == 0)
         {
         	$limitv     = intval($c->vpp);
@@ -782,7 +786,7 @@ class hwd_vs_core
 			$totalGroups = 0;
 			$groupNav = null;
 			$matchingGroups = null;
-			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype);
+			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype,$fromtop);
 		}else if($searchtype == 'scomments'){
 			$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $rlimit,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
 			$totalVideos = $matchingVideos['total_found'];
@@ -793,7 +797,7 @@ class hwd_vs_core
 			$totalGroups = 0;
 			$groupNav = null;
 			$matchingGroups = null;
-			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype);
+			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype,$fromtop);
 			
 		}else if($searchtype == 'users'){
 			$matchingVideos = hwd_vs_search::searchUsers($pattern,$limitstart, $rlimit,$sort);
@@ -805,7 +809,7 @@ class hwd_vs_core
 			$totalGroups = 0;
 			$groupNav = null;
 			$matchingGroups = null;
-			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype);
+			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype,$fromtop);
 		}else if($searchtype == 'all'){
 			$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $rlimit,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
 			$totalVideos = $matchingVideos['total_found'];
@@ -816,7 +820,7 @@ class hwd_vs_core
 			$totalGroups = 0;
 			$groupNav = null;
 			$matchingGroups = null;
-			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype);
+			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype,$fromtop);
 		}
     }
     /**
