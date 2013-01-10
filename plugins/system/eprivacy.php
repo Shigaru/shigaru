@@ -196,7 +196,7 @@ class plgSystemePrivacy extends JPlugin {
 						<li id="notaggregator">Not just another content aggregator website.
 						</li>
 					</ul>
-					<h3>Why categorize video tutorials already on Youtube, etc.?</h3>
+					<h3>Submit the url of a video tutorial in just under 1 minute!</h3>
 					<ul class="mbot30">
 						<li id="submit">It\'s really quick to submit a video url.
 						</li>
