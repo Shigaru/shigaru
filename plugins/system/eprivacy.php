@@ -37,7 +37,7 @@ class plgSystemePrivacy extends JPlugin {
         parent::__construct($subject, $config);
     }
 
-    function onAfterDispatch() {
+    function onAfterInitialise() {
         $app = JFactory::getApplication();
 
         // plugin should only run in the front-end
@@ -52,19 +52,18 @@ class plgSystemePrivacy extends JPlugin {
             $this->_eprivacy = true;
             return true;
         }
-        
         if($accepted=JRequest::getVar('plg_system_eprivacy',false,'COOKIE')) {
             // user has the long term cookie
             $this->_eprivacy = true;
             setcookie('plg_system_eprivacy',$accepted,time()+60*60*24*30);
             return true;
         }
-        if (!$app->getUserState('plg_system_eprivacy', false)) {
+        if ($app->getUserState('plg_system_eprivacy', false)) {
             $this->_eprivacy = true;
-            $app->setUserState('plg_system_eprivacy', true);
             // user has already accepted cookies
             if($this->params->get('longtermcookie',0)) {
                 $accepted = JRequest::getVar('plg_system_eprivacy',false,'COOKIE');
+                exit();
                 setcookie('plg_system_eprivacy',$accepted,time()+60*60*24*30);
             }
             return true;
@@ -77,19 +76,26 @@ class plgSystemePrivacy extends JPlugin {
                     setcookie('plg_system_eprivacy',date('%Y-%m-%d %H:%i:%s'),time()+60*60*24*30);
                 }
                 return true;
-            }
+            }else{
+					// force accepted cookies
+					$this->_eprivacy = true;
+					$app->setUserState('plg_system_eprivacy', true);
+					$this->_requestAccept();
+					if($this->params->get('longtermcookie',0)) {
+						setcookie('plg_system_eprivacy',date('%Y-%m-%d %H:%i:%s'),time()+60*60*24*30);
+					}
+				}
         }
         if(!$this->_eprivacy) {
         $this->_requestAccept();
             if ($this->_testHeaders()) {
                 $this->_cleanHeaders();
             }
-         // force accepted cookies
-		$this->_eprivacy = true;
+        // force accepted cookies
+		/*$this->_eprivacy = true;
 		$app->setUserState('plg_system_eprivacy', true);
-			setcookie('plg_system_eprivacy',date('%Y-%m-%d %H:%i:%s'),time()+60*60*24*30);
+		setcookie('plg_system_eprivacy','1',time()+60*60*24*30);*/
         }
-        
         return true;
     }
     
@@ -151,7 +157,10 @@ class plgSystemePrivacy extends JPlugin {
          $doc = JFactory::getDocument();
         $script=array();
         $script[]='jQuery(document).ready(function($){';
+        $script[]="\tjQuery('#theidea').clone().prependTo( '#workareainit .workarea_wrapper' );";
+        $script[]="\tjQuery('.workarea_wrapper #theidea #close').click(function(){jQuery(this).parent().fadeOut('slow'); });";
         $script[]="\tjQuery('.shigarunotice .close').click(function(){jQuery(this).parents('#system-message').fadeOut('slow');});";
+        $script[]="\tjQuery('.workarea_wrapper #theidea').show();";
         $script[]='});';
         $doc->addScriptDeclaration(implode("\n",$script));
         if (count($query_string) && strlen($query_string[0])) {
@@ -220,6 +229,5 @@ class plgSystemePrivacy extends JPlugin {
         
         $app = JFactory::getApplication();
         $app->enqueueMessage($msg, '');
-        $app->enqueueMessage($msge, '');
     }
 }

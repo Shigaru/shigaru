@@ -11,7 +11,7 @@
 <script type="text/javascript">
 jQuery(document).ready(function($){
 	jQuery('.searchwrapper').shigaruSearch();
-	jQuery('select#genre_id,select#language_id,select#intrument_id').addClass('w90').chosen();
+	jQuery('select#genre_id,select#language_id,select#intrument_id').addClass('w90').chosen({allow_single_deselect:true});
 });
 
 
