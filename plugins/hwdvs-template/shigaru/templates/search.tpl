@@ -6,10 +6,12 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
+<script type="text/javascript" src="{$domain}templates/rhuk_milkyway/js/chosen.jquery.min.js"></script>
 {literal}
 <script type="text/javascript">
 jQuery(document).ready(function($){
 	jQuery('.searchwrapper').shigaruSearch();
+	jQuery('select#genre_id,select#language_id,select#intrument_id').addClass('w90').chosen();
 });
 
 

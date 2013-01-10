@@ -519,9 +519,12 @@ class hwd_vs_html
 		// set the page/meta title
 		$doc->setTitle( $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
+		$doc->addCustomTag( '<link rel="stylesheet" type="text/css" media="all" href="'.JURI::root( true ).'/templates/rhuk_milkyway/css/chosen.css" />' );
+		
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
-	
+	    $domain = JURI::root();
+	    $smartyvs->assign("domain", $domain);
 		$smartyvs->assign("searchterm", $searchterm);
 		$smartyvs->assign("totalvideos", $totalvids);
 		$smartyvs->assign("timetaken", $timetaken);

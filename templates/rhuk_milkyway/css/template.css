@@ -352,7 +352,9 @@ margin: 20px 0 0 20px;
 background: url("../images/sprite-search-results.png") no-repeat scroll 0 0 transparent;}
 .searchwrapper{}
 .searchwrapper #resultwrapper{margin-bottom:36px; float:left;width:77%;}
-.searchwrapper input[type="text"], .searchwrapper input[type="password"],.searchwrapper textarea, .searchwrapper select {
+.searchwrapper input[type="text"], 
+.searchwrapper input[type="password"],.searchwrapper textarea, 
+.searchwrapper select {
 margin-left: 5px;
 border: 1px solid #DDD;
 -moz-border-radius: 5px;
@@ -360,6 +362,10 @@ border: 1px solid #DDD;
 border-radius: 5px;
 outline: none;
 padding: 5px;
+}
+
+.searchwrapper div.chzn-search input[type="text"] {
+margin-left: 0;
 }
 #resultordering .order{ 
     display: block;
@@ -1159,6 +1165,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .w70{width:70%;}
 .w75{width:75%;}
 .w84{width:83%;}
+.w90{width:90%;}
 .w100{width:100%;}
 .f15em{font-size:1.5em;}
 .f12em{font-size:1.2em;}
