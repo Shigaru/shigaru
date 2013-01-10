@@ -10,7 +10,7 @@ jQuery(document).ready(function($){
 	jQuery('.rightcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.rightcolumn .slidesWrapper'});
 	jQuery('.workarea_odd .video_activity .video_activity_header').shigaruTabs({slidesWrapper:'.workarea_odd .video_activity .slidesWrapper'});
 	}
-	jQuery('#roksearch_search_str').liveSearch({url: '/videos/search-results?fromtop=1&ajax=yes&pattern='});
+	jQuery('#roksearch_search_str').liveSearch({url: '/shigaru/videos/search-results?fromtop=1&ajax=yes&pattern='});
 	jQuery('.usermessages div a.close').click(function(){
 			jQuery.unblockUI();
 			jQuery(this).parent().parent().fadeOut();

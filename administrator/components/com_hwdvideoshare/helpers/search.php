@@ -153,8 +153,8 @@ class hwd_vs_search
 	function increasePatternHitsCounter($paramrow){
 		$db 			= & JFactory::getDBO();
 		$row 			= new hwdvidssearchlog_term($db);
-		$counthits 		= intval($paramrow->count)+1;
-		$query 	= 'UPDATE  #__hwdvidssearchlog_term SET  count = '.$counthits.',last_update =  \''.date("Y-m-d h:i:s").'\' WHERE  id='.$paramrow[0]->id;
+		$counthits 		= intval($paramrow[0]->count)+1;
+		$query 	= 'UPDATE  #__hwdvidssearchlog_term SET  count = '.$counthits.',last_update =  \''.date("Y-m-d H:i:s").'\' WHERE  id='.$paramrow[0]->id;
 		$db->SetQuery($query);
         $row 	= $db->loadObjectList();
         return $row;
