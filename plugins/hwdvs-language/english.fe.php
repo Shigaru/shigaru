@@ -126,7 +126,10 @@ DEFINE("_HWDVIDS_ALERT_SUCLEAVE","You have left the group");
 DEFINE("_HWDVIDS_ALERT_SUCFLAGGED","The media has been reported and will be reviewed shortly.");
 DEFINE("_HWDVIDS_ALERT_ALREADYFLAG","This media has already been reported by a user.");
 DEFINE("_HWDVIDS_ALERT_NOPERM","You do not have permission to edit this video");
-DEFINE("_HWDVIDS_ALERT_DUPLICATE","This video can not be added because it has already been added to the gallery.");
+DEFINE("_HWDVIDS_ALERT_DUPLICATE","<div class=\"mtop12 mbot6\">Sorry, this video <span class=\"fontbold\">has already been submitted to the Shigaru</span> database by another user.</div> 
+<div class=\"mbot6\">If you are the original creator of this content and would like to claim this video as yours and to associate the video to your own profile please email us at <span class=\"fontbold\">videos[at]shigaru.com</span> and we will happily make the switch for you.</div>
+<div class=\"mbot6\">Or maybe you woul simply like to submit another url? :)</div>");
+DEFINE("_HWDVIDS_ALERT_DUPLICATELINK","Here is the link for the already submitted video:");
 DEFINE("_HWDVIDS_ALERT_NOTITLE","Please enter a video title");
 DEFINE("_HWDVIDS_ALERT_NODESC","Please enter a video description");
 DEFINE("_HWDVIDS_ALERT_NOCAT","Please choose a video category");

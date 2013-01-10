@@ -60,7 +60,7 @@ background: -webkit-gradient(linear, left top, left bottom, from(#efcea0), to(#e
 #topnavmenu div.menu-open{background:#fff !important;-moz-border-radius:5px 5px 0px 0px !important;-webkit-border-radius:5px 5px 0px 0px !important;border-radius: 5px 5px 0px 0px !important;}
 
 /* TOP SEARCH AREA */
-#nav_browse {background:#beb8bb;height:176px;border-bottom:1px solid #cfcfcf;}
+#nav_browse {background:#beb8bb;height:145px;border-bottom:1px solid #cfcfcf;}
 #nav_browse_content{min-width:900px;max-width:1075px;margin:0 auto;}
 #nav_browse_search{}
 #nav_browse_search input{height: 45px;width: 60%;margin:31px 0 0 44px;
@@ -662,10 +662,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #videouploadwrap #videourl:-moz-placeholder {color:#997c99;}
 #videouploadwrap #videourl:focus{-moz-box-shadow: 0 0 15px 1px #f2f2fb;
 -webkit-box-shadow: 0 0 15px 1px #f2f2fb;box-shadow: 0 0 7px 1px #f2f2fb;}
-#canesWrap{margin: 26px 2px 21px 12px;}
-.canes{width:33px;height:64px;float:left;}
-.youtubeCan{background: url("../../../modules/mod_socialmedialinks/icons/drink/size3/youtube.png") no-repeat scroll 0 0 transparent;}
-.googleCan{background: url("../../../modules/mod_socialmedialinks/icons/drink/size3/google.png") no-repeat scroll 0 0 transparent;}
+#canesWrap{   background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #C1C1C1;
+    border-radius: 5px 5px 5px 5px;
+    margin: 12px 2px 21px 12px;}
+.canes{width:130px;height:60px;float:left;}
+.youtube{background: url("../images/youtube_logo_standard_againstwhite.png") no-repeat scroll 2px 7px transparent;}
+.metacafe{background: url("../images/metacafe_logo_standard_againstwhite.png") no-repeat scroll 0 0 transparent;}
 #videouploadwrap form div.fleft{ margin:0 0 0 10%;}
 #videouploadwrap ul li{font-size: 90%;
     margin: 0 0 0 60px;

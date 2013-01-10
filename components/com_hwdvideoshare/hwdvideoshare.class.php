@@ -837,7 +837,7 @@ class hwd_vs_tools {
 		$db = & JFactory::getDBO();
 		$oThirdPartyVideoInfo;
 		$remote_verified = null;
-		
+		$app = JFactory::getApplication();
 		
 		$parsedurl = parse_url($embeddump);
 		if (empty($parsedurl['host'])) { $parsedurl['host'] = ''; }
@@ -873,11 +873,22 @@ class hwd_vs_tools {
 
 			$ext_v_code  = $tp->$f_processc($embeddump);
 			//check if already exists
-			$db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos WHERE video_id = "'.$ext_v_code[1].'"' );
+			$db->SetQuery( 'SELECT * FROM #__hwdvidsvideos WHERE video_id = "'.$ext_v_code[1].'"' );
 			$duplicatecount = $db->loadResult();
-
+			
 			if ($duplicatecount > 0 && $admin_import == false) {
-				hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_DUPLICATE, "exclamation.png", 0);
+				$srows = $db->loadObjectList();
+				$descriptiontrunc = addslashes(hwd_vs_tools::truncateText(strip_tags($rows[0]->description), 90));
+				$videolink 	= hwd_vs_tools::generateVideoLink($srows[0]->id,stripslashes($srows[0]->title), $hwdvsItemid, null, 10000); 
+				$videothumb = hwd_vs_tools::generateVideoThumbnailLink($srows[0]->id, $srows[0]->video_id, $srows[0]->video_type, $srows[0]->thumbnail, 0, '100', null, null, null, $hwdvsItemid, null, $descriptiontrunc, null, $row[0]->video_length,$rows[0]->category_id);	
+				$app->enqueueMessage('<p class="shigarunotice"><span class="close"></span><span class="fontbold fontblack f90 mbot20">'._HWDVIDS_TITLE_UPLDFAIL.'</span>'._HWDVIDS_ALERT_DUPLICATE.'<div class="mtop12 clear mbot6">'._HWDVIDS_ALERT_DUPLICATELINK.'</div><div class="fleft">'.$videothumb.'</div><div class="fleft mtop25 mleft12 f120">'.$videolink.'</div><div class="clear"></div></p>','');
+				$doc = JFactory::getDocument();
+				$script=array();
+				$script[]='jQuery(document).ready(function($){';
+				$script[]="\tjQuery('.shigarunotice .close').click(function(){jQuery(this).parents('#system-message').fadeOut('slow');});";
+				$script[]='});';
+				$doc->addScriptDeclaration(implode("\n",$script));
+				//hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_DUPLICATE, "exclamation.png", 0);
 				return;
 			} else if ($duplicatecount > 0 && $admin_import == true) {
 				return false;
@@ -6129,22 +6140,16 @@ $app = & JFactory::getApplication();
 		global $j15, $j16;
 		$db = & JFactory::getDBO();
 
-		if ($j16)
-		{
-			$db->SetQuery( 'SELECT * FROM #__extensions WHERE type = "plugin" AND folder = "hwdvs-thirdparty" AND enabled = 1 ORDER BY name ASC');
-			$iniFile = JPATH_SITE.'/plugins/hwdvs-thirdparty/thirdpartysupportpack/support.ini';
-		}
-		else
-		{
-			$db->SetQuery( 'SELECT * FROM #__plugins WHERE published = 1 AND folder = "hwdvs-thirdparty" ORDER BY name ASC');
-			$iniFile = JPATH_SITE.'/plugins/hwdvs-thirdparty/support.ini';
-		}
+		
+		$db->SetQuery( 'SELECT * FROM #__plugins WHERE published = 1 AND folder = "hwdvs-thirdparty" ORDER BY name ASC');
+		$iniFile = JPATH_SITE.'/plugins/hwdvs-thirdparty/support.ini';
+		
 
     	$rows = $db->loadObjectList();
 
 		$code = null;
 		$code.= "<div id=\"canesWrap\">";
-		for ($i=0, $n=count($rows); $i < $n; $i++)
+		for ($i=count($rows), $n=count($rows); $i > 0; $i--)
 		{
 			$row = $rows[$i];
 			
@@ -6168,13 +6173,17 @@ $app = & JFactory::getApplication();
 			}
 			else if ($row->element == "youtube")
 			{
-				$code.= "<a href=\"http://www.youtube.com\" target=\"_blank\"><div class=\"canes youtubeCan mright6\"><span class=\"nonvis\">Youtube.com</span></div></a>, ";
+				$code.= "<a href=\"http://www.youtube.com\" target=\"_blank\"><div class=\"canes mtop12 mleft12 youtube mright6\"><span class=\"nonvis\">Youtube.com</span></div></a> ";
 			}
-			else if ($row->element == "google")
+			else if ($row->element == "metacafe")
 			{
-				$code.= "<a href=\"http://video.google.com\" target=\"_blank\"><div class=\"canes googleCan mright6 mbot12\"><span class=\"nonvis\">Google.com</span></div></a>";
+				$code.= "<a href=\"http://metacafe.com\" target=\"_blank\"><div class=\"canes mtop12 mleft12 metacafe mright6 mbot12\"><span class=\"nonvis\">Metacafe.com</span></div></a>";
 			}
 		}
+		
+		//$code.= "<a href=\"http://metacafe.com\" target=\"_blank\"><div class=\"metacafe pad12 mright6 mbot12\"><span class=\"nonvis\">Metacafe.com</span></div></a>";
+		
+		$code.="<div class=\"clear\"></div>";
 		$code.="</div>";
 		if (substr($code, -2) == ", ") {$code = substr($code, 0, -2);}
 		return $code;
