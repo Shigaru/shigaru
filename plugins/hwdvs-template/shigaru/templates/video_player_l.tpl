@@ -48,6 +48,7 @@
 				  <div class="padding mtop24">
 					  
 						<div class="videoactions"> 
+								
 								<div class="fleft">{$videoplayer->reportmedia}</div>
 								<div class="fleft" id="addremfav">{$videoplayer->favourties}</div>
 								<div class="fleft">
@@ -115,7 +116,7 @@
 		  <div><span>{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}</span><br />{$videoplayer->language}</div>
 		  <div id="ratingsnow"><span>{$smarty.const._HWDVIDS_SELECT_RATING}</span><br />{$videoplayer->ratingsystem}</div>
 		  <div><span>{$smarty.const._HWDVIDS_INFO_NOCOMM}</span><br />{$videoplayer->commentsNum}</div>
-		  <!--<div>{$songPlayer}</div>-->	
+		  <div>{$songPlayer}</div>
 		<div class="clear"><h5>{$smarty.const._HWDVIDS_SHIGARU_ADS}</h5>{$google_adsense}</div>
 		<div class="clear"><h5>{$smarty.const._HWDVIDS_SHIGARU_ADS}</h5>{$google_adsense}</div>			
 		</div>

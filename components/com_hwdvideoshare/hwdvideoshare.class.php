@@ -4725,11 +4725,20 @@ $app = & JFactory::getApplication();
     function getSongInfo($song_id){
 		
 		$db = & JFactory::getDBO();
-		$db->SetQuery( 'SELECT s.id,s.label,s.description,s.band_id,s.externallink,s.tiny_url,s.tiny_id,b.label as band_name, b.tiny_id as tinyband'
+		$db->SetQuery( 'SELECT 
+								s.id as songid,
+								s.label as songname,
+								s.provider as source,
+								s.band_id as bandid,
+								s.external_id as extsongid,
+								s.external_url as extsongurl,
+								s.embedding as songurl,
+								b.label as band_name,
+								b.external_id as extbandid'
 								. ' FROM #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id'
 								. ' WHERE s.id = '.$song_id
 								);
-								
+						
 		$total = $db->loadResult();
 		echo $db->getErrorMsg();
 		$srows = $db->loadObjectList();
@@ -4801,20 +4810,37 @@ $app = & JFactory::getApplication();
     
     function getSongPlayer($song_id) {
 	  $songinfo = hwd_vs_tools::getSongInfo($song_id);			
-	  $oPlayer = '<object width="250" height="40" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
-					id="gsSong'.$songinfo[0]->tiny_id.'" name="gsSong'.$songinfo[0]->tiny_id.'">
-					<param name="movie" value="http://grooveshark.com/songWidget.swf" />
-					<param name="wmode" value="window" />
-					<param name="allowScriptAccess" value="always" />
-					<param name="flashvars" value="hostname=cowbell.grooveshark.com&songIDs='.$songinfo[0]->tiny_id.'&style=metal&p=0" />
-					<object type="application/x-shockwave-flash" data="http://grooveshark.com/songWidget.swf" width="250" height="40">
-						<param name="wmode" value="window" />
-						<param name="allowScriptAccess" value="always" />
-						<param name="flashvars" value="hostname=cowbell.grooveshark.com&songIDs='.$songinfo[0]->tiny_id.'&style=metal&p=0" />
-						<span>'.$songinfo[0]->label.'
-							<a href="http://grooveshark.com/artist/Barricada/'.$songinfo[0]->tinyband.'" title="Barricada">'.$songinfo[0]->band_name.'</a> on Grooveshark</span>
-					</object>
-				</object>';
+	  $oPlayer = '';
+	  if($songinfo[0]->source == 'grooveshark'){
+			  $oPlayer ='<object width="250" height="40" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+							id="gsSong'.$songinfo[0]->extsongid.'" name="gsSong'.$songinfo[0]->extsongid.'">
+							<param name="movie" value="http://grooveshark.com/songWidget.swf" />
+							<param name="wmode" value="window" />
+							<param name="allowScriptAccess" value="always" />
+							<param name="flashvars" value="hostname=cowbell.grooveshark.com&songIDs='.$songinfo[0]->extsongid.'&style=metal&p=0" />
+							<object type="application/x-shockwave-flash" data="http://grooveshark.com/songWidget.swf" width="250" height="40">
+								<param name="wmode" value="window" />
+								<param name="allowScriptAccess" value="always" />
+								<param name="flashvars" value="hostname=cowbell.grooveshark.com&songIDs='.$songinfo[0]->extsongid.'&style=metal&p=0" />
+								<span>'.$songinfo[0]->songname.'
+									<a href="http://grooveshark.com/artist/Barricada/'.$songinfo[0]->band_name.'" title="Barricada">'.$songinfo[0]->extbandid.'</a> on Grooveshark</span>
+							</object>
+						</object>';
+		}else if($songinfo[0]->source == 'rdio'){		
+					  $oPlayer ='<object width="250" height="40">
+							<param name="movie" value="'.$songinfo[0]->songurl.'"></param>
+							<param name="allowFullScreen" value="true"></param>
+							<param name="allowscriptaccess" value="always"></param>
+							<embed 
+									src="'.$songinfo[0]->songurl.'" 
+									type="application/x-shockwave-flash" 
+									allowscriptaccess="always" 
+									allowfullscreen="true" 
+									width="250" 
+									height="40">
+							</embed>
+						</object>';			
+				}
 	   return $oPlayer;
 	 }
 
