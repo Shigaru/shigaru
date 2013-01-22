@@ -76,6 +76,32 @@ class hwdvids_video extends JTable
 	}
 }
 
+
+/**
+ * @package    hwdVideoShare
+ * @author     SHIGARU 
+ * @copyright  SHIGARU
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @version    1.1.3
+ */
+class hwdvidsalbums extends JTable
+{
+ 	var $id = null;
+ 	var $external_id = null;
+ 	var $label = null;
+ 	var $band_id = null;
+ 	var $external_url = null;
+ 	var $thumbnail = null;
+
+    /**
+     * Constructor
+     * @param database A database connector object
+     */
+	function hwdvidsalbums(&$db){
+        parent::__construct( '#__hwdvidsalbums', 'id', $db );
+	}
+}
+
 /**
  * @package    hwdVideoShare
  * @author     SHIGARU 
@@ -87,9 +113,8 @@ class hwdvidsbands extends JTable
 {
  	var $id = null;
  	var $label = null;
- 	var $description = null;
- 	var $website = null;
- 	var $externallink = null;
+ 	var $external_url = null;
+ 	var $external_id = null;
 
     /**
      * Constructor
@@ -161,9 +186,12 @@ class hwdvidssongs extends JTable
 {
  	var $id = null;
  	var $label = null;
- 	var $description = null;
+ 	var $provider = null;
+ 	var $album_id = null;
  	var $band_id = null;
- 	var $externallink = null;
+ 	var $external_url = null;
+ 	var $external_id = null;
+ 	var $embedding = null;
 
     /**
      * Constructor
@@ -3079,26 +3107,25 @@ $app = & JFactory::getApplication();
      * 
      * @return        $$row->id
      */
-	function addSong($song, $band_id) {
+	function addSong($paramSongObject, $paramAlbumId, $paramBandId) {
 		$db = & JFactory::getDBO();
 		$row = new hwdvidssongs($db);
 		$temppostid = $_POST['id'] ;
-		if($song!='' && $song != null){
-	    $_POST['id'] 		= null;			
-		$_POST['label'] 		= $song;
-		$_POST['description'] 	= $song;
-		$_POST['band_id'] 		= $band_id;
-		$_POST['externallink'] 	= $song;
-		}
-		// bind it to the table
-		if (!$row->bind($_POST))
-		{
+	    $_POST['id'] 			= null;			
+		$_POST['label'] 		= $paramSongObject->oSongName;
+		$_POST['provider'] 		= $paramSongObject->oProvider;
+		$_POST['album_id'] 		= $paramAlbumId;
+		$_POST['band_id'] 		= $paramBandId;
+		$_POST['external_url'] 	= $paramSongObject->oSongUrl;
+		$_POST['external_id'] 	= $paramSongObject->oSongId;
+		$_POST['embedding'] 	= $paramSongObject->oEmbedUrl;
+		
+		if (!$row->bind($_POST)){
 			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
 			exit();
 		}
-		// store it in the db
-		if (!$row->store())
-		{
+		
+		if (!$row->store()){
 			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
 			exit();
 		}
@@ -3132,10 +3159,10 @@ $app = & JFactory::getApplication();
      * 
      * @return        $bandMatched
      */
-	function checkSong($band) {
+	function checkSong($paramSongName, $paramSongId) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.id, label FROM #__hwdvidssongs AS a'; 
-		$query .= ' WHERE a.label ="'.$band.'"';
+		$query .= ' WHERE a.external_id = "'.$paramSongId.'" OR a.label ="'.$paramSongName.'"';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$bandList = $db->loadResultArray();
@@ -3146,32 +3173,75 @@ $app = & JFactory::getApplication();
     }
     
     /**
+     * checks if the band is already in the list of bands
+     *
+     * 
+     * @return        $bandMatched
+     */
+	function checkAlbum($paramAlbumName, $paramAlbumId) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT a.id, label FROM #__hwdvidsalbums AS a'; 
+		$query .= ' WHERE a.external_id = "'.$paramAlbumId.'" OR a.label ="'.$paramAlbumName.'"';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$albumList = $db->loadResultArray();
+		$albumMatched = null;
+		if(sizeof($albumList)>0)
+			$albumMatched = $albumList[0];
+		return $albumMatched;
+    }
+    
+    /**
      * adds a new row to the bands table
      *
      * 
      * @return        $$row->id
      */
-	function addBand($band) {
+	function addBand($paramSongObject) {
 		$db = & JFactory::getDBO();
 		$row = new hwdvidsbands($db);
 		$temppostid = $_POST['id'] ;
-		if($band!='' && $band != null){
-		$_POST['id'] 		= null;
-		$_POST['label'] 			= $band;
-		$_POST['description'] 		= $band;
-		$_POST['website'] 			= $band;
-		$_POST['externallink'] 		= $band;
-		}
-		// bind it to the table
-		if (!$row->bind($_POST))
-		{
+		$_POST['id'] 				= null;
+		$_POST['label'] 			= $paramSongObject->oBandName;
+		$_POST['external_url'] 		= $paramSongObject->oBandUrl;
+		$_POST['external_id'] 		= $paramSongObject->oBandId;
+		
+		if (!$row->bind($_POST)){
 			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
 			exit();
 		}
 
-		// store it in the db
-		if (!$row->store())
-		{
+		if (!$row->store()){
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+		$_POST['id'] 		= $temppostid;
+		return $row->id;
+    }
+    
+    /**
+     * adds a new row to the bands table
+     *
+     * 
+     * @return        $$row->id
+     */
+	function addAlbum($paramSongObject,$paramBandId) {
+		$db = & JFactory::getDBO();
+		$row = new hwdvidsalbums($db);
+		$temppostid = $_POST['id'] ;
+		$_POST['id'] 				= null;
+		$_POST['label'] 			= $paramSongObject->oAlbumName;
+		$_POST['external_url'] 		= $paramSongObject->oAlbumUrl;
+		$_POST['external_id'] 		= $paramSongObject->oAlbumId;
+		$_POST['thumbnail'] 		= $paramSongObject->oAlbumThumbnail;
+		$_POST['band_id'] 			= $paramBandId;
+		
+		if (!$row->bind($_POST)){
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+
+		if (!$row->store()){
 			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
 			exit();
 		}
@@ -3206,10 +3276,10 @@ $app = & JFactory::getApplication();
      * 
      * @return        $bandMatched
      */
-	function checkBand($band) {
+	function checkBand($paramBandName,$paramBandId) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.id,label FROM #__hwdvidsbands AS a'; 
-		$query .= ' WHERE a.label ="'.$band.'"';
+		$query .= ' WHERE a.external_id = "'.$paramBandId.'" OR a.label ="'.$paramBandName.'"';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$bandList = $db->loadResultArray();
@@ -3219,6 +3289,76 @@ $app = & JFactory::getApplication();
 		return $bandMatched;
     }
     
+    
+    
+    function storeSong($paramSongChosen,$paramprovider){
+
+		$oSongObject = new stdClass();
+		$oStoringOutput = new JObject();	
+		
+		
+		switch($paramprovider){
+			case 'rdio':
+						$oSongObject->oSongName 		= $paramSongChosen->name;
+						$oSongObject->oSongId 			= $paramSongChosen->key;
+						$oSongObject->oSongUrl 			= $paramSongChosen->url;
+						$oSongObject->oAlbumId   		= $paramSongChosen->albumKey; 
+						$oSongObject->oAlbumName 		= $paramSongChosen->album;
+						$oSongObject->oAlbumUrl  		= $paramSongChosen->albumUrl;
+						$oSongObject->oAlbumThumbnail  	= $paramSongChosen->icon;
+						$oSongObject->oBandId    		= $paramSongChosen->artistKey;
+						$oSongObject->oBandName  		= $paramSongChosen->artist;
+						$oSongObject->oBandUrl  		= $paramSongChosen->artistUrl;
+						$oSongObject->oProvider  		= $paramprovider;
+						$oSongObject->oEmbedUrl  		= $paramSongChosen->embedUrl;
+						$oStoringOutput = hwd_vs_tools::doStoreSong($oSongObject);
+						break;
+			case 'grooveshark':
+						$oSongObject->oSongName 	= $paramSongChosen->SongName;
+						$oSongObject->oSongId 		= $paramSongChosen->SongID;
+						$oSongObject->oSongUrl 		= $paramSongChosen->Url;
+						$oSongObject->oAlbumId   	= $paramSongChosen->AlbumID; 
+						$oSongObject->oAlbumName 	= $paramSongChosen->AlbumName;
+						$oSongObject->oBandId    	= $paramSongChosen->ArtistID;
+						$oSongObject->oBandName  	= $paramSongChosen->ArtistName;
+						$oSongObject->oProvider  	= $paramprovider;
+						$oStoringOutput = hwd_vs_tools::doStoreSong($oSongObject);
+						break;
+			case 'userinput':
+						$oSongObject->oSongName = $paramSongChosen;
+						$song_id 				= hwd_vs_tools::checkSong($oSongObject->oSongName,null);
+						if($oSongObject->oSongName !=''){
+							if($song_id==null){
+								$song_id = hwd_vs_tools::addSong($paramSongObject);
+							}			
+						}
+						$oStoringOutput->oSongId = $song_id;
+						break;	
+			
+			}
+			return $oStoringOutput;	
+		}
+    function doStoreSong($paramSongObject){
+		$oSongId = hwd_vs_tools::checkSong($paramSongObject->oSongName,$paramSongObject->oSongId);
+		$oBandId; 
+		$oAlbumId;
+			if(!$oSongId){
+				$oAlbumId = hwd_vs_tools::checkAlbum($paramSongObject->oBandName,$paramSongObject->oBandId);
+					if(!$oAlbumId){
+						$oBandId = hwd_vs_tools::checkBand($paramSongObject->oBandName,$paramSongObject->oBandId);
+						if(!$oBandId){
+							$oBandId = hwd_vs_tools::addBand($paramSongObject);
+						}
+						$oAlbumId = hwd_vs_tools::addAlbum($paramSongObject,$oBandId);
+					}
+				$oSongId = hwd_vs_tools::addSong($paramSongObject,$oAlbumId,$oBandId);	
+				}
+		$storeResult = new JObject();	
+		$storeResult->oSongId = $oSongId;	
+		$storeResult->oBandId = $oBandId;	
+		$storeResult->oAlbumId = $oAlbumId;	
+		return $storeResult;
+    }
     /**
      * Generates list of most bands tags
      *
@@ -3250,7 +3390,6 @@ $app = & JFactory::getApplication();
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.label as label FROM #__hwdvidsvideos as b INNER JOIN #__hwdvidssongs AS a'; 
 		$query .= ' ON a.id = b.song_id and b.song_id IS NOT NULL';
-		$query .= ' LIMIT 0,1000';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -3259,6 +3398,8 @@ $app = & JFactory::getApplication();
 		}
 		return $wordList;
     }
+    
+    
     
      /**
      * Generates list of most songs tags
@@ -3270,7 +3411,6 @@ $app = & JFactory::getApplication();
 		$db = & JFactory::getDBO();
 		$query = 'SELECT tags FROM #__hwdvidsvideos'; 
 		$query .= ' WHERE tags IS NOT NULL ORDER BY date_uploaded ';
-		$query .= ' LIMIT 0,1000';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -3291,7 +3431,6 @@ $app = & JFactory::getApplication();
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.instrument as instrument FROM #__hwdvidsvideos as b'; 
 		$query .= ' INNER JOIN #__hwdvidsinstruments AS a ON a.Id = b.intrument_id';
-		$query .= ' LIMIT 0,1000';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -4680,18 +4819,55 @@ $app = & JFactory::getApplication();
 	 }
 
 
-	 function searchTinySong($query, $limit = 10, $format = "json") {
-		
-	  
-	  $apibase = "http://tinysong.com/s";
-	  $apikey = '6b0984927cf2c46c8d527a419b5f2347';	 
-	  $result = file_get_contents($apibase."/".urlencode($query)."?format=$format&limit=$limit&key=".$apikey);
-	  if ($result) {
-	   if ($format == "json") { return json_decode($result); }
-	   else { return $result; }
-	  } else {
-	   return false;
-	  }
+	 function searchSong($query, $limit = 10, $format = "json") {
+		  $session = JFactory::getSession();
+		  $oResults = '';
+		  $app = & JFactory::getApplication();
+		  // rdio results 
+		  session_start(); 
+		 
+		 
+		  // requires signed request
+		  define('CONSUMER_KEY', 'kyw3rxth3ud6n4sqjn9xw4rz');
+		  define('CONSUMER_SECRET', 'TvyMHEVhP4');
+		  $rdio = new hwdRdio(CONSUMER_KEY, CONSUMER_SECRET);
+		  $songResults = $rdio->search(
+			array(
+			  "query" => $query,
+			  "types" => "Track",
+			  "count" => 100,
+			  "never_or" => "true"))->result->results;
+		 $songcounter = 0;	  
+		 $rdio_base_url = 'http://www.rdio.com';
+            if(count($songResults) < 1) {
+				// grooveshark results
+				  $apikey = '6b0984927cf2c46c8d527a419b5f2347';
+				  $gsJsonurl = 'http://tinysong.com/s/' . urlencode($query) . '?format=json&limit=32&key='.$apikey;
+				  $gsJson = file_get_contents($gsJsonurl,0,null,null);
+				  $songResults = json_decode($gsJson);
+				  if(count($songResults) < 1) $app->setUserState( "hwdvs_song_source", "userinput" );	
+					else {
+					  $albumplaceholder = JURI::root().'templates/rhuk_milkyway/images/placeholderalbum.png';
+					  $app->setUserState( "hwdvs_song_source", "grooveshark" );	
+					  foreach ($songResults as $gsSong) {
+						$oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$albumplaceholder.'" alt="'.$gsSong->artist.'"><div class="w84 mleft12 mtop12"><span>' . $gsSong->SongName . '</span><span> (' . $gsSong->ArtistName . ')</span></div></li>';
+						$songcounter++; 
+					  }
+					}
+				
+            }else {
+			  $app->setUserState( "hwdvs_song_source", "rdio" );		
+              foreach ($songResults as $rdioSong) {
+                $oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$rdioSong->icon.'" alt="'.$rdioSong->artist.'" /><div class="w84 fleft mleft12 mtop12"><span>' . $rdioSong->name . '</span><span> (' . $rdioSong->artist . ')</span></div></li>';
+                $songcounter++; 
+              }
+            }
+           /* echo '<pre>';
+             	var_dump($songResults[0]);  
+             	echo '</pre>';*/
+          
+           $session->set('songlist', $songResults,'songsearch'); 
+           return $oResults;  	  
 	 }
     
     /**
@@ -7410,6 +7586,91 @@ class hwdTabs {
 		return $html;
 	}
 }
+
+define('RDIO_API_ENDPOINT', 'http://api.rdio.com/1/');
+define('RDIO_REQUEST_TOKEN', 'http://api.rdio.com/oauth/request_token');
+define('RDIO_ACCESS_TOKEN', 'http://api.rdio.com/oauth/access_token');
+
+class hwdRdio {
+  private $key;
+  private $secret;
+
+  function __construct($key, $secret) {
+    $this->key = $key;
+    $this->secret = $secret;
+  }
+  
+  private function _getOAuth() {
+    try {
+		$oauth = new OAuth($this->key, $this->secret, OAUTH_SIG_METHOD_HMACSHA1, OAUTH_AUTH_TYPE_FORM);
+	}catch(OAuthException $E){
+        echo $E;
+    }
+    if (isset($_SESSION['access_key']) && isset($_SESSION['access_secret'])) {
+      $oauth->setToken($_SESSION['access_key'], $_SESSION['access_secret']);
+    } else if (isset($_SESSION['request_key']) && isset($_SESSION['request_secret'])) {
+      $oauth->setToken($_SESSION['request_key'], $_SESSION['request_secret']);
+    }
+    return $oauth;
+  }
+  
+  public function logOut() {
+    unset($_SESSION['request_key']);
+    unset($_SESSION['request_secret']);
+    unset($_SESSION['access_key']);
+    unset($_SESSION['access_secret']);
+  }
+  
+  public function loggedIn() {
+    return (isset($_SESSION['access_key']) && isset($_SESSION['access_secret']));
+  }
+
+  public function __call($method, $arguments) {
+    // build the request
+    if (count($arguments) > 0) {
+      $params = $arguments[0];
+    } else {
+      $params = array();
+    }
+    $params['method'] = $method;
+    // make the request
+    $oauth = $this->_getOAuth();
+    $oauth->fetch(RDIO_API_ENDPOINT, $params, OAUTH_HTTP_METHOD_POST);
+    // parse the result
+    return json_decode($oauth->getLastResponse(), FALSE);    
+  }
+
+
+  public function begin_authentication($callback) {
+    // reset previous auth state
+    $this->logOut();
+    
+    $oauth = $this->_getOAuth();
+    $pieces = $oauth->getRequestToken(RDIO_REQUEST_TOKEN, $callback);
+    
+    // save the request token
+    $_SESSION['request_key'] = $pieces['oauth_token'];
+    $_SESSION['request_secret'] = $pieces['oauth_token_secret'];
+
+    // build the authentication URL
+    return $pieces['login_url'] . '?oauth_token=' . $pieces['oauth_token'];
+  }
+
+  public function complete_authentication($verifier) {
+    $oauth = $this->_getOAuth();
+    $pieces = $oauth->getAccessToken(RDIO_ACCESS_TOKEN, '', $verifier);
+    
+    // save the access token
+    $_SESSION['access_key'] = $pieces['oauth_token'];
+    $_SESSION['access_secret'] = $pieces['oauth_token_secret'];
+    
+    // clear the request token
+    unset($_SESSION['request_key']);
+    unset($_SESSION['request_secret']);
+  }
+
+}
+
 /**
  * Process character encoding
  * @package    hwdVideoShare

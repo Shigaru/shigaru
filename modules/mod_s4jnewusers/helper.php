@@ -147,7 +147,7 @@ class s4jLibNewUsers {
             $document = & JFactory::getDocument();
             //$document->addScript( JURI::root(true).'/includes/js/overlib_mini.js');
             //$document->addScript( JURI::root(true).'/components/com_comprofiler/js/overlib_all_mini.js');
-            $document->addScript(JURI::root(true) . '/modules/mod_s4jnewusers/js/overlib_mini.js');
+            //$document->addScript(JURI::root(true) . '/modules/mod_s4jnewusers/js/overlib_mini.js');
         }
 
         $this->IncludeLanguageFiles();

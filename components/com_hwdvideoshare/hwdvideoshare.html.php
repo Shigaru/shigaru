@@ -749,6 +749,8 @@ class hwd_vs_html
 			$smartyvs->assign("currentlang", $lang->getTag());
 			$smartyvs->assign("genresCombo", $genresCombo);
 			$smartyvs->assign("videourl",$videourl);
+			$doc->addCustomTag( '<link rel="stylesheet" type="text/css" media="all" href="'.JURI::root( true ).'/templates/rhuk_milkyway/css/chosen.css" />' );
+		
 			if(is_object($oThirdPartyVideoInfo))
 				$smartyvs->display('upload_thirdparty.tpl');
 				 else
@@ -757,6 +759,7 @@ class hwd_vs_html
 
 		} else if ($uploadpage == "1") {
 			JHTML::_('behavior.formvalidation');
+			$doc->addCustomTag( '<link rel="stylesheet" type="text/css" media="all" href="'.JURI::root( true ).'/templates/rhuk_milkyway/css/chosen.css" />' );
 			$instrumentsCombo = hwd_vs_tools::generateVideoCombos('id as a, instrument as b','hwdvidsinstruments','instrument','intrument_id',true,true,true);		
 			$levelsCombo = hwd_vs_tools::generateVideoCombos('id as a, label as b','hwdvidslevels','id','level_id',true,false,true);		
 			$languagesCombo = hwd_vs_tools::generateVideoCombos('id, iso_code as a, literalkey as b','hwdvidslanguages','id','language_id',true,true,true);

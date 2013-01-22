@@ -1091,7 +1091,8 @@ class hwd_vs_uploads
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
-
+		$session = JFactory::getSession();
+		$app = & JFactory::getApplication();
 		$security_code = JRequest::getCmd( 'security_code', '' );
 		if ($c->disablecaptcha == "1")
 		{
@@ -1195,26 +1196,17 @@ class hwd_vs_uploads
 			$category_id = JRequest::getVar( "category_id", "0", "post" );
 		else
 				$category_id = JRequest::getInt( "category_id", "0", "post" );
-
-		//$checkform = hwd_vs_tools::checkFormComplete($title, $description, $category_id, $tags, $public_private, $allow_comments, $allow_embedding, $allow_ratings);
-		$band;$band_id;$song;$song_id;
+		
+		$oStoringOutput = new JObject();	
 		if($category_id!=3){
 			//band and songs stuff
-			$band = Jrequest::getVar( 'originalband', '' );
-			$band_id = hwd_vs_tools::checkBand($band);
-			$song = Jrequest::getVar( 'songtitle', '' );
-			$song_id = hwd_vs_tools::checkSong($song);
-			if($song !=''){
-				if($band_id==null && $band !=''){
-						$band_id = hwd_vs_tools::addBand($band);
-						$song_id = hwd_vs_tools::addSong($song,$band_id);
-					}else{
-							if($song_id==null){
-								$song_id = hwd_vs_tools::addSong($song,$band_id);
-							}
-						}
-			}		
-			
+			$songindex = Jrequest::getVar( 'songindex', '' );
+			$songarray = $session->get('songlist',null, 'songsearch');
+			$oSongChosen = $songarray[intval(str_replace("songresults", "", $songindex))];
+			$thirdpartyprovider = $app->getUserState( "hwdvs_song_source", "rdio" );
+			if($thirdpartyprovider == 'userinput')
+				$oSongChosen = Jrequest::getVar( 'songtitle', '' );
+			$oStoringOutput = hwd_vs_tools::storeSong($oSongChosen,$thirdpartyprovider);
 		}
 		$row = new hwdvids_video($db);
 
@@ -1237,8 +1229,8 @@ class hwd_vs_uploads
 		$_POST['allow_ratings'] 	= $allow_ratings;
 		$_POST['video_length'] 		= $ext_v_durat;
 		$_POST['date_uploaded'] 	= date('Y-m-d H:i:s');
-		$_POST['song_id'] 			= $song_id;
-		$_POST['band_id'] 			= $band_id;
+		$_POST['song_id'] 			= $oStoringOutput->oSongId;
+		$_POST['band_id'] 			= $oStoringOutput->oBandId;
 		$_POST['language_id'] 		= Jrequest::getVar( 'language_id', '' );
 		$_POST['level_id'] 			= Jrequest::getVar( 'level_id', '' );
 		$_POST['genre_id'] 			= Jrequest::getVar( 'genre_id', '' );

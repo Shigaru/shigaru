@@ -9,12 +9,8 @@
 <script type="text/javascript" src="{$domain}components/com_comprofiler/js/jquery-1.5.2/jquery.validate.min.js?v=020b12f257965e65"></script>
 <script type="text/javascript" src="{$domain}templates/rhuk_milkyway/js/jquery.tagsinput.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{$domain}templates/rhuk_milkyway/css/jquery.tagsinput.css" />
-{literal}
-<style>
-
-    </style>
- {/literal}   
- <div class="content_box">
+<script type="text/javascript" src="{$domain}templates/rhuk_milkyway/js/chosen.jquery.min.js"></script>
+<div class="content_box">
 <h3>{$smarty.const._HWDVIDS_SHIGARU_ONEOFTWO}</h3>
 {include file='header.tpl'}
  </div>
@@ -58,7 +54,9 @@
 					return false; 
 				});	
 			}
+			
 	jQuery(document).ready(function() {
+		//jQuery('select#genre_id,select#language_id,select#intrument_id').addClass('fleft').addClass('w30pc').chosen({allow_single_deselect:true});
 		if(fromError ==0){	
 				
 				showGrabbedInfo();
@@ -131,7 +129,7 @@
 				jQuery('.songtutorialfields').fadeIn(500,function () { });
 				jQuery('#genrehint').fadeOut();
 				}else{
-					jQuery('.songtutorialfields').slideUp();
+					jQuery('.songtutorialfields').fadeOut();
 					if(jQuery(this).val()=='3')
 					jQuery('#genrehint').fadeIn();
 					else
@@ -204,7 +202,7 @@
 						  return jQuery("#category_id").val() == '1'}
 						 },
 						 songtitle: {required: function(element){
-						  return jQuery("#category_id").val() == '1'}
+						  return (jQuery("#category_id").val() == '1')}
 						 }
 						 
 					}, messages: {
@@ -226,65 +224,75 @@
 				} );
 				
 				
-			/*var lastData;
-			jQuery( "#songtitle" ).autocomplete({
-					
-					//define callback to format results
-					source: function(req, add){
-					
-						//pass request to server
-						jQuery.getJSON(domain+"index.php?option=com_hwdvideoshare&task=ajax_tinysong&callback=", req, function(data) {
-							
-							//create array for response objects
-							var suggestions = [];
-							
-							//process response
-							jQuery.each(data, function(i, val){
-								suggestions.push(val.SongName+' ('+val.ArtistName+')');
-							});
-							
-							//pass array to callback
-							add(suggestions);
-							lastData = data;
+			var lastData;
+			
+			function searchSong(paramPattern){
+				jQuery.ajax({
+						  url: domain+"index.php?option=com_hwdvideoshare&task=ajax_searchsong&pattern="+paramPattern,
+						  context: document.body
+						}).done(function(data) {
+							jQuery('.blockUI #close').click(function(){jQuery.unblockUI(); });
+							if(jQuery.trim(data).length > 0){
+							jQuery( '#songresults' ).css('height',(jQuery( '.blockMsg' ).height()-jQuery( '#search-form .novideos' ).height()-25)+'px').empty();
+							jQuery('<div class="results dispnon"><ul class="unstyled">'+data+'</ul>').clone().appendTo( '#songresults' );
+							jQuery('.blockUI .results').fadeIn();
+							jQuery('.blockUI .results li').click(function(){
+								jQuery('#songtitle').val(jQuery(this).find('div span').html());
+								jQuery('#songindex').val(jQuery(this).attr('id'));
+								jQuery.unblockUI();
+								});
+							} else{
+								jQuery('#songresults').html('<div class="padding novideos pad12 fontbold tcenter"><span class="icon-tint"></span>No matching songs for these text. You might want to re-enter text. If you are sure about the name of the song just close this window and we will store it as a new song</div>');
+								}	
 						});
-					},
+				}
+			
+			var inputPattern;
+			jQuery( ".step .butn-info" ).click(function(){
+				if(jQuery('#songtitle').valid()){
+					if(inputPattern != jQuery('#songtitle').val()){
+						inputPattern = jQuery('#songtitle').val();	
+						jQuery( '#songresults' ).html('<div class="mtop25 pad12 tcenter" id="loadingMessage"></div><div class="mleft12 fontbold f120"></div>');
+						searchSong(inputPattern);
+								jQuery.blockUI({ 
+									message: jQuery('#search-form'),
+									css: { 
+										width: '40%', 
+										height: '80%', 
+										top: '10%', 
+										left: '30%',  
+										'text-align':'left'
+									} 
+								});	
+								
+							} else{
+								jQuery.blockUI({ 
+									message: jQuery('#search-form'),
+									css: { 
+										width: '40%', 
+										height: '80%', 
+										top: '10%', 
+										left: '30%',  
+										'text-align':'left'
+									} 
+								});	
+								}
+					}		
 					
-					//define select handler
-					select: function(e, ui) {
-						
-						//create formatted friend
-						var friend = ui.item.value,
-							span = jQuery("<span>").text(friend),
-							a = jQuery("<a>").addClass("remove").attr({
-								href: "javascript:",
-								title: "Remove " + friend
-							}).text("x").appendTo(span);
-						
-						//add friend to friend div
-						span.insertBefore("#songtitle");
-					},
-					
-					//define select handler
-					change: function() {
-						
-						//prevent 'to' field being updated and correct position
-						jQuery("#songtitle").val("").css("top", 2);
-					},
-					delay: 700,
-					search: function(event, ui) { 
-						jQuery(ui.item).block();
-					}
+					return false;	
 				});
-				
-				
-				//add live handler for clicks on remove links
-				jQuery(".remove").live("click", function(){
-					//remove current
-					jQuery(this).parent().remove();		
-				});	*/
 		});
 </script>
 {/literal}
+
+
+    <div id="search-form" class="dispnon curdef">
+		<a id="close" class="close"></a>
+		<div class="padding novideos pad12 fontbold tcenter"><span class="icon-info-sign fontgreen pad6 f120"></span>To make a selection simply click on a song title</div>
+		<div id="songresults" >
+		</div>
+	</div>
+
 <div class="f100 mtopl50">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
 <form id="formElem" name="formElem" action="{$form_tp}" method="post">
 <div id="infograbbed">
@@ -380,19 +388,13 @@
                             <p>
 								<label for="category_id">{$smarty.const._HWDVIDS_SHIGARU_TYPEVIDEO} <font class="required">*</font></label>
                                {$categoryselect}
-                               <div class="clear"></div>
+								<div class="clear"></div>
                             </p>     
-							<p class="songtutorialfields">
-								<label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
-								<input type="text" value="" id="originalband" name="originalband" size="40" class="required" placeholder="Enter Band Name..." minlength="2"/>
-								<br class="clear"/>
-								<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
-							</p>
-							<p class="songtutorialfields">
+                            <p class="songtutorialfields dispnon">     
 								<label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
-								<input type="text" value="" id="songtitle" name="songtitle" size="40" placeholder="Enter Song Title..."/>
-								<br class="clear"/>
-							   <span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_INFOTOBETTERCATEG}</span>
+								<input type="text" value="" id="songtitle" name="songtitle" size="25" placeholder="Enter the song title and click the button" minlength="3"/>
+								<a href="#" class="mleft12 songtutorialfields dispnon mtop2 fleft butn butn-small butn-info" title="Click on the button to retrieve for the song"><span class="icon-search bradius5 mright6"></span>Retrieve info</a>
+                               <div class="clear"></div>
 							</p>
                            <p>
                                 <label for="genre_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE} <font class="required">*</font></label>
@@ -445,6 +447,7 @@
 						<input type="hidden" name="video_length" value="{$videoInfo->video_length}" />
 						<input type="hidden" name="infopassed" value="{$infoPassed}" />
 						<input type="hidden" name="ip_added" value="{$ipaddress}" />
+						<input type="hidden" name="songindex" id="songindex" value="" />
 						<input type="hidden" name="thumbnailgrab" value="{$videoInfo->thumbnail}" />
 						<input name="embeddump" value="{$videourl}" class="inputbox" type="hidden" />
 						{include file='sharingoptions.tpl'}

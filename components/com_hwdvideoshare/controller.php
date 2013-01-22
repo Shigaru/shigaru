@@ -275,10 +275,10 @@ class UserController extends JController
 		hwd_vs_ajax::rate();
 	}
 	
-	function ajax_tinysong()
+	function ajax_searchsong()
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
-		hwd_vs_ajax::searchTinySong();
+		hwd_vs_ajax::ajax_searchsong();
 	}
 	
 	function ajax_search()

@@ -6,6 +6,10 @@
   zoom: 1;
   *display: inline;
 }
+#formElem .chzn-container {
+  float:left;
+}
+
 .chzn-container .chzn-drop {
   background: #fff;
   border: 1px solid #aaa;
@@ -16,7 +20,7 @@
   -webkit-box-shadow: 0 4px 5px rgba(0,0,0,.15);
   -moz-box-shadow   : 0 4px 5px rgba(0,0,0,.15);
   box-shadow        : 0 4px 5px rgba(0,0,0,.15);
-  z-index: 1010;
+  z-index: 9999;
 }
 /* @end */
 

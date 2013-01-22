@@ -117,6 +117,7 @@ class JHTMLBehavior
 
 	function modal($selector='a.modal', $params = array())
 	{
+		if(JFactory::getApplication()->isAdmin()){
 		static $modals;
 		static $included;
 
@@ -170,6 +171,7 @@ class JHTMLBehavior
 
 		// Set static array
 		$modals[$sig] = true;
+	}
 		return;
 	}
 

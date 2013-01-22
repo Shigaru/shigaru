@@ -207,19 +207,13 @@ class hwd_vs_ajax
      *
      * @return       Nothing
      */
-	function searchTinySong(){
+	function ajax_searchsong(){
 		header('Content-type: text/html; charset=utf-8');
 		$c = hwd_vs_Config::get_instance();
-		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-
-		if (!$my->id) {
-			echo _HWDVIDS_AJAX_LOG2FAV1;
-			exit;
-		}
-		$term = JRequest::getVar( 'term', '' );
-		$code = hwd_vs_tools::searchTinySong($term);
-		echo json_encode($code);
+		$term = JRequest::getVar( 'pattern', '' );
+		$code = hwd_vs_tools::searchSong($term);
+		echo $code;
 		exit;
 		}
 	function ajax_search()	{
