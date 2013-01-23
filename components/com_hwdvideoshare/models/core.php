@@ -734,7 +734,7 @@ class hwd_vs_core
         $category_id = JRequest::getInt( 'category_id', '0' );
         $vpp         = JRequest::getInt( 'rpp', '0' );
         $gpp         = JRequest::getInt( 'rpp', '0' );
-        $sort        = JRequest::getVar( 'sort', 'relevance' );
+        $sort        = JRequest::getVar( 'sort', 'date_uploaded' );
         $ep          = JRequest::getVar( 'ep', '' );
         $ex          = JRequest::getVar( 'ex', '' );
         $isAjax      = JRequest::getVar( 'ajax', 'no' );
