@@ -1090,7 +1090,7 @@ class hwd_vs_html
 		{
 			$smartyvs->assign("categoryvideolist", "There are no more videos in this category.");
 		}
-		if($row->category_id != '3')
+		if($row->category_id != '3' && $row->song_id)
 			$songPlayer = hwd_vs_tools::getSongPlayer($row->song_id);
 		$currentUrl = JURI::current();
 		
