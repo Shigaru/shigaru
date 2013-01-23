@@ -136,13 +136,6 @@ jQuery(document).ready(function($){
 						oTabs.click(fadeTabs);
 						break;	
 		}	
-		
-		/*if(opts.controls){
-			addControls();
-			manageControls();
-			jQuery('#leftControl,#rightControl').click(controlsAction);
-			//if(opts.hideTabs)hideTabs();
-		}*/
 	
     });
 	

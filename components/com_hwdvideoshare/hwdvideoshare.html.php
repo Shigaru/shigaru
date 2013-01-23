@@ -398,27 +398,28 @@ class hwd_vs_html
 		
 		
 		
-		/* what are you doing box*/
+		/* what are you doing box
 		$whatmodule = JModuleHelper::getModule('whatru');
 		$whatareyou = JModuleHelper::renderModule($whatmodule);
 		$smartyvs->assign("whatareyou", $whatareyou);
-		
-		/* recent activity module */
+		*/
+		/* recent activity module 
 		$actmodule = JModuleHelper::getModule('cb_superactivity');
 		$recentactivity = JModuleHelper::renderModule($actmodule);
 		$smartyvs->assign("recentactivity", $recentactivity);
-			
+			*/
 		
-		 /* members box*/
+		 /* members box
 		$zncbmembers = JModuleHelper::getModule('zncbmembers');
 		$zncbmembers = JModuleHelper::renderModule($zncbmembers);
 		$smartyvs->assign("zncbmembers", $zncbmembers);
-		
-		 /* add this */
+		*/
+		 /* add this 
 		$AddThis = JModuleHelper::getModule('AddThis');
 		$AddThis = JModuleHelper::renderModule($AddThis);
 		$smartyvs->assign("AddThis", $AddThis);
-		
+		*/
+		/*
 		// VIDEO TAGS
 		$wordList = hwd_vs_tools::getVideoTags();
 		$tagsList =hwd_vs_tools::concatenateWords($wordList);
@@ -459,7 +460,7 @@ class hwd_vs_html
 		$songtagsList = hwd_vs_tools::parseTagsString($songtagsList,50);
 		$songtagsList = hwd_vs_tools::outputWords($songtagsList,10,25);
 		$smartyvs->assign("songtagsList", $songtagsList);
-		
+		*/
 		/* most commented */
 		
 		$mostcommentedrows = hwd_vs_tools::getMostCommented();

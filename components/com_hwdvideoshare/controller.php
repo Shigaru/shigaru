@@ -310,6 +310,12 @@ class UserController extends JController
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
 		hwd_vs_ajax::addVideoToGroup();
 	}
+	
+	function ajax_showtabs()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::ajax_showtabs();
+	}
 
 	function grabjomsocialplayer()
 	{

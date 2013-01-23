@@ -201,7 +201,7 @@ class hwd_vs_ajax
 
 		exit;
 	}
-	
+		
 	/**
      * Outputs frontpage HTML
      *
@@ -216,6 +216,11 @@ class hwd_vs_ajax
 		echo $code;
 		exit;
 		}
+		
+	function ajax_showtabs(){
+		$code = hwd_vs_tools::showTabContent($term);
+		}
+		
 	function ajax_search()	{
 		header('Content-type: text/html; charset=utf-8');
 		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
