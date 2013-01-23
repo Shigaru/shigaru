@@ -407,21 +407,6 @@ class hwd_vs_html
 		$actmodule = JModuleHelper::getModule('cb_superactivity');
 		$recentactivity = JModuleHelper::renderModule($actmodule);
 		$smartyvs->assign("recentactivity", $recentactivity);
-		
-		
-		
-		
-		/* subscribe box
-		$mailingmodule = JModuleHelper::getModule('acymailing');
-		$subscribe = JModuleHelper::renderModule($mailingmodule);
-		$smartyvs->assign("subscribe", $subscribe);
-		*/
-		
-		/* follow us box
-		$socialmedialinks = JModuleHelper::getModule('socialmedialinks');
-		$socialmedialinks = JModuleHelper::renderModule($socialmedialinks);
-		$smartyvs->assign("socialmedialinks", $socialmedialinks); 
-		*/
 			
 		
 		 /* members box*/

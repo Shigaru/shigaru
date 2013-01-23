@@ -169,7 +169,17 @@ var oSearchParams = {
 					</label>
 				</div>			
 			</div>
-			
+			<script type="text/javascript"><!--
+			google_ad_client = "ca-pub-1916456389191969";
+			/* search_module */
+			google_ad_slot = "7689083467";
+			google_ad_width = 160;
+			google_ad_height = 600;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
 		<!--	<div id="cb_sex" class="filter filtercheck users">
 				<label>Sex</label>
 				<div class="widget">
