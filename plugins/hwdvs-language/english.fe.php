@@ -195,7 +195,7 @@ DEFINE("_HWDVIDS_META_FP","Frontpage");
 DEFINE("_HWDVIDS_META_SR","Search Results");
 DEFINE("_HWDVIDS_META_SRF","results found for");
 DEFINE("_HWDVIDS_META_SRCC","results found");
-DEFINE("_HWDVIDS_META_SRCCEE","Shigaru recomendations");
+DEFINE("_HWDVIDS_META_SRCCEE","Shigaru videos");
 DEFINE("_HWDVIDS_META_UPLD","Upload Your Videos");
 DEFINE("_HWDVIDS_META_UPLDSUC","Successfully Uploaded Your Video");
 DEFINE("_HWDVIDS_META_ADDSUC","Successfully Added Your Video");
