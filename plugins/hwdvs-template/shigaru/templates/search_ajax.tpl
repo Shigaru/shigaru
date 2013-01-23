@@ -30,8 +30,8 @@ oSearchParams.filtering=null;
 								<div>
 									<h4>Order by:</h4>
 								</div>	
-								<a id="relevance" href="#" class="order orderselected">Relevance</a>
 								<a id="date_uploaded" class="order" href="#">Date uploaded</a>
+								<a id="relevance" href="#" class="order orderselected">Relevance</a>
 								<a id="updated_rating" class="order" href="#">Rating</a>
 								<a id="number_of_views" class="order" href="#">Views</a>
 								<!--<a id="number_of_comments" class="order" href="#">Comments</a>-->

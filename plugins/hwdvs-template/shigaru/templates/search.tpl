@@ -16,7 +16,7 @@ jQuery(document).ready(function($){
 
 
 var oSearchParams = {
-		ordering:'relevance',
+		ordering:'date_uploaded',
 		filtering:null,
 		currentUrl:'{/literal}{$pageURL}{literal}'
 	};
@@ -281,8 +281,8 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 								<div>
 									<h4>Order by:</h4>
 								</div>	
-								<a id="relevance" href="#" class="order orderselected">Date uploaded</a>
-								<a id="date_uploaded" class="order" href="#">Relevance</a>
+								<a id="date_uploaded" href="#" class="order orderselected">Date uploaded</a>
+								<a id="relevance" class="order" href="#">Relevance</a>
 								<a id="updated_rating" class="order" href="#">Rating</a>
 								<a id="number_of_views" class="order" href="#">Views</a>
 								<!--<a id="number_of_comments" class="order" href="#">Comments</a>-->
