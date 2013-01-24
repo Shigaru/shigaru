@@ -151,7 +151,7 @@ function freichatx_get_hash($ses){
 									echo '<a href="index.php?option=com_comprofiler&task=logout"><span class="icon-off"></span>Logout</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_uddeim"><span class="icon-envelope"></span>Inbox</a>';
+									echo '<a href="index.php?option=com_uddeim&Itemid=&task=inbox"><span class="icon-envelope"></span>Inbox</a>';
 								echo '</div>';
 								echo '<div class="userzoneitem">';
 									echo '<a href="index.php?option=com_hwdvideoshare&task=yourfavourites"><span class="icon-heart"></span>Videos I liked</a>';
