@@ -1320,7 +1320,7 @@ class getMenuTab  extends cbTabHandler {
 				if($_CB_framework->myId()==$user->id){
 				$inbox =	'<ul class="cbMenuULlist">
 																			<li class="cbMenuItem cbMenuEogr1 cbMenu_UE_MENU_SENDUSEREMAIL" >
-																				<a href="'.cbSef("index.php?option=com_uddeim").'" title="'._UE_PM_INBOX.'">'._UE_INBOX.
+																				<a href="'.cbSef("index.php?option=com_uddeim&Itemid=&task=inbox").'" title="'._UE_PM_INBOX.'">'._UE_INBOX.
 																				'</a>
 																			</li>
 																		</ul>';
