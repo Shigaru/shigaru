@@ -1115,7 +1115,14 @@ class hwd_vs_uploads
 			}
 			else
 			{
-        		hwd_vs_tools::infomessage(4, 0, _HWDVIDS_TITLE_UPLDFAIL, _HWDVIDS_ALERT_ERRSC, "exclamation.png", 0);
+				$doc = JFactory::getDocument();
+				$app->enqueueMessage('<p class="shigarunotice"><span class="close"></span><span class="fontbold fontblack f90 mbot20">'._HWDVIDS_TITLE_UPLDFAIL.'</span><div class="mtop12 clear mbot6">'._HWDVIDS_ALERT_ERRSC.'</div></p>','');
+        		$doc = JFactory::getDocument();
+				$script=array();
+				$script[]='jQuery(document).ready(function($){';
+				$script[]="\tjQuery('.shigarunotice .close').click(function(){jQuery(this).parents('#system-message').fadeOut('slow');});";
+				$script[]='});';
+				$doc->addScriptDeclaration(implode("\n",$script));
         		$oThirdPartyVideoInfo->video_type		= $regs['domain'];
 				$oThirdPartyVideoInfo->video_id			= Jrequest::getVar( 'video_id', '' );
 				$oThirdPartyVideoInfo->video_title		= Jrequest::getVar( 'videotitle', '' );
@@ -1130,7 +1137,9 @@ class hwd_vs_uploads
 				$oThirdPartyVideoInfo->language_id		= Jrequest::getVar( 'language_id', '' );
 				$oThirdPartyVideoInfo->category_id 		= JRequest::getVar( "category_id", "0", "post" );
 				$oThirdPartyVideoInfo->tags				= Jrequest::getVar( 'tags', '' );
-				$oThirdPartyVideoInfo->video_length		= Jrequest::getVar( 'video_length', '' );		
+				$oThirdPartyVideoInfo->video_length		= Jrequest::getVar( 'video_length', '' );
+				$oThirdPartyVideoInfo->songindex		= Jrequest::getVar( 'songindex', '' );
+				$oThirdPartyVideoInfo->issearched		= Jrequest::getVar( 'issearched', '0' );		
 				$oThirdPartyVideoInfo->date_uploaded	= date('Y-m-d H:i:s');
 				$oThirdPartyVideoInfo->remote_verified = null;
 				$oThirdPartyVideoInfo->error_msg = "";
@@ -1197,8 +1206,19 @@ class hwd_vs_uploads
 		else
 				$category_id = JRequest::getInt( "category_id", "0", "post" );
 		
-		$oStoringOutput = new JObject();	
-		if($category_id!=3){
+		$oStoringOutput = new JObject();
+		$issearched = Jrequest::getVar( 'issearched', '1' );	
+		$originalband = Jrequest::getVar( 'originalband', '' );
+		/*echo '<pre>';
+		var_dump('------------------------------------');
+		var_dump($issearched);
+		var_dump($originalband);
+		var_dump(Jrequest::getVar( 'songtitle', '' ));
+		var_dump($app->getUserState( "hwdvs_song_source", "rdio" ));
+		var_dump('------------------------------------');
+		echo '</pre>';
+		exit();*/
+		if($issearched == '1'){
 			//band and songs stuff
 			$songindex = Jrequest::getVar( 'songindex', '' );
 			$songarray = $session->get('songlist',null, 'songsearch');
@@ -1207,7 +1227,11 @@ class hwd_vs_uploads
 			if($thirdpartyprovider == 'userinput')
 				$oSongChosen = Jrequest::getVar( 'songtitle', '' );
 			$oStoringOutput = hwd_vs_tools::storeSong($oSongChosen,$thirdpartyprovider);
-		}
+			$session->clear('songlist', 'songsearch');
+		}else{
+			$oSongChosen = Jrequest::getVar( 'songtitle', '' );
+			$oStoringOutput = hwd_vs_tools::storeSong($oSongChosen,$thirdpartyprovider,0,$originalband);
+			}
 		$row = new hwdvids_video($db);
 
 		$password = Jrequest::getVar( 'hwdvspassword', '' );

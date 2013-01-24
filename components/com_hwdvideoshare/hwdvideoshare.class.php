@@ -3162,7 +3162,7 @@ $app = & JFactory::getApplication();
 	function checkSong($paramSongName, $paramSongId) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.id, label FROM #__hwdvidssongs AS a'; 
-		$query .= ' WHERE a.external_id = "'.$paramSongId.'" OR a.label ="'.$paramSongName.'"';
+		$query .= ' WHERE ( a.external_id = "'.$paramSongId.'" AND a.external_id != 0) OR (a.label ="'.$paramSongName.'" AND a.external_id = 0)';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$bandList = $db->loadResultArray();
@@ -3181,7 +3181,7 @@ $app = & JFactory::getApplication();
 	function checkAlbum($paramAlbumName, $paramAlbumId) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.id, label FROM #__hwdvidsalbums AS a'; 
-		$query .= ' WHERE a.external_id = "'.$paramAlbumId.'" OR a.label ="'.$paramAlbumName.'"';
+		$query .= ' WHERE a.external_id = "'.$paramAlbumId.'" AND a.external_id IS NOT NULL';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$albumList = $db->loadResultArray();
@@ -3279,7 +3279,7 @@ $app = & JFactory::getApplication();
 	function checkBand($paramBandName,$paramBandId) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.id,label FROM #__hwdvidsbands AS a'; 
-		$query .= ' WHERE a.external_id = "'.$paramBandId.'" OR a.label ="'.$paramBandName.'"';
+		$query .= ' WHERE (a.external_id = "'.$paramBandId.'" AND a.external_id IS NOT NULL) OR (a.label ="'.$paramBandName.'" AND a.external_id IS NULL)';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$bandList = $db->loadResultArray();
@@ -3291,72 +3291,91 @@ $app = & JFactory::getApplication();
     
     
     
-    function storeSong($paramSongChosen,$paramprovider){
+    function storeSong($paramSongChosen,$paramprovider, $paramIsSearched = 1,$paramBandChosen = ''){
 
 		$oSongObject = new stdClass();
 		$oStoringOutput = new JObject();	
-		
-		
-		switch($paramprovider){
-			case 'rdio':
-						$oSongObject->oSongName 		= $paramSongChosen->name;
-						$oSongObject->oSongId 			= $paramSongChosen->key;
-						$oSongObject->oSongUrl 			= $paramSongChosen->url;
-						$oSongObject->oAlbumId   		= $paramSongChosen->albumKey; 
-						$oSongObject->oAlbumName 		= $paramSongChosen->album;
-						$oSongObject->oAlbumUrl  		= $paramSongChosen->albumUrl;
-						$oSongObject->oAlbumThumbnail  	= $paramSongChosen->icon;
-						$oSongObject->oBandId    		= $paramSongChosen->artistKey;
-						$oSongObject->oBandName  		= $paramSongChosen->artist;
-						$oSongObject->oBandUrl  		= $paramSongChosen->artistUrl;
-						$oSongObject->oProvider  		= $paramprovider;
-						$oSongObject->oEmbedUrl  		= $paramSongChosen->embedUrl;
-						$oStoringOutput = hwd_vs_tools::doStoreSong($oSongObject);
-						break;
-			case 'grooveshark':
-						$oSongObject->oSongName 	= $paramSongChosen->SongName;
-						$oSongObject->oSongId 		= $paramSongChosen->SongID;
-						$oSongObject->oSongUrl 		= $paramSongChosen->Url;
-						$oSongObject->oAlbumId   	= $paramSongChosen->AlbumID; 
-						$oSongObject->oAlbumName 	= $paramSongChosen->AlbumName;
-						$oSongObject->oBandId    	= $paramSongChosen->ArtistID;
-						$oSongObject->oBandName  	= $paramSongChosen->ArtistName;
-						$oSongObject->oProvider  	= $paramprovider;
-						$oStoringOutput = hwd_vs_tools::doStoreSong($oSongObject);
-						break;
-			case 'userinput':
-						$oSongObject->oSongName = $paramSongChosen;
-						$song_id 				= hwd_vs_tools::checkSong($oSongObject->oSongName,null);
-						if($oSongObject->oSongName !=''){
-							if($song_id==null){
-								$song_id = hwd_vs_tools::addSong($paramSongObject);
-							}			
+		/*echo '<pre>';
+		var_dump('------------------------------------');
+		var_dump($paramSongChosen);
+		var_dump($paramprovider);
+		var_dump($paramIsSearched);
+		var_dump($paramBandChosen);
+		var_dump('------------------------------------');
+		*/
+		if($paramIsSearched == '1'){
+			switch($paramprovider){
+				case 'rdio':
+							$oSongObject->oSongName 		= $paramSongChosen->name;
+							$oSongObject->oSongId 			= $paramSongChosen->key;
+							$oSongObject->oSongUrl 			= $paramSongChosen->url;
+							$oSongObject->oAlbumId   		= $paramSongChosen->albumKey; 
+							$oSongObject->oAlbumName 		= $paramSongChosen->album;
+							$oSongObject->oAlbumUrl  		= $paramSongChosen->albumUrl;
+							$oSongObject->oAlbumThumbnail  	= $paramSongChosen->icon;
+							$oSongObject->oBandId    		= $paramSongChosen->artistKey;
+							$oSongObject->oBandName  		= $paramSongChosen->artist;
+							$oSongObject->oBandUrl  		= $paramSongChosen->artistUrl;
+							$oSongObject->oProvider  		= $paramprovider;
+							$oSongObject->oEmbedUrl  		= $paramSongChosen->embedUrl;
+							$oStoringOutput = hwd_vs_tools::doStoreSong($oSongObject);
+							break;
+				case 'grooveshark':
+							$oSongObject->oSongName 	= $paramSongChosen->SongName;
+							$oSongObject->oSongId 		= $paramSongChosen->SongID;
+							$oSongObject->oSongUrl 		= $paramSongChosen->Url;
+							$oSongObject->oAlbumId   	= $paramSongChosen->AlbumID; 
+							$oSongObject->oAlbumName 	= $paramSongChosen->AlbumName;
+							$oSongObject->oBandId    	= $paramSongChosen->ArtistID;
+							$oSongObject->oBandName  	= $paramSongChosen->ArtistName;
+							$oSongObject->oProvider  	= $paramprovider;
+							$oStoringOutput = hwd_vs_tools::doStoreSong($oSongObject);
+							break;
+				
+				}
+			}else{
+				$oSongObject->oSongName = $paramSongChosen;
+				$oSongObject->oBandName = $paramBandChosen;
+				$oSongObject->oProvider = 'userinput';
+				$oBandId = hwd_vs_tools::checkBand($paramBandChosen,null);
+						if(!$oBandId){
+							$oSongObject->oBandId   = 0;
+							$oBandId = hwd_vs_tools::addBand($oSongObject);
 						}
-						$oStoringOutput->oSongId = $song_id;
-						break;	
-			
-			}
+				$oSongObject->oBandId = $oBandId;		
+				$song_id 				= hwd_vs_tools::checkSong($oSongObject->oSongName,null);
+				if($oSongObject->oSongName !=''){
+					if($song_id==null){
+						$song_id = hwd_vs_tools::addSong($oSongObject,null, $oBandId);
+					}			
+				}
+				$oSongObject->oSongId = $song_id;
+				$oStoringOutput = $oSongObject;
+		/*var_dump($oStoringOutput);
+		var_dump('------------------------------------');
+		echo '</pre>';
+			exit();	*/
+				}	
 			return $oStoringOutput;	
 		}
     function doStoreSong($paramSongObject){
-		$oSongId = hwd_vs_tools::checkSong($paramSongObject->oSongName,$paramSongObject->oSongId);
+		$oSongId;
 		$oBandId; 
 		$oAlbumId;
-			if(!$oSongId){
-				$oAlbumId = hwd_vs_tools::checkAlbum($paramSongObject->oBandName,$paramSongObject->oBandId);
-					if(!$oAlbumId){
-						$oBandId = hwd_vs_tools::checkBand($paramSongObject->oBandName,$paramSongObject->oBandId);
-						if(!$oBandId){
-							$oBandId = hwd_vs_tools::addBand($paramSongObject);
-						}
-						$oAlbumId = hwd_vs_tools::addAlbum($paramSongObject,$oBandId);
-					}
-				$oSongId = hwd_vs_tools::addSong($paramSongObject,$oAlbumId,$oBandId);	
-				}
+		
+		$oBandId = hwd_vs_tools::checkBand($paramSongObject->oBandName,$paramSongObject->oBandId);
+		if(!$oBandId)
+			$oBandId = hwd_vs_tools::addBand($paramSongObject);
+		$oAlbumId = hwd_vs_tools::checkAlbum($paramSongObject->oAlbumName,$paramSongObject->oAlbumId);
+		if(!$oAlbumId)
+			$oAlbumId = hwd_vs_tools::addAlbum($paramSongObject,$oBandId);	
+		$oSongId = hwd_vs_tools::checkSong($paramSongObject->oSongName,$paramSongObject->oSongId);
+		if(!$oSongId)
+			$oSongId = hwd_vs_tools::addSong($paramSongObject,$oAlbumId,$oBandId);	
 		$storeResult = new JObject();	
 		$storeResult->oSongId = $oSongId;	
 		$storeResult->oBandId = $oBandId;	
-		$storeResult->oAlbumId = $oAlbumId;	
+		$storeResult->oAlbumId = $oAlbumId;
 		return $storeResult;
     }
     /**
@@ -3369,7 +3388,7 @@ $app = & JFactory::getApplication();
 	function getBandTags() {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.label as label FROM #__hwdvidsvideos as b'; 
-		$query .= ' INNER JOIN #__hwdvidsbands AS a ON a.id = b.band_id and b.band_id IS NOT NULL LIMIT 0,1000;';
+		$query .= ' INNER JOIN #__hwdvidsbands AS a ON a.id = b.band_id and b.band_id IS NOT NULL;';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -4876,7 +4895,7 @@ $app = & JFactory::getApplication();
 					  $albumplaceholder = JURI::root().'templates/rhuk_milkyway/images/placeholderalbum.png';
 					  $app->setUserState( "hwdvs_song_source", "grooveshark" );	
 					  foreach ($songResults as $gsSong) {
-						$oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$albumplaceholder.'" alt="'.$gsSong->artist.'"><div class="w84 mleft12 mtop12"><span>' . $gsSong->SongName . '</span><span> (' . $gsSong->ArtistName . ')</span></div></li>';
+						$oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$albumplaceholder.'" alt="'.$gsSong->artist.'"><div class="w84 fleft mleft12"><span class="fontblack">Song: </span><span class="songname">' . $gsSong->SongName . '</span><span> (' . $gsSong->ArtistName . ')</span><br /><span class="fontblack">Album: </span><span> ' . $gsSong->AlbumName . '</span></div></li>';
 						$songcounter++; 
 					  }
 					}
@@ -4884,7 +4903,7 @@ $app = & JFactory::getApplication();
             }else {
 			  $app->setUserState( "hwdvs_song_source", "rdio" );		
               foreach ($songResults as $rdioSong) {
-                $oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$rdioSong->icon.'" alt="'.$rdioSong->artist.'" /><div class="w84 fleft mleft12 mtop12"><span>' . $rdioSong->name . '</span><span> (' . $rdioSong->artist . ')</span></div></li>';
+                $oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$rdioSong->icon.'" alt="'.$rdioSong->artist.'" /><div class="w84 fleft mleft12"><span class="fontblack">Song: </span><span class="songname">' . $rdioSong->name . '</span><span> (' . $rdioSong->artist . ')</span><br /><span class="fontblack">Album: </span><span> ' . $rdioSong->album . '</span></div></li>';
                 $songcounter++; 
               }
             }

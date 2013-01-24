@@ -1268,6 +1268,7 @@ ul.jclist img { width: 32px; height: 32px; margin: 0 5px 5px 0;	float: left;}
 ul.jclist img.thumb0{width: auto; height: auto; float: left;margin: 0 30px 5px 0;}
 ul.jclist span img {width: auto; height: auto; float: none;}
 /* GENERAL CLASSES */
+.validationError {margin:12px 0;}
 .cb_result_warning {
     border: 2px solid #DDDDDD;
     border-radius: 6px 6px 6px 6px;
@@ -1298,7 +1299,6 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 .fontwhite {color: #fff !important;}
 .fontbold{font-weight:bold;}
 .mtop2{margin-top:2px;}
-.mtop12{margin-top:12px;}
 .mbot12{margin-bottom:12px;}
 .mbot20{margin-bottom:20px !important;}
 .mbot30{margin-bottom:30px !important;}

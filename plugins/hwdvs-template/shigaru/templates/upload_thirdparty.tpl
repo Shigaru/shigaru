@@ -118,18 +118,23 @@
 				jQuery("#level_id").val(selectedlevel);
 				jQuery("#language_id").val(selectedlang);
 				
-				if(jQuery('#category_id').val()=='1' || jQuery('#category_id').val()=='2')
-				jQuery('.songtutorialfields').fadeIn(500,function () {
-				  });
-				else
-					jQuery('.songtutorialfields').slideUp();
+				if(jQuery('#category_id').val()=='1' || jQuery('#category_id').val()=='2'){
+						if(selectedband !='' )
+							jQuery('.songtutorialfields').fadeIn(500);
+							else
+								jQuery('#songtitle').parent().fadeIn(500);
+				}
 			}
 			jQuery('#category_id').change(function() {	
 				if(jQuery(this).val()=='1' || jQuery(this).val()=='2'){
-				jQuery('.songtutorialfields').fadeIn(500,function () { });
+					if(isSearched && !isSearchedSuccess){
+							jQuery('.songtutorialfields').fadeIn(500);
+						}else {
+							jQuery('#songtitle').parent().fadeIn(500);
+						}
 				jQuery('#genrehint').fadeOut();
 				}else{
-					jQuery('.songtutorialfields').fadeOut();
+					jQuery('.songtutorialfields').slideUp();
 					if(jQuery(this).val()=='3')
 					jQuery('#genrehint').fadeIn();
 					else
@@ -162,47 +167,43 @@
 			
 			var firstInvalidFieldFound	=	0;
 
-				jQuery('#formElem').validate( {
+			var videovalidator =	jQuery('#formElem').validate( {
 					ignoreTitle : true,
-					errorClass: 'cb_result_warning',
+					errorClass: 'result_warning fontred',
 					// debug: true,
 					cbIsOnKeyUp: false,
 					highlight: function( element, errorClass ) {
-						jQuery( element ).parent().addClass( 'cbValidationError' );		// tables
+						jQuery( element ).parent().addClass( 'validationError' );
 					},
 					unhighlight: function( element, errorClass ) {
 						if ( this.errorList.length == 0 ) {
 							firstInvalidFieldFound = 0;
 						}
-						jQuery( element ).parent().removeClass( 'cbValidationError' );		// tables
-					},
-					errorElement: 'div',
-					errorPlacement: function(error, element) {
-						var promptTopPosition, promptleftPosition, marginTopSize;
-						var element = jQuery(element);
-						var fieldWidth = element.width();
-						var promptHeight = 25;
-						var offset = element.position();
-						promptTopPosition = offset.top;
-						promptleftPosition = offset.left;
-						promptleftPosition += fieldWidth;
-						if(promptleftPosition < 500){
-							promptleftPosition =500;
+						if(jQuery( element ).parent().hasClass( 'validationError' )){
+							jQuery( element ).parent().removeClass( 'validationError' ).next().fadeOut();
 							}
-						element.parent().append( error[0] ).children('.cb_result_warning').click(function(){
-							jQuery(this).fadeOut();
-							});
-						error.css('position', 'absolute');
-						error.css('cursor', 'pointer');
-						error.css('left', promptleftPosition);
-						error.css('top', promptTopPosition);
+					},
+					errorElement: 'span',
+					errorPlacement: function(error, element) {
+						if(!element.parent().next().hasClass('result_warning')){
+							jQuery(error[0]).prepend('<span class="icon-minus-sign pad6 mright6"></span>').insertAfter(element.parent());
+							error.css('cursor','pointer');
+							element.parent().next().click(function(){
+								jQuery(this).fadeOut();
+								});
+						}else if(element.parent().next().hasClass('result_warning')){
+								element.parent().next().fadeIn();
+							}
+						
 					},
 					rules: {
 						originalband: {required: function(element){
-						  return jQuery("#category_id").val() == '1'}
+							return ((jQuery("#category_id").val() == '1' && !isSearchedSuccess && jQuery(element).is(":visible")))
+						  }
 						 },
 						 songtitle: {required: function(element){
-						  return (jQuery("#category_id").val() == '1')}
+							return ((jQuery("#category_id").val() == '1'))
+						  }
 						 }
 						 
 					}, messages: {
@@ -231,15 +232,18 @@
 						  url: domain+"index.php?option=com_hwdvideoshare&task=ajax_searchsong&pattern="+paramPattern,
 						  context: document.body
 						}).done(function(data) {
-							jQuery('.blockUI #close').click(function(){jQuery.unblockUI(); });
+							jQuery('.blockUI #close').click(function(){jQuery.unblockUI();isSearchedSuccess = false; jQuery('#issearched').val('0'); jQuery('#originalband').parent().fadeIn(500);});
 							if(jQuery.trim(data).length > 0){
 							jQuery( '#songresults' ).css('height',(jQuery( '.blockMsg' ).height()-jQuery( '#search-form .novideos' ).height()-25)+'px').empty();
 							jQuery('<div class="results dispnon"><ul class="unstyled">'+data+'</ul>').clone().appendTo( '#songresults' );
 							jQuery('.blockUI .results').fadeIn();
 							jQuery('.blockUI .results li').click(function(){
-								jQuery('#songtitle').val(jQuery(this).find('div span').html());
+								jQuery('#songtitle').val(jQuery(this).find('div span.songname').html());
 								jQuery('#songindex').val(jQuery(this).attr('id'));
+								jQuery('#issearched').val('1');
+								jQuery('#originalband').parent().slideUp(500);
 								jQuery.unblockUI();
+								isSearchedSuccess = true;
 								});
 							} else{
 								jQuery('#songresults').html('<div class="padding novideos pad12 fontbold tcenter"><span class="icon-tint"></span>No matching songs for these text. You might want to re-enter text. If you are sure about the name of the song just close this window and we will store it as a new song</div>');
@@ -248,8 +252,11 @@
 				}
 			
 			var inputPattern;
+			var isSearched = false;
+			var isSearchedSuccess = false;
 			jQuery( ".step .butn-info" ).click(function(){
-				if(jQuery('#songtitle').valid()){
+				if(jQuery('#songtitle').valid() || (jQuery('#songtitle').val().length > 2 && jQuery('#category_id').val() == '2')){
+					isSearched = true;
 					if(inputPattern != jQuery('#songtitle').val()){
 						inputPattern = jQuery('#songtitle').val();	
 						jQuery( '#songresults' ).html('<div class="mtop25 pad12 tcenter" id="loadingMessage"></div><div class="mleft12 fontbold f120"></div>');
@@ -385,48 +392,53 @@
 			
 			 <fieldset class="step">
 						<legend>{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_VIDEO_DETAILS}</legend>
-                            <p>
+                            <p class="clearfix">
 								<label for="category_id">{$smarty.const._HWDVIDS_SHIGARU_TYPEVIDEO} <font class="required">*</font></label>
                                {$categoryselect}
 								<div class="clear"></div>
-                            </p>     
-                            <p class="songtutorialfields dispnon">     
+                            </p>  
+                            <p class="songtutorialfields dispnon clearfix">
+								<label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
+								<input type="text" value="" id="originalband" name="originalband" size="40" class="required" placeholder="Enter Band Name..." minlength="2"/>
+								<br class="clear"/>
+							</p>   
+                            <p class="songtutorialfields dispnon clearfix">     
 								<label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
 								<input type="text" value="" id="songtitle" name="songtitle" size="25" placeholder="Enter the song title and click the button" minlength="3"/>
-								<a href="#" class="mleft12 songtutorialfields dispnon mtop2 fleft butn butn-small butn-info" title="Click on the button to retrieve for the song"><span class="icon-search bradius5 mright6"></span>Retrieve info</a>
+								<a href="#" class="mleft12 mtop2 fleft butn butn-small butn-info" title="Click on the button to retrieve for the song"><span class="icon-search bradius5 mright6"></span>Retrieve info</a>
                                <div class="clear"></div>
 							</p>
-                           <p>
+                           <p class="clearfix">
                                 <label for="genre_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE} <font class="required">*</font></label>
                                 {$genresCombo}
                                 <span id="genrehint" class="dispnon f80 fleft mleft12 mtop12"><span class="icon-key pad6 fontgreen"></span> Select &quot;Instructional &amp; theory&quot; if not applicable or if you are unsure</span>
                                 <div class="clear"></div>
                             </p>       
-							<p>
+							<p class="clearfix">
                                 <label for="intrument_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_INSTRUMENT} <font class="required">*</font></label>
                                 {$instrumentsCombo}
                                 <div class="clear"></div>
                             </p>   
-							 <p>
+							 <p class="clearfix">
                                 <label for="level_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_LEVEL} <font class="required">*</font></label>
                                 {$levelsCombo}
                                 <div class="clear"></div>
                             </p>
 							
 				 		  
-                            <p id="originalautorfields">
+                            <p class="clearfix" id="originalautorfields">
                                 <label for="original_autor">{$smarty.const._HWDVIDS_SHIGARU_AREYOUCREATOR} <font class="required">*</font></label>
 								<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_YES}<input type="radio" {if $selectedtareyou eq 1}checked="true"{/if} name="original_autor" value="1"></label>
 								<label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_NO}<input type="radio" name="original_autor" {if $selectedtareyou eq 0}checked="true"{/if} value="0"></label>
 								<div class="clear"></div>
 								<span class="fieldexplanation">{$smarty.const._HWDVIDS_SHIGARU_COPYRIGHTREASONS}</span>
                             </p> 
-                            <p>
+                            <p class="clearfix">
                                 <label for="language_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_VIDEO_LANGUAGE} <font class="required">*</font></label>
                                 {$languagesCombo}
                                 <div class="clear"></div>
                             </p>   
-                            <p>
+                            <p class="clearfix">
                                 <span class="mleft30">
                                 {$captcha}
 								</span>
@@ -447,7 +459,8 @@
 						<input type="hidden" name="video_length" value="{$videoInfo->video_length}" />
 						<input type="hidden" name="infopassed" value="{$infoPassed}" />
 						<input type="hidden" name="ip_added" value="{$ipaddress}" />
-						<input type="hidden" name="songindex" id="songindex" value="" />
+						<input type="hidden" name="songindex" id="songindex" value="{$videoInfo->songindex}" />
+						<input type="hidden" name="issearched" id="issearched" value="{$videoInfo->issearched}" />
 						<input type="hidden" name="thumbnailgrab" value="{$videoInfo->thumbnail}" />
 						<input name="embeddump" value="{$videourl}" class="inputbox" type="hidden" />
 						{include file='sharingoptions.tpl'}

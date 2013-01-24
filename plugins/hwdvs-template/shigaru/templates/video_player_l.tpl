@@ -164,7 +164,6 @@
 			
 		  var len = 200;
 		  var p = jQuery('#videodecription').html();
-		  console.log(p.length);
 		  if(p.length < len){
 			  jQuery('#showmore').hide();
 			  }else{
