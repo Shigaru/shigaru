@@ -128,11 +128,21 @@ function freichatx_get_hash($ses){
 					?>
 					<?php					
 					if ($user && !$user->guest){
-							echo '<div id="grettings">';
+							echo '<div id="grettings" class="btn-group">';
 							echo $cbUser->getField( 'avatar' , null, 'html', 'div', 'profile' );
-							echo '<div class="mtop12 mleft6">';
+							echo '<div class="mtop12 mleft6 f13px">';
 							echo $user->username;
 							echo '</div>';
+							echo '<ul class="dropdown-menu">
+										<li><a href="index.php?option=com_comprofiler&Itemid=53"><span class="icon-user-md"></span>View Profile</a></li>
+										<li><a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails"><span class="icon-edit"></span>Edit Profile</a></li>
+										<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox"><span class="icon-envelope"></span>Inbox</a></li>
+										<li class="divider"></li>
+										<li><a href="index.php?option=com_hwdvideoshare&task=yourvideos"><span class="icon-headphones"></span>My Videos</a></li>
+										<li><a href="#"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites"><span class="icon-heart"></span>Videos I liked</a></li>
+										<li class="divider"></li>
+										<li><a href="index.php?option=com_comprofiler&task=logout"><span class="icon-off"></span>Logout</a></li>
+									  </ul>';
 							echo '</div>';
 						}
 						 
@@ -144,34 +154,6 @@ function freichatx_get_hash($ses){
 </div>	
 
 <div id="nav_browse">
-	<?php					
-					if ($user && !$user->guest){
-						echo '<div class="userzone f80">';
-								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_comprofiler&task=logout"><span class="icon-off"></span>Logout</a>';
-								echo '</div>';
-								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_uddeim&Itemid=&task=inbox"><span class="icon-envelope"></span>Inbox</a>';
-								echo '</div>';
-								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_hwdvideoshare&task=yourfavourites"><span class="icon-heart"></span>Videos I liked</a>';
-								echo '</div>';
-								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_hwdvideoshare&task=yourvideos"><span class="icon-headphones"></span>My Videos</a>';
-								echo '</div>';
-								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails"><span class="icon-edit"></span>Edit Profile</a>';
-								echo '</div>';
-								echo '<div class="userzoneitem">';
-									echo '<a href="index.php?option=com_comprofiler&Itemid=53"><span class="icon-user-md"></span>View Profile</a>';
-								echo '</div>';
-								echo '<div class="clear"></div>';
-								
-								
-								
-							echo '</div>';
-						}
-				?>
 	<div id="nav_browse_content">
 		<div id="nav_browse_search">
 			<jdoc:include type="modules" name="search" />		

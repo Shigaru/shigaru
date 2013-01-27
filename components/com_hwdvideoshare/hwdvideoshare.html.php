@@ -33,7 +33,7 @@ class hwd_vs_html
     /**
      *
      */
-    function frontpage($rows, $rowsfeatured, $pageNav, $total, $rowsnow, $mostviewed, $mostfavoured, $mostpopular, $rowsNbwType,$wordList)
+    function frontpage($rowsfeatured, $pageNav, $total, $rowsnow, $rowsNbwType,$wordList)
     {
 		global $Itemid, $smartyvs, $hwdvsTemplateOverride, $limit, $limitstart, $j15, $j16;
 		$c = hwd_vs_Config::get_instance();
@@ -259,84 +259,6 @@ class hwd_vs_html
 				$smartyvs->assign("print_multiple_featured", 1);
 			}
 
-			if (count($mostviewed) > 0 && $c->frontpage_viewed !== "0") {
-				$smartyvs->assign("print_mostviewed", 1);
-
-				if (isset($hwdvsTemplateOverride['thumbWidth2'])) {
-					$thumbwidth = $hwdvsTemplateOverride['thumbWidth2'];
-				} else {
-					$thumbwidth = null;
-				}
-
-				$mostviewedlist = hwd_vs_tools::generateVideoListFromXml($mostviewed, $thumbwidth);
-				$smartyvs->assign("mostviewedlist", $mostviewedlist);
-				if ($c->frontpage_viewed == "today") {
-					$smartyvs->assign("title_mostviewed", _HWDVIDS_MVTD);
-				} else if ($c->frontpage_viewed == "thisweek") {
-					$smartyvs->assign("title_mostviewed", _HWDVIDS_MVTW);
-				} else if ($c->frontpage_viewed == "thismonth") {
-					$smartyvs->assign("title_mostviewed", _HWDVIDS_MVTM);
-				} else if ($c->frontpage_viewed == "alltime") {
-					$smartyvs->assign("title_mostviewed", _HWDVIDS_MVAT);
-				}
-			}
-
-			if (count($mostfavoured) > 0 && $c->frontpage_favoured !== "0") {
-				$smartyvs->assign("print_mostfavoured", 1);
-
-				if (isset($hwdvsTemplateOverride['thumbWidth3'])) {
-					$thumbwidth = $hwdvsTemplateOverride['thumbWidth3'];
-				} else {
-					$thumbwidth = null;
-				}
-				
-				
-				$mostfavouredlist = hwd_vs_tools::generateVideoListFromXml($mostfavoured, $thumbwidth);
-				$smartyvs->assign("mostfavouredlist", $mostfavouredlist);
-
-				if ($c->frontpage_favoured == "today") {
-					$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFTD);
-				} else if ($c->frontpage_favoured == "thisweek") {
-					$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFTW);
-				} else if ($c->frontpage_favoured == "thismonth") {
-					$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFTM);
-				} else if ($c->frontpage_favoured == "alltime") {
-					$smartyvs->assign("title_mostfavoured", _HWDVIDS_MFAT);
-				}
-			}
-
-			if (count($mostpopular) > 0 && $c->frontpage_popular !== "0") {
-				$smartyvs->assign("print_mostpopular", 1);
-
-				if (isset($hwdvsTemplateOverride['thumbWidth4'])) {
-					$thumbwidth = $hwdvsTemplateOverride['thumbWidth4'];
-				} else {
-					$thumbwidth = null;
-				}
-
-				$mostpopularlist = hwd_vs_tools::generateVideoListFromXml($mostpopular, $thumbwidth);
-				$smartyvs->assign("mostpopularlist", $mostpopularlist);
-			/*
-			echo '<pre>';
-				print_r($mostpopularlist);
-			echo '</pre>';
-			*/
-				if ($c->frontpage_popular == "today") {
-					$smartyvs->assign("title_mostpopular", _HWDVIDS_MPTD);
-				} else if ($c->frontpage_popular == "thisweek") {
-					$smartyvs->assign("title_mostpopular", _HWDVIDS_MPTW);
-				} else if ($c->frontpage_popular == "thismonth") {
-					$smartyvs->assign("title_mostpopular", _HWDVIDS_MPTM);
-				} else if ($c->frontpage_popular == "alltime") {
-					$smartyvs->assign("title_mostpopular", _HWDVIDS_MPAT);
-				}
-			}
-		}
-
-		if (count($rows) > 0) {
-			$smartyvs->assign("print_videolist", 1);
-			$list = hwd_vs_tools::generateVideoListFromSql($rows, null, $hwdvsTemplateOverride['thumbWidth1']);
-			$smartyvs->assign("list", $list);
 			
 		}
 
@@ -344,43 +266,15 @@ class hwd_vs_html
 		$smartyvs->assign( "print_featured_player", $c->feat_show );
 
 		$page = $total - $c->vpp;
-		$pageNavigation = null;
-		if ( $page > 0 )
-		{
-			if ($j16)
-			{
-				$pageNavigation.= "<div class=\"pagination\">";
-			}
-			$pageNavigation.= $pageNav->getPagesLinks();
-			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
-			if ($j16)
-			{
-				$pageNavigation.= "</div>";
-			}
-		}
-		$smartyvs->assign("pageNavigation", $pageNavigation);
 		
 		/* Shigaru Customs */
 		
-		/* comments boxes */
+		
 		jimport( 'joomla.application.module.helper' );
 		
-		$module = JModuleHelper::getModule( 'jcomments_top_posters' );
-		$topposters = JModuleHelper::renderModule($module);
-		$smartyvs->assign("topposters", $topposters);
 		
 
-		$mostmodule = JModuleHelper::getModule( 'jcomments', 'mostPopularComments' );
-		$mostpopularcomments = JModuleHelper::renderModule($mostmodule);
-		$smartyvs->assign("mostpopularcomments", $mostpopularcomments);
 		
-		$latestmodule = JModuleHelper::getModule( 'jcomments' );
-		$latestcomments = JModuleHelper::renderModule($latestmodule);
-		$smartyvs->assign("latestcomments", $latestcomments);
-		
-		$s4jnewusersm = JModuleHelper::getModule( 's4jnewusers' );
-		$s4jnewusersc = JModuleHelper::renderModule($s4jnewusersm);
-		$smartyvs->assign("s4jnewusers", $s4jnewusersc);
 		// link to thn reasons
 		
 		jimport( 'joomla.methods' ); 
@@ -391,88 +285,19 @@ class hwd_vs_html
 		$smartyvs->assign("tenreasonsurl", $tenreasonsurl);
 		$shiggymemberssurl = $live_path . "modules/mod_zncbmembers/tmpl/js/shiggymembers.js";
 		$smartyvs->assign("shiggymemberssurl", $shiggymemberssurl);
+
 		
-		
-		
-		
-		
-		
-		
-		/* what are you doing box*/
+		/* what are you doing box
 		$whatmodule = JModuleHelper::getModule('whatru');
 		$whatareyou = JModuleHelper::renderModule($whatmodule);
 		$smartyvs->assign("whatareyou", $whatareyou);
-		
-		/* recent activity module */
-		$actmodule = JModuleHelper::getModule('cb_superactivity');
-		$recentactivity = JModuleHelper::renderModule($actmodule);
-		$smartyvs->assign("recentactivity", $recentactivity);
-			
-		
-		 /* members box*/
-		$zncbmembers = JModuleHelper::getModule('zncbmembers');
-		$zncbmembers = JModuleHelper::renderModule($zncbmembers);
-		$smartyvs->assign("zncbmembers", $zncbmembers);
-		
-		 /* add this */
-		$AddThis = JModuleHelper::getModule('AddThis');
-		$AddThis = JModuleHelper::renderModule($AddThis);
-		$smartyvs->assign("AddThis", $AddThis);
-		
-		// VIDEO TAGS
-		$wordList = hwd_vs_tools::getVideoTags();
-		$tagsList =hwd_vs_tools::concatenateWords($wordList);
-		$tagsList = hwd_vs_tools::filterWords($tagsList);
-		$tagsList = hwd_vs_tools::parseTagsString($tagsList,50);
-		$tagsList =hwd_vs_tools::outputWords($tagsList,10,50);
-		$smartyvs->assign("tagsList", $tagsList);
-		
-		// INSTRUMENTS TAGS
-		$inswordList = hwd_vs_tools::getInstrumentsTags();
-		$instagsList = hwd_vs_tools::concatenateWords($inswordList);
-		$instagsList = hwd_vs_tools::filterWords($instagsList);
-		$instagsList = hwd_vs_tools::parseTagsString($instagsList,50);
-		$instagsList = hwd_vs_tools::outputWords($instagsList,10,25);
-		$smartyvs->assign("instagsList", $instagsList);
-		
-		// GENRES TAGS
-		$genwordList = hwd_vs_tools::getGenreTags();
-		$gentagsList = hwd_vs_tools::concatenateWords($genwordList);
-		$gentagsList = hwd_vs_tools::filterWords($gentagsList);
-		$gentagsList = hwd_vs_tools::parseTagsString($gentagsList,50);
-		$gentagsList = hwd_vs_tools::outputWords($gentagsList,10,25);
-		$smartyvs->assign("gentagsList", $gentagsList);
-		
-		// BANDS TAGS
-		$banwordList = hwd_vs_tools::getBandTags();
-		$bantagsList = hwd_vs_tools::concatenateWords($banwordList);
-		$bantagsList = hwd_vs_tools::filterWords($bantagsList);
-		$bantagsList = hwd_vs_tools::parseTagsString($bantagsList,50);
-		$bantagsList = hwd_vs_tools::outputWords($bantagsList,10,25);
-		$smartyvs->assign("bandtagsList", $bantagsList);
-		$smartyvs->assign("totalvideos", $total);
-		
-		// SONGS TAGS
-		$songwordList = hwd_vs_tools::getSongsTags();
-		$songtagsList = hwd_vs_tools::concatenateWords($songwordList);
-		$songtagsList = hwd_vs_tools::filterWords($songtagsList);
-		$songtagsList = hwd_vs_tools::parseTagsString($songtagsList,50);
-		$songtagsList = hwd_vs_tools::outputWords($songtagsList,10,25);
-		$smartyvs->assign("songtagsList", $songtagsList);
-		
-		/* most commented */
-		
-		$mostcommentedrows = hwd_vs_tools::getMostCommented();
-		$mostcommented = hwd_vs_tools::generateVideoListFromSql($mostcommentedrows, null, $hwdvsTemplateOverride['thumbWidth1']);
-		$smartyvs->assign("mostcommented", $mostcommented);
-		
-		/*
-			 echo '<pre>';
-				print_r($mostcommented);
-			echo '</pre>';
-			*/
-	
-		
+		*/
+		 
+        $doc->addStyleSheet(JURI::base(true) . '/' . "modules/mod_zncbmembers/tmpl/css/default.css", 'text/css');
+		$s4jnewusersm = JModuleHelper::getModule( 's4jnewusers' );
+		$s4jnewusersc = JModuleHelper::renderModule($s4jnewusersm);
+		$smartyvs->assign("s4jnewusers", $s4jnewusersc);
+
 		$smartyvs->display('index.tpl');
 		return;
     }

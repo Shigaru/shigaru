@@ -31,7 +31,7 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 <form name="rokajaxsearch" id="rokajaxsearch" class="<?php echo $theme; ?>" action="<?php echo JURI::Base()?>videos/search-results" method="get">
 <div class="rokajaxsearch <?php echo $params->get('moduleclass_sfx'); ?>">
 	<div class="roksearch-wrapper">
-		<input id="roksearch_search_str" name="pattern" type="text" placeholder="Search bands, songs, genres, instruments..." class="inputbox search"  />
+		<input id="roksearch_search_str" name="pattern" type="text" placeholder="Search bands, songs, genres, instruments... total <?php echo $params->totalcount; ?> videos categorized" class="inputbox search"  />
 	</div>
 	<input type="hidden" name="searchphrase" value="<?php echo $params->get("searchphrase")?>"/>
 	<input type="hidden" name="limit" value="<?php echo $limit; ?>" />

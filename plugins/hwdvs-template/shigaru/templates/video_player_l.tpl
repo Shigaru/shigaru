@@ -72,7 +72,7 @@
 						  <div id="container-circle">
 								{$videoplayer->socialbmlinks}
 							{if $print_videourl}
-								<div id="button-66" class="btn">
+								<div id="button-66" class="btun">
 								  <div><span>Link</span><form id="permalink" name="vlink" action="#"><input type="text" value="{$currentUrl}" name="vlink" /></form></div>
 								</div>
 <!--
@@ -186,7 +186,7 @@
 		   
 		jQuery('.sic-right .video_activity_header').shigaruTabs({slidesSelector:'.tab_wrapper',slidesWrapper:'.sic-right'});	
 		jQuery('.workarea div.video_activity div.scoller').jScrollPane({showArrows:true});
-        var delay = 40, delayTime, btns = jQuery('.btn');
+        var delay = 40, delayTime, btns = jQuery('.btun');
         jQuery('#base-button').toggle(function(){
           jQuery(this).addClass('open');
           btns.each(function(i){

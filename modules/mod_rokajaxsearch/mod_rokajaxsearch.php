@@ -16,6 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 require_once (dirname(__FILE__).DS.'helper.php');
 $params->latestSearchs = modRokajaxsearchHelper::getLatestSearchs();
+$params->totalcount = modRokajaxsearchHelper::getTotalVideosCount();
 modRokajaxsearchHelper::inizialize($params->get('include_css'), $params->get('offset_search_result'), $params);
 
 require(JModuleHelper::getLayoutPath('mod_rokajaxsearch'));

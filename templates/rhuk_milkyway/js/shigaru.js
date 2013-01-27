@@ -3,7 +3,7 @@ jQuery(document).ready(function($){
 	
 	if(jQuery('#the_most .tab_wrapper').length>0){
 		/* Scroll bars */
-	jQuery('#the_most .tab_wrapper, .workarea .leftcolumn div.video_activity div.tab_wrapper, .workarea .rightcolumn div.video_activity div.tab_wrapper').jScrollPane({showArrows:true});
+	//jQuery('#the_most .tab_wrapper, .workarea .leftcolumn div.video_activity div.tab_wrapper, .workarea .rightcolumn div.video_activity div.tab_wrapper').jScrollPane({showArrows:true});
 	
 	/* Tabs */
 	jQuery('#the_most_title').shigaruTabs({slidesWrapper:'#the_most_wrapper',effect:'fade'});
@@ -25,9 +25,15 @@ jQuery(document).ready(function($){
 		
 	jQuery('#grettings').click(function(e) {
 		var $this = jQuery(this);
-		jQuery(".userzone").fadeToggle();
-			$this.toggleClass("userzoneopen");
+		$this.toggleClass("userzoneopen");
+		$this.find('ul.dropdown-menu').toggle();
+		e.stopPropagation();	
 	});
+	
+	jQuery('body').click(function () {
+			jQuery('ul.dropdown-menu').hide();
+			if(jQuery('#grettings').hasClass('userzoneopen'))jQuery('#grettings').removeClass('userzoneopen');
+		});
 	
 	jQuery('.item').hover(
                 function(){
@@ -90,19 +96,34 @@ jQuery(document).ready(function($){
 	
 	/* Adding a colortip to any tag with a title attribute: */
 		
-	jQuery('.workarea a[title]').qtip({position: {
-		show: {
-			delay: 2000
-		},
-		my: 'top center',  // Position my top left...
-		at: 'bottom center', // at the bottom 
-		adjust: {
-			x: 0,    
-			y: 25
-		},
-		target: 'mouse' // my target
-	}});
+	jQuery('.workarea a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
 });
+
+(function(jQuery) {
+  jQuery.fn.shigaruToolTip = function(options) {
+	return this.each(function() {
+		bindFollowDiv(this);	
+	});
+	
+	function bindFollowDiv(paramthis){
+		var moveLeft = 20;
+		var moveDown = 10;
+		var oBindElem = jQuery(paramthis);
+		
+		oBindElem.hover(function(e) {
+			oBindElem.find('.pe-description').show().css( 'z-index', 10000 );
+		  }, function() {
+			oBindElem.find('.pe-description').hide().css( 'z-index', 9999 );
+		  });
+
+		  oBindElem.mousemove(function(e) {
+			//	oBindElem.find('.pe-description').css('top', e.pageY + moveDown).css('left', e.pageX + moveLeft);
+		  });
+		}
+	}	
+})(jQuery);	
+
+
 
 
 (function(jQuery) {
@@ -111,6 +132,7 @@ jQuery(document).ready(function($){
 	var opts 										= jQuery.extend({}, jQuery.fn.shigaruTabs.defaults, options);
 	var oTabs 										= jQuery(this).find('ul li a');
 	var oSlides 									= jQuery(opts.slidesWrapper+' '+opts.slidesSelector);
+	var oTabControls 								= oSlides.find('div.tabmodcontrols .btn');
 	var oSlideWidth 								= oSlides[0].offsetWidth;
 	var oNumberOfSlides 							= oSlides.length;
 	var oCurrent, oHRef, oSelected  				= null;
@@ -120,39 +142,141 @@ jQuery(document).ready(function($){
 		switch(opts.effect){
 			case 'rotate':
 						jQuery(oSlides).each(function(i,e){
+								var oSlideObject = jQuery(e);
 								if(i!=0){
-								jQuery(e).find('ul li a.thumbplay').css('display','none');
-								jQuery(e).find('ul li a .categoryinfothumb').css('display','none');
+									oSlideObject.find('ul li a.thumbplay').css('display','none');
+									oSlideObject.find('ul li a .categoryinfothumb').css('display','none');
 								}
+								if(oSlideObject.hasClass('ajaxload')) loadAjaxContent(oSlideObject);
+								if(oSlideObject.hasClass('loadondemand')) jQuery(oTabs[i]).click(loadContentOnDemand);
+								if(oSlideObject.hasClass('loaded')) oSlideObject.find('.tabscroller').jScrollPane({showArrows:true});
+								
 							});
 						
 						jQuery(opts.slidesWrapper).css('overflow', 'hidden');
 						oSlides.wrapAll('<div class="slideInner"></div>').css({'float' : opts.directionOfSorting,'width' : oSlideWidth});
 						jQuery(opts.slidesWrapper +' .slideInner').css('width', oSlideWidth * oNumberOfSlides);
+
 						oTabs.click(rotateTabs);
 						break;
 			case 'fade':
-						oSlides.each(function(i,elem){if(i>0)jQuery(this).fadeOut();});
+						oSlides.each(function(i,elem){
+							if(i>0)jQuery(this).fadeOut();
+								if(jQuery(this).hasClass('ajaxload')) loadAjaxContent(jQuery(this));
+								if(jQuery(this).hasClass('loadondemand')) jQuery(oTabs[i]).click(loadContentOnDemand);
+								if(jQuery(this).hasClass('loaded')) jQuery(this).find('.tabscroller').jScrollPane({showArrows:true});
+						});
 						oTabs.click(fadeTabs);
 						break;	
 		}	
-	
+		
+		if(oTabControls.length > 0)
+			setControlsAction(oTabControls);
     });
+    
+    function setControlsAction(paramTabControls){
+			paramTabControls.each(function(i,elem){
+					var oControlObject = jQuery(elem);
+					if(oControlObject.hasClass('date'))
+						oControlObject.click(setDateOrdering);
+						else if (oControlObject.hasClass('tabreload'))
+							oControlObject.click(reloadContent);
+				});
+		}
+	
+	function reloadContent(e){
+			var oRefreshElement = jQuery(oTabs.parent('li.selected').children('a').attr('href'));
+			jQuery(e.target).addClass('active').find('.icon-repeat').removeClass('icon-repeat').addClass('active icon-refresh icon-spin');
+			if(oRefreshElement.hasClass('loadedondemand')){
+				oRefreshElement.removeClass('loadedondemand');
+				}
+			loadAjaxContent(oRefreshElement);
+			e.preventDefault();
+		}	
+		
+    function setDateOrdering(e){
+			var oRefreshElement = jQuery(oTabs.parent('li.selected').children('a').attr('href'));
+			oRefreshElement.find('.tabmodcontrols a.active').removeClass('active');
+			jQuery(e.target).addClass('active');
+			if(oRefreshElement.hasClass('loadedondemand')){
+				oRefreshElement.removeClass('loadedondemand');
+				}
+			loadAjaxContent(oRefreshElement);
+			e.preventDefault();
+		}
+			
+    
+    function loadAjaxContent(paramElem){
+		var oVideoList;
+		var isAlreadyLoaded=paramElem.find('.tabscroller').children().eq(0).hasClass('jspContainer');
+		if(!isAlreadyLoaded)
+			oVideoList= paramElem.find('.tabscroller').children().eq(0);
+			else
+				oVideoList= paramElem.find('.tabscroller').find('.jspPane').children().eq(0);
+		if(!paramElem.hasClass('loadedondemand')){
+			oVideoList.hide();
+			var oOrderingParam = '';
+			if(paramElem.find('.tabmodcontrols a.active').attr('href')){
+				var oOrdering = paramElem.find('.tabmodcontrols a.active').attr('href');
+				oOrderingParam = '&when='+oOrdering.substring(1);
+				}
+			oUrl = 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_showtabs&format=raw&showtab='+oVideoList.attr('id')+'&listtype='+oVideoList.attr('class')+oOrderingParam;		
+			if(!isAlreadyLoaded){
+				paramElem.addClass('loadedondemand').find('.tabscroller').css('overflow-y','hidden');
+				oVideoList.parent().append('<div class="loadingcontent" style="line-height:'+paramElem.find('.tabscroller').height()+'px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
+				}else{
+					paramElem.find('.tabscroller').find('.jspPane').children().eq(0).hide();
+					paramElem.addClass('loadedondemand').find('.tabscroller .jspContainer .jspVerticalBar').hide();
+					paramElem.find('.loadingcontent').show();
+					}
+			jQuery.ajax({
+			  url: oUrl
+			}).done(function(data) {
+				  paramElem.find('.loadingcontent').hide();
+				  if(!paramElem.find('.tabscroller').children().eq(0).hasClass('jspContainer')){
+					  paramElem.find('.tabscroller').children().eq(0).html(data).fadeIn('slow',function (){
+							paramElem.find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+							if(paramElem.hasClass('community'))
+								paramElem.find('ul.pe-thumbs li').shigaruToolTip();
+							});
+					  paramElem.find('.tabscroller').jScrollPane({showArrows:true});
+					  
+					}else{
+						paramElem.addClass('loadedondemand').find('.tabscroller .jspContainer .jspVerticalBar').show();
+						paramElem.find('.tabscroller').find('.jspPane').children().eq(0).html(data).fadeIn('slow',function (){
+								paramElem.find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+								if(paramElem.hasClass('community'))
+									paramElem.find('ul.pe-thumbs li').shigaruToolTip();
+								});
+						}
+				  		
+				  paramElem.find('.tabmodcontrols a.tabreload').removeClass('active').find('.icon-refresh').removeClass('icon-refresh icon-spin').addClass('icon-repeat');		
+				});	
+			}
+		}
+	
+	function loadContentOnDemand(e){
+			var oElemOD = jQuery(e.target);
+			if(oElemOD.parent().hasClass('selected'))
+				oElemOD = oElemOD.parent();
+			oElemOD = jQuery(oElemOD.attr('href'));
+			loadAjaxContent(oElemOD);
+		}
 	
 	function rotateTabs(e){	
 		oHRef = jQuery(this).attr('href');
 		updateSelection(oHRef);
 		jQuery(oSlides).each(function(i,e){
-								if(i!=oCurrentIndex){
-									jQuery(e).find('ul li a.thumbplay').css('display','none');
-									jQuery(e).find('ul li a .categoryinfothumb').css('display','none');
-								}else{
-									jQuery(opts.slidesWrapper +' .slideInner').animate({'marginLeft' : -(oCurrentIndex * oSlideWidth)},function(){
-										jQuery(e).find('ul li a.thumbplay').css('display','block');
-										jQuery(e).find('ul li a .categoryinfothumb').css('display','block');
-									});
-							}
-			});	
+				if(i!=oCurrentIndex){
+					jQuery(e).find('ul li a.thumbplay').css('display','none');
+					jQuery(e).find('ul li a .categoryinfothumb').css('display','none');
+				}else{
+					jQuery(opts.slidesWrapper +' .slideInner').animate({'marginLeft' : -(oCurrentIndex * oSlideWidth)},function(){
+						jQuery(e).find('ul li a.thumbplay').css('display','block');
+						jQuery(e).find('ul li a .categoryinfothumb').css('display','block');
+					});
+			}
+		 });	
 		e.preventDefault(oHRef);
 	}
 	
@@ -171,6 +295,7 @@ jQuery(document).ready(function($){
 			if(jQuery(elem).attr('href') == oHRef){oCurrentIndex = i;oCurrent=jQuery(elem);jQuery(elem).parent().addClass('selected');}	
 			});
 	}
+	
 
   }
 

@@ -92,6 +92,20 @@ class modRokajaxsearchHelper {
 		}
 	}
 	
+	function getTotalVideosCount(){
+		$db = & JFactory::getDBO();
+		// get video count
+        $db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 . $hwdvs_joinv
+					 . $where
+					 );
+        $total = $db->loadResult();
+        echo $db->getErrorMsg();
+        
+        return $total;
+		}
+	
 	function getLatestSearchs() {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT pattern FROM #__hwdvidssearchlog_term'; 

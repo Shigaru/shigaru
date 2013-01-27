@@ -51,35 +51,6 @@ class hwd_vs_core
         $sort        = JRequest::getWord( 'sort', 'recent' );
 		$rowsNbwType = "";
 
-        // sql search filters
-        $where = ' WHERE video.approved = "yes"';
-        if (!$isModerator)
-        {
-        	$where.= ' AND video.published = 1';
-        }
-		if ($c->bviic == 1 && $my->id == 0)
-		{
-        	$where.= ' AND video.public_private = "public"';
-		}
-
-		if ($sort == "recent")
-		{
-			$order = ' ORDER BY video.date_uploaded DESC';
-			$smartyvs->assign("title", _HWDVIDS_RECENTVIDEOS);
-			$smartyvs->assign("recent_selected", "selected=\"selected\"");
-		}
-		else if ($sort == "popular")
-		{
-			$order = ' ORDER BY video.number_of_views DESC';
-			$smartyvs->assign("title", _HWDVIDS_POPULARVIDEOS);
-			$smartyvs->assign("popular_selected", "selected=\"selected\"");
-		}
-		else if ($sort == "rated")
-		{
-			$order = ' ORDER BY video.updated_rating DESC';
-			$smartyvs->assign("title", _HWDVIDS_RATEDVIDEOS);
-			$smartyvs->assign("rated_selected", "selected=\"selected\"");
-		}
 
         // get video count
         $db->SetQuery( 'SELECT count(*)'
@@ -90,17 +61,7 @@ class hwd_vs_core
         $total = $db->loadResult();
         echo $db->getErrorMsg();
 
-		jimport('joomla.html.pagination');
-		$pageNav = new JPagination( $total, $limitstart, $limit );
-        $query = 'SELECT'.$hwdvs_selectv
-                . ' FROM #__hwdvidsvideos AS video'
-                . $hwdvs_joinv
-                . $where
-                . $order
-                ;
-
-        $db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
-        $rows = $db->loadObjectList();
+		
 
         if ($c->feat_rand == 0)
         {
@@ -209,31 +170,7 @@ class hwd_vs_core
 			}
 
         }
-		$mostviewed = array();
-		if ($c->frontpage_viewed !== "0") {
-			// parse xml playlists
-			require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xmlparse.class.php');
-			
-			$parser = new HWDVS_xmlParse();
-			$mostviewed = $parser->parse("mostviewed_".$c->frontpage_viewed);
-			
-		}
-		$mostfavoured = array();
-		if ($c->frontpage_favoured !== "0") {
-			// parse xml playlists
-			require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xmlparse.class.php');
-			$parser = new HWDVS_xmlParse();
-			$mostfavoured = $parser->parse("mostfavoured_".$c->frontpage_favoured);
-		}
-
-		$mostpopular = array();
-		if ($c->frontpage_popular !== "0") {
-			// parse xml playlists
-			require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xmlparse.class.php');
-			$parser = new HWDVS_xmlParse();
-			$mostpopular = $parser->parse("mostpopular_".$c->frontpage_popular);
-		}
-		
+		/*
 		$query = 'SELECT tags FROM #__hwdvidsvideos AS video';
 		$query .= ' WHERE video.published = 1';
         $query .= ' AND video.approved = "yes"';
@@ -242,9 +179,9 @@ class hwd_vs_core
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
-
+*/
         // send out
-        hwd_vs_html::frontpage($rows, $rowsfeatured, $pageNav, $total, $rowsnow, $mostviewed, $mostfavoured, $mostpopular, $rowsNbwType, $wordList);
+        hwd_vs_html::frontpage($rowsfeatured, $pageNav, $total, $rowsnow,$rowsNbwType, $wordList);
     }
     /**
      * Make frontpage SQL queries with appropriate filters

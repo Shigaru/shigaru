@@ -218,7 +218,14 @@ class hwd_vs_ajax
 		}
 		
 	function ajax_showtabs(){
-		$code = hwd_vs_tools::showTabContent($term);
+		header('Content-type: text/html; charset=utf-8');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
+		$showtab = JRequest::getVar( 'showtab', '' );
+		$listtype = JRequest::getVar( 'listtype', '' );
+		$daterang = JRequest::getVar( 'when', '' );
+		$code = hwd_vs_tools::showTabContent($showtab,$listtype,$daterang);
+		print $code;
+		exit;
 		}
 		
 	function ajax_search()	{

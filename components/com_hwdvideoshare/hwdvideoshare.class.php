@@ -1269,6 +1269,93 @@ class hwd_vs_tools {
 
 		return $code;
     }
+    
+    function showTabContent($paramTab,$paramListType = 'dbo',$paramWhen = 'alltime'){
+		global $hwdvsTemplateOverride;
+		$oVideoListObjects;
+		$oVideoList;
+		$html;
+		switch($paramListType){
+			case 'xml':
+				$html = hwd_vs_tools::renderTabXmlContent($paramTab,$paramWhen);
+				break;
+			case 'dbo':
+				$html = hwd_vs_tools::renderSqlContent($paramTab,$paramWhen);
+				break;	
+			case 'tags':
+				$html = hwd_vs_tools::renderTagsContent($paramTab,$paramWhen);
+				break;	
+			case 'rendermod':
+				$html = hwd_vs_tools::renderModContent($paramTab,$paramWhen);
+				break;	
+			}
+		return $html;
+		}
+	
+	function getModuleTags($paramTable,$paramWhen) {
+		$ofunc 			= 'get'.$paramTable.'Tags';
+		return hwd_vs_tools::$ofunc();
+    }
+    
+    function renderModContent($paramTab,$paramWhen){
+		jimport( 'joomla.application.module.helper' );
+		$oModName	 		= str_replace("shiggymod", "", $paramTab);
+		$oRenderedMod 		= '';
+		$oModToRender 		= '';
+		if(strpos($paramTab,'--')){
+			$oModSplit		= explode("--", $oModName);
+			$oModToRender 	= JModuleHelper::getModule( $oModSplit[0], $oModSplit[1] );
+			}else
+				$oModToRender = JModuleHelper::getModule($oModName);
+		$oRenderedMod = JModuleHelper::renderModule($oModToRender);
+		return $oRenderedMod;
+		}
+		
+	function renderTagsContent($paramTab,$paramWhen){
+		$oRenderedTags 	= '';
+		$tabname 	  	= str_replace("tags", "", $paramTab);
+		$oModuleTags 	= hwd_vs_tools::getModuleTags($tabname,$paramWhen);
+		$oRenderedTags 	= hwd_vs_tools::concatenateWords($oModuleTags);
+		$oRenderedTags 	= hwd_vs_tools::filterWords($oRenderedTags);
+		$oRenderedTags 	= hwd_vs_tools::parseTagsString($oRenderedTags,50);
+		$oRenderedTags 	= hwd_vs_tools::outputWords($oRenderedTags,10,25);
+		return $oRenderedTags;
+		}	
+		
+	function renderSqlContent($paramTab,$paramWhen){
+		global $Itemid, $smartyvs;
+		$oHtml = '';
+		$oRows;
+		if(strpos($paramTab,'cent'))
+			$oRows = hwd_vs_tools::getMostRecent($paramWhen);
+			else
+				$oRows = hwd_vs_tools::getMostCommented($paramWhen);
+		$oRowsObject = hwd_vs_tools::generateVideoListFromSql($oRows, null, '100');
+		foreach($oRowsObject as $video){
+					$smartyvs->assign("data", $video);
+					$smartyvs->assign("modtoload", $paramTab);
+					$oHtml .= $smartyvs->fetch('video_list_small_viewed.tpl');
+				}
+		 return $oHtml;
+		}	
+		
+	function renderTabXmlContent($paramTab,$paramWhen){
+		global $Itemid, $smartyvs;
+		$oHtml = '';
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xmlparse.class.php');
+			$parser = new HWDVS_xmlParse();
+			$oVideoListObjects 	= $parser->parse($paramTab.'_'.$paramWhen);
+			$oVideoList  		= hwd_vs_tools::generateVideoListFromXml($oVideoListObjects,'100');
+			foreach($oVideoList as $video){
+					$smartyvs->assign("data", $video);
+					$smartyvs->assign("modtoload", $paramTab);
+					$oHtml .= $smartyvs->fetch('video_list_small_viewed.tpl');
+				}
+		 return $oHtml;	
+		}
+		
+		
+    
     /**
      * Generates the array of information for a standard group list from sql queries
      *
@@ -2783,7 +2870,7 @@ $app = & JFactory::getApplication();
 			$bmhtml = null;
 				//facebook
 				if ($c->sb_facebook == "on") {
-				$temphtml = '<div id="button-1" class="btn">
+				$temphtml = '<div id="button-1" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.facebook.com/share.php?u='. $sburl .'&amp;t='. $sbtitle .'" title="Facebook!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/facebook.png" alt="Facebook!" title="Facebook!" class="sblinks" /></a>
 								</div>
@@ -2791,7 +2878,7 @@ $app = & JFactory::getApplication();
 				$bmhtml = $bmhtml . $temphtml ."\n";
 				}
 
-				$temphtml = '<div id="button-2" class="btn">
+				$temphtml = '<div id="button-2" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://twitter.com/home?status='. $sburl .'&amp;title='. $sbtitle .'" title="Twitter" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/twitter.png" alt="Twitter" title="Twitter" class="sblinks" /></a>
 								</div>
@@ -2800,7 +2887,7 @@ $app = & JFactory::getApplication();
 
 				//digg
 				if ($c->sb_digg == "on") {
-				$temphtml = '<div id="button-3" class="btn">
+				$temphtml = '<div id="button-3" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://digg.com/submit?phase=2&amp;url='. $sburl .'&amp;title='. $sbtitle .'" title="Digg!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/digg.png" alt="Digg!" title="Digg!" class="sblinks" /></a>
 								</div>
@@ -2809,7 +2896,7 @@ $app = & JFactory::getApplication();
 				}
 				//reddit
 				if ($c->sb_reddit == "on") {
-				$temphtml = '<div id="button-4" class="btn">
+				$temphtml = '<div id="button-4" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://reddit.com/submit?url='. $sburl .'&amp;title='. $sbtitle .'" title="Reddit!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/reddit.png" alt="Reddit!" title="Reddit!" class="sblinks" /></a>
 								</div>
@@ -2818,7 +2905,7 @@ $app = & JFactory::getApplication();
 				}
 				//delicious
 				if ($c->sb_delicious == "on") {
-				$temphtml = '<div id="button-5" class="btn">
+				$temphtml = '<div id="button-5" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://del.icio.us/post?url='. $sburl .'&amp;title='. $sbtitle .'" title="Del.icio.us!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/delicious.png" alt="Del.icio.us!" title="Del.icio.us!" class="sblinks" /></a>
 								</div>
@@ -2827,7 +2914,7 @@ $app = & JFactory::getApplication();
 				}
 				//google
 				if ($c->sb_google == "on") {
-				$temphtml = '<div id="button-6" class="btn">
+				$temphtml = '<div id="button-6" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.google.com/bookmarks/mark?op=add&amp;bkmk='. $sburl .'&amp;title='. $sbtitle .'" title="Google!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/google.png" alt="Google!" title="Google!" class="sblinks" /></a>
 								</div>
@@ -2836,7 +2923,7 @@ $app = & JFactory::getApplication();
 				}
 				//live
 				if ($c->sb_live == "on") {
-				$temphtml = '<div id="button-7" class="btn">
+				$temphtml = '<div id="button-7" class="btun">
 							  <div>
 								<a rel="nofollow" href="https://favorites.live.com/quickadd.aspx?marklet=1&amp;mkt=en-us&amp;top=0&amp;url='. $sburl .'&amp;title='. $sbtitle .'" title="Live!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/live.png" alt="Live!" title="Live!" class="sblinks" /></a>
 								</div>
@@ -2845,7 +2932,7 @@ $app = & JFactory::getApplication();
 				}
 				//slashdot
 				if ($c->sb_slashdot == "on") {
-				$temphtml = '<div id="button-8" class="btn">
+				$temphtml = '<div id="button-8" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://slashdot.org/bookmark.pl?url='. $sburl .'&amp;title='. $sbtitle .'" title="Slashdot!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/slashdot.png" alt="Slashdot!" title="Slashdot!" class="sblinks" /></a>
 								</div>
@@ -2854,7 +2941,7 @@ $app = & JFactory::getApplication();
 				}
 				//netscape
 				if ($c->sb_netscape == "on") {
-				$temphtml = '<div id="button-9" class="btn">
+				$temphtml = '<div id="button-9" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.netscape.com/submit/?U='. $sburl .'&amp;T='. $sbtitle .'" title="Netscape!" target="_blank"><img height="18" width="18" src="'.URL_HWDVS_IMAGES.'socialbookmarker/netscape.png" alt="Netscape!" title="Netscape!" class="sblinks" /></a>
 								</div>
@@ -2863,7 +2950,7 @@ $app = & JFactory::getApplication();
 				}
 				//technorati
 				if ($c->sb_technorati == "on") {
-				$temphtml = '<div id="button-10" class="btn">
+				$temphtml = '<div id="button-10" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://technorati.com/faves/?add='. $sburl .'" title="Technorati!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/technorati.png" alt="Technorati!" title="Technorati!" class="sblinks" /></a>
 								</div>
@@ -2872,7 +2959,7 @@ $app = & JFactory::getApplication();
 				}
 				//stumbleupon
 				if ($c->sb_stumbleupon == "on") {
-				$temphtml = '<div id="button-11" class="btn">
+				$temphtml = '<div id="button-11" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.stumbleupon.com/submit?url='. $sburl .'&amp;title='. $sbtitle .'" title="StumbleUpon!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/stumbleupon.png" alt="StumbleUpon!" title="StumbleUpon!" class="sblinks" /></a>
 								</div>
@@ -2881,7 +2968,7 @@ $app = & JFactory::getApplication();
 				}
 				//spurl
 				if ($c->sb_spurl == "on") {
-				$temphtml = '<div id="button-12" class="btn">
+				$temphtml = '<div id="button-12" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.spurl.net/spurl.php?url='. $sburl .'&amp;title='. $sbtitle .'" title="Spurl!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/spurl.png" alt="Spurl!" title="Spurl!" class="sblinks" /></a>
 								</div>
@@ -2890,7 +2977,7 @@ $app = & JFactory::getApplication();
 				}
 				//wists
 				if ($c->sb_wists == "on") {
-				$temphtml = '<div id="button-13" class="btn">
+				$temphtml = '<div id="button-13" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://wists.com/r.php?r='. $sburl .'&amp;title='. $sbtitle .'" title="Wists!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/wists.png" alt="Wists!" title="Wists!" class="sblinks" /></a>
 								</div>
@@ -2899,7 +2986,7 @@ $app = & JFactory::getApplication();
 				}
 				//simpy
 				if ($c->sb_simpy == "on") {
-				$temphtml = '<div id="button-14" class="btn">
+				$temphtml = '<div id="button-14" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.simpy.com/simpy/LinkAdd.do?href='. $sburl .'&amp;title='. $sbtitle .'" title="Simpy!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/simpy.png" alt="Simpy!" title="Simpy!" class="sblinks" /></a>
 								</div>
@@ -2909,7 +2996,7 @@ $app = & JFactory::getApplication();
 				}
 				//newsvine
 				if ($c->sb_newsvine == "on") {
-				$temphtml = '<div id="button-15" class="btn">
+				$temphtml = '<div id="button-15" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.newsvine.com/_tools/seed&amp;save?u='. $sburl .'&amp;h='. $sbtitle .'" title="Newsvine!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/newsvine.png" alt="Newsvine!" title="Newsvine!" class="sblinks" /></a>
 								</div>
@@ -2918,7 +3005,7 @@ $app = & JFactory::getApplication();
 				}
 				//blinklist
 				if ($c->sb_blinklist == "on") {
-				$temphtml = '<div id="button-16" class="btn">
+				$temphtml = '<div id="button-16" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.blinklist.com/index.php?Action=Blink/addblink.php&amp;Url='. $sburl .'&amp;Title='. $sbtitle .'" title="Blinklist!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blinklist.png" alt="Blinklist!" title="Blinklist!" class="sblinks" /></a>
 								</div>
@@ -2927,7 +3014,7 @@ $app = & JFactory::getApplication();
 				}
 				//furl
 				if ($c->sb_furl == "on") {
-				$temphtml = '<div id="button-17" class="btn">
+				$temphtml = '<div id="button-17" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.furl.net/storeIt.jsp?u='. $sburl .'&amp;t='. $sbtitle .'" title="Furl!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/furl.png" alt="Furl!" title="Furl!" class="sblinks" /></a>
 								</div>
@@ -2936,7 +3023,7 @@ $app = & JFactory::getApplication();
 				}
 				//fark
 				if ($c->sb_fark == "on") {
-				$temphtml = '<div id="button-18" class="btn">
+				$temphtml = '<div id="button-18" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://cgi.fark.com/cgi/fark/submit.pl?new_url='. $sburl .'" title="Fark!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/fark.png" alt="Fark!" title="Fark!" class="sblinks" /></a>
 								</div>
@@ -2945,7 +3032,7 @@ $app = & JFactory::getApplication();
 				}
 				//blogmarks
 				if ($c->sb_blogmarks == "on") {
-				$temphtml = '<div id="button-19" class="btn">
+				$temphtml = '<div id="button-19" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://blogmarks.net/my/new.php?mini=1&amp;simple=1&amp;url='. $sburl .'&amp;title='. $sbtitle .'" title="Blogmarks!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blogmarks.png" alt="Blogmarks!" title="Blogmarks!" class="sblinks" /></a>
 								</div>
@@ -2954,7 +3041,7 @@ $app = & JFactory::getApplication();
 				}
 				//yahoo
 				if ($c->sb_yahoo == "on") {
-				$temphtml = '<div id="button-20" class="btn">
+				$temphtml = '<div id="button-20" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://myweb2.search.yahoo.com/myresults/bookmarklet?u='. $sburl .'&amp;t='. $sbtitle .'" title="Yahoo!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/yahoo.png" alt="Yahoo!" title="Yahoo!" class="sblinks" /></a>
 								</div>
@@ -2963,7 +3050,7 @@ $app = & JFactory::getApplication();
 				}
 				//smarking
 				if ($c->sb_smarking == "on") {
-				$temphtml = '<div id="button-21" class="btn">
+				$temphtml = '<div id="button-21" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://smarking.com/editbookmark/?url='. $sburl .'" title="Smarking!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/smarking.png" alt="Smarking!" title="Smarking!" class="sblinks" /></a>
 								</div>
@@ -2972,7 +3059,7 @@ $app = & JFactory::getApplication();
 				}
 				//netvouz
 				if ($c->sb_netvouz == "on") {
-				$temphtml = '<div id="button-22" class="btn">
+				$temphtml = '<div id="button-22" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.netvouz.com/action/submitBookmark?url='. $sburl .'&amp;title='. $sbtitle .'" title="Smarking!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/netvouz.png" alt="Netvouz!" title="Netvouz!" class="sblinks" /></a>
 								</div>
@@ -2981,7 +3068,7 @@ $app = & JFactory::getApplication();
 				}
 				//shadows
 				if ($c->sb_shadows == "on") {
-				$temphtml = '<div id="button-23" class="btn">
+				$temphtml = '<div id="button-23" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.shadows.com/bookmark/saveLink.rails?page='. $sburl .'&amp;title='. $sbtitle .'" title="Shadows!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/shadows.png" alt="Shadows!" title="Shadows!" class="sblinks" /></a>
 								</div>
@@ -2990,7 +3077,7 @@ $app = & JFactory::getApplication();
 				}
 				//rawsugar
 				if ($c->sb_rawsugar == "on") {
-				$temphtml = '<div id="button-24" class="btn">
+				$temphtml = '<div id="button-24" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.rawsugar.com/tagger/?turl='. $sburl .'&amp;title='. $sbtitle .'" title="RawSugar!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/rawsugar.png" alt="RawSugar!" title="RawSugar!" class="sblinks" /></a>
 								</div>
@@ -2999,7 +3086,7 @@ $app = & JFactory::getApplication();
 				}
 				//magnolia
 				if ($c->sb_magnolia == "on") {
-				$temphtml = '<div id="button-25" class="btn">
+				$temphtml = '<div id="button-25" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://ma.gnolia.com/beta/bookmarklet/add?url='. $sburl .'&amp;title='. $sbtitle .'" title="Ma.gnolia!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/magnolia.png" alt="Ma.gnolia!" title="Ma.gnolia!" class="sblinks" /></a>
 								</div>
@@ -3008,7 +3095,7 @@ $app = & JFactory::getApplication();
 				}
 				//plugim
 				if ($c->sb_plugim == "on") {
-				$temphtml = '<div id="button-26" class="btn">
+				$temphtml = '<div id="button-26" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.plugim.com/submit?url='. $sburl .'&amp;title='. $sbtitle .'" title="PlugIM!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/plugim.png" alt="PlugIM!" title="PlugIM!" class="sblinks" /></a>
 								</div>
@@ -3017,7 +3104,7 @@ $app = & JFactory::getApplication();
 				}
 				//squidoo
 				if ($c->sb_squidoo == "on") {
-				$temphtml = '<div id="button-27" class="btn">
+				$temphtml = '<div id="button-27" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.squidoo.com/lensmaster/bookmark?'. $sburl .'" title="Squidoo!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/squidoo.png" alt="Squidoo!" title="Squidoo!" class="sblinks" /></a>
 								</div>
@@ -3026,7 +3113,7 @@ $app = & JFactory::getApplication();
 				}
 				//blogmemes
 				if ($c->sb_blogmemes == "on") {
-				$temphtml = '<div id="button-28" class="btn">
+				$temphtml = '<div id="button-28" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.blogmemes.net/post.php?url='. $sburl .'&amp;title='. $sbtitle .'" title="BlogMemes!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blogmemes.png" alt="BlogMemes!" title="BlogMemes!" class="sblinks" /></a>
 								</div>
@@ -3035,7 +3122,7 @@ $app = & JFactory::getApplication();
 				}
 				//feedmelinks
 				if ($c->sb_feedmelinks == "on") {
-				$temphtml = '<div id="button-29" class="btn">
+				$temphtml = '<div id="button-29" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://feedmelinks.com/categorize?from=toolbar&amp;op=submit&amp;url='. $sburl .'&amp;name='. $sbtitle .'" title="FeedMeLinks!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/feedmelinks.png" alt="FeedMeLinks!" title="FeedMeLinks!" class="sblinks" /></a>
 								</div>
@@ -3044,7 +3131,7 @@ $app = & JFactory::getApplication();
 				}
 				//blinkbits
 				if ($c->sb_blinkbits == "on") {
-				$temphtml = '<div id="button-30" class="btn">
+				$temphtml = '<div id="button-30" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.blinkbits.com/bookmarklets/save.php?v=1&amp;source_url='. $sburl .'&amp;title='. $sbtitle .'" title="BlinkBits!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/blinkbits.png" alt="BlinkBits!" title="BlinkBits!" class="sblinks" /></a>
 								</div>
@@ -3053,7 +3140,7 @@ $app = & JFactory::getApplication();
 				}
 				//tailrank
 				if ($c->sb_tailrank == "on") {
-				$temphtml = '<div id="button-31" class="btn">
+				$temphtml = '<div id="button-31" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://tailrank.com/share/?text=&amp;link_href='. $sburl .'&amp;title='. $sbtitle .'" title="Tailrank!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/tailrank.png" alt="Tailrank!" title="Tailrank!" class="sblinks" /></a>
 								</div>
@@ -3062,7 +3149,7 @@ $app = & JFactory::getApplication();
 				}
 				//linkagogo
 				if ($c->sb_linkagogo == "on") {
-				$temphtml = '<div id="button-32" class="btn">
+				$temphtml = '<div id="button-32" class="btun">
 							  <div>
 								<a rel="nofollow" href="http://www.linkagogo.com/go/AddNoPopup?url='. $sburl .'&amp;title='. $sbtitle .'" title="linkaGoGo!" target="_blank"><img src="'.URL_HWDVS_IMAGES.'socialbookmarker/linkagogo.png" alt="linkaGoGo!" title="linkaGoGo!" class="sblinks" /></a>
 								</div>
@@ -3091,7 +3178,6 @@ $app = & JFactory::getApplication();
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.genre as genre FROM #__hwdvidsvideos as b'; 
 		$query .= ' INNER JOIN #__hwdvidsgenres AS a ON a.Id = b.genre_id';
-		$query .= ' LIMIT 0,1000';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$wordList = $db->loadResultArray();
@@ -3456,25 +3542,81 @@ $app = & JFactory::getApplication();
 		for($i = 0; $i < sizeof($wordList); ++$i){
 			$wordList[$i] =constant($wordList[$i]).',';
 		} 
+		
 		return $wordList;
     }
     
-    function getMostCommented (){		
-	global $mainframe, $limitstart, $limit, $hwdvs_selectv, $hwdvs_joinv;		
-	$hwdvs_selectv =' video.*,count(comments.userid) AS cnt';	
-	$db = & JFactory::getDBO();
-	$where = ' WHERE video.published = 1';
-	$where .= ' AND video.approved = "yes" GROUP BY comments.object_id';
-	$hwdvs_selectv .=', comments.comment';
-	$query = 'SELECT'.$hwdvs_selectv
-	. ' FROM #__hwdvidsvideos AS video'
-	. ' JOIN #__jcomments AS comments ON comments.object_id = video.id'
-	. $where
-	. ' ORDER BY cnt DESC'
-	. ' LIMIT 0, 20';
-	$db->SetQuery($query);
-	$rowscomm = $db->loadObjectList();
-	return $rowscomm;
+    function getDateRanges($paramDateRange){
+		$oDateRangeFilter = '';
+		switch($paramDateRange){
+			case 'thismonth':
+						$oDateRangeFilter =' AND YEAR(video.date_uploaded) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
+											AND MONTH(video.date_uploaded) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)';
+						break;
+			case 'thisweek':
+						$oDateRangeFilter =  ' AND video.date_uploaded >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY
+											 AND video.date_uploaded < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY';
+						break;
+			case 'today':
+						$oDateRangeFilter =  ' AND video.date_uploaded > DATE_SUB(NOW(), INTERVAL 1 DAY)';
+						break;									
+			case 'yesterday':
+						$oDateRangeFilter =  ' AND video.date_uploaded > DATE_SUB(NOW(), INTERVAL 2 DAY)';
+						break;
+			case 'twodaysago':
+						$oDateRangeFilter =  ' AND video.date_uploaded > DATE_SUB(NOW(), INTERVAL 3 DAY)';
+						break;			
+			}
+			
+			return $oDateRangeFilter;
+		}
+    
+    function getMostCommented ($paramDateRange){	
+		global $mainframe, $limitstart, $limit, $hwdvs_selectv, $hwdvs_joinv;		
+		$hwdvs_selectv =' video.*,count(comments.userid) AS cnt';	
+		$db = & JFactory::getDBO();
+		$where = ' WHERE video.published = 1';
+		$where .= ' AND video.approved = "yes" GROUP BY comments.object_id';
+		$where .= hwd_vs_tools::getDateRanges($paramDateRange);
+		$hwdvs_selectv .=', comments.comment';
+		$query = 'SELECT'.$hwdvs_selectv
+		. ' FROM #__hwdvidsvideos AS video'
+		. ' JOIN #__jcomments AS comments ON comments.object_id = video.id'
+		. $where
+		. ' ORDER BY cnt DESC'
+		. ' LIMIT 0, 20';
+		
+		$db->SetQuery($query);
+		$rowscomm = $db->loadObjectList();
+		return $rowscomm;
+	
+	}
+	
+	function getMostRecent ($paramDateRange){		
+		$db = & JFactory::getDBO();
+		global $mainframe, $limitstart, $limit;		
+		$oCategory = ' AND video.category_id=';
+		if($paramDateRange == 'songtutorial')
+			$oCategory .='1';
+			else if($paramDateRange == 'theory')
+				$oCategory .='3';
+					else
+						$oCategory .='2';
+        $where = ' WHERE video.approved = "yes"';
+		$where.= ' AND video.published = 1';
+		$where.= ' AND video.public_private = "public"';
+		$where .= $oCategory;
+		$order = ' ORDER BY video.date_uploaded DESC';
+		$limit = ' LIMIT 0,20';
+		$query = 'SELECT video.*'
+                . ' FROM #__hwdvidsvideos AS video'
+                . $where
+                . $order
+                . $limit
+                ;
+		$db->SetQuery($query);
+		$rowsrecent = $db->loadObjectList();
+		return $rowsrecent;
 	
 	}
 	
@@ -3491,6 +3633,7 @@ $app = & JFactory::getApplication();
 		$words = '';
 		$words = implode(' ',$dataObj);
 		$words = strip_tags($words);
+		
 		return $words;		
 	}
 	
@@ -3520,6 +3663,7 @@ $app = & JFactory::getApplication();
 				$input .= ' '.preg_replace('/[^\p{L}\s]/', '', $chunk);
 			}
 		}
+		
 		return $input;
 	}
 	
@@ -3556,6 +3700,7 @@ $app = & JFactory::getApplication();
 		}
 		
 		$finalList = array_unique($finalList);
+		
 		return $finalList;
 	}
 	
@@ -3564,12 +3709,11 @@ $app = & JFactory::getApplication();
 		global $Itemid;
 		$biggest = explode('~',$array[0]);
 		$smallest = explode('~',$array[count($array)-1]);
-
+		$code = '';
 		$biggest = $biggest[0];
 		$smallest = $smallest[0];
 		$difference = $biggest - $smallest;
 		$fontDifference = $maxSize-$minSize;
-		$code = '<ul>';
 		foreach ($array as $word)
 		{			
 			$details = explode('~',$word);
@@ -3588,14 +3732,11 @@ $app = & JFactory::getApplication();
 					{
 						$url = $url."&pattern=".$details[1];
 
-					}
-				
-					
+					}		
 			//$url = JRoute::_("index.php?searchword=".$details[1]."&ordering=newest&searchphrase=all&Itemid=29&option=com_search&lang=en");
 			$code.= '<li><a href="'.$url.'"><span class="fleft">'.$details[1].'</span><span class="hits">'.floor($details[0]).'</span></a></li>';
 			}
 		}
-		$code .= '</ul>';
 		return $code;
 
 	}

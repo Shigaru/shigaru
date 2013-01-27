@@ -857,7 +857,7 @@ DEFINE("_HWDVIDS_RATE_5STAR","Excellent");
 
 DEFINE("_HWDVIDS_VIEWED","Viewed");
 DEFINE("_HWDVIDS_POPULAR","Popular");
-DEFINE("_HWDVIDS_FAVOURED","Favoured");
+DEFINE("_HWDVIDS_FAVOURED","Favourited");
 
 DEFINE("_HWDVIDS_NVPA","No videos are pending approval.");
 DEFINE("_HWDVIDS_ALERT_LOG2ADDC","You must login to create a channel.");
@@ -922,6 +922,7 @@ DEFINE("_HWDVIDS_SHIGARU_TWITTER","What are we tweeting ...");
 DEFINE("_HWDVIDS_SHIGARU_OURFACES","Shigaru Community (and growing!)");
 DEFINE("_HWDVIDS_SHIGARU_TOTALCATEGORIZED"," (categorized by the Shigaru community)");
 DEFINE("_HWDVIDS_MOST_RECENT","Recent");
+DEFINE("_HWDVIDS_MOST_RATED","Rated");
 DEFINE("_HWDVIDS_MOST_RATED","Rated");
 DEFINE("_HWDVIDS_MOST_COMMENTED","Commented");
 DEFINE("_HWDVIDS_FEATURED_VIDEOS","Featured Videos");

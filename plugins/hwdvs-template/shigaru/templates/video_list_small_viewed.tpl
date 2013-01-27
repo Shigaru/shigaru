@@ -14,8 +14,20 @@
 	</div>
 	<div class="plays">
 		<div class="fright">
-			<span>{$data->views}</span>
-			<span class="fright playstext">{$smarty.const._HWDVIDS_INFO_PLAYS}</span>
+			{if $modtoload eq mostviewed}
+				<span>{$data->views}</span>
+				<span class="fright playstext">{$smarty.const._HWDVIDS_INFO_PLAYS}</span>
+			{elseif $modtoload eq recentvideoslist}
+				<span>{$data->upload_date}</span>
+			{elseif $modtoload eq mostpopular}
+				<span>{$data->rating}</span>
+			{elseif $modtoload eq mostfavoured}
+				<span>{$data->numfavoured}</span>
+				<span class="fright playstext">{$smarty.const._HWDVIDS_INFO_TIMESFAV}</span>
+			{elseif $modtoload eq mostcommented}
+				<span>{$data->comments}</span>
+				<span class="fright playstext">{$smarty.const._HWDVIDS_INFO_NOCOMM}</span>
+			{/if}	
 		</div>
 	</div>
 </li>
