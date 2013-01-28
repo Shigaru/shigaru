@@ -36,9 +36,6 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 	<input type="hidden" name="searchphrase" value="<?php echo $params->get("searchphrase")?>"/>
 	<input type="hidden" name="limit" value="<?php echo $limit; ?>" />
 	<input type="hidden" name="order" value="<?php echo $params->get("ordering")?>" />
-	<input type="hidden" name="task" value="displayresults" />
-	<input type="hidden" name="Itemid" value="28" />
-	<input type="hidden" name="option" value="com_hwdvideoshare" />
 	<?php if (($websearch || $blogsearch || $imagesearch || $videosearch) && $api): ?>
 		<div class="search_options">
 			<label style="float: left; margin-right: 8px">

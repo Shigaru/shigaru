@@ -3600,8 +3600,10 @@ $app = & JFactory::getApplication();
 			$oCategory .='1';
 			else if($paramDateRange == 'theory')
 				$oCategory .='3';
-					else
+					else if($paramDateRange == 'watchmeplay')
 						$oCategory .='2';
+							else
+								$oCategory = '';
         $where = ' WHERE video.approved = "yes"';
 		$where.= ' AND video.published = 1';
 		$where.= ' AND video.public_private = "public"';

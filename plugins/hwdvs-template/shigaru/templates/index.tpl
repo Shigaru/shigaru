@@ -50,7 +50,8 @@
 								<div id="tabs-2" class="tab_wrapper ajaxload">
 									<div class="tabmodcontrols w100 tcenter mbot6">
 										<div class="btn-group">
-										  <a class="btn date active" href="#songtutorial">Song tutorial</a>
+										  <a class="btn date active" href="#allcategories">All</a>
+										  <a class="btn date" href="#songtutorial">Song tutorials</a>
 										  <a class="btn date" href="#theory">Theory</a>
 										  <a class="btn date" href="#watchmeplay">Watch me play</a>
 										</div>
@@ -320,5 +321,6 @@
 </div>	
 <!-- {$zncbmembers} -->			
 {include file='header.tpl'}
-<div style="clear:both;"></div>
+<div class="clear"></div>
+<div id="communitytooltip" class="dispnon"></div>
 <!--{include file='footer.tpl'}-->

@@ -111,8 +111,10 @@ jQuery.fn.liveSearch = function (conf) {
 			// so it resizes based on the correct input element
 			jQuery(window).unbind('resize', repositionLiveSearch);
 			jQuery(window).bind('resize', repositionLiveSearch);
-			jQuery('.roksearch_header .button').click(function(){
-					jQuery('#rokajaxsearch').submit();
+			jQuery('.roksearch_header a.btn,.roksearch_header a.btn span').click(function(e){
+					jQuery('form#rokajaxsearch').submit();
+					return false;
+					e.stopPropagation();
 				});
 			liveSearch.slideDown(config.duration, function() {
 				//jQuery(this).jScrollPane({showArrows:true});

@@ -15,9 +15,9 @@
 				{if $totalvideos gt 0}
 					<div class="roksearch_header png">
 							<span class="fleft f120 fontbold fontblack pad6">{$totalvideos} Results </span>
-							<a href="#" class="button fright pad6" title="CLick on this link to view all search results">
-								<span class="icon-eye-open pleftl0"></span>
-								View all results
+							<a href="#" class="btn fright pad6" title="CLick on this link to view all search results">
+								<span class="icon-eye-open"></span>
+								<span class="pad4">View all results</span>
 							</a>
 							<div class="clear"></div>
 					</div>
@@ -35,9 +35,9 @@
 				{if $totalvideos gt 0}	
 					<div class="roksearch_header png">
 							<span class="fleft f120 fontbold fontblack pad6">{$totalvideos} Results </span>
-							<a href="#" class="button fright pad6" title="CLick on this link to view all search results">
-								<span class="icon-eye-open pleftl0"></span>
-								View all results
+							<a href="#" class="btn fright pad6" title="CLick on this link to view all search results">
+								<span class="icon-eye-open"></span>
+								<span class="pad4">View all results</span>
 							</a>
 							<div class="clear"></div>
 					</div>
