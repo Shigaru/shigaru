@@ -903,6 +903,11 @@ DEFINE("_HWDVIDS_C_LIKED","%s's recently liked videos");
 DEFINE("_HWDVIDS_C_DISLIKED","%s's recently disliked videos");
 DEFINE("_HWDVIDS_C_GROUPS","%s's groups");
 DEFINE("_HWDVIDS_C_PLAYLISTS","%s's playlists");
+DEFINE("_HWDVIDS_T_PLAYLISTS","Add to Playlist");
+DEFINE("_HWDVIDS_T_LEARNLATER","Learn Later");
+DEFINE("_HWDVIDS_T_LIKE","Like");
+DEFINE("_HWDVIDS_T_LEARNLATERTIP","Click on this button to add this video to your Learn Later list");
+DEFINE("_HWDVIDS_T_LIKETIP","Click on this button if you liked this video!");
 DEFINE("_HWDVIDS_C_MEMBERSHIPS","%s's memberships");
 DEFINE("_HWDVIDS_C_SUBSCRIPTIONS","%s's subscriptions");
 DEFINE("_HWDVIDS_C_TITLE","%s's Channel");
@@ -931,7 +936,7 @@ DEFINE("_HWDVIDS_POP_TAGS","Popular <br />tags");
 DEFINE("_HWDVIDS_POP_GENRES","Popular <br />genres");
 DEFINE("_HWDVIDS_RANDOM_VIDEOS","Random Video");
 DEFINE("_HWDVIDS_INFO_SHARED","Shared by: ");
-DEFINE("_HWDVIDS_INFO_PLAYS","PLAYS");
+DEFINE("_HWDVIDS_INFO_PLAYS","Plays");
 DEFINE("_HWDVIDS_INFO_TIMESFAV","Times favourited");
 DEFINE("_HWDVIDS_INFO_NOCOMM","Comments");
 DEFINE("_HWDVIDS_SHIGARU_VIDEO","Video");
@@ -1261,6 +1266,8 @@ DEFINE("_HWDVIDS_SHIGARU_SHIGAR_CONFIRMATION","Confirmation");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_SAVECHANG","Save changes");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_WHYNOT","Why not");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_CLICKTOVOTE","Click to vote!");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_LISTENORIGINAL","Listen to the original!");
+DEFINE("_HWDVIDS_SHIGARU_SHIGAR_LISTENORIGINALTIP","Click below to hear the original track");
 
 
 

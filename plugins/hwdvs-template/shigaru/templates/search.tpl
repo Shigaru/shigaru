@@ -59,6 +59,9 @@ var oSearchParams = {
 </div>    
 
 </div> 
+<div class="w100 tcenter mbot20">
+				<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab" id="Player_83ce6e3d-0505-4d2f-8596-a37b6cbe31e4"  WIDTH="728px" HEIGHT="90px"> <PARAM NAME="movie" VALUE="http://ws.amazon.com/widgets/q?ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8009%2F83ce6e3d-0505-4d2f-8596-a37b6cbe31e4&Operation=GetDisplayTemplate"><PARAM NAME="quality" VALUE="high"><PARAM NAME="bgcolor" VALUE="#FFFFFF"><PARAM NAME="allowscriptaccess" VALUE="always"><embed src="http://ws.amazon.com/widgets/q?ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8009%2F83ce6e3d-0505-4d2f-8596-a37b6cbe31e4&Operation=GetDisplayTemplate" id="Player_83ce6e3d-0505-4d2f-8596-a37b6cbe31e4" quality="high" bgcolor="#ffffff" name="Player_83ce6e3d-0505-4d2f-8596-a37b6cbe31e4" allowscriptaccess="always"  type="application/x-shockwave-flash" align="middle" height="90px" width="728px"></embed></OBJECT> <NOSCRIPT><A HREF="http://ws.amazon.com/widgets/q?ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8009%2F83ce6e3d-0505-4d2f-8596-a37b6cbe31e4&Operation=NoScript">Amazon.com Widgets</A></NOSCRIPT>
+</div>
 <div class="contentpaneopen clear">
 		
 		<div id="resultfilters">

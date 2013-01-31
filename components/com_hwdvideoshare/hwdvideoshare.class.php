@@ -2675,34 +2675,36 @@ $app = & JFactory::getApplication();
 						. $where
 						);
 			$total = $db->loadResult();
-
-			if ($my->id)
-			{
-				$remfav = "<form name=\"favourite1\" style=\"display: inline;\" onsubmit=\"ajaxFunctionRFF();return false;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=removefavourite")."\" method=\"post\"><input type=\"image\" src=\"".URL_HWDVS_IMAGES."button_remove_fav.png\" alt=\""._HWDVIDS_DETAILS_REMFAV."\" /></form>";
-				$addfav = "<form name=\"favourite2\" style=\"display: inline;\" onsubmit=\"ajaxFunctionATF();return false;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addfavourite")."\" method=\"post\"><input type=\"image\" src=\"".URL_HWDVS_IMAGES."button_add_fav.png\" alt=\""._HWDVIDS_DETAILS_ADDFAV."\" /></form>";
+			$where = ' WHERE a.videoid = '.$videoid;
+			$db->SetQuery( 'SELECT count(*)'
+						. ' FROM #__hwdvidsfavorites AS a'
+						. $where
+						);
+			$timesfavoured = $db->loadResult();
+			
+			if ($my->id){
+				$remfav = "<form name=\"favourite1\" style=\"display: inline;\" onsubmit=\"ajaxFunctionRFF();return false;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=removefavourite")."\" method=\"post\"><a href=\"#\" title=\""._HWDVIDS_DETAILS_REMFAV."\" class=\"btn\">Favourite </a></form>";
+				$addfav = "<form name=\"favourite2\" style=\"display: inline;\" onsubmit=\"ajaxFunctionATF();return false;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addfavourite")."\" method=\"post\"><a href=\"#\" title=\""._HWDVIDS_DETAILS_ADDFAV."\" class=\"btn\">Favourite</a></form>";
 			}
-			else
-			{
-				$remfav = "<form name=\"favourite2\" style=\"display: inline;\" onsubmit=\"ajaxFunctionATF();return false;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addfavourite")."\" method=\"post\"><input type=\"image\" src=\"".URL_HWDVS_IMAGES."button_remove_fav.png\" alt=\""._HWDVIDS_DETAILS_REMFAV."\" /></form>";
-				$addfav = "<form name=\"favourite2\" style=\"display: inline;\" onsubmit=\"ajaxFunctionATF();return false;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addfavourite")."\" method=\"post\"><input type=\"image\" src=\"".URL_HWDVS_IMAGES."button_add_fav.png\" alt=\""._HWDVIDS_DETAILS_ADDFAV."\" /></form>";
-			}
-			hwd_vs_javascript::ajaxaddtofav($row, $remfav, $addfav);
-
+			
 			if ( $total>0 )
 			{
 				$code.= "<form name=\"favourite1\" style=\"display: inline;\" ".$ajaxremfav." action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=removefavourite")."\" method=\"post\">
 						 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
 						 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
-						 <input type=\"image\" src=\"".URL_HWDVS_IMAGES."button_remove_fav.png\" alt=\""._HWDVIDS_DETAILS_REMFAV."\" />
-						 </form>";
+						 <button type=\"submit\" title=\""._HWDVIDS_DETAILS_REMFAV."\" class=\"btn\"><i class=\"icon-heart fontred padright4\"></i>Favourite</button>
+						 </form>
+						 <div class=\"fleft timesactioned mtop8\"><i class=\"icon-angle-left\"></i><span>".$timesfavoured."</span></div>
+						 ";
 			}
 			else
 			{
-				$code.= "<form name=\"favourite2\" style=\"display: inline;\" ".$ajaxaddfav." action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addfavourite")."\" method=\"post\">
+				$code.= "<form name=\"favourite2\" class=\"fleft\" style=\"display: inline;\" ".$ajaxaddfav." action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addfavourite")."\" method=\"post\">
 						 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
 						 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
-						 <input type=\"image\" src=\"".URL_HWDVS_IMAGES."button_add_fav.png\" alt=\""._HWDVIDS_DETAILS_ADDFAV."\" />
-						 </form>";
+						 <button type=\"submit\" title=\""._HWDVIDS_DETAILS_ADDFAV."\" class=\"btn\"/><i class=\"icon-heart-empty padright4\"></i>Favourite</button>
+						 </form>
+						 <div class=\"fleft timesactioned mtop8\"><i class=\"icon-angle-left\"></i><i class=\"icon-caret-left\"></i><span>".$timesfavoured."</span></div>";
 			}
 
 			$code = "<div id=\"addremfav\" style=\"display:inline;\">$code</div>";
@@ -2769,17 +2771,62 @@ $app = & JFactory::getApplication();
 		$code = null;
 		if ($c->showrpmb == "1")
 		{
-			hwd_vs_javascript::ajaxreportmedia($row);
-
-			// setup ajax tags
-			$ajaxrep = "onsubmit=\"ajaxFunctionRV();return false;\"";
-
-			$code.= "<form name=\"report\" style=\"display: inline;\" ".$ajaxrep." action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
+			$code.= "<form name=\"report\" style=\"display: inline;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
 					 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
 					 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
-					 <input type=\"image\" src=\"".URL_HWDVS_IMAGES."button_report.png\" alt=\""._HWDVIDS_DETAILS_FLAGVID."\" id=\"reportvidbutton\" class=\"reportvidbutton\"/>
+					 <button type=\"submit\" title=\""._HWDVIDS_DETAILS_FLAGVID."\" id=\"reportvidbutton\" class=\"btn\"><i class=\"icon-flag padright4\"></i>Flag</button>
 					 </form>";
 		}
+		return $code;
+    }
+    
+    /**
+     * Generates the video Report Media button
+     *
+     * @param array  $row  the video sql data
+     * @return       $code
+     */
+	function generateLikeVideoButton($row){
+		global $hwdvsItemid, $smartyvs;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+		$videoid = $row->id;
+		$where = ' WHERE a.videoid = '.$videoid;
+			$db->SetQuery( 'SELECT count(*)'
+						. ' FROM #__hwdvidsfavorites AS a'
+						. $where
+						);
+		$timesfavoured = $db->loadResult();
+		
+		$code.= "<form class=\"fleft\" name=\"report\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
+					 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
+					 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
+					 <button type=\"submit\" title=\""._HWDVIDS_T_LIKETIP."\" id=\"reportvidbutton\" class=\"btn\"><i class=\"icon-thumbs-up padright4\"></i>"._HWDVIDS_T_LIKE."</button>
+					 </form>
+					 <div class=\"fleft timesactioned mtop8\"><i class=\"icon-angle-left\"></i><i class=\"icon-caret-left\"></i><span>".$timesfavoured."</span></div>";
+		return $code;
+    }
+    
+     /**
+     * Generates the video Report Media button
+     *
+     * @param array  $row  the video sql data
+     * @return       $code
+     */
+	function generateLearnLaterButton($row)
+	{
+		global $hwdvsItemid, $smartyvs;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+
+		$code = null;
+		$code.= "<form name=\"report\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
+					 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
+					 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
+					 <button type=\"submit\" title=\""._HWDVIDS_T_LEARNLATERTIP."\" id=\"reportvidbutton\" class=\"btn\"><i class=\"icon-time padright4\"></i>"._HWDVIDS_T_LEARNLATER."</button>
+					 </form>";
 		return $code;
     }
     /**
@@ -2796,8 +2843,6 @@ $app = & JFactory::getApplication();
 
 		$rand = rand();
 		$code = null;
-
-		hwd_vs_javascript::ajaxRate($row);
 
 		if ( $row->allow_ratings == 1 && $c->showrate == 1)
 		{
@@ -2821,25 +2866,8 @@ $app = & JFactory::getApplication();
 			           <li id="3" class="rate three"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=3").'" onclick="ajaxFunctionRate(3, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_3STAR.'" rel="nofollow">3</a></li>
 			           <li id="4" class="rate four"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=4").'" onclick="ajaxFunctionRate(4, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_4STAR.'" rel="nofollow">4</a></li>
 			           <li id="5" class="rate five"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=5").'" onclick="ajaxFunctionRate(5, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_5STAR.'" rel="nofollow">5</a></li>
-			         </ul><span> ('._HWDVIDS_SHIGARU_SHIGAR_CLICKTOVOTE.')</span>
-			       <div>'._HWDVIDS_INFO_RATED.'<strong> '.$rating1.'</strong> ('.$count.' '.$tense.')</div>
-			       <!--<script>
-                   $$(\'.rate\').each(function(element,i){
-                   element.addEvent(\'click\', function(){
-                   var myStyles = [\'0star\', \'1star\', \'2star\', \'3star\', \'4star\', \'5star\'];
-                   myStyles.each(function(myStyle){
-                   if(element.getParent().hasClass(myStyle)){
-                   element.getParent().removeClass(myStyle)
-                   }
-                   });
-                   myStyles.each(function(myStyle, index){
-                   if(index == element.id){
-                   element.getParent().toggleClass(myStyle);
-                   }
-                   });
-                   });
-                   });
-                   </script>-->
+			         </ul><span class="fleft"> ('._HWDVIDS_SHIGARU_SHIGAR_CLICKTOVOTE.')</span>
+			         <div class="clear">'._HWDVIDS_INFO_RATED.'<strong> '.$rating1.'</strong> ('.$count.' '.$tense.')</div>
 			       </div>';
 
 		}
@@ -3464,6 +3492,80 @@ $app = & JFactory::getApplication();
 		$storeResult->oAlbumId = $oAlbumId;
 		return $storeResult;
     }
+    
+    function cometLongPolling(){
+		$session =& JFactory::getSession();
+		define('MESSAGE_POLL_MICROSECONDS', 500000);
+		define('MESSAGE_TIMEOUT_SECONDS', 90);
+		define('MESSAGE_TIMEOUT_SECONDS_BUFFER', 5);
+		$oldCount = $session->get('songcount',null);
+		session_write_close();
+		set_time_limit(MESSAGE_TIMEOUT_SECONDS+MESSAGE_TIMEOUT_SECONDS_BUFFER);
+		$counter = MESSAGE_TIMEOUT_SECONDS;
+		$data = null;
+		while($counter > 0)
+		{
+			if($data = hwd_vs_tools::getNewCount($oldCount)){
+				break;
+			}else{
+				usleep(MESSAGE_POLL_MICROSECONDS);
+				$counter -= MESSAGE_POLL_MICROSECONDS / 1000000;
+			}
+		}
+		if(isset($data)){
+			return $data;
+			}else
+				return 0;
+		
+	}
+	
+	function getLastVideoAdded(){
+		$db = & JFactory::getDBO();
+		// get video count
+        $db->SetQuery( 'SELECT * 
+						FROM  #__hwdvidsvideos 
+						WHERE 1 
+						ORDER BY ID DESC 
+						LIMIT 0 , 1'
+					 );
+        $lastvideoadded = $db->loadObjectList();
+        echo $db->getErrorMsg();
+        return $lastvideoadded;
+		}
+	
+	function getTotalVideosCount(){
+		$db = & JFactory::getDBO();
+		// get video count
+        $db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 );
+        $total = $db->loadResult();
+        echo $db->getErrorMsg();
+        return $total;
+		}
+	
+	function getNewCount($paramOldCount){
+		$oCurrentTotal = hwd_vs_tools::getTotalVideosCount();
+		return hwd_vs_tools::setLastVideoCount($oCurrentTotal,$paramOldCount);
+		}
+		
+	function setLastVideoCount($paramTotal,$paramOldCount){
+		global $Itemid, $smartyvs;
+		$session = & JFactory::getSession();
+		if($paramOldCount == $paramTotal)
+			return null;
+			else{
+				session_start();
+				$session->set('songcount', $paramTotal);
+				$oVideoDetails = hwd_vs_tools::generateVideoListFromSql(hwd_vs_tools::getLastVideoAdded(), null, '100');
+				$oHtml ='';
+				foreach($oVideoDetails as $video){
+					$smartyvs->assign("data", $video);
+					$oHtml .= $smartyvs->fetch('notifications_newvideo.tpl');
+				}
+				return $oHtml;
+			}
+		}	
     /**
      * Generates list of most bands tags
      *
@@ -3591,6 +3693,8 @@ $app = & JFactory::getApplication();
 		return $rowscomm;
 	
 	}
+	
+	
 	
 	function getMostRecent ($paramDateRange){		
 		$db = & JFactory::getDBO();
@@ -4029,7 +4133,7 @@ $app = & JFactory::getApplication();
 		$code.="<form name=\"deletevideo\" style=\"display: inline;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=deletevideo&video_id=".$row->id)."\" method=\"post\">";
 		$code.="<input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />";
 		$code.="<input type=\"hidden\" name=\"url\" value=\"".$url."\" />";
-		$code.="<button type=\"submit\" value=\"Delete\" alt=\""._HWDVIDS_DETAILS_DELETEVID."\" onClick=\"return confirmDelete()\" ><span class=\"icon-trash\"></span>"._HWDVIDS_DETAILS_DELETEALL."</button>";
+		$code.="<button type=\"submit\" class=\"btn\" value=\"Delete\" alt=\""._HWDVIDS_DETAILS_DELETEVID."\" onClick=\"return confirmDelete()\" ><span class=\"icon-trash\"></span>"._HWDVIDS_DETAILS_DELETEALL."</button>";
 		$code.="</form>";
 
 		return $code;
@@ -4333,7 +4437,7 @@ $app = & JFactory::getApplication();
 		$code.="<input type=\"hidden\" name=\"user_id\" value=\"".$my->id."\" />";
 		$code.="<input type=\"hidden\" name=\"video_id\" value=\"".$row->id."\" />";
 		$code.="<input type=\"hidden\" name=\"url\" value=\"".$url."\" />";
-		$code.="<button type=\"submit\" value=\"Edit\" alt=\""._HWDVIDS_DETAILS_EDITVID."\" ><span class=\"icon-pencil\"></span>"._HWDVIDS_DETAILS_EDITALL."</button>";
+		$code.="<button type=\"submit\" value=\"Edit\" alt=\""._HWDVIDS_DETAILS_EDITVID."\" class=\"btn\"><span class=\"icon-pencil\"></span>"._HWDVIDS_DETAILS_EDITALL."</button>";
 		$code.="</form>";
 
 		return $code;
@@ -4467,11 +4571,6 @@ $app = & JFactory::getApplication();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 
-		hwd_vs_javascript::ajaxaddtoplaylist($row);
-
-		// setup ajax tags
-	    if ($c->ajaxa2gmeth == 1) { $ajaxa2g = "onsubmit=\"ajaxFunctionA2PL();return false;\""; } else { $ajaxa2g = null; }
-
 		$code = null;
 
 		$db->SetQuery( 'SELECT count(*)'
@@ -4490,10 +4589,10 @@ $app = & JFactory::getApplication();
 			$db->SetQuery($query);
 			$rows = $db->loadObjectList();
 
-			$code.= "<form name=\"add2playlist\" ".$ajaxa2g." action=\"".JURI::root( true )."/index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addvideotoplaylist\" method=\"post\">";
+			$code.= "<form name=\"add2playlist\" action=\"".JURI::root( true )."/index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addvideotoplaylist\" method=\"post\">";
 			$code.= "<input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />";
 			$code.= "<input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />";
-			$code.= "<select name=\"playlistid\" class=\"add2gselect\">";
+			$code.= "<select name=\"playlistid\" class=\"add2gselect dispnon\">";
 			$code.= "<option value=\"0\">Add to playlist</option>";
 				$n=count($rows);
 				for ($i=0, $n=count($rows); $i < $n; $i++) {
@@ -4501,7 +4600,7 @@ $app = & JFactory::getApplication();
 					$code.= "<option value =\"".$row->id."\">".$row->playlist_name."</option>";
 				}
 			$code.= "</select>&nbsp;";
-			$code.= "<input type=\"submit\" value=\""._HWDVIDS_BUTTON_ADD."\" id=\"add2groupbutton\" class=\"interactbutton\" />";
+			$code.= "<button type=\"submit\" id=\"add2groupbutton\" class=\"btn\"><i class=\"icon-list padright4\"></i>"._HWDVIDS_T_PLAYLISTS."</button>";
 			$code.= "</form>";
 
 		}
@@ -4896,8 +4995,10 @@ $app = & JFactory::getApplication();
 								s.external_url as extsongurl,
 								s.embedding as songurl,
 								b.label as band_name,
-								b.external_id as extbandid'
-								. ' FROM #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id'
+								b.external_id as extbandid,
+								u.label as album_name,
+								u.thumbnail as album_thumb'
+								. ' FROM #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id INNER JOIN #__hwdvidsalbums as u ON s.album_id=u.id'
 								. ' WHERE s.id = '.$song_id
 								);
 						
@@ -4974,13 +5075,13 @@ $app = & JFactory::getApplication();
 	  $songinfo = hwd_vs_tools::getSongInfo($song_id);			
 	  $oPlayer = '';
 	  if($songinfo[0]->source == 'grooveshark'){
-			  $oPlayer ='<object width="250" height="40" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+			  $oPlayer ='<object width="330" height="40" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
 							id="gsSong'.$songinfo[0]->extsongid.'" name="gsSong'.$songinfo[0]->extsongid.'">
 							<param name="movie" value="http://grooveshark.com/songWidget.swf" />
 							<param name="wmode" value="window" />
 							<param name="allowScriptAccess" value="always" />
 							<param name="flashvars" value="hostname=cowbell.grooveshark.com&songIDs='.$songinfo[0]->extsongid.'&style=metal&p=0" />
-							<object type="application/x-shockwave-flash" data="http://grooveshark.com/songWidget.swf" width="250" height="40">
+							<object type="application/x-shockwave-flash" data="http://grooveshark.com/songWidget.swf" width="330" height="40">
 								<param name="wmode" value="window" />
 								<param name="allowScriptAccess" value="always" />
 								<param name="flashvars" value="hostname=cowbell.grooveshark.com&songIDs='.$songinfo[0]->extsongid.'&style=metal&p=0" />
@@ -4988,8 +5089,17 @@ $app = & JFactory::getApplication();
 									<a href="http://grooveshark.com/artist/Barricada/'.$songinfo[0]->band_name.'" title="Barricada">'.$songinfo[0]->extbandid.'</a> on Grooveshark</span>
 							</object>
 						</object>';
-		}else if($songinfo[0]->source == 'rdio'){		
-					  $oPlayer ='<object width="250" height="40">
+		}else if($songinfo[0]->source == 'rdio'){	
+					  $oPlayer ='
+						<div class="clearfix bblack w330 fontwhite">
+							<img class="fleft" src="'.$songinfo[0]->album_thumb.'" alt="'.$songinfo[0]->album_name.'" height="100"/>
+							<div class="fleft w210 mleft12 mtop6 f90">
+								<div class="mbot6"><span class="fontbold">Song:</span> '.$songinfo[0]->songname.'</div>
+								<div class="mbot6"><span class="fontbold">Album:</span> '.$songinfo[0]->album_name.'</div>
+								<div><span class="fontbold">Band:</span> '.$songinfo[0]->band_name.'</div>
+							</div>	
+						</div>
+						<object width="330" height="40">
 							<param name="movie" value="'.$songinfo[0]->songurl.'"></param>
 							<param name="allowFullScreen" value="true"></param>
 							<param name="allowscriptaccess" value="always"></param>
@@ -4998,14 +5108,13 @@ $app = & JFactory::getApplication();
 									type="application/x-shockwave-flash" 
 									allowscriptaccess="always" 
 									allowfullscreen="true" 
-									width="250" 
+									width="330" 
 									height="40">
 							</embed>
 						</object>';			
 				}
 	   return $oPlayer;
 	 }
-
 
 	 function searchSong($query, $limit = 10, $format = "json") {
 		  $session = JFactory::getSession();
@@ -5099,6 +5208,8 @@ $app = & JFactory::getApplication();
 		$details->embedcode = hwd_vs_tools::generateEmbedCode($row);
 		$details->socialbmlinks = hwd_vs_tools::generateSocialBookmarks();
 		$details->duration = $row->video_length;
+		$details->learnlater = hwd_vs_tools::generateLearnLaterButton($row);
+		$details->likebutton = hwd_vs_tools::generateLikeVideoButton($row);
 		$details->ratingsystem = hwd_vs_tools::generateRatingSystem($row);
 		$details->favouritebutton = hwd_vs_tools::generateFavouriteButton($row);
 		$details->thumbnail = hwd_vs_tools::generateVideoThumbnailLink($row->id, $row->video_id, $row->video_type, $row->thumbnail, 0, $thumb_width, null, null, null, $hwdvsItemid, null, $tooltip, $lightbox, $row->video_length,$sideDetails->category);

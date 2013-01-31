@@ -121,7 +121,38 @@ jQuery.fn.liveSearch = function (conf) {
 			});
 			
 		};
-
+		
+		var totalCountPolling = function (){
+				jQuery.get('index.php?option=com_hwdvideoshare&lang=en&task=ajax_getvideocount&format=raw', function(data)
+				{
+					if(isNaN(parseInt(data))){
+						jQuery.blockUI({ 
+							message: data, 
+							fadeIn: 700, 
+							fadeOut: 700,  
+							showOverlay: false, 
+							centerY: false, 
+							css: { 
+								width: '350px', 
+								bottom: '10px', 
+								left: '', 
+								right: '10px', 
+								border: 'none', 
+								padding: '5px', 
+								backgroundColor: '#fff', 
+								'-webkit-border-radius': '10px', 
+								'-moz-border-radius': '10px', 
+								opacity: .6, 
+								color: '#ccc' 
+							} 
+						}); 
+					}
+					totalCountPolling();
+				});
+			}
+			
+		totalCountPolling();
+		
 		// Hides live-search for this input
 		var hideLiveSearch = function () {
 			liveSearch.slideUp(config.duration, function () {

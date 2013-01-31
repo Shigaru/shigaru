@@ -102,9 +102,18 @@ class modRokajaxsearchHelper {
 					 );
         $total = $db->loadResult();
         echo $db->getErrorMsg();
-        
+        modRokajaxsearchHelper::setLastVideoCount($total);
         return $total;
 		}
+	
+	
+	
+	
+	function setLastVideoCount($paramTotal){
+		$session = & JFactory::getSession();
+		$session->set('songcount', $paramTotal);
+		}
+	
 	
 	function getLatestSearchs() {
 		$db = & JFactory::getDBO();

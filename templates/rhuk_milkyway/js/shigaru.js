@@ -121,6 +121,9 @@ jQuery(document).ready(function($){
 			 }, function() {
 			oCommTooltip.hide().css( 'z-index', 9999 );
 		  });
+		oBindElem.parent().mouseout(function(){
+			oCommTooltip.hide().css( 'z-index', 9999 );
+			});  
 		}
 	}	
 })(jQuery);	

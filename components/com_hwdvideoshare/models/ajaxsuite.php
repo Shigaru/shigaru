@@ -227,6 +227,13 @@ class hwd_vs_ajax
 		print $code;
 		exit;
 		}
+	
+	function ajax_getVideoCount(){
+		header('Content-type: text/html; charset=utf-8');
+		$code = hwd_vs_tools::cometLongPolling();
+		print $code;
+		exit;
+		}
 		
 	function ajax_search()	{
 		header('Content-type: text/html; charset=utf-8');

@@ -924,9 +924,8 @@ class hwd_vs_html
 		$smartyvs->assign("thumburl", hwd_vs_tools::generateThumbnailURL( $row->id, $row->video_id, $row->video_type, $row->thumbnail ));
 		
 		$smartyvs->assign("showMoreButton", 1);
-
 		$smartyvs->display('video_player.tpl');
-
+		
 		return;
     }
     /**

@@ -172,6 +172,9 @@
 <div class="workarea_wrapper">
 <div class="workarea">
 	<div class="workarea_wrapper">
+			<div class="w100 tcenter mtop25">
+				<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab" id="Player_15f536d8-0473-4bed-afb3-001f3f827d48"  WIDTH="600px" HEIGHT="200px"> <PARAM NAME="movie" VALUE="http://ws.amazon.com/widgets/q?rt=tf_cw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8010%2F15f536d8-0473-4bed-afb3-001f3f827d48&Operation=GetDisplayTemplate"><PARAM NAME="quality" VALUE="high"><PARAM NAME="bgcolor" VALUE="#FFFFFF"><PARAM NAME="allowscriptaccess" VALUE="always"><embed src="http://ws.amazon.com/widgets/q?rt=tf_cw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8010%2F15f536d8-0473-4bed-afb3-001f3f827d48&Operation=GetDisplayTemplate" id="Player_15f536d8-0473-4bed-afb3-001f3f827d48" quality="high" bgcolor="#ffffff" name="Player_15f536d8-0473-4bed-afb3-001f3f827d48" allowscriptaccess="always"  type="application/x-shockwave-flash" align="middle" height="200px" width="600px"></embed></OBJECT> <NOSCRIPT><A HREF="http://ws.amazon.com/widgets/q?rt=tf_cw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8010%2F15f536d8-0473-4bed-afb3-001f3f827d48&Operation=NoScript">Amazon.com Widgets</A></NOSCRIPT>
+			</div>	
 		<div class="leftcolumn">
 			<div class="content_box video_activity">
 					<h3>Popular tags</h3>

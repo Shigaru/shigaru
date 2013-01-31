@@ -427,7 +427,8 @@ class hwd_vs_usrfunc
 
 		$msg = _HWDVIDS_ALERT_VIDEDITSAVED;
 		$app->enqueueMessage($msg);
-		$app->redirect( $referrer );
+		$oRedirect = JRoute::_('index.php?option=com_hwdvideoshare&Itemid=66&task=viewvideo&video_id='.$rowid);
+		$app->redirect( $oRedirect );
 	}
 
    /**

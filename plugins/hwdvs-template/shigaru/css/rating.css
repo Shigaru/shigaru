@@ -28,7 +28,7 @@
 	padding:0;
 	list-style:none;
 	position:relative;
-	background: url(../images/star-matrix.gif) no-repeat 0 0;float: left;
+	background: url(../images/star-matrix.png) no-repeat 0 0;float: left;
 }
 /* add these classes to the ul to effect the change to the correct number of stars */
 #hwdvids .rated0star {background-position:0 0}
@@ -66,7 +66,7 @@
 	height:16px;
 	overflow:hidden;
 	left:0;	
-	background: url(../images/star-matrix.gif) no-repeat 0 0
+	background: url(../images/star-matrix.png) no-repeat 0 0
 }
 #hwdvids ul.rating li.one a:hover {background-position:0 -176px;}
 #hwdvids ul.rating li.two a:hover {background-position:0 -192px;}
