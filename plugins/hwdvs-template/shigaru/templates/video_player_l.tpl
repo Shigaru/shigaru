@@ -40,15 +40,14 @@
 				<div class="clear"></div>
 				  </div>
 				  <div class="padding clear">
-					<div id="categoryinfo" class="{$catclass}">  
-						<div class="fleft mright6"><span class="fontbold">{$videoplayer->category}</span></div>
-						<div class="clear"></div>
-					</div>
 						<div class="clearfix">
 							<div class="fleft">
 							{$videoplayer->player}
 							</div>	
 							<div class="fleft bblack fontwhite" id="sideinfobox">
+								  <div id="categoryinfo" class="{$catclass}">  
+										<h4><span class="fontbold">{$videoplayer->category}</span></h4>
+								  </div>
 								  <div><span class="fontbold">{$smarty.const._HWDVIDS_INFO_PLAYS}</span><br /><b>{$videoplayer->views}</b></div>
 								  <div><span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_DATEADDED}</span><br />{$videoplayer->upload_date}</div>
 								  {if $showlevel}
@@ -67,7 +66,7 @@
 									<div class="fleft mright6 mleft6">{$videoplayer->likebutton}</div>
 									<div class="fleft mright6">{$videoplayer->learnlater}</div>
 									<div class="fleft mright6" id="addremfav">{$videoplayer->favourties}</div>
-									<div class="fleft mright6">{if $print_addtoplaylist}{$videoplayer->addtoplaylist}<div id="add2playlistresponse"></div>{/if}</div>
+									<div class="fleft mright6">{$videoplayer->addtoplaylist}</div>
 									<div class="fleft mbot6 mright6"><button id="btncomments" title="Click on this button to add/view comments about this video" class="btn fleft"><i class="icon-comments padright4"></i>Comments</button><div class="fleft timesactioned mtop8"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>{$videoplayer->commentsNum}</span></div></div>
 									<div class="fleft">{$videoplayer->reportmedia}</div>
 								</div>
@@ -83,7 +82,7 @@
 											<div class="fleft timesactioned mtop6"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>0</span></div>
 										</div>
 										<div class="fleft mright12">
-											<a class="fleft btn " href="#"><i class="icon-google-plus-sign  padright4"></i>+1</a>
+											<a target="_blank" class="fleft btn " href="https://plus.google.com/share?url={$currentUrl}"><i class="icon-google-plus-sign  padright4"></i>+1</a>
 											<div class="fleft timesactioned mtop6"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>0</span></div>
 										</div>
 										<div class="fleft mright12">

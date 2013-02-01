@@ -210,6 +210,8 @@ DEFINE("_HWDVIDS_META_YGRPM","Your group memberships");
 DEFINE("_HWDVIDS_META_FEATG","Featured groups");
 DEFINE("_HWDVIDS_META_EVIDS","Edit your video information");
 DEFINE("_HWDVIDS_META_NPL","Create a new playlist");
+DEFINE("_HWDVIDS_META_ADDPL","Add Playlist");
+DEFINE("_HWDVIDS_META_LOGTOPL","Please log in to use the Playlists");
 DEFINE("_HWDVIDS_META_EPL","Edit your playlist information");
 
 //lANGUAGES
@@ -534,8 +536,8 @@ DEFINE("_HWDVIDS_SELECT_NOVIDS","Number of Videos");
 DEFINE("_HWDVIDS_SELECT_NOSUBS","Number of Subcategories");
 DEFINE("_HWDVIDS_SELECT_UPLDADDTP","Add a video from an external website");
 DEFINE("_HWDVIDS_SELECT_UPLDMETH01","Upload a video from my computer");
-DEFINE("_HWDVIDS_SELECT_PUBLIC","Public Access");
-DEFINE("_HWDVIDS_SELECT_REG","Registered Users Only");
+DEFINE("_HWDVIDS_SELECT_PUBLIC","Public");
+DEFINE("_HWDVIDS_SELECT_REG","Private");
 DEFINE("_HWDVIDS_SELECT_ALLOWCOMMS","Allow Comments");
 DEFINE("_HWDVIDS_SELECT_DONTALLOWCOMMS","Don't Allow Comments");
 DEFINE("_HWDVIDS_SELECT_ALLOWEMB","Allow Embedding");

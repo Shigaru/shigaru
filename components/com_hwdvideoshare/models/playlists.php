@@ -98,7 +98,6 @@ class hwd_vs_playlists
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
-		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 
 		if (!$my->id) {
 			$smartyvs->assign("showconnectionbox", 1);
@@ -120,7 +119,7 @@ class hwd_vs_playlists
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$acl= & JFactory::getACL();
-$app = & JFactory::getApplication();
+		$app = & JFactory::getApplication();
 
 		$userid = $my->id;
 		$playlistid	= JRequest::getInt( 'playlistid', 0 );

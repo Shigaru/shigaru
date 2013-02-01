@@ -674,7 +674,6 @@
 		
 .videoplayer .video_activity_header ul li a{font-size: 110% !important;}		
 .videoactions{padding:10px; border-bottom:1px solid #ccc;margin:-24px 0 4px 0;}
-#sideinfobox{height:437px;width:156px;}
-#sideinfobox div{padding:6px;border-top: 1px solid #393939;
-border-bottom: 1px solid #1d1d1d;}
+#sideinfobox{height:437px;width:140px;margin-left:12px;}
+#sideinfobox div{padding:6px;border-top: 1px solid #ccc;}
     

@@ -4579,16 +4579,12 @@ $app = & JFactory::getApplication();
 							);
 		$total = $db->loadResult();
 		echo $db->getErrorMsg();
-
-		if ($total > 0) {
-
 			$smartyvs->assign("showAddButton", 1);
-			$smartyvs->assign("print_addtoplaylist", 1);
-
+		if($my->id){
 			$query = 'SELECT * FROM #__hwdvidsplaylists WHERE user_id = '.$my->id;
 			$db->SetQuery($query);
 			$rows = $db->loadObjectList();
-
+			$listItem = '';
 			$code.= "<form name=\"add2playlist\" action=\"".JURI::root( true )."/index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addvideotoplaylist\" method=\"post\">";
 			$code.= "<input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />";
 			$code.= "<input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />";
@@ -4597,13 +4593,39 @@ $app = & JFactory::getApplication();
 				$n=count($rows);
 				for ($i=0, $n=count($rows); $i < $n; $i++) {
 					$row = $rows[$i];
-					$code.= "<option value =\"".$row->id."\">".$row->playlist_name."</option>";
+					$listItem .= "<li id =\"".$row->id."\"><a href=\"#\"><i class=\"icon-list-ol padright4\"></i> ".$row->playlist_name."</a></li>";
 				}
 			$code.= "</select>&nbsp;";
-			$code.= "<button type=\"submit\" id=\"add2groupbutton\" class=\"btn\"><i class=\"icon-list padright4\"></i>"._HWDVIDS_T_PLAYLISTS."</button>";
+			}
+			$code.= "<div class=\"btn-group open\">
+						<button type=\"submit\" id=\"add2groupbutton\" class=\"btn\">
+							<i class=\"icon-list padright4\"></i>"._HWDVIDS_T_PLAYLISTS."
+						</button>
+						<ul class=\"dropdown-menu\">";
+						
+						if($my->id){
+							if($listItem != '')
+								$code.= $listItem."<li class=\"divider\"></li>";
+							$code.="<li><span class=\"mleft12 fontbold pad6\">"._HWDVIDS_META_NPL."</span>
+								<div id=\"newplaylist\" class=\"mleft6 steps\">
+									<form name=\"createplaylist\" action=\"\" class=\"mtop6\" method=\"post\">
+											<input name=\"playlist_name\" value=\"\" class=\"inputbox\" placeholder=\""._HWDVIDS_ALERT_NOPLNAME."\" maxlength=\"500\" />
+											<select name=\"public_private\">
+												  <option value=\"public\" selected=\"selected\">"._HWDVIDS_SELECT_PUBLIC."</option>
+												  <option value=\"private\">"._HWDVIDS_SELECT_REG."</option>
+											</select>
+											<input type=\"hidden\" name=\"require_approval\" value=\"0\"/>
+											<button type=\"submit\" name=\"send\" class=\"btn btn-small\" ><i class=\"icon-plus\"> </i> "._HWDVIDS_META_ADDPL."</button>
+										</div>
+									</form>
+								</div>
+							</li>";
+						}else{
+							$code.= "<li><span class=\"pad6\">"._HWDVIDS_META_LOGTOPL."</span>";
+							}
+						$code.="</ul>
+					  </div>";
 			$code.= "</form>";
-
-		}
 
 		return $code;
     }
@@ -5071,8 +5093,9 @@ $app = & JFactory::getApplication();
 		return $oDetails;
 		}
     
-    function getSongPlayer($song_id) {
-	  $songinfo = hwd_vs_tools::getSongInfo($song_id);			
+    function getSongPlayer($song_id) {	
+	  $songinfo = hwd_vs_tools::getSongInfo($song_id);	
+	 // var_dump(hwdSongkick::request($songinfo[0]->band_name)); 		
 	  $oPlayer = '';
 	  if($songinfo[0]->source == 'grooveshark'){
 			  $oPlayer ='<object width="330" height="40" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
@@ -7885,6 +7908,46 @@ class hwdTabs {
 		return $html;
 	}
 }
+
+define('SKICK_API_ENDPOINT', 'http://api.songkick.com/api/3.0/search/artists.json?query=');
+define('SKICK_REQUEST_TOKEN', 'EKOiqRoWeX1ZQ9vZ');
+
+class hwdSongkick{
+
+	//Songkick API URL
+	static 	$api_url = SKICK_API_ENDPOINT;
+	
+	//API key
+	static $api_key = SKICK_REQUEST_TOKEN;
+	
+	/**
+	* Constructor for the Songkick class
+	*
+	* @throws Some_Exception_Class If something interesting cannot happen 
+	*/ 
+	public function __construct(){
+	}
+	
+	/**
+	* Request method for Songkick API
+	*
+	* @throws Some_Exception_Class If something interesting cannot happen 
+	*/ 
+	public function request($artist){
+		
+		return json_decode(file_get_contents(self::$api_url.urlencode($artist).'&apikey='.self::$api_key));
+		
+	}
+	
+	/**
+	* Destructor for the Songkick class
+	*
+	* @throws Some_Exception_Class If something interesting cannot happen 
+	*/ 
+	public function __destruct(){
+	}
+}
+
 
 define('RDIO_API_ENDPOINT', 'http://api.rdio.com/1/');
 define('RDIO_REQUEST_TOKEN', 'http://api.rdio.com/oauth/request_token');

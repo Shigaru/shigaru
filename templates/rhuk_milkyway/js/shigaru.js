@@ -31,7 +31,7 @@ jQuery(document).ready(function($){
 	});
 	
 	jQuery('body').click(function () {
-			jQuery('ul.dropdown-menu').hide();
+			jQuery('#topnavmenu ul.dropdown-menu').hide();
 			if(jQuery('#grettings').hasClass('userzoneopen'))jQuery('#grettings').removeClass('userzoneopen');
 		});
 	
