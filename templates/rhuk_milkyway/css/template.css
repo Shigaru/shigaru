@@ -1269,6 +1269,7 @@ ul.jclist span img {width: auto; height: auto; float: none;}
 	background: #000 url("/components/com_comprofiler/plugin/templates/default/images/mini-icons/icon-16-warning.png") no-repeat 5px 2px;
 	-moz-opacity:.60; filter:alpha(opacity=60); opacity:.60;
 }
+.crossclose{margin:-5px 3px -10px 0; padding:0 !important;cursor:pointer;}
 .overhidden{overflow:hidden;}
 .nonvis{visibility:hidden;}
 .dispnon{display:none;}
@@ -1310,6 +1311,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', end
 .boxwhite{background-color:#fff;border-radius: 5px 5px 5px 5px;box-shadow: 0 0 3px #AAAAAA; border: 1px solid #C1C1C1;color:#000;}
 .mtopl6{margin-top:-6px;}
 .mtop25{margin-top:25px;}
+.mtop20{margin-top:20px;}
 .mtopl25{margin-top:-25px;}
 .mtopl50{margin-top:-50px;}
 .mtop12{margin-top:12px;}
@@ -1363,6 +1365,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', end
 .w90{width:90%;}
 .w100{width:100%;}
 .h40px{height:40px;}
+.h200px{height:200px;}
 .f15em{font-size:1.5em;}
 .f12em{font-size:1.2em;}
 .curdef{cursor:default;}
@@ -2482,6 +2485,12 @@ ul.icons li [class*=" icon-"] {
     border-top-left-radius: 4px;
     margin-left: 0;
 }
+
+.videoactions .btn-group > .btn:first-child {
+    border-radius: 4px;
+    margin-left: 0;
+}
+
 .btn-group > .btn:last-child, .btn-group > .dropdown-toggle {
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;

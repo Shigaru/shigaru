@@ -172,6 +172,17 @@ class hwd_vs_playlists
    		    hwd_vs_playlists::bindNewPlaylist();
 		}
 	}
+	
+	function createAndAddVideo(){
+			
+		$playlistId = hwd_vs_playlists::bindNewPlaylist();
+		$response = 0;
+		if($playlistId !=0){
+			$response = hwd_vs_playlists::addRemoveItemPlaylist($playlistId);
+			}
+		return $response;		
+		}
+	
 	/**
      * Outputs frontpage HTML
      *
@@ -179,72 +190,106 @@ class hwd_vs_playlists
      */
     function bindNewPlaylist()
 	{
-		global $params, $Itemid, $mosConfig_absolute_path, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site, $mosConfig_sitename;
-		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-		$acl= & JFactory::getACL();
-$app = & JFactory::getApplication();
+		$response = 0;
+		
+		$playlist_name        = Jrequest::getVar( 'playlist_name', _HWDVIDS_UNKNOWN );
+		$playlist_description = Jrequest::getVar( 'playlist_description', _HWDVIDS_UNKNOWN );
+		$public_private       = JRequest::getWord( 'public_private' );
+		$date_created         = date('Y-m-d H:i:s');
+		$date_modified        = date('Y-m-d H:i:s');
+		$allow_comments       = JRequest::getInt( 'allow_comments', 0, 'request' );
+		$user_id              = $my->id;
+		$thumbnail            = '';
+		$featured             = 0;
 
-			$playlist_name        = Jrequest::getVar( 'playlist_name', _HWDVIDS_UNKNOWN );
-			$playlist_description = Jrequest::getVar( 'playlist_description', _HWDVIDS_UNKNOWN );
-			$public_private       = JRequest::getWord( 'public_private' );
-			$date_created         = date('Y-m-d H:i:s');
-			$date_modified        = date('Y-m-d H:i:s');
-			$allow_comments       = JRequest::getInt( 'allow_comments', 0, 'request' );
-			$user_id              = $my->id;
-			$thumbnail            = '';
-			$total_videos         = 0;
-			$featured             = 0;
-			if ($c->aag == 1) {
-				$published        = 1;
-			} else {
-				$published        = 0;
-			}
-			$params               = null;
+		$row = new hwdvids_playlist($db);
 
-			//$checkform = hwd_vs_tools::checkPlaylistFormComplete( $group_name, $public_private, $allow_comments, $group_description );
-			//if (!$checkform) { return; }
+		$_POST['playlist_name'] 	   = $playlist_name;
+		$_POST['playlist_description'] = $playlist_description;
+		$_POST['public_private'] 	   = $public_private;
+		$_POST['date_created'] 	       = $date_created;
+		$_POST['date_modified'] 	   = $date_modified;
+		$_POST['allow_comments'] 	   = $allow_comments;
+		$_POST['user_id'] 	           = $user_id;
+		$_POST['thumbnail'] 	       = $thumbnail;
+		$_POST['featured'] 			   = $featured;
 
-			$row = new hwdvids_playlist($db);
-
-			$_POST['playlist_name'] 	   = $playlist_name;
-			$_POST['playlist_description'] = $playlist_description;
-			$_POST['public_private'] 	   = $public_private;
-			$_POST['date_created'] 	       = $date_created;
-			$_POST['date_modified'] 	   = $date_modified;
-			$_POST['allow_comments'] 	   = $allow_comments;
-			$_POST['user_id'] 	           = $user_id;
-			$_POST['thumbnail'] 	       = $thumbnail;
-			$_POST['total_videos'] 	       = $total_videos;
-			$_POST['featured'] 			   = $featured;
-			$_POST['published'] 	       = $published;
-			$_POST['params'] 	           = $params;
-
-			// bind it to the table
-			if (!$row -> bind($_POST)) {
-				echo "<script> alert('"
-					.$row -> getError()
-					."'); window.history.go(-1); </script>\n";
-				exit();
+		if (!$row->bind( $_POST )) {
+				return JError::raiseWarning( 500, $row->getError() );
+			}else{
+				if (!$row->store()) {
+						JError::raiseError(500, $row->getError() );
+				}
+				$response = $row->id;					
 			}
 
-			// store it in the db
-			if (!$row -> store()) {
-				echo "<script> alert('"
-					.$row -> getError()
-					."'); window.history.go(-1); </script>\n";
-				exit();
-			}
-
-			if ($c->aag == 1) {
-				$msg = _HWDVIDS_ALERT_GSAVED;
-			} else {
-				$msg = _HWDVIDS_ALERT_GPENDING;
-			}
-			$app->enqueueMessage($msg);
-			$app->redirect( JURI::root() . 'index.php?option=com_hwdvideoshare&task=playlists&Itemid='.$Itemid );
+		return $response;	
 	}
+	
+	function addRemoveItemPlaylist($playlistId){
+		
+		$db 			= & JFactory::getDBO();
+		$my 			= & JFactory::getUser();
+		$playlist_id 	= $playlistId;
+		$item_id 		= JRequest::getInt( 'item_id', 0 );
+		$date_added 	= date('Y-m-d H:i:s');
+		$response 		= 0;
+		$row 			= null;
+		$oOnlySong 		= !is_int($playlistId);
+		$where 			= '';	
+		
+		if(!$oOnlySong){
+			$row = new hwdvids_playlist($db);
+			$row->load( $playlist_id );
+		}
+		
+		if (($row->user_id != $my->id) && !$oOnlySong) {
+			$response = _HWDVIDS_ALERT_NOPERM;
+			}else{
+				$row = new hwdvidsplaylists_videos($db);
+				
+				$_POST['playlist_id'] 		= ($oOnlySong)?0:$playlist_id;
+				$_POST['user_id'] 			= $my->id;
+				$_POST['item_id']  			= $item_id;
+				$_POST['date_added'] 	    = $date_added;
+				
+				if($oOnlySong)
+					$where .= ' WHERE a.playlist_id = 0 AND a.user_id='. $my->id;
+				else
+					$where .= ' WHERE a.playlist_id = '.$playlist_id;
+				$where .= ' AND a.item_id = '.$item_id;
+
+				$db->SetQuery( 'SELECT *'
+							. ' FROM #__hwdvidsplaylists_videos AS a'
+							. $where
+							);
+				$PLItem = $db->loadResultArray();
+				
+				if ( sizeof($PLItem)>0 ) {
+					
+					if (!$row->delete($PLItem[0])){
+						JError::raiseError(500, $row->getError() );
+						$response = 0;
+						}else
+							$response = 1;
+					}else{
+						if (!$row->bind( $_POST )) {
+								return JError::raiseWarning( 500, $row->getError() );
+							}else{
+								if (!$row->store()) {
+										JError::raiseError(500, $row->getError() );
+								}
+								$response = $row->id;							
+							}
+						}
+				
+		
+		}
+		return $response;
+	}
+	
     /**
      * Outputs frontpage HTML
      *
@@ -252,13 +297,8 @@ $app = & JFactory::getApplication();
      */
     function editPlaylist()
 	{
-		global $mosConfig_live_site, $Itemid;
-		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-		$acl= & JFactory::getACL();
-$app = & JFactory::getApplication();
-
 		$playlistid = JRequest::getInt( 'playlistid', 0 );
 
 		$row = new hwdvids_playlist($db);
@@ -305,53 +345,41 @@ $app = & JFactory::getApplication();
      *
      * @return       Nothing
      */
-    function updatePlaylist()
+    function updatePlaylist($paramPlaylistId = null)
 	{
-		global $Itemid;
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-		$c = hwd_vs_Config::get_instance();
-$app = & JFactory::getApplication();
-
-		$playlist_id = JRequest::getInt( 'playlist_id', 0 );
-		$referrer = JRequest::getVar( 'referrer', JURI::root( true ) . '/index.php?option=com_hwdvideoshare&task=viewChannel&Itemid='.$Itemid.'&user_id='.$my->id.'&sort=playlists' );
-
+		$playlist_id = $paramPlaylistId;
+		$response = 0;
 		$row = new hwdvids_playlist($db);
 		$row->load( $playlist_id );
 
 		if ($row->user_id != $my->id) {
-			$app->enqueueMessage(_HWDVIDS_ALERT_NOPERM);
-			$app->redirect( $referrer );
+			$response = _HWDVIDS_ALERT_NOPERM;
+		}else{
+
+			$playlist_name 		   = Jrequest::getVar( 'playlist_name', null );
+			$playlist_description  = Jrequest::getVar( 'playlist_description', null );
+			$public_private    	   = JRequest::getWord( 'public_private' ,null);
+			$date_modified         = date('Y-m-d H:i:s');
+			
+			$_POST['id'] 		            = $playlist_id;
+			$_POST['playlist_name'] 		= $playlist_name;
+			$_POST['playlist_description']  = $playlist_description;
+			$_POST['public_private'] 	    = $public_private;
+			$_POST['date_modified'] 	    = $date_modified;
+
+			if (!$row->bind( $_POST )) {
+				return JError::raiseWarning( 500, $row->getError() );
+			}else{
+				if (!$row->store()) {
+						JError::raiseError(500, $row->getError() );
+				}
+				$response = $row->id;					
+			}
 		}
-
-		$playlist_name 		   = Jrequest::getVar( 'playlist_name', _HWDPS_UNKNOWN );
-		$playlist_description  = Jrequest::getVar( 'playlist_description', _HWDPS_UNKNOWN );
-		$public_private    	   = JRequest::getWord( 'public_private' );
-
-		$_POST['id'] 		            = $playlist_id;
-		$_POST['playlist_name'] 		= $playlist_name;
-		$_POST['playlist_description']  = $playlist_description;
-		$_POST['public_private'] 	    = $public_private;
-
-		// bind it to the table
-		if (!$row -> bind($_POST)) {
-			echo "<script> alert('"
-				.$row -> getError()
-				."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		// store it in the db
-		if (!$row -> store()) {
-			echo "<script> alert('"
-				.$row -> getError()
-				."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		$msg = _HWDVIDS_ALERT_PLSAVED;
-		$app->enqueueMessage($msg);
-		$app->redirect( $referrer );
+	
+		return $response;
   	}
     /**
      * Outputs frontpage HTML

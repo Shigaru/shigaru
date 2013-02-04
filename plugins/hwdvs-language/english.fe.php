@@ -160,6 +160,7 @@ DEFINE("_HWDVIDS_ALERT_LOG2CYV","You need to login to see your videos");
 DEFINE("_HWDVIDS_ALERT_LOG2CYF","You need to login to see your favourite videos");
 DEFINE("_HWDVIDS_ALERT_SUCAV2G","The video has been added to the group.");
 DEFINE("_HWDVIDS_ALERT_SUCAV2PL","The video has been added to the playlist.");
+DEFINE("_HWDVIDS_ALERT_SUCDEL2PL","The video has been deleted from the playlist.");
 DEFINE("_HWDVIDS_ALERT_GREMOVED","Your group has been deleted");
 DEFINE("_HWDVIDS_ALERT_GSAVED","Your group has been saved");
 DEFINE("_HWDVIDS_ALERT_GPENDING","Your group has been saved and is pending approval from our website moderators");
@@ -212,7 +213,10 @@ DEFINE("_HWDVIDS_META_EVIDS","Edit your video information");
 DEFINE("_HWDVIDS_META_NPL","Create a new playlist");
 DEFINE("_HWDVIDS_META_ADDPL","Add Playlist");
 DEFINE("_HWDVIDS_META_LOGTOPL","Please log in to use the Playlists");
+DEFINE("_HWDVIDS_META_LOGTOLK","Please log in to like");
+DEFINE("_HWDVIDS_META_LOGTOLLTR","Please log in to add Learn Later");
 DEFINE("_HWDVIDS_META_EPL","Edit your playlist information");
+DEFINE("_HWDVIDS_CLICKTOCLOSE","Click on the icon to close this message");
 
 //lANGUAGES
 DEFINE("UE_AFRIKAANS","Afrikaans");
@@ -731,7 +735,7 @@ DEFINE("_HWDVIDS_MPTM","Most Popular This Month");
 DEFINE("_HWDVIDS_MPAT","Popular");
 DEFINE("_HWDVIDS_BWN","Being Watched Now");
 DEFINE("_HWDVIDS_RELATED","Related");
-DEFINE("_HWDVIDS_UNKNOWN","Unknown");
+DEFINE("_HWDVIDS_UNKNOWN","No data available");
 DEFINE("_HWDVIDS_RECENT","Recent");
 DEFINE("_HWDVIDS_FEATURED_VIDEOS","Featured Videos");
 DEFINE("_HWDVIDS_TITLE","Title");

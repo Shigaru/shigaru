@@ -213,7 +213,7 @@ class hwdvids_favs extends JTable
 {
 	var $id = null;
 	var $userid = null;
-	var $videoid = null;
+	var $item_id = null;
 	var $date = null;
 
     /**
@@ -426,12 +426,7 @@ class hwdvids_playlist extends JTable
  	var $allow_comments = null;
  	var $user_id = null;
  	var $thumbnail = null;
- 	var $total_videos = null;
- 	var $checked_out = null;
- 	var $checked_out_time = null;
  	var $featured = null;
- 	var $published = null;
- 	var $params = null;
 
     /**
      * Constructor
@@ -439,6 +434,41 @@ class hwdvids_playlist extends JTable
      */
 	function hwdvids_playlist(&$db){
         parent::__construct( '#__hwdvidsplaylists', 'id', $db );
+	}
+}
+
+
+class hwdvidsplaylists_videos extends JTable
+{
+ 	var $id = null;
+ 	var $playlist_id = null;
+ 	var $user_id = null;
+ 	var $item_id = null;
+ 	var $date_added = null;
+
+    /**
+     * Constructor
+     * @param database A database connector object
+     */
+	function hwdvidsplaylists_videos(&$db){
+        parent::__construct( '#__hwdvidsplaylists_videos', 'id', $db );
+	}
+}
+
+class hwdvidslikes extends JTable
+{
+ 	var $id = null;
+ 	var $user_id = null;
+ 	var $item_id = null;
+ 	var $item_type = null;
+ 	var $date_liked = null;
+
+    /**
+     * Constructor
+     * @param database A database connector object
+     */
+	function hwdvidslikes(&$db){
+        parent::__construct( '#__hwdvidslikes', 'id', $db );
 	}
 }
 
@@ -2646,69 +2676,48 @@ $app = & JFactory::getApplication();
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-
-		$code = "";
-		if ($c->showatfb == "1")
-		{
-			// setup ajax tags
-			if ($c->ajaxfavmeth == 1)
-			{
-				$ajaxremfav = "onsubmit=\"ajaxFunctionRFF();return false;\"";
-				$ajaxaddfav = "onsubmit=\"ajaxFunctionATF();return false;\"";
-			}
-			else
-			{
-				$ajaxremfav = null;
-				$ajaxaddfav = null;
-			}
-
-			$code = null;
+		$favoured = '';
+		$favouredbutton = '';
+		$code = null;
 
 			$userid = $my->id;
 			$videoid = $row->id;
 
 			$where = ' WHERE a.userid = '.$userid;
-			$where .= ' AND a.videoid = '.$videoid;
+			$where .= ' AND a.item_id = '.$videoid;
 
 			$db->SetQuery( 'SELECT count(*)'
 						. ' FROM #__hwdvidsfavorites AS a'
 						. $where
 						);
 			$total = $db->loadResult();
-			$where = ' WHERE a.videoid = '.$videoid;
+			$where = ' WHERE a.item_id = '.$videoid;
 			$db->SetQuery( 'SELECT count(*)'
 						. ' FROM #__hwdvidsfavorites AS a'
 						. $where
 						);
 			$timesfavoured = $db->loadResult();
 			
-			if ($my->id){
-				$remfav = "<form name=\"favourite1\" style=\"display: inline;\" onsubmit=\"ajaxFunctionRFF();return false;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=removefavourite")."\" method=\"post\"><a href=\"#\" title=\""._HWDVIDS_DETAILS_REMFAV."\" class=\"btn\">Favourite </a></form>";
-				$addfav = "<form name=\"favourite2\" style=\"display: inline;\" onsubmit=\"ajaxFunctionATF();return false;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addfavourite")."\" method=\"post\"><a href=\"#\" title=\""._HWDVIDS_DETAILS_ADDFAV."\" class=\"btn\">Favourite</a></form>";
-			}
-			
-			if ( $total>0 )
-			{
-				$code.= "<form name=\"favourite1\" style=\"display: inline;\" ".$ajaxremfav." action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=removefavourite")."\" method=\"post\">
-						 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
-						 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
-						 <button type=\"submit\" title=\""._HWDVIDS_DETAILS_REMFAV."\" class=\"btn\"><i class=\"icon-heart fontred padright4\"></i>Favourite</button>
+			if ( $total>0 ) {
+				$favoured=' fontgreen';
+				$favouredbutton = ' active';
+			}	
+				$code.= "<form class=\"fleft\" name=\"favourite1\"  action=\"\" method=\"post\">
+						 <div class=\"btn-group\">
+							<button id=\"hwdvidsfavorites\" type=\"submit\" title=\""._HWDVIDS_DETAILS_REMFAV."\" class=\"btn".$favouredbutton."\"><i class=\"icon-heart".$favoured."\"></i> Favourite</button>
+							<ul class=\"dropdown-menu\">
+								<li class=\"mleft12\">
+									<a class=\"crossclose fright\" title=\""._HWDVIDS_CLICKTOCLOSE."\"><i class=\"icon-remove\"></i></a>
+									<div class=\"reponsesay clear\">
+									</div>
+								</li>
+							</ul>
+						</div>
 						 </form>
 						 <div class=\"fleft timesactioned mtop8\"><i class=\"icon-angle-left\"></i><span>".$timesfavoured."</span></div>
-						 ";
-			}
-			else
-			{
-				$code.= "<form name=\"favourite2\" class=\"fleft\" style=\"display: inline;\" ".$ajaxaddfav." action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addfavourite")."\" method=\"post\">
-						 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
-						 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
-						 <button type=\"submit\" title=\""._HWDVIDS_DETAILS_ADDFAV."\" class=\"btn\"/><i class=\"icon-heart-empty padright4\"></i>Favourite</button>
-						 </form>
-						 <div class=\"fleft timesactioned mtop8\"><i class=\"icon-angle-left\"></i><i class=\"icon-caret-left\"></i><span>".$timesfavoured."</span></div>";
-			}
-
-			$code = "<div id=\"addremfav\" style=\"display:inline;\">$code</div>";
-		}
+						 ";			
+			
+		
 		return $code;
     }
     /**
@@ -2767,18 +2776,47 @@ $app = & JFactory::getApplication();
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-
+		$flagged = '';
+		$flaggedbutton = '';
 		$code = null;
-		if ($c->showrpmb == "1")
-		{
-			$code.= "<form name=\"report\" style=\"display: inline;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
-					 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
-					 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
-					 <button type=\"submit\" title=\""._HWDVIDS_DETAILS_FLAGVID."\" id=\"reportvidbutton\" class=\"btn\"><i class=\"icon-flag padright4\"></i>Flag</button>
+		if($my->id){
+			$where = ' WHERE a.videoid = '.$row->id.' AND a.userid = '.$my->id;
+				$db->SetQuery( 'SELECT count(*)'
+               		. ' FROM #__hwdvidsflagged_videos AS a'
+               		. $where
+               		);
+				$total = $db->loadResult();
+			}
+			if ( $total>0 ) {
+				$flagged=' fontred';
+				$flaggedbutton = ' active';
+			}
+			$code.= "<form name=\"report\" action=\"\" method=\"post\">
+					 <div class=\"btn-group\">
+						<button type=\"submit\" title=\""._HWDVIDS_DETAILS_FLAGVID."\" id=\"hwdvidsflagged_videos\" class=\"btn".$flaggedbutton."\"><i class=\"icon-flag".$flagged."\"></i> Flag</button>
+						 <ul class=\"dropdown-menu\">
+									<li class=\"mleft12\">
+										<a class=\"crossclose fright\" title=\""._HWDVIDS_CLICKTOCLOSE."\"><i class=\"icon-remove\"></i></a>
+										<div class=\"reponsesay clear pad6\">
+										</div>
+									</li>
+							</ul>
+					</div>
 					 </form>";
-		}
 		return $code;
     }
+    
+    function getActionCount($paramTable,$videoid){
+		$db = & JFactory::getDBO();
+		$oNumber = 0;
+		$where = ' WHERE a.item_id = '.$videoid;
+			$db->SetQuery( 'SELECT count(*)'
+						. ' FROM #__'.$paramTable.' AS a'
+						. $where
+						);
+		$oNumber =$db->loadResult();
+		return $oNumber;
+		}
     
     /**
      * Generates the video Report Media button
@@ -2787,24 +2825,50 @@ $app = & JFactory::getApplication();
      * @return       $code
      */
 	function generateLikeVideoButton($row){
-		global $hwdvsItemid, $smartyvs;
-		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$videoid = $row->id;
-		$where = ' WHERE a.videoid = '.$videoid;
+		$likedrow = null; 
+		$likedclass= ''; 
+		$likediconclass= ''; 
+		$likedid= '';
+		
+		$where = ' WHERE a.item_id = '.$videoid;
 			$db->SetQuery( 'SELECT count(*)'
-						. ' FROM #__hwdvidsfavorites AS a'
+						. ' FROM #__hwdvidslikes AS a'
 						. $where
 						);
 		$timesfavoured = $db->loadResult();
-		
+		if($my->id){
+			$where = ' WHERE a.item_id = '.$videoid.' AND a.user_id='.$my->id;
+				$db->SetQuery( 'SELECT *'
+							. ' FROM #__hwdvidslikes AS a'
+							. $where
+							);
+			$db->loadObjectList();
+			$liked = $db->loadResultArray();
+			 
+			if(sizeof($liked)>0){
+				$likedrow = $liked[0];
+				$likedclass = ' active';
+				$likediconclass= ' fontgreen'; 
+				$likedid= "id=\"likeid".$liked[0]."\""; 
+			}
+		}
 		$code.= "<form class=\"fleft\" name=\"report\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
-					 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
-					 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
-					 <button type=\"submit\" title=\""._HWDVIDS_T_LIKETIP."\" id=\"reportvidbutton\" class=\"btn\"><i class=\"icon-thumbs-up padright4\"></i>"._HWDVIDS_T_LIKE."</button>
-					 </form>
-					 <div class=\"fleft timesactioned mtop8\"><i class=\"icon-angle-left\"></i><i class=\"icon-caret-left\"></i><span>".$timesfavoured."</span></div>";
+					 <input type=\"hidden\" name=\"videoid\" id=\"videoid\" value=\"".$row->id."\" />
+					 <div class=\"btn-group\">
+						<button type=\"submit\" title=\""._HWDVIDS_T_LIKETIP."\" id=\"hwdvidslikes\" class=\"btn".$likedclass."\"><i ".$likedid." class=\"icon-thumbs-up".$likediconclass."\"></i> "._HWDVIDS_T_LIKE."</button>
+						<ul class=\"dropdown-menu\">
+								<li class=\"mleft12\">
+									<a class=\"crossclose fright\" title=\""._HWDVIDS_CLICKTOCLOSE."\"><i class=\"icon-remove\"></i></a>
+									<div class=\"reponsesay clear\">
+									</div>
+								</li>
+						</ul>
+					</div>
+				</form>
+				<div class=\"fleft timesactioned mtop8\"><i class=\"icon-angle-left\"></i><i class=\"icon-caret-left\"></i><span>".$timesfavoured."</span></div>";
 		return $code;
     }
     
@@ -2816,17 +2880,45 @@ $app = & JFactory::getApplication();
      */
 	function generateLearnLaterButton($row)
 	{
-		global $hwdvsItemid, $smartyvs;
-		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-
-		$code = null;
-		$code.= "<form name=\"report\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
-					 <input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />
-					 <input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />
-					 <button type=\"submit\" title=\""._HWDVIDS_T_LEARNLATERTIP."\" id=\"reportvidbutton\" class=\"btn\"><i class=\"icon-time padright4\"></i>"._HWDVIDS_T_LEARNLATER."</button>
-					 </form>";
+		$likedrow = null; 
+		$likedclass= ''; 
+		$likediconclass= ''; 
+		
+		if($my->id){
+			
+			$query = 'SELECT * FROM #__hwdvidsplaylists_videos WHERE playlist_id = 0 AND user_id = '.$my->id.' AND item_id = '.$row->id;;
+			$db->SetQuery($query);
+			$rows = $db->loadObjectList();
+			
+			$liked = $db->loadResultArray();
+			 
+			if(sizeof($liked)>0){
+				$likedrow = $liked[0];
+				$likedclass = ' active';
+				$likediconclass= ' fontgreen'; 
+			}
+			$code.= "<form class=\"fleft\" name=\"report\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
+						  <div class=\"btn-group\">
+							<button type=\"submit\" title=\""._HWDVIDS_T_LEARNLATERTIP."\" id=\"learnlaterbutton\" class=\"btn".$likedclass."\"><i class=\"icon-time".$likediconclass."\"></i> "._HWDVIDS_T_LEARNLATER."</button>
+							<ul class=\"dropdown-menu\">";
+			$code.= "<li class=\"mleft12\">
+										<a class=\"crossclose fright\" title=\""._HWDVIDS_CLICKTOCLOSE."\"><i class=\"icon-remove\"></i></a>
+										<div class=\"reponsesay clear\">
+										</div>
+									</li>";
+			}else{
+				$code.= "<form class=\"fleft\" name=\"report\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
+						  <div class=\"btn-group\">
+							<button type=\"submit\" title=\""._HWDVIDS_T_LEARNLATERTIP."\" id=\"learnlaterbutton\" class=\"btn\"><i class=\"icon-time\"></i> "._HWDVIDS_T_LEARNLATER."</button>
+							<ul class=\"dropdown-menu\">";
+				$code.= "<li><span class=\"pad6\">"._HWDVIDS_META_LOGTOLLTR."</span>";
+				}
+			$code.= "		</ul>
+						</div>
+					</form>";
+						 
 		return $code;
     }
     /**
@@ -3304,6 +3396,54 @@ $app = & JFactory::getApplication();
 			$albumMatched = $albumList[0];
 		return $albumMatched;
     }
+    
+    /**
+     * Outputs frontpage HTML
+     *
+     * @return       Nothing
+     */
+    function doLikeUnLike($paramLikeid,$paramItem_id,$paramItem_type){
+			$db = & JFactory::getDBO();
+			$my = & JFactory::getUser();
+			$response = 0;
+			$likeid        = $paramLikeid;
+			$user_id       = $my->id;
+			$item_id 	   = $paramItem_id;
+			$item_type     = $paramItem_type;
+			$date_liked    = date('Y-m-d H:i:s');
+			
+			if($my->id){
+				
+				$row = new hwdvidslikes($db);
+
+				$_POST['item_id'] 	= $item_id;
+				$_POST['user_id'] 	= $user_id;
+				$_POST['item_type'] = $item_type;
+				$_POST['date_liked']= $date_liked;
+				
+				if($likeid){
+					$likeid = str_replace("likeid", "", $paramLikeid);
+					if (!$row->delete(intval($likeid))){
+						JError::raiseError(500, $row->getError() );
+						$response = 0;
+						}else
+							$response = 1;
+					}else{
+						if (!$row->bind( $_POST )) {
+								return JError::raiseWarning( 500, $row->getError() );
+							}else{
+								if (!$row->store()) {
+										JError::raiseError(500, $row->getError() );
+								}
+								$response = $row->id;							
+							}
+						}
+			}else{
+				$response = _HWDVIDS_META_LOGTOLK;
+				}					
+						
+			return $response;		
+	}
     
     /**
      * adds a new row to the bands table
@@ -4585,7 +4725,7 @@ $app = & JFactory::getApplication();
 			$db->SetQuery($query);
 			$rows = $db->loadObjectList();
 			$listItem = '';
-			$code.= "<form name=\"add2playlist\" action=\"".JURI::root( true )."/index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addvideotoplaylist\" method=\"post\">";
+			$code.= "<form class=\"fleft\" name=\"add2playlist\" action=\"".JURI::root( true )."/index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addvideotoplaylist\" method=\"post\">";
 			$code.= "<input type=\"hidden\" name=\"userid\" value=\"".$my->id."\" />";
 			$code.= "<input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />";
 			$code.= "<select name=\"playlistid\" class=\"add2gselect dispnon\">";
@@ -4597,8 +4737,8 @@ $app = & JFactory::getApplication();
 				}
 			$code.= "</select>&nbsp;";
 			}
-			$code.= "<div class=\"btn-group open\">
-						<button type=\"submit\" id=\"add2groupbutton\" class=\"btn\">
+			$code.= "<div class=\"btn-group\">
+						<button type=\"submit\" id=\"add2plbutton\" class=\"btn\">
 							<i class=\"icon-list padright4\"></i>"._HWDVIDS_T_PLAYLISTS."
 						</button>
 						<ul class=\"dropdown-menu\">";
@@ -4609,19 +4749,20 @@ $app = & JFactory::getApplication();
 							$code.="<li><span class=\"mleft12 fontbold pad6\">"._HWDVIDS_META_NPL."</span>
 								<div id=\"newplaylist\" class=\"mleft6 steps\">
 									<form name=\"createplaylist\" action=\"\" class=\"mtop6\" method=\"post\">
-											<input name=\"playlist_name\" value=\"\" class=\"inputbox\" placeholder=\""._HWDVIDS_ALERT_NOPLNAME."\" maxlength=\"500\" />
-											<select name=\"public_private\">
+											<input name=\"playlist_name\" id=\"playlist_name\" value=\"\" class=\"inputbox\" placeholder=\""._HWDVIDS_ALERT_NOPLNAME."\" maxlength=\"500\" />
+											<select id=\"public_private\" name=\"public_private\">
 												  <option value=\"public\" selected=\"selected\">"._HWDVIDS_SELECT_PUBLIC."</option>
 												  <option value=\"private\">"._HWDVIDS_SELECT_REG."</option>
 											</select>
 											<input type=\"hidden\" name=\"require_approval\" value=\"0\"/>
-											<button type=\"submit\" name=\"send\" class=\"btn btn-small\" ><i class=\"icon-plus\"> </i> "._HWDVIDS_META_ADDPL."</button>
-										</div>
+											<button type=\"submit\" id=\"addplbutton\" name=\"send\" class=\"btn btn-small\" ><i class=\"icon-plus\"> </i> "._HWDVIDS_META_ADDPL."</button>
 									</form>
 								</div>
 							</li>";
 						}else{
-							$code.= "<li><span class=\"pad6\">"._HWDVIDS_META_LOGTOPL."</span>";
+							$code.= "<li>
+										<a class=\"crossclose fright\" title=\""._HWDVIDS_CLICKTOCLOSE."\"><i class=\"icon-remove\"></i></a>
+										<span class=\"clear pad6\">"._HWDVIDS_META_LOGTOPL."</span>";
 							}
 						$code.="</ul>
 					  </div>";

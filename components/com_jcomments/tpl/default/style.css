@@ -188,12 +188,6 @@
 #comments-form .grippie .counter {font-size: 10px;padding: 0; margin: 0}
 #comments-form .grippie span {display:block;float:left}
 #comments-form .grippie span span {display:inline;float:none}
-
-#comments-form .btn {float: left}
-#comments-form .btn {background: url(images/jc_btnl.gif) no-repeat; margin-right: 5px}
-#comments-form .btn div {margin:0 -1px 0 0; float: left;background: url(images/jc_btnr.gif) 100% 0 no-repeat}
-#comments-form .btn a {text-decoration: none; height: 22px;line-height: 22px;font-size: 12px;font-weight: bold;color: #777;padding: 0px 5px;border: none}
-#comments-form .btn a:hover {text-decoration: none; color: #0B55C4}
 #comments-form-smilespanel {display: none;cursor: pointer;padding: 2px;max-width: 200px;background-color: #fff;border: 1px solid #ccc;overflow: auto;left: 0;top: 0;position:absolute}
 
 #comments-footer, #comments-footer a {color: #ccc !important; background-color: inherit; font: normal 9px Verdana, Arial, Sans-Serif !important}

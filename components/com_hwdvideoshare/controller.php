@@ -287,6 +287,18 @@ class UserController extends JController
 		hwd_vs_ajax::ajax_getVideoCount();
 	}
 	
+	function ajax_like()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::ajax_like();
+	}
+	
+	function ajax_getactioncount()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::ajax_getactioncount();
+	}
+	
 	function ajax_search()
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
@@ -297,6 +309,12 @@ class UserController extends JController
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
 		hwd_vs_ajax::addToFavourites();
+	}
+	
+	function ajax_manageplaylistitems()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::managePlaylistItems();
 	}
 
 	function ajax_removefromfavourites()

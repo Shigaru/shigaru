@@ -146,14 +146,7 @@ class hwd_vs_ajax
 					."'); window.history.go(-1); </script>\n";
 				exit();
 			}
-
-			$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';
-			if ( file_exists($api_AUP))
-			{
-				require_once ($api_AUP);
-				AlphaUserPointsHelper::newpoints( 'plgaup_rateVideo_hwdvs' );
-			}
-
+			
 			//connecting to the database to get some information
 			$numbers['total_votes'] = $rating_number_votes;
 			$numbers['total_value'] = $rating_total_points;
@@ -227,6 +220,26 @@ class hwd_vs_ajax
 		print $code;
 		exit;
 		}
+		
+	function ajax_getactioncount(){
+		header('Content-type: text/html; charset=utf-8');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
+		$action = JRequest::getVar( 'action', '' );
+		$item_id 	   = Jrequest::getVar( 'item_id', null );
+		$code = hwd_vs_tools::getActionCount($action,$item_id);
+		print $code;
+		exit;
+		}
+		
+	function ajax_like(){
+		header('Content-type: text/html; charset=utf-8');
+		$likeid        = Jrequest::getVar( 'likeid', null );
+		$item_id 	   = Jrequest::getVar( 'item_id', null );
+		$item_type     = JRequest::getWord( 'item_type', 'video' );
+		$code = hwd_vs_tools::doLikeUnLike($likeid,$item_id,$item_type);
+		print $code;
+		exit;
+		}	
 	
 	function ajax_getVideoCount(){
 		header('Content-type: text/html; charset=utf-8');
@@ -256,112 +269,51 @@ class hwd_vs_ajax
     function addToFavourites()
 	{
 		header('Content-type: text/html; charset=utf-8');
-		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
-
-		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
+		$response = 0;
+		$videoid = JRequest::getVar( 'item_id', '' );
+		
+		if($my->id){
+				$where = ' WHERE a.userid = '.$my->id;
+				$where .= ' AND a.item_id = '.$videoid;
 
-		if (!$my->id) {
-			echo _HWDVIDS_AJAX_LOG2FAV1;
-			exit;
-		}
-
-		$userid = $my->id;
-		$videoid = JRequest::getInt( 'videoid', 0, 'request' );
-
-		$where = ' WHERE a.userid = '.$userid;
-		$where .= ' AND a.videoid = '.$videoid;
-
-		$db->SetQuery( 'SELECT count(*)'
-               		. ' FROM #__hwdvidsfavorites AS a'
-               		. $where
-               		);
-  		$total = $db->loadResult();
-
-		if ( $total>0 ) {
-			echo _HWDVIDS_AJAX_ALREADYFAV;
-			exit;
-		}
-
-		$row = new hwdvids_favs($db);
-
-		$_POST['userid'] = $userid;
-		$_POST['videoid'] = $videoid;
-
-		// bind it to the table
-		if (!$row -> bind($_POST)) {
-			echo "<script> alert('"
-				.$row -> getError()
-				."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		// store it in the db
-		if (!$row -> store()) {
-			echo "<script> alert('"
-				.$row -> getError()
-				."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';
-		if ( file_exists($api_AUP))
-		{
-			require_once ($api_AUP);
-			AlphaUserPointsHelper::newpoints( 'plgaup_addVideoFavourite_hwdvs' );
-		}
-
-		hwd_vs_tools::logFavour( $videoid, 1 );
-		echo _HWDVIDS_AJAX_ADDEDFAV;
+				$db->SetQuery( 'SELECT *'
+							. ' FROM #__hwdvidsfavorites AS a'
+							. $where
+							);
+				$favouredItem = $db->loadResultArray();
+				$row = new hwdvids_favs($db);
+				
+				if ( sizeof($favouredItem)>0 ) {
+					if (!$row->delete(intval($favouredItem[0]))){
+						JError::raiseError(500, $row->getError() );
+						$response = 0;
+						}else
+							$response = 1;
+				}else{
+						$_POST['userid'] = $my->id;
+						$_POST['item_id'] = $videoid;
+						$_POST['date'] = date('Y-m-d H:i:s');
+						
+						if (!$row->bind( $_POST )) {
+								return JError::raiseWarning( 500, $row->getError() );
+							}else{
+								if (!$row->store()) {
+										JError::raiseError(500, $row->getError() );
+								}
+								$response = $row->id;							
+								hwd_vs_tools::logFavour( $videoid, 1 );
+							}
+						
+				}
+		}else{
+			$response = _HWDVIDS_AJAX_LOG2FAV1;
+			}		
+		print $response;
 		exit;
 	}
-    /**
-     * Outputs frontpage HTML
-     *
-     * @return       Nothing
-     */
-
-    function removeFromFavourites()
-	{
-		header('Content-type: text/html; charset=utf-8');
-		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
-
-		$c = hwd_vs_Config::get_instance();
-		$db = & JFactory::getDBO();
-		$my = & JFactory::getUser();
-
-		if (!$my->id) {
-			echo _HWDVIDS_AJAX_LOG2FAV2;
-			exit;
-		}
-
-		$userid = $my->id;
-		$videoid = JRequest::getInt( 'videoid', 0, 'request' );
-
-		$where = ' WHERE userid = '.$userid;
-		$where .= ' AND videoid = '.$videoid;
-
-		$db->SetQuery( 'DELETE FROM #__hwdvidsfavorites'
-               		. $where
-               		);
-
-		if ( !$db->query() ) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		$api_AUP = JPATH_SITE.DS.'components'.DS.'com_alphauserpoints'.DS.'helper.php';
-		if ( file_exists($api_AUP))
-		{
-			require_once ($api_AUP);
-			AlphaUserPointsHelper::newpoints( 'plgaup_removeVideoFavourite_hwdvs' );
-		}
-
-		hwd_vs_tools::logFavour( $videoid, -1 );
-		echo _HWDVIDS_AJAX_REMFAV;
-		exit;
-	}
+    
     /**
      * Outputs frontpage HTML
      *
@@ -371,73 +323,50 @@ class hwd_vs_ajax
     function reportVideo()
 	{
 		header('Content-type: text/html; charset=utf-8');
-		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
-
-		global $Itemid;
-		$c = hwd_vs_Config::get_instance();
+		
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-
-		if (!$my->id) {
-			echo _HWDVIDS_AJAX_LOG2REPORT;
-			exit;
-		}
-
-		$userid = $my->id;
-		$videoid = JRequest::getInt( 'videoid', 0, 'request' );
-
-		$where = ' WHERE a.videoid = '.$videoid;
-
-		$db->SetQuery( 'SELECT count(*)'
+		$response = 0;
+		$videoid = JRequest::getVar( 'item_id', '' );
+		
+		if($my->id){
+				$where = ' WHERE a.videoid = '.$videoid.' AND a.userid = '.$my->id;
+				$db->SetQuery( 'SELECT *'
                		. ' FROM #__hwdvidsflagged_videos AS a'
                		. $where
                		);
-  		$total = $db->loadResult();
+				$flaggedItem = $db->loadResultArray();
+				$row = new hwdvids_flagvid($db);
+				if ( sizeof($flaggedItem)>0 ) {
+					if (!$row->delete(intval($flaggedItem[0]))){
+						JError::raiseError(500, $row->getError() );
+						$response = 0;
+						}else
+							$response = 1;
+				}else{
+					
 
-		if ( $total>0 ) {
-			echo _HWDVIDS_AJAX_ALREADYREPORT;
-			exit;
-		}
+					$_POST['userid'] = $my->id;
+					$_POST['videoid'] = $videoid;
+					$_POST['status'] = "UNREAD";
+					$_POST['date'] = date('Y-m-d H:i:s');
+					
+					if (!$row->bind( $_POST )) {
+								return JError::raiseWarning( 500, $row->getError() );
+							}else{
+								if (!$row->store()) {
+										JError::raiseError(500, $row->getError() );
+								}
+								$response = $row->id;							
+							}
+					
+					}
 
-		$row = new hwdvids_flagvid($db);
-
-		$_POST['userid'] = $userid;
-		$_POST['videoid'] = $videoid;
-		$_POST['status'] = "UNREAD";
-		$_POST['date'] = date('Y-m-d H:i:s');
-
-		// bind it to the table
-		if (!$row -> bind($_POST)) {
-			echo "<script> alert('"
-				.$row -> getError()
-				."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		// store it in the db
-		if (!$row -> store()) {
-			echo "<script> alert('"
-				.$row -> getError()
-				."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		// mail admin notification
-		if ($c->mailreportnotification == 1) {
-			$jconfig = new jconfig();
-
-			$mailbody = ""._HWDVIDS_MAIL_BODY9.$jconfig->sitename.".\n";
-			$mailbody .= ""._HWDVIDS_MAIL_BODY10."\n";
-			if (isset($videoid)) {
-				$mailbody .= "".JURI::root()."index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=viewvideo&video_id=".$videoid."\n\n";
+		}else{
+			$response = _HWDVIDS_AJAX_LOG2REPORT;
 			}
-			$mailbody .= ""._HWDVIDS_MAIL_BODY11."\n";
-			$mailbody .= JURI::root()."administrator";
 
-			JUtility::sendMail( $jconfig->mailfrom, $jconfig->fromname, $c->mailnotifyaddress, _HWDVIDS_MAIL_SUBJECT4.$jconfig->sitename.' ', $mailbody );
-		}
-
-		echo _HWDVIDS_AJAX_VIDREPORT;
+		print $response;
 		exit;
 	}
     /**
@@ -602,90 +531,17 @@ class hwd_vs_ajax
      * @return       Nothing
      */
 
-    function addVideoToPlaylist()
+    function managePlaylistItems()
 	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'playlists.php');
 		header('Content-type: text/html; charset=utf-8');
-		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
-
-		$c = hwd_vs_Config::get_instance();
-		$db = & JFactory::getDBO();
-		$my = & JFactory::getUser();
-
-		if (!$my->id) {
-			echo _HWDVIDS_AJAX_LOG2ADD2PL;
-			exit;
-		}
-
-		$user_id = $my->id;
-		$videoid = JRequest::getInt( 'videoid', 0, 'request' );
-		$playlistid = JRequest::getInt( 'playlistid', 0, 'request' );
-		$date = date('Y-m-d H:i:s');
-		$published = 1;
-
-		if ($playlistid == 0) {
-			echo _HWDVIDS_SELPL;
-			exit;
-		}
-
-		$row = new hwdvids_playlist($db);
-		$row->load( $playlistid );
-
-		if (empty($row->playlist_data)) {
-			$playlist_data = $videoid;
-		} else {
-			$playlist_data = $row->playlist_data.",".$videoid;
-		}
-
-		$_POST['id'] 	   			   = $playlistid;
-		$_POST['playlist_data']        = $playlist_data;
-
-		// bind it to the table
-		if (!$row -> bind($_POST)) {
-			echo "<script> alert('"
-				.$row -> getError()
-				."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		// store it in the db
-		if (!$row -> store()) {
-			echo "<script> alert('"
-				.$row -> getError()
-				."'); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		// perform maintenance
-		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
-		hwd_vs_recount::recountVideosInPlaylist($playlistid);
-
-		$row = new hwdvids_playlist($db);
-		$row->load( $playlistid );
-		if (!empty($row->playlist_data))
-		{
-			$playlist = explode(",", $row->playlist_data);
-			$playlist = preg_replace("/[^0-9]/", "", $playlist);
-
-			$counter = 0;
-			$pl_videos = array();
-			for ($i=0, $n=count($playlist); $i < $n; $i++)
-			{
-				$db->SetQuery('SELECT * FROM #__hwdvidsvideos WHERE id = '.$playlist[$i]);
-				$video = $db->loadObject();
-				if (isset($video->id))
-				{
-					$pl_videos[$counter] = $video;
-					$counter++;
-				}
-			}
-		}
-
-		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'draw.php');
-		hwdvsDrawFile::XMLDataFile($pl_videos, "pl_$playlistid");
-		hwdvsDrawFile::XMLPlaylistFile($pl_videos, "pl_$playlistid");
-
-		echo _HWDVIDS_ALERT_SUCAV2PL;
+		$playlist_id 	   = Jrequest::getVar( 'playlist_id', null );
+		if(!$playlist_id)
+			$code = hwd_vs_playlists::createAndAddVideo();
+			else
+				$code = hwd_vs_playlists::addRemoveItemPlaylist($playlist_id);
+		print $code;
 		exit;
-	}
+	}	
 }
 ?>

@@ -26,7 +26,7 @@
 					</div>
 					{/if}
 					<div class="fleft {if $contentauthor}w85{else}w100{/if}">
-						<div class="fleft">{$videoplayer->avatar}</div>
+						<div class="fleft mbot12">{$videoplayer->avatar}</div>
 						<div class="fleft mright6 titleText w85">
 							<h2 >{$videoplayer->titleText}</h2>
 							<div class="fright mbot6 mright6 f12em"><button title="Click on this button to subscribe to this user's channel" class="btn btn-danger fleft">Follow<i class="icon-circle-arrow-right padleft4"></i></button><div class="fleft timesactioned mtop8"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>{$videoplayer->commentsNum}</span></div></div>
@@ -44,7 +44,7 @@
 							<div class="fleft">
 							{$videoplayer->player}
 							</div>	
-							<div class="fleft bblack fontwhite" id="sideinfobox">
+							<div class="fleft" id="sideinfobox">
 								  <div id="categoryinfo" class="{$catclass}">  
 										<h4><span class="fontbold">{$videoplayer->category}</span></h4>
 								  </div>
@@ -66,7 +66,7 @@
 									<div class="fleft mright6 mleft6">{$videoplayer->likebutton}</div>
 									<div class="fleft mright6">{$videoplayer->learnlater}</div>
 									<div class="fleft mright6" id="addremfav">{$videoplayer->favourties}</div>
-									<div class="fleft mright6">{$videoplayer->addtoplaylist}</div>
+									<div class="fleft mright6 clearfix">{$videoplayer->addtoplaylist}</div>
 									<div class="fleft mbot6 mright6"><button id="btncomments" title="Click on this button to add/view comments about this video" class="btn fleft"><i class="icon-comments padright4"></i>Comments</button><div class="fleft timesactioned mtop8"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>{$videoplayer->commentsNum}</span></div></div>
 									<div class="fleft">{$videoplayer->reportmedia}</div>
 								</div>
@@ -98,13 +98,21 @@
 						
 						<div class="mleft12"> 
 							<div class="clearfix">
-								<div class="fleft w49 padright12">  
+								<div class="clearfix padright12 mbot20">
 									<h4 class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_DESC}</h4>
-									<div id="truncateMe" class="overhidden mtop12 h40px"><span id="videodecription">{$videoplayer->description} </span></div>
-									<div class="w100 tcenter bortopgrey mtop12"><a href="#" title="Click here to show full description" class="btn mtopl12" id="showmore"><i class="icon-double-angle-down"></i></a></div>
+									<div id="truncateMe" class="overhidden mtop12 h40px">
+										<span id="videodecription">{$videoplayer->description} </span>
+									</div>
+									<div class="w100 tcenter bortopgrey mtop20 dispnon"><a href="#" title="Click here to show full description" class="btn mtopl12" id="showmoredesc"><i class="icon-double-angle-down"></i></a></div>
+								</div>
+								<div class="fleft w49 padright12">  
 									<h4 class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_TAGS}</h4>
-									<p class="mtop12 h40px overhidden"> {$videoplayer->tags}</p>
-									<div class="w100 tcenter bortopgrey mtop12"><a href="#" title="Click here to show all tags" class="btn mtopl12" id="showmore"><i class="icon-double-angle-down"></i></a></div>
+									<div id="tagwrap" class="mtop12 overhidden h200px"> 
+										<span>
+											{$videoplayer->tags}										
+										</span>	
+									</div>
+									<div class="w100 tcenter bortopgrey mtop20 dispnon"><a href="#" title="Click here to show all tags" class="btn mtopl12" id="showmoretags"><i class="icon-double-angle-down"></i></a></div>
 								</div>	
 								{if $songPlayer}
 								 <div class="fleft w49 borleftgrey">
@@ -124,7 +132,7 @@
 							</div>	
 							
 						</div>
-						<div id="comments-tabs" class="mleft20">
+						<div id="comments-tabs" class="mleft20 bortopgrey mtop12 pad12">
 							<h4 class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</h4>
 							<div id="comments-tabs-1" class="standard">
 							  <div class="">

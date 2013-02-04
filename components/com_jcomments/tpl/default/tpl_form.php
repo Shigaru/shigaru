@@ -120,9 +120,9 @@ class jtt_tpl_form extends JoomlaTuneTemplate
 		}
 ?>
 <div id="comments-form-buttons">
-		 <div class="floatleft">
+		 <div class="tcenter w100">
          
-         <a class="reddbuttonsubmit fright fontwhite" href="#" tabindex="7" onclick="jcomments.saveComment();return false;" title="<?php echo JText::_('FORM_SEND_HINT'); ?>"><?php echo JText::_('FORM_SEND'); ?></a>
+         <a class="btn" href="#" tabindex="7" onclick="jcomments.saveComment();return false;" title="<?php echo JText::_('FORM_SEND_HINT'); ?>"><i class="icon-comments-alt"></i><?php echo JText::_('FORM_SEND'); ?></a>
         </div>
         
         <div class="floatleft">
