@@ -74,8 +74,8 @@ else
 }
 if($doc->getType() == 'html')
 {
-	$doc->addCustomTag('<link rel="stylesheet" href="'.$templateDirectoryUrl.'template.css" type="text/css" />');
-	$doc->addCustomTag('<link rel="stylesheet" href="'.$templateDirectoryUrl.'css/rating.css" type="text/css" />');
+	$doc->addCustomTag('<link rel="stylesheet" href="'.$templateDirectoryUrl.'template.css?v=1.1" type="text/css" />');
+	$doc->addCustomTag('<link rel="stylesheet" href="'.$templateDirectoryUrl.'css/rating.css?v=1.1" type="text/css" />');
 }
 
 $smartyvs->assign("vpr", $hwdvsTemplateOverride['vpr']);
