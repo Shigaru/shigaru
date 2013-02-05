@@ -4697,6 +4697,21 @@ $app = & JFactory::getApplication();
 		}
 		return $code;
     }
+    
+    function checkPlaylistItem($paramPL, $paramItem){
+		$db = & JFactory::getDBO();
+		$query = 'SELECT a.id FROM #__hwdvidsplaylists_videos AS a'; 
+		$query .= ' WHERE a.playlist_id = '.$paramPL.' AND item_id='.$paramItem;
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		$bandMatched = null;
+		if(sizeof($bandList)>0)
+			$bandMatched = $bandList[0];
+		return $bandMatched;
+		
+		}
+    
     /**
      * Generates the 'add video to group' button
      *
@@ -4709,7 +4724,7 @@ $app = & JFactory::getApplication();
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
-
+		$video_id = $row->id;
 		$code = null;
 
 		$db->SetQuery( 'SELECT count(*)'
@@ -4732,7 +4747,9 @@ $app = & JFactory::getApplication();
 				$n=count($rows);
 				for ($i=0, $n=count($rows); $i < $n; $i++) {
 					$row = $rows[$i];
-					$listItem .= "<li id =\"".$row->id."\"><a href=\"#\"><i class=\"icon-list-ol padright4\"></i> ".$row->playlist_name."</a></li>";
+					$oIconClass = (hwd_vs_tools::checkPlaylistItem($row->id,$video_id ))?'icon-check':'icon-check-empty';
+					$oIconTypeClass = ($row->public_private == 'public' )?'icon-unlock':'icon-lock';
+					$listItem .= "<li><a id =\"ll".$row->id."\" href=\"#\"><i class=\"".$oIconClass." fontgreen\"></i> <i class=\"".$oIconTypeClass."\"></i> <i class=\"icon-list-ol padright4\"></i> ".$row->playlist_name."</a></li>";
 				}
 			$code.= "</select>&nbsp;";
 			}

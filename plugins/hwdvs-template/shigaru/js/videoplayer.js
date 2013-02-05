@@ -109,27 +109,78 @@ jQuery(document).ready(function() {
 						});
 				}
 		  });
-	
-					  	
-	  jQuery('#addplbutton').click(function(e) {
+	  
+	  jQuery('#add2plbutton').next().find('li a').click(function (e){
 			e.preventDefault();
+			onListItemClick(e);
+		  });
+	  
+	  function onListItemClick(e){
+			var oListItem 	= jQuery(e.target);
+			var oListId	  	= oListItem.attr('id');
+			oListId	  		= oListId.substring(2);
 			var oUrl = 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_manageplaylistitems&'+
-			'format=raw'+'&playlist_name='+jQuery('#playlist_name').val()+
-			'&item_id='+jQuery('input#videoid').val()+		
-			'&public_private='+jQuery('#public_private').val();		
-			var $this = jQuery(this);
-			var $thisi = jQuery(this).find('i');
+					'format=raw&item_id='+jQuery('input#videoid').val()+		
+					'&public_private=private&playlist_id='+oListId;
+			var $thisi = oListItem.find('i:first');
 			var oldClass = $thisi[0].className;
-			$this.attr('disabled',true);
+			oListItem.attr('disabled',true);
 			$thisi.removeClass();
 			$thisi.addClass('icon-spinner icon-spin');
 			jQuery.ajax({
 			  url: oUrl
 			}).done(function(data) {
-				onAjaxCompletePL (data, $this,oldClass);			
+				onAjaxComplete (data, oListItem,oldClass);		
 				});
-		  	});
-		  	  	
+		  }	
+					  	
+	  jQuery('#addplbutton').click(function(e) {
+			e.preventDefault();
+			var oPLName = jQuery('#playlist_name').val();
+			if(oPLName.length > 2){
+				var oUrl = 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_manageplaylistitems&'+
+				'format=raw'+'&playlist_name='+oPLName+
+				'&item_id='+jQuery('input#videoid').val()+		
+				'&public_private='+jQuery('#public_private').val();		
+				var $this = jQuery(this);
+				var $thisi = jQuery(this).find('i');
+				var oldClass = $thisi[0].className;
+				$this.attr('disabled',true);
+				$thisi.removeClass();
+				$thisi.addClass('icon-spinner icon-spin');
+				jQuery.ajax({
+				  url: oUrl
+				}).done(function(data) {
+					var iconPublicPrivate = (jQuery('#public_private').val() == 'public')?'icon-unlock':'icon-lock';
+					onAjaxCompletePL (data, $this,oldClass);
+					jQuery('#add2plbutton').next().prepend('<li class="justadded" style="display:none;">'+
+								'<a id="ll'+data+'" href="#"><i class="icon-check fontgreen"></i> <i class="'+iconPublicPrivate+'"></i> <i class="icon-list-ol"></i> <span>'+oPLName+'</span></a>'+
+								'</li>');			
+					jQuery('#add2plbutton').next().find('.justadded').fadeIn('slow').removeClass('justadded');			
+					jQuery('#playlist_name').val('');
+					jQuery('#add2plbutton').next().find('.crossclose').parent().fadeOut().remove();
+					jQuery('#add2plbutton').next().find('li a').click(function(e) {
+							e.preventDefault();
+						});	
+					});
+					
+			}else{
+				if(jQuery('#add2plbutton').next().find('.crossclose').length == 0){
+						jQuery('#add2plbutton').next().prepend('<li class="mleft12 borbotgrey mbot6">'+
+										'<a class="crossclose fright" title="Click on this icon to close this message"><i class="icon-remove"></i></a>'+
+										'<div class="reponsesay clear mbot6">'+
+										'Please enter at least 3 letters for the new playlist name field'+
+										'</div>'+
+									'</li>');
+						jQuery('#add2plbutton').next().find('.crossclose').click(function(){
+								jQuery(this).parent().fadeOut().remove();
+							});			
+					}else{
+						jQuery('#add2plbutton').next().find('.crossclose').parent().fadeIn('slow');
+						}
+				}		
+		});
+					
 	  jQuery('#hwdvidsflagged_videos').click(function(e) {
 			e.preventDefault();
 			var oUrl = 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_reportvideo&format=raw&item_id='+jQuery('input#videoid').val();		
@@ -216,8 +267,10 @@ jQuery(document).ready(function() {
 			var $thisi = $this.find('i');
 			
 			$this.attr('disabled',false);
-			$thisi.removeClass();
-			$thisi.addClass(oldClass);
+			if($this.attr('id').indexOf('ll') ==-1){
+				$thisi.removeClass();
+				$thisi.addClass(oldClass);
+			}
 			
 			if(!isNaN(oNumData)){
 				
@@ -227,22 +280,31 @@ jQuery(document).ready(function() {
 							$this.parent().addClass('open');
 							break;
 					case 1:
-							$thisi.removeClass('fontgreen');
-							$thisi.removeClass('fontred');
-							$this.removeClass('clicked');
-							$this.removeClass('active');
-							if($this.attr('id').indexOf('flag') ==-1)
-								updateActionCount($this,$this.attr('id'));
+							if($this.attr('id').indexOf('ll') ==-1){
+								$thisi.removeClass('fontgreen');
+								$thisi.removeClass('fontred');
+								$this.removeClass('clicked');
+								$this.removeClass('active');
+								if($this.attr('id').indexOf('flag') ==-1)
+									updateActionCount($this,$this.attr('id'));
+							}else{
+								$this.find('i:first').removeClass().addClass('icon-check-empty fontgreen');
+								}	
 							break;		
 					default:
-							if($this.attr('id').indexOf('flag') ==-1)
-								$thisi.addClass('fontgreen');
-								else
-									$thisi.addClass('fontred');
-							$this.addClass('clicked');
-							$this.addClass('active');
-							$thisi.attr('clicked','likeid'+oNumData);
-							updateActionCount($this,$this.attr('id'));
+							if($this.attr('id').indexOf('ll') ==-1){
+								if($this.attr('id').indexOf('flag') ==-1)
+									$thisi.addClass('fontgreen');
+									else
+										$thisi.addClass('fontred');
+								$this.addClass('clicked');
+								$this.addClass('active');
+								$thisi.attr('clicked','likeid'+oNumData);
+								if($this.attr('id').indexOf('flag') ==-1)
+									updateActionCount($this,$this.attr('id'));
+							}else{
+								$this.find('i:first').removeClass().addClass('icon-check fontgreen');
+								}	
 							break;
 					}
 				

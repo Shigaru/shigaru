@@ -237,7 +237,7 @@ class hwd_vs_playlists
 		$date_added 	= date('Y-m-d H:i:s');
 		$response 		= 0;
 		$row 			= null;
-		$oOnlySong 		= !is_int($playlistId);
+		$oOnlySong 		= !is_numeric($playlistId);
 		$where 			= '';	
 		
 		if(!$oOnlySong){

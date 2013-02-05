@@ -74,21 +74,32 @@
 									<div class="fleft mleft20 mtop6">{$videoplayer->ratingsystem}</div>
 									<div class="fright mtop6">
 										<div class="fleft mright12">
-											<a class="fleft btn " href="#"><i class="icon-facebook-sign  padright4"></i>Like</a>
-											<div class="fleft timesactioned mtop6"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>0</span></div>
+											<div id="fb-root"></div>
+											{literal}<script>(function(d, s, id) {
+											  var js, fjs = d.getElementsByTagName(s)[0];
+											  if (d.getElementById(id)) return;
+											  js = d.createElement(s); js.id = id;
+											  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+											  fjs.parentNode.insertBefore(js, fjs);
+											}(document, 'script', 'facebook-jssdk'));</script>{/literal}
 										</div>
 										<div class="fleft mright12">
-											<a class="fleft btn " href="#"><i class="icon-twitter-sign  padright4"></i>Tweet! </a>
-											<div class="fleft timesactioned mtop6"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>0</span></div>
+											{literal}<a href="https://twitter.com/share" class="twitter-share-button" data-url="https://dev.twitter.com/pages/tweet_button" data-via="your_screen_name" data-lang="en" data-related="anywhereTheJavascriptAPI" data-count="vertical">Tweet</a>
+											<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>{/literal}
 										</div>
 										<div class="fleft mright12">
-											<a target="_blank" class="fleft btn " href="https://plus.google.com/share?url={$currentUrl}"><i class="icon-google-plus-sign  padright4"></i>+1</a>
-											<div class="fleft timesactioned mtop6"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>0</span></div>
+											{literal}<div class="g-plus" data-action="share" data-annotation="vertical-bubble" data-height="60"></div>
+											<script type="text/javascript">
+											  (function() {
+												var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+												po.src = 'https://apis.google.com/js/plusone.js';
+												var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+											  })();
+											</script>{/literal}
 										</div>
-										<div class="fleft mright12">
-											<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>
-											<a href="http://pinterest.com/pin/create/button/?url={$currentUrl}&media={$thumburl}&description={$videoplayer->titleText}" class="fleft btn " count-layout="horizontal"><i class="icon-pinterest  padright4"></i>Pin it!</a>
-											<div class="fleft timesactioned mtop6"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>0</span></div>
+										<div class="fleft mright12 mtop20">
+											{literal}<a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.shigaru.com%2F&media=http%3A%2F%2Fwww.shigaru.com%2F&description=http%3A%2F%2Fwww.shigaru.com%2F" class="pin-it-button" count-layout="vertical"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+											<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>{/literal}
 										</div>
 									</div>	
 								</div>	
