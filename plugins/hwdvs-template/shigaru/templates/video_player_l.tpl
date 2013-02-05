@@ -63,7 +63,7 @@
 					  
 						<div class="videoactions clearfix"> 
 								<div class="clearfix">
-									<div class="fleft mright6 mleft6">{$videoplayer->likebutton}</div>
+									<div class="fleft mright6">{$videoplayer->likebutton}</div>
 									<div class="fleft mright6">{$videoplayer->learnlater}</div>
 									<div class="fleft mright6" id="addremfav">{$videoplayer->favourties}</div>
 									<div class="fleft mright6 clearfix">{$videoplayer->addtoplaylist}</div>

@@ -36,15 +36,12 @@ class hwd_vs_ajax
     function rate()
 	{
 		header('Content-type: text/html; charset=utf-8');
-		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
-
-		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$ip = $_SERVER['REMOTE_ADDR'];
 
 		$rating = JRequest::getInt( 'rating', 0, 'request' );
-		$videoid = JRequest::getInt( 'videoid', 0, 'request' );
+		$videoid = JRequest::getInt( 'item_id', 0, 'request' );
 
 		if ($my->id == "0" || !$my->id || empty($my->id))
 		{
@@ -85,29 +82,23 @@ class hwd_vs_ajax
 		}
 		$db->SetQuery("SELECT count(*) FROM #__hwdvidsrating $where");
 		$total = $db->loadResult();
-		$code='';
-		/*
-		$code='<div id="hwdvsrb"><ul id="1001" class="rating rated'.$rating0.'star">
-			  <li id="1" class="rate one"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=1" onclick="ajaxFunctionRate(1);return false;" title="1 Star">1</a></li>
-			  <li id="2" class="rate two"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=2" onclick="ajaxFunctionRate(2);return false;" title="2 Stars">2</a></li>
-			  <li id="3" class="rate three"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=3" onclick="ajaxFunctionRate(3);return false;" title="3 Stars">3</a></li>
-			  <li id="4" class="rate four"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=4" onclick="ajaxFunctionRate(4);return false;" title="4 Stars">4</a></li>
-			  <li id="5" class="rate five"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=5" onclick="ajaxFunctionRate(5);return false;" title="5 Stars">5</a></li>
+		$code='<ul class="rating rated'.$rating0.'star">
+			  <li id="l1" class="rate one"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id='.$row->id.'&rating=1" title="1 Star">1</a></li>
+			  <li id="l2" class="rate two"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id='.$row->id.'&rating=2" title="2 Stars">2</a></li>
+			  <li id="l3" class="rate three"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id='.$row->id.'&rating=3" title="3 Stars">3</a></li>
+			  <li id="l4" class="rate four"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id='.$row->id.'&rating=4" title="4 Stars">4</a></li>
+			  <li id="l5" class="rate five"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id='.$row->id.'&rating=5" title="5 Stars">5</a></li>
 		</ul>';
-		*/
 		// Stop if user not logged in and guest rating blocked
-		if ($c->allowgr == 0 && (!$my->id || $my->id == 0)) {
-
-			$code.=_HWDVIDS_INFO_RATED.'<strong> '.$rating1.'</strong> ('.$count.' '.$tense.')';
-			$code.='<br /><p><span class="ajaxerror">'._HWDVIDS_AJAX_LOG2RATE.'</span></p>';
-
+		if ((!$my->id || $my->id == 0)) {
+			$code.='<span class="fleft">'._HWDVIDS_AJAX_LOG2RATE.'</span>';
+			$code.='<div class="clear fleft">'._HWDVIDS_INFO_RATED.'<strong> '.$rating1.'</strong> ('.$count.' '.$tense.')</div>
+			 <i class="pad4 icon-spinner icon-spin fleft" style="display:none;"></i>';
 		} else if ( $total>0 ) {
-
-			$code.=_HWDVIDS_INFO_RATED.'<strong> '.$rating1.'</strong> ('.$count.' '.$tense.')';
-			$code.='<br /><p><span class="ajaxerror">'._HWDVIDS_AJAX_ALREADYRATE.'</span></p>';
-
+			$code.='<span class="fleft">'._HWDVIDS_AJAX_ALREADYRATE.'</span>';
+			$code.='<div class="clear fleft">'._HWDVIDS_INFO_RATED.'<strong> '.$rating1.'</strong> ('.$count.' '.$tense.')</div>
+			 <i class="pad4 icon-spinner icon-spin fleft" style="display:none;"></i>';
 		} else {
-
 			//update rating details
 			$rating_number_votes = $row->rating_number_votes + 1;
 			$rating_total_points = $row->rating_total_points + $rating;
@@ -155,40 +146,19 @@ class hwd_vs_ajax
 			$current_rating = $numbers['total_value']; //total number of rating added together and stored
 			$sum = $rating+$current_rating; // add together the current vote value and the total vote value
 
-			$code='';
-			/*'<div id="hwdvsrb"><ul id="1001" class="rating rated'.@number_format($new_rating,0).'star">
-			  <li id="1" class="rate one"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=1" onclick="ajaxFunctionRate(1);return false;" title="1 Star">1</a></li>
-			  <li id="2" class="rate two"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=2" onclick="ajaxFunctionRate(2);return false;" title="2 Stars">2</a></li>
-			  <li id="3" class="rate three"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=3" onclick="ajaxFunctionRate(3);return false;" title="3 Stars">3</a></li>
-			  <li id="4" class="rate four"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=4" onclick="ajaxFunctionRate(4);return false;" title="4 Stars">4</a></li>
-			  <li id="5" class="rate five"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=5" onclick="ajaxFunctionRate(5);return false;" title="5 Stars">5</a></li>
-			</ul>';*/
-			$code.=_HWDVIDS_INFO_RATED.'<strong> '.@number_format($new_rating,1).'</strong> ('.$count.' '.$tense.')';
-			$code.='<br /><p><span class="ajaxsuccess">'._HWDVIDS_ALERT_THANKSVOTER.'</span></p>';
-
+			$code='<ul class="rating rated'.@number_format($new_rating,0).'star">
+			  <li id="l1" class="rate one"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id='.$row->id.'&rating=1" title="1 Star">1</a></li>
+			  <li id="l2" class="rate two"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id='.$row->id.'&rating=2" title="2 Stars">2</a></li>
+			  <li id="l3" class="rate three"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id='.$row->id.'&rating=3" title="3 Stars">3</a></li>
+			  <li id="l4" class="rate four"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id='.$row->id.'&rating=4" title="4 Stars">4</a></li>
+			  <li id="l5" class="rate five"><a href="'.JURI::root( true ).'/index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id='.$row->id.'&rating=5" title="5 Stars">5</a></li>
+			</ul>';
+			$code.='<span class="fleft fontblue">'._HWDVIDS_ALERT_THANKSVOTER.'</span>';
+			$code.='<div class="clear fleft">'._HWDVIDS_INFO_RATED.'<strong> '.@number_format($new_rating,1).'</strong> ('.$count.' '.$tense.')</div>
+			 <i class="pad4 icon-spinner icon-spin fleft" style="display:none;"></i>';
+			
 		}
-		/*
-		$code.= '<script>
-			$$(\'.rate\').each(function(element,i){
-				element.addEvent(\'click\', function(){
-					var myStyles = [\'0star\', \'1star\', \'2star\', \'3star\', \'4star\', \'5star\'];
-					myStyles.each(function(myStyle){
-						if(element.getParent().hasClass(myStyle)){
-							element.getParent().removeClass(myStyle)
-						}
-					});
-					myStyles.each(function(myStyle, index){
-						if(index == element.id){
-							element.getParent().toggleClass(myStyle);
-							ajaxFunctionRate(element.id)
-						}
-					});
-
-				});
-			});
-			</script>
-			</div>';
-		*/
+		
 		echo $code;
 		hwd_vs_tools::logRating( $videoid, $rating );
 
@@ -289,8 +259,10 @@ class hwd_vs_ajax
 					if (!$row->delete(intval($favouredItem[0]))){
 						JError::raiseError(500, $row->getError() );
 						$response = 0;
-						}else
+						}else{
 							$response = 1;
+							hwd_vs_tools::logFavour( $videoid, -1 );
+							}
 				}else{
 						$_POST['userid'] = $my->id;
 						$_POST['item_id'] = $videoid;

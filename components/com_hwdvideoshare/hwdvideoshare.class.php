@@ -2951,16 +2951,15 @@ $app = & JFactory::getApplication();
 			$rating0 = @number_format($row->rating_total_points/$count,0);
 			$rating1 = @number_format($row->rating_total_points/$count,1);
 
-			$code='<div id="hwdvsrb'.$rand.'">
-			         <ul id="1001" class="rating rated'.$rating0.'star">
-			           <li id="1" class="rate one"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=1").'" onclick="ajaxFunctionRate(1, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_1STAR.'" rel="nofollow">1</a></li>
-			           <li id="2" class="rate two"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=2").'" onclick="ajaxFunctionRate(2, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_2STAR.'" rel="nofollow">2</a></li>
-			           <li id="3" class="rate three"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=3").'" onclick="ajaxFunctionRate(3, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_3STAR.'" rel="nofollow">3</a></li>
-			           <li id="4" class="rate four"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=4").'" onclick="ajaxFunctionRate(4, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_4STAR.'" rel="nofollow">4</a></li>
-			           <li id="5" class="rate five"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=rate&videoid='.$row->id.'&rating=5").'" onclick="ajaxFunctionRate(5, '.$row->id.', '.$rand.');return false;" title="'._HWDVIDS_RATE_5STAR.'" rel="nofollow">5</a></li>
+			$code='<ul class="rating rated'.$rating0.'star">
+			           <li id="l1" class="rate one"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id=$row->id&rating=1").'" title="'._HWDVIDS_RATE_1STAR.'" rel="nofollow">1</a></li>
+			           <li id="l2" class="rate two"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id=$row->id&rating=2").'" title="'._HWDVIDS_RATE_2STAR.'" rel="nofollow">2</a></li>
+			           <li id="l3" class="rate three"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id=$row->id&rating=3").'" title="'._HWDVIDS_RATE_3STAR.'" rel="nofollow">3</a></li>
+			           <li id="l4" class="rate four"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id=$row->id&rating=4").'" title="'._HWDVIDS_RATE_4STAR.'" rel="nofollow">4</a></li>
+			           <li id="l5" class="rate five"><a href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=ajax_rate&format=raw&item_id=$row->id&rating=5").'" title="'._HWDVIDS_RATE_5STAR.'" rel="nofollow">5</a></li>
 			         </ul><span class="fleft"> ('._HWDVIDS_SHIGARU_SHIGAR_CLICKTOVOTE.')</span>
-			         <div class="clear">'._HWDVIDS_INFO_RATED.'<strong> '.$rating1.'</strong> ('.$count.' '.$tense.')</div>
-			       </div>';
+			         <div class="clear fleft">'._HWDVIDS_INFO_RATED.'<strong> '.$rating1.'</strong> ('.$count.' '.$tense.')</div>
+			         <i class="pad4 icon-spinner icon-spin fleft" style="display:none;"></i>';
 
 		}
 		return $code;

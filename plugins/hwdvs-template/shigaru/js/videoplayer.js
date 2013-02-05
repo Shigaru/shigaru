@@ -50,10 +50,37 @@ jQuery(document).ready(function() {
 				}
 			
 			});		
-				
+					
+	   jQuery('ul.rating li a').click(function(e) {
+			e.preventDefault();
+			rateIt(e);	
+		}); 
+	   
+	   function rateIt(e){
+		   var $this = jQuery(e.target);
+			var oUrl = $this.attr('href');	
+			$this.parent().parent().siblings('.icon-spinner').show();
+			jQuery.ajax({ 
+					url: oUrl, 
+					cache: false, 
+					complete: function(data) { 
+						$this.parent().parent().siblings('.icon-spinner').hide();
+						$this.parent().parent().parent().html(data.responseText);
+						jQuery('ul.rating li a').click(function(e) {
+							e.preventDefault();
+							rateIt(e);	
+						}); 
+					} 
+				});
+		   }
+	   				
 	  jQuery('.crossclose').click(function(e) {
 			e.preventDefault();
 			jQuery(this).parents('.btn-group').removeClass('open');
+		  });
+		  
+	  jQuery('.videoactions button.btn').click(function(e) {
+			//jQuery(this).parents('.btn-group').removeClass('open');
 		  });
 		  	
 	  jQuery('#add2plbutton').click(function(e) {
