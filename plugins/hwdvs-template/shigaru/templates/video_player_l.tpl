@@ -29,7 +29,7 @@
 						<div class="fleft mbot12">{$videoplayer->avatar}</div>
 						<div class="fleft mright6 titleText w85">
 							<h2 >{$videoplayer->titleText}</h2>
-							<div class="fright mbot6 mright6 f12em"><button title="Click on this button to subscribe to this user's channel" class="btn btn-danger fleft">Follow<i class="icon-circle-arrow-right padleft4"></i></button><div class="fleft timesactioned mtop8"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>{$videoplayer->commentsNum}</span></div></div>
+							<!--<div class="fright mbot6 mright6 f12em"><button title="Click on this button to subscribe to this user's channel" class="btn btn-danger fleft">Follow<i class="icon-circle-arrow-right padleft4"></i></button><div class="fleft timesactioned mtop8"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>{$videoplayer->commentsNum}</span></div></div>-->
 							<span class="mleft20">{$smarty.const._HWDVIDS_INFO_SHARED}</span> {$videoplayer->uploader}
 						</div>
 					<div>
@@ -74,17 +74,17 @@
 									<div class="fleft mleft20 mtop6">{$videoplayer->ratingsystem}</div>
 									<div class="fright mtop6">
 										<div class="fleft mright12">
-											<div id="fb-root"></div>
+											<div class="fb-like" data-href="{$currentUrl}" data-send="false" data-layout="box_count" data-width="100" data-show-faces="false"></div>
 											{literal}<script>(function(d, s, id) {
 											  var js, fjs = d.getElementsByTagName(s)[0];
 											  if (d.getElementById(id)) return;
 											  js = d.createElement(s); js.id = id;
-											  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+											  js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1";
 											  fjs.parentNode.insertBefore(js, fjs);
 											}(document, 'script', 'facebook-jssdk'));</script>{/literal}
 										</div>
 										<div class="fleft mright12">
-											{literal}<a href="https://twitter.com/share" class="twitter-share-button" data-url="https://dev.twitter.com/pages/tweet_button" data-via="your_screen_name" data-lang="en" data-related="anywhereTheJavascriptAPI" data-count="vertical">Tweet</a>
+											{literal}<a href="https://twitter.com/share" class="twitter-share-button" data-url="{$currentUrl}" data-via="your_screen_name" data-lang="en" data-related="anywhereTheJavascriptAPI" data-count="vertical">Tweet</a>
 											<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>{/literal}
 										</div>
 										<div class="fleft mright12">
@@ -98,8 +98,23 @@
 											</script>{/literal}
 										</div>
 										<div class="fleft mright12 mtop20">
-											{literal}<a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.shigaru.com%2F&media=http%3A%2F%2Fwww.shigaru.com%2F&description=http%3A%2F%2Fwww.shigaru.com%2F" class="pin-it-button" count-layout="vertical"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-											<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>{/literal}
+											<a href="http://pinterest.com/pin/create/button/?url={$currentUrl}" class="pin-it-button" count-layout="vertical"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+											<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>
+										</div>
+										<div class="fleft mright12">
+											{literal}<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+													 <script type="IN/Share" data-counter="top"></script>{/literal}
+										</div>
+										<div class="fleft mright12">
+											{literal}<!-- Place this tag where you want the su badge to render -->
+											<su:badge layout="5"></su:badge>
+											<script type="text/javascript">
+											  (function() {
+												var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+												li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
+												var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+											  })();
+											</script>{/literal}
 										</div>
 									</div>	
 								</div>	
