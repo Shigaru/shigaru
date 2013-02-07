@@ -8,7 +8,7 @@
 *}
 
 {include file='header.tpl'}
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/videoplayer.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/videoplayer.js?v1.1"></script>
 
 {if $print_nextprev or $print_videourl or $print_embedcode or $print_uservideolist or $print_relatedlist}
 <div class="f80 mtop24 sic-container">

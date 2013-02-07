@@ -74,7 +74,7 @@ else
 }
 if($doc->getType() == 'html')
 {
-	$doc->addCustomTag('<link rel="stylesheet" href="'.$templateDirectoryUrl.'template.css?v=1.1" type="text/css" />');
+	$doc->addCustomTag('<link rel="stylesheet" href="'.$templateDirectoryUrl.'template.css?v=1.2" type="text/css" />');
 	$doc->addCustomTag('<link rel="stylesheet" href="'.$templateDirectoryUrl.'css/rating.css?v=1.1" type="text/css" />');
 }
 
