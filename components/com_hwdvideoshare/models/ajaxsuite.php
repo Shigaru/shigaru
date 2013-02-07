@@ -225,9 +225,8 @@ class hwd_vs_ajax
 		$uri = & JFactory::getURI();
 		$pageURL = $uri->toString();
 		
-		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
-		$pageURL .= '&ajax=yes';
-		$app->redirect($pageURL);
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'core.php');
+		hwd_vs_core::displayResults();
 		}
 	
     /**
