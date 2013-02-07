@@ -33,7 +33,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 $titleString= constant('Click on this linkf to display the language options');
-$outString = '<div class="topbuttons" id="lang"><a href="#" title="'.$titleString.'"><span>'.$curLanguage->getName().'</span><span class="arrow"></span></a>';
+$outString = '<div class="topbuttons" id="lang"><a href="#" class="dropper" title="'.$titleString.'"><span>'.$curLanguage->getName().'</span><span class="arrow"></span></a>';
 $curLangImg = '/images/' .$curLanguage->get( 'image' );						
 //<img src="' .JURI::base(true). $curLangImg. '" alt="' .$curLanguage->getName(). '" title="' .$curLanguage->getName(). '" border="0" class="langImg"/>
 $outString .= '<div id="langDropMenu" class="floatingBox">

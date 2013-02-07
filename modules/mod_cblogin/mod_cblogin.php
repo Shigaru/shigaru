@@ -731,7 +731,7 @@ if ( $_CB_framework->myId() ) {
 		echo '</a></div>'; 
 	 
 	 
-	echo '<div class="topbuttons" id="login"><a href="#" title="'._UE_BUTTON_LOGIN.'"><span>'._UE_BUTTON_LOGIN.'</span><span class="arrow"></span></a>
+	echo '<div class="topbuttons" id="login"><a href="#" class="dropper" title="'._UE_BUTTON_LOGIN.'"><span>'._UE_BUTTON_LOGIN.'</span><span class="arrow"></span></a>
                 <div class="floatingBox" id="loginBox">                
 				
 	<form action="'.$loginPost.'" method="post" id="' . $idFormLogin . '" class="cbLoginForm"';

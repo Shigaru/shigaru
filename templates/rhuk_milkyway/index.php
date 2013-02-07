@@ -113,10 +113,9 @@ function freichatx_get_hash($ses){
 						}
 						include_once( $mainframe->getCfg( 'absolute_path' ) . '/administrator/components/com_comprofiler/plugin.foundation.php' );
 					}
-					cbimport( 'cb.tabs' );
-					
+					cbimport( 'cb.html' );
 					$user =& JFactory::getUser();
-					$cbUser = CBuser::getInstance( $user->id );
+					$cbUser =& CBuser::getInstance( $user->id );
 					
 					if ($user && !$user->guest)
 					echo '<div class="greetinguser"></div>';
@@ -124,7 +123,7 @@ function freichatx_get_hash($ses){
 					<jdoc:include type="modules" name="top" />
 					<?php
 					$uploadUrl =  JRoute::_("index.php?option=com_hwdvideoshare&task=upload");
-					echo '<div class="topbuttons mustardbutton" id="upload"><a href="'.$uploadUrl.'" title="'.JText::_('Click on this link to upload a video!').'">SUBMIT A VIDEO</a></div>';
+					echo '<div id="upload" class="fontbold fleft mright24 mtopl12"><a class="btn btn-primary fleft" title="'.JText::_('Click on this link to upload a video!').'" href="'.$uploadUrl.'"><i class="fontblack icon-share icon-2x"></i> <span class="f120 fontblack">Share a video</span></a></div>';
 					?>
 					<?php					
 					if ($user && !$user->guest){

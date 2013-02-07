@@ -72,7 +72,7 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 </form>
 <div class="clear tleft mleft6">
 <div id="nav_browse_search_recently">
-	<div>	
+	<div class="fright">	
 		<span class=""><?php echo JText::_('Recently searched >>'); ?></span> <?php echo $params->latestSearchs; ?>
 	</div>
 </div>

@@ -36,7 +36,7 @@ jQuery(document).ready(function($){
 		});
 
 	// Login Form	
-	jQuery('#login a,#lang a').click(function(e) {
+	jQuery('#login a.dropper,#lang a.dropper').click(function(e) {
 		 e.preventDefault();
                 if(!jQuery(this).parent(".topbuttons").hasClass("menu-open")){
 					jQuery(".menu-open .floatingBox").hide();
