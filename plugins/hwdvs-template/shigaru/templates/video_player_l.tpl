@@ -74,7 +74,7 @@
 								<div class="clearfix">
 									<div class="fleft mleft20 mtop6">
 										<div class="fleft">{$videoplayer->ratingsystem}</div>
-										<div class="fleft mleft20"><a target="_blank" id="tuner" class="mtop6 pad12 btn btn-large btn-info fontwhite fleft" href="#"><i class="icon-bolt"></i> Tune!</a></div>
+										<div class="fleft mleft20"><a target="_blank" id="tuner" class="mtop6 pad12 btn btn-large btn-info fontwhite fleft" href="#"><i class="icon-bolt"></i> Tuner</a></div>
 									</div>
 									<div class="fright mtop6">
 										<div class="fleft mright12">

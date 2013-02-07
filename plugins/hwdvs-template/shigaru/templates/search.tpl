@@ -29,7 +29,7 @@ var oSearchParams = {
 			<span class="mtop12"></span>
 			<form class="mtop12 mbot12" id="searchForm" action="{$formurl}" method="post" name="searchForm">
 				<div class="w50 fleft">
-					<input type="text" placeholder="Start typing and see our suggestions..." name="pattern" id="searchinput" maxlength="20" value="{$searchterm}" class="inputbox" />
+					<input type="text" name="pattern" id="searchinput" maxlength="20" value="{$searchterm}" class="inputbox" />
 					<button id="searchgo" class= button fnone" type="submit" onclick="this.form.submit();" name="Submit"><span class="gbqfi"></span></button>
 					<input type="hidden" name="task"   value="search" />
 				</div>	
