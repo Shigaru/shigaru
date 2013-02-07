@@ -1465,6 +1465,7 @@ background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1)
 background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-8 */
 border-bottom:1px solid #c1c1c1;
+overflow-y:hidden;
 }
 #search-form li:hover {
   background-color: #3875d7;

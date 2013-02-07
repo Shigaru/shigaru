@@ -3532,7 +3532,7 @@ $app = & JFactory::getApplication();
 	function checkBand($paramBandName,$paramBandId) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.id,label FROM #__hwdvidsbands AS a'; 
-		$query .= ' WHERE (a.external_id = "'.$paramBandId.'" AND a.external_id IS NOT NULL) OR (a.label ="'.$paramBandName.'" AND a.external_id IS NULL)';
+		$query .= ' WHERE (a.external_id = "'.$paramBandId.'" AND a.external_id !="" AND a.external_id !="0") OR (a.label ="'.$paramBandName.'" AND (a.external_id IS NULL OR a.external_id = "0"))';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$bandList = $db->loadResultArray();
@@ -5295,55 +5295,65 @@ $app = & JFactory::getApplication();
 				}
 	   return $oPlayer;
 	 }
+	 
+	 function doGSSongSearch($query){
+		 $session = JFactory::getSession();
+		  $oResults = '';
+		  $app = & JFactory::getApplication();
+		 // grooveshark results
+		  $apikey = '6b0984927cf2c46c8d527a419b5f2347';
+		  $gsJsonurl = 'http://tinysong.com/s/' . urlencode($query) . '?format=json&limit=32&key='.$apikey;
+		  $gsJson = file_get_contents($gsJsonurl,0,null,null);
+		  $songResults = json_decode($gsJson);
+		  if(count($songResults) < 1) $app->setUserState( "hwdvs_song_source", "userinput" );	
+			else {
+			  $albumplaceholder = JURI::root().'templates/rhuk_milkyway/images/placeholderalbum.png';
+			  $app->setUserState( "hwdvs_song_source", "grooveshark" );	
+			  foreach ($songResults as $gsSong) {
+				$oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$albumplaceholder.'" alt="'.$gsSong->artist.'"><div class="w84 fleft mleft12"><span class="fontblack">Song: </span><span class="songname">' . $gsSong->SongName . '</span><span> (' . $gsSong->ArtistName . ')</span><br /><span class="fontblack">Album: </span><span> ' . $gsSong->AlbumName . '</span></div></li>';
+				$songcounter++; 
+			  }
+			  $session->set('songlist', $songResults,'songsearch'); 
+			}
+			
+			return $oResults;  
+		 }
 
 	 function searchSong($query, $limit = 10, $format = "json") {
 		  $session = JFactory::getSession();
 		  $oResults = '';
 		  $app = & JFactory::getApplication();
 		  // rdio results 
-		  session_start(); 
-		 
-		 
-		  // requires signed request
-		  define('CONSUMER_KEY', 'kyw3rxth3ud6n4sqjn9xw4rz');
-		  define('CONSUMER_SECRET', 'TvyMHEVhP4');
-		  $rdio = new hwdRdio(CONSUMER_KEY, CONSUMER_SECRET);
-		  $songResults = $rdio->search(
-			array(
-			  "query" => $query,
-			  "types" => "Track",
-			  "count" => 100,
-			  "never_or" => "true"))->result->results;
-		 $songcounter = 0;	  
-		 $rdio_base_url = 'http://www.rdio.com';
-            if(count($songResults) < 1) {
-				// grooveshark results
-				  $apikey = '6b0984927cf2c46c8d527a419b5f2347';
-				  $gsJsonurl = 'http://tinysong.com/s/' . urlencode($query) . '?format=json&limit=32&key='.$apikey;
-				  $gsJson = file_get_contents($gsJsonurl,0,null,null);
-				  $songResults = json_decode($gsJson);
-				  if(count($songResults) < 1) $app->setUserState( "hwdvs_song_source", "userinput" );	
-					else {
-					  $albumplaceholder = JURI::root().'templates/rhuk_milkyway/images/placeholderalbum.png';
-					  $app->setUserState( "hwdvs_song_source", "grooveshark" );	
-					  foreach ($songResults as $gsSong) {
-						$oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$albumplaceholder.'" alt="'.$gsSong->artist.'"><div class="w84 fleft mleft12"><span class="fontblack">Song: </span><span class="songname">' . $gsSong->SongName . '</span><span> (' . $gsSong->ArtistName . ')</span><br /><span class="fontblack">Album: </span><span> ' . $gsSong->AlbumName . '</span></div></li>';
+		  $redosearch = JRequest::getInt( 'redosearch', 0 );
+		if($redosearch == 1 && $app->getUserState( "hwdvs_song_source" ) !="grooveshark"){
+				$oResults .= hwd_vs_tools::doGSSongSearch($query);
+				}else{		
+				  // requires signed request
+				  define('CONSUMER_KEY', 'kyw3rxth3ud6n4sqjn9xw4rz');
+				  define('CONSUMER_SECRET', 'TvyMHEVhP4');
+				  $rdio = new hwdRdio(CONSUMER_KEY, CONSUMER_SECRET);
+				  $songResults = $rdio->search(
+					array(
+					  "query" => $query,
+					  "types" => "Track",
+					  "count" => 100,
+					  "never_or" => "true"))->result->results;
+				 $songcounter = 0;	  
+				 $rdio_base_url = 'http://www.rdio.com';
+					if(count($songResults) < 1) {
+						$oResults .= hwd_vs_tools::doGSSongSearch($query);
+					}else {
+					  $app->setUserState( "hwdvs_song_source", "rdio" );		
+					  foreach ($songResults as $rdioSong) {
+						$oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$rdioSong->icon.'" alt="'.$rdioSong->artist.'" /><div class="w84 fleft mleft12"><span class="fontblack">Song: </span><span class="songname">' . $rdioSong->name . '</span> (<span>' . $rdioSong->artist . '</span>)<br /><span class="fontblack">Album: </span><span> ' . $rdioSong->album . '</span></div></li>';
 						$songcounter++; 
 					  }
+					  $session->set('songlist', $songResults,'songsearch'); 
 					}
-				
-            }else {
-			  $app->setUserState( "hwdvs_song_source", "rdio" );		
-              foreach ($songResults as $rdioSong) {
-                $oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$rdioSong->icon.'" alt="'.$rdioSong->artist.'" /><div class="w84 fleft mleft12"><span class="fontblack">Song: </span><span class="songname">' . $rdioSong->name . '</span><span> (' . $rdioSong->artist . ')</span><br /><span class="fontblack">Album: </span><span> ' . $rdioSong->album . '</span></div></li>';
-                $songcounter++; 
-              }
-            }
-           /* echo '<pre>';
-             	var_dump($songResults[0]);  
-             	echo '</pre>';*/
+					
+			}
           
-           $session->set('songlist', $songResults,'songsearch'); 
+           
            return $oResults;  	  
 	 }
     

@@ -72,12 +72,7 @@ class CaptchaSecurityImages {
       header('Content-Type: image/jpeg');
       imagejpeg($image);
       imagedestroy($image);
-		if ($jversion == 0) {
-      		$_SESSION['security_code'] = $code;
-		} else {
-			$session =& JFactory::getSession();
-			$session->set('security_code', $code);
-		}
+      $_SESSION['security_code'] = $code;
    }
 
 }

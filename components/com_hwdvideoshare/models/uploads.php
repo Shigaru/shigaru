@@ -1106,7 +1106,6 @@ class hwd_vs_uploads
 		}
 		$requestarray = JRequest::get( 'default', 2 );
 		$embeddump = $requestarray['embeddump'];
-		
 		if ($checksecurity == "1" && !$admin_import)
 		{
 			if(($_SESSION['security_code'] == $security_code) && (!empty($_SESSION['security_code'])) )
@@ -1218,12 +1217,12 @@ class hwd_vs_uploads
 		var_dump('------------------------------------');
 		echo '</pre>';
 		exit();*/
+		$thirdpartyprovider = $app->getUserState( "hwdvs_song_source", "rdio" );
 		if($issearched == '1'){
 			//band and songs stuff
 			$songindex = Jrequest::getVar( 'songindex', '' );
 			$songarray = $session->get('songlist',null, 'songsearch');
 			$oSongChosen = $songarray[intval(str_replace("songresults", "", $songindex))];
-			$thirdpartyprovider = $app->getUserState( "hwdvs_song_source", "rdio" );
 			if($thirdpartyprovider == 'userinput')
 				$oSongChosen = Jrequest::getVar( 'songtitle', '' );
 			$oStoringOutput = hwd_vs_tools::storeSong($oSongChosen,$thirdpartyprovider);

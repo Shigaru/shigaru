@@ -73,6 +73,21 @@ jQuery(document).ready(function() {
 					} 
 				});
 		   }
+	  jQuery('#tuner').click(function(e){
+		    e.preventDefault();
+            jQuery.blockUI({ 
+						message:'<p class="shigarunotice"><span id="close"></span><iframe class="mtop20" src="http://www.123guitartuner.com/guitar_tuner.swf" width="550" height="350"></iframe><br />created by <a href="http://www.123guitartuner.com/">Guitar Tuner</a></p>',
+						 css: { 
+							top:  (jQuery(window).height() - 400) /2 + 'px', 
+							left: (jQuery(window).width() - 600) /2 + 'px',
+							height: '400px',
+							width: '600px',
+							'overflow-y:': 'auto' 
+						} 
+						});
+						
+			jQuery('.shigarunotice #close').click(function(){jQuery.unblockUI();});			  
+		  });
 	   				
 	  jQuery('.crossclose').click(function(e) {
 			e.preventDefault();

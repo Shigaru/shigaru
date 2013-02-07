@@ -449,7 +449,7 @@ class hwd_vs_html
 		$doc = & JFactory::getDocument();
 		$app = & JFactory::getApplication();
 		$active = &$menu->getActive();
-
+		$session = JFactory::getSession();
 		if (!empty($mparams_pt)) {
 			$metatitle = $mparams_pt;
 		} else if (!empty($active->name)) {
@@ -921,6 +921,8 @@ class hwd_vs_html
 		//$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
 		
 		$smartyvs->assign("songPlayer", $songPlayer);
+		$uploadLink = JRoute::_("index.php?option=com_hwdvideoshare&task=upload");
+		$smartyvs->assign("uploadLink", $uploadLink);
 		$smartyvs->assign("thumburl", hwd_vs_tools::generateThumbnailURL( $row->id, $row->video_id, $row->video_type, $row->thumbnail ));
 		
 		$smartyvs->assign("showMoreButton", 1);

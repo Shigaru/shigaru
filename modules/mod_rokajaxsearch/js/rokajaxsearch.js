@@ -121,7 +121,7 @@ jQuery.fn.liveSearch = function (conf) {
 			});
 			
 		};
-		
+		/*
 		var totalCountPolling = function (){
 				jQuery.get('index.php?option=com_hwdvideoshare&lang=en&task=ajax_getvideocount&format=raw', function(data)
 				{
@@ -152,7 +152,7 @@ jQuery.fn.liveSearch = function (conf) {
 			}
 			
 		totalCountPolling();
-		
+		*/
 		// Hides live-search for this input
 		var hideLiveSearch = function () {
 			liveSearch.slideUp(config.duration, function () {

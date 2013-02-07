@@ -33,16 +33,116 @@
 			if(category_id=='1' || category_id=='2')
 				jQuery('.songtutorialfields').fadeIn(500,function () {
 				  });
+				  
+				  
 		
 			jQuery('#category_id').change(function() {	
-				if(jQuery(this).val()=='1' || jQuery(this).val()=='2')
-				jQuery('.songtutorialfields').fadeIn(500,function () {
-				  });
-				else
+				if(jQuery(this).val()=='1' || jQuery(this).val()=='2'){
+					if(isSearched && !isSearchedSuccess){
+							jQuery('.songtutorialfields').fadeIn(500);
+						}else {
+							jQuery('#songtitle').parent().fadeIn(500);
+						}
+				jQuery('#genrehint').fadeOut();
+				}else{
 					jQuery('.songtutorialfields').slideUp();
-			});	
-			
+					if(jQuery(this).val()=='3')
+					jQuery('#genrehint').fadeIn();
+					else
+					jQuery('#genrehint').fadeOut();
+				}
+				
+						
+			});
 			jQuery('#tags').tagsInput({width:'auto'});
+			
+			var lastData;
+			
+				function initiateSearch(paramSecondTry){
+					if(jQuery('#songtitle').valid() || (jQuery('#songtitle').val().length > 2 && jQuery('#category_id').val() == '2')){
+						isSearched = true;
+						jQuery('#tryhere').hide();
+						if(inputPattern != jQuery('#songtitle').val() || paramSecondTry){
+							inputPattern = jQuery('#songtitle').val();	
+							jQuery( '#songresults' ).css('box-shadow','none').html('<div class="mtop25 pad12 tcenter" id="loadingMessage"></div><div class="mleft12 fontbold f120"></div>');
+							searchSong(inputPattern,paramSecondTry);
+									jQuery.blockUI({ 
+										message: jQuery('#search-form'),
+										css: { 
+											width: '40%', 
+											height: '80%', 
+											top: '10%', 
+											left: '30%',  
+											'text-align':'left'
+										} 
+									});	
+									
+								} else{
+									jQuery('#tryhere').show();
+									jQuery.blockUI({ 
+										message: jQuery('#search-form'),
+										css: { 
+											width: '40%', 
+											height: '80%', 
+											top: '10%', 
+											left: '30%',  
+											'text-align':'left'
+										} 
+									});	
+									}
+						}		
+					}
+				
+				function searchSong(paramPattern,paramSecondTry){
+					var oSecondTryParam = (paramSecondTry)?'&redosearch=1':'&redosearch=0';				
+					jQuery.ajax({
+							  url: "index.php?option=com_hwdvideoshare&task=ajax_searchsong&pattern="+paramPattern+oSecondTryParam,
+							  context: document.body
+							}).done(function(data) {
+								jQuery('.blockUI #close').click(function(){jQuery.unblockUI();isSearchedSuccess = false; jQuery('#issearched').val('0'); jQuery('#originalband').parent().fadeIn(500);});
+								if(jQuery.trim(data).length > 0){
+									var oHeight = 0;
+									if(!paramSecondTry)
+										oHeight = (jQuery( '.blockMsg' ).height()-(jQuery( '#search-form .novideos' ).height()*2)-50)+'px';
+											else
+												oHeight = (jQuery( '.blockMsg' ).height()-(jQuery( '#search-form .novideos' ).height())-25)+'px';
+								jQuery( '#songresults' ).css({
+									'height':oHeight,
+									'box-shadow':'1px 4px 13px #ccc'
+									}).empty();
+								jQuery('<div class="results dispnon"><ul class="unstyled">'+data+'</ul>').clone().appendTo( '#songresults' );
+								jQuery('.blockUI .results').fadeIn('slow',function(){
+									if(!paramSecondTry)
+										jQuery('#tryhere').fadeIn();
+									});
+								jQuery('.blockUI .results li').click(function(){
+									jQuery('#songtitle').val(jQuery(this).find('div span.songname').html());
+									jQuery('#songindex').val(jQuery(this).attr('id'));
+									jQuery('#issearched').val('1');
+									jQuery('#originalband').val(jQuery(this).find('div span.songname').next().html()).parent().slideUp(500);
+									jQuery.unblockUI();
+									isSearchedSuccess = true;
+									});
+								} else{
+									jQuery('#songresults').html('<div class="padding novideos pad12 fontbold tcenter"><span class="icon-tint"></span>No matching songs for these text. You might want to re-enter text. If you are sure about the name of the song just close this window and we will store it as a new song</div>');
+									}	
+							});
+					}
+				
+				var inputPattern;
+				var isSearched = false;
+				var isSearchedSuccess = false;
+				
+				jQuery( "#tryhere" ).click(function(e){
+						 e.preventDefault();
+						 initiateSearch(true);
+					});
+				
+				jQuery( ".step .butn-info" ).click(function(e){
+						 e.preventDefault();
+						 initiateSearch(false);
+						});
+			
 		});
 		
 		jQuery.extend(jQuery.validator.messages, {
@@ -106,12 +206,7 @@
 						error.css('top', promptTopPosition);
 					},
 					rules: {
-						originalband: {required: function(element){
-						  return jQuery("#category_id").val() == '1'}
-						 },
-						 songtitle: {required: function(element){
-						  return jQuery("#category_id").val() == '1'}
-						 }
+						
 						 
 					}, messages: {
 						originalband: {
@@ -129,6 +224,13 @@
 				
 {/literal}	
 </script>	
+<div id="search-form" class="dispnon curdef">
+		<a id="close" class="close"></a>
+		<div class="padding novideos pad12 fontbold tcenter"><span class="icon-info-sign fontgreen pad6 f120"></span>To make a selection simply click on a song title</div>
+		<div id="songresults" >
+		</div>
+		<div id="tryhere" class="dispnon fontbold padding novideos pad12 tcenter">Couldn't find the song title? Try <a href="#" title="Click on this link to get search more search results"  class="fontred">here</a></div>
+	</div>
 <div id="contentSliderForm" class="clear">
 	<div id="wrapperSliderForm">
 		<div id="steps">
@@ -166,16 +268,17 @@
 						<input type="text" value="{$tags}" class="required" id="tags" name="tags" size="40"/>
 						<div class="clear"></div>
 						</p>			     
-					<p class="songtutorialfields">
-						<label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
-						<input type="text" id="originalband" name="originalband" size="40" class="required" value="{$band_id}" minlength="2"/>
-						<br class="clear"/>
-						</p>
-					<p class="songtutorialfields">
-						<label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
-						<input type="text" id="songtitle" name="songtitle" size="40" value="{$song_id}"/>
-						<br class="clear"/>
-					  </p>
+					<p class="songtutorialfields dispnon clearfix">
+								<label for="originalband">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND} <font class="required">*</font></label>
+								<input type="text" value="{$band_id}" id="originalband" name="originalband" size="40" class="required" placeholder="Enter Band Name..." minlength="2"/>
+								<br class="clear"/>
+							</p>   
+                            <p class="songtutorialfields dispnon clearfix">     
+								<label for="songtitle">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE} <font class="required">*</font></label>
+								<input type="text" value="{$song_id}" id="songtitle" name="songtitle" size="25" placeholder="Enter the song title and click the button" minlength="3"/>
+								<a href="#" class="mleft12 mtop2 fleft butn butn-small butn-info" title="Click on the button to retrieve for the song"><span class="icon-search bradius5 mright6"></span>Retrieve info</a>
+                               <div class="clear"></div>
+							</p>
 				   <p>
 						<label for="genre_id">{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_MUSIC_GENRE} <font class="required">*</font></label>
 						{$genresCombo}
@@ -216,6 +319,8 @@
 					<input type="hidden" name="referrer" value="{$referrer}" />
 					<input type="hidden" name="id" value="{$rowid}" />
 					<input type="hidden" name="owner" value="{$rowuid}" />
+					<input type="hidden" name="songindex" id="songindex" value="{$videoInfo->songindex}" />
+					<input type="hidden" name="issearched" id="issearched" value="{$videoInfo->issearched}" />
 				</form>
 				</div>
 		</div>

@@ -56,6 +56,7 @@
 								  <div><span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENT}</span><br />{$videoplayer->instrument}</div>
 								  <div><span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_GENRE}</span><br />{$videoplayer->genre}</div>
 								  <div><span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}</span><br />{$videoplayer->language}</div>
+								  <div class="fontbold"><a class="mtop6 pad12 btn btn-primary fleft" href="{$uploadLink}"><i class="icon-share icon-4x"></i> Share a video</a></div>
 							</div>	
 						</div>	
 				  </div>
@@ -71,7 +72,10 @@
 									<div class="fleft">{$videoplayer->reportmedia}</div>
 								</div>
 								<div class="clearfix">
-									<div class="fleft mleft20 mtop6">{$videoplayer->ratingsystem}</div>
+									<div class="fleft mleft20 mtop6">
+										<div class="fleft">{$videoplayer->ratingsystem}</div>
+										<div class="fleft mleft20"><a target="_blank" id="tuner" class="mtop6 pad12 btn btn-large btn-info fontwhite fleft" href="#"><i class="icon-bolt"></i> Tune!</a></div>
+									</div>
 									<div class="fright mtop6">
 										<div class="fleft mright12">
 											<div class="fb-like" data-href="{$currentUrl}" data-send="false" data-layout="box_count" data-width="100" data-show-faces="false"></div>
@@ -158,18 +162,17 @@
 							</div>	
 							
 						</div>
-						<div id="comments-tabs" class="mleft20 bortopgrey mtop12 pad12">
-							<h4 class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</h4>
-							<div id="comments-tabs-1" class="standard">
-							  <div class="">
-								<div class="list">
-									<div class="box">
-									  {if $print_comments}
-										  {$videoplayer->comments}
-									{/if} 
-									</div>
-								</div>  
-							  </div>
+						<div id="comments-tabs">
+							<div class="fleft w49 borleftgrey mtop12 clearfix padright12 mbot20">
+								<h4 class="fontbold f120 mbot6">{$smarty.const._HWDVIDS_TITLE_VIDCOMMS}</h4>
+								<div id="comments-tabs-1" class="standard">
+										  {if $print_comments}
+											  {$videoplayer->comments}
+										{/if} 
+								</div>
+							</div>	
+							<div id="comments-tabs-1" class="fleft w49 borleftgrey mtop12">
+								
 							</div>
 						</div>
 						 <div class="clear">   </div>  
@@ -181,7 +184,7 @@
       <div id="infocontext" class="fleft">
 		   <div class="box">
 				  <div class="mtop12 mbot12 tcenter w100">
-					<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab" id="Player_8caa4aff-1051-4101-82f9-e9e31e1d92a7"  WIDTH="336px" HEIGHT="280px"> <PARAM NAME="movie" VALUE="http://ws.amazon.com/widgets/q?rt=tf_w_mpw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8014%2F8caa4aff-1051-4101-82f9-e9e31e1d92a7&Operation=GetDisplayTemplate"><PARAM NAME="quality" VALUE="high"><PARAM NAME="bgcolor" VALUE="#FFFFFF"><PARAM NAME="allowscriptaccess" VALUE="always"><embed src="http://ws.amazon.com/widgets/q?rt=tf_w_mpw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8014%2F8caa4aff-1051-4101-82f9-e9e31e1d92a7&Operation=GetDisplayTemplate" id="Player_8caa4aff-1051-4101-82f9-e9e31e1d92a7" quality="high" bgcolor="#ffffff" name="Player_8caa4aff-1051-4101-82f9-e9e31e1d92a7" allowscriptaccess="always"  type="application/x-shockwave-flash" align="middle" height="280px" width="336px"></embed></OBJECT> <NOSCRIPT><A HREF="http://ws.amazon.com/widgets/q?rt=tf_w_mpw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8014%2F8caa4aff-1051-4101-82f9-e9e31e1d92a7&Operation=NoScript">Amazon.com Widgets</A></NOSCRIPT>
+					<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" allowTransparency="true" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab" id="Player_8caa4aff-1051-4101-82f9-e9e31e1d92a7"  WIDTH="336px" HEIGHT="280px"> <PARAM NAME="movie" VALUE="http://ws.amazon.com/widgets/q?rt=tf_w_mpw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8014%2F8caa4aff-1051-4101-82f9-e9e31e1d92a7&Operation=GetDisplayTemplate"><PARAM NAME="quality" VALUE="high"><PARAM NAME="bgcolor" VALUE="#FFFFFF"><PARAM NAME="allowscriptaccess" VALUE="always"><embed allowTransparency="true" src="http://ws.amazon.com/widgets/q?rt=tf_w_mpw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8014%2F8caa4aff-1051-4101-82f9-e9e31e1d92a7&Operation=GetDisplayTemplate" id="Player_8caa4aff-1051-4101-82f9-e9e31e1d92a7" quality="high" bgcolor="#ffffff" name="Player_8caa4aff-1051-4101-82f9-e9e31e1d92a7" allowscriptaccess="always"  type="application/x-shockwave-flash" align="middle" height="280px" width="336px"></embed></OBJECT> <NOSCRIPT><A HREF="http://ws.amazon.com/widgets/q?rt=tf_w_mpw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8014%2F8caa4aff-1051-4101-82f9-e9e31e1d92a7&Operation=NoScript">Amazon.com Widgets</A></NOSCRIPT>
 				  </div>
 				  <h4 class="fontbold tshadowwhite mbot6">{$smarty.const._HWDVIDS_RELATED}</h4>
 				  <ul id="relatedvideos">

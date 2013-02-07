@@ -227,16 +227,63 @@
 				
 			var lastData;
 			
-			function searchSong(paramPattern){
+			function initiateSearch(paramSecondTry){
+				if(jQuery('#songtitle').valid() || (jQuery('#songtitle').val().length > 2 && jQuery('#category_id').val() == '2')){
+					isSearched = true;
+					jQuery('#tryhere').hide();
+					if(inputPattern != jQuery('#songtitle').val() || paramSecondTry){
+						inputPattern = jQuery('#songtitle').val();	
+						jQuery( '#songresults' ).css('box-shadow','none').html('<div class="mtop25 pad12 tcenter" id="loadingMessage"></div><div class="mleft12 fontbold f120"></div>');
+						searchSong(inputPattern,paramSecondTry);
+								jQuery.blockUI({ 
+									message: jQuery('#search-form'),
+									css: { 
+										width: '40%', 
+										height: '80%', 
+										top: '10%', 
+										left: '30%',  
+										'text-align':'left'
+									} 
+								});	
+								
+							} else{
+								jQuery('#tryhere').show();
+								jQuery.blockUI({ 
+									message: jQuery('#search-form'),
+									css: { 
+										width: '40%', 
+										height: '80%', 
+										top: '10%', 
+										left: '30%',  
+										'text-align':'left'
+									} 
+								});	
+								}
+					}		
+				}
+			
+			function searchSong(paramPattern,paramSecondTry){
+				var oSecondTryParam = (paramSecondTry)?'&redosearch=1':'&redosearch=0';				
 				jQuery.ajax({
-						  url: domain+"index.php?option=com_hwdvideoshare&task=ajax_searchsong&pattern="+paramPattern,
+						  url: domain+"index.php?option=com_hwdvideoshare&task=ajax_searchsong&pattern="+paramPattern+oSecondTryParam,
 						  context: document.body
 						}).done(function(data) {
 							jQuery('.blockUI #close').click(function(){jQuery.unblockUI();isSearchedSuccess = false; jQuery('#issearched').val('0'); jQuery('#originalband').parent().fadeIn(500);});
 							if(jQuery.trim(data).length > 0){
-							jQuery( '#songresults' ).css('height',(jQuery( '.blockMsg' ).height()-jQuery( '#search-form .novideos' ).height()-25)+'px').empty();
+								var oHeight = 0;
+								if(!paramSecondTry)
+									oHeight = (jQuery( '.blockMsg' ).height()-(jQuery( '#search-form .novideos' ).height()*2)-50)+'px';
+										else
+											oHeight = (jQuery( '.blockMsg' ).height()-(jQuery( '#search-form .novideos' ).height())-25)+'px';
+							jQuery( '#songresults' ).css({
+								'height':oHeight,
+								'box-shadow':'1px 4px 13px #ccc'
+								}).empty();
 							jQuery('<div class="results dispnon"><ul class="unstyled">'+data+'</ul>').clone().appendTo( '#songresults' );
-							jQuery('.blockUI .results').fadeIn();
+							jQuery('.blockUI .results').fadeIn('slow',function(){
+								if(!paramSecondTry)
+									jQuery('#tryhere').fadeIn();
+								});
 							jQuery('.blockUI .results li').click(function(){
 								jQuery('#songtitle').val(jQuery(this).find('div span.songname').html());
 								jQuery('#songindex').val(jQuery(this).attr('id'));
@@ -254,40 +301,16 @@
 			var inputPattern;
 			var isSearched = false;
 			var isSearchedSuccess = false;
-			jQuery( ".step .butn-info" ).click(function(){
-				if(jQuery('#songtitle').valid() || (jQuery('#songtitle').val().length > 2 && jQuery('#category_id').val() == '2')){
-					isSearched = true;
-					if(inputPattern != jQuery('#songtitle').val()){
-						inputPattern = jQuery('#songtitle').val();	
-						jQuery( '#songresults' ).html('<div class="mtop25 pad12 tcenter" id="loadingMessage"></div><div class="mleft12 fontbold f120"></div>');
-						searchSong(inputPattern);
-								jQuery.blockUI({ 
-									message: jQuery('#search-form'),
-									css: { 
-										width: '40%', 
-										height: '80%', 
-										top: '10%', 
-										left: '30%',  
-										'text-align':'left'
-									} 
-								});	
-								
-							} else{
-								jQuery.blockUI({ 
-									message: jQuery('#search-form'),
-									css: { 
-										width: '40%', 
-										height: '80%', 
-										top: '10%', 
-										left: '30%',  
-										'text-align':'left'
-									} 
-								});	
-								}
-					}		
-					
-					return false;	
+			
+			jQuery( "#tryhere" ).click(function(e){
+					 e.preventDefault();
+					 initiateSearch(true);
 				});
+			
+			jQuery( ".step .butn-info" ).click(function(e){
+					 e.preventDefault();
+					 initiateSearch(false);
+					});
 		});
 </script>
 {/literal}
@@ -298,6 +321,7 @@
 		<div class="padding novideos pad12 fontbold tcenter"><span class="icon-info-sign fontgreen pad6 f120"></span>To make a selection simply click on a song title</div>
 		<div id="songresults" >
 		</div>
+		<div id="tryhere" class="dispnon fontbold padding novideos pad12 tcenter">Couldn't find the song title? Try <a href="#" title="Click on this link to get search more search results"  class="fontred">here</a></div>
 	</div>
 
 <div class="f100 mtopl50">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
