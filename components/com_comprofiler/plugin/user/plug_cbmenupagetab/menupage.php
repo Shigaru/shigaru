@@ -7,15 +7,6 @@ defined('_JEXEC') or die('Restricted access');
 
 <script type="text/javascript">
 
-/***********************************************
-* Ajax Includes script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
-* This notice MUST stay intact for legal use
-* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
-***********************************************/
-
-//To include a page, invoke ajaxinclude("afile.htm") in the BODY of page
-//Included file MUST be from the same domain as the page displaying it.
-
 var rootdomain="http://"+window.location.hostname
 
 function ajaxinclude(url) {

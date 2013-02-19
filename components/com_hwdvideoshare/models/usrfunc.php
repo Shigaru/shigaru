@@ -118,7 +118,7 @@ class hwd_vs_usrfunc
 
 		$db->SetQuery( 'SELECT count(*)'
 					 . ' FROM #__hwdvidsvideos AS video'
-					 . ' LEFT JOIN #__hwdvidsfavorites AS f ON video.id = f.videoid'
+					 . ' LEFT JOIN #__hwdvidsfavorites AS f ON video.id = f.item_id'
 					 . $where
 					 );
   		$total = $db->loadResult();
@@ -129,7 +129,7 @@ class hwd_vs_usrfunc
 		$query = 'SELECT'.$hwdvs_selectv
                	. ' FROM #__hwdvidsvideos AS video'
 				. $hwdvs_joinv
-				. ' LEFT JOIN #__hwdvidsfavorites AS f ON video.id = f.videoid'
+				. ' LEFT JOIN #__hwdvidsfavorites AS f ON video.id = f.item_id'
 				. $where
 				. ' ORDER BY video.date_uploaded DESC'
 				;
