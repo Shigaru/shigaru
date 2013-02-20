@@ -185,7 +185,7 @@ class plgSystemePrivacy extends JPlugin {
             $msg.= '<p><a href="http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=CELEX:32002L0058:'.$linklang.':NOT" onclick="window.open(this.href);return false;">'.JText::_('PLG_SYS_LAWLINK_TEXT').'</a></p>';
         }
         
-        $msge = '</div><div class="content_box" id="theidea">
+        $msge = '<div class="content_box" id="theidea">
 					<a id="close" class="close"></a>
 					<h3>What is the shigaru community about?</h3>
 					<ul class="mbot30">
