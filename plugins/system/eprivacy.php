@@ -223,11 +223,11 @@ class plgSystemePrivacy extends JPlugin {
 					</div>';
 		
 		
-		$doc = JFactory::getDocument();
-		$doc->addCustomTag( $msge);
+		$app = JFactory::getApplication();
+		//$app->enqueueMessage( $msge);
         
         
-        $app = JFactory::getApplication();
+        
         $app->enqueueMessage($msg, '');
     }
 }

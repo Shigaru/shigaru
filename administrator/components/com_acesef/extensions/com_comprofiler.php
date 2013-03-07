@@ -31,12 +31,46 @@ class AceSEF_com_comprofiler extends AcesefExtension {
 			}
 		}
 	}
-
 	function build(&$vars, &$segments, &$do_sef, &$metadata, &$item_limitstart) {
 		self::_is_acesef();
 		
         extract($vars);
-
+	
+	if(isset($plugin)){
+		unset($vars['plugin']);
+	}
+	
+	if(isset($action)){
+        switch($action){
+        	case "categories":
+        	$segments[] = $action;
+	        	if(empty($cat)){
+	        		$segments[] = "All Categories";
+	        	}
+	        	else{
+	        		$segments[] = self::_getCategory($cat);
+	        		unset($vars['cat']);
+	        	}
+	        break;
+	        case "groups":
+	        $segments[] = $action;
+	        	if(!empty($cat) && !empty($grp)){
+	        	$segments[] = self::_getGroup($grp);
+	        	unset($vars['cat']);
+	        	unset($vars['grp']);
+	        	}
+	        break;
+	        default:
+	        	$segments[] = $action;
+	        break;
+        }
+        	unset($vars['action']);
+        }
+        
+        if(isset($func)){
+        	unset($vars['func']);
+        }
+        
         if (isset($task)) {
             switch($task) {
                 case 'userprofile':
@@ -133,6 +167,9 @@ class AceSEF_com_comprofiler extends AcesefExtension {
 					'login' => _UE_BUTTON_LOGIN);
                     $segments[] = $tasks[$task];
                     break;
+                    case 'pluginclass':
+                	unset($vars['task']);
+                    break;
 				default:
 					$segments[] = $task;
 					break;
@@ -168,7 +205,7 @@ class AceSEF_com_comprofiler extends AcesefExtension {
 		unset($vars['limit']);
 		unset($vars['limitstart']);
     }
-
+    
     function _getUser($id) {
 		static $cache = array();
 		
@@ -186,8 +223,33 @@ class AceSEF_com_comprofiler extends AcesefExtension {
 		}
 		
 		return $cache[$id]['name'];
-    }
-	
+    	}
+    
+    	function _getGroup($id) {
+		static $cache = array();
+		
+		if (!isset($cache[$id])) {
+			$joomfish = $this->AcesefConfig->joomfish_trans_url ? ', id' : '';
+			$row = AceDatabase::loadRow("SELECT name$joomfish FROM #__groupjive_groups WHERE id =".$id);
+
+			$name = (($this->params->get('groupid_inc', '1') != '1') ? $id.'-' : '').$row[0];
+			$cache[$id]['name'] = $name;
+		}
+		return $cache[$id]['name'];
+    	}
+	function _getCategory($id) {
+		static $cache = array();
+		
+		if (!isset($cache[$id])) {
+			$joomfish = $this->AcesefConfig->joomfish_trans_url ? ', id' : '';
+			$row = AceDatabase::loadRow("SELECT name$joomfish FROM #__groupjive_categories WHERE id =".$id);
+
+			$name = (($this->params->get('categoryid_inc', '1') != '1') ? $id.'-' : '').$row[0];
+			$cache[$id]['name'] = $name;
+		}
+		return $cache[$id]['name'];
+    	}
+    
 	function _getUserList($id) {
 		static $cache = array();
 		

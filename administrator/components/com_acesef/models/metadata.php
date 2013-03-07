@@ -240,7 +240,7 @@ class AcesefModelMetadata extends AcesefModel {
 			$items = rtrim($items, ', ');
 			$select = 'u.url_sef, u.id, u.url_real, u.used';
 			$tables = '#__acesef_urls AS u, #__acesef_metadata AS m';
-			$where = "u.url_sef = m.url_sef AND m.id IN ({$items}) AND u.params LIKE '%notfound=0%'";
+			$where = "u.url_sef = m.url_sef AND m.id IN ({$items}) ";
 			
     		$urls = AceDatabase::loadObjectList("SELECT {$select} FROM {$tables} WHERE {$where} ORDER BY u.url_sef {$this->filter_order_Dir}");
 		}

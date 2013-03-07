@@ -7,7 +7,7 @@
 	<license>GNU GPL, http://www.joomace.net/company/license</license>
 	<authorEmail>info@joomace.net</authorEmail>
 	<authorUrl>www.joomace.net</authorUrl>
-	<version>1.5.5</version>
+	<version>1.5.6</version>
 	<description>hwdVideoShare extension for AceSEF.</description>
 	<files>
 		<filename acesef_ext="com_hwdvideoshare">com_hwdvideoshare.php</filename>
@@ -49,4 +49,45 @@
 	<params group="download_id">
 		<param name="download_id" type="password" size="60" default="" label="ACESEF_CONFIG_MAIN_UPGRADE_ID" description="ACESEF_PARAMS_DOWNLOAD_ID" />
 	</params>
+	<config>
+		<fields name="params">
+			<fieldset name="url">
+				<field name="videoid_inc" type="radio" default="1" label="ACESEF_PARAMS_HWDVIDEOSHARE_VIDEO_ID" description="ACESEF_PARAMS_HWDVIDEOSHARE_VIDEO_ID_HELP">
+		 			<option value="1">No</option>
+		 			<option value="2">Yes</option>
+		 		</field>
+		 		<field name="category_inc" type="list" default="3" label="ACESEF_PARAMS_URL_CATEGORY" description="ACESEF_PARAMS_URL_CATEGORY_HELP">
+		 			<option value="1">No</option>
+		 			<option value="2">ACESEF_PARAMS_URL_CATEGORY_LAST</option>
+		 			<option value="3">ACESEF_PARAMS_URL_CATEGORY_ALL</option>
+		 		</field>
+		 		<field name="categoryid_inc" type="radio" default="1" label="ACESEF_PARAMS_URL_CATEGORY_ID" description="ACESEF_PARAMS_URL_CATEGORY_ID_HELP">
+		 			<option value="1">No</option>
+		 			<option value="2">Yes</option>
+		 		</field>
+				<field name="groupid_inc" type="radio" default="1" label="ACESEF_PARAMS_HWDVIDEOSHARE_GROUP_ID" description="ACESEF_PARAMS_HWDVIDEOSHARE_GROUP_ID_HELP">
+		 			<option value="1">No</option>
+		 			<option value="2">Yes</option>
+		 		</field>
+				<field name="playlistid_inc" type="radio" default="1" label="Add playlist ID" description="If set to Yes, playlist ID will be prepended to playlist name.">
+		 			<option value="1">No</option>
+		 			<option value="2">Yes</option>
+		 		</field>
+		 		<field name="name_inc" type="radio" default="2" label="ACESEF_PARAMS_COMPROFILER_TYPE_NAME">
+		 			<option value="1">ACESEF_PARAMS_COMPROFILER_TYPE_NAME_1</option>
+		 			<option value="2">ACESEF_PARAMS_COMPROFILER_TYPE_NAME_2</option>
+		 		</field>
+		 		<field name="userid_inc" type="radio" default="1" label="ACESEF_PARAMS_URL_USER_ID" description="ACESEF_PARAMS_URL_USER_ID_HELP">
+		 			<option value="1">No</option>
+		 			<option value="2">Yes</option>
+		 		</field>
+			</fieldset>
+			<fieldset name="categorylist">
+		 		<field name="categorylist" type="text" label="" description=""/>
+			</fieldset>
+			<fieldset name="download_id">
+				<field name="download_id" type="password" size="60" default="" label="ACESEF_CONFIG_MAIN_UPGRADE_ID" description="ACESEF_PARAMS_DOWNLOAD_ID" />
+			</fieldset>
+		</fields>
+	</config>
 </install>

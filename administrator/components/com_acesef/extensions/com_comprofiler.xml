@@ -7,7 +7,7 @@
 	<license>GNU GPL, http://www.joomace.net/company/license</license>
 	<authorEmail>info@joomace.net</authorEmail>
 	<authorUrl>www.joomace.net</authorUrl>
-	<version>1.5.2</version>
+	<version>1.5.4</version>
 	<description>Community Builder extension for AceSEF.</description>
 	<files>
 		<filename acesef_ext="com_comprofiler">com_comprofiler.php</filename>
@@ -26,6 +26,37 @@
  			<option value="1">No</option>
  			<option value="2">Yes</option>
  		</param>
+ 		<param name="categoryid_inc" type="radio" default="1" label="ACESEF_PARAMS_URL_CATEGORY_ID" description="ACESEF_PARAMS_URL_CATEGORY_ID_HELP">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
+ 		<param name="groupid_inc" type="radio" default="1" label="Add Group ID" description="If set to Yes, group ID will be prepended to group name">
+ 			<option value="1">No</option>
+ 			<option value="2">Yes</option>
+ 		</param>
 		<param name="list_prefix" type="text" default="" label="ACESEF_PARAMS_COMPROFILER_PREFIX" description="ACESEF_PARAMS_COMPROFILER_PREFIX_HELP" />
  	</params>
+ 	 	<config>
+ 		<fields name="params">
+ 			<fieldset name="url">
+		 		<field name="name_inc" type="radio" default="2" label="ACESEF_PARAMS_COMPROFILER_TYPE_NAME">
+		 			<option value="1">ACESEF_PARAMS_COMPROFILER_TYPE_NAME_1</option>
+		 			<option value="2">ACESEF_PARAMS_COMPROFILER_TYPE_NAME_2</option>
+		 		</field>
+		 		<field name="userid_inc" type="radio" default="1" label="ACESEF_PARAMS_URL_USER_ID" description="ACESEF_PARAMS_URL_USER_ID_HELP">
+		 			<option value="1">No</option>
+		 			<option value="2">Yes</option>
+		 		</field>
+		 		<field name="categoryid_inc" type="radio" default="1" label="ACESEF_PARAMS_URL_CATEGORY_ID" description="ACESEF_PARAMS_URL_CATEGORY_ID_HELP">
+		 			<option value="1">No</option>
+		 			<option value="2">Yes</option>
+		 		</field>
+		 		<field name="groupid_inc" type="radio" default="1" label="Add Group ID" description="If set to Yes, group ID will be prepended to group name">
+		 			<option value="1">No</option>
+		 			<option value="2">Yes</option>
+		 		</field>
+				<field name="list_prefix" type="text" default="" label="ACESEF_PARAMS_COMPROFILER_PREFIX" description="ACESEF_PARAMS_COMPROFILER_PREFIX_HELP" />
+	 		</fieldset>
+	 	</fields>
+	</config>
 </install>

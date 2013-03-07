@@ -7,7 +7,7 @@
 	<license>GNU GPL, http://www.joomace.net/company/license</license>
 	<authorEmail>info@joomace.net</authorEmail>
 	<authorUrl>www.joomace.net</authorUrl>
-	<version>1.5.0</version>
+	<version>1.5.1</version>
 	<description>uddeIM extension for AceSEF.</description>
 	<files>
 		<filename acesef_ext="com_uddeim">com_uddeim.php</filename>
