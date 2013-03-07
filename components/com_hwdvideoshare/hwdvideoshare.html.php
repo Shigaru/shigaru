@@ -159,7 +159,7 @@ class hwd_vs_html
 		
 		$smartyvs->assign("print_featured", 1);
 		hwd_vs_tools::logViewing($featured_file[0]->id);
-		$featured_video_player = hwd_vs_tools::generateVideoPlayer($featured_file[0], $c->fvid_w, $c->fvid_h);
+		$featured_video_player = hwd_vs_tools::generateVideoPlayer($featured_file[0], "100%", $c->fvid_h);
 		$smartyvs->assign("featured_video_details", hwd_vs_tools::generateVideoDetails($featured_file[0], null, null, null, $Itemid, null, null));
 		$smartyvs->assign("featured_video_player", $featured_video_player);
 		$meta_description = hwd_vs_tools::generateMetaText($featured_file[0]->description);
