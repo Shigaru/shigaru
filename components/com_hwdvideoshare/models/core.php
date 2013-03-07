@@ -52,17 +52,6 @@ class hwd_vs_core
 		$rowsNbwType = "";
 
 
-        // get video count
-        $db->SetQuery( 'SELECT count(*)'
-					 . ' FROM #__hwdvidsvideos AS video'
-					 . $hwdvs_joinv
-					 . $where
-					 );
-        $total = $db->loadResult();
-        echo $db->getErrorMsg();
-
-		
-
         if ($c->feat_rand == 0)
         {
 			if (file_exists(JPATH_SITE.DS.'media'.DS.'hwdvsfeatured.order'))
@@ -93,11 +82,8 @@ class hwd_vs_core
         	$order = ' ORDER BY video.date_uploaded DESC';
         }
 
-        if ($c->feat_show == 0) {
-        	$sqlLimit = ' LIMIT 0, '.$c->fpfeaturedvids;
-        } else {
-        	$sqlLimit = ' LIMIT 0, '.($c->fpfeaturedvids+1);
-        }
+        $sqlLimit = ' LIMIT 0, 1';
+        
 
         // get featured videos
         $query = 'SELECT'.$hwdvs_selectv
@@ -110,7 +96,7 @@ class hwd_vs_core
                 ;
         $db->SetQuery($query);
         $rowsfeatured = $db->loadObjectList();
-
+		$featured_file = $rowsfeatured[0];
 		$rowsnow = array();
 		if ($c->frontpage_watched == "1") {
 
@@ -170,18 +156,9 @@ class hwd_vs_core
 			}
 
         }
-		/*
-		$query = 'SELECT tags FROM #__hwdvidsvideos AS video';
-		$query .= ' WHERE video.published = 1';
-        $query .= ' AND video.approved = "yes"';
-        $query .= ' ORDER BY video.date_uploaded DESC' ;
-		$query .= ' LIMIT 0,100';
-		$db->setQuery($query);
-		$db->loadObjectList();
-		$wordList = $db->loadResultArray();
-*/
+		
         // send out
-        hwd_vs_html::frontpage($rowsfeatured, $pageNav, $total, $rowsnow,$rowsNbwType, $wordList);
+        hwd_vs_html::frontpage($rowsfeatured, $rowsnow,$rowsNbwType);
     }
     /**
      * Make frontpage SQL queries with appropriate filters

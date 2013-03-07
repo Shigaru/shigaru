@@ -33,7 +33,7 @@ class hwd_vs_html
     /**
      *
      */
-    function frontpage($rowsfeatured, $pageNav, $total, $rowsnow, $rowsNbwType,$wordList)
+    function frontpage($featured_file,$rowsnow, $rowsNbwType)
     {
 		global $Itemid, $smartyvs, $hwdvsTemplateOverride, $limit, $limitstart, $j15, $j16;
 		$c = hwd_vs_Config::get_instance();
@@ -152,120 +152,33 @@ class hwd_vs_html
 			}
 
 			$k = 0;
-			if (count($rowsfeatured) > 0)
-			{
-				$smartyvs->assign("print_featured", 1);
-				if ($c->fvid_w == 0) { $c->fvid_w = "100%"; }
-
-				if ($c->feat_show == 3)
-				{
-					$xspf_playlist = JPATH_SITE.'/components/com_hwdvideoshare/xml/xspf/featured.xml';
-					if (file_exists($xspf_playlist) && filesize($xspf_playlist) > 210)
-					{
-						$featured_file = null;
-						$featured_file->id = null;
-						$featured_file->video_type = "playlist";
-						$featured_file->playlist = JURI::root(true).'/components/com_hwdvideoshare/xml/xspf/featured.xml';
-						$array_i = 0;
-						$featured_file->description = null;
-						$featured_file->tags = null;
-					}
-				}
-				if ($c->feat_show !== "3" || !isset($featured_file->video_type))
-				{
-					if ($c->feat_show == "2")
-					{
-						$smartyvs->assign("showFeaturedDetails", 1);
-					}
-					$array_i = 0;
-					$featured_file = $rowsfeatured[$array_i];
-				}
-
-				if ($c->feat_as == "yes")
-				{
-					$as = "1";
-				}
-				else if ($c->feat_as == "no")
-				{
-					$as = "0";
-				}
-				else if ($c->feat_as == "first")
-				{
-					$fas_check = $app->getUserState( "hwdvs_fas_check", "notviewed" );
-					if ($fas_check !== "viewed")
-					{
-						$app->setUserState( "hwdvs_fas_check", "viewed" );
-						$as = "1";
-					}
-					else
-					{
-						$as = "0";
-					}
-				}
-				else
-				{
-					$as = null;
-				}
-
-				hwd_vs_tools::logViewing($featured_file->id);
-				//require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
-				//hwd_vs_recount::recountVideoViews($featured_file->id);
-
-				if ($c->usehq == "1")
-				{
-					$quality = "hd";
-				}
-				else if ($c->usehq == "2")
-				{
-					$quality = "sd";
-				}
-				else
-				{
-					$quality = null;
-				}
-
-				$featured_video_player = hwd_vs_tools::generateVideoPlayer($featured_file, $c->fvid_w, $c->fvid_h, $as, $quality);
-				$smartyvs->assign("featured_video_player", $featured_video_player);
-
-				$meta_description = hwd_vs_tools::generateMetaText($featured_file->description);
-				$meta_tags = hwd_vs_tools::generateMetaText($featured_file->tags);
-
-				// set the page/meta title
-				$doc->setMetaData( 'description' , $meta_description );
-				$doc->setMetaData( 'keywords' , $meta_tags );
-
-
-				if (isset($hwdvsTemplateOverride['thumbWidth6'])) {
-					$thumbwidth = $hwdvsTemplateOverride['thumbWidth6'];
-				} else {
-					$thumbwidth = null;
-				}
-
-				$featuredlist = hwd_vs_tools::generateVideoListFromSql($rowsfeatured, "featuredthumbs", $thumbwidth);
-				$smartyvs->assign("featuredlist", $featuredlist);
-
-				if ($c->feat_show == "2")
-				{
-					$smartyvs->assign("featured_video_details", hwd_vs_tools::generateVideoDetails($rowsfeatured[$array_i], null, null, null, $Itemid, null, null));
-/*					
-					echo '<pre>';
-					 print_r(hwd_vs_tools::generateVideoDetails($rowsfeatured[$array_i], null, null, null, $Itemid, null, null));
-					echo '</pre>';
-	*/				 
-					
-				}
-			}
-			if (count($rowsfeatured) > 1) {
-				$smartyvs->assign("print_multiple_featured", 1);
-			}
+			
 
 			
 		}
+		
+		$smartyvs->assign("print_featured", 1);
+		hwd_vs_tools::logViewing($featured_file[0]->id);
+		$featured_video_player = hwd_vs_tools::generateVideoPlayer($featured_file[0], $c->fvid_w, $c->fvid_h);
+		$smartyvs->assign("featured_video_details", hwd_vs_tools::generateVideoDetails($featured_file[0], null, null, null, $Itemid, null, null));
+		$smartyvs->assign("featured_video_player", $featured_video_player);
+		$meta_description = hwd_vs_tools::generateMetaText($featured_file[0]->description);
+		$meta_tags = hwd_vs_tools::generateMetaText($featured_file[0]->tags);
 
+		// set the page/meta title
+		$doc->setMetaData( 'description' , $meta_description );
+		$doc->setMetaData( 'keywords' , $meta_tags );
+
+
+		if (isset($hwdvsTemplateOverride['thumbWidth6'])) {
+			$thumbwidth = $hwdvsTemplateOverride['thumbWidth6'];
+		} else {
+			$thumbwidth = null;
+		}
 		$smartyvs->assign( "featured_link" , JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=featuredvideos") );
 		$smartyvs->assign( "print_featured_player", $c->feat_show );
 
-		$page = $total - $c->vpp;
+		
 		
 		/* Shigaru Customs */
 		
@@ -285,13 +198,6 @@ class hwd_vs_html
 		$smartyvs->assign("tenreasonsurl", $tenreasonsurl);
 		$shiggymemberssurl = $live_path . "modules/mod_zncbmembers/tmpl/js/shiggymembers.js";
 		$smartyvs->assign("shiggymemberssurl", $shiggymemberssurl);
-
-		
-		/* what are you doing box
-		$whatmodule = JModuleHelper::getModule('whatru');
-		$whatareyou = JModuleHelper::renderModule($whatmodule);
-		$smartyvs->assign("whatareyou", $whatareyou);
-		*/
 		 
         $doc->addStyleSheet(JURI::base(true) . '/' . "modules/mod_zncbmembers/tmpl/css/default.css", 'text/css');
 		$s4jnewusersm = JModuleHelper::getModule( 's4jnewusers' );
