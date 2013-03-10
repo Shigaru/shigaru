@@ -77,12 +77,3 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 #
 ########## End - Joomla! core SEF Section
 
-<IfModule mod_expires.c>
-ExpiresActive On
-############################################
-## Add default Expires header
-## http://developer.yahoo.com/performance/rules.html#expires
-<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
-ExpiresDefault "access plus 1 year"
-</FilesMatch>
-</IfModule>

@@ -3787,6 +3787,48 @@ $app = & JFactory::getApplication();
 		return $wordList;
     }
     
+    /**
+     * Generates list of most popular tags
+     *
+     * 
+     * @return       $wordList
+     */
+	function getRelatedVideos($paramVideoId,$paramLimitStart) {
+		
+		global $hwdvs_selectv,$hwdvs_joinv,$smartyvs;	
+		$oResults = '';
+		$db = & JFactory::getDBO();
+		$row= new hwdvids_video($db);
+		$row->load($paramVideoId);
+		$searchterm = addslashes($row->title." ".$row->description." ".$row->tags);
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'search.php');
+		$whereVideos = hwd_vs_search::search_perform_videos("related",$searchterm);
+		$query = 'SELECT'.$hwdvs_selectv
+				. ' FROM #__hwdvidsvideos AS video'
+				. $hwdvs_joinv
+				. $whereVideos
+				. ' AND video.published = 1'
+				. ' AND video.approved = "yes"'
+				. ' AND video.id <> '.$row->id
+				. ' LIMIT '.$paramLimitStart.', '.($paramLimitStart+10)
+				;
+		$db->SetQuery($query);
+		$relatedrows = $db->loadObjectList();
+		if (count($relatedrows) > 0 )
+		{
+			$thumbwidth = '100';
+			$listrelated = hwd_vs_tools::generateVideoListFromSql($relatedrows, "", $thumbwidth);
+			foreach($listrelated as $video){
+					$smartyvs->assign("data", $video);
+					$oResults .= $smartyvs->fetch('video_list_small.tpl');
+				}
+		}else{
+			$oResults .= "There are no related videos.";
+		}
+		
+		return $oResults;
+    }
+    
     function getDateRanges($paramDateRange){
 		$oDateRangeFilter = '';
 		switch($paramDateRange){

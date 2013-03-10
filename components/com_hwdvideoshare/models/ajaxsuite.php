@@ -210,6 +210,15 @@ class hwd_vs_ajax
 		print $code;
 		exit;
 		}	
+		
+	function ajax_relatedvideos(){
+		header('Content-type: text/html; charset=utf-8');
+		$item_id 	   = Jrequest::getVar( 'item_id', null );
+		$lstart 	   = Jrequest::getVar( 'lstart', '0' );
+		$code = hwd_vs_tools::getRelatedVideos($item_id,$lstart);
+		print $code;
+		exit;
+		}	
 	
 	function ajax_getVideoCount(){
 		header('Content-type: text/html; charset=utf-8');

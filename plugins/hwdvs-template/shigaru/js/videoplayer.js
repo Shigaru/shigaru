@@ -1,22 +1,30 @@
 jQuery(document).ready(function() {
-	  var step = 10;
-	  function showNext(list) {
-		var current = list.children(':visible').length;
-		list
-		  .find('li:lt(' + (current + step) + ')')
-			.slideDown();
-	  }
-	  jQuery.each(jQuery('#infocontext ul#relatedvideos'), function(index) {
-		showNext(jQuery(this));
-	  });
-	  
+	  var oRelatedStart = 0;
+	  var oMoreVideosUrl = 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_relatedvideos&'+
+					'format=raw&item_id='+jQuery('input#videoid').val();		
+	  loadMoreVideos();				
+	  function loadMoreVideos(){
+		  var oThisi = jQuery('#infocontext #morerelated i');
+		  var oldClass = oThisi.attr('class');
+		  oThisi.removeClass().addClass('icon-spinner icon-spin');
+		  jQuery.ajax({
+		  url: oMoreVideosUrl+'&lstart='+oRelatedStart,
+		  context: document.body,
+		  success: function(data){
+				jQuery('#infocontext ul#relatedvideos').append(data);
+				jQuery('#infocontext ul#relatedvideos li').fadeIn();
+				jQuery('.loadingcontent').hide();
+				oThisi.removeClass().addClass(oldClass);
+			  }
+			});
+		  }
+	oRelatedStart +=10;  
 	  jQuery('#infocontext #morerelated').click(function(e) {
 		e.preventDefault();
-		var list = jQuery(this).parent().siblings('ul#relatedvideos');
-		showNext(list);
-		// remove button after all results are shown
-		if(list.children(':hidden').length == 0) 
-		  jQuery(this).hide();
+		oRelatedStart +=10;
+		loadMoreVideos();
+		if(oRelatedStart > 100)
+			jQuery(this).hide();
 	  });
 	  
 	  jQuery('#btncomments').click(function(e) {

@@ -692,7 +692,7 @@ class hwd_vs_html
     /**
      *
      */
-    function viewVideo($row, $userrows, $related_videos, $categoryrows)
+    function viewVideo($row)
     {
 		global $Itemid, $smartyvs, $hwdvsTemplateOverride, $videoplayer;
 		$c = hwd_vs_Config::get_instance();
@@ -744,7 +744,7 @@ class hwd_vs_html
 		$smartyvs->assign("contentauthor", $row->original_autor);		
 		//$smartyvs->assign("videoplayer", $videoplayer);
 		//var_dump(hwd_vs_tools::generateVideoDetails($row, null, null, null, $Itemid, null, null));
-		if (count($related_videos) > 0 && $c->showrevi == "1")
+		/*if (count($related_videos) > 0 && $c->showrevi == "1")
 		{
 			if (isset($hwdvsTemplateOverride['thumbWidth8']))
 			{
@@ -805,7 +805,7 @@ class hwd_vs_html
 		else
 		{
 			$smartyvs->assign("categoryvideolist", "There are no more videos in this category.");
-		}
+		}*/
 		if($row->category_id != '3' && $row->song_id)
 			$songPlayer = hwd_vs_tools::getSongPlayer($row->song_id);
 		$currentUrl = JURI::current();

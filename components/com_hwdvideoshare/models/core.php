@@ -278,94 +278,8 @@ class hwd_vs_core
         require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
         hwd_vs_recount::recountVideoViews($video_id);
 
-		// get more videos from user
-		if ($c->showuldr == "1") {
-			$query = 'SELECT'.$hwdvs_selectv
-                    . ' FROM #__hwdvidsvideos AS video'
-                    . $hwdvs_joinv
-					. ' WHERE video.user_id = '.$row->user_id
-					. ' AND video.published = 1'
-					. ' AND video.approved = "yes"'
-					. ' AND video.id <> '.$row->id
-					. ' ORDER BY video.date_uploaded DESC'
-					. ' LIMIT 0, '.$c->mbtu_no
-					;
-			$db->SetQuery($query);
-			$userrows = $db->loadObjectList();
-		} else {
-			$userrows = null;
-		}
-
-		// get related videos
-		if ($c->showrevi == "1")
-		{
-			$searchterm = addslashes($row->title." ".$row->description." ".$row->tags);
-
-			require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'search.php');
-        	$whereVideos = hwd_vs_search::search_perform_videos("related",$searchterm);
-
-			// get matching video data
-			$query = 'SELECT'.$hwdvs_selectv
-                    . ' FROM #__hwdvidsvideos AS video'
-                    . $hwdvs_joinv
-					. $whereVideos
-					. ' AND video.published = 1'
-					. ' AND video.approved = "yes"'
-					. ' AND video.id <> '.$row->id
-					//. ' ORDER BY video.date_uploaded DESC'
-					. ' LIMIT 0, '.$c->revi_no
-					;
-
-			$db->SetQuery($query);
-			$relatedrows = $db->loadObjectList();
-		} else {
-			$relatedrows = null;
-		}
-
-		// get more from category
-		if ( $c->cvordering == "orderASC" ) {
-			$order = ' ORDER BY video.ordering ASC';
-		} else if ( $c->cvordering == "orderDESC" ) {
-			$order = ' ORDER BY video.ordering DESC';
-		} else if ( $c->cvordering == "dateASC" ) {
-			$order = ' ORDER BY video.date_uploaded ASC';
-		} else if ( $c->cvordering == "dateDESC" ) {
-			$order = ' ORDER BY video.date_uploaded DESC';
-		} else if ( $c->cvordering == "nameASC" ) {
-			$order = ' ORDER BY video.title ASC';
-		} else if ( $c->cvordering == "nameDESC" ) {
-			$order = ' ORDER BY video.title DESC';
-		} else if ( $c->cvordering == "hitsASC" ) {
-			$order = ' ORDER BY video.number_of_views ASC';
-		} else if ( $c->cvordering == "hitsDESC" ) {
-			$order = ' ORDER BY video.number_of_views DESC';
-		} else if ( $c->cvordering == "voteASC" ) {
-			$order = ' ORDER BY video.updated_rating ASC';
-		} else if ( $c->cvordering == "voteDESC" ) {
-			$order = ' ORDER BY video.updated_rating DESC';
-		} else {
-			$order = ' ORDER BY video.date_uploaded DESC';
-		}
-
-		if ($c->showmftc == "1") {
-			$query = 'SELECT'.$hwdvs_selectv
-                    . ' FROM #__hwdvidsvideos AS video'
-                    . $hwdvs_joinv
-					. ' WHERE video.category_id = '.$row->category_id
-					. ' AND video.published = 1'
-					. ' AND video.approved = "yes"'
-					. ' AND video.id <> '.$row->id
-					. $order
-					. ' LIMIT 0, '.$c->mftc_no
-					;
-			$db->SetQuery($query);
-			$categoryrows = $db->loadObjectList();
-		} else {
-			$categoryrows = null;
-		}
-
         // send out
-        hwd_vs_html::viewVideo($row, $userrows, $relatedrows, $categoryrows);
+        hwd_vs_html::viewVideo($row);
     }
     /**
      * Query SQL for all accessible category data
@@ -688,9 +602,7 @@ class hwd_vs_core
 		$smartyvs->assign("sort", $sort);
 
 		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'search.php');
-        $whereVideos = hwd_vs_search::search_perform_videos();
-        $whereGroups = hwd_vs_search::search_perform_groups();
-		if($searchtype == 'videos'){
+        if($searchtype == 'videos'){
 			$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $rlimit,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
 			$totalVideos = $matchingVideos['total_found'];
 			$_searchTime = $matchingVideos['time'];

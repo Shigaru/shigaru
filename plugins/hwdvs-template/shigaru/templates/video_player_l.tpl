@@ -102,7 +102,7 @@
 											</script>{/literal}
 										</div>
 										<div class="fleft mright12 mtop20">
-											<a href="http://pinterest.com/pin/create/button/?url={$currentUrl}" class="pin-it-button" count-layout="vertical"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+											<a href="http://pinterest.com/pin/create/button/?url={$currentUrl}" class="pin-it-button" count-layout="vertical"><img border="0" src="http://assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
 											<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>
 										</div>
 										<div class="fleft mright12">
@@ -183,10 +183,20 @@
       
       <div id="infocontext" class="fleft">
 		   <div class="box">
-				  <div class="mtop12 mbot12 tcenter w100">
-					<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" allowTransparency="true" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab" id="Player_8caa4aff-1051-4101-82f9-e9e31e1d92a7"  WIDTH="336px" HEIGHT="280px"> <PARAM NAME="movie" VALUE="http://ws.amazon.com/widgets/q?rt=tf_w_mpw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8014%2F8caa4aff-1051-4101-82f9-e9e31e1d92a7&Operation=GetDisplayTemplate"><PARAM NAME="quality" VALUE="high"><PARAM NAME="bgcolor" VALUE="#FFFFFF"><PARAM NAME="allowscriptaccess" VALUE="always"><embed allowTransparency="true" src="http://ws.amazon.com/widgets/q?rt=tf_w_mpw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8014%2F8caa4aff-1051-4101-82f9-e9e31e1d92a7&Operation=GetDisplayTemplate" id="Player_8caa4aff-1051-4101-82f9-e9e31e1d92a7" quality="high" bgcolor="#ffffff" name="Player_8caa4aff-1051-4101-82f9-e9e31e1d92a7" allowscriptaccess="always"  type="application/x-shockwave-flash" align="middle" height="280px" width="336px"></embed></OBJECT> <NOSCRIPT><A HREF="http://ws.amazon.com/widgets/q?rt=tf_w_mpw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8014%2F8caa4aff-1051-4101-82f9-e9e31e1d92a7&Operation=NoScript">Amazon.com Widgets</A></NOSCRIPT>
+				 <div class="mbot12 w100 tcenter">
+					  <script type="text/javascript"><!--
+						google_ad_client = "ca-pub-1916456389191969";
+						/* player_page_wide */
+						google_ad_slot = "6940060261";
+						google_ad_width = 300;
+						google_ad_height = 250;
+						//-->
+						</script>
+						<script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+						</script>
 				  </div>
-				  <h4 class="fontbold tshadowwhite mbot6">{$smarty.const._HWDVIDS_RELATED}</h4>
+				 <h4 class="fontbold tshadowwhite mbot6">{$smarty.const._HWDVIDS_RELATED}</h4>
 				  <ul id="relatedvideos">
 					  {foreach name=outer item=data from=$listrelated}
 							{include file="video_list_small.tpl"}
@@ -198,8 +208,9 @@
 						{include file="video_list_small.tpl"}
 					  {/foreach}
 				  </ul>
+				  <div class="loadingcontent" style="line-height:200px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 				  <div class="w100 tcenter bortopgrey mtop25">
-					  <a id="morerelated" href="#" title="Click to display more related videos" class="btn mtopl12"><i class="icon-plus-sign padright4"></i>Show more</a></div> 
+					  <a id="morerelated" href="#" title="Click to display more related videos" class="btn mtopl12"><i class="icon-plus-sign"></i> Show more</a></div> 
 				  </div>		
 				  <div class="mtop24 mleft12 mbot12 w100 tcenter">
 					  <script type="text/javascript"><!--
