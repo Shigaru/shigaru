@@ -22,8 +22,8 @@
 				</div>
 				
 				<div class="slidesWrapper">					
-					<div id="being0" class="tab_wrapper">
-						<ul>
+					<div id="being0" class="tab_wrapper ajaxload">
+						<ul id="beingwatched" class="being">
 					{foreach name=outer key=k item=data from=$nowlist}
 							<li>
 								

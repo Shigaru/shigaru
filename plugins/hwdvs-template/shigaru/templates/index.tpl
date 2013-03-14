@@ -164,9 +164,7 @@
 </div>
 
 </div>
- {if $print_nowlist}
         {include file="video_beingwatched.tpl"}
-    {/if}
 
 <div class="clear"></div>
 <div class="workarea_wrapper">
@@ -182,9 +180,9 @@
 						<div>
 							<ul>
 								<li class="selected"><a href="#instruments" title="Click to see popular Instruments">Instruments</a></li>
-								<li ><a href="#videos" title="Click to see tags assigned to videos">Videos</a></li>
 								<li><a href="#bands" title="Click to see popular bands">Bands</a></li>
 								<li><a href="#songs" title="Click to see popular Songs">Songs</a></li>
+								<li><a href="#albums" title="Click to see popular Albums">Albums</a></li>
 								<li><a href="#genre" title="Click to popular Genres">Genres</a></li>
 							</ul>
 						</div>
@@ -193,21 +191,12 @@
 						<div id="instruments" class="tab_wrapper tags ajaxload">
 							<div class="tabscroller">
 								<ul id="instrumentstags" class="tags">
-									{$instagsList}
-								</ul>	
-							</div>	
-						</div>
-						<div id="videos" class="tab_wrapper tags loadondemand">
-							<div class="tabscroller">
-								<ul id="videotags" class="tags">
-									{$tagsList}
-								</ul>	
+									</ul>	
 							</div>	
 						</div>
 						<div id="bands" class="tab_wrapper tags loadondemand">
 							<div class="tabscroller">
 								<ul id="bandtags" class="tags">
-									{$bandtagsList}
 								</ul>
 							</div>		
 						</div>
@@ -215,14 +204,20 @@
 						<div id="songs" class="tab_wrapper tags loadondemand">
 							<div class="tabscroller">
 								<ul id="songstags" class="tags">
-									{$songtagsList}
 								</ul>	
 							</div>	
 						</div>
+						
+						<div id="albums" class="tab_wrapper tags loadondemand">
+							<div class="tabscroller">
+								<ul id="albumstags" class="tags">
+								</ul>	
+							</div>	
+						</div>
+						
 						<div id="genre" class="tab_wrapper tags loadondemand">
 							<div class="tabscroller">
 								<ul id="genretags" class="tags">
-									{$gentagsList}
 								</ul>	
 							</div>	
 						</div>
@@ -273,11 +268,11 @@
 							<h3>Community</h3>
 							<div class="video_activity_header bwhite">
 								<ul>
-									<li class="selected"><a href="#recently" title="Click to see more Instruments">Recently Online Members</a></li>
-									<li ><a href="#newusers" title="Click to see more Bands">New users</a></li>
+									<li class="selected"><a href="#recently" title="Click to see recently online members">Recently Online Members</a></li>
+									<li ><a href="#newusers" title="Click to see new users in Shigaru">New users</a></li>
 									<!--<li><a href="#topvideo" title="Click to see more Songs">Top Video Posters</a></li>
 									<li><a href="#recentstatus" title="Click to see Genres">Recent Status Updates</a></li>-->
-									<li><a href="#recentprofile" title="Click to see Genres">Recent Profile Activity</a></li>
+									<li><a href="#recentprofile" title="Click to see recent profile activity">Recent Profile Activity</a></li>
 								</ul>
 							</div>
 							<div class="slidesWrapper">
@@ -287,29 +282,12 @@
 										</div>
 									</div>	
 								</div>
-								<div id="newusers" class="tab_wrapper community bwhite ajaxload">
+								<div id="newusers" class="tab_wrapper community bwhite loadondemand">
 									<div class="tabscroller">
 										<div id="shiggymods4jnewusers" class="rendermod">
 										</div>
 									</div>	
 								</div>
-								
-								<!--<div id="topvideo" class="tab_wrapper community bwhite">
-									<ul>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_5.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_6.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_7.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_8.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_9.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_10.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_11.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_12.jpg" alt="Shigaru.com" /></a></li>
-										<li><a href="#" title="Click to see more videos for Gungs N' Roses"><img height="80" width="80" src="img/community/profile_14.jpg" alt="Shigaru.com" /></a></li>
-									</ul>
-								</div>
-								<div id="recentstatus" class="tab_wrapper community bwhite">
-									{$whatareyou}
-								</div>-->
 								<div id="recentprofile" class="tab_wrapper community bwhite loadondemand">
 									<div class="tabscroller">
 										<div id="shiggymodcb_superactivity" class="rendermod">

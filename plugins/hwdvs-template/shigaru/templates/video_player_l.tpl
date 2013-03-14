@@ -106,10 +106,6 @@
 											<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>
 										</div>
 										<div class="fleft mright12">
-											{literal}<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
-													 <script type="IN/Share" data-counter="top"></script>{/literal}
-										</div>
-										<div class="fleft mright12">
 											{literal}<!-- Place this tag where you want the su badge to render -->
 											<su:badge layout="5"></su:badge>
 											<script type="text/javascript">
@@ -159,6 +155,9 @@
 									<iframe src="http://rcm.amazon.com/e/cm?t=shigarucom-20&o=1&p=12&l=bn1&mode=mi&browse=51575011&fc1=000000&lt1=_blank&lc1=3366FF&bg1=FFFFFF&f=ifr" marginwidth="0" marginheight="0" width="300" height="250" border="0" frameborder="0" style="border:none;" class="mleft30" scrolling="no"></iframe>
 								</div>
 								{/if}
+								<a href="http://www.thomann.de/index.html?partner_id=47062&page=es/index.html">
+								<img src="http://www.thomann.de/bilder/linkpartn1.gif" width="110" height="35" border="0" alt="Musikhaus Thomann Linkpartner">
+								</a>
 							</div>	
 							
 						</div>
@@ -174,6 +173,7 @@
 							<div id="comments-tabs-1" class="fleft w49 borleftgrey mtop12">
 								
 							</div>
+							
 						</div>
 						 <div class="clear">   </div>  
 				</div>

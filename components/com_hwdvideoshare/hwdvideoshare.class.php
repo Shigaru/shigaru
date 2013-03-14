@@ -1315,6 +1315,9 @@ class hwd_vs_tools {
 			case 'tags':
 				$html = hwd_vs_tools::renderTagsContent($paramTab,$paramWhen);
 				break;	
+			case 'being':
+				$html = hwd_vs_tools::getBeingWatchedNow();
+				break;	
 			case 'rendermod':
 				$html = hwd_vs_tools::renderModContent($paramTab,$paramWhen);
 				break;	
@@ -3708,8 +3711,7 @@ $app = & JFactory::getApplication();
     /**
      * Generates list of most bands tags
      *
-     * SELECT a.label FROM jos_hwdvidsvideos as b INNER
-  JOIN jos_hwdvidsbands AS a ON a.id = b.band_id and b.band_id IS NOT NULL LIMIT 0,1000
+     * 
      * @return        $wordList
      */
 	function getBandTags() {
@@ -3725,6 +3727,28 @@ $app = & JFactory::getApplication();
 		return $wordList;
     }
     
+    /**
+     * Generates list of most bands tags
+     *
+     * 
+     * @return        $wordList
+     */
+	function getAlbumsTags() {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT c.label as label FROM #__hwdvidsvideos as b'; 
+		$query .= ' INNER JOIN #__hwdvidsbands AS a ON a.id = b.band_id and b.band_id IS NOT NULL
+					INNER JOIN #__hwdvidsalbums AS c ON c.id = b.band_id and b.band_id IS NOT NULL;';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$wordList = $db->loadResultArray();
+		for($i = 0; $i < sizeof($wordList); ++$i){
+			$wordList[$i] =$wordList[$i].',';
+		}
+		return $wordList;
+    }
+    
+    
+   
     
     /**
      * Generates list of most songs tags
@@ -3785,6 +3809,29 @@ $app = & JFactory::getApplication();
 		} 
 		
 		return $wordList;
+    }
+    
+	function getBeingWatchedNow() {
+		global $smartyvs;
+		$oHtml = '';
+		$db = & JFactory::getDBO();
+		$rowsnow = array();
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xmlparse.class.php');
+		$parser = new HWDVS_xmlParse();
+		$rowsnow = $parser->parse("bwn");
+		if (count($rowsnow) > 0){
+				$params = array();
+				$params['novtd'] = $c->bwn_no;
+				$thumbwidth = null;
+				$params['thumb_width'] = $hwdvsTemplateOverride['thumbWidth5'];
+				$smartyvs->assign("print_nowlist", 1);
+				$nowlist = hwd_vs_tools::generateVideoListFromXml($rowsnow, $thumbwidth);
+				$smartyvs->assign("nowlist", $nowlist);
+				$oHtml .= $smartyvs->fetch('video_beingwatched.tpl');
+				}else{
+					$oHtml = 'There are no recently viewed videos sorry.';
+					}
+			return	$oHtml;	
     }
     
     /**

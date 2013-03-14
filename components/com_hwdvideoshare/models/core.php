@@ -97,68 +97,10 @@ class hwd_vs_core
         $db->SetQuery($query);
         $rowsfeatured = $db->loadObjectList();
 		$featured_file = $rowsfeatured[0];
-		$rowsnow = array();
-		if ($c->frontpage_watched == "1") {
-
-			if (file_exists(JPATH_SITE.DS.'modules'.DS.'mod_hwd_vs_beingwatched'.DS.'mod_hwd_vs_beingwatched.php')) {
-
-				jimport( 'joomla.application.module.helper' );
-				$bwn_modName = 'hwd_vs_beingwatched';
-				$bwn_modObj = JModuleHelper::getModule($bwn_modName);
-
-				if (!isset($bwn_modObj->id)) {
-
-					$query = 'SELECT params FROM #__modules WHERE module = "mod_hwd_vs_beingwatched"';
-					$db->SetQuery($query);
-					$bwn_modObj = $db->loadObject();
-
-				}
-
-				$pluginParams = new JParameter( $bwn_modObj->params );
-				$override = $pluginParams->def( 'mod_replace_core', 0 );
-
-				if ($override == 1) {
-
-					$rowsnow = "switch";
-
-				} else {
-
-					$override = 0;
-
-				}
-
-			}
-
-			if (!file_exists(JPATH_SITE.DS.'modules'.DS.'mod_hwd_vs_beingwatched'.DS.'mod_hwd_vs_beingwatched.php') || $override == 0)
-			{
-				if (file_exists(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'bwn.xml'))
-				{
-					require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'xml'.DS.'xmlparse.class.php');
-					$parser = new HWDVS_xmlParse();
-					$rowsnow = $parser->parse("bwn");
-					$rowsNbwType = "xml";
-				}
-				else
-				{
-					$query = 'SELECT DISTINCT'.$hwdvs_selectv
-					. ' FROM #__hwdvidsvideos AS video'
-					. ' LEFT JOIN #__hwdvidslogs_views AS l ON l.videoid = video.id'
-					. $hwdvs_joinv
-					. $where
-					. ' AND l.date > NOW() - INTERVAL 1440 MINUTE'
-					. ' ORDER BY l.date DESC'
-					. ' LIMIT 0, 100'
-					;
-					$db->SetQuery($query);
-					$rowsnow = $db->loadObjectList();
-					$rowsNbwType = "sql";
-				}
-			}
-
-        }
+		
 		
         // send out
-        hwd_vs_html::frontpage($rowsfeatured, $rowsnow,$rowsNbwType);
+        hwd_vs_html::frontpage($rowsfeatured,$rowsNbwType);
     }
     /**
      * Make frontpage SQL queries with appropriate filters

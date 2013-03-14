@@ -49,7 +49,7 @@ jQuery.fn.liveSearch = function (conf) {
 		url:			'/search-results.php?q=', 
 		id:				'jquery-live-search', 
 		duration:		200, 
-		typeDelay:		100,
+		typeDelay:		300,
 		loadingClass:	'loading', 
 		onSlideUp:		function () {}, 
 		uptadePosition:	false

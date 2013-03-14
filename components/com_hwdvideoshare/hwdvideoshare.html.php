@@ -33,7 +33,7 @@ class hwd_vs_html
     /**
      *
      */
-    function frontpage($featured_file,$rowsnow, $rowsNbwType)
+    function frontpage($featured_file, $rowsNbwType)
     {
 		global $Itemid, $smartyvs, $hwdvsTemplateOverride, $limit, $limitstart, $j15, $j16;
 		$c = hwd_vs_Config::get_instance();
@@ -77,85 +77,7 @@ class hwd_vs_html
 		// define javascript
 		hwd_vs_javascript::confirmdelete();
 
-		if ($limitstart == "0")
-		{
-			if ($rowsnow == "switch" && $c->frontpage_watched == "1") {
-
-				jimport( 'joomla.application.module.helper' );
-				$bwn_modName = 'hwd_vs_beingwatched';
-				$bwn_modObj = JModuleHelper::getModule($bwn_modName);
-
-				if (!isset($bwn_modObj->id)) {
-
-					$query = 'SELECT id, title, module, position, showtitle, control, params FROM #__modules WHERE module = "mod_hwd_vs_beingwatched"';
-					$db->SetQuery($query);
-					$bwn_modObj = $db->loadObject();
-					$bwn_modObj->user = 0;
-					$bwn_modObj->content = '';
-					$bwn_modObj->name = '';
-					$bwn_modObj->style = '';
-				}
-				$bwn_modContent = JModuleHelper::renderModule($bwn_modObj);
-				$smartyvs->assign("print_nowlist", 2);
-				$smartyvs->assign("bwn_modContent", $bwn_modContent);
-
-			}
-
-			if ($rowsnow !== "switch" && count($rowsnow) > 0 && $c->frontpage_watched == "1")
-			{
-
-				$params = array();
-
-				if (isset($hwdvsTemplateOverride['beingWatchNow'])) {
-					$params['novtd'] = $hwdvsTemplateOverride['beingWatchNow'];
-				} else {
-					$params['novtd'] = $c->bwn_no;
-				}
-
-				if (isset($hwdvsTemplateOverride['thumbWidth5'])) {
-					$thumbwidth = $hwdvsTemplateOverride['thumbWidth5'];
-					$params['thumb_width'] = $hwdvsTemplateOverride['thumbWidth5'];
-
-				} else {
-					$thumbwidth = null;
-					$params['thumb_width'] = $hwdvsTemplateOverride['thumbWidth5'];
-				}
-
-				$smartyvs->assign("print_nowlist", 1);
-				if ($rowsNbwType == "xml")
-				{
-					$nowlist = hwd_vs_tools::generateVideoListFromXml($rowsnow, $thumbwidth);
-				}
-				else
-				{
-					$nowlist = hwd_vs_tools::generateVideoListFromSql($rowsnow, null, $thumbwidth);
-				}
-				$smartyvs->assign("nowlist", $nowlist);
-				/*echo '<pre>';
-				var_dump($nowlist);
-				echo '</pre>';*/
-				if ($c->loadmootools == "on") {
-					JHTML::_('behavior.mootools');
-				}
-
-				if (isset($hwdvsTemplateOverride['loadCarousel']) && $hwdvsTemplateOverride['loadCarousel'] == 0)
-				{
-					// continue;
-				}
-				else
-				{
-					require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'helpers'.DS.'carousel.php');
-					$iCID = 'hwdvs_bwn';
-					hwdvsCarousel::setup($iCID, $params);
-					$smartyvs->assign("iCID", $iCID);
-				}
-			}
-
-			$k = 0;
-			
-
-			
-		}
+		
 		
 		$smartyvs->assign("print_featured", 1);
 		hwd_vs_tools::logViewing($featured_file[0]->id);
@@ -198,12 +120,7 @@ class hwd_vs_html
 		$smartyvs->assign("tenreasonsurl", $tenreasonsurl);
 		$shiggymemberssurl = $live_path . "modules/mod_zncbmembers/tmpl/js/shiggymembers.js";
 		$smartyvs->assign("shiggymemberssurl", $shiggymemberssurl);
-		 
         $doc->addStyleSheet(JURI::base(true) . '/' . "modules/mod_zncbmembers/tmpl/css/default.css", 'text/css');
-		$s4jnewusersm = JModuleHelper::getModule( 's4jnewusers' );
-		$s4jnewusersc = JModuleHelper::renderModule($s4jnewusersm);
-		$smartyvs->assign("s4jnewusers", $s4jnewusersc);
-
 		$smartyvs->display('index.tpl');
 		return;
     }
