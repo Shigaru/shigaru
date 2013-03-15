@@ -1,9 +1,4 @@
-<div class="clear"></div>
-<div id="beingwatched" class="workarea">
-	<div class="workarea_odd">
-		<div class="workarea_wrapper">
-			<div class="content_box">
-				<h3 class="mbot12">{$smarty.const._HWDVIDS_BWN}</h3>
+
 				<div class="beingwatched_header">
 					<div>
 							<ul>
@@ -22,7 +17,7 @@
 				</div>
 				
 				<div class="slidesWrapper">					
-					<div id="being0" class="tab_wrapper ajaxload">
+					<div id="being0" class="tab_wrapper loaded">
 						<ul id="beingwatched" class="being">
 					{foreach name=outer key=k item=data from=$nowlist}
 							<li>
@@ -44,11 +39,7 @@
 					</div>
 				</div>
 					
-			</div>	
-		</div>
-	</div>	
-</div>
-				
+			
 
 
 

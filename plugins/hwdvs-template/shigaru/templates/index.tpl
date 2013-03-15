@@ -164,7 +164,17 @@
 </div>
 
 </div>
-        {include file="video_beingwatched.tpl"}
+<div class="clear"></div>
+<div id="beingwatched" class="workarea">
+	<div class="workarea_odd">
+		<div class="workarea_wrapper">
+			<div class="content_box">
+				<h3 class="mbot12">{$smarty.const._HWDVIDS_BWN}</h3>
+			</div>	
+		</div>
+	</div>	
+</div>
+				
 
 <div class="clear"></div>
 <div class="workarea_wrapper">
@@ -182,7 +192,7 @@
 								<li class="selected"><a href="#instruments" title="Click to see popular Instruments">Instruments</a></li>
 								<li><a href="#bands" title="Click to see popular bands">Bands</a></li>
 								<li><a href="#songs" title="Click to see popular Songs">Songs</a></li>
-								<li><a href="#albums" title="Click to see popular Albums">Albums</a></li>
+								<!--<li><a href="#albums" title="Click to see popular Albums">Albums</a></li>-->
 								<li><a href="#genre" title="Click to popular Genres">Genres</a></li>
 							</ul>
 						</div>
@@ -208,12 +218,12 @@
 							</div>	
 						</div>
 						
-						<div id="albums" class="tab_wrapper tags loadondemand">
+						<!--<div id="albums" class="tab_wrapper tags loadondemand">
 							<div class="tabscroller">
 								<ul id="albumstags" class="tags">
 								</ul>	
 							</div>	
-						</div>
+						</div>-->
 						
 						<div id="genre" class="tab_wrapper tags loadondemand">
 							<div class="tabscroller">

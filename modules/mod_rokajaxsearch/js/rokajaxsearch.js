@@ -56,6 +56,7 @@ jQuery.fn.liveSearch = function (conf) {
 	}, conf);
 
 	var liveSearch	= jQuery('#' + config.id);
+	var oXHR = null;
 
 	// Create live-search if it doesn't exist
 	if (!liveSearch.length) {
@@ -187,12 +188,13 @@ jQuery.fn.liveSearch = function (conf) {
 
 					// Stop previous ajax-request
 					if (this.timer) {
+						oXHR.abort();
 						clearTimeout(this.timer);
 					}
 
 					// Start a new ajax-request in X ms
 					this.timer = setTimeout(function () {
-						jQuery.get(config.url + q, function (data) {
+						oXHR = jQuery.get(config.url + q, function (data) {
 							input.removeClass(config.loadingClass);
 
 							// Show live-search if results and search-term aren't empty

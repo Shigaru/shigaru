@@ -120,7 +120,7 @@ class hwd_vs_html
 		$smartyvs->assign("tenreasonsurl", $tenreasonsurl);
 		$shiggymemberssurl = $live_path . "modules/mod_zncbmembers/tmpl/js/shiggymembers.js";
 		$smartyvs->assign("shiggymemberssurl", $shiggymemberssurl);
-        $doc->addStyleSheet(JURI::base(true) . '/' . "modules/mod_zncbmembers/tmpl/css/default.css", 'text/css');
+		$doc->addStyleSheet(JURI::base(true) . '/' . "modules/mod_zncbmembers/tmpl/css/default.css", 'text/css');
 		$smartyvs->display('index.tpl');
 		return;
     }
@@ -150,9 +150,11 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		$doc->setTitle( $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
-		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
-		$doc->addCustomTag( '<link rel="stylesheet" type="text/css" media="all" href="'.JURI::root( true ).'/templates/rhuk_milkyway/css/chosen.css" />' );
+		if(!$fromtop){
+			$doc->setTitle( $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
+			$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
+			$doc->addCustomTag( '<link rel="stylesheet" type="text/css" media="all" href="'.JURI::root( true ).'/templates/rhuk_milkyway/css/chosen.css" />' );
+		}
 		
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();

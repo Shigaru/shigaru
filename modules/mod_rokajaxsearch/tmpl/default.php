@@ -28,7 +28,7 @@ $app =& JFactory::getApplication();
 $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg('list_limit'), 'int');
 
 ?>
-<form name="rokajaxsearch" id="rokajaxsearch" class="<?php echo $theme; ?>" action="<?php echo JURI::Base()?>videos/search-results" method="get">
+<form name="rokajaxsearch" id="rokajaxsearch" class="<?php echo $theme; ?>" action="index.php?option=com_hwdvideoshare&task=search" method="get">
 <div class="rokajaxsearch <?php echo $params->get('moduleclass_sfx'); ?>">
 	<div class="roksearch-wrapper">
 		<input id="roksearch_search_str" name="pattern" type="text" placeholder="Search bands, songs, genres, instruments... total <?php echo $params->totalcount; ?> videos categorized" class="inputbox search"  />

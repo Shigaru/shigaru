@@ -3822,8 +3822,7 @@ $app = & JFactory::getApplication();
 		if (count($rowsnow) > 0){
 				$params = array();
 				$params['novtd'] = $c->bwn_no;
-				$thumbwidth = null;
-				$params['thumb_width'] = $hwdvsTemplateOverride['thumbWidth5'];
+				$thumbwidth = '100';
 				$smartyvs->assign("print_nowlist", 1);
 				$nowlist = hwd_vs_tools::generateVideoListFromXml($rowsnow, $thumbwidth);
 				$smartyvs->assign("nowlist", $nowlist);

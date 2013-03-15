@@ -18,6 +18,7 @@ function loadCssStyle($live_path)
     {
         $document = &JFactory::getDocument();
         $document->addStyleSheet($live_path . "modules/mod_zncbmembers/tmpl/css/default.css", 'text/css');
+        $document->addScript($live_path . "modules/mod_zncbmembers/tmpl/js/shiggymembers.js", 'text/javascript');
     }
  
 function AddmodScript($live_path)
