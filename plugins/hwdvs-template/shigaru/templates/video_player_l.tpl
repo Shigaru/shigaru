@@ -155,9 +155,9 @@
 									<iframe src="http://rcm.amazon.com/e/cm?t=shigarucom-20&o=1&p=12&l=bn1&mode=mi&browse=51575011&fc1=000000&lt1=_blank&lc1=3366FF&bg1=FFFFFF&f=ifr" marginwidth="0" marginheight="0" width="300" height="250" border="0" frameborder="0" style="border:none;" class="mleft30" scrolling="no"></iframe>
 								</div>
 								{/if}
-								<a href="http://www.thomann.de/index.html?partner_id=47062&page=es/index.html">
+								<!--<a href="http://www.thomann.de/index.html?partner_id=47062&page=es/index.html">
 								<img src="http://www.thomann.de/bilder/linkpartn1.gif" width="110" height="35" border="0" alt="Musikhaus Thomann Linkpartner">
-								</a>
+								</a>-->
 							</div>	
 							
 						</div>
