@@ -242,5 +242,6 @@ function freichatx_get_hash($ses){
 		</div>
 	</div>
 </div>
+<div id="communitytooltip" class="dispnon"></div>
 </body>
 </html>

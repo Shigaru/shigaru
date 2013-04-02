@@ -11,13 +11,15 @@ jQuery(document).ready(function($){
 	jQuery('.rightcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.rightcolumn .slidesWrapper'});
 	jQuery('.workarea_odd .video_activity .video_activity_header').shigaruTabs({slidesWrapper:'.workarea_odd .video_activity .slidesWrapper'});
 	}
-	jQuery.ajax({
+	if(jQuery('#the_most_title').length >0){
+		jQuery.ajax({
 			  url: 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_showtabs&format=raw&listtype=being'
 			}).done(function(data) {
 				jQuery('#beingwatched .content_box h3').after(data)
 				jQuery('#beingwatched .content_box .slidesWrapper li a').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
 				jQuery('.beingwatched_header').shigaruTabs({slidesWrapper:'#beingwatched .slidesWrapper',controls:true,hideTabs:true,directionOfSorting:'left'});
 				});
+	}
 	jQuery('#roksearch_search_str').liveSearch({url: 'index.php?option=com_hwdvideoshare&task=displayresults&limit=6&format=raw&fromtop=1&ajax=yes&pattern='});
 	jQuery('.usermessages div a.close').click(function(){
 			jQuery.unblockUI();

@@ -313,5 +313,5 @@
 <!-- {$zncbmembers} -->			
 {include file='header.tpl'}
 <div class="clear"></div>
-<div id="communitytooltip" class="dispnon"></div>
+
 <!--{include file='footer.tpl'}-->
