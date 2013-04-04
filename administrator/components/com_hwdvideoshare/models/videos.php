@@ -141,7 +141,7 @@ class hwdvids_BE_videos
 
 		$db->SetQuery( "SELECT count(*)"
 							. "\nFROM #__hwdvidsfavorites"
-							. "\nWHERE videoid = $cid"
+							. "\nWHERE item_id = $cid"
 							);
 		$favs = $db->loadResult();
 		echo $db->getErrorMsg();
@@ -250,32 +250,32 @@ class hwdvids_BE_videos
 	{
 		global $option, $task, $j16;
 		$app = & JFactory::getApplication();
-                $c = hwd_vs_Config::get_instance();
-                
+		$session = JFactory::getSession();
+        $c = hwd_vs_Config::get_instance();      
 		$db = & JFactory::getDBO();
 		
-		
-		$band;$band_id;$song;$song_id;
-		if($category_id!=3){
+		$oStoringOutput = new JObject();
+		$issearched = Jrequest::getVar( 'issearched', '' );	
+		$originalband = Jrequest::getVar( 'originalband', '' );
+		$thirdpartyprovider = $app->getUserState( "hwdvs_song_source", "rdio" );
+		if($issearched == '1'){
 			//band and songs stuff
-			$band = Jrequest::getVar( 'originalband', '' );
-			$band_id = hwd_vs_tools::checkBand($band);
-			$song = Jrequest::getVar( 'songtitle', '' );
-			$song_id = hwd_vs_tools::checkSong($song);
-			if($song !=''){
-				if($band_id==null && $band !=''){
-						$band_id = hwd_vs_tools::addBand($band);
-						$song_id = hwd_vs_tools::addSong($song,$band_id);
-					}else{
-							if($song_id==null){
-								$song_id = hwd_vs_tools::addSong($song,$band_id);
-							}
-						}
-			}		
-			
-		}
-		$_POST['song_id'] 			= $song_id;
-		$_POST['band_id'] 			= $band_id;
+			$songindex = Jrequest::getVar( 'songindex', '' );
+			$songarray = $session->get('songlist',null, 'songsearch');
+			$oSongChosen = $songarray[intval(str_replace("songresults", "", $songindex))];
+			if($thirdpartyprovider == 'userinput')
+				$oSongChosen = Jrequest::getVar( 'songtitle', '' );
+			$oStoringOutput = hwd_vs_tools::storeSong($oSongChosen,$thirdpartyprovider);
+			$session->clear('songlist', 'songsearch');
+		}else{
+			$oSongChosen = Jrequest::getVar( 'songtitle', '' );
+			if($oSongChosen != '')
+				$oStoringOutput = hwd_vs_tools::storeSong($oSongChosen,$thirdpartyprovider,0,$originalband);
+			}
+		if($oStoringOutput->oSongId)
+			$_POST['song_id'] 			= $oStoringOutput->oSongId;
+		if($oStoringOutput->oBandId)	
+			$_POST['band_id'] 			= $oStoringOutput->oBandId;
 		
 		$row = new hwdvids_video($db);
 
@@ -778,6 +778,484 @@ class hwdvids_BE_videos
 		$app->enqueueMessage($msg);
 		$app->redirect( JURI::root( true ) . '/administrator/index.php?option=com_hwdvideoshare&task=videos' );
 	}
+	
+	 /**
+     * adds a new row to the bands table
+     *
+     * 
+     * @return        $$row->id
+     */
+	function addSong($paramSongObject, $paramAlbumId, $paramBandId) {
+		$db = & JFactory::getDBO();
+		$row = new hwdvidssongs($db);
+		$temppostid = $_POST['id'] ;
+	    $_POST['id'] 			= null;			
+		$_POST['label'] 		= $paramSongObject->oSongName;
+		$_POST['provider'] 		= $paramSongObject->oProvider;
+		$_POST['album_id'] 		= $paramAlbumId;
+		$_POST['band_id'] 		= $paramBandId;
+		$_POST['external_url'] 	= $paramSongObject->oSongUrl;
+		$_POST['external_id'] 	= $paramSongObject->oSongId;
+		$_POST['embedding'] 	= $paramSongObject->oEmbedUrl;
+		
+		if (!$row->bind($_POST)){
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+		
+		if (!$row->store()){
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+		$_POST['id'] 		= $temppostid;
+		return $row->id;
+    }
+    
+    /**
+     * checks if the band is already in the list of bands
+     *
+     * 
+     * @return        $bandMatched
+     */
+	function getSongById($song_id) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT label FROM #__hwdvidssongs AS a'; 
+		$query .= ' WHERE a.id ='.$song_id;
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		if(sizeof($bandList)>0)
+			$bandMatched = $bandList[0];
+				else
+					$bandMatched =null;
+		return $bandMatched;
+    }
+    
+    /**
+     * checks if the band is already in the list of bands
+     *
+     * 
+     * @return        $bandMatched
+     */
+	function checkSong($paramSongName, $paramSongId) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT a.id, label FROM #__hwdvidssongs AS a'; 
+		$query .= ' WHERE ( a.external_id = "'.$paramSongId.'" AND a.external_id != 0) OR (a.label ="'.$paramSongName.'" AND a.external_id = 0)';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		$bandMatched = null;
+		if(sizeof($bandList)>0)
+			$bandMatched = $bandList[0];
+		return $bandMatched;
+    }
+    
+    /**
+     * checks if the band is already in the list of bands
+     *
+     * 
+     * @return        $bandMatched
+     */
+	function checkAlbum($paramAlbumName, $paramAlbumId) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT a.id, label FROM #__hwdvidsalbums AS a'; 
+		$query .= ' WHERE a.external_id = "'.$paramAlbumId.'" AND a.external_id IS NOT NULL';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$albumList = $db->loadResultArray();
+		$albumMatched = null;
+		if(sizeof($albumList)>0)
+			$albumMatched = $albumList[0];
+		return $albumMatched;
+    }
+    
+    /**
+     * Outputs frontpage HTML
+     *
+     * @return       Nothing
+     */
+    function doLikeUnLike($paramLikeid,$paramItem_id,$paramItem_type){
+			$db = & JFactory::getDBO();
+			$my = & JFactory::getUser();
+			$response = 0;
+			$likeid        = $paramLikeid;
+			$user_id       = $my->id;
+			$item_id 	   = $paramItem_id;
+			$item_type     = $paramItem_type;
+			$date_liked    = date('Y-m-d H:i:s');
+			
+			if($my->id){
+				
+				$row = new hwdvidslikes($db);
+
+				$_POST['item_id'] 	= $item_id;
+				$_POST['user_id'] 	= $user_id;
+				$_POST['item_type'] = $item_type;
+				$_POST['date_liked']= $date_liked;
+				
+				if($likeid){
+					$likeid = str_replace("likeid", "", $paramLikeid);
+					if (!$row->delete(intval($likeid))){
+						JError::raiseError(500, $row->getError() );
+						$response = 0;
+						}else
+							$response = 1;
+					}else{
+						if (!$row->bind( $_POST )) {
+								return JError::raiseWarning( 500, $row->getError() );
+							}else{
+								if (!$row->store()) {
+										JError::raiseError(500, $row->getError() );
+								}
+								$response = $row->id;							
+							}
+						}
+			}else{
+				$response = _HWDVIDS_META_LOGTOLK;
+				}					
+						
+			return $response;		
+	}
+    
+    /**
+     * adds a new row to the bands table
+     *
+     * 
+     * @return        $$row->id
+     */
+	function addBand($paramSongObject) {
+		$db = & JFactory::getDBO();
+		$row = new hwdvidsbands($db);
+		$temppostid = $_POST['id'] ;
+		$_POST['id'] 				= null;
+		$_POST['label'] 			= $paramSongObject->oBandName;
+		$_POST['external_url'] 		= $paramSongObject->oBandUrl;
+		$_POST['external_id'] 		= $paramSongObject->oBandId;
+		
+		if (!$row->bind($_POST)){
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+
+		if (!$row->store()){
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+		$_POST['id'] 		= $temppostid;
+		return $row->id;
+    }
+    
+    /**
+     * adds a new row to the bands table
+     *
+     * 
+     * @return        $$row->id
+     */
+	function addAlbum($paramSongObject,$paramBandId) {
+		$db = & JFactory::getDBO();
+		$row = new hwdvidsalbums($db);
+		$temppostid = $_POST['id'] ;
+		$_POST['id'] 				= null;
+		$_POST['label'] 			= $paramSongObject->oAlbumName;
+		$_POST['external_url'] 		= $paramSongObject->oAlbumUrl;
+		$_POST['external_id'] 		= $paramSongObject->oAlbumId;
+		$_POST['thumbnail'] 		= $paramSongObject->oAlbumThumbnail;
+		$_POST['band_id'] 			= $paramBandId;
+		
+		if (!$row->bind($_POST)){
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+
+		if (!$row->store()){
+			echo "<script type=\"text/javascript\">alert('".$row->getError()."');window.history.go(-1);</script>\n";
+			exit();
+		}
+		$_POST['id'] 		= $temppostid;
+		return $row->id;
+    }
+    
+    /**
+     * checks if the band is already in the list of bands
+     *
+     * 
+     * @return        $bandMatched
+     */
+	function getBandById($band_id) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT label FROM #__hwdvidsbands AS a'; 
+		$query .= ' WHERE a.id ='.$band_id;
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		if(sizeof($bandList)>0)
+			$bandMatched = $bandList[0];
+				else
+					$bandMatched =null;
+		return $bandMatched;
+    }
+    
+    
+    /**
+     * checks if the band is already in the list of bands
+     *
+     * 
+     * @return        $bandMatched
+     */
+	function checkBand($paramBandName,$paramBandId) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT a.id,label FROM #__hwdvidsbands AS a'; 
+		$query .= ' WHERE (a.external_id = "'.$paramBandId.'" AND a.external_id !="" AND a.external_id !="0") OR (a.label ="'.$paramBandName.'" AND (a.external_id IS NULL OR a.external_id = "0"))';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		$bandMatched = null;
+		if(sizeof($bandList)>0)
+			$bandMatched = $bandList[0];
+		return $bandMatched;
+    }
+    
+    
+    
+    function storeSong($paramSongChosen,$paramprovider, $paramIsSearched = 1,$paramBandChosen = ''){
+
+		$oSongObject = new stdClass();
+		$oStoringOutput = new JObject();	
+		/*echo '<pre>';
+		var_dump('------------------------------------');
+		var_dump($paramSongChosen);
+		var_dump($paramprovider);
+		var_dump($paramIsSearched);
+		var_dump($paramBandChosen);
+		var_dump('------------------------------------');
+		*/
+		if($paramIsSearched == '1'){
+			switch($paramprovider){
+				case 'rdio':
+							$oSongObject->oSongName 		= $paramSongChosen->name;
+							$oSongObject->oSongId 			= $paramSongChosen->key;
+							$oSongObject->oSongUrl 			= $paramSongChosen->url;
+							$oSongObject->oAlbumId   		= $paramSongChosen->albumKey; 
+							$oSongObject->oAlbumName 		= $paramSongChosen->album;
+							$oSongObject->oAlbumUrl  		= $paramSongChosen->albumUrl;
+							$oSongObject->oAlbumThumbnail  	= $paramSongChosen->icon;
+							$oSongObject->oBandId    		= $paramSongChosen->artistKey;
+							$oSongObject->oBandName  		= $paramSongChosen->artist;
+							$oSongObject->oBandUrl  		= $paramSongChosen->artistUrl;
+							$oSongObject->oProvider  		= $paramprovider;
+							$oSongObject->oEmbedUrl  		= $paramSongChosen->embedUrl;
+							$oStoringOutput = hwdvids_BE_videos::doStoreSong($oSongObject);
+							break;
+				case 'grooveshark':
+							$oSongObject->oSongName 	= $paramSongChosen->SongName;
+							$oSongObject->oSongId 		= $paramSongChosen->SongID;
+							$oSongObject->oSongUrl 		= $paramSongChosen->Url;
+							$oSongObject->oAlbumId   	= $paramSongChosen->AlbumID; 
+							$oSongObject->oAlbumName 	= $paramSongChosen->AlbumName;
+							$oSongObject->oBandId    	= $paramSongChosen->ArtistID;
+							$oSongObject->oBandName  	= $paramSongChosen->ArtistName;
+							$oSongObject->oProvider  	= $paramprovider;
+							$oStoringOutput = hwdvids_BE_videos::doStoreSong($oSongObject);
+							break;
+				
+				}
+			}else{
+				$oSongObject->oSongName = $paramSongChosen;
+				$oSongObject->oBandName = $paramBandChosen;
+				$oSongObject->oProvider = 'userinput';
+				$oBandId = hwdvids_BE_videos::checkBand($paramBandChosen,null);
+						if(!$oBandId){
+							$oSongObject->oBandId   = 0;
+							$oBandId = hwdvids_BE_videos::addBand($oSongObject);
+						}
+				$oSongObject->oBandId = $oBandId;		
+				$song_id 				= hwdvids_BE_videos::checkSong($oSongObject->oSongName,null);
+				if($oSongObject->oSongName !=''){
+					if($song_id==null){
+						$song_id = hwdvids_BE_videos::addSong($oSongObject,null, $oBandId);
+					}			
+				}
+				$oSongObject->oSongId = $song_id;
+				$oStoringOutput = $oSongObject;
+		/*var_dump($oStoringOutput);
+		var_dump('------------------------------------');
+		echo '</pre>';
+			exit();	*/
+				}	
+			return $oStoringOutput;	
+		}
+    function doStoreSong($paramSongObject){
+		$oSongId;
+		$oBandId; 
+		$oAlbumId;
+		
+		$oBandId = hwdvids_BE_videos::checkBand($paramSongObject->oBandName,$paramSongObject->oBandId);
+		if(!$oBandId)
+			$oBandId = hwdvids_BE_videos::addBand($paramSongObject);
+		$oAlbumId = hwdvids_BE_videos::checkAlbum($paramSongObject->oAlbumName,$paramSongObject->oAlbumId);
+		if(!$oAlbumId)
+			$oAlbumId = hwdvids_BE_videos::addAlbum($paramSongObject,$oBandId);	
+		$oSongId = hwdvids_BE_videos::checkSong($paramSongObject->oSongName,$paramSongObject->oSongId);
+		if(!$oSongId)
+			$oSongId = hwdvids_BE_videos::addSong($paramSongObject,$oAlbumId,$oBandId);	
+		$storeResult = new JObject();	
+		$storeResult->oSongId = $oSongId;	
+		$storeResult->oBandId = $oBandId;	
+		$storeResult->oAlbumId = $oAlbumId;
+		return $storeResult;
+    }
+    
+    function cometLongPolling(){
+		$session =& JFactory::getSession();
+		define('MESSAGE_POLL_MICROSECONDS', 500000);
+		define('MESSAGE_TIMEOUT_SECONDS', 90);
+		define('MESSAGE_TIMEOUT_SECONDS_BUFFER', 5);
+		$oldCount = $session->get('songcount',null);
+		session_write_close();
+		set_time_limit(MESSAGE_TIMEOUT_SECONDS+MESSAGE_TIMEOUT_SECONDS_BUFFER);
+		$counter = MESSAGE_TIMEOUT_SECONDS;
+		$data = null;
+		while($counter > 0)
+		{
+			if($data = hwd_vs_tools::getNewCount($oldCount)){
+				break;
+			}else{
+				usleep(MESSAGE_POLL_MICROSECONDS);
+				$counter -= MESSAGE_POLL_MICROSECONDS / 1000000;
+			}
+		}
+		if(isset($data)){
+			return $data;
+			}else
+				return 0;
+		
+	}
+	
+	function getLastVideoAdded(){
+		$db = & JFactory::getDBO();
+		// get video count
+        $db->SetQuery( 'SELECT * 
+						FROM  #__hwdvidsvideos 
+						WHERE 1 
+						ORDER BY ID DESC 
+						LIMIT 0 , 1'
+					 );
+        $lastvideoadded = $db->loadObjectList();
+        echo $db->getErrorMsg();
+        return $lastvideoadded;
+		}
+	
+	function getTotalVideosCount(){
+		$db = & JFactory::getDBO();
+		// get video count
+        $db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 );
+        $total = $db->loadResult();
+        echo $db->getErrorMsg();
+        return $total;
+		}
+	
+	function getNewCount($paramOldCount){
+		$oCurrentTotal = hwd_vs_tools::getTotalVideosCount();
+		return hwd_vs_tools::setLastVideoCount($oCurrentTotal,$paramOldCount);
+		}
+		
+	function setLastVideoCount($paramTotal,$paramOldCount){
+		global $Itemid, $smartyvs;
+		$session = & JFactory::getSession();
+		if($paramOldCount == $paramTotal)
+			return null;
+			else{
+				session_start();
+				$session->set('songcount', $paramTotal);
+				$oVideoDetails = hwd_vs_tools::generateVideoListFromSql(hwd_vs_tools::getLastVideoAdded(), null, '100');
+				$oHtml ='';
+				foreach($oVideoDetails as $video){
+					$smartyvs->assign("data", $video);
+					$oHtml .= $smartyvs->fetch('notifications_newvideo.tpl');
+				}
+				return $oHtml;
+			}
+		}	
+		
+		function doGSSongSearch($query){
+		 $session = JFactory::getSession();
+		  $oResults = '';
+		  $app = & JFactory::getApplication();
+		 // grooveshark results
+		  $apikey = '6b0984927cf2c46c8d527a419b5f2347';
+		  $gsJsonurl = 'http://tinysong.com/s/' . urlencode($query) . '?format=json&limit=32&key='.$apikey;
+		  $gsJson = file_get_contents($gsJsonurl,0,null,null);
+		  $songResults = json_decode($gsJson);
+		  if(count($songResults) < 1) $app->setUserState( "hwdvs_song_source", "userinput" );	
+			else {
+			  $albumplaceholder = JURI::root().'templates/rhuk_milkyway/images/placeholderalbum.png';
+			  $app->setUserState( "hwdvs_song_source", "grooveshark" );	
+			  foreach ($songResults as $gsSong) {
+				$oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$albumplaceholder.'" alt="'.$gsSong->artist.'"><div class="w84 fleft mleft12"><span class="fontblack">Song: </span><span class="songname">' . $gsSong->SongName . '</span><span> (' . $gsSong->ArtistName . ')</span><br /><span class="fontblack">Album: </span><span> ' . $gsSong->AlbumName . '</span></div></li>';
+				$songcounter++; 
+			  }
+			  $session->set('songlist', $songResults,'songsearch'); 
+			}
+			
+			return $oResults;  
+		 }
+
+	 function searchSong($query, $limit = 10, $format = "json") {
+		  $session = JFactory::getSession();
+		  $oResults = '';
+		  $app = & JFactory::getApplication();
+		  // rdio results 
+		  $redosearch = JRequest::getInt( 'redosearch', 0 );
+		if($redosearch == 1 && $app->getUserState( "hwdvs_song_source" ) !="grooveshark"){
+				$oResults .= hwdvids_BE_videos::doGSSongSearch($query);
+				}else{		
+				  // requires signed request
+				  define('CONSUMER_KEY', 'kyw3rxth3ud6n4sqjn9xw4rz');
+				  define('CONSUMER_SECRET', 'TvyMHEVhP4');
+				  $rdio = new hwdRdio(CONSUMER_KEY, CONSUMER_SECRET);
+				  $songResults = $rdio->search(
+					array(
+					  "query" => $query,
+					  "types" => "Track",
+					  "count" => 100,
+					  "never_or" => "true"))->result->results;
+				 $songcounter = 0;	  
+				 $rdio_base_url = 'http://www.rdio.com';
+					if(count($songResults) < 1) {
+						$oResults .= hwdvids_BE_videos::doGSSongSearch($query);
+					}else {
+					  $app->setUserState( "hwdvs_song_source", "rdio" );		
+					  foreach ($songResults as $rdioSong) {
+						$oResults .= '<li id="songresults'.$songcounter.'" class="clearfix pad12 curpointer"><img class="fleft" width="40" src="'.$rdioSong->icon.'" alt="'.$rdioSong->artist.'" /><div class="w84 fleft mleft12"><span class="fontblack">Song: </span><span class="songname">' . $rdioSong->name . '</span> (<span>' . $rdioSong->artist . '</span>)<br /><span class="fontblack">Album: </span><span> ' . $rdioSong->album . '</span></div></li>';
+						$songcounter++; 
+					  }
+					  $session->set('songlist', $songResults,'songsearch'); 
+					}
+					
+			}
+          
+           
+           return $oResults;  	  
+	 }
+    
+    
+    /**
+     * Outputs frontpage HTML
+     *
+     * @return       Nothing
+     */
+	function ajax_searchsong(){
+		header('Content-type: text/html; charset=utf-8');
+		$c = hwd_vs_Config::get_instance();
+		$my = & JFactory::getUser();
+		$term = JRequest::getVar( 'pattern', '' );
+		$code = hwdvids_BE_videos::searchSong($term);
+		echo $code;
+		exit;
+		}
+	
 	/**
 	* edit videos
 	*/

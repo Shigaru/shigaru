@@ -8,9 +8,110 @@
 *}
 
 {include file='admin_header.tpl'}
+<script type="text/javascript" src="{$mosConfig_live_site}/templates/rhuk_milkyway/js/jquery-1.7.2.min.js"></script>
 		
-{literal}
+<style>
+	{literal}
+body td {font-size:90%;}
+	{/literal}
+</style>
 <script language="javascript" type="text/javascript">
+var liveSite = '{$mosConfig_live_site}';
+{literal}	
+jQuery(document).ready(function() {
+		jQuery('#tags').tagsInput({width:'auto',height:'250px'});
+		
+		var lastData;
+			
+				function initiateSearch(paramSecondTry){
+					
+						isSearched = true;
+						jQuery('#tryhere').hide();
+						if(inputPattern != jQuery('#songtitle').val() || paramSecondTry){
+							inputPattern = jQuery('#songtitle').val();	
+							jQuery( '#songresults' ).css('box-shadow','none').html('<div class="mtop25 pad12 tcenter" id="loadingMessage"></div><div class="mleft12 fontbold f120"></div>');
+							searchSong(inputPattern,paramSecondTry);
+									jQuery.blockUI({ 
+										message: jQuery('#search-form'),
+										css: { 
+											width: '40%', 
+											height: '80%', 
+											top: '10%', 
+											left: '30%',  
+											'text-align':'left'
+										} 
+									});	
+									
+								} else{
+									jQuery('#tryhere').show();
+									jQuery.blockUI({ 
+										message: jQuery('#search-form'),
+										css: { 
+											width: '40%', 
+											height: '80%', 
+											top: '10%', 
+											left: '30%',  
+											'text-align':'left'
+										} 
+									});	
+									}
+						
+							
+					}
+				
+				function searchSong(paramPattern,paramSecondTry){
+					var oSecondTryParam = (paramSecondTry)?'&redosearch=1':'&redosearch=0';				
+					jQuery.ajax({
+							  url: liveSite+"/administrator/index.php?option=com_hwdvideoshare&task=ajax_searchsong&pattern="+paramPattern+oSecondTryParam,
+							  context: document.body
+							}).done(function(data) {
+								jQuery('.blockUI #close').click(function(){jQuery.unblockUI();isSearchedSuccess = false; jQuery('#issearched').val('0');});
+								if(jQuery.trim(data).length > 0){
+									var oHeight = 0;
+									if(!paramSecondTry)
+										oHeight = (jQuery( '.blockMsg' ).height()-(jQuery( '#search-form .novideos' ).height()*2)-50)+'px';
+											else
+												oHeight = (jQuery( '.blockMsg' ).height()-(jQuery( '#search-form .novideos' ).height())-25)+'px';
+								jQuery( '#songresults' ).css({
+									'height':oHeight,
+									'box-shadow':'1px 4px 13px #ccc'
+									}).empty();
+								jQuery('<div class="results dispnon"><ul class="unstyled">'+data+'</ul>').clone().appendTo( '#songresults' );
+								jQuery('.blockUI .results').fadeIn('slow',function(){
+									if(!paramSecondTry)
+										jQuery('#tryhere').fadeIn();
+									});
+								jQuery('.blockUI .results li').click(function(){
+									jQuery('#songtitle').val(jQuery(this).find('div span.songname').html());
+									jQuery('#songindex').val(jQuery(this).attr('id'));
+									jQuery('#issearched').val('1');
+									jQuery('#originalband').val(jQuery(this).find('div span.songname').next().html());
+									jQuery.unblockUI();
+									isSearchedSuccess = true;
+									});
+								} else{
+									jQuery('#songresults').html('<div class="padding novideos pad12 fontbold tcenter"><span class="icon-tint"></span>No matching songs for these text. You might want to re-enter text. If you are sure about the name of the song just close this window and we will store it as a new song</div>');
+									}	
+							});
+					}
+				
+				var inputPattern;
+				var isSearched = false;
+				var isSearchedSuccess = false;
+				
+				jQuery( "#tryhere" ).click(function(e){
+						 e.preventDefault();
+						 initiateSearch(true);
+					});
+				
+				jQuery( ".butn-info" ).click(function(e){
+						 e.preventDefault();
+						 initiateSearch(false);
+						});
+		
+		
+		});	
+	
 function submitbutton(pressbutton) {
 	{/literal}
 	var intrument_id = "{$intrument_id}";
@@ -65,7 +166,7 @@ function submitbutton(pressbutton) {
               <table>
                 <tr>
                   <td valign="top">{$smarty.const._HWDVIDS_TITLE}</td>
-                  <td><input name="title" value="{$title}" size="55" maxlength="500"></td>
+                  <td><input name="title" value="{$title}" size="50" maxlength="500"></td>
                 </tr>
                 <tr>
                   <td valign="top">{$smarty.const._HWDVIDS_CATEGORY}</td>
@@ -78,7 +179,7 @@ function submitbutton(pressbutton) {
                 </tr>
                 <tr>
                   <td valign="top">{$smarty.const._HWDVIDS_TAGS}</td>
-                  <td colspan="2"><input style="height: 100px;width: 430px;font-size: 160%;" name="tags" value="{$tags}" size="55" maxlength="1000"></td>
+                  <td colspan="2"><input style="height: 200px;width: 230px;font-size: 160%;" name="tags" id="tags" value="{$tags}" size="75" maxlength="1000"></td>
                 </tr>
                 <tr><td colspan="2"><br /></td></tr>
                 <tr><td colspan="2"><h1>Shigaru Info</h1></td></tr>
@@ -100,12 +201,20 @@ function submitbutton(pressbutton) {
                 </tr>
                 <tr>
                   <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_ORIGINBAND}</td>
-                  <td><input name="originalband" value="{$band_id}" size="55" maxlength="500"></td>
+                  <td><input id="originalband" name="originalband" value="{$band_id}" size="50" maxlength="500"></td>
                 </tr>
                 <tr>
                   <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_SONGTITLE}</td>
-                  <td><input name="songtitle" value="{$song_id}" size="55" maxlength="500"></td>
+                  <td>
+					<input id="songtitle" name="songtitle" value="{$song_id}" size="50" maxlength="500">
+					</td>
                 </tr>
+                <tr>
+				  <td valign="top"></td>
+                  <td>
+					<a href="#" class="mleft12 mtop2 fleft butn butn-small butn-info" title="Click on the button to retrieve for the song"><span class="icon-search bradius5 mright6"></span>Retrieve info</a>
+				  </td>
+				</tr>
                  <tr>
                   <td valign="top">{$smarty.const._HWDVIDS_SHIGARU_AREYOUCREATOR}</td>
                   <td><label class="fnone fnormal">{$smarty.const._HWDVIDS_SHIGARU_YES}<input type="radio" {if $original_autor eq 1}checked="true"{/if} name="original_autor" value="1"></label>
@@ -460,7 +569,7 @@ function ajaxRecalculateDuration(){
 	ajaxRequest.open("GET", "{/literal}{$mosConfig_live_site}{literal}/administrator/index.php?option=com_hwdvideoshare&task=ajaxRecalculateDuration&cid={/literal}{$vid}{literal}", true);
 	ajaxRequest.send(null);
 }
-
+	
 //-->
 </script>
 {/literal}
@@ -613,6 +722,8 @@ function ajaxReinsertMetaFLV(){
 	<input type="hidden" name="option" value="com_hwdvideoshare" />
 	<input type="hidden" name="task" value="updatevideosource" />
 	<input type="hidden" name="hidemainmenu" value="0">
+	<input type="hidden" name="songindex" id="songindex" value="" />
+	<input type="hidden" name="issearched" id="issearched" value="" />
 	</form>
     
       </div>
@@ -644,6 +755,8 @@ function ajaxReinsertMetaFLV(){
         {$smarty.const._HWDVIDS_UPLOADER}: <b>{$user}</b><br />
         {$smarty.const._HWDVIDS_FAVOURED}: <b>{$favoured}</b> {$smarty.const._HWDVIDS_DETAILS_TIMES}<br />
     </td>
+    </tr>
+    <tr>
     <td style="width:50%;padding: 5px;" valign="top">
         <h2>Video Thumbnail</h2>
         <div style="float:right;padding:5px;">{$thumbnail}</div>
@@ -656,3 +769,16 @@ function ajaxReinsertMetaFLV(){
 </table>
 
 {include file='admin_footer.tpl'}
+<script type="text/javascript" src="{$mosConfig_live_site}/templates/rhuk_milkyway/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="{$mosConfig_live_site}/templates/rhuk_milkyway/js/jquery.tagsinput.min.js"></script>
+<script type="text/javascript" src="{$mosConfig_live_site}/templates/rhuk_milkyway/js/jquery.blockUI.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{$mosConfig_live_site}/templates/rhuk_milkyway/css/jquery.tagsinput.css" />
+<link rel="stylesheet" type="text/css" href="{$mosConfig_live_site}/templates/rhuk_milkyway/css/template.min.css" />
+<div id="search-form" class="dispnon curdef">
+		<a id="close" class="close"></a>
+		<div class="padding novideos pad12 fontbold tcenter"><span class="icon-info-sign fontgreen pad6 f120"></span>To make a selection simply click on a song title</div>
+		<div id="songresults" >
+		</div>
+		<div id="tryhere" class="dispnon fontbold padding novideos pad12 tcenter">Couldn't find the song title? Try <a href="#" title="Click on this link to get search more search results"  class="fontred">here</a></div>
+	</div>

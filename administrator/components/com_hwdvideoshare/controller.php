@@ -184,6 +184,13 @@ class UsersController extends JController
 		hwdvids_BE_videos::changeuserselect($cid);
 		return;
 	}
+	
+	function ajax_searchsong()
+	{
+		require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'videos.php');
+		hwdvids_BE_videos::ajax_searchsong();
+		return;
+	}
 
 	function updatevideosource()
 	{

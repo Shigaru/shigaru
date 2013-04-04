@@ -271,14 +271,14 @@ class hwdvids_HTML
 		<input type="hidden" name="id" value="'.$row->id.'" />
 		<input type="hidden" name="video_type" value="'.$row->video_type.'" />
 		<input type="hidden" name="task" value="savevid" />';
-		jimport('joomla.html.pane');
+		/*jimport('joomla.html.pane');
 		$pane =& JPane::getInstance('tabs');
 		$startpane = $pane->startPane( 'video-edit-pane' );
 		$endtab = $pane->endPanel();
 		$endpane = $pane->endPane();
 		$starttab1 = $pane->startPanel( _HWDVIDS_TAB_BASIC, 'panel1' );
 		$starttab2 = $pane->startPanel( _HWDVIDS_TAB_SHARING, 'panel2' );
-
+*/
 		//echo '<script type="text/javascript" src="'.JURI::root(true).'/components/com_hwdvideoshare/js/mootools-1.2-core-yc.js"></script>';
 
 		$pubsel =null; $regsel=null; $msel=null; $wsel=null; $gsel=null; $lsel=null; $aclsel=null;
