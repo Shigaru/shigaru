@@ -1,6 +1,13 @@
 var $jq = jQuery.noConflict();
 jQuery(document).ready(function($){
+	/* Analytics bounce parameters */
+	setTimeout(function() {
+	  _gaq.push(['_trackEvent', 'NoBounce', 'NoBounce', 'Over 80 seconds']);	
+		},80*1000);
 	
+	jQuery(document).ajaxSend(function() {
+	  _gaq.push(['_trackEvent', 'NoBounce', 'NoBounce', 'Ajax sent']);	
+	});
 	if(jQuery('#the_most .tab_wrapper').length>0){
 		/* Scroll bars */
 	//jQuery('#the_most .tab_wrapper, .workarea .leftcolumn div.video_activity div.tab_wrapper, .workarea .rightcolumn div.video_activity div.tab_wrapper').jScrollPane({showArrows:true});

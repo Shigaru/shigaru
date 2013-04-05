@@ -253,7 +253,7 @@ DEFINE("UE_LITHUANIAN","Lithuanian");
 DEFINE("UE_LATVIAN","Latvian");
 DEFINE("UE_MACEDONIAN","Macedonian (FYROM)");
 DEFINE("UE_MALAYALAM","Malayalam");
-DEFINE("UE_MALAYSIAN","Malaysian");
+DEFINE("UE_MALAYSIAN","Malay");
 DEFINE("UE_MALTESE","Maltese");
 DEFINE("UE_DUTCH","Dutch");
 DEFINE("UE_NORWEGIAN","Norwegian");
@@ -278,6 +278,11 @@ DEFINE("UE_CHINESE_HONG_KONG","Chinese (Hong Kong)");
 DEFINE("UE_CHINESE_SINGAPORE","Chinese (Singapore)");
 DEFINE("UE_CHINESE_TAIWAN","Chinese (Taiwan)");
 DEFINE("UE_ZULU","Zulu");
+DEFINE("UE_AMHARIC","Amharic");
+DEFINE("UE_FILIPINO","Filipino");
+DEFINE("UE_SWAHILI","Swahili");
+DEFINE("UE_WOLOF","Wolof");
+DEFINE("UE_YORUBA","Yoruba");
 DEFINE("UE_NOLANG","No language (Visual lesson)");
 
 
