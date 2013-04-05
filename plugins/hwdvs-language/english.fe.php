@@ -1223,7 +1223,7 @@ DEFINE("_HWDVIDS_SHIGARU_WASHBOARD","Washboard");
 
 
 
-DEFINE("_HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU","Share a video to Shigaru");
+DEFINE("_HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU","Share a video");
 DEFINE("_HWDVIDS_SHIGARU_SUBMIT_THANKYOU_DECIDING","for deciding to share a video tutorial with the Shigaru community. It will take approx. 1 minute to do!");
 DEFINE("_HWDVIDS_SHIGARU_THANKYOU","Thank you");
 DEFINE("_HWDVIDS_SHIGARU_YES","Yes");
