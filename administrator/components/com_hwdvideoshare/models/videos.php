@@ -840,7 +840,7 @@ class hwdvids_BE_videos
 	function checkSong($paramSongName, $paramSongId) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.id, label FROM #__hwdvidssongs AS a'; 
-		$query .= ' WHERE ( a.external_id = "'.$paramSongId.'" AND a.external_id != 0) OR (a.label ="'.$paramSongName.'" AND a.external_id = 0)';
+		$query .= ' WHERE ( a.external_id = "'.$paramSongId.'" AND a.external_id != "" AND a.external_id != 0) OR (a.label ="'.$paramSongName.'" AND a.external_id = "0" )';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$bandList = $db->loadResultArray();
@@ -859,7 +859,7 @@ class hwdvids_BE_videos
 	function checkAlbum($paramAlbumName, $paramAlbumId) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.id, label FROM #__hwdvidsalbums AS a'; 
-		$query .= ' WHERE a.external_id = "'.$paramAlbumId.'" AND a.external_id IS NOT NULL';
+		$query .= ' WHERE a.external_id = "'.$paramAlbumId.'" AND a.external_id != "" AND a.external_id IS NOT NULL';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$albumList = $db->loadResultArray();

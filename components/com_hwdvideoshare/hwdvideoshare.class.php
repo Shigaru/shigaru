@@ -3370,7 +3370,7 @@ $app = & JFactory::getApplication();
 	function checkSong($paramSongName, $paramSongId) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT a.id, label FROM #__hwdvidssongs AS a'; 
-		$query .= ' WHERE ( a.external_id = "'.$paramSongId.'" AND a.external_id != "" AND a.external_id != 0) OR (a.label ="'.$paramSongName.'" AND a.external_id = 0)';
+		$query .= ' WHERE ( a.external_id = "'.$paramSongId.'" AND a.external_id != "" AND a.external_id != 0) OR (a.label ="'.$paramSongName.'" AND a.external_id = "0" )';
 		$db->setQuery($query);
 		$db->loadObjectList();
 		$bandList = $db->loadResultArray();
@@ -3551,8 +3551,8 @@ $app = & JFactory::getApplication();
 
 		$oSongObject = new stdClass();
 		$oStoringOutput = new JObject();	
-		echo '<pre>';
-		/*var_dump('------------------------------------');
+		/*echo '<pre>';
+		var_dump('------------------------------------');
 		var_dump($paramSongChosen);
 		var_dump($paramprovider);
 		var_dump($paramIsSearched);
@@ -3607,12 +3607,10 @@ $app = & JFactory::getApplication();
 				}
 				$oSongObject->oSongId = $song_id;
 				$oStoringOutput = $oSongObject;
-		/*var_dump($oStoringOutput);
-		var_dump('------------------------------------');
-		echo '</pre>';
-			exit();	
+		
 				}	
-			return $oStoringOutput;	*/
+				
+			return $oStoringOutput;	
 		}
     function doStoreSong($paramSongObject){
 		$oSongId;

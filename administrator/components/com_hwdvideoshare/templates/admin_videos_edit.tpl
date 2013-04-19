@@ -22,7 +22,10 @@ jQuery(document).ready(function() {
 		jQuery('#tags').tagsInput({width:'auto',height:'250px'});
 		
 		var lastData;
-			
+		jQuery('#originalband').keyup(function(){
+				isSearchedSuccess = false; jQuery('#issearched').val('0');
+			});
+				
 				function initiateSearch(paramSecondTry){
 					
 						isSearched = true;
@@ -65,7 +68,7 @@ jQuery(document).ready(function() {
 							  url: liveSite+"/administrator/index.php?option=com_hwdvideoshare&task=ajax_searchsong&pattern="+paramPattern+oSecondTryParam,
 							  context: document.body
 							}).done(function(data) {
-								jQuery('.blockUI #close').click(function(){jQuery.unblockUI();isSearchedSuccess = false; jQuery('#issearched').val('0');});
+								jQuery('.blockUI #close').click(function(){jQuery.unblockUI();if(!isSearchedSuccess){isSearchedSuccess = false; jQuery('#issearched').val('0');}});
 								if(jQuery.trim(data).length > 0){
 									var oHeight = 0;
 									if(!paramSecondTry)
