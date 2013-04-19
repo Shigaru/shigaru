@@ -1122,10 +1122,14 @@ class hwd_vs_uploads
 				$script[]="\tjQuery('.shigarunotice .close').click(function(){jQuery(this).parents('#system-message').fadeOut('slow');});";
 				$script[]='});';
 				$doc->addScriptDeclaration(implode("\n",$script));
+				$ext_v_title = stripslashes(Jrequest::getVar( 'videotitle', '' ));
+				$ext_v_descr = stripslashes(JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
+				$title 				= hwd_vs_tools::generatePostTitle($ext_v_title);
+				$description 		= hwd_vs_tools::generatePostDescription($ext_v_descr);
         		$oThirdPartyVideoInfo->video_type		= $regs['domain'];
 				$oThirdPartyVideoInfo->video_id			= Jrequest::getVar( 'video_id', '' );
-				$oThirdPartyVideoInfo->video_title		= Jrequest::getVar( 'videotitle', '' );
-				$oThirdPartyVideoInfo->description		= Jrequest::getVar( 'description', '' );
+				$oThirdPartyVideoInfo->video_title		= $title;
+				$oThirdPartyVideoInfo->description		= $description;
 				$oThirdPartyVideoInfo->genre_id			= Jrequest::getVar( 'genre_id', '' );
 				$oThirdPartyVideoInfo->original_autor	= Jrequest::getVar( 'original_autor', '' );
 				$oThirdPartyVideoInfo->intrument_id		= Jrequest::getVar( 'intrument_id', '' );
@@ -1145,8 +1149,8 @@ class hwd_vs_uploads
         		hwd_vs_html::uploadMedia("thirdparty",
 											"",
 											"",
-											stripslashes(Jrequest::getVar( 'videotitle', '' )),
-											stripslashes(Jrequest::getVar( 'description', '' )),
+											Jrequest::getVar( 'videotitle', '' ),
+											Jrequest::getVar( 'description', '' ),
 											JRequest::getVar( "category_id", "0", "post" ),
 											Jrequest::getVar( 'tags', '' ),
 											JRequest::getWord( "public_private", "public", "post" ),
