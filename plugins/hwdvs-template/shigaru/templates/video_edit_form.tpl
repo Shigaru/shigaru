@@ -54,6 +54,11 @@
 				
 						
 			});
+			
+			jQuery('#originalband').keyup(function(){
+				isSearchedSuccess = false; jQuery('#issearched').val('0');
+			});
+			
 			jQuery('#tags').tagsInput({width:'auto'});
 			
 			var lastData;
@@ -99,7 +104,7 @@
 							  url: "index.php?option=com_hwdvideoshare&task=ajax_searchsong&pattern="+paramPattern+oSecondTryParam,
 							  context: document.body
 							}).done(function(data) {
-								jQuery('.blockUI #close').click(function(){jQuery.unblockUI();isSearchedSuccess = false; jQuery('#issearched').val('0'); jQuery('#originalband').parent().fadeIn(500);});
+								jQuery('.blockUI #close').click(function(){jQuery.unblockUI();if(!isSearchedSuccess){isSearchedSuccess = false; jQuery('#issearched').val('0');} jQuery('#originalband').parent().fadeIn(500);});
 								if(jQuery.trim(data).length > 0){
 									var oHeight = 0;
 									if(!paramSecondTry)
