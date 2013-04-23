@@ -1122,9 +1122,9 @@ class hwd_vs_uploads
 				$script[]="\tjQuery('.shigarunotice .close').click(function(){jQuery(this).parents('#system-message').fadeOut('slow');});";
 				$script[]='});';
 				$doc->addScriptDeclaration(implode("\n",$script));
-				$ext_v_title = stripslashes(Jrequest::getVar( 'videotitle', '' ));
+				$ext_v_title = htmlspecialchars(Jrequest::getVar( 'videotitle', '' ));
 				$ext_v_descr = stripslashes(JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
-				$title 				= hwd_vs_tools::generatePostTitle($ext_v_title);
+				$title 				= $ext_v_title;
 				$description 		= hwd_vs_tools::generatePostDescription($ext_v_descr);
         		$oThirdPartyVideoInfo->video_type		= $regs['domain'];
 				$oThirdPartyVideoInfo->video_id			= Jrequest::getVar( 'video_id', '' );
@@ -1185,7 +1185,6 @@ class hwd_vs_uploads
 					require_once(JPATH_SITE.DS.'plugins'.DS.'hwdvs-thirdparty'.DS.'remote.php');
 					break;
 			}
-		
 
 		$failures = "";
 		$ext_v_code  = Jrequest::getVar( 'video_id', '' );
@@ -1235,6 +1234,8 @@ class hwd_vs_uploads
 			$oSongChosen = Jrequest::getVar( 'songtitle', '' );
 			$oStoringOutput = hwd_vs_tools::storeSong($oSongChosen,$thirdpartyprovider,0,$originalband);
 			}
+			
+			
 		$row = new hwdvids_video($db);
 
 		$password = Jrequest::getVar( 'hwdvspassword', '' );
@@ -1265,8 +1266,7 @@ class hwd_vs_uploads
 		$_POST['ip_added'] 			= Jrequest::getVar( 'ip_added', '' );
 		//var_dump(Jrequest::getVar( 'ip_added', '' ));
 		$_POST['original_autor'] 	= Jrequest::getVar( 'original_autor', '' );
-		
-								
+				
 
 		if ($admin_import)
 		{
