@@ -226,7 +226,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 			echo $this->moduleContent;
 			echo '</div></div></div><div id="cb_comp_register">';
 		}
-		$redirected = JRequest::getVar('rted','none');
+		$redirected = JRequest::getVar('profilerfrom','');
 		if($redirected == 'none'){
 			}else if($redirected =='submit'){
 ?>	
@@ -255,7 +255,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 			});
 	</script>		
 <?php			
-				}else if($redirected =='profiler'){
+				}else if($redirected =='ownprofile'){
 					$oProfileText = (JRequest::getVar('profilerfrom','none') == 'community')?'this user\'s':'your';
 ?>
 	<div id="fromprofiler" class="usermessages">

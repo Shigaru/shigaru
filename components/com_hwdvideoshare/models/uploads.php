@@ -1123,7 +1123,7 @@ class hwd_vs_uploads
 				$script[]='});';
 				$doc->addScriptDeclaration(implode("\n",$script));
 				$ext_v_title = htmlspecialchars(Jrequest::getVar( 'videotitle', '' ));
-				$ext_v_descr = stripslashes(JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
+				$ext_v_descr = htmlspecialchars(JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
 				$title 				= $ext_v_title;
 				$description 		= hwd_vs_tools::generatePostDescription($ext_v_descr);
         		$oThirdPartyVideoInfo->video_type		= $regs['domain'];

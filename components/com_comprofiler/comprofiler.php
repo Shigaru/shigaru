@@ -672,7 +672,10 @@ function userProfile( $option, $uid, $submitvalue) {
 	$user					=&	loadComprofilerUser( $uid );
 
 	if ( $user === null ) {
-		echo _UE_NOSUCHPROFILE;
+		$lang =& JFactory::getLanguage();
+			$url    = 'index.php?option=com_comprofiler&task=registers&profilerfrom=ownprofile';
+			JFactory::getApplication()->redirect(JURI::getInstance($url)->toString().'&redirected=profiler');  
+			return;
 		return;
 	}
 
