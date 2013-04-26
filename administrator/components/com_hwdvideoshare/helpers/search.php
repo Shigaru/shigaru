@@ -208,7 +208,7 @@ class hwd_vs_search
        hwd_vs_search::initSearch('indexVideos',$sort);
 		$limit              = isset($_REQUEST['limit']) ? (int) $_REQUEST['limit'] : 50 ;
 		if(0 === $limit) {
-			$limit = 1000;
+			$limit = 10000;
 		}
 		// clean up our search text
 		$text = trim( $query );

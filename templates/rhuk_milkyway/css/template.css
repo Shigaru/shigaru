@@ -20,6 +20,10 @@ ol { margin-left:2em; }
 .clearfix {display: block;}
 /* GENERAL STYLES */
 body{font-family: 'Ubuntu', arial, serif;color:#666666;min-width:1050px;}
+html,
+body {
+  height: 100%;
+}
 /*HEADER*/
 #head{height:73px;background: url("../images/head_back.png") repeat-x 0 0 transparent;color:#fff;}
 #head_logo{height:140px;clear:both;}

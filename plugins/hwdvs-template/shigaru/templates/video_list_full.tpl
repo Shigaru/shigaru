@@ -6,61 +6,31 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
+<div class="resultelement other nonmetal   " data-symbol="H" data-category="other">
+      <p class="number">{$data->comments}</p>
+      <h3 class="symbol">{$data->uploader}</h3>
+      <h2 class="name">{$data->thumbnail}</h2>
+      <p class="weight">{$data->duration}</p>
+</div>
+<!--    
+<div class="item">{$data->titleplain}
+ {$data->thumbnail}
+  <div class="">
+    <small class="">{$smarty.const._HWDVIDS_INFO_VIEWS}{$data->views}</small>
+    <small class="">Comments:</small>
+    <div class="">{$data->rating}   
+    </div>
+  </div>
+</li>
 
-
-<div class='searchResultInfo f80'>	
-							<div class="fleft mright24 mtopl6">
-								<div>
-										<label for="plays" class="searchLabels">
-											{$smarty.const._HWDVIDS_INFO_VIEWS}
-										<div class="boxwhite pad2 tright">{$data->views}</div>
-										</label>
-									</div>
-									<div>
-										<label for="username" class="searchLabels">
-										Rating:<br />
-										</label>
-										<span>{$data->rating}</span>
-									</div>
-									<div>
-										<label for="username" class="searchLabels">
-										Comments:<br />
-										<div class="boxwhite pad2 tright">{$data->comments}</div>
-										</label>
-									</div>
-							</div>	
-							<div class="fleft pad6 boxwhite w84">	
-							
-							<div class="searchResultThumb mtop12 mright12">
-									{$data->thumbnail}	
-									<span class="videotime"> {$data->duration} </span>
-									
-								</div>	
+<div class='searchResultInfo f80'>
 							{if isset($data->editvideo)}		
 							<div class="buttonbar">
 										{$data->editvideo}
 										{$data->deletevideo}
 									</div>	
 							{/if}		
-							<div class="fleft w75">
-								<div class="mbot12">	
-									<div class="mbot20">
-										<label for="title" class="searchLabels">
-										Video Title:
-										</label>
-										<span>{$data->titleplain}</span>
-										<span id="videosearchtitle"></span>
-									</div>	
-									<div class="mbot20">
-										<label for="username" class="searchLabels">
-										Shared By:
-										</label>
-										<a href="" class="">
-										<span id="videosearchusername">{$data->uploader}</span>
-										</a>
-									</div>	
-								</div>		
-								<div class="horizontal-rule"></div>
+							
 								<div class="padtop12">
 									<div class="fleft mleft12 w20pc">
 										<label for="username" class="searchLabels">
@@ -115,3 +85,4 @@
 //    {$data->avatar}
 //////
 *}
+-->
