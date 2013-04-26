@@ -187,7 +187,7 @@ jQuery(document).ready(function() {
 	  {if $print_videolist}
 		<div id="resultcontainer">
 		{foreach name=outer item=data from=$list}
-		  {include file="video_list_full.tpl"}
+		  {include file="video_list_full.tpl" userdetails=$userdetails}
 		{/foreach}
 		</div>
 	  {else}

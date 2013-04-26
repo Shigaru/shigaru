@@ -16,13 +16,16 @@
 		</div>
 		<div class="fright w59">
 			<div class="clearfix">
-				<div class="fleft">
-					{$data->avatar}
+				<div class="clearfix">
+					<div class="fleft">
+						{$data->avatar}
+					</div>	
+					<div class="fleft f90">
+						<span>{$smarty.const._HWDVIDS_INFO_SHARED}</span>
+						<div>{$data->uploader}</div>
+					</div>
 				</div>	
-				<div class="fleft f90">
-					<span>{$smarty.const._HWDVIDS_INFO_SHARED}</span>
-					<div>{$data->uploader}</div>
-				</div>
+				<div id="{$userdetails->cb_country}" class="fnone userflag"></div>
 			</div>
 			<div>
 				{$data->views}
@@ -30,7 +33,7 @@
 		</div>
 	</div>	
 		<div>
-			<div>
+			<div class="mtop6">
 				{$data->titletrunc}
 			</div>
 		</div>

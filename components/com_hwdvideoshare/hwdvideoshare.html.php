@@ -1311,7 +1311,7 @@ $app = & JFactory::getApplication();
     /**
      *
      */
-    function yourVideos($rows, $pageNav, $total,$otheruser='no')
+    function yourVideos($rows, $pageNav, $total,$otheruser='no',$paramuser_id = null)
     {
 		global $smartyvs, $Itemid,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
@@ -1327,7 +1327,7 @@ $app = & JFactory::getApplication();
 		$doc = & JFactory::getDocument();
 
 		$active = &$menu->getActive();
-
+		
 		if (!empty($mparams_pt)) {
 			$metatitle = $mparams_pt;
 		} else if (!empty($active->name)) {
@@ -1345,10 +1345,9 @@ $app = & JFactory::getApplication();
 		if (count($rows) > 0) {
 			$smartyvs->assign("print_videolist", 1);
 			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,'90');
-			/*echo '<pre>';
-			var_dump($list);
-			echo '</pre>';*/
+			$userdetails = hwd_vs_tools::getUserContextDetails($paramuser_id);
 			$smartyvs->assign("list", $list);
+			$smartyvs->assign("userdetails", $userdetails);
 		}
 
 		$page = $total - $c->vpp;

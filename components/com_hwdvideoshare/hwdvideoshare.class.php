@@ -981,7 +981,7 @@ class hwd_vs_tools {
      * @param string $video(optional)  the name of the video
      * @return       $code  the html video link
      */
-	function generateVideoLink( $video_id, $video=null, $hwdvs_itemid=null, $onclick_js=null, $truntitle=null )
+	function generateVideoLink( $video_id, $video=null, $hwdvs_itemid=null, $onclick_js=null, $truntitle=null, $alttext=null )
 	{
 		global $hwdvsItemid;
 		$c = hwd_vs_Config::get_instance();
@@ -994,9 +994,11 @@ class hwd_vs_tools {
 			$onclick_txt="";
 			$link=JRoute::_("index.php?option=com_hwdvideoshare&task=viewvideo&Itemid=".$hwdvs_itemid."&video_id=".$video_id);
 		}
-
+		$linktitle = '';
+		if($alttext)
+			$linktitle = " title=\"".$alttext."\" ";
 		$code = null;
-		$code.= "<a href=\"".$link."\" ".$onclick_txt.">";
+		$code.= "<a href=\"".$link."\" ".$onclick_txt."".$linktitle.">";
 		if (isset($video)) {
 			$code.= hwd_vs_tools::truncateText($video, $truntitle);
 		} else {
@@ -1614,7 +1616,7 @@ class hwd_vs_tools {
 			$code[$i]->upload_date = strftime("%l%P - %b %e, %Y", strtotime($row->date_uploaded));
 			if ($hwdvsTemplateOverride['show_tags']) {                 $code[$i]->tags	= hwd_vs_tools::generateTagListString($row->tags); }
 			$code[$i]->titleplain = htmlspecialchars(strip_tags(stripslashes($row->title)));
-			$code[$i]->titletrunc = hwd_vs_tools::generateVideoLink( $row->id, $row->title, $hwdvs_itemid, null, 35);
+			$code[$i]->titletrunc = hwd_vs_tools::generateVideoLink( $row->id, $row->title, $hwdvs_itemid, null, 35,$code[$i]->titleplain);
 			$code[$i]->descriptiontrunc = hwd_vs_tools::truncateText(htmlspecialchars(strip_tags(stripslashes($row->description))), 90);
 			$code[$i]->deletevideo = hwd_vs_tools::generateDeleteVideoLink($row);
 			$code[$i]->editvideo = hwd_vs_tools::generateEditVideoLink($row);
@@ -5290,6 +5292,27 @@ $app = & JFactory::getApplication();
 		echo $db->getErrorMsg();
 		$grows = $db->loadObjectList();
 		return $grows[0]->genre;
+	}
+		
+    /**
+     * Generates multilanguage text for Video Genre
+     *
+     * @return       $genre
+     */
+    
+    function getUserContextDetails($user_id){
+		
+		$db = & JFactory::getDBO();
+		$query = 'select cb_sex ,cb_youragegroup AS age ,
+						cb_country from #__comprofiler 
+						WHERE 
+						user_id='.$user_id;
+		$db->SetQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		echo $db->getErrorMsg();
+		$rows = $db->loadObject();
+		return $rows;
 	}	
     
     
