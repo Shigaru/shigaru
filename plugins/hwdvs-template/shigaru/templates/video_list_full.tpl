@@ -25,11 +25,19 @@
 						<div>{$data->uploader}</div>
 					</div>
 				</div>	
-				<div id="{$userdetails->cb_country}" class="fnone userflag"></div>
+				<div class="clearfix">
+					<div class="f80 mleft6 fleft">
+						{$smarty.const._HWDVIDS_INFO_PLAYS}: {$data->views}
+					</div>
+					<div id="{$userdetails->cb_country}" class="fright mright12 userflag"></div>
+					
+				</div>	
+				<div class="clearfix">
+					
+					<div class="f80 mleft6">{$data->upload_date}</div>
+				</div>
 			</div>
-			<div>
-				{$data->views}
-			</div>
+			
 		</div>
 	</div>	
 		<div>

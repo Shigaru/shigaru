@@ -1613,7 +1613,7 @@ class hwd_vs_tools {
 			$code[$i]->duration = $row->video_length;
 			if ($hwdvsTemplateOverride['show_uploader']) {             $code[$i]->uploader = hwd_vs_tools::generateUserFromID($row->user_id, $row->username, $row->name); }
 			if ($hwdvsTemplateOverride['show_timesince']) {            $code[$i]->timesince = hwd_vs_tools::generateTimeSinceUpload($row->date_uploaded); }
-			$code[$i]->upload_date = strftime("%l%P - %b %e, %Y", strtotime($row->date_uploaded));
+			$code[$i]->upload_date = hwd_vs_tools::getAgoDate(strtotime($row->date_uploaded));
 			if ($hwdvsTemplateOverride['show_tags']) {                 $code[$i]->tags	= hwd_vs_tools::generateTagListString($row->tags); }
 			$code[$i]->titleplain = htmlspecialchars(strip_tags(stripslashes($row->title)));
 			$code[$i]->titletrunc = hwd_vs_tools::generateVideoLink( $row->id, $row->title, $hwdvs_itemid, null, 35,$code[$i]->titleplain);
@@ -1635,6 +1635,19 @@ class hwd_vs_tools {
 		}
 		return $code;
     }
+    
+    function getAgoDate($date){
+		$stf = 0;
+		$cur_time = time();
+		$diff = $cur_time - $date;
+		$phrase = array('second','minute','hour','day','week','month','year','decade');
+		$length = array(1,60,3600,86400,604800,2630880,31570560,315705600);
+		for($i =sizeof($length)-1; ($i >=0)&&(($no =  $diff/$length[$i])<=1); $i--); if($i < 0) $i=0; $_time = $cur_time  -($diff%$length[$i]);
+		$no = floor($no); if($no <> 1) $phrase[$i] .='s'; $value=sprintf("%d %s ",$no,$phrase[$i]);
+		if(($stf == 1)&&($i >= 1)&&(($cur_tm-$_time) > 0)) $value .= time_ago($_time);
+		return $value.' ago ';
+	}
+    
     /**
      * Generates the array of information for a standard video list from parsed xml files
      *
