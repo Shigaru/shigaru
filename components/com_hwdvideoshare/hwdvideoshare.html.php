@@ -1363,6 +1363,8 @@ $app = & JFactory::getApplication();
 				$pageNavigation.= "</div>";
 			}
 		}
+		$baseurl = JURI::root();
+		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 		$smartyvs->assign("otheruser", $otheruser);
 		$smartyvs->assign("total", $total);

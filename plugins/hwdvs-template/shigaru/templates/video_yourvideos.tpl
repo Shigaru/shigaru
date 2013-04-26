@@ -7,7 +7,7 @@
 //////
 *}
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<script type="text/javascript" src="http://localhost/shigaru/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
+<script type="text/javascript" src="{$baseurl}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
 
 <script type="text/javascript">
 	{literal}
