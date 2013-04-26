@@ -8,9 +8,13 @@
 *}
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <script type="text/javascript" src="{$baseurl}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
-
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
 <script type="text/javascript">
 	{literal}
+	
+	
 jQuery(document).ready(function() {
 	var $container = jQuery('#resultcontainer');
       
@@ -109,7 +113,7 @@ jQuery(document).ready(function() {
 {if $otheruser eq 'no'}
 {/if}
 <div class="clearfix mtop12">
-	<div class="well fleft w20pc f90">
+	<div class="well fleft w15 f90">
 		<ul class="nav nav-list">
 		  <li><a href="#">What to Watch</a></li>	
 		  <li class="divider"></li>
@@ -143,37 +147,53 @@ jQuery(document).ready(function() {
 		  <li><a href="#">My Shigaru Friends</a></li>
 		</ul>
 	</div>   
-	<div class="fright clearfix w75">
-		<div class="clearfix mbot12">
-			<div class="fleft fontbold"><h3>{$smarty.const._HWDVIDS_TITLE_YOURVIDS}</h3></div>
-			
-			<div id="options" class="fright clearfix">    
-				<div class="btn-group" data-option-key="layoutMode">
-				  <a class="btn" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>
-				  <a class="btn" href="#cellsByRow" data-option-value="cellsByRow"><i class="icon-th-large"></i></a>
-				  <a class="btn" href="#straightDown" data-option-value="straightDown"><i class="icon-th-list"></i></a>
+	<div id="videosmaincontent" class="fleft clearfix pad12">
+		<div class="clearfix">
+			<div class="clearfix">
+				<div class="fleft fontbold">
+					<h3>{$smarty.const._HWDVIDS_TITLE_YOURVIDS}</h3>
 				</div>
-			</div> <!-- #options -->
-			<form class="fright">
-			  <div class="input-prepend mright12">
-				<span class="add-on"><i class="icon-search"></i></span>
-				<input class="span2" type="text" placeholder="Search your videos...">
-			  </div>
-			</form>	
-			<form class="fright">
-				<label for="sort_by" class="sort-control-label">Sort by:</label>
-					<select class="sort_select" id="sort_by" name="sort_by"><option value="sortable_at" selected="selected">Date</option>
-						<option value="username">Author</option>
-						<option value="category">Category</option>
-						<option value="average_rating">Rating</option>
-						<option value="sales_count">Sales</option>
-						<option value="cost">Price</option>
-					</select>
-				<a href="#" class="fontred pad6"><i class="icon-arrow-up icon-large"></i></a>
-			</form>
+				<div class="fright">
+					<form class="">
+						<label for="quick_links" class="sort-control-label">Quick Links:</label>
+						<select class="quick_links" id="quick_links" name="quick_links">
+							<option value="sortable_at" selected="selected">Share a video</option>
+							<option value="username">Author</option>
+							<option value="category">Category</option>
+							<option value="average_rating">Rating</option>
+							<option value="sales_count">Sales</option>
+							<option value="cost">Price</option>
+						</select>
+					</form>
+				</div>
+			</div>
+			<div class="clearfix mtop6">					
+				<form class="fleft clearfix">
+					<div class="fleft">
+						<label for="sort_by" class="sort-control-label">Sort by:</label>
+						<select class="sort_select" id="sort_by" name="sort_by"><option value="sortable_at" selected="selected">Date</option>
+							<option value="username">Author</option>
+							<option value="category">Category</option>
+							<option value="average_rating">Rating</option>
+							<option value="sales_count">Sales</option>
+							<option value="cost">Price</option>
+						</select>
+					</div>	
+					<a href="#" class="fleft fontred pad6"><i class="icon-arrow-up icon-large"></i></a>
+					<input class="icon-search fleft" type="text" placeholder="Search your videos..."/>
+					
+				</form>
+				<div id="options" class="clearfix fright">    
+					<div class="btn-group" data-option-key="layoutMode">
+					  <a class="btn" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>
+					  <a class="btn" href="#cellsByRow" data-option-value="cellsByRow"><i class="icon-th-large"></i></a>
+					  <a class="btn" href="#straightDown" data-option-value="straightDown"><i class="icon-th-list"></i></a>
+					</div>
+				</div> <!-- #options -->
+		   </div>
 		</div>
 	  {if $print_videolist}
-		<div id="resultcontainer" class="well">
+		<div id="resultcontainer">
 		{foreach name=outer item=data from=$list}
 		  {include file="video_list_full.tpl"}
 		{/foreach}
@@ -182,7 +202,50 @@ jQuery(document).ready(function() {
 		<div class="padding">{$smarty.const._HWDVIDS_INFO_NUV}</div>
 	  {/if}
 	</div>
-	
+	<div class="fleft w15 f90">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-1916456389191969";
+		/* profile */
+		google_ad_slot = "2073720662";
+		google_ad_width = 120;
+		google_ad_height = 240;
+		//-->
+		</script>
+		<div class="well">
+			<ul class="nav nav-list">
+			  <li><a href="#">What to Watch</a></li>	
+			  <li class="divider"></li>
+			  <li><a href="#">Watch History</a></li>	
+			  <li class="divider"></li>
+			  <li><a href="#">Search History</a></li>	
+			  <li class="divider"></li>
+			  <li><a href="#">What is Hot!</a></li>	
+			  <li class="divider"></li>
+			  <li><a href="#">My Subscriptions</a></li>	
+			  <li class="divider"></li>
+			  <li><a href="#">My Alerts</a></li>	
+			  <li class="divider"></li>
+			  <li>
+				<a href="#">My Videos</a>
+				<ul class="padleft4">
+					<li class="active"><a href="#">Videos I Created ({$total})</a></li>
+					<li><a href="#">Videos I Shared ({$total})</a></li>
+					<li class="divider"></li>
+					<li><a href="#">My Playlists</a></li>
+					<li><a href="#">My 'Learn Later' Videos</a></li>
+					<li><a href="#">My Favourites</a></li>
+					<li><a href="#">Videos I Like</a></li>
+				</ul>
+			  </li>
+			  <li class="divider"></li>
+			  <li><a href="#">Comments</a></li>
+			  <li class="divider"></li>
+			  <li><a href="#">Status Updates</a></li>
+			  <li class="divider"></li>
+			  <li><a href="#">My Shigaru Friends</a></li>
+			</ul>
+		</div> 
+	</div> 
 </div>	
 <div align="center" class="mtop25">
   {$pageNavigation}
