@@ -1344,7 +1344,10 @@ $app = & JFactory::getApplication();
 
 		if (count($rows) > 0) {
 			$smartyvs->assign("print_videolist", 1);
-			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,$hwdvsTemplateOverride['thumbWidth1']);
+			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,'90');
+			/*echo '<pre>';
+			var_dump($list);
+			echo '</pre>';*/
 			$smartyvs->assign("list", $list);
 		}
 

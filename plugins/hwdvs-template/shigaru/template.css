@@ -673,22 +673,26 @@ input[type="text"],input[type="password"],input[type="datetime"],input[type="dat
 	vertical-align:middle
 }
 .resultelement {
-  width: 110px;
-  height: 110px;
-  margin: 5px;
+  width: 220px;
+  height: 120px;
+  margin: 2px;
   float: left;
   overflow: hidden;
   position: relative;
-  background: #888;
-  color: #222;
-  -webkit-border-top-right-radius: 1.2em;
-      -moz-border-radius-topright: 1.2em;
-          border-top-right-radius: 1.2em;
 }
 
 .resultelement * {
-  position: absolute;
   margin: 0;
+}
+.resultelement img.bradius5 {
+  width: 90px;
+  -webkit-border-radius:0;
+	-moz-border-radius:0;
+	border-radius:0;
+}
+.resultelement img.avatar {
+  width: 40px;
+  border:none;
 }
 
 .nav-list {
@@ -701,6 +705,10 @@ input[type="text"],input[type="password"],input[type="datetime"],input[type="dat
 	margin-right:-15px;
 	text-shadow:0 1px 0 rgba(255,255,255,0.5);
 }
+
+.nav-list li{}
+.nav-list>li{border-bottom: 1px dotted #ccc;padding:12px 0;}
+
 .nav-list li a {
 	padding:3px 15px;
 	font-weight: bold;
@@ -712,9 +720,6 @@ input[type="text"],input[type="password"],input[type="datetime"],input[type="dat
 	font-weight: normal;
 }
 
-.nav-list li ul li{
-	margin-bottom:6px;
-}
 
 .nav-list li.active>a,.nav-list>.active>a:hover {
 	text-shadow:0 -1px 0 rgba(0,0,0,0.2);

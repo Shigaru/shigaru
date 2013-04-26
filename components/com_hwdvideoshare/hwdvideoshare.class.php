@@ -1614,6 +1614,7 @@ class hwd_vs_tools {
 			$code[$i]->upload_date = strftime("%l%P - %b %e, %Y", strtotime($row->date_uploaded));
 			if ($hwdvsTemplateOverride['show_tags']) {                 $code[$i]->tags	= hwd_vs_tools::generateTagListString($row->tags); }
 			$code[$i]->titleplain = htmlspecialchars(strip_tags(stripslashes($row->title)));
+			$code[$i]->titletrunc = hwd_vs_tools::generateVideoLink( $row->id, $row->title, $hwdvs_itemid, null, 35);
 			$code[$i]->descriptiontrunc = hwd_vs_tools::truncateText(htmlspecialchars(strip_tags(stripslashes($row->description))), 90);
 			$code[$i]->deletevideo = hwd_vs_tools::generateDeleteVideoLink($row);
 			$code[$i]->editvideo = hwd_vs_tools::generateEditVideoLink($row);
@@ -2501,7 +2502,7 @@ $app = & JFactory::getApplication();
 				}
 
 				if ($c->cbitemid !== "") { $c->cbitemid = "&Itemid=".$c->cbitemid; }
-				$code = "<a href=\"".JRoute::_("index.php?option=com_community".$c->cbitemid."&view=profile&userid=".$user_id)."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"thumb".$k."\" /></a><br />";
+				$code = "<a href=\"".JRoute::_("index.php?option=com_community".$c->cbitemid."&view=profile&userid=".$user_id)."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"avatar thumb".$k."\" /></a><br />";
 			}
 			else if ($c->cbint == 1)
 			{
@@ -2529,7 +2530,7 @@ $app = & JFactory::getApplication();
 					}
 				}
 				if ($c->cbitemid !== "") { $c->cbitemid = "&Itemid=".$c->cbitemid; }
-				$code = "<a href=\"".JRoute::_("index.php?option=com_comprofiler".$c->cbitemid."&task=userProfile&user=".$user_id)."\" title=\""._HWDVIDS_ALT_USRPRO."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"thumb".$k."\" /></a><br />";
+				$code = "<a href=\"".JRoute::_("index.php?option=com_comprofiler".$c->cbitemid."&task=userProfile&user=".$user_id)."\" title=\""._HWDVIDS_ALT_USRPRO."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"avatar thumb".$k."\" /></a><br />";
 			}
 			else if ($c->cbint == 4)
 			{
@@ -2542,7 +2543,7 @@ $app = & JFactory::getApplication();
 					$avatar_path = JURI::root().'images/fbfiles/avatars/s_nophoto.jpg';
 				}
 				if ($c->cbitemid !== "") { $c->cbitemid = "&Itemid=".$c->cbitemid; }
-				$code = "<a href=\"".JRoute::_("index.php?option=com_kunena&func=fbprofile&Itemid=".$c->cbitemid."&userid=".$user_id)."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"thumb".$k."\" /></a><br />";
+				$code = "<a href=\"".JRoute::_("index.php?option=com_kunena&func=fbprofile&Itemid=".$c->cbitemid."&userid=".$user_id)."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"avatar thumb".$k."\" /></a><br />";
 			}
 			else if ($c->cbint == 5)
 			{
@@ -2554,7 +2555,7 @@ $app = & JFactory::getApplication();
 				{
 					$avatar_path = null;
 				}
-				$code = "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&task=viewChannel&user_id=".$user_id."&Itemid=".$hwdvsItemid)."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"thumb".$k."\" /></a><br />";
+				$code = "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&task=viewChannel&user_id=".$user_id."&Itemid=".$hwdvsItemid)."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"avatar thumb".$k."\" /></a><br />";
 			}
 			else if ($c->cbint == 6)
 			{
@@ -2567,7 +2568,7 @@ $app = & JFactory::getApplication();
 					$avatar_path = JURI::root().'media/kunena/avatars/s_nophoto.jpg';
 				}
 				if ($c->cbitemid !== "") { $c->cbitemid = "&Itemid=".$c->cbitemid; }
-				$code = "<a href=\"".JRoute::_("index.php?option=com_kunena&func=fbprofile&Itemid=".$c->cbitemid."&userid=".$user_id)."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"thumb".$k."\" /></a><br />";
+				$code = "<a href=\"".JRoute::_("index.php?option=com_kunena&func=fbprofile&Itemid=".$c->cbitemid."&userid=".$user_id)."\"><img src=\"".$avatar_path."\" width=\"".$c->avatarwidth."\" border=\"0\" alt=\""._HWDVIDS_ALT_USRPRO."\" class=\"avatar thumb".$k."\" /></a><br />";
 			}
 		}
 		return $code;

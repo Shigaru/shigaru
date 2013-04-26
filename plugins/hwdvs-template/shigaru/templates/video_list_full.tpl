@@ -6,11 +6,34 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<div class="resultelement other nonmetal   " data-symbol="H" data-category="other">
-      <p class="number">{$data->comments}</p>
-      <h3 class="symbol">{$data->uploader}</h3>
-      <h2 class="name">{$data->thumbnail}</h2>
-      <p class="weight">{$data->duration}</p>
+<div class="resultelement other clearfix nonmetal" data-symbol="H" data-category="other">
+	<div class="clearfix">	
+		<div class="fleft w40">
+			<div>
+				{$data->thumbnail}
+				<span class="videotime">{$data->duration}</span>
+			</div>
+		</div>
+		<div class="fright w59">
+			<div class="clearfix">
+				<div class="fleft">
+					{$data->avatar}
+				</div>	
+				<div class="fleft f90">
+					<span>{$smarty.const._HWDVIDS_INFO_SHARED}</span>
+					<div>{$data->uploader}</div>
+				</div>
+			</div>
+			<div>
+				{$data->views}
+			</div>
+		</div>
+	</div>	
+		<div>
+			<div>
+				{$data->titletrunc}
+			</div>
+		</div>
 </div>
 <!--    
 <div class="item">{$data->titleplain}

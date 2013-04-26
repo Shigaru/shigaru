@@ -30,17 +30,13 @@ jQuery(document).ready(function() {
       $container.isotope({
         itemSelector : '.resultelement',
         masonry : {
-          columnWidth : 120
+          columnWidth : 225
         },
         masonryHorizontal : {
-          rowHeight: 120
+          rowHeight: 140
         },
         cellsByRow : {
-          columnWidth : 240,
-          rowHeight : 240
-        },
-        cellsByColumn : {
-          columnWidth : 240,
+          columnWidth : 330,
           rowHeight : 240
         }
       });
@@ -112,17 +108,17 @@ jQuery(document).ready(function() {
 	<div class="well fleft w20pc">
 		<ul class="nav nav-list mtop12">
 		  <li><a href="#">What to Watch</a></li>	
-		  <li class="divider"></li>
+
 		  <li><a href="#">Watch History</a></li>	
-		  <li class="divider"></li>
+
 		  <li><a href="#">Search History</a></li>	
-		  <li class="divider"></li>
+
 		  <li><a href="#">What is Hot!</a></li>	
-		  <li class="divider"></li>
+
 		  <li><a href="#">My Subscriptions</a></li>	
-		  <li class="divider"></li>
+
 		  <li><a href="#">My Alerts </a><span class="mleft6"><i class="icon-bell"></i> <span class="fontred">(0) New</span></span></li>	
-		  <li class="divider"></li>
+
 		  <li>
 			<a href="#">My Videos</a>
 			<ul class="mtop6">
@@ -135,18 +131,18 @@ jQuery(document).ready(function() {
 				<li><a href="#">Videos I Like</a></li>
 			</ul>
 		  </li>
-		  <li class="divider"></li>
+
 		  <li><a href="#">Comments</a></li>
-		  <li class="divider"></li>
+
 		  <li><a href="#">Status Updates</a></li>
-		  <li class="divider"></li>
+
 		  <li><a href="#">My Shigaru Friends</a></li>
 		</ul>
 	</div>   
 	<div id="videosmaincontent" class="fleft clearfix pad12">
 		<div class="clearfix">
 			<div class="clearfix">
-				<div class="fleft fontbold">
+				<div class="fleft f120 fontbold">
 					<h3>{$smarty.const._HWDVIDS_TITLE_YOURVIDS}</h3>
 				</div>
 				<div class="fright">
@@ -215,17 +211,17 @@ jQuery(document).ready(function() {
 		<div class="well">
 			<ul class="nav nav-list mtop12">
 			  <li><a href="#">What to Watch</a></li>	
-			  <li class="divider"></li>
+	
 			  <li><a href="#">Watch History</a></li>	
-			  <li class="divider"></li>
+	
 			  <li><a href="#">Search History</a></li>	
-			  <li class="divider"></li>
+	
 			  <li><a href="#">What is Hot!</a></li>	
-			  <li class="divider"></li>
+	
 			  <li><a href="#">My Subscriptions</a></li>	
-			  <li class="divider"></li>
+	
 			  <li><a href="#">My Alerts</a></li>	
-			  <li class="divider"></li>
+	
 			  <li>
 				<a href="#">My Videos</a>
 				<ul class="mtop6">
@@ -238,11 +234,11 @@ jQuery(document).ready(function() {
 					<li><a href="#">Videos I Like</a></li>
 				</ul>
 			  </li>
-			  <li class="divider"></li>
+	
 			  <li><a href="#">Comments</a></li>
-			  <li class="divider"></li>
+	
 			  <li><a href="#">Status Updates</a></li>
-			  <li class="divider"></li>
+	
 			  <li><a href="#">My Shigaru Friends</a></li>
 			</ul>
 		</div> 
