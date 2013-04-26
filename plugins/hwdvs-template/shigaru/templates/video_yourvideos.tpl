@@ -8,13 +8,9 @@
 *}
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <script type="text/javascript" src="{$baseurl}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
+
 <script type="text/javascript">
 	{literal}
-	
-	
 jQuery(document).ready(function() {
 	var $container = jQuery('#resultcontainer');
       
@@ -112,9 +108,9 @@ jQuery(document).ready(function() {
 {include file='header.tpl'}
 {if $otheruser eq 'no'}
 {/if}
-<div class="clearfix mtop12">
-	<div class="well fleft w15 f90">
-		<ul class="nav nav-list">
+<div class="clearfix mtop12 f80">
+	<div class="well fleft w20pc">
+		<ul class="nav nav-list mtop12">
 		  <li><a href="#">What to Watch</a></li>	
 		  <li class="divider"></li>
 		  <li><a href="#">Watch History</a></li>	
@@ -125,11 +121,11 @@ jQuery(document).ready(function() {
 		  <li class="divider"></li>
 		  <li><a href="#">My Subscriptions</a></li>	
 		  <li class="divider"></li>
-		  <li><a href="#">My Alerts</a></li>	
+		  <li><a href="#">My Alerts </a><span class="mleft6"><i class="icon-bell"></i> <span class="fontred">(0) New</span></span></li>	
 		  <li class="divider"></li>
 		  <li>
 			<a href="#">My Videos</a>
-			<ul class="padleft4">
+			<ul class="mtop6">
 				<li class="active"><a href="#">Videos I Created ({$total})</a></li>
 				<li><a href="#">Videos I Shared ({$total})</a></li>
 				<li class="divider"></li>
@@ -183,7 +179,7 @@ jQuery(document).ready(function() {
 					<input class="icon-search fleft" type="text" placeholder="Search your videos..."/>
 					
 				</form>
-				<div id="options" class="clearfix fright">    
+				<div id="options" class="mtop8 clearfix fright">    
 					<div class="btn-group" data-option-key="layoutMode">
 					  <a class="btn" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>
 					  <a class="btn" href="#cellsByRow" data-option-value="cellsByRow"><i class="icon-th-large"></i></a>
@@ -202,17 +198,22 @@ jQuery(document).ready(function() {
 		<div class="padding">{$smarty.const._HWDVIDS_INFO_NUV}</div>
 	  {/if}
 	</div>
-	<div class="fleft w15 f90">
-		<script type="text/javascript"><!--
-		google_ad_client = "ca-pub-1916456389191969";
-		/* profile */
-		google_ad_slot = "2073720662";
-		google_ad_width = 120;
-		google_ad_height = 240;
-		//-->
-		</script>
+	<div class="fleft w15">
+		<div class="mleft6">
+			<script type="text/javascript"><!--
+			google_ad_client = "ca-pub-1916456389191969";
+			/* profile */
+			google_ad_slot = "2073720662";
+			google_ad_width = 120;
+			google_ad_height = 240;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+		</div>
 		<div class="well">
-			<ul class="nav nav-list">
+			<ul class="nav nav-list mtop12">
 			  <li><a href="#">What to Watch</a></li>	
 			  <li class="divider"></li>
 			  <li><a href="#">Watch History</a></li>	
@@ -227,7 +228,7 @@ jQuery(document).ready(function() {
 			  <li class="divider"></li>
 			  <li>
 				<a href="#">My Videos</a>
-				<ul class="padleft4">
+				<ul class="mtop6">
 					<li class="active"><a href="#">Videos I Created ({$total})</a></li>
 					<li><a href="#">Videos I Shared ({$total})</a></li>
 					<li class="divider"></li>
