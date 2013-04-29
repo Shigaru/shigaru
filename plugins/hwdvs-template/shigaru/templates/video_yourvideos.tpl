@@ -30,14 +30,14 @@ jQuery(document).ready(function() {
       $container.isotope({
         itemSelector : '.resultelement',
         masonry : {
-          columnWidth : 225
+          columnWidth : 240
         },
         masonryHorizontal : {
           rowHeight: 140
         },
         cellsByRow : {
-          columnWidth : 310,
-          rowHeight: 180
+          columnWidth : 325,
+          rowHeight: 190
         }
       });
       
@@ -63,8 +63,8 @@ jQuery(document).ready(function() {
           }, 100 )
         } else {
 		   var oItems = jQuery('#resultcontainer .resultelement');	
-		   oItems.find('.searchResultInfo').hide().css({'border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
-		   oItems.css({'width': "220px",'height':'120px',fontSize:'100%','padding':'0','border':'none'});
+		   oItems.find('.searchResultInfo').hide().css({'margin-top':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
+		   oItems.css({'width': "235px",'height':'120px',fontSize:'100%','padding':'0','border':'none'});
 		   oItems.find('img.bradius5').css({width: "90px"}).prev().css('width','90px');;
 		   jQuery('.searchResultInfo .extendedinfo').hide();
 		   switch(options.layoutMode){
@@ -73,19 +73,19 @@ jQuery(document).ready(function() {
 								break;
 					case 'cellsByRow':
 								oItems.css('border-bottom','none').animate({ 
-									width: "280px",
-									height: "174px",
+									width: "295px",
+									height: "180px",
 									fontSize:'120%'
 								  });
 								  oItems.find('img.bradius5').animate({ 
 									width: "113px"
 								  }).prev().css('width','113px');
-								  jQuery('.searchResultInfo').css({'border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'0'}).show();
+								  jQuery('.searchResultInfo').css({'margin-top':'6px','border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'0'}).show();
 								break;				
 					case 'straightDown':
 								oItems.css({'border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'12px'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
 								oItems.animate({ 
-									width: "660px",
+									width: "100%",
 									fontSize:'120%'
 								  });
 								  oItems.find('img.bradius5').animate({ 
@@ -147,7 +147,7 @@ jQuery(document).ready(function() {
 {if $otheruser eq 'no'}
 {/if}
 <div class="clearfix mtop12 f80">
-	<div class="well fleft w20pc">
+	<div class="well fleft w15">
 		<ul class="nav nav-list mtop12">
 		  <li><a href="#">What to Watch</a></li>	
 
@@ -164,11 +164,11 @@ jQuery(document).ready(function() {
 		  <li>
 			<a href="#">My Videos</a>
 			<ul class="mtop6">
-				<li class="active"><a href="#">Videos I Created ({$total})</a></li>
-				<li><a href="#">Videos I Shared ({$total})</a></li>
+				<li class="active"><a href="#">Videos I Created</a></li>
+				<li><a href="#">Videos I Shared</a></li>
 				<li class="divider"></li>
 				<li><a href="#">My Playlists</a></li>
-				<li><a href="#">My 'Learn Later' Videos</a></li>
+				<li><a href="#">My 'Learn Later'</a></li>
 				<li><a href="#">My Favourites</a></li>
 				<li><a href="#">Videos I Like</a></li>
 			</ul>
