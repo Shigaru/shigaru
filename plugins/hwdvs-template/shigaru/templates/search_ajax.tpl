@@ -47,18 +47,16 @@ oSearchParams.filtering=null;
 										<div class="clear"></div>
 									  {/if}	
 						</div>
-									  {if $print_matchvids}
-										{foreach name=outer item=data from=$matchingvids}
-											  <div class="searchResultItem">
-											  <div>
-										  {include file="video_list_full.tpl"}
-										  </div>
-										  </div>
-										{/foreach}
-									  {else}
-										<div class="clear"></div>
-										<div class="padding novideos">{$mvempty}</div>
-									  {/if}
+						{if $print_matchvids}
+								<div id="resultcontainer">
+									{foreach name=outer item=data from=$list}
+									  {include file="video_list_full.tpl"}
+									{/foreach}
+									</div>
+								  {else}
+									<div class="padding">{$smarty.const._HWDVIDS_INFO_NUV}</div>
+								  {/if}
+									  
 									  <div class="videopagination">
 									  {$vpageNavigation}
 									  </div>

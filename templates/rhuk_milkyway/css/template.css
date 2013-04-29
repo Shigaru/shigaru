@@ -273,6 +273,14 @@ ul li:hover .thumbplay{display:block;}
     margin-top: -19px;
     padding: 2px;
     position: relative;}
+.videocomments{ float:left;
+    font-size: 130%;
+    margin-top: -19px;
+    position: relative;
+    background-color: #222222;}
+#resultcontainer .videocomments{ color: #FFFFFF;}    
+.videocomments span{ color: #FFFFFF;
+    font-size:70%;margin-left: -10px;}    
 #random_video h6{margin:23px 0 0 0; font-size:110%; }
 #random_video h6 a{text-decoration:none;}
 #random_video p{margin:10px 0 0 0; font-size:90%;}
@@ -561,7 +569,7 @@ div.searchResultItem{
     margin: 15px 0 5px -9px;
     padding: 10px;
     font-size:125% !important;}
-div.searchResultInfo{ width: 100%;}
+div.searchResultInfo{ width: 100%;border-bottom:1px dotted gray; padding-bottom:12px; font-size:12px;}
 div.searchResultThumb{ float:right;}
 .quicksearch{clear:both;}
 #homepromo{font-size:80%;margin-top:12px;}

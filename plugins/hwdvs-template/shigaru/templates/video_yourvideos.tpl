@@ -36,8 +36,8 @@ jQuery(document).ready(function() {
           rowHeight: 140
         },
         cellsByRow : {
-          columnWidth : 330,
-          rowHeight : 240
+          columnWidth : 310,
+          rowHeight: 180
         }
       });
       
@@ -62,7 +62,45 @@ jQuery(document).ready(function() {
             $container.removeClass('no-transition').isotope( options );
           }, 100 )
         } else {
-          $container.isotope( options );
+		   var oItems = jQuery('#resultcontainer .resultelement');	
+		   oItems.find('.searchResultInfo').hide().css({'border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
+		   oItems.css({'width': "220px",'height':'120px',fontSize:'100%','padding':'0','border':'none'});
+		   oItems.find('img.bradius5').css({width: "90px"}).prev().css('width','90px');;
+		   jQuery('.searchResultInfo .extendedinfo').hide();
+		   switch(options.layoutMode){
+					case 'masonry':
+								oItems.find('.searchResultInfo').hide();
+								break;
+					case 'cellsByRow':
+								oItems.css('border-bottom','none').animate({ 
+									width: "280px",
+									height: "174px",
+									fontSize:'120%'
+								  });
+								  oItems.find('img.bradius5').animate({ 
+									width: "113px"
+								  }).prev().css('width','113px');
+								  jQuery('.searchResultInfo').css({'border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'0'}).show();
+								break;				
+					case 'straightDown':
+								oItems.css({'border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'12px'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
+								oItems.animate({ 
+									width: "660px",
+									fontSize:'120%'
+								  });
+								  oItems.find('img.bradius5').animate({ 
+									width: "106px"
+								  }).prev().css('width','106px');
+								  jQuery('.searchResultInfo .extendedinfo').fadeIn();
+								  jQuery('.searchResultInfo').css({'border-left':'1px dotted gray','border-bottom':'none','padding-left':'12px'}).show().parent().css('width','60%').prev().css('width','40%');
+								break;			
+					  }
+          $container.isotope( options, function(){
+			 
+			  
+			  } );
+			  
+			   
         }
       }
 
@@ -90,10 +128,14 @@ jQuery(document).ready(function() {
         options[ key ] = value;
         if ( key === 'layoutMode' && typeof changeLayoutMode === 'function' ) {
           // changes in layout modes need extra logic
-          changeLayoutMode( $this, options )
+          changeLayoutMode( $this, options );
+         
+          
+          
         } else {
           // otherwise, apply new options
           $container.isotope( options );
+          
         }
         
         return false;
@@ -177,7 +219,7 @@ jQuery(document).ready(function() {
 				</form>
 				<div id="options" class="mtop8 clearfix fright">    
 					<div class="btn-group" data-option-key="layoutMode">
-					  <a class="btn" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>
+					  <a class="btn active" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>
 					  <a class="btn" href="#cellsByRow" data-option-value="cellsByRow"><i class="icon-th-large"></i></a>
 					  <a class="btn" href="#straightDown" data-option-value="straightDown"><i class="icon-th-list"></i></a>
 					</div>
@@ -186,7 +228,7 @@ jQuery(document).ready(function() {
 		</div>
 	  {if $print_videolist}
 		<div id="resultcontainer">
-		{foreach name=outer item=data from=$list}
+		{foreach name=outer item=data from=$list name=data}
 		  {include file="video_list_full.tpl" userdetails=$userdetails}
 		{/foreach}
 		</div>
