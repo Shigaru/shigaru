@@ -33,11 +33,11 @@ jQuery(document).ready(function() {
           columnWidth : 240
         },
         masonryHorizontal : {
-          rowHeight: 140
+          rowHeight: 120
         },
         cellsByRow : {
           columnWidth : 325,
-          rowHeight: 190
+          rowHeight: 210
         }
       });
       
@@ -63,8 +63,10 @@ jQuery(document).ready(function() {
           }, 100 )
         } else {
 		   var oItems = jQuery('#resultcontainer .resultelement');	
+		   oItems.find('.twolinestitle').show();
+		   oItems.find('.longtitle').hide();
 		   oItems.find('.searchResultInfo').hide().css({'margin-top':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
-		   oItems.css({'width': "235px",'height':'120px',fontSize:'100%','padding':'0','border':'none'});
+		   oItems.css({'width': "235px",'height':'140px',fontSize:'100%','padding':'0','border':'none'});
 		   oItems.find('img.bradius5').css({width: "90px"}).prev().css('width','90px');;
 		   jQuery('.searchResultInfo .extendedinfo').hide();
 		   switch(options.layoutMode){
@@ -74,7 +76,7 @@ jQuery(document).ready(function() {
 					case 'cellsByRow':
 								oItems.css('border-bottom','none').animate({ 
 									width: "295px",
-									height: "180px",
+									height: "200px",
 									fontSize:'120%'
 								  });
 								  oItems.find('img.bradius5').animate({ 
@@ -83,7 +85,7 @@ jQuery(document).ready(function() {
 								  jQuery('.searchResultInfo').css({'margin-top':'6px','border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'0'}).show();
 								break;				
 					case 'straightDown':
-								oItems.css({'border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'12px'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
+								oItems.css({height: "120px",'border-bottom':'1px dotted gray', 'padding-bottom':'2px', 'padding-top':'4px'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
 								oItems.animate({ 
 									width: "100%",
 									fontSize:'120%'
@@ -93,6 +95,8 @@ jQuery(document).ready(function() {
 								  }).prev().css('width','106px');
 								  jQuery('.searchResultInfo .extendedinfo').fadeIn();
 								  jQuery('.searchResultInfo').css({'border-left':'1px dotted gray','border-bottom':'none','padding-left':'12px'}).show().parent().css('width','60%').prev().css('width','40%');
+								  oItems.find('.twolinestitle').hide();
+								  oItems.find('.longtitle').show();
 								break;			
 					  }
           $container.isotope( options, function(){

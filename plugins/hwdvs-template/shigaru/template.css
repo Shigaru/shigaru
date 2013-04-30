@@ -674,7 +674,7 @@ input[type="text"],input[type="password"],input[type="datetime"],input[type="dat
 }
 .resultelement {
   width: 220px;
-  height: 120px;
+  height: 140px;
   margin: 2px;
   float: left;
   overflow: hidden;
