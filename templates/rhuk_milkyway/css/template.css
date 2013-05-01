@@ -117,7 +117,8 @@ padding: 16px 30px;border-right:1px solid #d6d6d6;font-size: 91%;-moz-box-shadow
 #nav_tabs ul li.last span.fleft{padding:0 0 0 10%;}
 /* WORKAREA */
 .workarea {position:relative; z-index:1;}
-.workarea a,#nav_browse_search_recently div a{color:#9c5352;}
+.workarea a,#nav_browse_search_recently div a{color:#9c5352; text-decoration:none;}
+.workarea a:hover,#nav_browse_search_recently div a:hover{/*color:#222; text-shadow:0 2px 3px #555;*/}
 .workarea div.workarea_odd{height:450px;background: url("../images/back_content_box.png") repeat-x scroll 0 0 transparent;}
 #beingwatched div.workarea_odd{height:330px;background: url("../images/back_content_box_beingwatched.png") repeat-x scroll 0 0 transparent;}
 .workarea .leftcolumn{float:left;width:50%;}

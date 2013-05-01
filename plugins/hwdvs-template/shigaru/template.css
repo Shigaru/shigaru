@@ -691,7 +691,7 @@ input[type="text"],input[type="password"],input[type="datetime"],input[type="dat
 	border-radius:0;
 }
 .resultelement img.avatar {
-  width: 40px;
+  width: 30px;
   border:none;
 }
 
@@ -709,15 +709,17 @@ input[type="text"],input[type="password"],input[type="datetime"],input[type="dat
 .nav-list li{}
 .nav-list>li{border-bottom: 1px dotted #ccc;padding:12px 0;}
 
-.nav-list li a {
+.nav-list>li>a {
 	padding:3px 15px;
-	font-weight: bold;
 	text-decoration: none;
 	color: #636363;
 }
 
 .nav-list li ul li a {
+	padding:3px 6px;
 	font-weight: normal;
+	text-decoration: none;
+	color: #636363;
 }
 
 

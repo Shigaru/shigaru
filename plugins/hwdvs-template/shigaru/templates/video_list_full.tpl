@@ -6,7 +6,7 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<div class="resultelement other clearfix {if $smarty.foreach.data.iteration is even}evenrow{/if}" data-symbol="H" data-category="other">
+<div class="resultelement other clearfix" data-symbol="H" data-category="other">
 		<div class="clearfix">
 				<div class="fleft">
 					<div class="clearfix">	
@@ -31,7 +31,7 @@
 								</div>	
 								<div class="clearfix mtop6">
 									<div class="f80 mleft6 fleft">
-										{$smarty.const._HWDVIDS_INFO_PLAYS}: {$data->views}
+										{$smarty.const._HWDVIDS_INFO_PLAYS}: <span class="fontbold">{$data->views}</span>
 									</div>
 									<div id="{$userdetails->cb_country}" class="fright mright24 userflag">
 									</div>
@@ -88,7 +88,7 @@
 								</div>
 								<div class="fleft mleft12 w70 mtop6">
 									<label for="description" class="searchLabels">
-									Description: <span>{$data->descriptiontrunc}</span>
+									Description: <br /><span>{$data->descriptiontrunc}</span>
 									</label>
 								</div>
 							</div>

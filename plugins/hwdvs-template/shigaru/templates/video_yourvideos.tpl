@@ -67,7 +67,7 @@ jQuery(document).ready(function() {
 		   oItems.find('.longtitle').hide();
 		   oItems.find('.searchResultInfo').hide().css({'margin-top':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
 		   oItems.css({'width': "235px",'height':'140px',fontSize:'100%','padding':'0','border':'none'});
-		   oItems.find('img.bradius5').css({width: "90px"}).prev().css('width','90px');;
+		   oItems.find('img.bradius5').css({width: "94px"}).prev().css('width','94px');;
 		   jQuery('.searchResultInfo .extendedinfo').hide();
 		   switch(options.layoutMode){
 					case 'masonry':
@@ -76,23 +76,23 @@ jQuery(document).ready(function() {
 					case 'cellsByRow':
 								oItems.css('border-bottom','none').animate({ 
 									width: "295px",
-									height: "200px",
+									height: "195px",
 									fontSize:'120%'
 								  });
 								  oItems.find('img.bradius5').animate({ 
-									width: "113px"
-								  }).prev().css('width','113px');
+									width: "118px"
+								  }).prev().css('width','118px').parent().next().css('margin-top','-20px');
 								  jQuery('.searchResultInfo').css({'margin-top':'6px','border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'0'}).show();
 								break;				
 					case 'straightDown':
-								oItems.css({height: "120px",'border-bottom':'1px dotted gray', 'padding-bottom':'2px', 'padding-top':'4px'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
+								oItems.css({'border-bottom':'1px dotted gray', 'padding-bottom':'2px', 'padding-top':'4px'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
 								oItems.animate({ 
 									width: "100%",
 									fontSize:'120%'
 								  });
 								  oItems.find('img.bradius5').animate({ 
-									width: "106px"
-								  }).prev().css('width','106px');
+									width: "116px"
+								  }).prev().css('width','116px').parent().next().css('margin-top','-20px');
 								  jQuery('.searchResultInfo .extendedinfo').fadeIn();
 								  jQuery('.searchResultInfo').css({'border-left':'1px dotted gray','border-bottom':'none','padding-left':'12px'}).show().parent().css('width','60%').prev().css('width','40%');
 								  oItems.find('.twolinestitle').hide();
