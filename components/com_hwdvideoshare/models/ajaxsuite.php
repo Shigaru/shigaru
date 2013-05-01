@@ -180,6 +180,13 @@ class hwd_vs_ajax
 		exit;
 		}
 		
+	function myvideos(){
+		header('Content-type: text/html; charset=utf-8');
+		$code = hwd_vs_tools::getMyVideos();
+		echo $code;
+		exit;
+		}	
+		
 	function ajax_showtabs(){
 		header('Content-type: text/html; charset=utf-8');
 		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";

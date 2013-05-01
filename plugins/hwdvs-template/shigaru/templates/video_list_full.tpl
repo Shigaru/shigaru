@@ -33,7 +33,7 @@
 									<div class="f80 mleft6 fleft">
 										{$smarty.const._HWDVIDS_INFO_PLAYS}: <span class="fontbold">{$data->views}</span>
 									</div>
-									<div id="{$userdetails->cb_country}" class="fright mright24 userflag">
+									<div class="{$userdetails->cb_country} fright mright24 userflag">
 									</div>
 								</div>	
 								<div class="clearfix">
@@ -98,7 +98,7 @@
 					
 			</div>		
 	</div>
-	<div class="longtitle mtop6 mleft6 dispnon">
+	<div class="longtitle mtop12 mleft6 dispnon">
 					{$data->title}
 	</div>		
 </div>

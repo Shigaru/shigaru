@@ -76,17 +76,8 @@ class hwd_vs_usrfunc
 					 );
   		$total = $db->loadResult();
 		echo $db->getErrorMsg();
-		jimport('joomla.html.pagination');
-		$pageNav = new JPagination( $total, $limitstart, $limit );
-		$query = 'SELECT'.$hwdvs_selectv
-               	. ' FROM #__hwdvidsvideos AS video'
-				. $hwdvs_joinv
-				. $where
-				. ' ORDER BY video.date_uploaded DESC'
-				;
-		$db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
-		$rows = $db->loadObjectList();
-		hwd_vs_html::yourVideos($rows, $pageNav, $total,$otheruser,$my->id);
+		
+		hwd_vs_html::yourVideos($total,$otheruser,$my->id);
 	}
    /**
     * List User Favourite Videos

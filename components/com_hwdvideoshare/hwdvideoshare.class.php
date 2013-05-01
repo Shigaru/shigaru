@@ -5479,6 +5479,71 @@ $app = & JFactory::getApplication();
            return $oResults;  	  
 	 }
     
+    
+    function getMyVideos(){
+		global $smartyvs,$mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		$my = & JFactory::getUser();
+		$oResults = '';
+		
+		if (!$my->id && $otheruser=='no') {
+			$msg = _HWDVIDS_ALERT_LOG2CYV;
+			$mainframe->enqueueMessage($msg);
+			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
+		}
+
+		$limit 	= intval($c->vpp);
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
+
+		$where = ' WHERE video.approved = "yes"';
+		$where .= ' AND video.published = 1';
+		$where .= ' AND video.user_id = '.$user_id;
+
+		
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+		$query = 'SELECT'.$hwdvs_selectv
+               	. ' FROM #__hwdvidsvideos AS video'
+				. $hwdvs_joinv
+				. $where
+				. ' ORDER BY video.date_uploaded DESC'
+				;
+		$db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
+		$rows = $db->loadObjectList();
+		if (count($rows) > 0) {
+			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,'87');
+			$userdetails = hwd_vs_tools::getUserContextDetails($user_id);
+			
+			$page = count($rows) - $c->vpp;
+			$pageNavigation = null;
+			if ( $page > 0 ){
+				if ($j16)
+				{
+					$pageNavigation.= "<div class=\"pagination\">";
+				}
+				$pageNavigation.= $pageNav->getPagesLinks();
+				//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
+				if ($j16)
+				{
+					$pageNavigation.= "</div>";
+				}
+			}
+			
+			foreach($list as $video){
+					$smartyvs->assign("data", $video);
+					$smartyvs->assign("userdetails", $userdetails);
+					$oResults .= $smartyvs->fetch('video_list_full.tpl');
+				}
+			$oResults .='<div align="center" class="mtop25">'.$pageNavigation.'</div>';	
+		}
+		return $oResults;
+	}
+    
     /**
      * Generates the human readable allowed video formats string
      *

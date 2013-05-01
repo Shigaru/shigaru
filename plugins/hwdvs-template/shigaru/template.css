@@ -672,10 +672,42 @@ input[type="text"],input[type="password"],input[type="datetime"],input[type="dat
 	border-radius:4px;
 	vertical-align:middle
 }
+#resultcontainer{border:1px solid #c1c1c1;padding:0 4px;}
+#vidlistoptbar{border: 1px solid #c1c1c1;
+padding: 6px 12px;
+margin-bottom: 5px;}
+#videosmaincontent select,#videosmaincontent input[type="text"] {
+height: 24px;
+padding: 0 .9em;
+border-width: 1px;
+border-style: solid;
+outline: 0;
+font-weight: bold;
+font-size: 11px;
+white-space: nowrap;
+word-wrap: normal;
+vertical-align: middle;
+cursor: pointer;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+   text-shadow: 0 1px 0 rgba(255,255,255,.5);
+border-color: #d3d3d3;
+background-color: #f8f8f8;
+filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#fffcfcfc,EndColorStr=#fff8f8f8);
+background-image: -moz-linear-gradient(top,#fcfcfc 0,#f8f8f8 100%);
+background-image: -ms-linear-gradient(top,#fcfcfc 0,#f8f8f8 100%);
+background-image: -o-linear-gradient(top,#fcfcfc 0,#f8f8f8 100%);
+background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#fcfcfc),color-stop(100%,#f8f8f8));
+background-image: -webkit-linear-gradient(top,#fcfcfc 0,#f8f8f8 100%);
+background-image: linear-gradient(to bottom,#fcfcfc 0,#f8f8f8 100%);
+   }
 .resultelement {
-  width: 220px;
+  width: 218px;
   height: 140px;
+  border-bottom:1px dotted gray;
   margin: 2px;
+  padding-top:4px;
   float: left;
   overflow: hidden;
   position: relative;
@@ -685,7 +717,7 @@ input[type="text"],input[type="password"],input[type="datetime"],input[type="dat
   margin: 0;
 }
 .resultelement img.bradius5 {
-  width: 90px;
+  width: 87px;
   -webkit-border-radius:0;
 	-moz-border-radius:0;
 	border-radius:0;
@@ -771,248 +803,248 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 }
 /*countries*/
 
-#_UE_AFGHANISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_ALANDISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_ALBANIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_albania.png") no-repeat scroll 12px 12px transparent;}
-#_UE_ALGERIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_algeria.png") no-repeat scroll 12px 12px transparent;}
-#_UE_AMERICANSAMOA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_american_samoa.png") no-repeat scroll 12px 12px transparent;}
-#_UE_ANDORRA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_andorra.png") no-repeat scroll 12px 12px transparent;}
-#_UE_ANGOLA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_angola.png") no-repeat scroll 12px 12px transparent;}
-#_UE_ANGUILLA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_anguilla.png") no-repeat scroll 12px 12px transparent;}
-#_UE_ANTARCTICA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_american_samoa.png") no-repeat scroll 12px 12px transparent;}
-#_UE_ANTIGUAANDBARBUDA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_antigua_and_barbuda.png") no-repeat scroll 12px 12px transparent;}
-#_UE_ARGENTINA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_argentina.png") no-repeat scroll 12px 12px transparent;}
-#_UE_ARMENIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_armenia.png") no-repeat scroll 12px 12px transparent;}
-#_UE_ARUBA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_aruba.png") no-repeat scroll 12px 12px transparent;}
-#_UE_AUSTRALIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_australia.png") no-repeat scroll 12px 12px transparent;}
-#_UE_AUSTRIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_austria.png") no-repeat scroll 12px 12px transparent;}
-#_UE_AZERBAIJAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_azerbaijan.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BAHAMAS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bahamas.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BAHRAIN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bahrain.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BANGLADESH{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bangladesh.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BARBADOS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_barbados.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BELARUS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_belarus.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BELGIUM{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_belgium.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BELIZE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_belize.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BENIN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_benin.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BERMUDA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bermuda.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BHUTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bhutan.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BOLIVIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bolivia.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BOSNIAANDHERZEGOVINA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bosnia_and_herzegovina.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BOTSWANA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_botswana.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BOUVETISLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_american_samoa.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BRAZIL{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_brazil.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BRITISHINDIANOCEANTERRITORY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_british_indian_ocean_territory.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BRUNEIDARUSSALAM{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_brunei.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BULGARIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bulgaria.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BURKINAFASO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_burkina_faso.png") no-repeat scroll 12px 12px transparent;}
-#_UE_BURUNDI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_burundi.png") no-repeat scroll 12px 12px transparent;}
-#_UE_CAMBODIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cambodia.png") no-repeat scroll 12px 12px transparent;}
-#_UE_CAMEROON{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cameroon.png") no-repeat scroll 12px 12px transparent;}
-#_UE_CANADA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_canada.png") no-repeat scroll 12px 12px transparent;}
-#_UE_CAPEVERDE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cape_verde.png") no-repeat scroll 12px 12px transparent;}
-#_UE_CAYMANISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cayman_islands.png") no-repeat scroll 12px 12px transparent;}
-#_UE_CENTRALAFRICANREPUBLIC{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_central_african_republic.png") no-repeat scroll 12px 12px transparent;}
-#_UE_CHAD{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_chad.png") no-repeat scroll 12px 12px transparent;}
-#_UE_CHILE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_chile.png") no-repeat scroll 12px 12px transparent;}
-#_UE_CHINA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_china.png") no-repeat scroll 12px 12px transparent;}
-#_UE_CHRISTMASISLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_COCOSKEELINGISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_COLOMBIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_colombia.png") no-repeat scroll 0 0 transparent;}
-#_UE_COMOROS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_comoros.png") no-repeat scroll 0 0 transparent;}
-#_UE_CONGO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_congo_republic.png") no-repeat scroll 0 0 transparent;}
-#_UE_CONGOTHEDEMOCRATICREPUBLICOFTHE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_congo_democratic_republic.png") no-repeat scroll 0 0 transparent;}
-#_UE_COOKISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cook_islands.png") no-repeat scroll 0 0 transparent;}
-#_UE_COSTARICA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_costa_rica.png") no-repeat scroll 0 0 transparent;}
-#_UE_COTEDIVOIRE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cote_divoire.png") no-repeat scroll 0 0 transparent;}
-#_UE_CROATIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_croatia.png") no-repeat scroll 0 0 transparent;}
-#_UE_CUBA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cuba.png") no-repeat scroll 0 0 transparent;}
-#_UE_CYPRUS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cyprus.png") no-repeat scroll 0 0 transparent;}
-#_UE_CZECHREPUBLIC{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_czech_republic.png") no-repeat scroll 0 0 transparent;}
-#_UE_DENMARK{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_denmark.png") no-repeat scroll 0 0 transparent;}
-#_UE_DJIBOUTI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_djibouti.png") no-repeat scroll 0 0 transparent;}
-#_UE_DOMINICA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_dominica.png") no-repeat scroll 0 0 transparent;}
-#_UE_DOMINICANREPUBLIC{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_dominican_republic.png") no-repeat scroll 0 0 transparent;}
-#_UE_ECUADOR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_equador.png") no-repeat scroll 0 0 transparent;}
-#_UE_EGYPT{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_egypt.png") no-repeat scroll 0 0 transparent;}
-#_UE_ELSALVADOR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_el_salvador.png") no-repeat scroll 0 0 transparent;}
-#_UE_EQUATORIALGUINEA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_equatorial_guinea.png") no-repeat scroll 0 0 transparent;}
-#_UE_ERITREA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_eritrea.png") no-repeat scroll 0 0 transparent;}
-#_UE_ESTONIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_estonia.png") no-repeat scroll 0 0 transparent;}
-#_UE_ETHIOPIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_ethiopia.png") no-repeat scroll 0 0 transparent;}
-#_UE_FALKLANDISLANDSMALVINAS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_falkland_islands.png") no-repeat scroll 0 0 transparent;}
-#_UE_FAROEISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_faroe_islands.png") no-repeat scroll 0 0 transparent;}
-#_UE_FIJI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_fiji.png") no-repeat scroll 0 0 transparent;}
-#_UE_FINLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_finland.png") no-repeat scroll 0 0 transparent;}
-#_UE_FRANCE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_france.png") no-repeat scroll 0 0 transparent;}
-#_UE_FRENCHGUIANA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_FRENCHPOLYNESIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_french_polynesia.png") no-repeat scroll 0 0 transparent;}
-#_UE_FRENCHSOUTHERNTERRITORIES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_GABON{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_gabon.png") no-repeat scroll 0 0 transparent;}
-#_UE_GAMBIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_gambia.png") no-repeat scroll 0 0 transparent;}
-#_UE_GEORGIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_georgia.png") no-repeat scroll 0 0 transparent;}
-#_UE_GERMANY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_germany.png") no-repeat scroll 0 0 transparent;}
-#_UE_GHANA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_ghana.png") no-repeat scroll 0 0 transparent;}
-#_UE_GIBRALTAR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_gibraltar.png") no-repeat scroll 0 0 transparent;}
-#_UE_GREECE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_greece.png") no-repeat scroll 0 0 transparent;}
-#_UE_GREENLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_greenland.png") no-repeat scroll 0 0 transparent;}
-#_UE_GRENADA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_grenada.png") no-repeat scroll 0 0 transparent;}
-#_UE_GUADELOUPE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_GUAM{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guam.png") no-repeat scroll 0 0 transparent;}
-#_UE_GUATEMALA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guatemala.png") no-repeat scroll 0 0 transparent;}
-#_UE_GUERNSEY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guernsey.png") no-repeat scroll 0 0 transparent;}
-#_UE_GUINEA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guinea.png") no-repeat scroll 0 0 transparent;}
-#_UE_GUINEA-BISSAU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guinea_bissau.png") no-repeat scroll 0 0 transparent;}
-#_UE_GUYANA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guyana.png") no-repeat scroll 0 0 transparent;}
-#_UE_HAITI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_haiti.png") no-repeat scroll 0 0 transparent;}
-#_UE_HEARDISLANDANDMCDONALDISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_HOLYSEEVATICANCITYSTATE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_HONDURAS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_honduras.png") no-repeat scroll 0 0 transparent;}
-#_UE_HONGKONG{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_hong_kong.png") no-repeat scroll 0 0 transparent;}
-#_UE_HUNGARY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_hungary.png") no-repeat scroll 0 0 transparent;}
-#_UE_ICELAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_iceland.png") no-repeat scroll 0 0 transparent;}
-#_UE_INDIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_india.png") no-repeat scroll 0 0 transparent;}
-#_UE_INDONESIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_indonesia.png") no-repeat scroll 0 0 transparent;}
-#_UE_IRANISLAMICREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_iran.png") no-repeat scroll 0 0 transparent;}
-#_UE_IRAQ{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_iraq.png") no-repeat scroll 0 0 transparent;}
-#_UE_IRELAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_ireland.png") no-repeat scroll 0 0 transparent;}
-#_UE_ISLEOFMAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_isle_of_man.png") no-repeat scroll 0 0 transparent;}
-#_UE_ISRAEL{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_israel.png") no-repeat scroll 0 0 transparent;}
-#_UE_ITALY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_italy.png") no-repeat scroll 0 0 transparent;}
-#_UE_JAMAICA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_jamaica.png") no-repeat scroll 0 0 transparent;}
-#_UE_JAPAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_japan.png") no-repeat scroll 0 0 transparent;}
-#_UE_JERSEY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_jersey.png") no-repeat scroll 0 0 transparent;}
-#_UE_JORDAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_jordan.png") no-repeat scroll 0 0 transparent;}
-#_UE_KAZAKHSTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_kazakhstan.png") no-repeat scroll 0 0 transparent;}
-#_UE_KENYA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_kenya.png") no-repeat scroll 0 0 transparent;}
-#_UE_KIRIBATI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_kiribati.png") no-repeat scroll 0 0 transparent;}
-#_UE_KOREADEMOCRATICPEOPLESREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_KOREAREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_KUWAIT{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_kuwait.png") no-repeat scroll 0 0 transparent;}
-#_UE_KYRGYZSTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_kyrgyzstan.png") no-repeat scroll 0 0 transparent;}
-#_UE_LAOPEOPLESDEMOCRATICREPUBLIC{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_laos.png") no-repeat scroll 0 0 transparent;}
-#_UE_LATVIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_latvia.png") no-repeat scroll 0 0 transparent;}
-#_UE_LEBANON{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_lebanon.png") no-repeat scroll 0 0 transparent;}
-#_UE_LESOTHO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_lesotho.png") no-repeat scroll 0 0 transparent;}
-#_UE_LIBERIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_liberia.png") no-repeat scroll 0 0 transparent;}
-#_UE_LIBYANARABJAMAHIRIYA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_libya.png") no-repeat scroll 0 0 transparent;}
-#_UE_LIECHTENSTEIN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_liechtenstein.png") no-repeat scroll 0 0 transparent;}
-#_UE_LITHUANIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_lithuania.png") no-repeat scroll 0 0 transparent;}
-#_UE_LUXEMBOURG{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_luxembourg.png") no-repeat scroll 0 0 transparent;}
-#_UE_MACAO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_macau.png") no-repeat scroll 0 0 transparent;}
-#_UE_MACEDONIATHEFORMERYUGOSLAVREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_macedonia.png") no-repeat scroll 0 0 transparent;}
-#_UE_MADAGASCAR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_madagascar.png") no-repeat scroll 0 0 transparent;}
-#_UE_MALAWI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_malawi.png") no-repeat scroll 0 0 transparent;}
-#_UE_MALAYSIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_malaysia.png") no-repeat scroll 0 0 transparent;}
-#_UE_MALDIVES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_maledives.png") no-repeat scroll 0 0 transparent;}
-#_UE_MALI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mali.png") no-repeat scroll 0 0 transparent;}
-#_UE_MALTA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_malta.png") no-repeat scroll 0 0 transparent;}
-#_UE_MARSHALLISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_marshall_islands.png") no-repeat scroll 0 0 transparent;}
-#_UE_MARTINIQUE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_martinique.png") no-repeat scroll 0 0 transparent;}
-#_UE_MAURITANIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mauretania.png") no-repeat scroll 0 0 transparent;}
-#_UE_MAURITIUS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_MAYOTTE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mauritius.png") no-repeat scroll 0 0 transparent;}
-#_UE_MEXICO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mexico.png") no-repeat scroll 0 0 transparent;}
-#_UE_MICRONESIAFEDERATEDSTATESOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_micronesia.png") no-repeat scroll 0 0 transparent;}
-#_UE_MOLDOVAREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_moldova.png") no-repeat scroll 0 0 transparent;}
-#_UE_MONACO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_monaco.png") no-repeat scroll 0 0 transparent;}
-#_UE_MONGOLIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mongolia.png") no-repeat scroll 0 0 transparent;}
-#_UE_MONTSERRAT{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_montserrat.png") no-repeat scroll 0 0 transparent;}
-#_UE_MOROCCO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_morocco.png") no-repeat scroll 0 0 transparent;}
-#_UE_MOZAMBIQUE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mozambique.png") no-repeat scroll 0 0 transparent;}
-#_UE_MYANMAR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_NAMIBIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_namibia.png") no-repeat scroll 0 0 transparent;}
-#_UE_NAURU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_nauru.png") no-repeat scroll 0 0 transparent;}
-#_UE_NEPAL{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_nepal.png") no-repeat scroll 0 0 transparent;}
-#_UE_NETHERLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_netherlands.png") no-repeat scroll 0 0 transparent;}
-#_UE_NETHERLANDSANTILLES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_netherlands_antilles.png") no-repeat scroll 0 0 transparent;}
-#_UE_NEWCALEDONIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_NEWZEALAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_new_zealand.png") no-repeat scroll 0 0 transparent;}
-#_UE_NICARAGUA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_nicaragua.png") no-repeat scroll 0 0 transparent;}
-#_UE_NIGER{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_niger.png") no-repeat scroll 0 0 transparent;}
-#_UE_NIGERIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_nigeria.png") no-repeat scroll 0 0 transparent;}
-#_UE_NIUE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_niue.png") no-repeat scroll 0 0 transparent;}
-#_UE_NORFOLKISLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_norfolk_island.png") no-repeat scroll 0 0 transparent;}
-#_UE_NORTHERNMARIANAISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_northern_mariana_islands.png") no-repeat scroll 0 0 transparent;}
-#_UE_NORWAY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_norway.png") no-repeat scroll 0 0 transparent;}
-#_UE_OMAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_oman.png") no-repeat scroll 0 0 transparent;}
-#_UE_PAKISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_pakistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_PALAU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_palau.png") no-repeat scroll 0 0 transparent;}
-#_UE_PALESTINIANTERRITORYOCCUPIED{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_PANAMA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_panama.png") no-repeat scroll 0 0 transparent;}
-#_UE_PAPUANEWGUINEA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_papua_new_guinea.png") no-repeat scroll 0 0 transparent;}
-#_UE_PARAGUAY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_paraquay.png") no-repeat scroll 0 0 transparent;}
-#_UE_PERU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_peru.png") no-repeat scroll 0 0 transparent;}
-#_UE_PHILIPPINES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_philippines.png") no-repeat scroll 0 0 transparent;}
-#_UE_PITCAIRN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_pitcairn_islands.png") no-repeat scroll 0 0 transparent;}
-#_UE_POLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_poland.png") no-repeat scroll 0 0 transparent;}
-#_UE_PORTUGAL{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_portugal.png") no-repeat scroll 0 0 transparent;}
-#_UE_PUERTORICO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_puerto_rico.png") no-repeat scroll 0 0 transparent;}
-#_UE_QATAR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_qatar.png") no-repeat scroll 0 0 transparent;}
-#_UE_REUNION{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_ROMANIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_romania.png") no-repeat scroll 0 0 transparent;}
-#_UE_RUSSIANFEDERATION{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_russia.png") no-repeat scroll 0 0 transparent;}
-#_UE_RWANDA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_rwanda.png") no-repeat scroll 0 0 transparent;}
-#_UE_SAINTHELENA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saint_helena.png") no-repeat scroll 0 0 transparent;}
-#_UE_SAINTKITTSANDNEVIS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saint_kitts_and_nevis.png") no-repeat scroll 0 0 transparent;}
-#_UE_SAINTLUCIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saint_lucia.png") no-repeat scroll 0 0 transparent;}
-#_UE_SAINTPIERREANDMIQUELON{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saint_pierre_and_miquelon.png") no-repeat scroll 0 0 transparent;}
-#_UE_SAINTVINCENTANDTHEGRENADINES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saint_vincent_and_the_grenadines.png") no-repeat scroll 0 0 transparent;}
-#_UE_SAMOA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_samoa.png") no-repeat scroll 0 0 transparent;}
-#_UE_SANMARINO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_san_marino.png") no-repeat scroll 0 0 transparent;}
-#_UE_SAOTOMEANDPRINCIPE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_sao_tome_and_principe.png") no-repeat scroll 0 0 transparent;}
-#_UE_SAUDIARABIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saudi_arabia.png") no-repeat scroll 0 0 transparent;}
-#_UE_SENEGAL{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_senegal.png") no-repeat scroll 0 0 transparent;}
-#_UE_SERBIAANDMONTENEGRO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_serbia_montenegro.png") no-repeat scroll 0 0 transparent;}
-#_UE_SEYCHELLES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_seychelles.png") no-repeat scroll 0 0 transparent;}
-#_UE_SIERRALEONE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_sierra_leone.png") no-repeat scroll 0 0 transparent;}
-#_UE_SINGAPORE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_singapore.png") no-repeat scroll 0 0 transparent;}
-#_UE_SLOVAKIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_slovakia.png") no-repeat scroll 0 0 transparent;}
-#_UE_SLOVENIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_slovenia.png") no-repeat scroll 0 0 transparent;}
-#_UE_SOLOMONISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_solomon_islands.png") no-repeat scroll 0 0 transparent;}
-#_UE_SOMALIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_somalia.png") no-repeat scroll 0 0 transparent;}
-#_UE_SOUTHAFRICA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_south_africa.png") no-repeat scroll 0 0 transparent;}
-#_UE_SOUTHGEORGIAANDTHESOUTHSANDWICHISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_south_georgia.png") no-repeat scroll 0 0 transparent;}
-#_UE_SPAIN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_spain.png") no-repeat scroll 0 0 transparent;}
-#_UE_SRILANKA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_sri_lanka.png") no-repeat scroll 0 0 transparent;}
-#_UE_SUDAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_sudan.png") no-repeat scroll 0 0 transparent;}
-#_UE_SURINAME{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_suriname.png") no-repeat scroll 0 0 transparent;}
-#_UE_SVALBARDANDJANMAYEN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_SWAZILAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_swaziland.png") no-repeat scroll 0 0 transparent;}
-#_UE_SWEDEN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_sweden.png") no-repeat scroll 0 0 transparent;}
-#_UE_SWITZERLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_switzerland.png") no-repeat scroll 0 0 transparent;}
-#_UE_SYRIANARABREPUBLIC{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_syria.png") no-repeat scroll 0 0 transparent;}
-#_UE_TAIWANPROVINCEOFCHINA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_taiwan.png") no-repeat scroll 0 0 transparent;}
-#_UE_TAJIKISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_tajikistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_TANZANIAUNITEDREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_tanzania.png") no-repeat scroll 0 0 transparent;}
-#_UE_THAILAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_thailand.png") no-repeat scroll 0 0 transparent;}
-#_UE_TIMOR-LESTE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_TOGO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_togo.png") no-repeat scroll 0 0 transparent;}
-#_UE_TOKELAU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_TONGA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_tonga.png") no-repeat scroll 0 0 transparent;}
-#_UE_TRINIDADANDTOBAGO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_trinidad_and_tobago.png") no-repeat scroll 0 0 transparent;}
-#_UE_TUNISIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_tunisia.png") no-repeat scroll 0 0 transparent;}
-#_UE_TURKEY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_turkey.png") no-repeat scroll 0 0 transparent;}
-#_UE_TURKMENISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_turkmenistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_TURKSANDCAICOSISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_turks_and_caicos_islands.png") no-repeat scroll 0 0 transparent;}
-#_UE_TUVALU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_tuvalu.png") no-repeat scroll 0 0 transparent;}
-#_UE_UGANDA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_uganda.png") no-repeat scroll 0 0 transparent;}
-#_UE_UKRAINE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_ukraine.png") no-repeat scroll 0 0 transparent;}
-#_UE_UNITEDARABEMIRATES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_united_arab_emirates.png") no-repeat scroll 0 0 transparent;}
-#_UE_UNITEDKINGDOM{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_great_britain.png") no-repeat scroll 0 0 transparent;}
-#_UE_UNITEDSTATES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_usa.png") no-repeat scroll 0 0 transparent;}
-#_UE_UNITEDSTATESMINOROUTLYINGISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_URUGUAY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_uruquay.png") no-repeat scroll 0 0 transparent;}
-#_UE_UZBEKISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_uzbekistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_VANUATU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_vanuatu.png") no-repeat scroll 0 0 transparent;}
-#_UE_VENEZUELA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_venezuela.png") no-repeat scroll 0 0 transparent;}
-#_UE_VIETNAM{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_vietnam.png") no-repeat scroll 0 0 transparent;}
-#_UE_VIRGINISLANDSBRITISH{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_virgin_islands.png") no-repeat scroll 0 0 transparent;}
-#_UE_VIRGINISLANDSUS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_WALLISANDFUTUNA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_wallis_and_futuna.png") no-repeat scroll 0 0 transparent;}
-#_UE_WESTERNSAHARA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
-#_UE_YEMEN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_yemen.png") no-repeat scroll 0 0 transparent;}
-#_UE_ZAMBIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_zambia.png") no-repeat scroll 0 0 transparent;}
-#_UE_ZIMBABWE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_zimbabwe.png") no-repeat scroll 0 0 transparent;}
-#_UE_NOTSPECIFIED{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_AFGHANISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_ALANDISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_ALBANIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_albania.png") no-repeat scroll 12px 12px transparent;}
+._UE_ALGERIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_algeria.png") no-repeat scroll 12px 12px transparent;}
+._UE_AMERICANSAMOA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_american_samoa.png") no-repeat scroll 12px 12px transparent;}
+._UE_ANDORRA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_andorra.png") no-repeat scroll 12px 12px transparent;}
+._UE_ANGOLA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_angola.png") no-repeat scroll 12px 12px transparent;}
+._UE_ANGUILLA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_anguilla.png") no-repeat scroll 12px 12px transparent;}
+._UE_ANTARCTICA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_american_samoa.png") no-repeat scroll 12px 12px transparent;}
+._UE_ANTIGUAANDBARBUDA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_antigua_and_barbuda.png") no-repeat scroll 12px 12px transparent;}
+._UE_ARGENTINA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_argentina.png") no-repeat scroll 12px 12px transparent;}
+._UE_ARMENIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_armenia.png") no-repeat scroll 12px 12px transparent;}
+._UE_ARUBA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_aruba.png") no-repeat scroll 12px 12px transparent;}
+._UE_AUSTRALIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_australia.png") no-repeat scroll 12px 12px transparent;}
+._UE_AUSTRIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_austria.png") no-repeat scroll 12px 12px transparent;}
+._UE_AZERBAIJAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_azerbaijan.png") no-repeat scroll 12px 12px transparent;}
+._UE_BAHAMAS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bahamas.png") no-repeat scroll 12px 12px transparent;}
+._UE_BAHRAIN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bahrain.png") no-repeat scroll 12px 12px transparent;}
+._UE_BANGLADESH{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bangladesh.png") no-repeat scroll 12px 12px transparent;}
+._UE_BARBADOS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_barbados.png") no-repeat scroll 12px 12px transparent;}
+._UE_BELARUS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_belarus.png") no-repeat scroll 12px 12px transparent;}
+._UE_BELGIUM{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_belgium.png") no-repeat scroll 12px 12px transparent;}
+._UE_BELIZE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_belize.png") no-repeat scroll 12px 12px transparent;}
+._UE_BENIN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_benin.png") no-repeat scroll 12px 12px transparent;}
+._UE_BERMUDA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bermuda.png") no-repeat scroll 12px 12px transparent;}
+._UE_BHUTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bhutan.png") no-repeat scroll 12px 12px transparent;}
+._UE_BOLIVIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bolivia.png") no-repeat scroll 12px 12px transparent;}
+._UE_BOSNIAANDHERZEGOVINA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bosnia_and_herzegovina.png") no-repeat scroll 12px 12px transparent;}
+._UE_BOTSWANA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_botswana.png") no-repeat scroll 12px 12px transparent;}
+._UE_BOUVETISLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_american_samoa.png") no-repeat scroll 12px 12px transparent;}
+._UE_BRAZIL{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_brazil.png") no-repeat scroll 12px 12px transparent;}
+._UE_BRITISHINDIANOCEANTERRITORY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_british_indian_ocean_territory.png") no-repeat scroll 12px 12px transparent;}
+._UE_BRUNEIDARUSSALAM{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_brunei.png") no-repeat scroll 12px 12px transparent;}
+._UE_BULGARIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_bulgaria.png") no-repeat scroll 12px 12px transparent;}
+._UE_BURKINAFASO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_burkina_faso.png") no-repeat scroll 12px 12px transparent;}
+._UE_BURUNDI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_burundi.png") no-repeat scroll 12px 12px transparent;}
+._UE_CAMBODIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cambodia.png") no-repeat scroll 12px 12px transparent;}
+._UE_CAMEROON{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cameroon.png") no-repeat scroll 12px 12px transparent;}
+._UE_CANADA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_canada.png") no-repeat scroll 12px 12px transparent;}
+._UE_CAPEVERDE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cape_verde.png") no-repeat scroll 12px 12px transparent;}
+._UE_CAYMANISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cayman_islands.png") no-repeat scroll 12px 12px transparent;}
+._UE_CENTRALAFRICANREPUBLIC{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_central_african_republic.png") no-repeat scroll 12px 12px transparent;}
+._UE_CHAD{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_chad.png") no-repeat scroll 12px 12px transparent;}
+._UE_CHILE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_chile.png") no-repeat scroll 12px 12px transparent;}
+._UE_CHINA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_china.png") no-repeat scroll 12px 12px transparent;}
+._UE_CHRISTMASISLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_COCOSKEELINGISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_COLOMBIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_colombia.png") no-repeat scroll 0 0 transparent;}
+._UE_COMOROS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_comoros.png") no-repeat scroll 0 0 transparent;}
+._UE_CONGO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_congo_republic.png") no-repeat scroll 0 0 transparent;}
+._UE_CONGOTHEDEMOCRATICREPUBLICOFTHE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_congo_democratic_republic.png") no-repeat scroll 0 0 transparent;}
+._UE_COOKISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cook_islands.png") no-repeat scroll 0 0 transparent;}
+._UE_COSTARICA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_costa_rica.png") no-repeat scroll 0 0 transparent;}
+._UE_COTEDIVOIRE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cote_divoire.png") no-repeat scroll 0 0 transparent;}
+._UE_CROATIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_croatia.png") no-repeat scroll 0 0 transparent;}
+._UE_CUBA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cuba.png") no-repeat scroll 0 0 transparent;}
+._UE_CYPRUS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_cyprus.png") no-repeat scroll 0 0 transparent;}
+._UE_CZECHREPUBLIC{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_czech_republic.png") no-repeat scroll 0 0 transparent;}
+._UE_DENMARK{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_denmark.png") no-repeat scroll 0 0 transparent;}
+._UE_DJIBOUTI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_djibouti.png") no-repeat scroll 0 0 transparent;}
+._UE_DOMINICA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_dominica.png") no-repeat scroll 0 0 transparent;}
+._UE_DOMINICANREPUBLIC{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_dominican_republic.png") no-repeat scroll 0 0 transparent;}
+._UE_ECUADOR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_equador.png") no-repeat scroll 0 0 transparent;}
+._UE_EGYPT{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_egypt.png") no-repeat scroll 0 0 transparent;}
+._UE_ELSALVADOR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_el_salvador.png") no-repeat scroll 0 0 transparent;}
+._UE_EQUATORIALGUINEA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_equatorial_guinea.png") no-repeat scroll 0 0 transparent;}
+._UE_ERITREA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_eritrea.png") no-repeat scroll 0 0 transparent;}
+._UE_ESTONIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_estonia.png") no-repeat scroll 0 0 transparent;}
+._UE_ETHIOPIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_ethiopia.png") no-repeat scroll 0 0 transparent;}
+._UE_FALKLANDISLANDSMALVINAS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_falkland_islands.png") no-repeat scroll 0 0 transparent;}
+._UE_FAROEISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_faroe_islands.png") no-repeat scroll 0 0 transparent;}
+._UE_FIJI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_fiji.png") no-repeat scroll 0 0 transparent;}
+._UE_FINLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_finland.png") no-repeat scroll 0 0 transparent;}
+._UE_FRANCE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_france.png") no-repeat scroll 0 0 transparent;}
+._UE_FRENCHGUIANA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_FRENCHPOLYNESIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_french_polynesia.png") no-repeat scroll 0 0 transparent;}
+._UE_FRENCHSOUTHERNTERRITORIES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_GABON{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_gabon.png") no-repeat scroll 0 0 transparent;}
+._UE_GAMBIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_gambia.png") no-repeat scroll 0 0 transparent;}
+._UE_GEORGIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_georgia.png") no-repeat scroll 0 0 transparent;}
+._UE_GERMANY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_germany.png") no-repeat scroll 0 0 transparent;}
+._UE_GHANA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_ghana.png") no-repeat scroll 0 0 transparent;}
+._UE_GIBRALTAR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_gibraltar.png") no-repeat scroll 0 0 transparent;}
+._UE_GREECE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_greece.png") no-repeat scroll 0 0 transparent;}
+._UE_GREENLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_greenland.png") no-repeat scroll 0 0 transparent;}
+._UE_GRENADA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_grenada.png") no-repeat scroll 0 0 transparent;}
+._UE_GUADELOUPE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_GUAM{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guam.png") no-repeat scroll 0 0 transparent;}
+._UE_GUATEMALA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guatemala.png") no-repeat scroll 0 0 transparent;}
+._UE_GUERNSEY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guernsey.png") no-repeat scroll 0 0 transparent;}
+._UE_GUINEA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guinea.png") no-repeat scroll 0 0 transparent;}
+._UE_GUINEA-BISSAU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guinea_bissau.png") no-repeat scroll 0 0 transparent;}
+._UE_GUYANA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_guyana.png") no-repeat scroll 0 0 transparent;}
+._UE_HAITI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_haiti.png") no-repeat scroll 0 0 transparent;}
+._UE_HEARDISLANDANDMCDONALDISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_HOLYSEEVATICANCITYSTATE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_HONDURAS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_honduras.png") no-repeat scroll 0 0 transparent;}
+._UE_HONGKONG{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_hong_kong.png") no-repeat scroll 0 0 transparent;}
+._UE_HUNGARY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_hungary.png") no-repeat scroll 0 0 transparent;}
+._UE_ICELAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_iceland.png") no-repeat scroll 0 0 transparent;}
+._UE_INDIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_india.png") no-repeat scroll 0 0 transparent;}
+._UE_INDONESIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_indonesia.png") no-repeat scroll 0 0 transparent;}
+._UE_IRANISLAMICREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_iran.png") no-repeat scroll 0 0 transparent;}
+._UE_IRAQ{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_iraq.png") no-repeat scroll 0 0 transparent;}
+._UE_IRELAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_ireland.png") no-repeat scroll 0 0 transparent;}
+._UE_ISLEOFMAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_isle_of_man.png") no-repeat scroll 0 0 transparent;}
+._UE_ISRAEL{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_israel.png") no-repeat scroll 0 0 transparent;}
+._UE_ITALY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_italy.png") no-repeat scroll 0 0 transparent;}
+._UE_JAMAICA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_jamaica.png") no-repeat scroll 0 0 transparent;}
+._UE_JAPAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_japan.png") no-repeat scroll 0 0 transparent;}
+._UE_JERSEY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_jersey.png") no-repeat scroll 0 0 transparent;}
+._UE_JORDAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_jordan.png") no-repeat scroll 0 0 transparent;}
+._UE_KAZAKHSTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_kazakhstan.png") no-repeat scroll 0 0 transparent;}
+._UE_KENYA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_kenya.png") no-repeat scroll 0 0 transparent;}
+._UE_KIRIBATI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_kiribati.png") no-repeat scroll 0 0 transparent;}
+._UE_KOREADEMOCRATICPEOPLESREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_KOREAREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_KUWAIT{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_kuwait.png") no-repeat scroll 0 0 transparent;}
+._UE_KYRGYZSTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_kyrgyzstan.png") no-repeat scroll 0 0 transparent;}
+._UE_LAOPEOPLESDEMOCRATICREPUBLIC{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_laos.png") no-repeat scroll 0 0 transparent;}
+._UE_LATVIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_latvia.png") no-repeat scroll 0 0 transparent;}
+._UE_LEBANON{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_lebanon.png") no-repeat scroll 0 0 transparent;}
+._UE_LESOTHO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_lesotho.png") no-repeat scroll 0 0 transparent;}
+._UE_LIBERIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_liberia.png") no-repeat scroll 0 0 transparent;}
+._UE_LIBYANARABJAMAHIRIYA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_libya.png") no-repeat scroll 0 0 transparent;}
+._UE_LIECHTENSTEIN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_liechtenstein.png") no-repeat scroll 0 0 transparent;}
+._UE_LITHUANIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_lithuania.png") no-repeat scroll 0 0 transparent;}
+._UE_LUXEMBOURG{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_luxembourg.png") no-repeat scroll 0 0 transparent;}
+._UE_MACAO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_macau.png") no-repeat scroll 0 0 transparent;}
+._UE_MACEDONIATHEFORMERYUGOSLAVREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_macedonia.png") no-repeat scroll 0 0 transparent;}
+._UE_MADAGASCAR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_madagascar.png") no-repeat scroll 0 0 transparent;}
+._UE_MALAWI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_malawi.png") no-repeat scroll 0 0 transparent;}
+._UE_MALAYSIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_malaysia.png") no-repeat scroll 0 0 transparent;}
+._UE_MALDIVES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_maledives.png") no-repeat scroll 0 0 transparent;}
+._UE_MALI{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mali.png") no-repeat scroll 0 0 transparent;}
+._UE_MALTA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_malta.png") no-repeat scroll 0 0 transparent;}
+._UE_MARSHALLISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_marshall_islands.png") no-repeat scroll 0 0 transparent;}
+._UE_MARTINIQUE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_martinique.png") no-repeat scroll 0 0 transparent;}
+._UE_MAURITANIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mauretania.png") no-repeat scroll 0 0 transparent;}
+._UE_MAURITIUS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_MAYOTTE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mauritius.png") no-repeat scroll 0 0 transparent;}
+._UE_MEXICO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mexico.png") no-repeat scroll 0 0 transparent;}
+._UE_MICRONESIAFEDERATEDSTATESOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_micronesia.png") no-repeat scroll 0 0 transparent;}
+._UE_MOLDOVAREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_moldova.png") no-repeat scroll 0 0 transparent;}
+._UE_MONACO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_monaco.png") no-repeat scroll 0 0 transparent;}
+._UE_MONGOLIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mongolia.png") no-repeat scroll 0 0 transparent;}
+._UE_MONTSERRAT{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_montserrat.png") no-repeat scroll 0 0 transparent;}
+._UE_MOROCCO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_morocco.png") no-repeat scroll 0 0 transparent;}
+._UE_MOZAMBIQUE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_mozambique.png") no-repeat scroll 0 0 transparent;}
+._UE_MYANMAR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_NAMIBIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_namibia.png") no-repeat scroll 0 0 transparent;}
+._UE_NAURU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_nauru.png") no-repeat scroll 0 0 transparent;}
+._UE_NEPAL{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_nepal.png") no-repeat scroll 0 0 transparent;}
+._UE_NETHERLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_netherlands.png") no-repeat scroll 0 0 transparent;}
+._UE_NETHERLANDSANTILLES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_netherlands_antilles.png") no-repeat scroll 0 0 transparent;}
+._UE_NEWCALEDONIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_NEWZEALAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_new_zealand.png") no-repeat scroll 0 0 transparent;}
+._UE_NICARAGUA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_nicaragua.png") no-repeat scroll 0 0 transparent;}
+._UE_NIGER{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_niger.png") no-repeat scroll 0 0 transparent;}
+._UE_NIGERIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_nigeria.png") no-repeat scroll 0 0 transparent;}
+._UE_NIUE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_niue.png") no-repeat scroll 0 0 transparent;}
+._UE_NORFOLKISLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_norfolk_island.png") no-repeat scroll 0 0 transparent;}
+._UE_NORTHERNMARIANAISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_northern_mariana_islands.png") no-repeat scroll 0 0 transparent;}
+._UE_NORWAY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_norway.png") no-repeat scroll 0 0 transparent;}
+._UE_OMAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_oman.png") no-repeat scroll 0 0 transparent;}
+._UE_PAKISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_pakistan.png") no-repeat scroll 0 0 transparent;}
+._UE_PALAU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_palau.png") no-repeat scroll 0 0 transparent;}
+._UE_PALESTINIANTERRITORYOCCUPIED{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_PANAMA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_panama.png") no-repeat scroll 0 0 transparent;}
+._UE_PAPUANEWGUINEA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_papua_new_guinea.png") no-repeat scroll 0 0 transparent;}
+._UE_PARAGUAY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_paraquay.png") no-repeat scroll 0 0 transparent;}
+._UE_PERU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_peru.png") no-repeat scroll 0 0 transparent;}
+._UE_PHILIPPINES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_philippines.png") no-repeat scroll 0 0 transparent;}
+._UE_PITCAIRN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_pitcairn_islands.png") no-repeat scroll 0 0 transparent;}
+._UE_POLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_poland.png") no-repeat scroll 0 0 transparent;}
+._UE_PORTUGAL{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_portugal.png") no-repeat scroll 0 0 transparent;}
+._UE_PUERTORICO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_puerto_rico.png") no-repeat scroll 0 0 transparent;}
+._UE_QATAR{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_qatar.png") no-repeat scroll 0 0 transparent;}
+._UE_REUNION{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_ROMANIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_romania.png") no-repeat scroll 0 0 transparent;}
+._UE_RUSSIANFEDERATION{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_russia.png") no-repeat scroll 0 0 transparent;}
+._UE_RWANDA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_rwanda.png") no-repeat scroll 0 0 transparent;}
+._UE_SAINTHELENA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saint_helena.png") no-repeat scroll 0 0 transparent;}
+._UE_SAINTKITTSANDNEVIS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saint_kitts_and_nevis.png") no-repeat scroll 0 0 transparent;}
+._UE_SAINTLUCIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saint_lucia.png") no-repeat scroll 0 0 transparent;}
+._UE_SAINTPIERREANDMIQUELON{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saint_pierre_and_miquelon.png") no-repeat scroll 0 0 transparent;}
+._UE_SAINTVINCENTANDTHEGRENADINES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saint_vincent_and_the_grenadines.png") no-repeat scroll 0 0 transparent;}
+._UE_SAMOA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_samoa.png") no-repeat scroll 0 0 transparent;}
+._UE_SANMARINO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_san_marino.png") no-repeat scroll 0 0 transparent;}
+._UE_SAOTOMEANDPRINCIPE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_sao_tome_and_principe.png") no-repeat scroll 0 0 transparent;}
+._UE_SAUDIARABIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_saudi_arabia.png") no-repeat scroll 0 0 transparent;}
+._UE_SENEGAL{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_senegal.png") no-repeat scroll 0 0 transparent;}
+._UE_SERBIAANDMONTENEGRO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_serbia_montenegro.png") no-repeat scroll 0 0 transparent;}
+._UE_SEYCHELLES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_seychelles.png") no-repeat scroll 0 0 transparent;}
+._UE_SIERRALEONE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_sierra_leone.png") no-repeat scroll 0 0 transparent;}
+._UE_SINGAPORE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_singapore.png") no-repeat scroll 0 0 transparent;}
+._UE_SLOVAKIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_slovakia.png") no-repeat scroll 0 0 transparent;}
+._UE_SLOVENIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_slovenia.png") no-repeat scroll 0 0 transparent;}
+._UE_SOLOMONISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_solomon_islands.png") no-repeat scroll 0 0 transparent;}
+._UE_SOMALIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_somalia.png") no-repeat scroll 0 0 transparent;}
+._UE_SOUTHAFRICA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_south_africa.png") no-repeat scroll 0 0 transparent;}
+._UE_SOUTHGEORGIAANDTHESOUTHSANDWICHISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_south_georgia.png") no-repeat scroll 0 0 transparent;}
+._UE_SPAIN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_spain.png") no-repeat scroll 0 0 transparent;}
+._UE_SRILANKA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_sri_lanka.png") no-repeat scroll 0 0 transparent;}
+._UE_SUDAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_sudan.png") no-repeat scroll 0 0 transparent;}
+._UE_SURINAME{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_suriname.png") no-repeat scroll 0 0 transparent;}
+._UE_SVALBARDANDJANMAYEN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_SWAZILAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_swaziland.png") no-repeat scroll 0 0 transparent;}
+._UE_SWEDEN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_sweden.png") no-repeat scroll 0 0 transparent;}
+._UE_SWITZERLAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_switzerland.png") no-repeat scroll 0 0 transparent;}
+._UE_SYRIANARABREPUBLIC{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_syria.png") no-repeat scroll 0 0 transparent;}
+._UE_TAIWANPROVINCEOFCHINA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_taiwan.png") no-repeat scroll 0 0 transparent;}
+._UE_TAJIKISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_tajikistan.png") no-repeat scroll 0 0 transparent;}
+._UE_TANZANIAUNITEDREPUBLICOF{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_tanzania.png") no-repeat scroll 0 0 transparent;}
+._UE_THAILAND{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_thailand.png") no-repeat scroll 0 0 transparent;}
+._UE_TIMOR-LESTE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_TOGO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_togo.png") no-repeat scroll 0 0 transparent;}
+._UE_TOKELAU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_TONGA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_tonga.png") no-repeat scroll 0 0 transparent;}
+._UE_TRINIDADANDTOBAGO{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_trinidad_and_tobago.png") no-repeat scroll 0 0 transparent;}
+._UE_TUNISIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_tunisia.png") no-repeat scroll 0 0 transparent;}
+._UE_TURKEY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_turkey.png") no-repeat scroll 0 0 transparent;}
+._UE_TURKMENISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_turkmenistan.png") no-repeat scroll 0 0 transparent;}
+._UE_TURKSANDCAICOSISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_turks_and_caicos_islands.png") no-repeat scroll 0 0 transparent;}
+._UE_TUVALU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_tuvalu.png") no-repeat scroll 0 0 transparent;}
+._UE_UGANDA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_uganda.png") no-repeat scroll 0 0 transparent;}
+._UE_UKRAINE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_ukraine.png") no-repeat scroll 0 0 transparent;}
+._UE_UNITEDARABEMIRATES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_united_arab_emirates.png") no-repeat scroll 0 0 transparent;}
+._UE_UNITEDKINGDOM{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_great_britain.png") no-repeat scroll 0 0 transparent;}
+._UE_UNITEDSTATES{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_usa.png") no-repeat scroll 0 0 transparent;}
+._UE_UNITEDSTATESMINOROUTLYINGISLANDS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_URUGUAY{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_uruquay.png") no-repeat scroll 0 0 transparent;}
+._UE_UZBEKISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_uzbekistan.png") no-repeat scroll 0 0 transparent;}
+._UE_VANUATU{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_vanuatu.png") no-repeat scroll 0 0 transparent;}
+._UE_VENEZUELA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_venezuela.png") no-repeat scroll 0 0 transparent;}
+._UE_VIETNAM{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_vietnam.png") no-repeat scroll 0 0 transparent;}
+._UE_VIRGINISLANDSBRITISH{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_virgin_islands.png") no-repeat scroll 0 0 transparent;}
+._UE_VIRGINISLANDSUS{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_WALLISANDFUTUNA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_wallis_and_futuna.png") no-repeat scroll 0 0 transparent;}
+._UE_WESTERNSAHARA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
+._UE_YEMEN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_yemen.png") no-repeat scroll 0 0 transparent;}
+._UE_ZAMBIA{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_zambia.png") no-repeat scroll 0 0 transparent;}
+._UE_ZIMBABWE{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_zimbabwe.png") no-repeat scroll 0 0 transparent;}
+._UE_NOTSPECIFIED{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}
 

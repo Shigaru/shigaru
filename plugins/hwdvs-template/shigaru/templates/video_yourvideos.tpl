@@ -12,9 +12,19 @@
 <script type="text/javascript">
 	{literal}
 jQuery(document).ready(function() {
+	var isHorizontal = false;
 	var $container = jQuery('#resultcontainer');
-      
-      
+		var oListUrl = "index.php?option=com_hwdvideoshare&lang=en&task=ajax_myvideos&format=raw";
+        jQuery.ajax({
+            url: oListUrl
+        }).done(function (data) {
+			jQuery('#resultcontainer').hide().html(data).fadeIn();
+			jQuery(".loadingcontent").hide();
+            initVideoList();
+        })
+	
+	function initVideoList(){
+		
       // add randomish size classes
       $container.find('.resultelement').each(function(){
         var $this = jQuery(this),
@@ -30,85 +40,19 @@ jQuery(document).ready(function() {
       $container.isotope({
         itemSelector : '.resultelement',
         masonry : {
-          columnWidth : 240
+          columnWidth : 238
         },
         masonryHorizontal : {
           rowHeight: 120
         },
         cellsByRow : {
-          columnWidth : 325,
-          rowHeight: 210
+          columnWidth : 330,
+          rowHeight: 225
         }
       });
       
       
       // change layout
-      var isHorizontal = false;
-      function changeLayoutMode( $link, options ) {
-        var wasHorizontal = isHorizontal;
-        isHorizontal = $link.hasClass('horizontal');
-
-        if ( wasHorizontal !== isHorizontal ) {
-          // orientation change
-          // need to do some clean up for transitions and sizes
-          var style = isHorizontal ? 
-            { height: '80%', width: $container.width() } : 
-            { width: 'auto' };
-          // stop any animation on container height / width
-          $container.filter(':animated').stop();
-          // disable transition, apply revised style
-          $container.addClass('no-transition').css( style );
-          setTimeout(function(){
-            $container.removeClass('no-transition').isotope( options );
-          }, 100 )
-        } else {
-		   var oItems = jQuery('#resultcontainer .resultelement');	
-		   oItems.find('.twolinestitle').show();
-		   oItems.find('.longtitle').hide();
-		   oItems.find('.searchResultInfo').hide().css({'margin-top':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
-		   oItems.css({'width': "235px",'height':'140px',fontSize:'100%','padding':'0','border':'none'});
-		   oItems.find('img.bradius5').css({width: "94px"}).prev().css('width','94px');;
-		   jQuery('.searchResultInfo .extendedinfo').hide();
-		   switch(options.layoutMode){
-					case 'masonry':
-								oItems.find('.searchResultInfo').hide();
-								break;
-					case 'cellsByRow':
-								oItems.css('border-bottom','none').animate({ 
-									width: "295px",
-									height: "195px",
-									fontSize:'120%'
-								  });
-								  oItems.find('img.bradius5').animate({ 
-									width: "118px"
-								  }).prev().css('width','118px').parent().next().css('margin-top','-20px');
-								  jQuery('.searchResultInfo').css({'margin-top':'6px','border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'0'}).show();
-								break;				
-					case 'straightDown':
-								oItems.css({'border-bottom':'1px dotted gray', 'padding-bottom':'2px', 'padding-top':'4px'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
-								oItems.animate({ 
-									width: "100%",
-									fontSize:'120%'
-								  });
-								  oItems.find('img.bradius5').animate({ 
-									width: "116px"
-								  }).prev().css('width','116px').parent().next().css('margin-top','-20px');
-								  jQuery('.searchResultInfo .extendedinfo').fadeIn();
-								  jQuery('.searchResultInfo').css({'border-left':'1px dotted gray','border-bottom':'none','padding-left':'12px'}).show().parent().css('width','60%').prev().css('width','40%');
-								  oItems.find('.twolinestitle').hide();
-								  oItems.find('.longtitle').show();
-								break;			
-					  }
-          $container.isotope( options, function(){
-			 
-			  
-			  } );
-			  
-			   
-        }
-      }
-
-
       
       var $optionSets = jQuery('#options .btn-group'),
           $optionLinks = $optionSets.find('a');
@@ -144,6 +88,75 @@ jQuery(document).ready(function() {
         
         return false;
       });
+		
+	}
+	
+	
+      function changeLayoutMode( $link, options ) {
+        var wasHorizontal = isHorizontal;
+        isHorizontal = $link.hasClass('horizontal');
+
+        if ( wasHorizontal !== isHorizontal ) {
+          // orientation change
+          // need to do some clean up for transitions and sizes
+          var style = isHorizontal ? 
+            { height: '80%', width: $container.width() } : 
+            { width: 'auto' };
+          // stop any animation on container height / width
+          $container.filter(':animated').stop();
+          // disable transition, apply revised style
+          $container.addClass('no-transition').css( style );
+          setTimeout(function(){
+            $container.removeClass('no-transition').isotope( options );
+          }, 100 )
+        } else {
+		   var oItems = jQuery('#resultcontainer .resultelement');	
+		   oItems.find('.twolinestitle').show();
+		   oItems.find('.longtitle').hide();
+		   oItems.find('.searchResultInfo').hide().css({'margin-top':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
+		   oItems.css({'width': "218px",'height':'140px',fontSize:'100%','padding':'4px 0 0 0','border':'none'});
+		   oItems.find('img.bradius5').css({width: "87px"}).prev().css('width','87px');;
+		   jQuery('.searchResultInfo .extendedinfo').hide();
+		   switch(options.layoutMode){
+					case 'masonry':
+								oItems.css('border-bottom','1px dotted gray');
+								oItems.find('.searchResultInfo').hide();
+								break;
+					case 'cellsByRow':
+								oItems.css('border-bottom','none').animate({ 
+									width: "300px",
+									height: "207px",
+									fontSize:'100%'
+								  });
+								  oItems.find('img.bradius5').animate({ 
+									width: "120px"
+								  }).prev().css('width','120px').parent().next().css('margin-top','-20px');
+								  jQuery('.searchResultInfo').css({'margin-top':'6px','border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'0'}).show();
+								break;				
+					case 'straightDown':
+								oItems.css({'height':'130px','border-bottom':'1px dotted gray', 'padding-bottom':'2px', 'padding-top':'4px'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
+								oItems.animate({ 
+									width: "100%",
+									fontSize:'110%'
+								  });
+								  oItems.find('img.bradius5').animate({ 
+									width: "116px"
+								  }).prev().css('width','116px').parent().next().css('margin-top','-20px');
+								  jQuery('.searchResultInfo .extendedinfo').fadeIn();
+								  jQuery('.searchResultInfo').css({'border-left':'1px dotted gray','border-bottom':'none','padding-left':'12px'}).show().parent().css('width','60%').prev().css('width','40%');
+								  oItems.find('.twolinestitle').hide();
+								  oItems.find('.longtitle').show();
+								break;			
+					  }
+          $container.isotope( options, function(){
+			 
+			  
+			  } );
+			  
+			   
+        }
+      }
+      
 } );
 	{/literal}	
 </script>	
@@ -188,7 +201,7 @@ jQuery(document).ready(function() {
 	<div id="videosmaincontent" class="fleft clearfix pad12">
 		<div class="clearfix">
 			<div class="clearfix">
-				<div class="fleft f120 fontbold">
+				<div class="fleft f15em fontbold">
 					<h3>{$smarty.const._HWDVIDS_TITLE_YOURVIDS}</h3>
 				</div>
 				<div class="fright">
@@ -205,7 +218,7 @@ jQuery(document).ready(function() {
 					</form>
 				</div>
 			</div>
-			<div class="clearfix mtop6">					
+			<div id="vidlistoptbar" class="clearfix mtop20">					
 				<form class="fleft clearfix">
 					<div class="fleft">
 						<label for="sort_by" class="sort-control-label">Sort by:</label>
@@ -217,11 +230,11 @@ jQuery(document).ready(function() {
 							<option value="cost">Price</option>
 						</select>
 					</div>	
-					<a href="#" class="fleft fontred pad6"><i class="icon-arrow-up icon-large"></i></a>
-					<input class="icon-search fleft" type="text" placeholder="Search your videos..."/>
+					<!--<a href="#" class="fleft fontred pad6"><i class="icon-arrow-up icon-large fontblack"></i></a>
+					<input class="icon-search mleft30 fleft" type="text" placeholder="Search your videos..."/>-->
 					
 				</form>
-				<div id="options" class="mtop8 clearfix fright">    
+				<div id="options" class="clearfix fright">    
 					<div class="btn-group" data-option-key="layoutMode">
 					  <a class="btn active" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>
 					  <a class="btn" href="#cellsByRow" data-option-value="cellsByRow"><i class="icon-th-large"></i></a>
@@ -230,15 +243,9 @@ jQuery(document).ready(function() {
 				</div> <!-- #options -->
 		   </div>
 		</div>
-	  {if $print_videolist}
 		<div id="resultcontainer">
-		{foreach name=outer item=data from=$list name=data}
-		  {include file="video_list_full.tpl" userdetails=$userdetails}
-		{/foreach}
+			<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 		</div>
-	  {else}
-		<div class="padding">{$smarty.const._HWDVIDS_INFO_NUV}</div>
-	  {/if}
 	</div>
 	<div class="fleft w15">
 		<div class="mleft6">
@@ -290,8 +297,6 @@ jQuery(document).ready(function() {
 		</div> 
 	</div> 
 </div>	
-<div align="center" class="mtop25">
-  {$pageNavigation}
-  </div>
+
 
 
