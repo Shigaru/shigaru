@@ -19,6 +19,13 @@ ol { margin-left:2em; }
 * html .clearfix {height: 1%;}  
 .clearfix {display: block;}
 /* GENERAL STYLES */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 200;
+  src: local('Ubuntu Light'), local('Ubuntu-Light'), url('../font/ubuntul.woff') format('woff');
+}
+
 body{font-family: 'Ubuntu', arial, serif;color:#666666;min-width:1050px;}
 html,
 body {

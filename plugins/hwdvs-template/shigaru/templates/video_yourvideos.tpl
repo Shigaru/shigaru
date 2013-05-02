@@ -251,21 +251,22 @@ jQuery(document).ready(function() {
 		</div>
 	</div>
 	<div class="fleft w15">
-		<div class="mleft6">
+		
+		<div class="mleft6 clearfix mtop20 mbot20">
+			<div class="fontbold"><a class="mtop6 pad12 btn btn-primary fleft" href="{$uploadLink}"><i class="icon-share icon-4x fontblack"></i> <span class="icon-3x fontblack">Share a video</span></a></div>
+		</div> 
+		<div class="mleft6 clearfix">
 			<script type="text/javascript"><!--
 			google_ad_client = "ca-pub-1916456389191969";
 			/* profile */
-			google_ad_slot = "2073720662";
-			google_ad_width = 120;
-			google_ad_height = 240;
+			google_ad_slot = "7689083467";
+			google_ad_width = 160;
+			google_ad_height = 600;
 			//-->
 			</script>
 			<script type="text/javascript"
 			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 			</script>
-		</div>
-		<div class="well">
-			<div class="fontbold"><a class="mtop6 pad12 btn btn-primary fleft" href="{$uploadLink}"><i class="icon-share icon-4x"></i> Share a video</a></div>
 		</div> 
 	</div> 
 </div>	

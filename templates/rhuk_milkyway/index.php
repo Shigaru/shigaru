@@ -34,7 +34,6 @@ $this->addScript($this->baseurl."/modules/mod_rokajaxsearch/js/rokajaxsearch.js"
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.min_v1.1.js"></script>
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery.qtip.min.css" />
-<link href='http://fonts.googleapis.com/css?family=Ubuntu:light' rel='stylesheet' type='text/css'/>
 <!--[if IE 7]>
   <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/font-awesome-ie7.css">
 <![endif]-->
