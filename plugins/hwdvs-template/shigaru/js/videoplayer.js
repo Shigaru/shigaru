@@ -7,8 +7,10 @@ jQuery(document).ready(function () {
             url: t + "&lstart=" + e,
             context: document.body,
             success: function (e) {
-                jQuery("#infocontext ul#relatedvideos").append(e);
-                jQuery("#infocontext ul#relatedvideos li").fadeIn();
+				var oRelatedContainer = jQuery("#infocontext ul#relatedvideos");
+                oRelatedContainer.append(e);
+                oRelatedContainer.find("li").fadeIn();
+                oRelatedContainer.find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
                 jQuery(".loadingcontent").hide();
                 n.removeClass().addClass(r)
             }

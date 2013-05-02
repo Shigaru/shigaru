@@ -23,17 +23,20 @@
 								<div class="clearfix">
 									<div class="fleft">
 										{$data->avatar}
+										<div class="{$userdetails->cb_country} userflag">
+										</div>
 									</div>	
-									<div class="fleft f90">
+									<div class="clearfix fleft f90">
 										<span>{$smarty.const._HWDVIDS_INFO_SHARED}</span>
-										<div>{$data->uploader}</div>
+										<div class="clearfix">
+											<div>{$data->uploader}</div>
+										</div>
+										
 									</div>
 								</div>	
 								<div class="clearfix mtop6">
 									<div class="f80 mleft6 fleft">
 										{$smarty.const._HWDVIDS_INFO_PLAYS}: <span class="fontbold">{$data->views}</span>
-									</div>
-									<div class="{$userdetails->cb_country} fright mright24 userflag">
 									</div>
 								</div>	
 								<div class="clearfix">

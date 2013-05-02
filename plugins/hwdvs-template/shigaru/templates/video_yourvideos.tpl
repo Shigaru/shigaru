@@ -18,9 +18,9 @@ jQuery(document).ready(function() {
         jQuery.ajax({
             url: oListUrl
         }).done(function (data) {
-			jQuery('#resultcontainer').hide().html(data).fadeIn();
+			jQuery('#resultcontainer').hide().html(data).fadeIn().find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
 			jQuery(".loadingcontent").hide();
-            initVideoList();
+			initVideoList();
         })
 	
 	function initVideoList(){
@@ -43,11 +43,11 @@ jQuery(document).ready(function() {
           columnWidth : 238
         },
         masonryHorizontal : {
-          rowHeight: 120
+          rowHeight: 160
         },
         cellsByRow : {
           columnWidth : 330,
-          rowHeight: 225
+          rowHeight: 215
         }
       });
       
@@ -114,7 +114,7 @@ jQuery(document).ready(function() {
 		   oItems.find('.twolinestitle').show();
 		   oItems.find('.longtitle').hide();
 		   oItems.find('.searchResultInfo').hide().css({'margin-top':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
-		   oItems.css({'width': "218px",'height':'140px',fontSize:'100%','padding':'4px 0 0 0','border':'none'});
+		   oItems.css({'width': "218px",'height':'140px',fontSize:'100%','padding':'4px 0 0 0','border':'none',margin:0});
 		   oItems.find('img.bradius5').css({width: "87px"}).prev().css('width','87px');;
 		   jQuery('.searchResultInfo .extendedinfo').hide();
 		   switch(options.layoutMode){
@@ -125,18 +125,21 @@ jQuery(document).ready(function() {
 					case 'cellsByRow':
 								oItems.css('border-bottom','none').animate({ 
 									width: "300px",
-									height: "207px",
-									fontSize:'100%'
+									height: "210px",
+									fontSize:'100%',
+									'padding-top':'0',
+									'margin':'-12px 0 0 -12px'
 								  });
 								  oItems.find('img.bradius5').animate({ 
 									width: "120px"
 								  }).prev().css('width','120px').parent().next().css('margin-top','-20px');
-								  jQuery('.searchResultInfo').css({'margin-top':'6px','border-bottom':'1px dotted gray', 'padding-bottom':'12px', 'padding-top':'0'}).show();
+								  jQuery('.searchResultInfo').css({'margin':'3px 0 0 0','border-bottom':'1px dotted gray', 'padding-bottom':'3px', 'padding-top':'0'}).show();
 								break;				
 					case 'straightDown':
-								oItems.css({'height':'130px','border-bottom':'1px dotted gray', 'padding-bottom':'2px', 'padding-top':'4px'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
+								oItems.css({'border-bottom':'1px dotted gray', 'padding':'4px 2px 2px 0'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
 								oItems.animate({ 
-									width: "100%",
+									width: "98%",
+									height: "140px",
 									fontSize:'110%'
 								  });
 								  oItems.find('img.bradius5').animate({ 
@@ -262,38 +265,7 @@ jQuery(document).ready(function() {
 			</script>
 		</div>
 		<div class="well">
-			<ul class="nav nav-list mtop12">
-			  <li><a href="#">What to Watch</a></li>	
-	
-			  <li><a href="#">Watch History</a></li>	
-	
-			  <li><a href="#">Search History</a></li>	
-	
-			  <li><a href="#">What is Hot!</a></li>	
-	
-			  <li><a href="#">My Subscriptions</a></li>	
-	
-			  <li><a href="#">My Alerts</a></li>	
-	
-			  <li>
-				<a href="#">My Videos</a>
-				<ul class="mtop6">
-					<li class="active"><a href="#">Videos I Created ({$total})</a></li>
-					<li><a href="#">Videos I Shared ({$total})</a></li>
-					<li class="divider"></li>
-					<li><a href="#">My Playlists</a></li>
-					<li><a href="#">My 'Learn Later' Videos</a></li>
-					<li><a href="#">My Favourites</a></li>
-					<li><a href="#">Videos I Like</a></li>
-				</ul>
-			  </li>
-	
-			  <li><a href="#">Comments</a></li>
-	
-			  <li><a href="#">Status Updates</a></li>
-	
-			  <li><a href="#">My Shigaru Friends</a></li>
-			</ul>
+			<div class="fontbold"><a class="mtop6 pad12 btn btn-primary fleft" href="{$uploadLink}"><i class="icon-share icon-4x"></i> Share a video</a></div>
 		</div> 
 	</div> 
 </div>	
