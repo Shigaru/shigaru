@@ -681,13 +681,9 @@ padding: 6px 12px;
 margin-bottom: 5px;-webkit-border-radius: 2px;
 border-radius: 2px;}
 #videosmaincontent select,#videosmaincontent input[type="text"] {
-height: 24px;
-padding: 0 .9em;
 border-width: 1px;
 border-style: solid;
 outline: 0;
-font-weight: bold;
-font-size: 11px;
 white-space: nowrap;
 word-wrap: normal;
 vertical-align: middle;
@@ -756,6 +752,13 @@ background-image: linear-gradient(to bottom,#fcfcfc 0,#f8f8f8 100%);
 	font-weight: normal;
 	text-decoration: none;
 	color: #636363;
+}
+
+.nav-list li ul li{
+	padding:3px 6px;
+}
+.nav-list li ul li.divider{
+	padding:0;
 }
 
 
