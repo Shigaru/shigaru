@@ -1311,7 +1311,7 @@ $app = & JFactory::getApplication();
     /**
      *
      */
-    function yourVideos($pageNav,$total,$otheruser='no',$paramuser_id = null)
+    function yourVideos($total,$otheruser='no')
     {
 		global $smartyvs, $limitstart,$Itemid,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
@@ -1342,16 +1342,10 @@ $app = & JFactory::getApplication();
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
 		
-		$page = $total - $c->vpp;
-			$pageNavigation = null;
-			if ( $page > 0 ){
-				$pageNavigation.= $pageNav->getPagesLinks();
-			}
+		
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
-		$smartyvs->assign("pageNavigation", $pageNavigation);
 		$smartyvs->assign("otheruser", $otheruser);
-		$smartyvs->assign("total", $total);
 		
 		$smartyvs->display('video_yourvideos.tpl');
 		return;

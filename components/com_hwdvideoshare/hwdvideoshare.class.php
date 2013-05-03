@@ -5481,10 +5481,11 @@ $app = & JFactory::getApplication();
     
     
     function getMyVideos(){
-		global $smartyvs,$mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		global $smartyvs,$mainframe, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		$limitstart = Jrequest::getInt( 'limitstart', '0' );
 		$my = & JFactory::getUser();
 		$oResults = '';
 		
@@ -5503,7 +5504,11 @@ $app = & JFactory::getApplication();
 		$where = ' WHERE video.approved = "yes"';
 		$where .= ' AND video.published = 1';
 		$where .= ' AND video.user_id = '.$user_id;
-
+		$db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 . $where
+					 );
+  		$total = $db->loadResult();
 		
 		$query = 'SELECT'.$hwdvs_selectv
                	. ' FROM #__hwdvidsvideos AS video'
@@ -5513,6 +5518,8 @@ $app = & JFactory::getApplication();
 				;
 		$db->SetQuery($query, $limitstart, $limit );
 		$rows = $db->loadObjectList();
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
 		if (count($rows) > 0) {
 			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,'87');
 			$userdetails = hwd_vs_tools::getUserContextDetails($user_id);			
@@ -5521,6 +5528,12 @@ $app = & JFactory::getApplication();
 					$smartyvs->assign("userdetails", $userdetails);
 					$oResults .= $smartyvs->fetch('video_list_full.tpl');
 				}
+			$page = $total - $c->vpp;
+			if ( $page > 0 ){
+				$oResults .= '<div id="videolistpage">';
+				$oResults .= $pageNav->getPagesLinks();
+				$oResults .= '</div>';
+			}	
 		}
 		return $oResults;
 	}

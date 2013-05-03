@@ -15,11 +15,7 @@ jQuery(document).ready(function() {
 	var isHorizontal = false;
 	var $container = jQuery('#resultcontainer');
 	var oListUrl = "index.php?option=com_hwdvideoshare&lang=en&task=ajax_myvideos&format=raw";
-    jQuery('span.pagination a.page').click(function(e){
-					$container.isotope( 'destroy' );
-					doLoadAjaxContent(transformPageUrls(e));
-					e.preventDefault();
-				});
+    
 	
 	// change layout
       
@@ -60,34 +56,51 @@ jQuery(document).ready(function() {
 	doLoadAjaxContent(oListUrl);
 	
 	function doLoadAjaxContent(paramUrl){
-		jQuery('#resultcontainer').html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
+		$container.html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
+		jQuery('.vidlistoptbar').block({ message: null });
 		jQuery.ajax({
             url: paramUrl
         }).done(function (data) {
-			jQuery('#resultcontainer').hide().html(data).fadeIn().find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+			
+			$container.hide().html(data).find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+			var oPagination = $container.find('#videolistpage').html();
+			$container.find('#videolistpage').remove();
+			$container.fadeIn();
+			jQuery('.vidlistoptbar .vidlistpagination').html(oPagination);
 			jQuery(".loadingcontent").hide();
+			jQuery('.vidlistoptbar').unblock();
 			initVideoList();
+			
         });
 		
 	}
 	
 	function transformPageUrls(e){	
-			var oLimitStart = e.target.href.substring(e.target.href.indexOf("&limitstart=")+12,e.target.href.length);
+			var oLimitStart	= '';
+			var oHrefUrl	= e.target.href;
+			if(oHrefUrl.indexOf("&limitstart=")>0){
+				oLimitStart = oHrefUrl.substring(oHrefUrl.indexOf("&limitstart=")+12,e.target.href.length);
 				if(oLimitStart.indexOf('&')>0)
 					oLimitStart = oLimitStart.substring(0,oLimitStart.indexOf('&'));
 				oLimitStart +=  "&limitstart="+oLimitStart;
+				}
 			return oListUrl+oLimitStart;	
 			}
 		
 	
 	
+	function setPageActions(){
+		jQuery('span.pagination a.page').click(function(e){
+					$container.isotope( 'destroy' );
+					doLoadAjaxContent(transformPageUrls(e));
+					e.preventDefault();
+				});		
+		}
 	
 		
 	function initVideoList(){
-		
-      // add randomish size classes
       
-      
+      setPageActions();
       $container.isotope({
         itemSelector : '.resultelement',
         masonry : {
@@ -134,7 +147,7 @@ jQuery(document).ready(function() {
 		   jQuery('.searchResultInfo .extendedinfo').hide();
 		   switch(options.layoutMode){
 					case 'masonry':
-								oItems.css({'border-bottom':'1px dotted gray','margin':'12px 0px 0px 12px'});
+								oItems.css({'border-bottom':'1px dotted gray','margin':'12px 0px 0px 4px'});
 								oItems.find('.searchResultInfo').hide();
 								oItems.find('.thumbplay').css('margin','20px 0 0 28px');
 								break;
@@ -239,7 +252,7 @@ jQuery(document).ready(function() {
 					</form>
 				</div>
 			</div>
-			<div id="vidlistoptbar" class="clearfix mtop20">					
+			<div class="vidlistoptbar clearfix mtop20">					
 				<form class="fleft clearfix">
 					<div class="fleft">
 						<label for="sort_by" class="sort-control-label">Sort by:</label>
@@ -255,7 +268,7 @@ jQuery(document).ready(function() {
 					<input class="icon-search mleft30 fleft" type="text" placeholder="Search your videos..."/>-->
 					
 				</form>
-				<div class="w63 mtop2 fleft tcenter">{$pageNavigation}</div>
+				<div class="vidlistpagination w63 f100 mtop2 fleft tcenter"></div>
 				<div id="options" class="clearfix fright">    
 					<div class="btn-group" data-option-key="layoutMode">
 					  <a class="btn active" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>
@@ -269,8 +282,8 @@ jQuery(document).ready(function() {
 		<div id="resultcontainer">
 			<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 		</div>
-		<div id="vidlistoptbar" class="clearfix mtop20">
-			<div class="w100 fleft tcenter">{$pageNavigation}</div>
+		<div class="vidlistoptbar clearfix mtop20">
+			<div class="vidlistpagination w100 f100 fleft tcenter"></div>
 		</div>	
 	</div>
 	<div class="fleft w15">
