@@ -706,7 +706,7 @@ background-image: linear-gradient(to bottom,#fcfcfc 0,#f8f8f8 100%);
   width: 218px;
   height: 140px;
   border-bottom:1px dotted gray;
-  margin: 2px;
+  margin: 12px 0px 0px 12px;
   padding-top:4px;
   float: left;
   overflow: hidden;
@@ -716,6 +716,9 @@ background-image: linear-gradient(to bottom,#fcfcfc 0,#f8f8f8 100%);
 .resultelement * {
   margin: 0;
 }
+div.resultelement .thumbplay{margin:20px 0 0 28px;}
+div.resultelement:hover{background: #EFEFEF;}
+
 .resultelement img.bradius5 {
   width: 87px;
   -webkit-border-radius:0;

@@ -273,7 +273,7 @@ color:#000;
 	text-decoration:underline;
 }
 .thumbplay{width:29px;height:29px;background: url("../images/sprite.png") no-repeat scroll -131px 0 transparent; display:none; position:absolute; margin: 31px 0 0 35px;}
-ul li:hover .thumbplay{display:block;}
+ul li:hover .thumbplay, div.resultelement:hover .thumbplay{display:block;}
 .videotime{ background: none repeat scroll 0 0 #000000;
     color: #FFFFFF;
     float: right;
@@ -1339,6 +1339,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', end
 .mtop12{margin-top:12px;}
 .mtopl12{margin-top:-12px;}
 .mtop6{margin-top:6px;}
+.mtop2{margin-top:2px;}
 .mtop8{margin-top:8px;}
 .mtop24{margin-top:24px;}
 .mbot12{margin-bottom:12px !important;}

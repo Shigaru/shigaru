@@ -1311,9 +1311,9 @@ $app = & JFactory::getApplication();
     /**
      *
      */
-    function yourVideos($total,$otheruser='no',$paramuser_id = null)
+    function yourVideos($pageNav,$total,$otheruser='no',$paramuser_id = null)
     {
-		global $smartyvs, $Itemid,$hwdvsTemplateOverride;
+		global $smartyvs, $limitstart,$Itemid,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
 
 		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
@@ -1342,8 +1342,14 @@ $app = & JFactory::getApplication();
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
 		
+		$page = $total - $c->vpp;
+			$pageNavigation = null;
+			if ( $page > 0 ){
+				$pageNavigation.= $pageNav->getPagesLinks();
+			}
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
+		$smartyvs->assign("pageNavigation", $pageNavigation);
 		$smartyvs->assign("otheruser", $otheruser);
 		$smartyvs->assign("total", $total);
 		

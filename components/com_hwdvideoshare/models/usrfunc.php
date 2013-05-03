@@ -76,19 +76,21 @@ class hwd_vs_usrfunc
 					 );
   		$total = $db->loadResult();
 		echo $db->getErrorMsg();
-		
-		hwd_vs_html::yourVideos($total,$otheruser,$my->id);
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+		hwd_vs_html::yourVideos($pageNav, $total,$otheruser,$my->id);
 	}
    /**
     * List User Favourite Videos
     */
 	function yourFavourites()
 	{
-		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		global $mainframe,  $Itemid, $hwdvs_joinv, $hwdvs_selectv;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$my = & JFactory::getUser();
 		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		$limitstart = Jrequest::getInt( 'limitstart', '0' );
 		if (!$my->id && $otheruser=='no') {
 			$msg = _HWDVIDS_ALERT_LOG2CYF;
 			$mainframe->enqueueMessage($msg);

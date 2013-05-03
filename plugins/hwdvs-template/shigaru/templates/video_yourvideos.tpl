@@ -14,45 +14,14 @@
 jQuery(document).ready(function() {
 	var isHorizontal = false;
 	var $container = jQuery('#resultcontainer');
-		var oListUrl = "index.php?option=com_hwdvideoshare&lang=en&task=ajax_myvideos&format=raw";
-        jQuery.ajax({
-            url: oListUrl
-        }).done(function (data) {
-			jQuery('#resultcontainer').hide().html(data).fadeIn().find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
-			jQuery(".loadingcontent").hide();
-			initVideoList();
-        })
+	var oListUrl = "index.php?option=com_hwdvideoshare&lang=en&task=ajax_myvideos&format=raw";
+    jQuery('span.pagination a.page').click(function(e){
+					$container.isotope( 'destroy' );
+					doLoadAjaxContent(transformPageUrls(e));
+					e.preventDefault();
+				});
 	
-	function initVideoList(){
-		
-      // add randomish size classes
-      $container.find('.resultelement').each(function(){
-        var $this = jQuery(this),
-            number = parseInt( $this.find('.number').text(), 10 );
-        if ( number % 7 % 2 === 1 ) {
-          $this.addClass('width2');
-        }
-        if ( number % 3 === 0 ) {
-          $this.addClass('height2');
-        }
-      });
-      
-      $container.isotope({
-        itemSelector : '.resultelement',
-        masonry : {
-          columnWidth : 238
-        },
-        masonryHorizontal : {
-          rowHeight: 160
-        },
-        cellsByRow : {
-          columnWidth : 330,
-          rowHeight: 215
-        }
-      });
-      
-      
-      // change layout
+	// change layout
       
       var $optionSets = jQuery('#options .btn-group'),
           $optionLinks = $optionSets.find('a');
@@ -87,9 +56,55 @@ jQuery(document).ready(function() {
         }
         
         return false;
-      });
+      });			    
+	doLoadAjaxContent(oListUrl);
+	
+	function doLoadAjaxContent(paramUrl){
+		jQuery('#resultcontainer').html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
+		jQuery.ajax({
+            url: paramUrl
+        }).done(function (data) {
+			jQuery('#resultcontainer').hide().html(data).fadeIn().find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+			jQuery(".loadingcontent").hide();
+			initVideoList();
+        });
 		
 	}
+	
+	function transformPageUrls(e){	
+			var oLimitStart = e.target.href.substring(e.target.href.indexOf("&limitstart=")+12,e.target.href.length);
+				if(oLimitStart.indexOf('&')>0)
+					oLimitStart = oLimitStart.substring(0,oLimitStart.indexOf('&'));
+				oLimitStart +=  "&limitstart="+oLimitStart;
+			return oListUrl+oLimitStart;	
+			}
+		
+	
+	
+	
+		
+	function initVideoList(){
+		
+      // add randomish size classes
+      
+      
+      $container.isotope({
+        itemSelector : '.resultelement',
+        masonry : {
+          columnWidth : 238
+        },
+        masonryHorizontal : {
+          rowHeight: 160
+        },
+        cellsByRow : {
+          columnWidth : 330,
+          rowHeight: 215
+        }
+      });
+	}
+	
+	
+		
 	
 	
       function changeLayoutMode( $link, options ) {
@@ -113,17 +128,18 @@ jQuery(document).ready(function() {
 		   var oItems = jQuery('#resultcontainer .resultelement');	
 		   oItems.find('.twolinestitle').show();
 		   oItems.find('.longtitle').hide();
-		   oItems.find('.searchResultInfo').hide().css({'margin-top':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
+		   oItems.find('.searchResultInfo').hide().css({'margin':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
 		   oItems.css({'width': "218px",'height':'140px',fontSize:'100%','padding':'4px 0 0 0','border':'none',margin:0});
 		   oItems.find('img.bradius5').css({width: "87px"}).prev().css('width','87px');;
 		   jQuery('.searchResultInfo .extendedinfo').hide();
 		   switch(options.layoutMode){
 					case 'masonry':
-								oItems.css('border-bottom','1px dotted gray');
+								oItems.css({'border-bottom':'1px dotted gray','margin':'12px 0px 0px 12px'});
 								oItems.find('.searchResultInfo').hide();
+								oItems.find('.thumbplay').css('margin','20px 0 0 28px');
 								break;
 					case 'cellsByRow':
-								oItems.css('border-bottom','none').animate({ 
+								oItems.css('border-bottom','1px dotted gray').animate({ 
 									width: "300px",
 									height: "210px",
 									fontSize:'100%',
@@ -133,7 +149,8 @@ jQuery(document).ready(function() {
 								  oItems.find('img.bradius5').animate({ 
 									width: "120px"
 								  }).prev().css('width','120px').parent().next().css('margin-top','-20px');
-								  jQuery('.searchResultInfo').css({'margin':'3px 0 0 0','border-bottom':'1px dotted gray', 'padding-bottom':'3px', 'padding-top':'0'}).show();
+								  oItems.find('.thumbplay').css('margin','31px 0 0 48px');
+								  jQuery('.searchResultInfo').css({'border-bottom':'none','margin':'3px 0 0 0', 'padding-bottom':'3px', 'padding-top':'0'}).show();
 								break;				
 					case 'straightDown':
 								oItems.css({'border-bottom':'1px dotted gray', 'padding':'4px 2px 2px 0'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
@@ -143,12 +160,13 @@ jQuery(document).ready(function() {
 									fontSize:'110%'
 								  });
 								  oItems.find('img.bradius5').animate({ 
-									width: "116px"
-								  }).prev().css('width','116px').parent().next().css('margin-top','-20px');
+									width: "114px"
+								  }).prev().css('width','114px').parent().next().css('margin-top','-20px');
 								  jQuery('.searchResultInfo .extendedinfo').fadeIn();
 								  jQuery('.searchResultInfo').css({'border-left':'1px dotted gray','border-bottom':'none','padding-left':'12px'}).show().parent().css('width','60%').prev().css('width','40%');
 								  oItems.find('.twolinestitle').hide();
 								  oItems.find('.longtitle').show();
+								  oItems.find('.thumbplay').css('margin','31px 0 0 45px');
 								break;			
 					  }
           $container.isotope( options, function(){
@@ -226,9 +244,9 @@ jQuery(document).ready(function() {
 					<div class="fleft">
 						<label for="sort_by" class="sort-control-label">Sort by:</label>
 						<select class="sort_select" id="sort_by" name="sort_by"><option value="sortable_at" selected="selected">Date</option>
-							<option value="username">Author</option>
+							<option value="username">Rating</option>
 							<option value="category">Category</option>
-							<option value="average_rating">Rating</option>
+							<option value="average_rating">Liked</option>
 							<option value="sales_count">Sales</option>
 							<option value="cost">Price</option>
 						</select>
@@ -237,6 +255,7 @@ jQuery(document).ready(function() {
 					<input class="icon-search mleft30 fleft" type="text" placeholder="Search your videos..."/>-->
 					
 				</form>
+				<div class="w63 mtop2 fleft tcenter">{$pageNavigation}</div>
 				<div id="options" class="clearfix fright">    
 					<div class="btn-group" data-option-key="layoutMode">
 					  <a class="btn active" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>
@@ -246,9 +265,13 @@ jQuery(document).ready(function() {
 				</div> <!-- #options -->
 		   </div>
 		</div>
+		
 		<div id="resultcontainer">
 			<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 		</div>
+		<div id="vidlistoptbar" class="clearfix mtop20">
+			<div class="w100 fleft tcenter">{$pageNavigation}</div>
+		</div>	
 	</div>
 	<div class="fleft w15">
 		

@@ -5505,41 +5505,22 @@ $app = & JFactory::getApplication();
 		$where .= ' AND video.user_id = '.$user_id;
 
 		
-		jimport('joomla.html.pagination');
-		$pageNav = new JPagination( $total, $limitstart, $limit );
 		$query = 'SELECT'.$hwdvs_selectv
                	. ' FROM #__hwdvidsvideos AS video'
 				. $hwdvs_joinv
 				. $where
 				. ' ORDER BY video.date_uploaded DESC'
 				;
-		$db->SetQuery($query, $pageNav->limitstart, $pageNav->limit);
+		$db->SetQuery($query, $limitstart, $limit );
 		$rows = $db->loadObjectList();
 		if (count($rows) > 0) {
 			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,'87');
-			$userdetails = hwd_vs_tools::getUserContextDetails($user_id);
-			
-			$page = count($rows) - $c->vpp;
-			$pageNavigation = null;
-			if ( $page > 0 ){
-				if ($j16)
-				{
-					$pageNavigation.= "<div class=\"pagination\">";
-				}
-				$pageNavigation.= $pageNav->getPagesLinks();
-				//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
-				if ($j16)
-				{
-					$pageNavigation.= "</div>";
-				}
-			}
-			
+			$userdetails = hwd_vs_tools::getUserContextDetails($user_id);			
 			foreach($list as $video){
 					$smartyvs->assign("data", $video);
 					$smartyvs->assign("userdetails", $userdetails);
 					$oResults .= $smartyvs->fetch('video_list_full.tpl');
 				}
-			$oResults .='<div align="center" class="mtop25">'.$pageNavigation.'</div>';	
 		}
 		return $oResults;
 	}
