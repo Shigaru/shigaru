@@ -117,8 +117,8 @@ jQuery.blockUI.defaults = {
 		padding:	'5px',
 		opacity:	0.6,
 		cursor: 	'default',
-		color:		'#fff',
-		backgroundColor: '#000',
+		color:		'#000',
+		backgroundColor: '#fff',
 		'-webkit-border-radius': '10px',
 		'-moz-border-radius':	 '10px',
 		'border-radius': 		 '10px'

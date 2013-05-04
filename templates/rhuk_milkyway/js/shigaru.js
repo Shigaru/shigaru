@@ -1,5 +1,8 @@
 var $jq = jQuery.noConflict();
 jQuery(document).ready(function($){
+	
+	jQuery.blockUI.defaults.css = {backgroundColor:'#fff'};
+	
 	/* Analytics bounce parameters */
 	setTimeout(function() {
 	  _gaq.push(['_trackEvent', 'NoBounce', 'NoBounce', 'Over 80 seconds']);	
