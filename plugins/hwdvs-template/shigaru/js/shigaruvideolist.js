@@ -62,6 +62,7 @@ jQuery(document).ready(function() {
 		
 	function initVideoList(){
       setPageActions();
+      resetLayoutParams(jQuery('#resultcontainer .resultelement'));
       prepareLayoutParameters($optionSets.find('.active').attr('data-option-value'));
       $container.isotope({
         itemSelector : '.resultelement',
