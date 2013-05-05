@@ -51,6 +51,7 @@ class hwd_vs_usrfunc
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
 		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		
 		$my = & JFactory::getUser();
 
 		
@@ -65,7 +66,7 @@ class hwd_vs_usrfunc
 			$user_id = $my->id;
 			else
 				$user_id = $otheruser;
-
+		
 		$where = ' WHERE video.approved = "yes"';
 		$where .= ' AND video.published = 1';
 		$where .= ' AND video.user_id = '.$user_id;
@@ -73,6 +74,7 @@ class hwd_vs_usrfunc
 		$db->SetQuery( 'SELECT count(*)'
 					 . ' FROM #__hwdvidsvideos AS video'
 					 . $where
+					 
 					 );
   		$total = $db->loadResult();
 		echo $db->getErrorMsg();

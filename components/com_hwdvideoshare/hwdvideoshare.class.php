@@ -5487,7 +5487,8 @@ $app = & JFactory::getApplication();
 		$limitstart = Jrequest::getInt( 'limitstart', '0' );
 		$my = & JFactory::getUser();
 		$oResults = '';
-		
+		$sort_by = Jrequest::getVar( 'sort_by', 'no' );
+		$orderVideos;
 		if (!$my->id && $otheruser=='no') {
 			$msg = _HWDVIDS_ALERT_LOG2CYV;
 			$mainframe->enqueueMessage($msg);
@@ -5508,12 +5509,40 @@ $app = & JFactory::getApplication();
 					 . $where
 					 );
   		$total = $db->loadResult();
+		if ($sort_by == 'category')
+				{
+					$orderVideos = " ORDER BY video.category_id DESC";
+				}
+				else if ($sort_by == 'date_uploaded')
+				{
+					$orderVideos = " ORDER BY video.date_uploaded DESC";
+				}
+				else if ($sort_by == 'updated_rating')
+				{
+					$orderVideos = " ORDER BY video.updated_rating DESC";
+				}
+				else if ($sort_by == 'number_of_views')
+				{
+					$orderVideos = " ORDER BY video.number_of_views DESC";
+				}
+				else if ($sort_by == 'level_id')
+				{
+					$orderVideos = " ORDER BY video.level_id DESC";
+				}
+				else if ($sort_by == 'number_of_comments')
+				{
+					$orderVideos = " ORDER BY video.number_of_comments DESC";
+				}
+				else
+				{
+					$orderVideos = " ORDER BY video.date_uploaded DESC";
+				}
 		
 		$query = 'SELECT'.$hwdvs_selectv
                	. ' FROM #__hwdvidsvideos AS video'
 				. $hwdvs_joinv
 				. $where
-				. ' ORDER BY video.date_uploaded DESC'
+				. $orderVideos
 				;
 		$db->SetQuery($query, $limitstart, $limit );
 		$rows = $db->loadObjectList();

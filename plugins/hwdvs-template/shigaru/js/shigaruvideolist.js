@@ -45,13 +45,12 @@ jQuery(document).ready(function() {
 					oLimitStart = oLimitStart.substring(0,oLimitStart.indexOf('&'));
 				oLimitStart +=  "&limitstart="+oLimitStart;
 				}
-			return oListUrl+oLimitStart;	
+			return oListUrl+oLimitStart+composeOrderUrl();	
 			}
 		
 	
-	function composeOrderUrl(e){
-		var oSort = '&sort='+jQuery('#sort_by').attr('id');
-		
+	function composeOrderUrl(){
+		var oSort = '&sort_by='+jQuery('#sort_by').val();
 		return oSort;
 	}
 	
@@ -73,16 +72,9 @@ jQuery(document).ready(function() {
       prepareLayoutParameters($optionSets.find('.active').attr('data-option-value'));
       $container.isotope({
         itemSelector : '.resultelement',
-        masonry : {
-					  columnWidth : 238
-					},
-		masonryHorizontal : {
-					  rowHeight: 160
-					},
-		cellsByRow : {
-					  columnWidth : 330,
-					  rowHeight: 215
-					},	
+        masonry : {columnWidth : 238},
+		masonryHorizontal : {rowHeight: 160},
+		cellsByRow : {columnWidth : 330, rowHeight: 215},	
 		layoutMode:$optionSets.find('.active').attr('data-option-value')
       },function(){
 		  jQuery('.videolistoptions .btn').click(function(e) {
@@ -180,7 +172,12 @@ jQuery(document).ready(function() {
 				return false;
 			});
 			
-			
+			jQuery('#sort_by').change(function(e){
+					$container.isotope( 'destroy' );
+					doLoadAjaxContent(oListUrl+composeOrderUrl(e));
+					e.preventDefault();
+					return false;
+			});
 		  
 		  }
 		  

@@ -1,12 +1,13 @@
 <form class="fleft clearfix">
 	<div class="fleft">
 		<label for="sort_by" class="sort-control-label">Sort by:</label>
-		<select class="sort_select" id="sort_by" name="sort_by"><option value="sortable_at" selected="selected">Date</option>
-			<option value="username">Rating</option>
+		<select class="sort_select" id="sort_by" name="sort_by">
+			<option value="date_uploaded" selected="selected">Date</option>
+			<option value="number_of_views">Views</option>
 			<option value="category">Category</option>
-			<option value="average_rating">Liked</option>
-			<option value="sales_count">Sales</option>
-			<option value="cost">Price</option>
+			<option value="updated_rating">Rating</option>
+			<option value="level_id">Level</option>
+			<option value="number_of_comments">Comments</option>
 		</select>
 	</div>	
 	<!--<a href="#" class="fleft fontred pad6"><i class="icon-arrow-up icon-large fontblack"></i></a>
