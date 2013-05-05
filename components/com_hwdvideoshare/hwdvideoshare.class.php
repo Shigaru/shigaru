@@ -4373,7 +4373,7 @@ $app = & JFactory::getApplication();
 		$code.="<input type=\"hidden\" name=\"url\" value=\"".$url."\" />";
 		$code.="<button type=\"submit\" class=\"btn\" value=\"Delete\" alt=\""._HWDVIDS_DETAILS_DELETEVID."\" onClick=\"return confirmDelete()\" ><span class=\"icon-trash\"></span>"._HWDVIDS_DETAILS_DELETEALL."</button>";
 		$code.="</form>";
-		$code.="<a href=\"#\" title=\""._HWDVIDS_DETAILS_DELETEVID."\"><span class=\"icon-trash\"></span> "._HWDVIDS_DETAILS_DELETEALL."</a>";
+		$code.="<a href=\"#\" class=\"deletevideobutton\" title=\""._HWDVIDS_DETAILS_DELETEVID."\"><span class=\"icon-trash\"></span> "._HWDVIDS_DETAILS_DELETEALL."</a>";
 		return $code;
     }
     /**
@@ -4677,7 +4677,7 @@ $app = & JFactory::getApplication();
 		$code.="<input type=\"hidden\" name=\"url\" value=\"".$url."\" />";
 		$code.="<button type=\"submit\" value=\"Edit\" alt=\""._HWDVIDS_DETAILS_EDITVID."\" class=\"btn\"><span class=\"icon-pencil\"></span>"._HWDVIDS_DETAILS_EDITALL."</button>";
 		$code.="</form>";
-		$code.="<a href=\"#\" title=\""._HWDVIDS_DETAILS_EDITVID."\"><span class=\"icon-pencil\"></span> "._HWDVIDS_DETAILS_EDITALL."</a>";
+		$code.="<a href=\"#\" class=\"editvideobutton\" title=\""._HWDVIDS_DETAILS_EDITVID."\"><span class=\"icon-pencil\"></span> "._HWDVIDS_DETAILS_EDITALL."</a>";
 
 		return $code;
     }

@@ -88,6 +88,36 @@ jQuery(document).ready(function() {
 				if(jQuery('.videolistoptions .btn').hasClass('active'))jQuery('.videolistoptions .btn').removeClass('active');
 			});
 		  });
+		  
+		  jQuery(".dropdown-menu .editvideobutton").click(function (e) {
+				e.preventDefault();
+				jQuery(this).prev().submit();
+			});
+			
+			jQuery(".dropdown-menu .deletevideobutton").click(function (e) {
+				e.preventDefault();
+				var oDeleteEvent = e;
+				jQuery.blockUI({
+					message: 	'<p class="shigarunotice"><span id="close"></span>'+
+									jQuery('#deletevideomessage').html()+	
+								'</p>',
+					css: {
+						top: (jQuery(window).height() - 200) / 2 + "px",
+						left: (jQuery(window).width() - 400) / 2 + "px",
+						height: "200px",
+						width: "400px",
+						"overflow-y:": "auto"
+					}
+				});
+				jQuery(".shigarunotice #close,.blockUI .cancel").click(function (e) {
+					e.preventDefault();
+					jQuery.unblockUI();
+				});
+				jQuery(".blockUI .btn-danger").click(function (e) {
+					e.preventDefault();
+					jQuery(oDeleteEvent.target).prev().submit();
+				});
+			});
 	}
 	
 	function resetLayoutParams(paramItems){

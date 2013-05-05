@@ -42,6 +42,8 @@ jQuery(document).ready(function($){
 			jQuery.unblockUI();
 			jQuery(this).parent().fadeOut();
 		});
+	
+	
 		
 	jQuery('#grettings').click(function(e) {
 		var $this = jQuery(this);

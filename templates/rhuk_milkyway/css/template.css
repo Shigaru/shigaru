@@ -1319,6 +1319,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', end
 .tshadowwhite{text-shadow: 1px 1px #fff;}
 .fontred {color: red;}
 .fontblue {color: blue;}
+.fontyellow {color:rgb(254,191,1);}
 .fontgreen {color: #1FBC74 !important;}
 .fontblack {color: #000;}
 .fontwhite {color: #fff !important;}
