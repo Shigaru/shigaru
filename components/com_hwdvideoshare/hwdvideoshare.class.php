@@ -4367,15 +4367,13 @@ $app = & JFactory::getApplication();
 				return $code;
 			}
 		}
-
-		hwd_vs_javascript::confirmDelete();
-
-		$code.="<form name=\"deletevideo\" style=\"display: inline;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=deletevideo&video_id=".$row->id)."\" method=\"post\">";
+		
+		$code.="<form name=\"deletevideo\" style=\"display: none;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=deletevideo&video_id=".$row->id)."\" method=\"post\">";
 		$code.="<input type=\"hidden\" name=\"videoid\" value=\"".$row->id."\" />";
 		$code.="<input type=\"hidden\" name=\"url\" value=\"".$url."\" />";
 		$code.="<button type=\"submit\" class=\"btn\" value=\"Delete\" alt=\""._HWDVIDS_DETAILS_DELETEVID."\" onClick=\"return confirmDelete()\" ><span class=\"icon-trash\"></span>"._HWDVIDS_DETAILS_DELETEALL."</button>";
 		$code.="</form>";
-
+		$code.="<a href=\"#\" title=\""._HWDVIDS_DETAILS_DELETEVID."\"><span class=\"icon-trash\"></span> "._HWDVIDS_DETAILS_DELETEALL."</a>";
 		return $code;
     }
     /**
@@ -4673,12 +4671,13 @@ $app = & JFactory::getApplication();
 			}
 		}
 
-		$code.="<form name=\"editvideo\" style=\"display: inline;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=editvideo")."\" method=\"post\">";
+		$code.="<form name=\"editvideo\" style=\"display: none;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=editvideo")."\" method=\"post\">";
 		$code.="<input type=\"hidden\" name=\"user_id\" value=\"".$my->id."\" />";
 		$code.="<input type=\"hidden\" name=\"video_id\" value=\"".$row->id."\" />";
 		$code.="<input type=\"hidden\" name=\"url\" value=\"".$url."\" />";
 		$code.="<button type=\"submit\" value=\"Edit\" alt=\""._HWDVIDS_DETAILS_EDITVID."\" class=\"btn\"><span class=\"icon-pencil\"></span>"._HWDVIDS_DETAILS_EDITALL."</button>";
 		$code.="</form>";
+		$code.="<a href=\"#\" title=\""._HWDVIDS_DETAILS_EDITVID."\"><span class=\"icon-pencil\"></span> "._HWDVIDS_DETAILS_EDITALL."</a>";
 
 		return $code;
     }

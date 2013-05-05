@@ -10,51 +10,22 @@
 <script type="text/javascript" src="{$baseurl}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
 <script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
 {include file='header.tpl'}
-{if $otheruser eq 'no'}
-{/if}
+
 <div class="clearfix mtop12 f80">
-	<div class="well fleft w15">
-		<ul class="nav nav-list mtop12">
-		  <li><a href="#">What to Watch</a></li>	
-
-		  <li><a href="#">Watch History</a></li>	
-
-		  <li><a href="#">Search History</a></li>	
-
-		  <li><a href="#">What is Hot!</a></li>	
-
-		  <li><a href="#">My Subscriptions</a></li>	
-
-		  <li><a href="#">My Alerts </a><span class="mleft6"><i class="icon-bell"></i> <span class="fontred">(0) New</span></span></li>	
-
-		  <li>
-			<a href="#">My Videos</a>
-			<ul class="mtop6">
-				<li class="active"><a href="#">Videos I Created</a></li>
-				<li><a href="#">Videos I Shared</a></li>
-				<li class="divider"></li>
-				<li><a href="#">My Playlists</a></li>
-				<li><a href="#">My 'Learn Later'</a></li>
-				<li><a href="#">My Favourites</a></li>
-				<li><a href="#">Videos I Like</a></li>
-			</ul>
-		  </li>
-
-		  <li><a href="#">Comments</a></li>
-
-		  <li><a href="#">Status Updates</a></li>
-
-		  <li><a href="#">My Shigaru Friends</a></li>
-		</ul>
-	</div>   
+	{include file='video_list_sidemenu.tpl'}   
 	<div id="videosmaincontent" class="fleft clearfix pad12">
 		<div class="clearfix">
 			<div class="clearfix">
 				<div class="fleft f15em fontbold">
-					<h3>{$smarty.const._HWDVIDS_TITLE_YOURVIDS}</h3>
+					<h3>
+						{if $otheruser eq 'no'}
+							{$smarty.const._HWDVIDS_TITLE_VIDCREATBY} {$otheruser}
+						{else}
+							<span class="fontnormal">{$smarty.const._HWDVIDS_TITLE_MYVIDS}</span> - {$smarty.const._HWDVIDS_TITLE_YOURVIDS}
+						{/if}</h3>
 				</div>
 				<div class="fright">
-					<form class="">
+					<!--<form class="">
 						<label for="quick_links" class="sort-control-label">Quick Links:</label>
 						<select class="quick_links" id="quick_links" name="quick_links">
 							<option value="sortable_at" selected="selected">Share a video</option>
@@ -64,33 +35,11 @@
 							<option value="sales_count">Sales</option>
 							<option value="cost">Price</option>
 						</select>
-					</form>
+					</form>-->
 				</div>
 			</div>
 			<div class="vidlistoptbar clearfix mtop20">					
-				<form class="fleft clearfix">
-					<div class="fleft">
-						<label for="sort_by" class="sort-control-label">Sort by:</label>
-						<select class="sort_select" id="sort_by" name="sort_by"><option value="sortable_at" selected="selected">Date</option>
-							<option value="username">Rating</option>
-							<option value="category">Category</option>
-							<option value="average_rating">Liked</option>
-							<option value="sales_count">Sales</option>
-							<option value="cost">Price</option>
-						</select>
-					</div>	
-					<!--<a href="#" class="fleft fontred pad6"><i class="icon-arrow-up icon-large fontblack"></i></a>
-					<input class="icon-search mleft30 fleft" type="text" placeholder="Search your videos..."/>-->
-					
-				</form>
-				<div class="vidlistpagination w63 f100 mtop2 fleft tcenter"></div>
-				<div id="options" class="clearfix fright">    
-					<div class="btn-group" data-option-key="layoutMode">
-					  <a class="btn active" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>
-					  <a class="btn" href="#cellsByRow" data-option-value="cellsByRow"><i class="icon-th-large"></i></a>
-					  <a class="btn" href="#straightDown" data-option-value="straightDown"><i class="icon-th-list"></i></a>
-					</div>
-				</div> <!-- #options -->
+				{include file='video_list_optionsbar.tpl'}   
 		   </div>
 		</div>
 		

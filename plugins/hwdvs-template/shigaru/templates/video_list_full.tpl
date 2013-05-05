@@ -7,6 +7,14 @@
 //////
 *}
 <div class="resultelement other clearfix" data-symbol="H" data-category="other">
+		<div class="videolistoptions">
+			<a class="btn btn-small" href="#"><i class="icon-cog"></i></a>
+			<ul class="dropdown-menu">
+				<li>{$data->editvideo}</li>
+				<li>{$data->deletevideo}</li>
+				<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox"><span class="icon-envelope"></span>Inbox</a></li>
+			</ul>
+		</div>
 		<div class="clearfix">
 				<div class="fleft">
 					<div class="clearfix">	

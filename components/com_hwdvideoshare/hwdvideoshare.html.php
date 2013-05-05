@@ -1342,7 +1342,6 @@ $app = & JFactory::getApplication();
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
 		
-		
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("otheruser", $otheruser);
