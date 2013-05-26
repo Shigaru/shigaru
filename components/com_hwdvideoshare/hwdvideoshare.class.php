@@ -5395,6 +5395,8 @@ $app = & JFactory::getApplication();
 		$smartyvs->assign("totalfriends", $cbCon->getConnectionsCount( $user_id));
 		$smartyvs->assign("username", $cbUser->getField( 'username', null, 'csv'));
 		$smartyvs->assign("avatar", "images/comprofiler/".$cbUser->_cbuser->avatar);
+		$smartyvs->assign("signeup", date("d-m-Y", strtotime($cbUser->_cbuser->registerDate)));
+		$smartyvs->assign("lastvisit", date("d-m-Y", strtotime($cbUser->_cbuser->lastvisitDate)));
 		$smartyvs->assign("socialpages", $return);
 		//echo '<pre>';var_dump($cbUser);echo '</pre>';
 		$oResults .= $smartyvs->fetch('video_list_profileheader.tpl');
