@@ -38,13 +38,7 @@ jQuery(document).ready(function($){
 			jQuery(this).parent().parent().fadeOut();
 		});
 	
-	jQuery('.shigaruinfo a.close').click(function(){
-			jQuery.unblockUI();
-			jQuery(this).parent().fadeOut();
-		});
 	
-	
-		
 	jQuery('#grettings').click(function(e) {
 		var $this = jQuery(this);
 		$this.toggleClass("userzoneopen");

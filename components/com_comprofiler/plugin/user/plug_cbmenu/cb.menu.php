@@ -12,8 +12,14 @@
 /** ensure this file is being included by a parent file */
 if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' ) ) ) { die( 'Direct Access to this location is not allowed.' ); }
 
+if($_PLUGINS){
 $_PLUGINS->registerFunction( 'onPrepareMenus', 'prepareMenu','getMenuTab' );
 $_PLUGINS->registerFunction( 'onPrepareMenus', 'prepareStatus','getStatusTab' );
+}
+
+if(!class_exists('cbTabHandler')){
+	cbimport( 'cb.tabs' ); 
+	}
 
 
 /***** Generic Menu API: ******/
@@ -901,22 +907,7 @@ class getMenuTab  extends cbTabHandler {
 		$this->cbUserIsModerator	=	isModerator( $user->id );
 		$this->cbMyIsModerator		=	isModerator( $_CB_framework->myId() );
 		$params						=	$this->params;
-		switch ($params->get('menuFormat', 'menuBar')) {
-			case "menuList":
-			case "no":
-				$this->menuBar = new cbMenuList(1);
-				break;
-			case "menuUL":
-				$this->menuBar = new cbMenuUL(1);
-				break;
-			case "menuDivs":
-				$this->menuBar = new cbMenuDivs(1);
-				break;
-			case "menuBar":
-			default:
-				$this->menuBar = new cbMenuBar(1);
-				break;
-		}
+		$this->menuBar = new cbMenuUL(1);
 		$this->menuBar->outputScripts(1);
 	}
 	/**
@@ -1284,7 +1275,6 @@ class getMenuTab  extends cbTabHandler {
 		if ( ! $this->menuBar ) {		// in case menu is called before onBeforeUserProfileDisplay
 			$this->prepareMenu( $user, $ui, isModerator( $user->id ), isModerator( $_CB_framework->myId() ) );
 		}
-
 		// add plugins' menus:
 		$pm = $_PLUGINS->getMenus();
 		for ($i=0, $pmc=count($pm); $i<$pmc; $i++) {
@@ -1300,20 +1290,8 @@ class getMenuTab  extends cbTabHandler {
 			}
 		}
 		// display Menu:
-		switch ($params->get('menuFormat', 'menuBar')) {
-			case "no":
 				$return = "";
 				
-				$return .= $this->_writeTabDescription( $tab, $user, 'cbUserMenuDescription' );
-
-				break;
-			case "menuUL":
-				$return = "";
-				
-				$return .= $this->_writeTabDescription( $tab, $user, 'cbUserMenuDescription' );
-
-				// $mi = array(); $mi["SEPAR"]["SEPAR"]=null;
-				// $this->menuBar->addSeparator($mi);
 				$idCounter						=	$_CB_OneTwoRowsStyleToggle;
 				$tableContent					=	$this->menuBar->displayMenu($idCounter);
 				$inbox =''; 
@@ -1357,30 +1335,7 @@ class getMenuTab  extends cbTabHandler {
 														<div class="clear">
 														</div>';
 				}
-				break;
-			case "menuList":
-			case "menuDivs":
-				$return = "";
 				
-				$return .= $this->_writeTabDescription( $tab, $user, 'cbUserMenuDescription' );
-
-				// $mi = array(); $mi["SEPAR"]["SEPAR"]=null;
-				// $this->menuBar->addSeparator($mi);
-				$idCounter						=	$_CB_OneTwoRowsStyleToggle;
-				$tableContent					=	$this->menuBar->displayMenu($idCounter);
-				if ( $tableContent != '' ) {
-					$_CB_OneTwoRowsStyleToggle	=	($idCounter&1 ? 2 : 1);
-					$return						.=	'<table class="cbStatusList">' . $tableContent . '</table>';			//TBD in CB 1.3 : rename to cbMenuList for consistency
-				}
-				break;
-			case "menuBar":
-			default:
-				$idCounter = 1;
-				$return = $this->menuBar->displayMenu($idCounter);
-				
-				$return .= $this->_writeTabDescription( $tab, $user , 'cbUserMenuDescription' );
-				break;
-		}
 		return $return;
 	}
 }	// end class getMenuTab

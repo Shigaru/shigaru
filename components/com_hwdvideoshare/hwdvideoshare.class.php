@@ -5305,6 +5305,34 @@ $app = & JFactory::getApplication();
 		$grows = $db->loadObjectList();
 		return $grows[0]->genre;
 	}
+	
+	function getUserIsFirstVisit($user){
+		$oFirstVisit = false;
+		if ($user->get('guest') != 1 && $user->lastvisitDate == "0000-00-00 00:00:00")
+		  {
+			 $oFirstVisit =true;;
+		  }	
+		 return $oFirstVisit; 
+		}
+	
+	/**
+     * Generates multilanguage text for Video Genre
+     *
+     * @return       $genre
+     */
+    
+    function getNumVideosSinceLastVisit($user_id){
+		$user =& JFactory::getUser( $user_id );
+		$db = & JFactory::getDBO();
+		
+		$db->SetQuery( 'SELECT count(*)'
+								. ' FROM #__hwdvidsvideos'
+								. ' WHERE date_uploaded > "'.$user->lastvisitDate.'"'
+								);
+		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		return $total;
+	}
 		
     /**
      * Generates multilanguage text for Video Genre
@@ -5325,7 +5353,135 @@ $app = & JFactory::getApplication();
 		echo $db->getErrorMsg();
 		$rows = $db->loadObject();
 		return $rows;
+	}
+	
+	/**
+     * Generates multilanguage text for Video Genre
+     *
+     * @return       $genre
+     */
+    
+    function getUserExtendedDetails($user_id){
+		global $_CB_framework, $ueConfig, $mainframe, $smartyvs;
+		$oResults = '';
+		$db = & JFactory::getDBO();
+		include_once( $mainframe->getCfg( 'absolute_path' ) . '/administrator/components/com_comprofiler/plugin.foundation.php' );
+		include_once( $mainframe->getCfg( 'absolute_path' ) . '/components/com_comprofiler/plugin/user/plug_cbmenu/cb.menu.php' );
+		cbimport( 'cb.html' );
+		
+		
+		$sql = "SELECT id,mind FROM #__onyourmind WHERE userid = $user_id ORDER BY date DESC";
+		$db->setQuery($sql);
+		$datm = $db->loadObjectList();
+		$mind = '';
+		isset($datm[0]) ? $mind = $datm[0]->mind : $mind = '';
+		
+		$cbUser =& CBuser::getInstance( $user_id);
+		$cbCon	=	new cbConnection($user_id);
+		$cbMenu = 	new getMenuTab();
+		$profileURL = cbSef("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=".$user_id);
+		$profileURLText = str_replace("http://", "", $profileURL);
+		//var_dump($cbMenu->getDisplayTab(null,$cbUser, 1));
+		$return = hwd_vs_tools::getSocialIconsMenu($cbUser);
+		$cbcountry = $cbUser->getField( 'cb_country' , null, 'csv', 'div', 'profile' );
+		$smartyvs->assign("cb_country", constant($cbcountry));
+		$smartyvs->assign("cb_countryflag", $cbcountry);
+		$smartyvs->assign("mind", $mind);
+		$smartyvs->assign("profileURL", $profileURL);
+		$smartyvs->assign("profileURLText", $profileURLText);
+		$smartyvs->assign("hits", $cbUser->getField( 'hits', null, 'csv'));
+		$smartyvs->assign("totalvideos", hwd_vs_tools::getUserVideoCount($user_id));
+		$smartyvs->assign("totalvideossincelastvisit", hwd_vs_tools::getNumVideosSinceLastVisit($user_id));
+		$smartyvs->assign("totalfriends", $cbCon->getConnectionsCount( $user_id));
+		$smartyvs->assign("username", $cbUser->getField( 'username', null, 'csv'));
+		$smartyvs->assign("avatar", "images/comprofiler/".$cbUser->_cbuser->avatar);
+		$smartyvs->assign("socialpages", $return);
+		//echo '<pre>';var_dump($cbUser);echo '</pre>';
+		$oResults .= $smartyvs->fetch('video_list_profileheader.tpl');
+		return $oResults;
 	}	
+	
+	function getSocialIconsMenu($cbUser){
+		global $_CB_framework, $ueConfig;
+		$oUserName = $cbUser->getField( 'username', null, 'csv');
+		$livesite = JURI::base();
+		$myspacepage =  $cbUser->getField( 'cb_myspacepageURL', null, 'csv');
+		$ocode ='';
+		$return ='';
+		if($myspacepage  !=''){
+		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' '.$oUserName.' '._UE_ON.' myspace" href="http://home.myspace.com/'.$myspacepage.'" target="_blank">
+						<i class="icon-pinterest-sign icon-2x"></i></a>';
+		}else{
+			$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' '.$oUserName.' '._UE_ON.' myspace" href="http://home.myspace.com/'.$myspacepage.'" target="_blank">
+						<i class="icon-pinterest-sign fontgrey icon-2x"></i></a>';
+			} 
+		$twitterpage = $cbUser->getField( 'cb_twitterpageURL', null, 'csv');
+		if($twitterpage  !=''){
+		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' twitter" href="http://twitter.com/'.$twitterpage.'" target="_blank">
+					<i class="icon-twitter-sign icon-2x"></i></a>';	
+		}else{
+			$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' twitter" href="http://twitter.com/'.$twitterpage.'" target="_blank">
+					<i class="icon-twitter-sign fontgrey icon-2x"></i></a>';
+			}
+		$facebook = $cbUser->getField( 'cb_facebookURL', null, 'csv');
+		if($facebook  !=''){
+		$ocode .= '<a  class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' facebook" target="_blank" href="http://www.facebook.com/'.$facebook.'">
+			<i class="icon-facebook-sign icon-2x"></i></a>';			
+		}else{
+			$ocode .= '<a  class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' facebook" target="_blank" href="http://www.facebook.com/'.$facebook.'">
+			<i class="icon-facebook-sign fontgrey icon-2x"></i></a>';	
+			}	
+		$linkedin = $cbUser->getField( 'cb_linkedinURL', null, 'csv');
+		if($linkedin  !=''){
+		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' linkedin" target="_blank" href="http://www.linkedin.com/in/'.$linkedin.'">
+		<i class="icon-linkedin-sign icon-2x"></i></a>';			
+		}else{
+			$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' linkedin" target="_blank" href="http://www.linkedin.com/in/'.$linkedin.'">
+		<i class="icon-linkedin-sign fontgrey icon-2x"></i></a>';
+			}
+			
+		$google = $cbUser->getField( 'cb_googleURL', null, 'csv');
+		if($google  !=''){
+		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' google" target="_blank" href="http://google.com/'.$google.'">
+			<i class="icon-google-plus-sign icon-2x"></i></a>';			
+		}else{
+			$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' google" target="_blank" href="http://google.com/'.$google.'">
+			<i class="icon-google-plus-sign fontgrey icon-2x"></i></a>';	
+			}	
+		$youtube = $cbUser->getField( 'cb_youtubeURL', null, 'csv');
+		if($youtube  !=''){
+		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' youtube" target="_blank" href="http://youtube.com/'.$youtube.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/youtube.png" alt="YouTube">&nbsp;&nbsp;</a>';			
+		}	
+		$flickr = $cbUser->getField( 'cb_flickrURL', null, 'csv');
+		if($flickr  !=''){
+		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' flickr" target="_blank" href="http://flickr.com/'.$flickr.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/flickr.png" alt="flickr">&nbsp;&nbsp;</a>';			
+		}	
+		$blogger = $cbUser->getField( 'cb_bloggerURL', null, 'csv');
+		if($blogger  !=''){
+		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' blogger" target="_blank" href="http://blogger.com/profile/'.$blogger.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/blogger.png" alt="blogger">&nbsp;&nbsp;</a>';			
+		}	
+		$wordpress = $cbUser->getField( 'cb_wordpressURL', null, 'csv');
+		if($wordpress  !=''){
+		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' wordpress" target="_blank" href="http://'.$wordpress.'.wordpress.com/"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/wordpress.png" alt="wordpress"></a>';			
+		}	
+		$return .= '<div align="center">';
+		$return .= $ocode;
+		$return .= '</div>';
+		return $return;		
+		}
+	
+   function getUserVideoCount($user_id){
+	   $db = & JFactory::getDBO();
+	   $total = 0;
+	   // get video count
+        $db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video WHERE user_id='.$user_id
+					 );
+        $total = $db->loadResult();
+        echo $db->getErrorMsg();
+        return $total;
+	   }
+    
     
     
     /**

@@ -18,11 +18,14 @@
 		</div>	
 		<p class="mtop24 f80">{$smarty.const._HWDVIDS_TITLE_CONFIRMDELETEEXPLAIN}</p>
 		<div class="mtop24">
-			<a class="cancel btn" href="#"><i class="icon-repeat"></i> {$smarty.const._HWDVIDS_BUTTON_CANX}</a>
+			<a class="cancel btn" href="#"> {$smarty.const._HWDVIDS_BUTTON_CANX}</a>
 			<a class="btn btn-danger" href="#"><i class="icon-trash icon-large"></i> Delete</a>
 		</div>
 	</div>	
 </div>
+<div id="usersection" class="cbProfile mtop12 mbot12">
+<div class="f90 loadingcontent" style="line-height:150px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
+</div>	
 <div class="clearfix mtop12 f80">
 	{include file='video_list_sidemenu.tpl'}   
 	<div id="videosmaincontent" class="fleft clearfix pad12">
@@ -55,7 +58,7 @@
 		   </div>
 		</div>
 		
-		<div id="resultcontainer">
+		<div id="resultcontainer" class="mtop20">
 			<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 		</div>
 		<div class="vidlistoptbar clearfix mtop20">
@@ -81,7 +84,8 @@
 			</script>
 		</div> 
 	</div> 
-</div>	
+</div>
+<input type="hidden" id="user_id" name="user_id" value="{$user_id}" />	
 
 
 

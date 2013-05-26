@@ -1311,7 +1311,7 @@ $app = & JFactory::getApplication();
     /**
      *
      */
-    function yourVideos($total,$otheruser='no')
+    function yourVideos($total,$otheruser='no',$user_id)
     {
 		global $smartyvs, $limitstart,$Itemid,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
@@ -1345,6 +1345,7 @@ $app = & JFactory::getApplication();
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("otheruser", $otheruser);
+		$smartyvs->assign("user_id", $user_id);
 		
 		$smartyvs->display('video_yourvideos.tpl');
 		return;

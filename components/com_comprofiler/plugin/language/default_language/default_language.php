@@ -670,7 +670,7 @@ DEFINE('_UE_USER_NOT_CONFIRMED','This user has not yet confirmed his email addre
 //Connections
 DEFINE('_UE_ADDCONNECTION','Add Connection');
 DEFINE('_UE_REMOVECONNECTION','Remove from friends');
-DEFINE('_UE_CONNECTION','Connections');
+DEFINE('_UE_CONNECTION','Friends');
 DEFINE('_UE_CONNECTIONACCEPTSUCCESSFULL','Connection Successfully Accepted!');
 DEFINE('_UE_CONNECTIONREMOVESUCCESSFULL','Connection Successfully Removed!');
 DEFINE('_UE_CONNECTIONADDSUCCESSFULL','Connection Successfully Added!');

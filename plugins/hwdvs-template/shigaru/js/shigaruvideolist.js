@@ -7,19 +7,62 @@ jQuery(document).ready(function() {
 	  
 	var opts 			= jQuery.extend({}, jQuery.fn.shigaruVideoList.defaults, options);
 	var $container 		= jQuery(opts.targetDiv);
+	var $usercontainer 	= jQuery(opts.userTargetDiv);
 	var $optionSets 	= jQuery(opts.optionLinks);
     var $optionLinks 	= $optionSets.find('a');
     var oListUrl 		= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_myvideos&format=raw";
+    var oUserUrl 		= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_userdetails&format=raw&user_id="+jQuery('#user_id').val();
+    var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_setuserstatusmessage&format=raw"
     
     return this.each(function() {
-		doLoadAjaxContent(oListUrl);	
+		doLoadAjaxContent(oListUrl);
+		doLoadAjaxUserDetails();	
 		activateLayoutLinks();
 	});
+	
+	function doPublishStatus(){
+		var oMind = jQuery('#mind');
+		var oMindText = oMind.val();
+		var posting = jQuery.post( oUserStatusUrl, { 'mind':  oMindText} );
+		posting.done(function( data ) {
+			$usercontainer.find('.tcursive').empty().append( oMindText );
+			oMind.val('');
+		  });
+		
+		}
+	
+	function doLoadAjaxUserDetails(){
+		$usercontainer.find(".loadingcontent").show();
+		jQuery.ajax({
+            url: oUserUrl
+        }).done(function (data) {
+			$usercontainer.hide().html(data).find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+			$usercontainer.find(".loadingcontent").hide();
+			$usercontainer.fadeIn();
+			$usercontainer.find('a.close').click(function(e){
+				e.preventDefault();
+				jQuery(this).parent().fadeOut();
+			});
+			$usercontainer.find('#publishmind').click(function(e){
+				e.preventDefault();
+				doPublishStatus()
+			});
+			
+			
+			 jQuery('.profileoptions .btn').click(function(e) {
+				var $this = jQuery(this);
+				$this.toggleClass("active");
+				$this.next('ul.dropdown-menu').toggle();
+				return false;
+			});
+        });
+		
+		}
 	
 	function doLoadAjaxContent(paramUrl){
 		$container.html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
 		var oPosition = $container.position();	  
-		jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');	
+		//jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');	
 		jQuery(opts.actionbars).block({ message: null });
 		jQuery.ajax({
             url: paramUrl
@@ -29,7 +72,7 @@ jQuery(document).ready(function() {
 			$container.find('#videolistpage').remove();
 			$container.fadeIn();
 			jQuery(opts.paginationContainer).html(oPagination);
-			jQuery(".loadingcontent").hide();
+			$container.find(".loadingcontent").hide();
 			jQuery(opts.actionbars).unblock();	  
 			initVideoList();
         });
@@ -218,6 +261,7 @@ jQuery(document).ready(function() {
   jQuery.fn.shigaruVideoList.defaults = {
 	paginationLinks:'span.pagination a.page',
 	targetDiv:'#resultcontainer',
+	userTargetDiv:'#usersection',
 	orderLinks:'#resultordering a',
 	sortDefault: 'relevance',
 	optionLinks:'#options .btn-group',

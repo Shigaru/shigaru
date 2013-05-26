@@ -1,5 +1,7 @@
 <div class="well fleft w15">
 		<ul class="nav nav-list mtop12">
+		  <li><a href="#">About me</a></li>
+		  	
 		  <li><a href="#">What to Watch</a></li>	
 
 		  <li><a href="#">Watch History</a></li>	

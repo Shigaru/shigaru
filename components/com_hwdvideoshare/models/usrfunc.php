@@ -80,7 +80,7 @@ class hwd_vs_usrfunc
 		echo $db->getErrorMsg();
 		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
-		hwd_vs_html::yourVideos($pageNav, $total,$otheruser,$my->id);
+		hwd_vs_html::yourVideos($total,$otheruser,$my->id);
 	}
    /**
     * List User Favourite Videos
@@ -100,6 +100,25 @@ class hwd_vs_usrfunc
 
 		hwd_vs_html::yourFavourites($otheruser);
 	}
+	
+	function setUserStatusMessage($mind){
+		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+		$odate = date("Y-m-d H:i:s", time());
+		$data =new stdClass();
+		$data->userid = $my->id;
+		$data->mind = $mind;
+		$data->date = $odate;
+		$ret = $db->insertObject( '#__onyourmind', $data);
+		
+		if (!$ret) {
+				echo $db->getErrorMsg();
+				return false;
+			}else
+				return (int)$db->insertid();
+	}
+	
+	
    /**
     * List User Favourite Videos
     */

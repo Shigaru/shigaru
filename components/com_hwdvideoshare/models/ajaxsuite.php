@@ -186,6 +186,14 @@ class hwd_vs_ajax
 		echo $code;
 		exit;
 		}	
+	
+	function ajax_userdetails(){
+		header('Content-type: text/html; charset=utf-8');
+		$user_id = JRequest::getVar( 'user_id', '' );
+		$code = hwd_vs_tools::getUserExtendedDetails($user_id);
+		echo $code;
+		exit;
+		}
 		
 	function ajax_showtabs(){
 		header('Content-type: text/html; charset=utf-8');
@@ -356,6 +364,13 @@ class hwd_vs_ajax
 		print $response;
 		exit;
 	}
+	
+	function ajax_setUserStatusMessage(){
+		$mind = JRequest::getString( 'mind', '' );
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		hwd_vs_usrfunc::setUserStatusMessage($mind);
+	}
+	
     /**
      * Outputs frontpage HTML
      *

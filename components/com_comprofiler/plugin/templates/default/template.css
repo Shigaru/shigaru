@@ -868,21 +868,6 @@ width: 150px;}
 #cb_tabid_27{float: right;
 margin-top: -40px;}
 #cb_tabid_27 a{text-decoration:none;}
-#profilename{padding:0 24px 24px 24px;border-right:1px solid #E6E6E6;}
-#profilenamewrapper{border-right:2px solid #fff;margin-top:10px;}
-.cbProfile .cbPosHead h3{font-size: 50px;color:#604860;
-margin-bottom: 30px;}
-.cbProfile .cbPosHead #profilename a {color:red}
-.cbProfile .cbMenuList li {
-    display: block;
-}
-.cbProfile .cbPosHead{margin-bottom: 60px;background:#F9F9F9;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius: 5px;border:1px solid #E6E6E6;}
-
-#custommenu{ font-size: 120%;
-    padding: 35px 0 24px 0;
-    position: absolute;}
-#custommenu a{margin:0 6px 0 6px;color:#74748e;}
-#custommenu a.current{font-weight:bold;font-size:120%;color:#18A;cursor:default;text-decoration:none;}
 .tab_Description{display:none;}
 .profileheaderitem{float:left;font-size:1.1em;padding: 20px 20px 20px 30px}
 .profileheaderitem .profileheaderitemwrap{background: #604860;padding: 12px 6px 0 8px;
