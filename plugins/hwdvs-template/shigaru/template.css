@@ -816,6 +816,8 @@ background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
 }
 /*countries*/
+.userflag16{width:16px;
+height:16px;}
 .userflag48{width:48px;
 height:48px;}
 ._UE_AFGHANISTAN{background: url("../../../templates/rhuk_milkyway/images/flags/16x16/shadow/flag_afghanistan.png") no-repeat scroll 0 0 transparent;}

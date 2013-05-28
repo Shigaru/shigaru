@@ -71,10 +71,10 @@ background: -webkit-gradient(linear, left top, left bottom, from(#efcea0), to(#e
 #topnavmenu div.menu-open{background:#fff !important;-moz-border-radius:5px 5px 0px 0px !important;-webkit-border-radius:5px 5px 0px 0px !important;border-radius: 5px 5px 0px 0px !important;}
 
 /* TOP SEARCH AREA */
-#nav_browse {background:#beb8bb;height:145px;border-bottom:1px solid #cfcfcf;}
+#nav_browse {background:#beb8bb;height:120px;border-bottom:1px solid #cfcfcf;}
 #nav_browse_content{min-width:900px;max-width:1075px;margin:0 auto;}
 #nav_browse_search{}
-#nav_browse_search input{height: 45px;width: 60%;margin:31px 0 0 44px;
+#nav_browse_search input{height:35px;width: 60%;margin:12px 0 0 44px;
 background: url("../images/lupa.png") no-repeat scroll 98% 12px #fff; padding-left:12px;font-size: 110%;float:none;border: 3px solid #A1959B;}
 #roksearch_search_str {background: url("search-icon.png") no-repeat scroll 98% 50% #FFFFFF;
     float: left;
@@ -110,7 +110,7 @@ fieldset.phrase, fieldset.word, fieldset.only {border-bottom: 1px solid #dfdfdf;
 #nav_tabs{max-width:1075px;min-width:900px;margin: -23px auto 0;}
 #nav_tabs ul{-moz-border-radius:5px;-webkit-border-radius:5px;-moz-box-shadow: 0 0 4px #888;-webkit-box-shadow: 0 0 4px #888;box-shadow: 0 0 4px #888;border-radius:5px;clear:both;background: url("../images/back_main_tabs.png") repeat-x scroll 0 0 transparent;overflow:hidden;}
 #nav_tabs ul li {background: url("../images/back_main_tabs.png") repeat-x scroll 0 0 transparent;display: block;list-style: none outside none;margin: 0; float:left;
-padding: 16px 30px;border-right:1px solid #d6d6d6;font-size: 91%;-moz-box-shadow: 0 0 4px #888;-webkit-box-shadow: 0 0 4px #888;box-shadow: 0 0 4px #888;}
+padding: 10px 30px;border-right:1px solid #d6d6d6;font-size: 91%;-moz-box-shadow: 0 0 4px #888;-webkit-box-shadow: 0 0 4px #888;box-shadow: 0 0 4px #888;}
 #nav_tabs ul li a {color:#796979;text-decoration: none;text-transform: uppercase;font-weight:bold;}
 #nav_tabs ul li a:hover{color:#A75F5F;}
 #nav_tabs ul li a#active_menu-nav{color:#a86060;}
@@ -1406,6 +1406,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .f80{font-size:80%;}
 .f13px{font-size:13px;}
 .w15{width:15%;}
+.w25{width:25%;}
+.w30{width:30%;}
 .w33{width:33%;}
 .w40{width:40%;}
 .w45{width:45%;}
