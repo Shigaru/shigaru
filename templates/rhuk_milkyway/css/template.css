@@ -71,7 +71,7 @@ background: -webkit-gradient(linear, left top, left bottom, from(#efcea0), to(#e
 #topnavmenu div.menu-open{background:#fff !important;-moz-border-radius:5px 5px 0px 0px !important;-webkit-border-radius:5px 5px 0px 0px !important;border-radius: 5px 5px 0px 0px !important;}
 
 /* TOP SEARCH AREA */
-#nav_browse {background:#beb8bb;height:120px;border-bottom:1px solid #cfcfcf;}
+#nav_browse {background:#beb8bb;height:125px;border-bottom:1px solid #cfcfcf;}
 #nav_browse_content{min-width:900px;max-width:1075px;margin:0 auto;}
 #nav_browse_search{}
 #nav_browse_search input{height:35px;width: 60%;margin:12px 0 0 44px;
@@ -105,7 +105,10 @@ background: url("../images/lupa.png") no-repeat scroll 98% 12px #fff; padding-le
 form.search_result .inputbox {}
 fieldset.phrase, fieldset.word, fieldset.only {border-bottom: 1px solid #dfdfdf;}
 #roksearch_results .rokajaxsearch-overlay {background-color: #fff;}
-#nav_browse_search_recently div{font-size: 80%;margin: 7px 21% 0 0;}
+#nav_browse_search_recently{background-color: #fff; position:absolute; left:0; text-align: center;margin: 12px 0 0 0;
+border-bottom: 1px solid #7F7F7F;
+border-top: 1px solid #7F7F7F;}
+#nav_browse_search_recently div{font-size: 80%;margin: 0 21% 0 0;}
 /* TOP TAB AREA*/
 #nav_tabs{max-width:1075px;min-width:900px;margin: -23px auto 0;}
 #nav_tabs ul{-moz-border-radius:5px;-webkit-border-radius:5px;-moz-box-shadow: 0 0 4px #888;-webkit-box-shadow: 0 0 4px #888;box-shadow: 0 0 4px #888;border-radius:5px;clear:both;background: url("../images/back_main_tabs.png") repeat-x scroll 0 0 transparent;overflow:hidden;}
@@ -2985,8 +2988,7 @@ input.btn-block[type="submit"], input.btn-block[type="reset"], input.btn-block[t
 
 #profilename{padding:0 24px 24px 24px;border-right:1px solid #E6E6E6;}
 #profilenamewrapper{border-right:2px solid #fff;margin-top:10px;}
-.cbProfile .cbPosHead h3{font-size: 30px;color:#604860;
-margin-bottom: 12px;}
+.cbProfile .cbPosHead h3{font-size: 30px;font-weight:bold;}
 .cbProfile .cbPosHead #profilename a {color:red}
 .cbProfile .cbMenuList li {
     display: block;

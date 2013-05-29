@@ -5355,6 +5355,69 @@ $app = & JFactory::getApplication();
 		return $rows;
 	}
 	
+	function getUserFriends($user_id,$user, $ui = 1,$numfriend){
+		global $_CB_framework, $_CB_database, $ueConfig;
+
+		$return				=	null;
+		$summaryMode	=	true;
+		$showpaging		=	false;
+		$con_entriesperpage		=	$con_SummaryEntries;
+		
+		$isVisitor			=	null;
+		$isVisitor			=	"\n AND m.pending=0 AND m.accepted=1";
+		if ( $showpaging || $summaryMode ) {
+			//select a count of all applicable entries for pagination
+			if ( $isVisitor ) {
+				$contotal	=	$numfriend;
+			} else {
+				$query		=	"SELECT COUNT(*)" . "\n FROM #__comprofiler_members AS m" . "\n LEFT JOIN #__comprofiler AS c ON m.memberid=c.id" . "\n LEFT JOIN #__users AS u ON m.memberid=u.id" . "\n WHERE m.referenceid=" . (int) $user_id . "\n AND c.approved=1 AND c.confirmed=1 AND c.banned=0 AND u.block=0" . $isVisitor . "\n ";
+				
+				$_CB_database->setQuery( $query );
+				$contotal	=	$_CB_database->loadResult();
+				
+				if ( ! is_numeric( $contotal ) )
+					$contotal	=	0;
+			}
+		}
+		if ( ( ! $showpaging ) || ( $pagingParams["connshow_limitstart"] === null ) || ( $con_entriesperpage > $contotal ) ) {
+			$pagingParams["connshow_limitstart"]	=	"0";
+		}
+		
+		$query				=	"SELECT m.*,u.name,u.email,u.username,c.avatar,c.avatarapproved, u.id " . "\n FROM #__comprofiler_members AS m" . "\n LEFT JOIN #__comprofiler AS c ON m.memberid=c.id" . "\n LEFT JOIN #__users AS u ON m.memberid=u.id" . // removed  . "\n LEFT JOIN #__session AS s ON s.userid=u.id"	and in SELECT: IF((s.session_id<=>null) OR (s.guest<=>1),0,1) AS 'isOnline' to avoid blocking site in case members table get locked
+		"\n WHERE m.referenceid=" . (int) $user_id . "" . "\n AND c.approved=1 AND c.confirmed=1 AND c.banned=0 AND u.block=0" . $isVisitor . "\n ORDER BY m.membersince DESC, m.memberid ASC LIMIT 0,2";
+		
+		$_CB_database->setQuery( $query, (int) ( $pagingParams["connshow_limitstart"] ? $pagingParams["connshow_limitstart"] : 0 ), (int) $con_entriesperpage );
+		$connections		=	$_CB_database->loadObjectList();
+		
+		if ( ! count( $connections ) > 0 ) {
+			$return			.=	null;
+			return $return;
+		}
+		
+		$live_site			=	$_CB_framework->getCfg( 'live_site' );
+		
+		$boxHeight			=	$ueConfig['thumbHeight'] + 46;
+		$boxWidth			=	$ueConfig['thumbWidth'] + 28;
+		
+		foreach ( $connections as $connection ) {
+			$cbUser =& CBuser::getInstance( $connection->id);
+			$conAvatar = $cbUser->getField( 'avatar' , null, 'csv', '', 'list' );
+			$tipTitle		=	_UE_CONNECTEDDETAIL;
+			$htmltext		=	$conAvatar;
+			$tooltipAvatar	=	$htmltext;
+				$return		.=	"<div class=\"connectionBox fleft\">" 
+									. "<div class=\"avatar\">"
+										. "<a href=\"" . cbSef( "index.php?option=com_comprofiler&amp;task=userProfile&amp;user=" . $connection->memberid ) . '">'
+											."<img src=\"" . $tooltipAvatar . '" height="40px" alt=" Click on the image to go to the profile page of '.getNameFormat( $connection->name, $connection->username, $ueConfig['name_format'] )." \"/>"
+										."</a>" 
+									. "</div>"
+								."</div>";
+		}
+		return $return;
+	
+		
+		}
+	
 	/**
      * Generates multilanguage text for Video Genre
      *
@@ -5375,13 +5438,18 @@ $app = & JFactory::getApplication();
 		$datm = $db->loadObjectList();
 		$mind = '';
 		isset($datm[0]) ? $mind = $datm[0]->mind : $mind = '';
-		
+		$connectionsLink.=	"<div id=\"connSummaryFooterManage\">" 
+								. "<a href=\"" . cbSef( 'index.php?option=com_comprofiler&amp;task=manageConnections' ) . "\" >" 
+									. _UE_MANAGECONNECTIONS 
+								. "</a>" 
+							. "</div>";
 		$cbUser =& CBuser::getInstance( $user_id);
 		$cbCon	=	new cbConnection($user_id);
 		$cbMenu = 	new getMenuTab();
+		$pmIMG			=	getFieldValue( 'pm', $cbUser->_cbuser->username, $cbCon, null, 1 );
 		$profileURL = cbSef("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=".$user_id);
 		$profileURLText = str_replace("http://", "", $profileURL);
-		//var_dump($cbMenu->getDisplayTab(null,$cbUser, 1));
+		//var_dump($pmIMG);
 		$return = hwd_vs_tools::getSocialIconsMenu($cbUser);
 		$cbcountry = $cbUser->getField( 'cb_country' , null, 'csv', 'div', 'profile' );
 		$smartyvs->assign("cb_country", constant($cbcountry));
@@ -5392,7 +5460,10 @@ $app = & JFactory::getApplication();
 		$smartyvs->assign("hits", $cbUser->_cbuser->hits);
 		$smartyvs->assign("totalvideos", hwd_vs_tools::getUserVideoCount($user_id));
 		$smartyvs->assign("totalvideossincelastvisit", hwd_vs_tools::getNumVideosSinceLastVisit($user_id));
-		$smartyvs->assign("totalfriends", $cbCon->getConnectionsCount( $user_id));
+		$numfriend = $cbCon->getConnectionsCount( $user_id);
+		$smartyvs->assign("totalfriends", $numfriend);
+		$smartyvs->assign("listfriends", hwd_vs_tools::getUserFriends($user_id, $cbUser,1,$numfriend));
+		$smartyvs->assign("connectionsLink", $connectionsLink);
 		$smartyvs->assign("username", $cbUser->_cbuser->username);
 		$smartyvs->assign("avatar", "images/comprofiler/".$cbUser->_cbuser->avatar);
 		$smartyvs->assign("signeup", date("d-m-Y", strtotime($cbUser->_cbuser->registerDate)));

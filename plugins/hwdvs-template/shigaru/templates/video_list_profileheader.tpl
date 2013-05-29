@@ -18,17 +18,31 @@
 		
 	</div>
 	<div id="moreuserinfowrap" class="fleft clearfix">
-			<div class="clearfix">
-					<div class="fleft mright12 w30 padright12">
+			<div class="clearfix fleft mright12 w30 padright12">
+					<div class="">
 						<div class="clearfix">
 							<h3 class="fleft mleft6">{$username}</h3>
-							<div class="fleft f90 userflag16 {$cb_countryflag}"></div> 
-							
+							<div class="fleft f90 userflag24 {$cb_countryflag}_24 mtop12 mleft12"></div> 
 						</div>
-						<div class="well bbwhite f90 pad12 mbot6">
-							<div class=""><span class="">{$smarty.const._UE_CONNECTION}: </span><span class="fontorange fontbold f120">{$totalfriends}</span></div>
-							</div>	
-						
+						<div class="mbot6 mtop12">
+									<div class="f90">
+										<span class="f90" >{$profileURLText}</span>
+									</div>
+								</div>
+						<div class="well bbwhite f90 pad12 mtop12 mbot6 clearfix">
+							<div class="clear">
+								<span class="">{$smarty.const._UE_CONNECTION}: </span>
+								<span class="fontorange fontbold f120">{$totalfriends}</span>
+							</div>
+							<div class="fleft f80 mtop12">
+								{$connectionsLink}
+							</div>
+							<div class="fleft">
+								{$listfriends}
+							</div>
+							
+						</div>	
+					 </div>	
 					</div>	
 					<div class="fleft w40 f90">
 						<!--<div class="well f90 mbot6">
@@ -87,26 +101,22 @@
 						<div class="well bbwhite mleft20 f90">
 								<div class="mtop12 mleft20"><span class="fontbold">Follow me on: </span></div>
 								<div class="pad12 mright6">{$socialpages}</div>
-								<div class="mleft20">
-									<div class="f90 mtopl6">
-										<span class="fontred" >{$profileURLText}</span>
-									</div>
-								</div>
+								
 						</div>	
 								
 					</div>
-			</div>
-			<div class="clearfix">		
-							<div class="fleft">
-								<input type="text" id="mind" class="mtop2 f120" value="" placeholder="Say what's on your mind..."/>
-								<button type="submit" id="publishmind" class="mtopl6 btn fontblack">
+					
+					<div class="clearfix fleft w63">		
+							<div class="fleft w33">
+								<input type="text" id="mind" class="w90 mtop2 f120" value="" placeholder="Say what's on your mind..."/>
+								<button type="submit" id="publishmind" class="dispnon mtopl6 btn fontblack">
 													<i class="icon-share-alt icon-large"></i> Publish
 								</button>
 							</div>
 							<div class="fleft w60 f80 mleft20">	
 								{if $mind neq ''}
 								<h6 class="fontbold fleft">Last update:</h6>
-								<div class="mleft20 fleft w80pc">
+								<div class="mleft20 fleft w70">
 									<div class="pad6">
 										<div class="fontsoftgrey fleft icon-quote-left icon-2x mright6"></div>
 										<div class="fontsoftgrey fleft w80pc pad6 fontgrey tcursive">{$mind}</div>
@@ -129,6 +139,8 @@
 								{/if}
 								</div>
 						</div>
+			</div>
+			
 	</div>		
 	
 </div>
