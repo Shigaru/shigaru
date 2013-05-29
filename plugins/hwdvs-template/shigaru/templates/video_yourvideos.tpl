@@ -24,7 +24,7 @@
 	</div>	
 </div>
 <div id="usersection" class="cbProfile mtop12 mbot12">
-<div class="f90 loadingcontent" style="line-height:150px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
+<div class="f80 loadingcontent" style="line-height:150px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
 </div>	
 <div class="clearfix mtop12 f80">
 	{include file='video_list_sidemenu.tpl'}   

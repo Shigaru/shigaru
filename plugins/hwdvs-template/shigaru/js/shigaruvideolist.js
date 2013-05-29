@@ -23,11 +23,22 @@ jQuery(document).ready(function() {
 	function doPublishStatus(){
 		var oMind = jQuery('#mind');
 		var oMindText = oMind.val();
-		var posting = jQuery.post( oUserStatusUrl, { 'mind':  oMindText} );
-		posting.done(function( data ) {
-			$usercontainer.find('.tcursive').empty().append( oMindText );
-			oMind.val('');
-		  });
+		if(oMindText.length > 0 && oMindText.length < 140){
+			var posting = jQuery.post( oUserStatusUrl, { 'mind':  oMindText} );
+			posting.done(function( data ) {
+				$usercontainer.find('.tcursive').empty().append( oMindText );
+				oMind.val('');
+				jQuery('#statuscharcount').html('0').removeClas('fontred');
+				jQuery('#statuserror').fadeOut().find('.maxlength').hide();
+				jQuery('#statuserror').fadeOut().find('.minlength').hide();
+			});
+		 }else if(oMindText.length > 140){
+			 jQuery('#statuserror').hide().find('.minlength').hide();
+			 jQuery('#statuserror').fadeIn().find('.maxlength').show();
+			 }else{
+					jQuery('#statuserror').hide().find('.maxlength').hide();
+					jQuery('#statuserror').fadeIn().find('.minlength').show();
+				 }
 		
 		}
 	
@@ -47,6 +58,16 @@ jQuery(document).ready(function() {
 				e.preventDefault();
 				doPublishStatus()
 			});
+			jQuery('#mind').keyup(function(){
+				var oMind = jQuery(this).val();
+				var oCountSpan = jQuery('#statuscharcount');
+				oCountSpan.removeClass('fontred');
+				oCountSpan.html(oMind.length);
+				if(oMind.length > 140)
+					oCountSpan.addClass('fontred');
+					else
+						oCountSpan.removeClas('fontred');
+				});
 			
 			
 			 jQuery('.profileoptions .btn').click(function(e) {

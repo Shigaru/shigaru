@@ -103,24 +103,38 @@
 								
 					</div>
 					
-					<div class="clearfix fleft w63">		
+					<div class="clearfix fleft w63">
+							<div id="statuserror" class="dispnon clear well f80 pad4">
+								<a class="fright mright6 close mtop2" href="#">
+									<i class="icon-remove-sign"></i>
+									
+								</a>
+								<span class="minlength dispnon">
+										<i class="mleft12 fontyellow icon-exclamation-sign"></i> 
+										<span class="mleft20">Please enter at least 1 character</span>
+								</span>
+								<span class="maxlength dispnon">
+									<i class="mleft12 fontyellow icon-exclamation-sign"></i> 
+									<span class="mleft20">Please enter a maximum of 140 characters</span>
+								</span>
+							</div>
 							<div class="fleft w33">
 								<input type="text" id="mind" class="w90 mtop2 f120" value="" placeholder="Say what's on your mind..."/>
-								<button type="submit" id="publishmind" class="dispnon mtopl6 btn fontblack">
+								<div class="w50 f80 fleft mtopl12"><span class="f90">Chars count (</span><span id="statuscharcount">0</span>)</div>
+								<button type="submit" id="publishmind" class="fleft mtopl6 btn fontblack">
 													<i class="icon-share-alt fontorange"></i> Publish
 								</button>
 							</div>
 							<div class="fleft w60 f80 mleft20">	
-								{if $mind neq ''}
+								
 								<h6 class="fontbold fleft">Last update:</h6>
 								<div class="mleft20 fleft w70">
-									<div class="pad6">
+									<div class="pad6 {if $mind eq ''}dispon{/if}">
 										<div class="fontsoftgrey fleft icon-quote-left icon-2x mright6"></div>
-										<div class="fleft w63 pad6 tcursive">{$mind}</div>
+										<div class="fleft w63 pad6 tcursive">{if $mind neq ''}{$mind}{else} ... {/if}</div>
 										<div class="fontsoftgrey fleft mleft6 icon-quote-right icon-2x"></div>
 									</div>
-								</div>	
-								{/if}
+								</div>
 								</div>
 						</div>
 			</div>

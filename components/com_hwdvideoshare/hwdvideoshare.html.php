@@ -1347,6 +1347,8 @@ $app = & JFactory::getApplication();
 		$smartyvs->assign("otheruser", $otheruser);
 		$smartyvs->assign("user_id", $user_id);
 		
+		$uploadLink = JRoute::_("index.php?option=com_hwdvideoshare&task=upload");
+		$smartyvs->assign("uploadLink", $uploadLink);
 		$smartyvs->display('video_yourvideos.tpl');
 		return;
     }
