@@ -5426,30 +5426,36 @@ $app = & JFactory::getApplication();
     
     function getUserExtendedDetails($user_id){
 		global $_CB_framework, $ueConfig, $mainframe, $smartyvs;
+		
 		$oResults = '';
 		$db = & JFactory::getDBO();
 		include_once( $mainframe->getCfg( 'absolute_path' ) . '/administrator/components/com_comprofiler/plugin.foundation.php' );
 		include_once( $mainframe->getCfg( 'absolute_path' ) . '/components/com_comprofiler/plugin/user/plug_cbmenu/cb.menu.php' );
 		cbimport( 'cb.html' );
-		
+		//cbimport( 'cb.menu' );
 		
 		$sql = "SELECT id,mind FROM #__onyourmind WHERE userid = $user_id ORDER BY date DESC";
 		$db->setQuery($sql);
 		$datm = $db->loadObjectList();
 		$mind = '';
 		isset($datm[0]) ? $mind = $datm[0]->mind : $mind = '';
-		$connectionsLink.=	"<div id=\"connSummaryFooterManage\">" 
+		$connectionsLink=	"<div id=\"connSummaryFooterManage\">" 
 								. "<a href=\"" . cbSef( 'index.php?option=com_comprofiler&amp;task=manageConnections' ) . "\" >" 
 									. _UE_MANAGECONNECTIONS 
 								. "</a>" 
 							. "</div>";
 		$cbUser =& CBuser::getInstance( $user_id);
+		$josuser =& JFactory::getUser( $user_id );
 		$cbCon	=	new cbConnection($user_id);
 		$cbMenu = 	new getMenuTab();
-		$pmIMG			=	getFieldValue( 'pm', $cbUser->_cbuser->username, $cbCon, null, 1 );
+		//$pmIMG			=	getFieldValue( 'pm', $cbUser->_cbuser->username, $cbCon, null, 1 );
 		$profileURL = cbSef("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=".$user_id);
 		$profileURLText = str_replace("http://", "", $profileURL);
-		//var_dump($pmIMG);
+		$userMenu = new getMenuTab();
+		$userMenuTab = $userMenu->getMenuTab();
+		$userMenu->prepareMenu($josuser);
+		$userMenu->getMenuAndStatus(1,$josuser,1);
+		$userMenu = $userMenu->getDisplayTab(1,$josuser,1);
 		$return = hwd_vs_tools::getSocialIconsMenu($cbUser);
 		$cbcountry = $cbUser->getField( 'cb_country' , null, 'csv', 'div', 'profile' );
 		$smartyvs->assign("cb_country", constant($cbcountry));
@@ -5465,6 +5471,7 @@ $app = & JFactory::getApplication();
 		$smartyvs->assign("listfriends", hwd_vs_tools::getUserFriends($user_id, $cbUser,1,$numfriend));
 		$smartyvs->assign("connectionsLink", $connectionsLink);
 		$smartyvs->assign("username", $cbUser->_cbuser->username);
+		$smartyvs->assign("userMenu", $userMenu);
 		$smartyvs->assign("avatar", "images/comprofiler/".$cbUser->_cbuser->avatar);
 		$smartyvs->assign("signeup", date("d-m-Y", strtotime($cbUser->_cbuser->registerDate)));
 		$smartyvs->assign("lastvisit", date("d-m-Y", strtotime($cbUser->_cbuser->lastvisitDate)));

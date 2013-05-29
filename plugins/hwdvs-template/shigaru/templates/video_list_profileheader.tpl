@@ -6,12 +6,9 @@
 			  <a class="btn" href="#"><i class="icon-cog fontblack"></i> <span class="fontblack">Profile Options</span></a>
 			  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 				<span class="icon-caret-down fontblack"></span></a>
+				
 			  <ul class="dropdown-menu">
-				<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
-				<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
-				<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
-				<li class="divider"></li>
-				<li><a href="#"><i class="i"></i> Make admin</a></li>
+				{$userMenu}
 			  </ul>
 			</div>
 		</div>	
@@ -119,23 +116,10 @@
 								<div class="mleft20 fleft w70">
 									<div class="pad6">
 										<div class="fontsoftgrey fleft icon-quote-left icon-2x mright6"></div>
-										<div class="fontsoftgrey fleft w80pc pad6 fontgrey tcursive">{$mind}</div>
+										<div class="fleft w63 pad6 tcursive">{$mind}</div>
 										<div class="fontsoftgrey fleft mleft6 icon-quote-right icon-2x"></div>
 									</div>
 								</div>	
-								{else}
-								
-									<div class="clearfix well mright12">
-										<a class="fright mright6 close mtop2" href="#">
-											<i class="icon-remove-sign"></i>
-										</a>
-										<div class="fleft">
-											<h6 class="fontdarkgrey f90 pad6">
-												<i class="fontblue icon-info-sign mright6"></i> 
-												No recent messages... type your status on the box above.
-											</h6>
-										</div>	
-									</div>
 								{/if}
 								</div>
 						</div>

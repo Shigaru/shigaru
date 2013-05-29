@@ -984,11 +984,13 @@ class getMenuTab  extends cbTabHandler {
 
 		// $this->menuBar->set("class", "mainlevel");		//BB: hardcoded to check >RC2.
 
+		if($params){
 		$firstMenuName		= $params->get('firstMenuName', '_UE_MENU_CB');
 		$firstSubMenuName	= $params->get('firstSubMenuName', '_UE_MENU_ABOUT_CB');
 		$firstSubMenuHref	= $params->get('firstSubMenuHref', $ue_credits_url);
 		$secondSubMenuName	= $params->get('secondSubMenuName', '');
 		$secondSubMenuHref	= $params->get('secondSubMenuHref', '');
+		}
 		if ($firstMenuName != "") {
 			$mi = array(); $mi[$firstMenuName]='';
 		//	$this->_addMenuItem( $mi,$firstMenuName,"javascript:void(0)" );		// Community
@@ -1037,17 +1039,14 @@ class getMenuTab  extends cbTabHandler {
 			$this->_addMenuItem( $mi, $menuTexts['_UE_UPDATEPROFILE'],cbSef($ue_userdetails_url), "",
 			"<img src=\"".$adminimagesdir."updateprofile.gif\" alt='' />","", $menuTexts['_UE_MENU_UPDATEPROFILE_DESC'],"" );
 			// Update Avatar:
-			if($ueConfig['allowAvatar']==1 && ($ueConfig['allowAvatarUpload']==1 || $ueConfig['allowAvatarGallery']==1)) {
-				$mi = array(); $mi["_UE_MENU_EDIT"]["_UE_UPDATEAVATAR"]=null;
+			$mi = array(); $mi["_UE_MENU_EDIT"]["_UE_UPDATEAVATAR"]=null;
 				$this->_addMenuItem( $mi, $menuTexts['_UE_UPDATEAVATAR'],cbSef($ue_useravatar_url), "",
 				"<img src=\"".$adminimagesdir."newavatar.gif\" alt='' />","", $menuTexts['_UE_MENU_UPDATEAVATAR_DESC'],"" );
 				// Delete Avatar:
-				if($user->avatar!='' && $user->avatar!=null) {
-					$mi = array(); $mi["_UE_MENU_EDIT"]["_UE_DELETE_AVATAR"]=null;
+				$mi = array(); $mi["_UE_MENU_EDIT"]["_UE_DELETE_AVATAR"]=null;
 					$this->_addMenuItem( $mi, $menuTexts['_UE_DELETE_AVATAR'],cbSef($ue_deleteavatar_url), "",
 					"<img src=\"".$adminimagesdir."delavatar.gif\" alt='' />","", $menuTexts['_UE_MENU_DELETE_AVATAR_DESC'],"" );
-				}
-			}
+				
 		}
 		// ----- VIEW MENU - AFTER EDIT IF VIEWING A PROFILE -----
 		if ( $_CB_framework->myId() > 0 ) {
@@ -1290,50 +1289,22 @@ class getMenuTab  extends cbTabHandler {
 			}
 		}
 		// display Menu:
-				$return = "";
-				
+				$return = " ";
 				$idCounter						=	$_CB_OneTwoRowsStyleToggle;
 				$tableContent					=	$this->menuBar->displayMenu($idCounter);
 				$inbox =''; 
-				if($_CB_framework->myId()==$user->id){
-				$inbox =	'<ul class="cbMenuULlist">
-																			<li class="cbMenuItem cbMenuEogr1 cbMenu_UE_MENU_SENDUSEREMAIL" >
-																				<a href="'.cbSef("index.php?option=com_uddeim&Itemid=&task=inbox").'" title="'._UE_PM_INBOX.'">'._UE_INBOX.
-																				'</a>
-																			</li>
-																		</ul>';
+				if($_CB_framework->myId()==(int) $user->id){
+				$inbox =	'<li class="cbMenuItem cbMenuEogr1 cbMenu_UE_MENU_SENDUSEREMAIL" >
+								<a href="'.cbSef("index.php?option=com_uddeim&Itemid=&task=inbox").'" title="'._UE_PM_INBOX.'">'._UE_INBOX.
+									'</a>
+								</li>
+							</ul>';
 					}
 				
 				
 				if ( $tableContent != '' ) {
 					$_CB_OneTwoRowsStyleToggle	=	($idCounter&1 ? 2 : 1);
-					$return						.=	'<script type="text/javascript">
-													jQuery(document).ready(function($){
-															jQuery(\'#profileopts\').click(function(e) {
-															var othis = jQuery(this);
-															var oHeight =(jQuery(".graybar").height()==5)?"100":"5";
-															/*jQuery(".graybar").animate({
-																		height: oHeight
-																	  }, 1000, function() {
-																		othis.toggleClass("profileoptsopen");
-																	  });
-															*/
-															jQuery("#profileoptswrapper").slideToggle("slow");
-															return false;  
-														});
-															});
-															</script>
-														<div class="cbMenuList">
-														<div class="cbusermenubutton mleft6">
-																<div id="profileoptswrapper">
-																	<div>'. $tableContent . $inbox.
-																		
-																	'</div>
-																</div>
-														</div>
-														</div>
-														<div class="clear">
-														</div>';
+					$return						.=	 $tableContent . $inbox;
 				}
 				
 		return $return;
