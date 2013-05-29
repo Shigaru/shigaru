@@ -29,7 +29,7 @@
 						<div class="fleft mbot12">{$videoplayer->avatar}</div>
 						<div class="fleft mright6 titleText w85">
 							<h2 >{$videoplayer->titleText}</h2>
-							<!--<div class="fright mbot6 mright6 f12em"><button title="Click on this button to subscribe to this user's channel" class="btn btn-danger fleft">Follow<i class="icon-circle-arrow-right padleft4"></i></button><div class="fleft timesactioned mtop8"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>{$videoplayer->commentsNum}</span></div></div>-->
+							<div class="fright mbot6 mright6 f12em"><button title="Click on this button to subscribe to this user's channel" class="btn btn-danger fleft">Follow<i class="icon-circle-arrow-right padleft4"></i></button><div class="fleft timesactioned mtop8"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>{$videoplayer->commentsNum}</span></div></div>
 							<span class="mleft20">{$smarty.const._HWDVIDS_INFO_SHARED}</span> {$videoplayer->uploader}
 						</div>
 					<div>

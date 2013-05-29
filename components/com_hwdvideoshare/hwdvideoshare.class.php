@@ -5490,7 +5490,7 @@ $app = & JFactory::getApplication();
 		$return ='';
 		if($myspacepage  !=''){
 		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' '.$oUserName.' '._UE_ON.' myspace" href="http://home.myspace.com/'.$myspacepage.'" target="_blank">
-						<i class="icon-pinterest-sign icon-2x"></i></a>';
+						<i class="icon-pinterest-sign fontorange icon-2x"></i></a>';
 		}else{
 			$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' '.$oUserName.' '._UE_ON.' myspace" href="http://home.myspace.com/'.$myspacepage.'" target="_blank">
 						<i class="icon-pinterest-sign fontgrey icon-2x"></i></a>';
@@ -5498,7 +5498,7 @@ $app = & JFactory::getApplication();
 		$twitterpage = $cbUser->getField( 'cb_twitterpageURL', null, 'csv');
 		if($twitterpage  !=''){
 		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' twitter" href="http://twitter.com/'.$twitterpage.'" target="_blank">
-					<i class="icon-twitter-sign icon-2x"></i></a>';	
+					<i class="icon-twitter-sign fontorange icon-2x"></i></a>';	
 		}else{
 			$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' twitter" href="http://twitter.com/'.$twitterpage.'" target="_blank">
 					<i class="icon-twitter-sign fontgrey icon-2x"></i></a>';
@@ -5506,7 +5506,7 @@ $app = & JFactory::getApplication();
 		$facebook = $cbUser->getField( 'cb_facebookURL', null, 'csv');
 		if($facebook  !=''){
 		$ocode .= '<a  class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' facebook" target="_blank" href="http://www.facebook.com/'.$facebook.'">
-			<i class="icon-facebook-sign icon-2x"></i></a>';			
+			<i class="icon-facebook-sign fontorange icon-2x"></i></a>';			
 		}else{
 			$ocode .= '<a  class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' facebook" target="_blank" href="http://www.facebook.com/'.$facebook.'">
 			<i class="icon-facebook-sign fontgrey icon-2x"></i></a>';	
@@ -5514,7 +5514,7 @@ $app = & JFactory::getApplication();
 		$linkedin = $cbUser->getField( 'cb_linkedinURL', null, 'csv');
 		if($linkedin  !=''){
 		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' linkedin" target="_blank" href="http://www.linkedin.com/in/'.$linkedin.'">
-		<i class="icon-linkedin-sign icon-2x"></i></a>';			
+		<i class="icon-linkedin-sign fontorange icon-2x"></i></a>';			
 		}else{
 			$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' linkedin" target="_blank" href="http://www.linkedin.com/in/'.$linkedin.'">
 		<i class="icon-linkedin-sign fontgrey icon-2x"></i></a>';
@@ -5523,7 +5523,7 @@ $app = & JFactory::getApplication();
 		$google = $cbUser->getField( 'cb_googleURL', null, 'csv');
 		if($google  !=''){
 		$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' google" target="_blank" href="http://google.com/'.$google.'">
-			<i class="icon-google-plus-sign icon-2x"></i></a>';			
+			<i class="icon-google-plus-sign fontorange icon-2x"></i></a>';			
 		}else{
 			$ocode .= '<a class="mright6" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' google" target="_blank" href="http://google.com/'.$google.'">
 			<i class="icon-google-plus-sign fontgrey icon-2x"></i></a>';	

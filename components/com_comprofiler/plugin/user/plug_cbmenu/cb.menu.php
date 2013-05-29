@@ -980,7 +980,7 @@ class getMenuTab  extends cbTabHandler {
 		$ue_approve_image_url= $ue_base_url."&amp;task=approveImage&amp;flag=1&amp;avatars=".$user->id;
 		$ue_reject_image_url = $ue_base_url."&amp;task=approveImage&amp;flag=0&amp;avatars=".$user->id;
 		$ue_userprofile_url	 = $ue_base_url."";
-		$adminimagesdir		=	$_CB_framework->getCfg( 'live_site' ) . '/components/com_comprofiler/images/';
+		$adminimagesdir		=	JURI::root() . '/components/com_comprofiler/images/';
 
 		// $this->menuBar->set("class", "mainlevel");		//BB: hardcoded to check >RC2.
 

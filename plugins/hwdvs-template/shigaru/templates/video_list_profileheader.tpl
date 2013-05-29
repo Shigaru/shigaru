@@ -72,7 +72,7 @@
 									</div>
 									<div class="fleft w33">
 										<button type="submit" id="subscribe" class="btn fontblack">
-													<i class="icon-signin"></i> Subscribe
+													<i class="icon-circle-arrow-right fontorange bbwhite"></i> Subscribe
 										</button>
 									</div>
 								</div>
@@ -107,7 +107,7 @@
 							<div class="fleft w33">
 								<input type="text" id="mind" class="w90 mtop2 f120" value="" placeholder="Say what's on your mind..."/>
 								<button type="submit" id="publishmind" class="dispnon mtopl6 btn fontblack">
-													<i class="icon-share-alt icon-large"></i> Publish
+													<i class="icon-share-alt fontorange"></i> Publish
 								</button>
 							</div>
 							<div class="fleft w60 f80 mleft20">	
