@@ -1,7 +1,7 @@
 <div id="userdetailsext" class="cbPosHead clearfix">
 	<div id="avatarwrap" class="fleft">	
 		<div class="clearfix">
-			<div class="pad12 well bbwhite"><img class="" src="{$avatar}" height="94px" alt="Profile picture of {$username}"/></div>	
+			<div class="pad12 well bbwhite"><img class="" src="{$avatar}" width="140px" alt="Profile picture of {$username}"/></div>	
 			<div class="profileoptions btn-group close">
 			  <a class="btn" href="#"><i class="icon-cog fontblack"></i> <span class="fontblack">Profile Options</span></a>
 			  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
