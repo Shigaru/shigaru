@@ -20,17 +20,23 @@ jQuery(document).ready(function() {
 		activateLayoutLinks();
 	});
 	
-	function doPublishStatus(){
+	function doPublishStatus(paramThis){
 		var oMind = jQuery('#mind');
 		var oMindText = oMind.val();
-		if(oMindText.length > 0 && oMindText.length < 140){
+		if(oMindText.length > 0 && oMindText.length < 140){			
+			var iThisIcon = paramThis.find('i'); 
+			var oldClass = iThisIcon.attr('class');
+			iThisIcon.removeClass().addClass('icon-spinner icon-spin');
 			var posting = jQuery.post( oUserStatusUrl, { 'mind':  oMindText} );
 			posting.done(function( data ) {
 				$usercontainer.find('.tcursive').empty().append( oMindText );
 				oMind.val('');
-				jQuery('#statuscharcount').html('0').removeClas('fontred');
-				jQuery('#statuserror').fadeOut().find('.maxlength').hide();
-				jQuery('#statuserror').fadeOut().find('.minlength').hide();
+				iThisIcon.removeClass().addClass(oldClass);
+				$usercontainer.find('#statuscharcount').html('140').removeClass('fontred');
+				$usercontainer.find('#statuserror').hide();
+				var $this = jQuery('#mind')
+				$this.next().fadeOut();
+				$this.animate({height:20});
 			});
 		 }else if(oMindText.length > 140){
 			 jQuery('#statuserror').hide().find('.minlength').hide();
@@ -56,18 +62,46 @@ jQuery(document).ready(function() {
 			});
 			$usercontainer.find('#publishmind').click(function(e){
 				e.preventDefault();
-				doPublishStatus()
+				doPublishStatus(jQuery(this));
+				e.stopPropagation();				
 			});
-			jQuery('#mind').keyup(function(){
+			
+			$usercontainer.find('.usersocialicon').click(function(e){
+				e.preventDefault();
+				var oParent = jQuery(this).parent().parent();
+				if(oParent.hasClass('open'))
+					oParent.removeClass('open').addClass('close');
+					else
+						oParent.removeClass('close').addClass('open');
+			});
+			
+			
+			
+			jQuery('body').click(function () {
+				var $this = jQuery('#mind')
+				$this.next().fadeOut();
+				$this.animate({height:20});
+			});
+
+			
+			jQuery('#mind').focus(function(){
+					$this = jQuery(this);
+					$this.animate({
+						height: 150
+					}, "slow");
+					$this.next().fadeIn();
+				}).keyup(function(){
 				var oMind = jQuery(this).val();
 				var oCountSpan = jQuery('#statuscharcount');
 				oCountSpan.removeClass('fontred');
-				oCountSpan.html(oMind.length);
+				oCountSpan.html(140 - oMind.length);
 				if(oMind.length > 140)
 					oCountSpan.addClass('fontred');
 					else
-						oCountSpan.removeClas('fontred');
-				});
+						oCountSpan.removeClass('fontred');
+				}).click(function(e) {
+						e.stopPropagation();
+				   });;
 			
 			
 			 jQuery('.profileoptions .btn').click(function(e) {
@@ -89,6 +123,7 @@ jQuery(document).ready(function() {
             url: paramUrl
         }).done(function (data) {
 			$container.hide().html(data).find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+			$container.find('span[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
 			var oPagination = $container.find('#videolistpage').html();
 			$container.find('#videolistpage').remove();
 			$container.fadeIn();

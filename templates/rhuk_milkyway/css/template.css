@@ -3002,6 +3002,10 @@ position: relative;width:15%;}
 background:#F9F9F9;-moz-border-radius:0 5px 5px 0;-webkit-border-radius:0 5px 5px 0;border-radius: 0 5px 5px 0;
 border:1px solid #E6E6E6;width:80%;
 }
+#moreuserinfowrap .socialedit{padding:6px;right:0;}
+#moreuserinfowrap .socialedit li input{width:80%;}
+#moreuserinfowrap .socialedit li label{font-weight:bold;padding:4px;}
+#moreuserinfowrap .socialedit .cbft_text{border-bottom:1px dotted #C1C132;margin-top:4px;}
 #custommenu{ font-size: 120%;
     padding: 35px 0 24px 0;
     position: absolute;}

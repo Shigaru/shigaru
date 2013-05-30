@@ -119,11 +119,13 @@
 								</span>
 							</div>
 							<div class="fleft w33">
-								<input type="text" id="mind" class="w90 mtop2 f120" value="" placeholder="Say what's on your mind..."/>
-								<div class="w50 f80 fleft mtopl12"><span class="f90">Chars count (</span><span id="statuscharcount">0</span>)</div>
-								<button type="submit" id="publishmind" class="fleft mtopl6 btn fontblack">
-													<i class="icon-share-alt fontorange"></i> Publish
-								</button>
+								<textarea id="mind" class="w90 mtop2 f90" value="" placeholder="Say what's on your mind..."></textarea>
+								<div class="dispnon">
+									<div class="w49 f80 fleft tright mright6"><span id="statuscharcount" title="Characters remaining" class="bbwhite well pad2 padleft4 padright4">140</span></div>
+									<button type="submit" id="publishmind" class="fleft mtopl6 btn fontblack">
+										<i class="icon-share-alt fontorange"></i> Publish
+									</button>
+								</div>	
 							</div>
 							<div class="fleft w60 f80 mleft20">	
 								
