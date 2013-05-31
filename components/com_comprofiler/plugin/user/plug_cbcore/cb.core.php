@@ -3944,44 +3944,6 @@ class getPageTitleTab  extends cbTabHandler {
 	* @return mixed                          either string HTML for tab content, or false if ErrorMSG generated
 	*/
 	function getDisplayTab($tab,$user,$ui) {
-		global $ueConfig;
-		$db = & JFactory::getDBO();
-		// Display user's name + "Profile Page"
-		$params	=	$this->params;
-		$title	=	_PROMPT_UNAME;
-		$name	=	getNameFormat( $user->name, $user->username, $ueConfig['name_format'] );
-		$profileURL = cbSef("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=".$user->id.getCBprofileItemid(true));
-		$profileURLText = str_replace("http://", "", $profileURL);
-		$pageURL = 'http://www.shigaru.com/'.$user->username;
-		
-		 // get video count
-        $db->SetQuery( 'SELECT count(*)'
-					 . ' FROM #__hwdvidsvideos AS video WHERE user_id='.$user->id
-					 );
-        $total = $db->loadResult();
-        echo $db->getErrorMsg();
-        $cbUser		=&	CBuser::getInstance( $user->id );
-		$return	=	'<div class="contentheading" id="cbProfileTitle">'
-					.'<div id="profilenamewrapper" class="fleft">'
-						.'<div id="profilename" >'
-							.'<h3 class="">'.$name.'</h3>'
-							.'<a class="f100" href="'.$profileURL.'" title="'._UE_VIEWPROFILE.'">'.$profileURLText.'</a>'
-						.'</div>'
-					.'</div>'
-						.'<div class="profileheaderitem fleft">'
-							.'<div class="profileheaderitemwrap"><label>'._UE_PROFILEVIEWS.': </label>'
-							.'<span class="">'.$user->hits.'</span><div class="clear"></div></div>'
-						.'</div>'
-						.'<div class="profileheaderitem fleft">'
-							.'<div class="profileheaderitemwrap"><label>'._UE_VIDEOSUBMITED.': </label>'
-							.'<span class="">'.$total.'</span><div class="clear"></div></div>'
-						.'</div>'
-						.'<div class="clear">'
-						
-					.'</div>';
-		
-		//$return	.=	$this->_writeTabDescription( $tab, $user );
-		
 		return $return;
 	}
 }	// end class getPageTitleTab

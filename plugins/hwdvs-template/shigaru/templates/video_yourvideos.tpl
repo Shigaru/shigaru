@@ -9,6 +9,8 @@
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <script type="text/javascript" src="{$baseurl}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
 <script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruuserheader.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruusermenu.js"></script>
 {include file='header.tpl'}
 <div id="deletevideomessage" class="dispnon span4">
 	<div class="pad12">
@@ -27,7 +29,9 @@
 <div class="f80 loadingcontent" style="line-height:150px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
 </div>	
 <div class="clearfix mtop12 f80">
-	{include file='video_list_sidemenu.tpl'}   
+	<div id="usermenuwrapper"  class="well fleft w15">
+	<div class="f80 loadingcontent" style="line-height:550px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
+	</div>
 	<div id="videosmaincontent" class="fleft clearfix pad12">
 		<div class="clearfix">
 			<div class="clearfix">

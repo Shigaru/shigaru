@@ -378,14 +378,7 @@ $('#cbbtncancel').click( function() {
 		global $_CB_framework, $ueConfig,$_POST,$_PLUGINS;
 		
 		$_PLUGINS->loadPluginGroup('user');
-		$results = $_PLUGINS->trigger( 'onBeforeUserProfileRequest', array(&$user,1));
-		if ($_PLUGINS->is_errors()) {
-			echo "<script type=\"text/javascript\">alert(\"".$_PLUGINS->getErrorMSG()."\"); window.history.go(-1); </script>\n";
-			exit();
-		}
-
-		$cbTemplate			=	HTML_comprofiler::_cbTemplateLoad();
-
+		
 		$cbMyIsModerator = isModerator( $_CB_framework->myId() );
 		$cbUserIsModerator = isModerator($user->id);
 
@@ -424,62 +417,40 @@ $('#cbbtncancel').click( function() {
 				$showProfile	=	0;
 		}
 		if ( $showProfile == 1 ) {
-			$results = $_PLUGINS->trigger( 'onBeforeUserProfileDisplay', array( &$user, 1, $cbUserIsModerator, $cbMyIsModerator ) );
-			if ($_PLUGINS->is_errors()) {
-				echo "<script type=\"text/javascript\">alert(\"".$_PLUGINS->getErrorMSG()."\"); window.history.go(-1); </script>\n";
-				exit();
-			}
-
 			$output			=	'html';
 
 			$cbUser			=&	CBuser::getInstance( $user->id );
 			$_CB_framework->displayedUser( (int) $user->id );
 			$userViewTabs	=	$cbUser->getProfileView();
 			
-/*
-			$tabs = new cbTabs( 0, 1 );
-			$userViewTabs = $tabs->getViewTabs($user);			// this loads, registers menu and user status and renders the tabs
-*/
 			$_CB_framework->setPageTitle( cbUnHtmlspecialchars(getNameFormat($user->name,$user->username,$ueConfig['name_format'])));
 			$_CB_framework->appendPathWay( getNameFormat($user->name,$user->username,$ueConfig['name_format']));
-
-			outputCbTemplate(1);
-			initToolTip(1);
-			$_CB_framework->document->addHeadScriptDeclaration( '
-	function cbConnSubmReq() {
-		cClick();
-		document.connOverForm.submit();
-	}
-	function confirmSubmit() {
-	if (confirm("' . _UE_CONFIRMREMOVECONNECTION . '"))
-		return true ;
-	else
-		return false ;
-	}
-' );
-			if ( is_array( $results ) ) {
-				echo implode( '', $results );
-			}
+			$document = JFactory::getDocument();
+			$document->addStyleSheet("plugins/hwdvs-template/shigaru/template.css");
+			echo '<input type="hidden" id="user_id" name="user_id" value="'.$user->id.'" />';
+			echo '<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+				<script type="text/javascript" src="'.$_CB_framework->getCfg( 'live_site' ).'/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
+				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruuserheader.js"></script>
+				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruusermenu.js"></script>';
 			echo "\n\t<div class=\"cbProfile\"><div id=\"cbProfileInner\">";
-
-			echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $user, 'Profile', 'drawProfile', array( &$user, &$userViewTabs ), $output );
+			echo '<div id="usersection" class="cbProfile mtop12 mbot12">
+					<div class="f80 loadingcontent" style="line-height:150px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
+				  </div>
+				 <div class="clearfix mtop12 f80">
+					<div id="usermenuwrapper"  class="well fleft w15">
+						<div class="f80 loadingcontent" style="line-height:550px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
+					</div>	
+				  <div id="resultcontainer" class="fleft clearfix pad12">
+						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
+					</div></div>';
+			//echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $user, 'Profile', 'drawProfile', array( &$user, &$userViewTabs ), $output );
 
 			echo "</div></div>\n" . "";		// end of cbProfile floating div
 
-			$tab = null;
-			if ( isset( $_GET['tab'] ) ) {
-				$tab = urldecode( stripslashes( cbGetParam( $_GET, 'tab', '' ) ) );
-			} elseif ( isset( $_POST['tab'] ) ) {
-				$tab = stripslashes( cbGetParam( $_POST, 'tab', '' ) );
-			}
-			if ($tab) {
-				$_CB_framework->outputCbJQuery( "showCBTab('" . addslashes( $tab ) . "');" );
-			}
 
 			if ( $_CB_framework->myId() != $user->id ) {
 				recordViewHit( $_CB_framework->myId(), $user->id, getenv( 'REMOTE_ADDR' ) );
 			}
-			$_PLUGINS->trigger( 'onAfterUserProfileDisplay', array($user,true));
 		}
 	}
 

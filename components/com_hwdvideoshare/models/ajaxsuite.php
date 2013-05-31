@@ -365,6 +365,14 @@ class hwd_vs_ajax
 		exit;
 	}
 	
+	function usermenu(){
+		header('Content-type: text/html; charset=utf-8');
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
+		print hwd_vs_usrfunc::getUserProfileSideMenu();
+		exit;
+	}
+	
 	function ajax_setUserStatusMessage(){
 		$mind = JRequest::getString( 'mind', '' );
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');

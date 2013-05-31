@@ -1,4 +1,4 @@
-<div class="well fleft w15">
+
 		<ul class="nav nav-list mtop12">
 		  <li><a href="#">About me</a></li>
 		  	
@@ -33,6 +33,5 @@
 
 		  <li><a href="#">My Shigaru Friends</a></li>
 		</ul>
-	</div>
 					
 

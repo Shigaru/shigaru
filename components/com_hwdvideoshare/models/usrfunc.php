@@ -139,6 +139,16 @@ class hwd_vs_usrfunc
 		$app = & JFactory::getApplication();
 		$app->redirect(JRoute::_('index.php?option=com_hwdvideoshare&task=viewChannel&Itemid='.$hwdvsItemid.'&user_id='.$my->id));
 	}
+	
+   /**
+    * List User Favourite Videos
+    */
+	function getUserProfileSideMenu()
+	{
+		global $smartyvs;
+		$oResults = $smartyvs->fetch('video_list_sidemenu.tpl');
+		return $oResults;
+		}
    /**
     * Edit video details
     */

@@ -5446,6 +5446,9 @@ $app = & JFactory::getApplication();
 							. "</div>";
 		$cbUser =& CBuser::getInstance( $user_id);
 		$josuser =& JFactory::getUser( $user_id );
+		if ( $josuser->id != $user_id ) {
+				recordViewHit( $_CB_framework->myId(), $user->id, getenv( 'REMOTE_ADDR' ) );
+			}
 		$cbCon	=	new cbConnection($user_id);
 		$cbMenu = 	new getMenuTab();
 		//$pmIMG			=	getFieldValue( 'pm', $cbUser->_cbuser->username, $cbCon, null, 1 );
