@@ -103,7 +103,7 @@
 								
 					</div>
 					
-					<div class="clearfix fleft w63">
+					<div class="clearfix fleft w67">
 							<div id="statuserror" class="dispnon clear well f80 pad4">
 								<a class="fright mright6 close mtop2" href="#">
 									<i class="icon-remove-sign"></i>
@@ -127,13 +127,13 @@
 									</button>
 								</div>	
 							</div>
-							<div class="fleft w60 f80 mleft20">	
+							<div class="fleft w63 f80 mleft20">	
 								
-								<h6 class="fontbold fleft">Last update:</h6>
-								<div class="mleft20 fleft w70">
-									<div class="pad6 {if $mind eq ''}dispon{/if}">
+								<h6 class="fontbold fleft f90">Last update:</h6>
+								<div class="mleft20 fright w75 mtopl12">
+									<div class="{if $mind eq ''}dispon{/if}">
 										<div class="fontsoftgrey fleft icon-quote-left icon-2x mright6"></div>
-										<div class="fleft w63 pad6 tcursive">{if $mind neq ''}{$mind}{else} ... {/if}</div>
+										<div class="fleft w67 pad6 tcursive">{if $mind neq ''}{$mind}{else} ... {/if}</div>
 										<div class="fontsoftgrey fleft mleft6 icon-quote-right icon-2x"></div>
 									</div>
 								</div>
