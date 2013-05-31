@@ -844,7 +844,7 @@ DEFINE('_UE_ADDCONNECTIONREQUEST_DESC','Request a Connection to that user');
 DEFINE('_UE_REMOVECONNECTION_DESC','Remove this user from your list of friends');
 DEFINE('_UE_REVOKECONNECTIONREQUEST','Revoke Connection Request');
 DEFINE('_UE_REVOKECONNECTIONREQUEST_DESC','Cancel the Connection Request to that user');
-DEFINE('_UE_MENU_MANAGEMYCONNECTIONS','Manage Your Connections');
+DEFINE('_UE_MENU_MANAGEMYCONNECTIONS','Manage Friends');
 DEFINE('_UE_MENU_MANAGEMYCONNECTIONS_DESC','Manage your existing connections and pending connections actions');
 
 DEFINE('_UE_MENU_MODERATE', 'Moderation');

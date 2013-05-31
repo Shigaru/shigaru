@@ -5384,7 +5384,7 @@ $app = & JFactory::getApplication();
 		}
 		
 		$query				=	"SELECT m.*,u.name,u.email,u.username,c.avatar,c.avatarapproved, u.id " . "\n FROM #__comprofiler_members AS m" . "\n LEFT JOIN #__comprofiler AS c ON m.memberid=c.id" . "\n LEFT JOIN #__users AS u ON m.memberid=u.id" . // removed  . "\n LEFT JOIN #__session AS s ON s.userid=u.id"	and in SELECT: IF((s.session_id<=>null) OR (s.guest<=>1),0,1) AS 'isOnline' to avoid blocking site in case members table get locked
-		"\n WHERE m.referenceid=" . (int) $user_id . "" . "\n AND c.approved=1 AND c.confirmed=1 AND c.banned=0 AND u.block=0" . $isVisitor . "\n ORDER BY m.membersince DESC, m.memberid ASC LIMIT 0,2";
+		"\n WHERE m.referenceid=" . (int) $user_id . "" . "\n AND c.approved=1 AND c.confirmed=1 AND c.banned=0 AND u.block=0" . $isVisitor . "\n ORDER BY m.membersince DESC, m.memberid ASC LIMIT 0,5";
 		
 		$_CB_database->setQuery( $query, (int) ( $pagingParams["connshow_limitstart"] ? $pagingParams["connshow_limitstart"] : 0 ), (int) $con_entriesperpage );
 		$connections		=	$_CB_database->loadObjectList();
@@ -5408,7 +5408,7 @@ $app = & JFactory::getApplication();
 				$return		.=	"<div class=\"connectionBox fleft\">" 
 									. "<div class=\"avatar\">"
 										. "<a href=\"" . cbSef( "index.php?option=com_comprofiler&amp;task=userProfile&amp;user=" . $connection->memberid ) . '">'
-											."<img src=\"" . $tooltipAvatar . '" height="40px" alt=" Click on the image to go to the profile page of '.getNameFormat( $connection->name, $connection->username, $ueConfig['name_format'] )." \"/>"
+											."<img src=\"" . $tooltipAvatar . '" width="35px" alt=" Click on the image to go to the profile page of '.getNameFormat( $connection->name, $connection->username, $ueConfig['name_format'] )." \"/>"
 										."</a>" 
 									. "</div>"
 								."</div>";
@@ -5440,8 +5440,8 @@ $app = & JFactory::getApplication();
 		$mind = '';
 		isset($datm[0]) ? $mind = $datm[0]->mind : $mind = '';
 		$connectionsLink=	"<div id=\"connSummaryFooterManage\">" 
-								. "<a href=\"" . cbSef( 'index.php?option=com_comprofiler&amp;task=manageConnections' ) . "\" >" 
-									. _UE_MANAGECONNECTIONS 
+								. "<a title=\""._UE_MANAGECONNECTIONS."\" href=\"" . cbSef( 'index.php?option=com_comprofiler&amp;task=manageConnections' ) . "\" >" 
+									. _HWDVIDS_ALL 
 								. "</a>" 
 							. "</div>";
 		$cbUser =& CBuser::getInstance( $user_id);

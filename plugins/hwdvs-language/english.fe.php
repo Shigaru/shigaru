@@ -617,6 +617,7 @@ DEFINE("_HWDVIDS_C_TITLE","%s's Channel");
 DEFINE("_HWDVIDS_HOMEPROMO","Join the Shigaru community and start uploading video links of the best music tutorials on the web. Categorize the videos and you will be helping to create the web's biggest and best music tutorial video library. Create your own profile. Rate and add comments to videos. Promote yourself or your band. Meet music lovers from all over the world! It's totally free!");
 DEFINE("_HWDVIDS_WATCHMORE","Watch more videos like these");
 DEFINE("_HWDVIDS_DONATETO","Donate to Shigaru.com");
+DEFINE("_HWDVIDS_ALL","All");
 //DEFINE("_HWDVIDS_SUBSCRIBE","Subscribe to the newsletter");
 DEFINE("_HWDVIDS_SUBSARCHIVE","View newsletter archive");
 DEFINE("_HWDVIDS_SHIGARU_ADS","Advertisement");

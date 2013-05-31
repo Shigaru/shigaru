@@ -26,15 +26,17 @@
 										<span class="f90" >{$profileURLText}</span>
 									</div>
 								</div>
-						<div class="well bbwhite f90 pad12 mtop12 mbot6 clearfix">
-							<div class="clear">
-								<span class="">{$smarty.const._UE_CONNECTION}: </span>
-								<span class="fontorange fontbold f120">{$totalfriends}</span>
-							</div>
-							<div class="fleft f80 mtop12">
-								{$connectionsLink}
-							</div>
-							<div class="fleft">
+						<div class="well bbwhite f90 pad12 mtop12 clearfix">
+							<div class="clearfix">
+								<div class="fright f80">
+									{$connectionsLink}
+								</div>
+								<div class="fleft">
+									<span class="">{$smarty.const._UE_CONNECTION}: </span>
+									<span class="fontorange fontbold f120">{$totalfriends}</span>
+								</div>
+							</div>	
+							<div class="clear mtop12">
 								{$listfriends}
 							</div>
 							
