@@ -89,7 +89,7 @@ function freichatx_get_hash($ses){
 	<div id="head_content">
 		<div id="head_logo">
 			<a class="fleft" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
-				<img height="140" width="145" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
+				<img height="90" width="93" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
 			</a>
 			<a id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
 				<h1>SHIGARU</h1>
@@ -109,10 +109,6 @@ function freichatx_get_hash($ses){
 					echo '<div class="greetinguser"></div>';
 					?>
 					<jdoc:include type="modules" name="top" />
-					<?php
-					$uploadUrl =  JRoute::_("index.php?option=com_hwdvideoshare&task=upload");
-					echo '<div id="upload" class="fontbold fleft mright24 mtopl12"><a class="btn btn-primary fleft" title="'.JText::_('Click on this link to upload a video!').'" href="'.$uploadUrl.'"><i class="fontblack icon-share icon-2x"></i> <span class="f120 fontblack">Share a video</span></a></div>';
-					?>
 					<?php					
 					if ($user && !$user->guest){
 							echo '<div id="grettings" class="btn-group">';
@@ -148,7 +144,7 @@ function freichatx_get_hash($ses){
 	</div>
 </div>
 </div>
-<div id="nav_tabs">	
+<div id="nav_tabs" class="clearfix">	
 	<jdoc:include type="modules" name="user3" />
 </div>
 <div class="clear"></div>

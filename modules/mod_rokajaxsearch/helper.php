@@ -102,17 +102,23 @@ class modRokajaxsearchHelper {
 					 );
         $total = $db->loadResult();
         echo $db->getErrorMsg();
-        modRokajaxsearchHelper::setLastVideoCount($total);
+        return $total;
+		}
+	function getTotalCategoryVideosCount($paramcategory){
+		$db = & JFactory::getDBO();
+		// get video count
+        $db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video WHERE category_id ='.$paramcategory
+					 . $hwdvs_joinv
+					 . $where
+					 );
+        $total = $db->loadResult();
+        echo $db->getErrorMsg();
         return $total;
 		}
 	
 	
 	
-	
-	function setLastVideoCount($paramTotal){
-		$session = & JFactory::getSession();
-		$session->set('songcount', $paramTotal);
-		}
 	
 	
 	function getLatestSearchs() {

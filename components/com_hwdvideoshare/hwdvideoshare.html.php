@@ -100,16 +100,6 @@ class hwd_vs_html
 		$smartyvs->assign( "featured_link" , JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$Itemid."&task=featuredvideos") );
 		$smartyvs->assign( "print_featured_player", $c->feat_show );
 
-		
-		
-		/* Shigaru Customs */
-		
-		
-		jimport( 'joomla.application.module.helper' );
-		
-		
-
-		
 		// link to thn reasons
 		
 		jimport( 'joomla.methods' ); 
