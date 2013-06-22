@@ -63,16 +63,29 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 				</a>
 			</div>					
 		</div>
-		<div class="fleft w60 f90 bradius5">
-			<div>Site Statistics</div>
-			<div class="fleft f120 pad12">
-				<div>Total Videos</div>
-				<div class="fontorange fontbold f120"><?php echo $params->totalCount; ?></div>
-			</div>	
-			<div class="fright">	
-				<div><span>Song Tutorials</span><span class="fontorange fontbold"><?php echo $params->songCount; ?></span></div>
-				<div><span>Theory</span><span class="fontorange fontbold"><?php echo $params->theoryCount; ?></span></div>
-				<div><span>Instruments</span><span class="fontorange fontbold"><?php echo $params->watchmeCount; ?></span></div>
+		<div class="fright w60">
+			<div class="clearfix">
+				<div id="statistics">Site Statistics</div>
+				<div class="f90 bradius5 clearfix">
+					<div class="fleft f120 w40">
+						<div class="fontbold f110 mtop6">Total Videos:</div>
+						<div class="fontorange fontbold f120 w80pc tright"><?php echo $params->totalCount; ?></div>
+					</div>	
+					<div class="fright padright12 clearfix w45">	
+						<div class="clearfix">
+							<div class="w60 tleft fleft">Song Tutorials:</div>
+							<div class="fontorange fontbold w30 tright fleft"><?php echo $params->songCount; ?></div>
+						</div>
+						<div class="clearfix">
+							<div class="w60 tleft fleft">Theory:</div>
+							<div class="fontorange fontbold w30 tright fleft"><?php echo $params->theoryCount; ?></div>
+						</div>
+						<div class="clearfix">
+							<div class="w60 tleft fleft">Instruments:</div>
+							<div class="fontorange fontbold w30 tright fleft"><?php echo $params->watchmeCount; ?></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
