@@ -71,9 +71,7 @@ class hwd_vs_html
 		// set the page/meta title
 		$doc->setTitle( $metatitle );
 		$doc->setMetaData( 'title' , $metatitle );
-		hwd_vs_tools::generateActiveLink(1);
-		hwd_vs_tools::generateBreadcrumbs();
-
+	
 		// define javascript
 		hwd_vs_javascript::confirmdelete();
 
@@ -140,7 +138,7 @@ class hwd_vs_html
 		}
 
 		// set the page/meta title
-		if(!$fromtop){
+		if(!$fromtop && $isAjax=='no'){
 			$doc->setTitle( $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
 			$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
 			$doc->addCustomTag( '<link rel="stylesheet" type="text/css" media="all" href="'.JURI::root( true ).'/templates/rhuk_milkyway/css/chosen.css" />' );

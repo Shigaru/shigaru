@@ -5739,7 +5739,8 @@ $app = & JFactory::getApplication();
 			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
 		}
 
-		$limit 	= intval($c->vpp);
+		//$limit 	= intval($c->vpp);
+		$limit 	= 12;
 		if($otheruser=='no')
 			$user_id = $my->id;
 			else

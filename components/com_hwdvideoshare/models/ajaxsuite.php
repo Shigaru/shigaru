@@ -250,7 +250,7 @@ class hwd_vs_ajax
 		$pageURL = $uri->toString();
 		
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'core.php');
-		hwd_vs_core::displayResults();
+		hwd_vs_core::displayResults(true);
 		}
 	
     /**

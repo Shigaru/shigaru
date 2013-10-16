@@ -15,6 +15,7 @@
 	
 </form>
 <div class="vidlistpagination w63 f100 mtop2 fleft tcenter"></div>
+
 <div id="options" class="clearfix fright">    
 	<div class="btn-group" data-option-key="layoutMode">
 	  <a class="btn active" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>

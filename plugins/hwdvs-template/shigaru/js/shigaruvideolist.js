@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-	jQuery('#resultcontainer').shigaruVideoList();
+	var oShigaruVideoList  = jQuery('#resultcontainer').shigaruVideoList();
    });
 
 (function(jQuery) {
@@ -10,13 +10,14 @@ jQuery(document).ready(function() {
 	var $usercontainer 	= jQuery(opts.userTargetDiv);
 	var $optionSets 	= jQuery(opts.optionLinks);
     var $optionLinks 	= $optionSets.find('a');
-    var oListUrl 		= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_myvideos&format=raw";
+    var oListUrl 		= opts.listURL;
     var oUserUrl 		= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_userdetails&format=raw&user_id="+jQuery('#user_id').val();
     var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_setuserstatusmessage&format=raw"
     
     return this.each(function() {
 		doLoadAjaxContent(oListUrl);
-		doLoadAjaxUserDetails();	
+		if(opts.needsHeaderProfile)
+			doLoadAjaxUserDetails();	
 		activateLayoutLinks();
 	});
 	
@@ -324,7 +325,9 @@ jQuery(document).ready(function() {
 	filtersLinks: '#resultfilters .filter .widget input,#resultfilters .filter .widget a',
 	filtersSelects: '#resultfilters .filter .widget select',
 	paginationContainer: '.vidlistoptbar .vidlistpagination',
-	actionbars:'.vidlistoptbar'
+	actionbars:'.vidlistoptbar',
+	listURL : 'index.php?option=com_hwdvideoshare&Itemid=29&task=displayresults&ajax=yes&format=raw',
+	needsHeaderProfile: true
   }
   
 })(jQuery);

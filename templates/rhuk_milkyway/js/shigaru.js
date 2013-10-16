@@ -298,6 +298,7 @@ jQuery(document).ready(function($){
 	var oCurrentUrl, oCurrentFilters, 
 	oCurrentPattern									= null;
 	var oCurrentIndex								= 0;
+	var $container 									= jQuery(opts.targetDiv);
 	
     return this.each(function() {
 		transformPageLinks();
@@ -367,12 +368,7 @@ jQuery(document).ready(function($){
 	
 	
 	function composeUrl(e){
-		if(oSearchParams.currentUrl.indexOf('?')>0 && oSearchParams.currentUrl.indexOf('search-results')>0)
-			oCurrentUrl = oSearchParams.currentUrl.substring(0,oSearchParams.currentUrl.indexOf('?'))+'?ajax=yes';
-			else if (oSearchParams.currentUrl.indexOf('search-results')<0)
-				oCurrentUrl = oSearchParams.currentUrl.substring(0,oSearchParams.currentUrl.indexOf('?'))+'/videos/search-results?ajax=yes';
-				else
-			oCurrentUrl = oSearchParams.currentUrl+'?ajax=yes';
+			oCurrentUrl = 'index.php?option=com_hwdvideoshare&task=ajax_search&format=raw';
 		if(jQuery(e.target).parent().parent().hasClass('videopagination') || jQuery(e.target).parent().parent().hasClass('pagination')){
 			var oLimitStart = e.target.href.substring(e.target.href.indexOf("&limitstart=")+12,e.target.href.length);
 				if(oLimitStart.indexOf('&')>0)
@@ -442,43 +438,40 @@ jQuery(document).ready(function($){
 	
 	
 	function getPageResults(paramUrl){
-		
-		jQuery.blockUI({ 
-						message: jQuery('<div class="searchloading">Loading...</div>'),
-						css : { 
-								border : 'none', 
-								height: 'auto', 
-								'text-align':'left',
-								'cursor': 'auto'
-								} 
-						});
+		$container.isotope( 'destroy' );
+		$container.html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
+		var oPosition = $container.position();	  
+		//jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');	
+		jQuery(opts.actionbars).block({ message: null });
 		jQuery.ajax({
-			  url: paramUrl,
-			  context: document.body,
-			  success: function(data){
-				  jQuery(opts.targetDiv).html(data);
-					 transformPageLinks();
-					 transformOrderBys();
-					 transformLimitBox();
-				  jQuery.unblockUI({ 
-					onUnblock: function(){   
-					  }
-					 });
-				oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
-				if(oCurrentUrl.indexOf('?ajax=yes&')>0){
-					oCurrentUrl = oCurrentUrl.replace('?ajax=yes&','?');
-					}
-				oCurrentUrl = oCurrentUrl.replace('#','');	 
-				if(window.history.pushState)
-					window.history.pushState({"html":data,"pageTitle":document.title},"", oCurrentUrl);
-					else
-						window.location.href = oCurrentUrl;
-					
-				var oPosition = jQuery(opts.targetDiv).position();	  
-				jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');	  
-				
-			  }
-			});
+            url: paramUrl
+        }).done(function (data) {
+			$container.hide().html(data).find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+			$container.find('span[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+			var oPagination = $container.find('#videolistpage').html();
+			$container.find('#videolistpage').remove();
+			$container.fadeIn();
+			jQuery(opts.paginationContainer).html(oPagination);
+			$container.find(".loadingcontent").hide();
+			jQuery(opts.actionbars).unblock();	  
+			initVideoList();
+			oCurrentUrl = oCurrentUrl.replace('&ajax=yes','');
+			if(oCurrentUrl.indexOf('?ajax=yes&')>0){
+				oCurrentUrl = oCurrentUrl.replace('?ajax=yes&','?');
+				}
+			oCurrentUrl = oCurrentUrl.replace('#','');	 
+			if(window.history.pushState)
+				window.history.pushState({"html":data,"pageTitle":document.title},"", oCurrentUrl);
+				else
+					window.location.href = oCurrentUrl;
+			var oPosition = jQuery(opts.targetDiv).position();	  
+			jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');		
+			 transformPageLinks();
+			 transformOrderBys();
+			 transformLimitBox();
+
+        });
+		
 		}
 
   }
@@ -491,7 +484,14 @@ jQuery(document).ready(function($){
 	searchTypeLinks:'.search-results-filter-categories p label',
 	filtersLinks: '#resultfilters .filter .widget input,#resultfilters .filter .widget a',
 	filtersSelects: '#resultfilters .filter .widget select',
-	hideTabs:false
+	hideTabs:false,
+	paginationLinks:'span.pagination a.page',
+	targetDiv:'#resultcontainer',
+	optionLinks:'#options .btn-group',
+	paginationContainer: '.vidlistoptbar .vidlistpagination',
+	actionbars:'.vidlistoptbar',
+	listURL : 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_myvideos&format=raw',
+	needsHeaderProfile: true
   }
   
 })(jQuery);
@@ -547,157 +547,3 @@ function shigaruAjax(url,elementToBLock,styles, message,showOverlay){
 	 }   
 
 
-JQTWEET = {
-     
-    // Set twitter username, number of tweets & id/class to append tweets
-    user: 'shigaru',
-    numTweets: 5,
-    appendTo: '#shgtweets',
- 
-    // core function of jqtweet
-    loadTweets: function() {
-        jQuery.ajax({
-            url: 'http://api.twitter.com/1/statuses/user_timeline.json/',
-            type: 'GET',
-            dataType: 'jsonp',
-            data: {
-                screen_name: JQTWEET.user,
-                include_rts: true,
-                count: JQTWEET.numTweets,
-                include_entities: true
-            },
-            success: function(data, textStatus, xhr) {
-                 var html = '<li>'+
-								'<p><span>@USER</span>TWEET_TEXT</p>'+
-								'<span class="tItalic">AGO</span>'+
-							'</li>';
-         
-                 // append tweets into page
-                 for (var i = 0; i < 2; i++) {
-                    jQuery(JQTWEET.appendTo).append(
-                    
-                        html.replace('TWEET_TEXT', JQTWEET.ify.clean(data[i].text) )
-                            .replace('USER', data[i].user.screen_name)
-                            .replace('AGO', JQTWEET.timeAgo(data[i].created_at) )
-                            
-                           // .replace(/ID/g, data[i].id_str)
-                    );
-                 }                  
-            }   
- 
-        });
-         
-    }, 
-     
-         
-    /**
-      * relative time calculator FROM TWITTER
-      * @param {string} twitter date string returned from Twitter API
-      * @return {string} relative time like "2 minutes ago"
-      */
-    timeAgo: function(dateString) {
-        var rightNow = new Date();
-        var then = new Date(dateString);
-         
-        if (jQuery.browser.msie) {
-            // IE can't parse these crazy Ruby dates
-            then = Date.parse(dateString.replace(/( \+)/, ' UTC$1'));
-        }
- 
-        var diff = rightNow - then;
- 
-        var second = 1000,
-        minute = second * 60,
-        hour = minute * 60,
-        day = hour * 24,
-        week = day * 7;
- 
-        if (isNaN(diff) || diff < 0) {
-            return ""; // return blank string if unknown
-        }
- 
-        if (diff < second * 2) {
-            // within 2 seconds
-            return "right now";
-        }
- 
-        if (diff < minute) {
-            return Math.floor(diff / second) + " seconds ago";
-        }
- 
-        if (diff < minute * 2) {
-            return "about 1 minute ago";
-        }
- 
-        if (diff < hour) {
-            return Math.floor(diff / minute) + " minutes ago";
-        }
- 
-        if (diff < hour * 2) {
-            return "about 1 hour ago";
-        }
- 
-        if (diff < day) {
-            return  Math.floor(diff / hour) + " hours ago";
-        }
- 
-        if (diff > day && diff < day * 2) {
-            return "yesterday";
-        }
- 
-        if (diff < day * 365) {
-            return Math.floor(diff / day) + " days ago";
-        }
- 
-        else {
-            return "over a year ago";
-        }
-    }, // timeAgo()
-     
-     
-    /**
-      * The Twitalinkahashifyer!
-      * http://www.dustindiaz.com/basement/ify.html
-      * Eg:
-      * ify.clean('your tweet text');
-      */
-    ify:  {
-      link: function(tweet) {
-        return tweet.replace(/\b(((https*\:\/\/)|www\.)[^\"\']+?)(([!?,.\)]+)?(\s|$))/g, function(link, m1, m2, m3, m4) {
-          var http = m2.match(/w/) ? 'http://' : '';
-          return '<a class="twtr-hyperlink" target="_blank" href="' + http + m1 + '">' + ((m1.length > 25) ? m1.substr(0, 24) + '...' : m1) + '</a>' + m4;
-        });
-      },
- 
-      at: function(tweet) {
-        return tweet.replace(/\B[@＠]([a-zA-Z0-9_]{1,20})/g, function(m, username) {
-          return '<a target="_blank" class="twtr-atreply" href="http://twitter.com/intent/user?screen_name=' + username + '">@' + username + '</a>';
-        });
-      },
- 
-      list: function(tweet) {
-        return tweet.replace(/\B[@＠]([a-zA-Z0-9_]{1,20}\/\w+)/g, function(m, userlist) {
-          return '<a target="_blank" class="twtr-atreply" href="http://twitter.com/' + userlist + '">@' + userlist + '</a>';
-        });
-      },
- 
-      hash: function(tweet) {
-        return tweet.replace(/(^|\s+)#(\w+)/gi, function(m, before, hash) {
-          return before + '<a target="_blank" class="twtr-hashtag" href="http://twitter.com/search?q=%23' + hash + '">#' + hash + '</a>';
-        });
-      },
- 
-      clean: function(tweet) {
-        return this.hash(this.at(this.list(this.link(tweet))));
-      }
-    } // ify
- 
-     
-};
- 
- 
- 
-jQuery(document).ready(function () {
-    // start jqtweet!
-    JQTWEET.loadTweets();
-});

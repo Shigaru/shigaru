@@ -463,37 +463,17 @@ class hwd_vs_core
      */
     function search()
     {
-        global $hwdvsItemid;
-		$app = & JFactory::getApplication();
-
-        $pattern     = JRequest::getVar( 'pattern', '' );
-        $category_id = JRequest::getInt( 'category_id', '0' );
-        $rpp         = JRequest::getInt( 'rpp', '0' );
-        $sort        = JRequest::getVar( 'sort', 'relevance' );
-        $ep          = JRequest::getVar( 'ep', '' );
-        $ex          = JRequest::getVar( 'ex', '' );
-        
-
-		$url = JRoute::_("index.php?option=com_hwdvideoshare&task=displayresults&Itemid=$hwdvsItemid");
-		$url = str_replace("&amp;", "&", $url);
-
-		$pos = strpos($url, "?");
-		if ($pos === false)
-		{
-			$url = $url."?pattern=$pattern&rpp=$rpp&sort=$sort&ep=$ep&ex=$ex";
-		}
-		else
-		{
-			$url = $url."&pattern=$pattern&rpp=$rpp&sort=$sort&ep=$ep&ex=$ex";
-		}
-		$app->redirect($url);
+		global $smartyvs;
+		$domain = JURI::root();
+		$smartyvs->assign("domain", $domain);
+		$smartyvs->display('search.tpl');
     }
     /**
      * Query SQL for user inputted search pattern
      *
      * @return       Nothing
      */
-    function displayResults()
+    function displayResults($ajax_route = false)
     {
         global $smartyvs, $limitstart, $hwdvs_joinv, $hwdvs_joing, $hwdvs_selectv, $hwdvs_selectg;
 		$c = hwd_vs_Config::get_instance();
@@ -508,6 +488,8 @@ class hwd_vs_core
         $ep          = JRequest::getVar( 'ep', '' );
         $ex          = JRequest::getVar( 'ex', '' );
         $isAjax      = JRequest::getVar( 'ajax', 'no' );
+        if($ajax_route)
+				$isAjax = 'yes';
 		$level_id    = JRequest::getVar( 'level_id', '' );
 		$category_id = JRequest::getVar( 'category_id', '' );
 		$genre_id    = JRequest::getVar( 'genre_id', '' );

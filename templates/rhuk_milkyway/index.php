@@ -9,17 +9,11 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// no direct access
-//remove mootools.js and caption.js
-		  $headerstuff = $this->getHeadData();  
-		  $scripts = $headerstuff['scripts']; 
-		  foreach ($scripts as $path => $val) 
-		  { 
-			if (strpos($path, 'mootools.js') !== false || strpos($path, 'caption.js') !== false) unset($scripts[$path]); 
-		  } 
-		  $headerstuff['scripts'] = $scripts;
-		  $this->setHeadData($headerstuff);  
+ 
 defined( '_JEXEC' ) or die( 'Restricted access' );
+$headerstuff = $this->getHeadData();
+$headerstuff['scripts'] = array();
+$this->setHeadData($headerstuff);
 $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js");
 $this->addScript($this->baseurl."/modules/mod_rokajaxsearch/js/rokajaxsearch.js");
 
@@ -76,26 +70,48 @@ function freichatx_get_hash($ses){
 <link rel="stylesheet" href="<?php echo $host; ?>freichat/client/jquery/freichat_themes/freichatcss.php" type="text/css">
 </head>
 <body id="page_bg">
-	<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
 <a name="up" id="up"></a>
-<div id="head">
-	<div id="head_content">
-		<div id="head_logo">
-			<a class="fleft" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
-				<img height="90" width="93" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
-			</a>
-			<a id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
-				<h1>SHIGARU</h1>
-			</a>
-			<span id="head_comm_text"><?php echo JText::_('The community for sharing musical knowledge') ?></span>
-			<div id="topnavmenu">
+<div id="head" class="clearfix">
+	<div id="head_content" class="clearfix">
+		<div id="head_logo" class="fleft">
+			<div class="fleft mright12" >
+				<a href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+					<img height="35" width="35" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
+				</a>
+			</div>	
+			<div class="fleft" >
+				<a class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+					<h1>SHIGARU</h1>
+				</a>
+				<span id="head_comm_text"><?php echo JText::_('The community for sharing musical knowledge') ?></span>
+			</div>		
+			
+		</div>	
+		<div id="nav_browse" class="fleft mtop12 mleft20 mright20">
+					<div id="nav_browse_content">
+						<div id="nav_browse_search">
+							<div class="rokajaxsearch fleft">
+								<form method="get" action="index.php?option=com_hwdvideoshare&amp;task=search" class="light" id="rokajaxsearch" name="rokajaxsearch">
+									<div class="roksearch-wrapper">
+										<input type="text" class="inputbox" placeholder="Search bands, songs, genres, instruments..." name="pattern" id="roksearch_search_str" autocomplete="off">
+										<a href="#" class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" title="Click on this icon to expand search options"><i class="icon-cog"></i></a>
+									</div>
+									<input type="hidden" value="any" name="searchphrase">
+									<input type="hidden" value="20" name="limit">
+									<input type="hidden" value="newest" name="order">
+									<input type="hidden" value="displayresults" name="task">
+									<input type="hidden" value="28" name="Itemid">
+									<input type="hidden" value="com_hwdvideoshare" name="option">
+								</form>
+							</div>
+						</div>	
+					</div>
+				</div>	
+			<div class="fright">
+				<a href="/" title="Click on this icon to expand the available options" class="f300 fontwhite fontbold mbot12 mtop12 tdecnone"><i class="icon-double-angle-down icon-3"></i></a>
+			</div>
+				
+			<div id="topnavmenu" class="fright">
 				<?php
 					global $_CB_framework, $ueConfig, $mainframe;
 					include_once( $mainframe->getCfg( 'absolute_path' ) . '/administrator/components/com_comprofiler/plugin.foundation.php' );
@@ -111,9 +127,8 @@ function freichatx_get_hash($ses){
 					<jdoc:include type="modules" name="top" />
 					<?php					
 					if ($user && !$user->guest){
-							echo '<div id="grettings" class="btn-group">';
-							echo $cbUser->getField( 'avatar' , null, 'html', 'div', 'profile' );
-							echo '<div class="mtop12 mleft6 f13px">';
+							echo '<div id="grettings" class="btn-group mtopl6 mright12">';
+							echo '<div class="mtop12 mleft6 f16px"><i class="f150 icon-female"></i> ';
 							echo $user->username;
 							echo '</div>';
 							echo '<ul class="dropdown-menu">
@@ -122,7 +137,7 @@ function freichatx_get_hash($ses){
 										<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox"><span class="icon-envelope"></span>Inbox</a></li>
 										<li class="divider"></li>
 										<li><a href="index.php?option=com_hwdvideoshare&task=yourvideos"><span class="icon-headphones"></span>My Videos</a></li>
-										<li><a href="#"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites"><span class="icon-heart"></span>Videos I liked</a></li>
+										<li><a href="index.php?option=com_hwdvideoshare&task=yourfavourites"><span class="icon-heart"></span>Videos I liked</a></li>
 										<li class="divider"></li>
 										<li><a href="index.php?option=com_comprofiler&task=logout"><span class="icon-off"></span>Logout</a></li>
 									  </ul>';
@@ -131,18 +146,16 @@ function freichatx_get_hash($ses){
 						 
 					
 				?>
+				
+				
+				
 			</div>
+			
 		</div>	
-	</div>	
+	
 </div>	
 
-<div id="nav_browse">
-	<div id="nav_browse_content">
-		<div id="nav_browse_search">
-			<jdoc:include type="modules" name="search" />		
-		</div>	
-	</div>
-</div>
+
 </div>
 <div id="nav_tabs" class="clearfix">	
 	<jdoc:include type="modules" name="user3" />
@@ -169,16 +182,7 @@ function freichatx_get_hash($ses){
 <div id="footer">
 	<div id="footer_content">
 		<div id="leftcolumn">
-			<h3>What we're tweeting...</h3>
-			<div class="mbot20">
-				<ul id="shgtweets">
-					
-				</ul>
-				<div class="fright">
-					<input value="Follow us" class="submit fleft" type="submit" />
-				</div>
-			</div>
-			<div class="clear">
+			<div>
 				<h3>Stay in touch</h3>
 				<div>
 					<ul>
@@ -200,13 +204,6 @@ function freichatx_get_hash($ses){
 			
 		</div>
 		<div id="rightcolmn">
-			<div>
-				<h3 >Follow Shigaru on Facebook</h3>
-				<div>
-					<div class="fb-like-box boxwhite" data-href="http://www.facebook.com/ShigaruCommunity" data-width="410" data-show-faces="true" data-stream="false" data-header="false"></div>
-				</div>	
-			</div>
-			
 			<div>
 				<h3>Sign up for our Newsletters</h3>
 				<jdoc:include type="modules" name="subscribelink" /> 

@@ -6,15 +6,16 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<script type="text/javascript" src="{$domain}templates/rhuk_milkyway/js/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
+<script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/chosen.jquery.min.js"></script>
+<link rel="stylesheet" href="{$domain}/templates/rhuk_milkyway/css/chosen.css" type="text/css" />
 {literal}
 <script type="text/javascript">
 jQuery(document).ready(function($){
 	jQuery('.searchwrapper').shigaruSearch();
 	jQuery('select#genre_id,select#language_id,select#intrument_id').addClass('w90').chosen({allow_single_deselect:true});
 });
-
-
 var oSearchParams = {
 		ordering:'date_uploaded',
 		filtering:null,
@@ -34,7 +35,7 @@ var oSearchParams = {
 					<input type="hidden" name="task"   value="search" />
 				</div>	
 				<div class="search-results-filter-categories fleft" style="display: block; ">
-					<!--<p class="search-results-categories search-results-category-default_collection">
+					<p class="search-results-categories search-results-category-default_collection">
 						<span class="styledCheckbox styledCheckboxChecked" for="search-results-input-category-default_collection">
 							<label id="videos" for="search-results-input-category-default_collection">Videos </label>
 						</span>
@@ -49,7 +50,6 @@ var oSearchParams = {
 							<label id="users" for="search-results-input-category-help">Users</label>
 						</span>
 					</p>
-					-->
 				</div>		
 			</form>
 			
@@ -59,9 +59,6 @@ var oSearchParams = {
 </div>    
 
 </div> 
-<div class="w100 tcenter mbot20">
-				<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab" id="Player_83ce6e3d-0505-4d2f-8596-a37b6cbe31e4"  WIDTH="728px" HEIGHT="90px"> <PARAM NAME="movie" VALUE="http://ws.amazon.com/widgets/q?ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8009%2F83ce6e3d-0505-4d2f-8596-a37b6cbe31e4&Operation=GetDisplayTemplate"><PARAM NAME="quality" VALUE="high"><PARAM NAME="bgcolor" VALUE="#FFFFFF"><PARAM NAME="allowscriptaccess" VALUE="always"><embed src="http://ws.amazon.com/widgets/q?ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8009%2F83ce6e3d-0505-4d2f-8596-a37b6cbe31e4&Operation=GetDisplayTemplate" id="Player_83ce6e3d-0505-4d2f-8596-a37b6cbe31e4" quality="high" bgcolor="#ffffff" name="Player_83ce6e3d-0505-4d2f-8596-a37b6cbe31e4" allowscriptaccess="always"  type="application/x-shockwave-flash" align="middle" height="90px" width="728px"></embed></OBJECT> <NOSCRIPT><A HREF="http://ws.amazon.com/widgets/q?ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8009%2F83ce6e3d-0505-4d2f-8596-a37b6cbe31e4&Operation=NoScript">Amazon.com Widgets</A></NOSCRIPT>
-</div>
 <div class="contentpaneopen clear">
 		
 		<div id="resultfilters">
@@ -266,7 +263,8 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		
 		<div id="resultwrapper">
 			
-						<div class="f15em mbot12 mleft30">
+						<div class="f15em mbot12 clearfix">
+							<div class="fleft">
 									{$totalvideos} 
 									{if $searchterm eq ''}
 										{$smarty.const._HWDVIDS_META_SRCCEE}
@@ -279,49 +277,32 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 										{$vpageCounter}
 									</span>
 									{/if}	
-						</div>
-						<div id="resultordering">
-								<div>
-									<h4>Order by:</h4>
-								</div>	
-								<a id="date_uploaded" href="#" class="order orderselected">Date uploaded</a>
-								<a id="relevance" class="order" href="#">Relevance</a>
-								<a id="updated_rating" class="order" href="#">Rating</a>
-								<a id="number_of_views" class="order" href="#">Views</a>
-								<!--<a id="number_of_comments" class="order" href="#">Comments</a>-->
+							</div>
+							<div class="fright f80">		
 								{if $totalvideos gt 0}
-										<div class="fright mright12">
+										<div class="f80">
 											<label for="limit">
 												Display
 											</label>
 											{$vpageLimits}
 										</div>
-										<div class="clear"></div>
-									{else}
-										<div class="clear"></div>
 									  {/if}
-						</div>		
+							</div>
+						</div>	
 		
-									<div id="videoresultwrapper">
-									  {if $print_matchvids}
-									  
-										{foreach name=outer item=data from=$matchingvids}
-											  <div class="searchResultItem">
-											  <div>
-										  {include file="video_list_full.tpl"}
-										  </div>
-										  </div>
-										  
-										{/foreach}
-										
-									  {else}
-										<div class="clear"></div>
-										<div class="padding novideos">{$mvempty}</div>
-									  {/if}
-										  <div class="videopagination">
-											{$vpageNavigation}
-										  </div>
-									   </div>
+									<div id="videoresultwrapper" class="f80">
+										<div class="vidlistoptbar clearfix mtop20">					
+											{include file='video_list_optionsbar.tpl'}   
+										</div>
+										<div id="resultcontainer" class="mtop20">
+											<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...
+											</div>
+										</div>
+										<div class="vidlistoptbar clearfix mtop20">
+												<div class="vidlistpagination w100 f100 fleft tcenter">
+												</div>
+										</div>
+									</div>
 	</div>
 </div>
 

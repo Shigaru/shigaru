@@ -39,21 +39,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
             $uri->delVar('category_id');
 		}
 		
-        if (($uri->getVar('rpp') == 0) || is_null($uri->getVar('rpp'))){
-            $uri->delVar('rpp');
-		}
-		
-        if (($uri->getVar('sort') == 0) && is_null($uri->getVar('sort'))){
-            $uri->delVar('sort');
-		}
-		
-        if (($uri->getVar('ep') == 0) || is_null($uri->getVar('ep'))){
-            $uri->delVar('ep');
-		}
-		
-        if (($uri->getVar('ex') == 0) || is_null($uri->getVar('ex'))){
-            $uri->delVar('ex');
-		}
+        
 	}
 	
 	function catParam($vars, $real_url) {
@@ -123,13 +109,13 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 						unset($vars['video_id']);
 					}
                     break;
-				case 'viewgroup':
+				case 'viewgroup':/*
 					$segments[] = _HWDVS_SEF_GROUPS;
 					
                     if (!empty($group_id)){
                         $segments[] = self::_getGroup(intval($group_id));
 						unset($vars['group_id']);
-                    }
+                    }*/
                     break;
 				case 'viewPlaylist':
 					$segments[] = JText::_('Playlist');
@@ -149,7 +135,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
                     }
                     break;
 				case 'nextvideo':
-					$segments[] = _HWDVS_SEF_NV;
+					/*$segments[] = _HWDVS_SEF_NV;
                     if (!empty($category_id) && empty($video_id)) {
                         $segments = array_merge( $segments, self::_getCategory(intval($category_id)));
 						unset($vars['category_id']);
@@ -157,8 +143,9 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
                     if (!empty($video_id)) {
                         $segments = array_merge( $segments, self::_getVideo(intval($video_id)));
 						unset($vars['video_id']);
-					}
-				case 'previousvideo':
+					}*/
+					break;
+				case 'previousvideo':/*
 					$segments[] = _HWDVS_SEF_PV;
                     if (!empty($category_id) && empty($video_id)) {
                         $segments = array_merge( $segments, self::_getCategory(intval($category_id)));
@@ -168,7 +155,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
                         $segments = array_merge( $segments, self::_getVideo(intval($video_id)));
 						unset($vars['video_id']);
 					}
-                    break;
+                    break;*/
 				case 'displayresults':
                     if (!empty($category_id)) {
                         $segments = array_merge( $segments, self::_getCategory(intval($category_id)));
@@ -177,11 +164,11 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 					$segments[] = JText::_('Search Results');
                     break;
 				case 'search':
-                    if (!empty($category_id)) {
+                    /*if (!empty($category_id)) {
                         $segments = array_merge( $segments, self::_getCategory(intval($category_id)));
 						unset($vars['category_id']);
 					}
-					$segments[] = JText::_('Search');
+					$segments[] = JText::_('Search');*/
                     break;
 				case 'yourvideos':
 					$segments[] = _HWDVIDS_NAV_YOURVIDS;
@@ -232,7 +219,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 				case 'yourvids':
 				case 'creategroup':
 				case 'groups':
-                    $tasks = array('editgroup' => JText::_('Edit Group'),
+                   /* $tasks = array('editgroup' => JText::_('Edit Group'),
 					'featuredvids' => JText::_('Featured Videos'),
 					'editchannel' => JText::_('Edit Channel'),
 					'editChannel' => JText::_('Edit Channel'),
@@ -260,7 +247,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 					'yourvids' => JText::_('Your Videos'),
 					'creategroup' => _HWDVIDS_NAV_CREATEGROUP,
 					'groups' => _HWDVIDS_NAV_GROUPS);
-                    $segments[] = $tasks[$task];
+                    $segments[] = $tasks[$task];*/
                     break;
 				case 'downloadfile':
 				case 'downloadFile':
@@ -431,7 +418,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 	function _getGroup($id) {
 		static $cache = array();
 		
-		if (!isset($cache[$id])) {
+		/*if (!isset($cache[$id])) {
 			$joomfish = $this->AcesefConfig->joomfish_trans_url ? ', id' : '';	
 			$row = AceDatabase::loadRow("SELECT group_name, group_description$joomfish FROM #__hwdvidsgroups WHERE id =".$id);
 	   
@@ -444,9 +431,9 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 		$this->meta_title[] = $cache[$id]['meta_title'];
 		if (!empty($cache[$id]['meta_desc'])) {
 			$this->meta_desc = $cache[$id]['meta_desc'];
-		}
+		}*/
 		
-		return $cache[$id]['name'];
+		return $cache;
     }
 	
 	function _getPlaylist($id) {
