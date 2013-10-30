@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,16 +25,17 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: joomfish.class.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: joomfish.class.php 1592 2012-01-20 12:51:08Z akede $
  *
 */
 
 /**
 * @package joomfish
  * @subpackage frontend.includes
- * @copyright 2003 - 2011, Think Network GmbH, Munich
+ * @copyright 2003 - 2012, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1551 $
+ * @version $Revision: 1592 $
+ * @author Alex Kempkens <Alex@JoomFish.net>
 */
 
 // ensure this file is being included by a parent file
@@ -221,6 +222,7 @@ class JoomFish {
 		$fallbackrows=array();
 		$idarray = explode(",",$ids);
 		$fallbackids=array();
+		$allowfallback=false;
 		if (isset($languages[$language]) && $languages[$language]->fallback_code!="") {
 			$fallbacklanguage = $languages[$language]->fallback_code;
 			if (!array_key_exists($fallbacklanguage, $languages)){
@@ -237,7 +239,7 @@ class JoomFish {
 			//$published = "\n	AND jf_content.published=1";
 			$sql = "SELECT jf_content.reference_field, jf_content.value, jf_content.reference_id, jf_content.original_value "
 			. "\nFROM #__jf_content AS jf_content"
-			. "\nWHERE jf_content.language_id=".$languages[$language]->id
+			. "\nWHERE jf_content.language_id=".$languages[$language]->lang_id
 			. $published
 			. "\n   AND jf_content.reference_id IN($ids)"
 			. "\n   AND jf_content.reference_table='$reference_table'"

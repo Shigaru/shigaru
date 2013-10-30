@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -30,8 +30,6 @@
  * @subpackage Views
  *
 */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
 $state			= $this->get('state');
 $message1		= $state->get('message');
 $message2		= $state->get('extension.message');

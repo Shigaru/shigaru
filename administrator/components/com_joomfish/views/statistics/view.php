@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: view.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: view.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Views
  *
@@ -45,7 +45,7 @@ JLoader::import( 'views.default.view',JOOMFISH_ADMINPATH);
  */
 class StatisticsViewStatistics extends JoomfishViewDefault
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		JHTML::stylesheet( 'joomfish.css', 'administrator/components/com_joomfish/assets/css/' );
 
@@ -83,7 +83,7 @@ class StatisticsViewStatistics extends JoomfishViewDefault
 	 *
 	 * @param unknown_type $contentelements
 	 */
-	function renderOriginalStatusTable($originalStatus, $message='', $langCodes=null) {
+	public function renderOriginalStatusTable($originalStatus, $message='', $langCodes=null) {
 		$htmlOutput = '';
 
 		$htmlOutput = '<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">';
@@ -131,7 +131,7 @@ class StatisticsViewStatistics extends JoomfishViewDefault
 	 * @param array $translationStatus
 	 * @return unknown
 	 */
-	function renderTranslationStatusTable($translationStatus, $message='') {
+	public function renderTranslationStatusTable($translationStatus, $message='') {
 		$htmlOutput = '';
 
 		$htmlOutput .= '<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">';

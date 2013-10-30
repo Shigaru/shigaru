@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: view.php 1571 2011-04-16 10:50:06Z akede $
+ * $Id: view.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Views
  *
@@ -53,11 +53,12 @@ class HelpViewHelp extends JoomfishViewDefault
 	 *
 	 * @param template $tpl
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('HELP AND HOWTO'));
-		
+		JHTML::stylesheet( 'jfhelp.css', 'administrator/components/com_joomfish/assets/css/' );
+				
 		// Set toolbar items for the page
 		JToolBarHelper::title( JText::_( 'HELP AND HOWTO' ), 'help' );
 		JToolBarHelper::custom( 'cpanel.show', 'joomfish', 'joomfish', 'CONTROL PANEL' , false );
@@ -86,112 +87,9 @@ class HelpViewHelp extends JoomfishViewDefault
 	 * @access public
 	 * @return void
 	 */
-	function information($tpl=null) {
+	protected function information($tpl=null) {
 		$document = JRequest::getVar('fileCode','');
 		$this->assignRef('fileCode', $document);		
-	}
-	/**
-	 * Show the side menu
-	 *
-	 */
-	function _sideMenu() {
-  	?>
-		<img src="<?php echo JURI::root();?>administrator/components/com_joomfish/assets/images/joomfish_slogan.png" border="0" alt="<?php echo JText::_('Language Title');?>"  />
-		<p><span class="contentheading"><?php echo JText::_('Related topics');?>:</span>
-		<ul>
-			<li><a href="http://www.joomfish.net" target="_blank"><?php echo JText::_('Official Project WebSite');?></a></li>
-			<li><a href="http://www.joomfish.net/forum/" target="_blank"><?php echo JText::_('Official Project Forum');?></a></li>
-			<li><a href="http://joomlacode.org/gf/project/joomfish/tracker/" target="_blank"><?php echo JText::_('Bug and Feature tracker');?></a></li>
-		</ul>
-		</p>
-		<p><span class="contentheading"><?php echo JText::_('Documentation and Tutorials');?>:</span>
-		<ul>
-			<li><a href="http://www.joomfish.net/joomfish-documentation-overview.html" target="_blank"><?php echo JText::_('Online Documentation and Tutorials');?></a></li>
-			<li><a href="index2.php?option=com_joomfish&amp;task=help.postinstall"><?php echo JText::_('Installation notes');?></a></li>
-			<li><a href="index2.php?option=com_joomfish&amp;task=help.information&amp;fileCode=changelog"><?php echo JText::_('Changelog');?></a></li>
-		</ul>
-		</p>
-		<p><span class="contentheading"><?php echo JText::_('License');?>:</span>
-		<ul>
-			<li><a href="index2.php?option=com_joomfish&amp;task=help.information&amp;fileCode=license">GPL based Think Network Open Source license</a></li>
-		</ul>
-		</p>
-		<p><span class="contentheading"><?php echo JText::_('Additional Sites');?>:</span>
-		<ul>
-			<li><a href="http://www.joomla.org" target="_blank">Joomla!</a></li>
-		</ul>
-		</p>
-  	<?php
-	}
-	
-	function _creditsCopyright() {
-		?>
-		<p>
-		<span class="smallgrey"><strong><?php echo JText::_('Credits');?>:</strong></span><br />
-		<span class="smallgrey"><?php echo JText::_('JOOMFISH_COMMUNITY');?><br />
-		Present development team:
-		<ul>
-			<li>Alex Kempkens (<?php
-			$x = "@";
-			$y="Alex";
-			$z="JoomFish.net";
-			$mail=$y.$x.$z;
-
-			echo JHTML::_('email.cloak', $mail, 0);
-			?>)</li>
-			<li>Geraint Edwards (<?php
-			$x = "@";
-			$y="joomfish.credits";
-			$z="copyn.plus.com";
-			$mail=$y.$x.$z;
-
-			echo JHTML::_('email.cloak', $mail, 0);
-			?>)</li>
-			<li>Ivo Apostolov (<?php
-			$x = "@";
-			$y="ivo";
-			$z="joomfish.net";
-			$mail=$y.$x.$z;
-
-			echo JHTML::_('email.cloak', $mail, 0);
-			?>)</li>
-			<li>Robin Muilwijk</li>
-		</ul>
-		<br />
-
-		Logo design by:
-		<ul>
-			<li>Tommy White (<?php
-			$x = "@";
-			$y="tommy";
-			$z="tommywhite.com";
-			$mail=$y.$x.$z;
-
-			echo JHTML::_('email.cloak', $mail, 0);
-			?>)</li>
-		</ul>
-
-		&nbsp;<br />
-		Special thank's for testing, good suggestions & translations to:<br />
-		Bernhard, Michael, Luc, Olivier, Robin, Rune, Victor, Akarawuth</span><br />
-
-		&nbsp;<br />
-		<span class="smallgrey"><strong>Contact:</strong></span><br />
-		<span class="smallgrey"><a href="http://www.joomfish.net/forum" target="_blank">Joom!Fish Forum</a></span>
-		<br />
-		&nbsp;<br />
-		<span class="smallgrey"><strong>Version:</strong></span><br />
-		<?php
-		$version = new JoomFishVersion();
-		?>
-		<span class="smallgrey"><?php echo $version->getVersion();?></span><br />
-		&nbsp;<br />
-		<span class="smallgrey"><strong>Copyright:</strong></span><br />
-		<span class="smallgrey"><?php echo $version->getCopyright() ?> </span><a href="http://www.ThinkNetwork.com" target="_blank" class="smallgrey"><span class="smallgrey">Think Network, Munich</span></a><br />
-		<span class="smallgrey">Revision: <?php echo $version->getRevision() ?></span><br />
-		<a href="index2.php?option=com_joomfish&amp;task=help.information&amp;fileCode=license" class="smallgrey"><span class="smallgrey">Open Source License.</span></a>
-		</p>
-		<?php
 	}
 	
 	/**
@@ -203,14 +101,17 @@ class HelpViewHelp extends JoomfishViewDefault
 	 * automatically searches the template paths and compiles as needed.
 	 * @return string The output of the the template script.
 	 */
-	function loadTemplate( $tpl = null)
+	public function loadTemplate( $tpl = null)
 	{
 		global $mainframe, $option;
 
 		// clear prior output
 		$this->_output = null;
 
-		$file = $this->_layout;
+		$file = isset($tpl) ? $this->_layout.'_'.$tpl : $this->_layout;
+		// Add specific prefix to the file for usage within the help directry
+		$file = 'help.' . $file;
+		
 		// clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
 
@@ -218,7 +119,10 @@ class HelpViewHelp extends JoomfishViewDefault
 		jimport('joomla.language.help');
 		$filetofind = JHelp::createURL($file, true);		
 		
-		$this->_template = JPath::find(JPATH_ADMINISTRATOR, $filetofind);
+		// TODO: reactivate - this construct can not deal with symbolic links!
+		//$this->_template = JPath::find(JPATH_ADMINISTRATOR, $filetofind);
+		$fullname = JPATH_ADMINISTRATOR.DS.$filetofind;
+		$this->_template = JFile::exists($fullname) ? $fullname : false;
 
 		if ($this->_template != false)
 		{

@@ -1,7 +1,7 @@
 <?php 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -38,14 +38,15 @@ Present core team:</p>
 <ul>
 	<li>Alex Kempkens</li>
 	<li>Geraint Edwards</li>
+	<li>Carolien de Groot</li>
 </ul>
 <p>
 Special community contributions:</p>
 <ul>
 	<li>Tommy White (original logo)</li>
 	<li>Robert Ola Akerman (logo freshup)</li>
+	<li>Ron Severdia (new website design)</li>
 	<li>Harri Susi (Forum moderation)</li>
-	<li>Carolien de Groot (documentation)</li>
 </ul>
 <h3>Version:</h3>
 <p>

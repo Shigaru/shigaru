@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: helper.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: helper.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage mod_jflanguageselection
  *
@@ -41,8 +41,13 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 	define( 'JFMODULE_CLASS', true );
 
 	class JFModuleHTML {
-
-		function makeOption( $value, $text='', $style='') {
+		/**
+		 * 
+		 * @param $value
+		 * @param $text
+		 * @param $style
+		 */
+		public static function makeOption( $value, $text='', $style='') {
 			$obj = new stdClass;
 			$obj->value = $value;
 			$obj->text = $text;
@@ -51,16 +56,16 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 		}
 
 		/**
-	* Generates an HTML select list
-	* @param array An array of objects
-	* @param string The value of the HTML name attribute
-	* @param string Additional HTML attributes for the <select> tag
-	* @param string The name of the object variable for the option value
-	* @param string The name of the object variable for the option text
-	* @param mixed The key that is selected
-	* @returns string HTML for the select list
-	*/
-		function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL ) {
+		 * Generates an HTML select list
+		 * @param array An array of objects
+		 * @param string The value of the HTML name attribute
+		 * @param string Additional HTML attributes for the <select> tag
+		 * @param string The name of the object variable for the option value
+		 * @param string The name of the object variable for the option text
+		 * @param mixed The key that is selected
+		 * @returns string HTML for the select list
+		 */
+		public static function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL ) {
 			// check if array
 			if ( is_array( $arr ) ) {
 				reset( $arr );
@@ -95,11 +100,11 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 		}
 
 		/**
-	 * internal function to generate a new href link
-	 * @param	TableJFLanguage	the language
-	 * @return	string	new href string
-	 */
-		function _createHRef( $language , $modparams) {
+		 * internal function to generate a new href link
+		 * @param	TableJFLanguage	the language
+		 * @return	string	new href string
+		 */
+		public static function _createHRef( $language , $modparams) {
 			// NB I pass the language in order to ensure I use the standard language cache files
 			$db = JFactory::getDBO();
 			$pfunc = $db->_profile();
@@ -157,7 +162,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 			return $url;
 		}
 		
-		function _createHRef2($currenturl,$href, $code) {
+		public static function _createHRef2($currenturl,$href, $code) {
 			// Treat change of language specially because of problems if menu alias is translated
 			$registry = JFactory::getConfig();
 			$language = $registry->getValue("joomfish.language",null);
@@ -201,7 +206,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 			return $url;
 		}
 
-		function _route($href,$sefLang){
+		public static function _route($href,$sefLang){
 			$jfm = JoomFishManager::getInstance();
 			$conf = JFactory::getConfig();
 			$code = $sefLang->code;
@@ -217,7 +222,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 			return $url;
 		}
 
-		function getRoute($href,$code=""){
+		public static function getRoute($href,$code=""){
 			// I may need to use absolute URL here is using subdomains for language switching
 			// this forces a full absolute URL
 			
@@ -242,7 +247,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 			return $url;
 		}
 
-		function getJFMenu($lang, $getOriginals=true,  $currentLangMenuItems=false){
+		public static function getJFMenu($lang, $getOriginals=true,  $currentLangMenuItems=false){
 			static $instance;
 			if (!isset($instance)){
 				$instance = array();
@@ -307,7 +312,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 			}
 		}
 
-		function _setupMenuRoutes(&$menus) {
+		public static function _setupMenuRoutes(&$menus) {
 			if($menus) {
 				uasort($menus,array("JFModuleHTML","_menusort"));
 				// first pass translate the route
@@ -346,7 +351,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 			}
 		}
 		
-		function _menusort(&$a, $b){
+		public static function _menusort(&$a, $b){
 			if ($a->sublevel==$b->sublevel) return 0;
 			return ($a->sublevel>$b->sublevel)?+1:-1;
 			
@@ -361,7 +366,7 @@ if( !defined( 'JFMODULE_CLASS' ) ) {
 		 * @param	$language	JFLnaguage language object including the detailed information
 		 * @return	string		Path to the image found
 		 */
-		function getLanguageImageSource($language) {
+		public static function getLanguageImageSource($language) {
 			return JoomfishExtensionHelper::getLanguageImageSource($language);
 		}
 	}

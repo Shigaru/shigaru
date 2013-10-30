@@ -2,19 +2,20 @@
 <install type="module" client="administrator"  version="1.5.0" position="status">
 	<name>Direct Translation</name>
 	<author>Joom!Fish Project</author>
-	<creationDate>2010-11-23</creationDate>
-	<copyright>2003 - 2011, Think Network GmbH, Munich. All rights reserved.</copyright>
+	<creationDate>2012-01-20</creationDate>
+	<copyright>2003 - 2012, Think Network GmbH, Munich. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>support@joomfish.net</authorEmail>
 	<authorUrl>www.joomfish.net</authorUrl>
-	<version>2.1.7</version>
+	<version>2.2.3</version>
 	<description>This module provides a direct link JoomFish translations for selected item. Remember to publish this module to status position.</description>
 	<files>
 		<filename module="mod_translate">mod_translate.php</filename>
-		<filename>mod_translate.png</filename>
-		<filename>mod_translate_no.png</filename>
-		<filename>elements/index.html</filename>
-		<filename>elements/dtcomps.php</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<folder>assets</folder>
+		<folder>elements</folder>
+		<folder>tmpl</folder>
 	</files>
 	<params addpath="/administrator/modules/mod_translate/elements">
         <param name="linktype" type="radio" default="squeezebox" label="How to open translation">

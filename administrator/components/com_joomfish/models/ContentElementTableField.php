@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: ContentElementTableField.php 1580 2011-04-16 17:11:41Z akede $
+ * $Id: ContentElementTableField.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Models
  *
@@ -39,47 +39,47 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003 - 2011, Think Network GmbH, Munich
+ * @copyright 2003 - 2012, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1580 $
- * @author Alex Kempkens <joomfish@thinknetwork.com>
+ * @version $Revision: 1592 $
+ * @author Alex Kempkens
  */
 class ContentElementTablefield {
-	var $Type='';
-	var $Name='';
-	var $Lable='';
-	var $Translate=false;
-	var $Option='';
-	var $Length=30;
-	var $MaxLength=80;
-	var $Rows=15;
-	var $Columns=30;
-	var $posthandler="";
-	var $prehandler="";
-	var $prehandleroriginal="";
-	var $prehandlertranslation="";
+	public $Type='';
+	public $Name='';
+	public $Lable='';
+	public $Translate=false;
+	public $Option='';
+	public $Length=30;
+	public $MaxLength=80;
+	public $Rows=15;
+	public $Columns=30;
+	public $posthandler="";
+	public $prehandler="";
+	public $prehandleroriginal="";
+	public $prehandlertranslation="";
 	
 	// Can be boolean or array, if boolean defines if the buttons are displayed, if array defines a list of buttons not to show.
-	var $ebuttons=true;
+	public $ebuttons=true;
 
 	// boolean to determine where to show this field if original is not blank e.g. content in modules
-	var $ignoreifblank=0;
+	public $ignoreifblank=0;
 	
 	/** originalValue value of the corresponding content table */
-	var $originalValue;
+	public $originalValue;
 
 	/** translationContent reference to the actual translation db object */
-	var $translationContent;
+	public $translationContent;
 
 	/** changed Flag that says if a field is changed or not */
-	var $changed=false;
+	public $changed=false;
 
 	/** this Flag explains if the original is empty or not */
-	var $originalEmpty=false;
+	public $originalEmpty=false;
 
 	/** Standard constructur
 	*/
-	function ContentElementTablefield( $tablefieldElement ) {
+	public function __construct ( $tablefieldElement ) {
 		$this->Type = trim( $tablefieldElement->getAttribute( 'type' ) );
 		$this->Name = trim( $tablefieldElement->getAttribute( 'name' ) );
 		$this->Lable = trim( $tablefieldElement->textContent );
@@ -113,13 +113,13 @@ class ContentElementTablefield {
 		}
 	}
 	
-	function preHandle($element){
+	public function preHandle($element){
 		if ($this->prehandler!="" && method_exists($this,$this->prehandler)){
 			$prehandler=$this->prehandler;
 			$this->$prehandler($element);
 		}
 	}
-	function checkUrlType($element){
+	public function checkUrlType($element){
 		if ($element->IndexedFields["type"]->originalValue=="url") $this->Type="text";
 	}
 }

@@ -1,7 +1,7 @@
 <?php 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: dropdown.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: dropdown.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage mod_jflanguageselection
  *
@@ -40,10 +40,10 @@ if ( count($langActive)>0 ) {
 	foreach( $langActive as $language )
 	{
 		$href = JFModuleHTML::_createHRef ($language, $params);
-		if( $language->code == $curLanguage->getTag() && !$show_active ) {
+		if( $language->get('id') == $curLanguage->get('id') && !$show_active ) {
 			continue;		// Not showing the active language
 		}
-		if ($language->code == $curLanguage->getTag() ) {
+		if ($language->get('id') == $curLanguage->get('id') ) {
 			$activehref=$href;
 		}
 
@@ -54,10 +54,10 @@ if ( count($langActive)>0 ) {
 			$disabled="";
 		}
 
-		$langOption=JFModuleHTML::makeOption( $href, $language->name, $disabled );
+		$langOption=JFModuleHTML::makeOption( $href, $language->title_native, $disabled );
 		$langOptions[] = $langOption;
 		$href = JFModuleHTML::_createHRef ($language, $params);
-		$noscriptString .= '<a href="' .$href. '"><span lang="' .$language->getLanguageCode(). '" xml:lang="' .$language->getLanguageCode(). '">' .$language->name. '</span></a>&nbsp;';
+		$noscriptString .= '<a href="' .$href. '"><span lang="' .$language->getLanguageCode(). '" xml:lang="' .$language->getLanguageCode(). '">' .$language->title_native. '</span></a>&nbsp;';
 	}
 
 	if( count( $langOptions ) > 1 ) {

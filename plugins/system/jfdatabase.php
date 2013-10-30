@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfdatabase.php 1561 2011-04-16 09:10:26Z geraint $
+ * $Id: jfdatabase.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage jfdatabase
  * @version 2.0
@@ -44,8 +44,9 @@ if($mainframe->isAdmin()) {
 
 // Joom!Fish bot get's only activated if essential files are missing
 //if ( !file_exists( JPATH_PLUGINS .DS. 'system' .DS. 'jfdatabase' .DS. 'jfdatabase.class.php' )) {
-if ( !file_exists( dirname(__FILE__) .DS. 'jfdatabase' .DS. 'jfdatabase_inherit.php' )) {
-	JError::raiseNotice('no_jf_plugin', JText::_('Joom!Fish plugin not installed correctly. Plugin not executed'));
+jimport('joomla.filesystem.file');
+if ( !JFile::exists( JPATH_PLUGINS .DS. 'system' .DS. 'jfdatabase' .DS. 'jfdatabase_inherit.php' )) {
+	JError::raiseNotice('no_jf_plugin', JText::_('Joom!Fish plugin not installed correctly. Plugin not executed') .' (jfdb)');
 	return;
 }
 
@@ -56,7 +57,7 @@ if(JFile::exists(JPATH_SITE .DS. 'components' .DS. 'com_joomfish' .DS. 'helpers'
 	JLoader::register('JoomFishVersion', JOOMFISH_ADMINPATH .DS. 'version.php' );
 	JLoader::register('JoomFish', JOOMFISH_PATH .DS. 'helpers' .DS. 'joomfish.class.php' );	
 } else {
-	JError::raiseNotice('no_jf_extension', JText::_('Joom!Fish extension not installed correctly. Plugin not executed'));
+	JError::raiseNotice('no_jf_extension', JText::_('Joom!Fish extension not installed correctly. Plugin not executed') .' (define)');
 	return;
 }
 
@@ -91,7 +92,7 @@ class plgSystemJFDatabase extends JPlugin{
 		if(defined('JOOMFISH_PATH')) {
 			$this->_jfInitialize();
 		} else {
-			JError::raiseNotice('no_jf_component', JText::_('Joom!Fish component not installed correctly. Plugin not executed'));
+			JError::raiseNotice('no_jf_component', JText::_('Joom!Fish component not installed correctly. Plugin not executed') .' (init)');
 		}
 	}
 

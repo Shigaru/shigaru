@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfdatabase_inherit.php 1559 2011-04-16 08:57:43Z geraint $
+ * $Id: jfdatabase_inherit.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage jfdatabase
  * @version 2.0
@@ -47,9 +47,9 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
  *
  * @package joomfish
  * @subpackage database
- * @copyright 2003 - 2011, Think Network GmbH, Munich
+ * @copyright 2003 - 2012, Think Network GmbH, Munich
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @version 2.1, 2009-01-07 $Revision: 1559 $
+ * @version 1.0, 2009-01-07 $Revision: 1592 $
  * @author Geraint Edwards
 */
 

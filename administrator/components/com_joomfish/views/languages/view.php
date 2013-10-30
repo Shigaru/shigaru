@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: view.php 1579 2011-04-16 17:05:48Z akede $
+ * $Id: view.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Views
  *
@@ -53,7 +53,7 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 	 *
 	 * @param template $tpl
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 
@@ -62,9 +62,11 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 
 		// Set toolbar items for the page
 		JToolBarHelper::title( JText::_( 'Language Title' ), 'language' );
+		JToolBarHelper::makeDefault ('languages.setDefault', 'Default', 'Set as frontend default language');
 		JToolBarHelper::deleteList('Are you sure you want to delete the selcted items?', 'languages.remove');
 		JToolBarHelper::custom( 'languages.save', 'save', 'save', 'Save',false);
 		JToolBarHelper::custom( 'languages.apply', 'apply', 'apply', 'Apply',false);
+		JToolBarHelper::addNew( 'languages.add' );
 		JToolBarHelper::cancel('languages.cancel');
 		JToolBarHelper::help( 'screen.languages', true);
 
@@ -80,7 +82,7 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 		$option				= JRequest::getCmd('option', 'com_joomfish');
 		$filter_state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
 		$filter_catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'l.ordering',	'cmd' );
+		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'lext.ordering',	'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
 		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
 		$search				= JString::strtolower( $search );
@@ -90,6 +92,10 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 
 		$this->assignRef('items', $languages);
 		$this->assignRef('defaultLanguage', $defaultLanguage);
+		
+		$jfManager = JoomFishManager::getInstance();
+		$this->assignRef('overwriteGlobalConfig', $jfManager->getCfg('overwriteGlobalConfig'));
+		$this->assignRef('directory_flags', $jfManager->getCfg('directory_flags'));
 
 		// state filter
 		$lists['state']	= JHTML::_('grid.state',  $filter_state );
@@ -111,88 +117,78 @@ class LanguagesViewLanguages extends JoomfishViewDefault
 	/**
 	 * Method displaying the config traslation layout
 	 */
-	function translateConfig($tpl = null) {
-
+	public function translateConfig($tpl = null) {
 		$document = JFactory::getDocument();
-		// this already includes administrator
 		$livesite = JURI::base();
 		$document->addStyleSheet($livesite.'components/com_joomfish/assets/css/joomfish.css');
-
-		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('Language Title'));
-
-		// hide the sub menu
-		JRequest::setVar('hidemainmenu',1);
-
-		// Set toolbar items for the page
-		JToolBarHelper::title( JText::_( 'Language Title' ) .' - '.JText::_( 'Translate Configuration' ) , 'language' );
-		JToolBarHelper::save('languages.saveTranslateConfig');
-		JToolBarHelper::cancel('languages.show');
-		JToolBarHelper::help( 'screen.languages', true);
+		$document->addScript($livesite.'components/com_joomfish/assets/js/joomfish.mootools.js');
+		
+		//$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('Language Title'));
+		$paramsField = JRequest::getVar('paramsField', '');
+		$this->assignRef('paramsField',$paramsField);
 
 		parent::display($tpl);
 	}
-	
-	
+
 	/**
-	 * Method to determine the correct image path for language flags.
-	 * The works as the standard JHTMLImage method except that it uses always the live site basic as URL
-	 *
-	 * @param unknown_type $language
-	 * @param unknown_type $altFile
-	 * @param unknown_type $altFolder
-	 * @param unknown_type $alt
-	 * @param unknown_type $attribs
-	 * @return string	image path
+	 * Method to initialize the language depended image (flag) browser
+	 * The browser is initialized with the default root path based on the Joomfish configuration
+	 * @param $tpl
 	 */
-	function languageImage($language, $alt=NULL, $attribs='') {
-		$src = JoomfishExtensionHelper::getLanguageImageSource($language);
-		return '<img src="'.  JURI::root() . $src .'" alt="'. html_entity_decode( $alt ) .'" '.$attribs.' />';
-	}
-	
-	function _languageImage($language, $alt=NULL, $attribs='') {
-		static $paths;
-		global $mainframe;
+	public function filebrowser($tpl = null){
+		$document = JFactory::getDocument();
+		$livesite = JURI::base();
+		$document->addStyleSheet($livesite.'components/com_joomfish/assets/css/joomfish.css');
+		$document->addScript($livesite.'components/com_joomfish/assets/js/joomfish.mootools.js');
+		$document->addStyleSheet(JURI::base().'components/com_media/assets/popup-imagelist.css');
 		
-		//$folder, $altFile=NULL, $altFolder='/components/com_joomfish/images/flags',
-		$params = JComponentHelper::getParams('com_joomfish');
-		$folder = $params->get('directory_flags', '/components/com_joomfish/images/flags');
+        $jfManager = JoomFishManager::getInstance();
+        $root = $jfManager->getCfg('directory_flags');
+        
+        $current = JRequest::getVar('current', '');
+        if($current != '') {
+        	$root = dirname($current);
+        }
+        
+        // remove leading / in case it exists
+        $root = preg_replace('/^\/(.*)/', "$1", $root);
+        
+        $flagField = JRequest::getVar('flagField', '');
+        
+		$folder = JRequest::getVar( 'folder', $root, 'default', 'path');
+		$type = JRequest::getCmd('type', 'image');
+		if(JString::trim($folder)=="") {
+			$path=JPATH_SITE.DS.JPath::clean('/');
+		} else {
+			$path=JPATH_SITE.DS.JPath::clean($folder);
+		}
+		
+		JPath::check($path);
+		$title = JText::_('Browse language flags');
+		$filter = '.jpg|png|gif|xcf|odg|bmp|jpeg';
 
-		$file = '';
-		if(!empty($language->image)) {
-			//$file = 'flags/' . JFile::makeSafe(  $language->image);
-			$file =  $language->image;
-			
-		} elseif (!empty( $language->shortcode)) {
-			$file = $language->shortcode . '.gif';
+		if (JFolder::exists($path)){
+			$folderList=JFolder::folders($path);
+			$filesList=JFolder::files($path, $filter);
 		}
 
-		if (!$paths) {
-			$paths = array();
+		if (!empty($folder)){
+			$parent=substr($folder, 0,strrpos($folder,'/'));
+		}
+		else {
+			$parent = '';
 		}
 
-		if (is_array( $attribs )) {
-			$attribs = JArrayHelper::toString( $attribs );
-		}
+		$this->assignRef('folders',$folderList);
+		$this->assignRef('files',$filesList);
+		$this->assignRef('parent',$parent);
+		$this->assignRef('path',$folder);
+		$this->assignRef('type',$type);
+		$this->assignRef('title',$title);
+		$this->assignRef('flagField', $flagField);
 
-		$cur_template = $mainframe->getTemplate();
-		$path = JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file;
-		if (!isset( $paths[$path] ))
-		{
-			if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
-				$paths[$path] = 'templates/'. $cur_template .'/images/'. $file;
-			} else {
-				// outputs only path to image
-				$paths[$path] = $folder .'/'. $file;
-			}
-		}
-		$src = $paths[$path];
+		parent::display($tpl);
 
-		if (substr($src, 0, 1 ) == "/") {
-			$src = substr_replace($src, '', 0, 1);
-		}
-
-		return '<img src="'. JURI::root() . $src .'" alt="'. html_entity_decode( $alt ) .'" '.$attribs.' />';
 	}
-
 }
 ?>

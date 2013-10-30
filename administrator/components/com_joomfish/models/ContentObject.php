@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,14 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: ContentObject.php 1580 2011-04-16 17:11:41Z akede $
+ * $Id: ContentObject.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-include_once(dirname(__FILE__).DS."JFContent.php");
+JLoader::register('jfContent', JOOMFISH_ADMINPATH .DS. 'models' .DS. 'JFContent.php' );
+JLoader::register('iJFTranslatable', JOOMFISH_ADMINPATH .DS. 'models' .DS. 'iJFTranslatable.php' );
 
 /**
  * Representation of one content with his translation.
@@ -45,85 +44,79 @@ include_once(dirname(__FILE__).DS."JFContent.php");
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003 - 2011, Think Network GmbH, Munich
+ * @copyright 2003 - 2012, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1580 $
- * @author Alex Kempkens <joomfish@thinknetwork.com>
+ * @version $Revision: 1592 $
+ * @author Alex Kempkens
  */
-class ContentObject {
+class ContentObject implements iJFTranslatable {
 	/** @var _contentElement Reference to the ContentElement definition of the instance */
-	var $_contentElement;
+	private $_contentElement;
 
 	/** @var id ID of the based content */
-	var $id;
+	public $id;
 
 	/** @var translation_id 	translation id value */
-	var $translation_id=0;
+	public $translation_id=0;
 
 	/** @var checked_out User who checked out this content if any */
-	var $checked_out;
+	public $checked_out;
 
 	/** @var title Title of the object; used from the field configured as titletext */
-	var $title;
+	public $title;
 
 	/** @var titleTranslation the actual translation of the title */
-	var $titleTranslation;
+	public $titleTranslation;
 
 	/** @var language_id language for the translation */
-	var $language_id;
+	public $language_id;
 
 	/** @var language Language name of the content */
-	var $language;
+	public $language;
 
 	/** @var lastchanged Date when the translation was last modified */
-	var $lastchanged;
+	public $lastchanged;
 
 	/** @var modified_date Date of the last modification of the content - if existing */
-	var $modified_date;
+	public $modified_date;
 
 	/** @var state State of the translation
 	 * -1 := for at least one field of the content the translation is missing
 	 *  0 := the translation exists but the original content was changed
 	 *  1 := the translation is valid
 	 */
-	var $state=-1;
+	public $state=-1;
 
 	/** @var int Number of changed fields */
-	var $_numChangedFields=0;
+	private $_numChangedFields=0;
 	/** @var int Number of new fields, with an original other than NULL */
-	var $_numNewAndNotNullFields=0;
+	private $_numNewAndNotNullFields=0;
 	/** @var int Number for fields unchanged */
-	var $_numUnchangedFields=0;
+	private $_numUnchangedFields=0;
 
 	/** published Flag if the translation is published or not */
-	var $published=false;
+	public $published=false;
 
 	/** Standard constructor
 	 *
 	 * @param	languageID		ID of the associated language
 	 * @param	elementTable	Reference to the ContentElementTable object
 	 */
-	function ContentObject( $languageID,& $contentElement, $id=-1 ) {
+	public function __construct( $languageID,& $contentElement, $id=-1 ) {
 		$db = JFactory::getDBO();
 
 		if($id>0) $this->id = $id;
 		$this->language_id = $languageID;
-		// active languages are cached in JoomFishManager - use these if possible
 		$jfManager = JoomFishManager::getInstance();
-		if (isset($jfManager) && $jfManager->activeLanguagesCacheByID && array_key_exists($languageID,$jfManager->activeLanguagesCacheByID)){
-			$lang = $jfManager->activeLanguagesCacheByID[$languageID];
-		}
-		else {
-			$lang = new TableJFLanguage($db);
-			$lang->load( $languageID );
-		}
+		$lang = $jfManager->getLanguageByID($languageID);
+		
 		$this->language = $lang->name;
 		$this->_contentElement = $contentElement;
 	}
 
 	/** Loads the information based on a certain content ID
 	 */
-	function loadFromContentID( $id=null ) {
+	public function loadFromContentID( $id=null ) {
 		$db = JFactory::getDBO();
 		if( $id!=null && isset($this->_contentElement) && $this->_contentElement!==false ) {
 			$db->setQuery( $this->_contentElement->createContentSQL( $this->language_id, $id ) );
@@ -144,7 +137,7 @@ class ContentObject {
 	 * @param 	boolean	try to bind the values to the object
 	 * @param 	boolean	store original values too
 	 */
-	function bind( $formArray, $prefix="", $suffix="", $tryBind=true, $storeOriginalText=false ) {
+	public function bind( $formArray, $prefix="", $suffix="", $tryBind=true, $storeOriginalText=false ) {
 		$user = JFactory::getUser();
 		$db = JFactory::getDBO();
 
@@ -226,21 +219,21 @@ class ContentObject {
 	}
 
 	// Post handlers
-	function filterTitle(&$alias){
+	public function filterTitle(&$alias){
 		if($alias=="") {
 			$alias = JRequest::getString("refField_title");
 		}
 		$alias = JFilterOutput::stringURLSafe($alias);
 	}
 
-	function filterName(&$alias){
+	public function filterName(&$alias){
 		if($alias=="") {
 			$alias = JRequest::getString("refField_name");
 		}
 		$alias = JFilterOutput::stringURLSafe($alias);
 	}
 
-	function saveUrlParams(&$link){
+	public function saveUrlParams(&$link){
 		$urlparams = JRequest::getVar("urlparams",array(),'post',"array");
 		if (is_array($urlparams) && count($urlparams)>0){
 			$pos = strpos( $link, '?' );
@@ -290,7 +283,7 @@ class ContentObject {
 	 *
 	 * @param unknown_type $row
 	 */
-	function fetchArticleText($row){
+	public function fetchArticleText($row){
 		
 		/*
 		 * We need to unify the introtext and fulltext fields and have the
@@ -310,7 +303,7 @@ class ContentObject {
 	 *
 	 * @param unknown_type $row
 	 */
-	function fetchArticleTranslation($field, &$translationFields){
+	public function fetchArticleTranslation($field, &$translationFields){
 		
 		if (is_null($translationFields)) return;
 		/*
@@ -330,7 +323,7 @@ class ContentObject {
 			if (JString::strlen($fulltext) > 1) {
 				$translationFields["introtext"]->value =  $introtext . "<hr id=\"system-readmore\" />" . $fulltext;
 				$translationFields["fulltext"]->value = "";
-			} 
+			}
 		}
 
 	}
@@ -341,7 +334,7 @@ class ContentObject {
 	 *
 	 * @param unknown_type $row
 	 */
-	function saveArticleText(&$introtext, $fields,&$formArray,$prefix,$suffix,$storeOriginalText) {		
+	public function saveArticleText(&$introtext, $fields,&$formArray,$prefix,$suffix,$storeOriginalText) {		
 		
 		// Search for the {readmore} tag and split the text up accordingly.
 		$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
@@ -364,7 +357,7 @@ class ContentObject {
 	 *
 	 * @param	object	instance of an mosDBTable object
 	 */
-	function updateMLContent( &$dbObject ) {
+	public function updateMLContent( &$dbObject ) {
 		$db = JFactory::getDBO();
 		if( $dbObject === null ) return;
 
@@ -388,7 +381,7 @@ class ContentObject {
 	 * @param object $dbObject new values for the translation
 	 * @param object $origObject original values based on the db for reference
 	 */
-	function copyContentToTranslation( &$dbObject, $origObject ) {
+	public function copyContentToTranslation( &$dbObject, $origObject ) {
 		$user = JFactory::getUser();
 
 		// Go thru all the fields of the element and try to copy the content values
@@ -416,7 +409,7 @@ class ContentObject {
 
 	/** Reads some of the information from the overview row
 	 */
-	function readFromRow( $row ) {
+	public function readFromRow( $row ) {
 		$this->id = $row->id;
 		$this->translation_id = $row->jfc_id;
 		$this->title = $row->title;
@@ -456,7 +449,7 @@ class ContentObject {
 	/** Reads all translation information from the database
 	 *
 	 */
-	function _loadContent() {
+	private function _loadContent() {
 		$db = JFactory::getDBO();
 
 		$elementTable = $this->getTable();
@@ -542,7 +535,7 @@ class ContentObject {
 	 * @param	boolean	onle translateable fields?
 	 * @return	array	of fieldnames
 	 */
-	function getTextFields( $translation = true ) {
+	public function getTextFields( $translation = true ) {
 		$elementTable = $this->_contentElement->getTable();
 		$textFields = null;
 
@@ -562,7 +555,7 @@ class ContentObject {
 	 *
 	 * @param string $fieldname
 	 */
-	function getFieldType($fieldname){
+	public function getFieldType($fieldname){
 		$elementTable = $this->_contentElement->getTable();
 		$textFields = null;
 
@@ -574,7 +567,7 @@ class ContentObject {
 
 	/** Sets all fields of this content object to a certain published state
 	*/
-	function setPublished( $published ) {
+	public function setPublished( $published ) {
 		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
 			$field = $elementTable->Fields[$i];
@@ -588,7 +581,7 @@ class ContentObject {
 	 *
 	 * @param	referenceID		new reference id
 	 */
-	function updateReferenceID( $referenceID ) {
+	public function updateReferenceID( $referenceID ) {
 		if( intval($referenceID) <= 0 ) return;
 
 		$elementTable = $this->_contentElement->getTable();
@@ -601,7 +594,7 @@ class ContentObject {
 
 	/** Stores all fields of the content element
 	 */
-	function store() {
+	public function store() {
 		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
 			$field = $elementTable->Fields[$i];
@@ -626,7 +619,7 @@ class ContentObject {
 
 	/** Checkouts all fields of this content element
 	*/
-	function checkout( $who, $oid=null ) {
+	public function checkout( $who, $oid=null ) {
 		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
 			$field = $elementTable->Fields[$i];
@@ -643,7 +636,7 @@ class ContentObject {
 
 	/** Checkouts all fields of this content element
 	*/
-	function checkin( $oid=null ) {
+	public function checkin( $oid=null ) {
 		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
 			$field = $elementTable->Fields[$i];
@@ -660,7 +653,7 @@ class ContentObject {
 
 	/** Delets all translations (fields) of this content element
 	*/
-	function delete( $oid=null ) {
+	public function delete( $oid=null ) {
 		$elementTable = $this->_contentElement->getTable();
 		for( $i=0; $i<count($elementTable->Fields); $i++ ) {
 			$field = $elementTable->Fields[$i];
@@ -676,7 +669,7 @@ class ContentObject {
 	}
 	/** Returns the content element table this content is based on
 	 */
-	function  getTable() {
+	public function  getTable() {
 		return $this->_contentElement->getTable();
 	}
 
@@ -691,7 +684,7 @@ class ContentObject {
 	 * @param unknown_type $prefix
 	 * @return unknown
 	 */
-	function _jfBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL )
+	private function _jfBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL )
 	{
 		if (!is_array( $array ) || !is_object( $obj )) {
 			return (false);

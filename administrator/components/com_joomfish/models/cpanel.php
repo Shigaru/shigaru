@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: cpanel.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: cpanel.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Models
  *
@@ -48,6 +48,11 @@ class CPanelModelCPanel extends JModel
 	 */
 	public function getName() {
 		return $this->_modelName;
+	}
+	
+	public function getUsersplash() {
+		$jfm = JoomFishManager::getInstance();
+		return $jfm->getCfg('usersplash', 1);
 	}
 
 	/**
@@ -497,9 +502,9 @@ class CPanelModelCPanel extends JModel
 
 		switch ($phase) {
 			case 1:
-				$sql = "SELECT jfc.reference_table, jfc.language_id, jfl.name AS language" .
+				$sql = "SELECT jfc.reference_table, jfc.language_id, jfl.title AS language" .
 				"\n FROM #__jf_content AS jfc" .
-				"\n JOIN #__languages AS jfl ON jfc.language_id = jfl.id" .
+				"\n JOIN #__languages AS jfl ON jfc.language_id = jfl.lang_id" .
 				"\n GROUP BY jfc.reference_table, jfc.language_id";
 				$db->setQuery($sql);
 				$rows = $db->loadObjectList();
@@ -549,10 +554,10 @@ class CPanelModelCPanel extends JModel
 						$stateRow = $translationStatus[$i];
 						$sql = "select *" .
 						"\n from #__jf_content as jfc" .
-						"\n where published=1" .
-						"\n and reference_table='" .$stateRow['catid']. "'".
-						"\n and language_id=" .$stateRow['language_id'].
-						"\n group by reference_ID";
+						"\n where jfc.published=1" .
+						"\n and jfc.reference_table='" .$stateRow['catid']. "'".
+						"\n and jfc.language_id=" .$stateRow['language_id'].
+						"\n group by jfc.reference_id";
 
 						$db->setQuery($sql);
 						if( $rows = $db->loadRowList() ) {
@@ -632,9 +637,10 @@ class CPanelModelCPanel extends JModel
 		$db = JFactory::getDBO();
 		$unpublishedTranslations = null;
 
-		$sql = "select jfc.reference_table, jfc.reference_id, jfc.language_id, jfl.name as language" .
+		$sql = "select jfc.reference_table, jfc.reference_id, jfc.language_id, jfl.title as language" .
 		"\n from #__jf_content as jfc, #__languages as jfl" .
-		"\n where published=0  and jfc.language_id = jfl.id" .
+		//jfc.published=0 or jfl.published=0 not published=0
+		"\n where jfc.published=0 and jfc.language_id = jfl.lang_id" .
 		"\n group by jfc.reference_table, jfc.reference_id, jfc.language_id" .
 		"\n limit 0, 50";
 		$db->setQuery($sql);

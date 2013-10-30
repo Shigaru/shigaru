@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfrouter.php 1567 2011-04-16 09:47:46Z akede $
+ * $Id: jfrouter.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage jfrouter
  * @version 2.0
@@ -44,8 +44,8 @@ if($mainframe->isAdmin()) {
 jimport('joomla.filesystem.file');
 // Joom!Fish router only gets activated if essential files are missing
 //if ( !file_exists( JPATH_PLUGINS .DS. 'system' .DS. 'jfdatabase' .DS. 'jfdatabase.class.php' )) {
-if ( !JFile::exists( dirname(__FILE__) .DS. 'jfrouter' .DS. 'contact.php' )) {
-	JError::raiseNotice('no_jf_plugin', JText::_('Joom!Fish router plugin not installed correctly. Plugin not executed'));
+if ( !JFile::exists( JPATH_PLUGINS .DS. 'system' .DS. 'jfrouter' .DS. 'contact.php' )) {
+	JError::raiseNotice('no_jf_plugin', JText::_('Joom!Fish router plugin not installed correctly. Plugin not executed') .' (jfr-contact)');
 	return;
 }
 if(JFile::exists(JPATH_SITE .DS. 'components' .DS. 'com_joomfish' .DS. 'helpers' .DS. 'defines.php')) {
@@ -54,7 +54,7 @@ if(JFile::exists(JPATH_SITE .DS. 'components' .DS. 'com_joomfish' .DS. 'helpers'
 	JLoader::register('JoomFishVersion', JOOMFISH_ADMINPATH .DS. 'version.php' );
 	JLoader::register('JoomFish', JOOMFISH_PATH .DS. 'helpers' .DS. 'joomfish.class.php' );	
 } else {
-	JError::raiseNotice('no_jf_extension', JText::_('Joom!Fish extension not installed correctly. Plugin not executed'));
+	JError::raiseNotice('no_jf_extension', JText::_('Joom!Fish extension not installed correctly. Plugin not executed') .' (jfr-defines)');
 	return;
 }
 /**
@@ -291,7 +291,8 @@ class plgSystemJFRouter extends JPlugin{
 			$locale = $jfLang->code;
 		} else {
 			$jfLang = TableJFLanguage::createByJoomla( $locale );
-		if( !$jfLang->active ) {
+			
+			if( !$jfLang->active ) {
 			?>
 			<div style="background-color: #c00; color: #fff">
 				<p style="font-size: 1.5em; font-weight: bold; padding: 10px 0px 10px 0px; text-align: center; font-family: Arial, Helvetica, sans-serif;">
@@ -299,14 +300,14 @@ class plgSystemJFRouter extends JPlugin{
 				Please check configuration, try to use first active language</p>
 			</div>
 			<?php
-			$activeLanguages = $jfm->getActiveLanguages();
-			if( count($activeLanguages) > 0 ) {
-				$jfLang = $activeLanguages[0];
-				$locale = $jfLang->code;
-			}
-			else {
-				// No active language defined - using system default is only alternative!
-			}
+				$activeLanguages = $jfm->getActiveLanguages();
+				if( count($activeLanguages) > 0 ) {
+					$jfLang = $activeLanguages[0];
+					$locale = $jfLang->code;
+				}
+				else {
+					// No active language defined - using system default is only alternative!
+				}
 			}
 			$client_lang = ($jfLang->shortcode!='') ? $jfLang->shortcode : $jfLang->iso;
 		}
@@ -338,6 +339,10 @@ class plgSystemJFRouter extends JPlugin{
 		if ($jfLang->code != $lang->getTag()){
 			// Must not assign by reference in order to overwrite the existing reference to the static instance of the language
 			$lang = JFactory::_createLanguage();
+			$lang->setDefault($jfLang->code);
+			$lang->_metadata = array();
+			$lang->_metadata['tag'] = $jfLang->code;
+			$lang->_metadata['rtl'] = false;
 		}
 		// no need to set locale for this ISO code its done by JLanguage
 		
@@ -444,7 +449,7 @@ class plgSystemJFRouter extends JPlugin{
 				}
 				foreach ($langs as $lang) {
 					if (!isset($lang->hasprefix)){
-						$sefprefixes[] = $lang->id."::".$lang->shortcode;
+						$sefprefixes[] = $lang->lang_id."::".$lang->sef;
 					}
 				}
 			}
@@ -599,14 +604,14 @@ function routeJFRule($router, &$uri){
 					}
 					foreach ($langs as $lang) {
 						if (!isset($lang->hasprefix)){
-							$sefprefixes[] = $lang->id."::".$lang->shortcode;
+							$sefprefixes[] = $lang->lang_id."::".$lang->sef;
 						}
 					}
 				}
 
 				foreach ($sefprefixes as $prefix) {
 					list($langid,$prefix) = explode("::",$prefix,2);
-					if ($jfLang->id == $langid){
+					if ($jfLang->lang_id == $langid){
 						$uri->setPath($uri->getPath()."/".$prefix);
 						$uri->delVar("lang");
 						plgSystemJFRouter::procesCustomBuildRule($router, $uri);

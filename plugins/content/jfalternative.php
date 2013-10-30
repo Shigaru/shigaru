@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfalternative.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: jfalternative.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage jfalternative
  *
@@ -62,9 +62,9 @@ function botJoomfishAlternative(  &$row, &$params, $page=0 ) {
 
 	$db = JFactory::getDBO();
 
-	$sql = "SELECT DISTINCT jfl.shortcode, jfl.iso, jfl.name, jfl.image FROM #__jf_content AS jfc, #__languages AS jfl "
+	$sql = "SELECT DISTINCT jfl.shortcode, jfl.iso, jfl.title, jfl.image FROM #__jf_content AS jfc, #__languages AS jfl "
 	."\n WHERE reference_id=$id AND reference_table='".$table."'"
-	."\n  AND jfc.language_id=jfl.id AND jfc.published=1";
+	."\n  AND jfc.language_id=jfl.lang_id AND jfc.published=1";
 	$db->setQuery($sql);
 	$alts = $db->loadObjectList();
 

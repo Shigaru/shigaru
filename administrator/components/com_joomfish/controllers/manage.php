@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: manage.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: manage.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage manage
  *
@@ -47,20 +47,20 @@ class ManageController extends JController  {
 	 * @var object reference to the currecnt view
 	 * @access private
 	 */
-	var $_view = null;
+	private $_view = null;
 	
 	/**
 	 * @var object reference to the current model
 	 * @access private
 	 */
-	var $_model = null;
+	private $_model = null;
 	
 	/**
 	 * PHP 4 constructor for the tasker
 	 *
 	 * @return joomfishTasker
 	 */
-	function __construct( ){
+	public function __construct( ){
 		parent::__construct();
 		$this->registerTask('show',  'display' );
 		$this->registerTask('check',  'checkstatus' );
@@ -70,7 +70,7 @@ class ManageController extends JController  {
 	 * Standard display control structure
 	 * 
 	 */
-	function display( )
+	public function display( )
 	{
 		$this->view =  $this->getView("manage");
 		parent::display();
@@ -79,7 +79,7 @@ class ManageController extends JController  {
 	/**
 	 * 
 	 */
-	function copy() {
+	public function copy() {
 		$type = JRequest::getString('type', '' );
 		$phase = JRequest::getInt('phase', 1 );
 		$statecheck_i = JRequest::getInt('statecheck_i', -1);

@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012 Think Network GmbH, Munich
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfcontacts.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: jfcontacts.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage jfcontacts
  *
@@ -96,11 +96,11 @@ function plgSearchJFContacts( $text, $phrase='', $ordering='', $areas=null )
 	//. ' CONCAT_WS( ", ", a.name, a.con_position, a.misc ) AS text,'
 	//. ' CONCAT_WS( " / ", '.$db->Quote($section).', b.title ) AS section,'
 	. ' "2" AS browsernav,'
-	. ' jfl.code as jflang, jfl.name as jflname'
+	. ' jfl.code as jflang, jfl.title as jflname'
 	. ' FROM #__contact_details AS a'
 	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
 	. "\n LEFT JOIN #__jf_content as jfc ON reference_id = a.id"
-	. "\n LEFT JOIN #__languages as jfl ON jfc.language_id = jfl.id"
+	. "\n LEFT JOIN #__languages as jfl ON jfc.language_id = jfl.lang_id"
 	. ' WHERE jfc.value LIKE '.$text
 	. ' AND a.published = 1'
 	. ' AND b.published = 1'

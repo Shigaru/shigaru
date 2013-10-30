@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: controllerHelper.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: controllerHelper.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage controllerHelper
  *
@@ -41,7 +41,7 @@ class  JoomfishControllerHelper  {
 	 * Sets up ContentElement Cache - mainly used for data to determine primary key id for tablenames ( and for
 	 * future use to allow tables to be dropped from translation even if contentelements are installed )
 	 */
-	function _setupContentElementCache()
+	public static function setupContentElementCache()
 	{
 		$db =& JFactory::getDBO();
 		// Make usre table exists otherwise create it.
@@ -72,7 +72,7 @@ class  JoomfishControllerHelper  {
 	 * Testing state of the system bot
 	 *
 	 */
-	function _testSystemBotState()
+	public static function testSystemBotState()
 	{
 		$db =& JFactory::getDBO();
 		$botState = false;
@@ -86,7 +86,7 @@ class  JoomfishControllerHelper  {
 		return $botState;
 	}
 
-	function _checkDBCacheStructure (){
+	public static function checkDBCacheStructure (){
 
 		JCacheStorageJfdb::setupDB();
 
@@ -102,54 +102,4 @@ class  JoomfishControllerHelper  {
 			JCacheStorageJfdb::setupDB();
 		}
 	}
-
-	function _checkDBStructure (){
-
-		$db =  JFactory::getDBO();
-		$sql = "show index from #__jf_content";// where key_name = 'jfContent'";
-		$db->setQuery($sql);
-		$data = $db->loadObjectList("Key_name");
-		if (!isset($data['jfContent'])){
-			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `combo` ( `reference_id` , `reference_field` , `reference_table` )" ;
-			$db->setQuery($sql);
-			$db->query();
-			
-			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `jfContent` ( `language_id` , `reference_id` , `reference_table` )" ;
-			$db->setQuery($sql);
-			$db->query();
-
-			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `jfContentLanguage` (`reference_id`, `reference_field`, `reference_table`, `language_id`)" ;
-			$db->setQuery($sql);
-			$db->query();
-			
-		}
-		if (!isset($data['reference_id'])){
-			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `reference_id` (`reference_id`)" ;
-			$db->setQuery($sql);
-			$db->query();
-
-			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `language_id` (`language_id`)" ;
-			$db->setQuery($sql);
-			$db->query();
-
-			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `reference_table` (`reference_table`)" ;
-			$db->setQuery($sql);
-			$db->query();
-
-			$sql = "ALTER TABLE `#__jf_content` ADD INDEX `reference_field` (`reference_field`)" ;
-			$db->setQuery($sql);
-			$db->query();
-		}
-
-		$sql = "ALTER TABLE `#__jf_content` CHANGE COLUMN `value` `value` mediumtext NOT NULL " ;
-		$db->setQuery($sql);
-		@$db->query();
-		
-		$sql = "ALTER TABLE `#__jf_content` CHANGE COLUMN `original_text` `original_text` mediumtext NOT NULL " ;
-		$db->setQuery($sql);
-		@$db->query();
-
-		
-	}
-
 }

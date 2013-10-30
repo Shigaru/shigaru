@@ -1,7 +1,7 @@
 <?php 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: rawimages.php 1579 2011-04-16 17:05:48Z akede $
+ * $Id: rawimages.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage mod_jflanguageselection
  *
@@ -36,7 +36,7 @@ $outString = '<div id="jflanguageselection"><div class="rawimages">';
 foreach( $langActive as $language )
 {
 	$langActive = '';
-	if( $language->code == $curLanguage->getTag() ) {
+	if( $language->get('id') == $curLanguage->get('id') ) {
 		if( !$show_active ) {
 			continue;		// Not showing the active language
 		} else {
@@ -48,17 +48,17 @@ foreach( $langActive as $language )
 	$langImg = JFModuleHTML::getLanguageImageSource($language);
 	
 	if (isset($language->disabled) && $language->disabled){
-		if( file_exists( JPATH_ROOT .DS. $langImg ) ) {
-			$outString .= '<span' .$langActive. ' style="opacity:0.5" class="opaque"><img src="' .JURI::base(false) . $langImg. '" alt="' .$language->name. '" title="' .$language->name. '" /></span>';
+		if( file_exists( JPATH_ROOT . $langImg ) ) {
+			$outString .= '<span' .$langActive. ' style="opacity:0.5" class="opaque"><img src="' .JURI::base(true) . $langImg. '" alt="' .$language->title_native. '" title="' .$language->title_native. '" /></span>';
 		} else {
-			$outString .= '<span' .$langActive. ' style="opacity:0.5" class="opaque">' .$language->name. '</span>';
+			$outString .= '<span' .$langActive. ' style="opacity:0.5" class="opaque">' .$language->title_native. '</span>';
 		}
 	}
 	else {
-		if( file_exists( JPATH_ROOT .DS. $langImg ) ) {
-			$outString .= '<span' .$langActive. '><a href="' .$href. '"><img src="' .JURI::base(false) . $langImg. '" alt="' .$language->name. '" title="' .$language->name. '" /></a></span>';
+		if( file_exists( JPATH_ROOT . $langImg ) ) {
+			$outString .= '<span' .$langActive. '><a href="' .$href. '"><img src="' .JURI::base(true) . $langImg. '" alt="' .$language->title_native. '" title="' .$language->title_native. '" /></a></span>';
 		} else {
-			$outString .= '<span' .$langActive. '><a href="' .$href. '">' .$language->name. '</a></span>';
+			$outString .= '<span' .$langActive. '><a href="' .$href. '">' .$language->title_native. '</a></span>';
 		}
 	}
 }

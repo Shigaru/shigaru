@@ -172,9 +172,6 @@ class hwd_vs_html
 		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
 		$pageURL = str_replace("&ajax=yes", "", $pageURL);
 		$smartyvs->assign("pageURL", $pageURL);
-		/*echo '<pre>';
-				var_dump($hwdvsTemplateOverride['thumbWidth1']);
-			echo '</pre>';*/
 		if (count($matchingvids) > 0) {
 			
 			$smartyvs->assign("print_matchvids", 1);

@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: languages.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: languages.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage languages
  *
@@ -40,7 +40,7 @@ jimport('joomla.application.component.controller');
  *
  */
 class LanguagesController extends JController  {
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
 		$this->registerTask('show',  'display' );
@@ -51,16 +51,29 @@ class LanguagesController extends JController  {
 	 * Standard display control structure
 	 * 
 	 */
-	function display( )
+	public function display( )
 	{
 		$this->view =  $this->getView("languages");
 		parent::display();
 	}
 	
+	/**
+	 * Standard handler for the new dialog
+	 * adding a new option of languages to fill out
+	 */
+	public function add() {
+		$model = $this->getModel('languages');
+		$model->add();
+		
+		$this->view =  $this->getView("languages");
+		$this->view->setModel($model, true);
+		$this->view->display();
+	}
+	
 	/*
 	 * Standard Handler for cancel of dialog
 	 */
-	function cancel()
+	public function cancel()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die( 'Invalid Token' );
@@ -72,7 +85,7 @@ class LanguagesController extends JController  {
 	 * Standard method to save the language information
 	 *
 	 */
-	function save()
+	public function save()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die( 'Invalid Token' );
@@ -86,7 +99,7 @@ class LanguagesController extends JController  {
 		if ($model->store($cid, $post)) {
 			$msg = JText::_( 'Languages saved' );
 		} else {
-			$msg = JText::_( 'Error Saving Languages' );
+			$msg = JText::_( 'Error Saving Languages:' .$model->getErrors());
 		}
 
 		// Check the table in so it can be edited.... we are done with it anyway
@@ -98,7 +111,7 @@ class LanguagesController extends JController  {
 	 * Standard method to save the language information
 	 *
 	 */
-	function apply()
+	public function apply()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die( 'Invalid Token' );
@@ -112,7 +125,7 @@ class LanguagesController extends JController  {
 		if ($model->store($cid, $post)) {
 			$msg = JText::_( 'Languages saved' );
 		} else {
-			$msg = JText::_( 'Error Saving Languages' );
+			$msg = JText::_( 'Error Saving Languages' ) .'<br />'.$model->getError();
 		}
 
 		// Check the table in so it can be edited.... we are done with it anyway
@@ -121,33 +134,28 @@ class LanguagesController extends JController  {
 	}	
 
 	/**
-	 * Method to manage the language params
+	 * Method to show the file/image browser for the flag selection
+	 * @access public
 	 */
-	function displayLanguageConfig() {
+	public function fileBrowser() {
 		$document = JFactory::getDocument();
 
 		$viewType	= $document->getType();
 		$viewName	= JRequest::getCmd( 'view', $this->getName() );
-		$viewLayout	= JRequest::getCmd( 'layout', 'languageConfig' );
+		$viewLayout	= JRequest::getCmd( 'layout', 'fileBrowser' );
 
-		$view =  $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
-
-		// Get/Create the model
-		if ($model =  $this->getModel('languageConfig')) {
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-		}
+		$this->view =  $this->getView("languages");
 
 		// Set the layout
-		$view->setLayout($viewLayout);
+		$this->view->setLayout($viewLayout);
 
-		$view->displayLanguageConfig();
+		$this->view->filebrowser();
 	}
 	
 	/**
 	 * Method to call the deletion of languages
 	 */
-	function remove() {
+	public function remove() {
 		// Check for request forgeries
 		JRequest::checkToken() or die( 'Invalid Token' );
 
@@ -168,70 +176,97 @@ class LanguagesController extends JController  {
 		$this->setRedirect($link, $msg);
 	}
 	
-	/**
-	 * Method to translate global config values
-	 *
+	/** Method to change the website default language
+	 * @since 2.1
+	 * @access public
 	 */
-	function translateConfig(){
-		$document = JFactory::getDocument();
+	public function setDefault() {
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
-		$viewName	= JRequest::getCmd( 'view', $this->getName() );
-		$viewLayout	= JRequest::getCmd( 'layout', 'translateConfig' );
-
-		$view =  $this->getView( $viewName );
-
-		// Get/Create the model
-		if ($model =  $this->getModel('languageConfig')) {
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-		}
-
-		$cid 	= JRequest::getVar( 'cid', array(), 'request', 'array' );
+		$post	= JRequest::get('post');
+		$cid 	= JRequest::getVar( 'checkboxid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
-		if (count($cid)!=1){
-			return "";
-		}
 		
 		$model = $this->getModel('languages');
-		$view->language = $model->getTable('JFLanguage');		
-		$view->language->load($cid[0]);
-
-		if (isset($view->language) && isset($view->language->params) ){
-			$view->translations = new JParameter( $view->language->params);
-		}
-		else {
-			$view->translations = new JParameter("");
+		
+		if ($model->setDefault($cid[0])) {
+			$msg = JText::_( 'Default language set' );
+		} else {
+			$msg = JText::_( 'Error changing default language' );
 		}
 
-		// Default Text handled 'manually'
-		$config = JComponentHelper::getParams( 'com_joomfish' );
-		$view->defaulttext = $config->getValue("defaultText");		
-		$view->trans_defaulttext = $view->translations->get("defaulttext","");
-		
-		// Set the config detials for translation in the view
-		$elementfolder =JPath::clean( JPATH_ADMINISTRATOR . '/components/com_joomfish/contentelements' );
-		include($elementfolder.DS."language.config.php");
-		$view->jf_siteconfig=$jf_siteconfig;
-
-		// Need to load com_config language strings!
-		$lang = JFactory::getLanguage();
-		$lang->load( 'com_config' );
-
-		$jconf = new JConfig();
-		$view->jconf = $jconf;
-		
-		// Set the layout
-		$view->setLayout($viewLayout);
-
-		$view->translateConfig();
-		
+		// Check the table in so it can be edited.... we are done with it anyway
+		$link = 'index.php?option=com_joomfish&task=languages.show';
+		$this->setRedirect($link, $msg);
 	}
 
 	/**
 	 * Method to translate global config values
 	 *
 	 */
-	function saveTranslateConfig(){
+	public function translateConfig(){
+		$document = JFactory::getDocument();
+
+		$viewType	= $document->getType();
+		$viewName	= JRequest::getCmd( 'view', $this->getName() );
+		$viewLayout	= JRequest::getCmd( 'layout', 'translateconfig' );
+		$lang_id = JRequest::getVar( 'lang_id', null, 'request', 'int' );
+		
+		$this->view =  $this->getView("languages");
+
+		// Set the layout
+		$this->view->setLayout($viewLayout);
+
+		// load the current config parameters from the language
+		/*
+		$model = $this->getModel('languages');
+		$this->view->setModel($model, true);
+		$this->view->language = $model->getTable('JFLanguage');		
+		$this->view->language->load($lang_id);
+
+		if (isset($this->view->language) && isset($this->view->language->params) ){
+			$this->view->translations = new JParameter( $this->view->language->params);
+		}
+		else {
+			$this->view->translations = new JParameter("");
+		}
+		*/
+		
+		$this->view->translations = new JParameter("");
+		$current = JRequest::getVar('current', '', 'request', 'string');
+		if($current != null) {
+			$this->view->translations = new JParameter($current);
+		}
+		
+
+		// Default Text handled 'manually'
+		$config = JComponentHelper::getParams( 'com_joomfish' );
+		$this->view->defaulttext = $config->getValue("defaultText");		
+		$this->view->trans_defaulttext = $this->view->translations->get("defaulttext","");
+		
+		// Set the config detials for translation in the view
+		$elementfolder =JPath::clean( JPATH_ADMINISTRATOR . '/components/com_joomfish/contentelements' );
+		include($elementfolder.DS."language.config.php");
+		$this->view->jf_siteconfig=$jf_siteconfig;
+
+		// Need to load com_config language strings!
+		$lang = JFactory::getLanguage();
+		$lang->load( 'com_config' );
+
+		$jconf = new JConfig();
+		$this->view->jconf = $jconf;
+		
+		$this->view->translateConfig();
+		
+	}
+
+	/**
+	 * Method to translate global config values
+	 * @deprecated 2.1 - as solved in iframe/slimbox
+	 * @access private
+	 */
+	private function saveTranslateConfig(){
 		// Check for request forgeries
 		JRequest::checkToken() or die( 'Invalid Token' );
 

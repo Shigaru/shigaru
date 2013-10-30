@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: view.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: view.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Views
  *
@@ -49,7 +49,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 	 * Setting up special general attributes within this view
 	 * These attributes are independed of the specifc view
 	 */
-	function _initialize($layout="overview") {
+	private function _initialize($layout="overview") {
 		// get list of active languages
 		$langOptions[] = JHTML::_('select.option',  '-1', JText::_('Select Language') );
 		// Get data from the model
@@ -62,7 +62,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 			foreach( $langActive as $language )
 			{
 				if($language->code != $defaultLang || $showDefaultLanguageAdmin) {
-					$langOptions[] = JHTML::_('select.option',  $language->id, $language->name );
+					$langOptions[] = JHTML::_('select.option',  $language->lang_id, $language->title );
 				}
 			}
 		}
@@ -75,13 +75,16 @@ class TranslateViewTranslate extends JoomfishViewDefault
 			$langlist = JHTML::_('select.genericlist', $langOptions, 'language_id', 'class="inputbox" size="1" '.$confirm, 'value', 'text', $this->select_language_id );
 		}
 		$this->assignRef('langlist'   , $langlist);
+		
+		$googleApikey =  $params->get("google_translate_key", "");
+		$this->assignRef('googleApikey'   , $googleApikey);
 	}
 	/**
 	 * Control Panel display function
 	 *
 	 * @param template $tpl
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('TITLE_TRANSLATION'));
@@ -103,7 +106,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 	}
 
 
-	function overview($tpl = null)
+	protected function overview($tpl = null)
 	{
 		// browser title
 		$document = JFactory::getDocument();
@@ -130,7 +133,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 		JSubMenuHelper::addEntry(JText::_('HELP AND HOWTO'), 'index2.php?option=com_joomfish&amp;task=help.show', false);
 	}
 
-	function edit($tpl = null)
+	protected function edit($tpl = null)
 	{
 		// browser title
 		$document = JFactory::getDocument();
@@ -155,7 +158,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 		JRequest::setVar('hidemainmenu',1);
 	}
 
-	function orphans($tpl = null)
+	protected function orphans($tpl = null)
 	{
 		// browser title
 		$document = JFactory::getDocument();
@@ -179,7 +182,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 		JSubMenuHelper::addEntry(JText::_('HELP AND HOWTO'), 'index2.php?option=com_joomfish&amp;task=help.show', false);
 	}
 
-	function orphandetail($tpl = null)
+	protected function orphandetail($tpl = null)
 	{
 		// browser title
 		$document = JFactory::getDocument();
@@ -202,7 +205,7 @@ class TranslateViewTranslate extends JoomfishViewDefault
 		JRequest::setVar('hidemainmenu',1);
 	}
 
-	function preview($tpl = null)
+	protected function preview($tpl = null)
 	{
 		// hide the sub menu
 		$this->_hideSubmenu();

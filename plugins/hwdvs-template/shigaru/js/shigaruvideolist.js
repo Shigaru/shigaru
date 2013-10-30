@@ -125,10 +125,13 @@ jQuery(document).ready(function() {
         }).done(function (data) {
 			$container.hide().html(data).find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
 			$container.find('span[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
-			var oPagination = $container.find('#videolistpage').html();
-			$container.find('#videolistpage').remove();
+			var oPagination = $container.find('.videopagination').html();
+			var oSearchsummary = $container.find('#searchsummary').html();
+			$container.find('.videopagination').remove();
+			$container.find('#searchsummary').remove();
 			$container.fadeIn();
 			jQuery(opts.paginationContainer).html(oPagination);
+			jQuery('#searchsummarytext').html(oSearchsummary);
 			$container.find(".loadingcontent").hide();
 			jQuery(opts.actionbars).unblock();	  
 			initVideoList();

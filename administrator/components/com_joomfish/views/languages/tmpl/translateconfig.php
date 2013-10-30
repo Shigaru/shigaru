@@ -1,7 +1,7 @@
 <?php 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: translateconfig.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: translateconfig.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Views
  *
@@ -33,37 +33,42 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <form action="index.php" method="post" name="adminForm">
-<input type="hidden" name="lang_id" value="<?php echo $this->language->id;?>" />
+<input type="hidden" id="paramsfield" name="paramsfield" value="<?echo $this->paramsField;?>" />
+<input type="hidden" name="lang_id" value="<?php echo $this->language->lang_id;?>" />
+<fieldset>
+	<div style="float: right;">
+		<button id="saveConfigTranslation" type="button"><?php echo JText::_('Save');?></button>
+		<button onclick="window.parent.document.getElementById('sbox-window').close();" type="button"><?php echo JText::_('Cancel');?></button>
+		</div>
+	<div class="configuration"><?php echo JText::_('Translate System Configuration');?></div>
+</fieldset>
 <?php
 foreach ($this->jf_siteconfig as $groupname=>$group) {
  	?>
-<fieldset class="adminform"   >
+<fieldset class="adminform">
 	<legend><?php echo JText::_( $groupname ); ?></legend>
-	<table class="adminlist" cellspacing="1">
+	<table class="admintable" cellspacing="1" style="width:100%">
 		<tbody>
-			<tr>
-				<th class="title" align="center"><?php echo JText::_("Field");?></th>
-				<th class="title" align="center"><?php echo JText::_("Original");?></th>
-				<th class="title" align="center"><?php echo JText::_("Translation");?></th>				
-			</tr>
 		<?php
 		foreach ($group as $field=>$data) {
 			?>
 			<tr>
-				<td valign="top" class="key" style="font-weight:bold;width:150px;">
+				<td valign="top" class="key" style="font-weight:bold;width:100px;" rowspan="2">
 					<span class="editlinktip hasTip" title="<?php echo JText::_( $data[0] )."::".JText::_( $data[1] ); ?>">
 						<?php echo JText::_(  $data[0]); ?>
 					</span>
 				</td>
-				<td valign="top"  style="width:300px;">
+				<td valign="top">
 				<?php echo $this->jconf->$field; ?>
 				</td>
+			</tr>
+			<tr>
 				<td>
 					<?php 
 					if ($data[2]=="text") { ?>
-					<input class="text_area" type="text" size="80" name="trans_<?php echo $field;?>" value="<?php echo  $this->translations->get($field,""); ?>" />
+					<input class="text_area translation" type="text" name="trans-<?php echo $field;?>" value="<?php echo  $this->translations->get($field,""); ?>" style="width:100%;" />
 					<?php } else {?>
-					<textarea class="text_area" cols="60" rows="2" name="trans_<?php echo $field;?>"><?php echo $this->translations->get($field,""); ?></textarea>
+					<textarea class="text_area translation" rows="2" name="trans-<?php echo $field;?>" style="width:100%;"><?php echo $this->translations->get($field,""); ?></textarea>
 					<?php }?>
 					
 				</td>
@@ -80,24 +85,21 @@ foreach ($this->jf_siteconfig as $groupname=>$group) {
 
 <fieldset class="adminform"   >
 	<legend><?php echo JText::_( "Joomfish Configuration"); ?></legend>
-	<table class="adminlist" cellspacing="1">
+	<table class="admintable" cellspacing="1" style="width:100%;">
 		<tbody>
 			<tr>
-				<th class="title" align="center"><?php echo JText::_("Field");?></th>
-				<th class="title" align="center"><?php echo JText::_("Original");?></th>
-				<th class="title" align="center"><?php echo JText::_("Translation");?></th>				
-			</tr>
-			<tr>
-				<td valign="top" class="key" style="font-weight:bold;width:150px;">
+				<td valign="top" class="key" style="font-weight:bold;width:100px;" rowspan="2">
 					<span class="editlinktip hasTip" title="<?php echo JText::_( "Placeholder" )."::".JText::_( "TRANS_DEFAULT_HELP"); ?>">
 						<?php echo JText::_( "Placeholder"); ?>
 					</span>
 				</td>
-				<td valign="top"  style="width:300px;">
+				<td valign="top">
 				<?php echo $this->defaulttext; ?>
 				</td>
+			</tr>
+			<tr>
 				<td>
-					<textarea class="text_area" cols="60" rows="2" name="trans_defaulttext"><?php echo $this->trans_defaulttext; ?></textarea>				
+					<textarea class="text_area translation" rows="2" name="trans-defaulttext" style="width:100%;"><?php echo $this->trans_defaulttext; ?></textarea>				
 				</td>
 			</tr>
 		</tbody>	

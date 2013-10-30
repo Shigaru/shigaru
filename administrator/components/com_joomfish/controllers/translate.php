@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: translate.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: translate.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage translate
  *
@@ -125,8 +125,8 @@ class TranslateController extends JController   {
 			return;
 		}
 
-		JoomfishControllerHelper::_setupContentElementCache();
-		if( !JoomfishControllerHelper::_testSystemBotState() ) {;
+		JoomfishControllerHelper::setupContentElementCache();
+		if( !JoomfishControllerHelper::testSystemBotState() ) {;
 		echo "<div style='font-size:16px;font-weight:bold;color:red'>".JText::_('MAMBOT_ERROR')."</div>";
 		}
 
@@ -181,7 +181,7 @@ class TranslateController extends JController   {
 			}
 
 			foreach ($tranFilters as $tranFilter){
-				$afilterHTML=$tranFilter->_createFilterHTML();
+				$afilterHTML=$tranFilter->createFilterHTML();
 				if (isset($afilterHTML)) $filterHTML[$tranFilter->filterType] = $afilterHTML;
 			}
 
@@ -338,7 +338,6 @@ class TranslateController extends JController   {
 	/**
 	 * method to remove a translation
 	 */
-	// DONE
 	function removeTranslation() {
 		$this->cid =  JRequest::getVar( 'cid', array(0) );
 		if (!is_array( $this->cid )) {
@@ -347,7 +346,7 @@ class TranslateController extends JController   {
 
 
 		$model = $this->view->getModel();
-		$model->_removeTranslation( $this->_catid, $this->cid );
+		$model->removeTranslation( $this->_catid, $this->cid );
 		// redirect to overview
 		$this->showTranslate();
 	}
@@ -502,7 +501,7 @@ class TranslateController extends JController   {
 		if ( count($langActive)>0 ) {
 			foreach( $langActive as $language )
 			{
-				$langOptions[] = JHTML::_('select.option',  $language->id, $language->name );
+				$langOptions[] = JHTML::_('select.option',  $language->id, $language->title );
 			}
 		}
 		$langlist = JHTML::_('select.genericlist', $langOptions, 'select_language_id', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $language_id );
@@ -576,14 +575,14 @@ class TranslateController extends JController   {
 	/**
 	 * method to remove orphan translation
 	 */
-	function removeOrphan() {
+	public function removeOrphan() {
 		$this->cid =  JRequest::getVar( 'cid', array(0) );
 		if (!is_array( $this->cid )) {
 			$this->cid = array(0);
 		}
 
 		$model =  $this->view->getModel();
-		$model->_removeTranslation( $this->_catid, $this->cid );
+		$model->removeTranslation( $this->_catid, $this->cid );
 
 		$this->view->message = JText::_('Orphan Translation(s) deleted');
 		// redirect to overview

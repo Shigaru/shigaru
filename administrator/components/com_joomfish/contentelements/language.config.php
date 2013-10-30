@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -48,7 +48,9 @@ $jf_siteconfig["Metadata Settings"]=array(
 "MetaKeys" =>array('Global Site Meta Keywords','TIPSITENAME','textarea'),);
 
 $jf_siteconfig["System Settings"]=array(
-"helpurl" => array('Help Server','TIPSITENAME','text'),);
+"helpurl" => array('Help Server','TIPSITENAME','text'),
+"offset" => array('Time Zone','TIPDATETIMEDISPLAY','text'),);
+
 
 $jf_siteconfig["Mail Settings"]=array(
 "mailfrom" => array('Mail From','TIPSITENAME','text'),

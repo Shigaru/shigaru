@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012 Think Network GmbH, Munich
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfcontent.php 1580 2011-04-16 17:11:41Z akede $
+ * $Id: jfcontent.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage jfcontent
  *
@@ -139,17 +139,17 @@ function plgSearchJFContent( $text, $phrase='', $ordering='', $areas=null )
 		$query = 'SELECT a.id as contid, b.id as catid,  u.id AS secid, a.title AS title, a.created AS created,'
 		//. ' CONCAT(a.introtext, a.`fulltext`) AS text,'
 		. ' a.introtext, a.fulltext, '
-		//. ' CONCAT(CONCAT_WS( "/", u.title, b.title ), " - ", jfl.name) AS section,'
+		//. ' CONCAT(CONCAT_WS( "/", u.title, b.title ), " - ", jfl.title) AS section,'
 		. ' u.title as sectitle, b.title as cattitle,'
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
 		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
 		. ' "2" AS browsernav, '
-		. ' jfl.code as jflang, jfl.name as jflname'
+		. ' jfl.code as jflang, jfl.title as jflname'
 		. ' FROM #__content AS a'
 		. ' INNER JOIN #__categories AS b ON b.id=a.catid'
 		. ' INNER JOIN #__sections AS u ON u.id = a.sectionid'
 		. "\n LEFT JOIN #__jf_content as jfc ON reference_id = a.id"
-		. "\n LEFT JOIN #__languages as jfl ON jfc.language_id = jfl.id"
+		. "\n LEFT JOIN #__languages as jfl ON jfc.language_id = jfl.lang_id"
 		. ' WHERE ( '.$where.' )'
 		. ' AND a.state = 1'
 		. ' AND u.published = 1'
@@ -186,10 +186,10 @@ function plgSearchJFContent( $text, $phrase='', $ordering='', $areas=null )
 		$query = 'SELECT a.id as contid, a.title AS title, a.created AS created,'
 		. ' a.introtext AS text,'
 		. ' "2" as browsernav, "'. $db->Quote(JText::_('Uncategorised Content')) .'" AS section,'
-		. ' jfl.code as jflang, jfl.name as jflname'
+		. ' jfl.code as jflang, jfl.title as jflname'
 		. ' FROM #__content AS a'
 		. "\n LEFT JOIN #__jf_content as jfc ON reference_id = a.id"
-		. "\n LEFT JOIN #__languages as jfl ON jfc.language_id = jfl.id"
+		. "\n LEFT JOIN #__languages as jfl ON jfc.language_id = jfl.lang_id"
 		. ' WHERE ('.$where.')'
 		. ' AND a.state = 1'
 		. ' AND a.access <= '.(int) $user->get( 'aid' )
@@ -229,12 +229,12 @@ function plgSearchJFContent( $text, $phrase='', $ordering='', $areas=null )
 		. ' u.title as sectitle, b.title as cattitle,'
 		. ' u.id AS sectionid,'
 		. ' "2" AS browsernav,'
-		. ' jfl.code as jflang, jfl.name as jflname'
+		. ' jfl.code as jflang, jfl.title as jflname'
 		. ' FROM #__content AS a'
 		. ' INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= ' .$user->get( 'gid' )
 		. ' INNER JOIN #__sections AS u ON u.id = a.sectionid'
 		. "\n LEFT JOIN #__jf_content as jfc ON reference_id = a.id"
-		. "\n LEFT JOIN #__languages as jfl ON jfc.language_id = jfl.id"
+		. "\n LEFT JOIN #__languages as jfl ON jfc.language_id = jfl.lang_id"
 		. ' WHERE ( '.$where.' )'
 		. ' AND a.state = -1'
 		. ' AND u.published = 1'

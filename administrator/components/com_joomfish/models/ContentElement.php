@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: ContentElement.php 1580 2011-04-16 17:11:41Z akede $
+ * $Id: ContentElement.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Models
  *
@@ -42,32 +42,32 @@ include_once(dirname(__FILE__).DS."ContentElementTable.php");
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003 - 2011, Think Network GmbH, Munich
+ * @copyright 2003 - 2012, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1580 $
- * @author Alex Kempkens <joomfish@thinknetwork.com>
+ * @version $Revision: 1592 $
+ * @author Alex Kempkens
  */
 class ContentElement {
-	var $_xmlFile;
-	var $checked_out=false;
-	var $Name='';
-	var $Author='';
-	var $Version='';
-	var $Description='';
-	var $PrimaryKey = "id";
+	private $_xmlFile;
+	public $checked_out=false;
+	public $Name='';
+	public $Author='';
+	public $Version='';
+	public $Description='';
+	public $PrimaryKey = "id";
 
-	var $referenceInformation;
+	public $referenceInformation;
 
 	/**	field (if any) that keyword	filters apply to*/
-	var $_keywordFilter=null;
-	var $_categoryFilter=null;
-	var $_authorFilter=null;
+	private $_keywordFilter=null;
+	private $_categoryFilter=null;
+	private $_authorFilter=null;
 
 
 	/** Standard constructor, which loads already standard information
 	 * for easy and direct access
 	*/
-	function ContentElement ( $xmlDoc ) {
+	public function __construct ( $xmlDoc ) {
 		$this->_xmlFile = $xmlDoc;
 
 		if( isset($this->_xmlFile) ) {
@@ -87,7 +87,7 @@ class ContentElement {
 
 	/** Type of reference
 	*/
-	function getReferenceType() {
+	public function getReferenceType() {
 		if( !isset($this->referenceInformation["type"]) && isset($this->_xmlFile) ) {
 			$tableElement = $this->_xmlFile->getElementsByTagName('reference')->item(0);
 			$tableName = trim($tableElement->getAttribute( 'type' ));
@@ -100,7 +100,7 @@ class ContentElement {
 	/**
 	 * Public function to return array of filters included in contentelement file
 	 */
-	function getAllFilters(){
+	public function getAllFilters(){
 		$allFilters = array();
 		if(isset($this->_xmlFile) ) {
 			$fElement = $this->_xmlFile->getElementsByTagName('translationfilters')->item(0);
@@ -122,7 +122,7 @@ class ContentElement {
 	 * function that returns filter string and handles getting filter info from xmlfile if needed
 	 *
 	 */
-	function getFilter($type){
+	public function getFilter($type){
 		$filter = "_$type"."Filter";
 		if( !isset($this->$filter) && isset($this->_xmlFile) ) {
 			$xpath = new DOMXPath($this->_xmlFile);
@@ -140,27 +140,27 @@ class ContentElement {
 	/**
 	 * returns translation filter keyword field (if any)
 	 */
-	function getKeywordFilter() {
+	public function getKeywordFilter() {
 		return $this->_getFilter("keyword");
 	}
 
 	/**
 	 *  returns category filter fieldname (if any)
 	 */
-	function getCategoryFilter() {
+	public function getCategoryFilter() {
 		return $this->_getFilter("category");
 	}
 
 	/**
 	 *  returns author filter fieldname (if any)
 	 */
-	function getAuthorFilter() {
+	public function getAuthorFilter() {
 		return $this->_getFilter("author");
 	}
 
 	/** Name of the refering table
 	*/
-	function getTableName() {
+	public function getTableName() {
 		if( !isset($this->referenceInformation["tablename"]) && isset($this->_xmlFile) ) {
 			$xpath = new DOMXPath($this->_xmlFile);
 			$tableElement = $xpath->query('//reference/table')->item(0);
@@ -175,7 +175,7 @@ class ContentElement {
 	/**
 	 * Name of reference id (in other words the primary key)
 	 */
-	function getReferenceId() {
+	public function getReferenceId() {
 		if( isset($this->referenceInformation["tablename"]) && isset($this->_xmlFile) ) {
 			$xpath = new DOMXPath($this->_xmlFile);
 			$tableElement = $xpath->query('//reference/table')->item(0);
@@ -194,8 +194,9 @@ class ContentElement {
 
 
 	/** Array of the field elements in the table
+	 * @return reference to the table information
 	*/
-	function & getTable() {
+	public function & getTable() {
 		if( !isset($this->referenceInformation["table"]) && isset($this->_xmlFile) ) {
 			$xpath = new DOMXPath($this->_xmlFile);
 			$tableElement = $xpath->query('//reference/table')->item(0);
@@ -209,7 +210,7 @@ class ContentElement {
 	/** Generating the sql statement to retrieve the information
 	 * from the database
 	 */
-	function createContentSQL( $idLanguage=-1, $contentid=null, $limitStart=-1, $maxRows=-1 , $filters=array()) {
+	public function createContentSQL( $idLanguage=-1, $contentid=null, $limitStart=-1, $maxRows=-1 , $filters=array()) {
 		$db = JFactory::getDBO();
 		$sqlFields=null;
 		$where=array();
@@ -217,7 +218,7 @@ class ContentElement {
 		$join=null;
 		$contentTable = $this->getTable();
 		foreach ($filters as $filter) {
-			$sqlFilter= $filter->_createFilter($this);
+			$sqlFilter= $filter->createFilter($this);
 			if ($sqlFilter!="") $where[]=$sqlFilter;
 		}
 		foreach( $contentTable->Fields as $tableField ) {
@@ -227,7 +228,7 @@ class ContentElement {
 					$contentid_exist = (isset($contentid) && $contentid!=-1 );
 					if( strtolower($tableField->Name) != "id" ) {
 						$sqlFields[] = 'c.' .$tableField->Name. ' as id';
-						if( $contentid_exist) $where[] = 'c.' .$tableField->Name. '=' .$db->Quote($contentid) ;
+						if( $contentid_exist) $where[] = 'c.' .$tableField->Name. '=' .$db->Quote($contentid );
 					}
 					else {
 						if( $contentid_exist ) $where[] = 'c.id=' .$contentid ;
@@ -264,7 +265,7 @@ class ContentElement {
 		$sqlFields[] = "jfc.modified as lastchanged";
 		$sqlFields[] = 'jfc.published as published';
 		$sqlFields[] = 'jfc.language_id';
-		$sqlFields[] = 'jfl.name as language';
+		$sqlFields[] = 'jfl.title as language';
 		$sqlFields[] = "jfc.reference_id as jfc_refid";
 		$join[] = "jfc.reference_table='$contentTable->Name'";
 		// Now redundant
@@ -289,7 +290,7 @@ class ContentElement {
 		$sql = "SELECT " .implode( ', ', $sqlFields )
 		. "\nFROM #__" .$contentTable->Name. ' as c'
 		. "\nLEFT JOIN #__jf_content as jfc ON " .implode( ' AND ', $join )
-		. "\nLEFT JOIN #__languages as jfl ON jfc.language_id=jfl.id"
+		. "\nLEFT JOIN #__languages as jfl ON jfc.language_id=jfl.lang_id"
 		. (count( $where ) ? "\nWHERE " . implode( ' AND ', $where ) : "")
 		. (count( $order ) ? "\nORDER BY " . implode( ', ', $order ) : "");
 
@@ -303,7 +304,7 @@ class ContentElement {
 
 	/** Generating the sql statement to retrieve the orphans information from the database
 	 */
-	function createOrphanSQL( $idLanguage=-1, $contentid=null, $limitStart=-1, $maxRows=-1 , $filters=array()) {
+	public function createOrphanSQL( $idLanguage=-1, $contentid=null, $limitStart=-1, $maxRows=-1 , $filters=array()) {
 
 
 		$sqlFields=null;
@@ -313,7 +314,7 @@ class ContentElement {
 		$sqlFields[] = "jfc.modified as lastchanged";
 		$sqlFields[] = 'jfc.published as published';
 		$sqlFields[] = 'jfc.language_id';
-		$sqlFields[] = 'jfl.name as language';
+		$sqlFields[] = 'jfl.title as language';
 		$sqlFields[] = 'jfc.original_text as original_text';
 
 		$where=array();
@@ -321,7 +322,7 @@ class ContentElement {
 		$join=null;
 		$contentTable = $this->getTable();
 		foreach ($filters as $filter) {
-			$sqlFilter= $filter->_createFilter($this);
+			$sqlFilter= $filter->createFilter($this);
 			if ($sqlFilter!="") $where[]=$sqlFilter;
 		}
 		foreach( $contentTable->Fields as $tableField ) {
@@ -361,7 +362,7 @@ class ContentElement {
 		$sql = "SELECT " .implode( ', ', $sqlFields )
 		. "\nFROM #__jf_content as jfc"
 		. "\nLEFT JOIN #__" .$contentTable->Name. ' as c ON '.implode( ' AND ', $join )
-		. "\nLEFT JOIN #__languages as jfl ON jfc.language_id=jfl.id"
+		. "\nLEFT JOIN #__languages as jfl ON jfc.language_id=jfl.lang_id"
 		. (count( $where ) ? "\nWHERE " . implode( ' AND ', $where ) : "")
 		. (count( $order ) ? "\nORDER BY " . implode( ', ', $order ) : "");
 
@@ -375,14 +376,14 @@ class ContentElement {
 
 	/** Generating the sql statement to count the information
 	 */
-	function countContentSQL($idLanguage=-1, $filters=array()) {
+	public function countContentSQL($idLanguage=-1, $filters=array()) {
 		$contentTable = $this->getTable();
 /*
 		$where=null;
 
 		// Add standard filters
 		foreach ($filters as $filter) {
-			$sqlFilter= $filter->_createFilter($this);
+			$sqlFilter= $filter->createFilter($this);
 			if ($sqlFilter!="") $where[]=$sqlFilter;
 		}
 		if( $contentTable->Filter != '' ) {
@@ -419,7 +420,7 @@ class ContentElement {
 		}
 
 		foreach ($filters as $filter) {
-			$sqlFilter= $filter->_createFilter($this);
+			$sqlFilter= $filter->createFilter($this);
 			if ($sqlFilter!="") $where[]=$sqlFilter;
 		}
 		if( $contentTable->Filter != '' ) {
@@ -440,7 +441,7 @@ class ContentElement {
 	 * Returing the number of elements corresponding with the information of the class
 	 * @return total number of elements
 	 */
-	function countReferences( $idLanguage=-1, $filters=array() ) {
+	public function countReferences( $idLanguage=-1, $filters=array() ) {
 		$db = JFactory::getDBO();
 
 		/*
@@ -454,6 +455,29 @@ class ContentElement {
 		$count=$db->loadResult();
 		//echo "count = $count<br/>";
 		return $count;
+	}
+	
+	/**
+	 * Returns the component specific information related the UI screen settings, options, ...
+	 * The information allow the direct translation module to interact with the admin form and allow instant access
+	 * to the specific translation screen
+	 * @return	array	of admin form parameters
+	 */
+	public function getComponentInformation() {
+		$componentInfo = array();
+		if(isset($this->_xmlFile) ) {
+			$xpath = new DOMXPath($this->_xmlFile);
+			$componentElement = $xpath->query('//reference/component')->item(0);
+			if (!isset($componentElement) || !$componentElement->hasChildNodes()){
+				return $componentInfo;
+			}
+			$forms = $componentElement->getElementsByTagName( 'form' );
+			foreach ($forms as $componentForm){
+				$componentInfo[] = $componentForm->textContent;
+			}
+		}
+		return $componentInfo;
+
 	}
 }
 ?>

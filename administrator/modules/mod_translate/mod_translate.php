@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: mod_translate.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: mod_translate.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage mod_translate
  *
@@ -36,24 +36,15 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 include_once( JPATH_SITE .DS. 'components' .DS. 'com_joomfish' .DS. 'helpers' .DS. 'defines.php' );
 JLoader::register('JoomfishManager', JOOMFISH_ADMINPATH .DS. 'classes' .DS. 'JoomfishManager.class.php' );
+JLoader::register('JoomfishExtensionHelper', JOOMFISH_ADMINPATH .DS. 'helpers' .DS. 'extensionHelper.php' );
 JLoader::register('JoomFishVersion', JOOMFISH_ADMINPATH .DS. 'version.php' );
+JLoader::import('helper', dirname( __FILE__ ), 'jftranslate');
 
 JHTML::_('behavior.modal');
 
-$linkType = $params->get("linktype","newwindow");
+$linkType = $params->get("linktype","squeezebox");
 
-$value = array();
-$value[]="com_content#content#cid#task#!edit";
-$value[]="com_frontpage#content#cid#task#!edit";
-$value[]="com_sections#sections#cid#task#!edit";
-$value[]="com_categories#categories#cid#task#!edit";
-$value[]="com_contact#contact_details#cid#!edit";
-$value[]="com_menus#menu#cid#task#!edit";
-$value[]="com_modules#modules#cid#task#!edit#client#!1";
-$value[]="com_newsfeeds#newsfeeds#cid#task#!edit";
-$value[]="com_poll#polls#cid#task#!edit";
-
-$components = $params->get("components",$value);
+$components = JFTranslateHTML::getComponentMapping($params->get("components",''));
 $mapping=null;
 foreach ($components as $component){
 	$map = explode("#",$component);
@@ -87,8 +78,8 @@ foreach ($components as $component){
 	}
 }
 // Add the standard style to the site
-JHTML::stylesheet("mod_translate.css","administrator/modules/mod_translate/");
-$joomFishManager =  JoomFishManager::getInstance();// JoomFishManager(JPATH_ADMINISTRATOR."/components/com_joomfish");
+JHTML::stylesheet("mod_translate.css","administrator/modules/mod_translate/assets/");
+$joomFishManager =  JoomFishManager::getInstance();
 
 if ($mapping!=null){
 
@@ -109,10 +100,9 @@ if ($mapping!=null){
 	$lang->load('com_joomfish');
 
 	// load languages via translation model
-	JLoader::register('TranslateModelTranslate', JOOMFISH_ADMINPATH.DS.'models'.DS.'translate.php');
-	$model = new TranslateModelTranslate();
-	$langActive = $model->getLanguages();		// all languages even non active once
-	$defaultLang = $model->getDefaultLanguage();
+	//JLoader::register('TranslateModelTranslate', JOOMFISH_ADMINPATH.DS.'models'.DS.'translate.php');
+	$langActive = $joomFishManager->getLanguages(false);		// all languages even non active once
+	$defaultLang = $joomFishManager->getDefaultLanguage();
 	$params = JComponentHelper::getParams('com_joomfish');
 	$showDefaultLanguageAdmin = $params->get("showDefaultLanguageAdmin", false);
 	$langOptions[] = JHTML::_('select.option', -1, JText::_("SELECT LANGUAGE") );
@@ -121,11 +111,11 @@ if ($mapping!=null){
 		foreach( $langActive as $language )
 		{
 			if($language->code != $defaultLang || $showDefaultLanguageAdmin) {
-				$langOptions[] = JHTML::_('select.option',  $language->id, $language->name );
+				$langOptions[] = JHTML::_('select.option',  $language->lang_id, $language->title );
 			}
 		}
 	}
-	$langlist = JHTML::_('select.genericlist', $langOptions, 'select_language_id', 'id="select_language_id" class="inputbox"  size="1" onChange="translateItem(\''.$linkType.'\');"', 'value', 'text', -1);//$langActive[0]->id );
+	$langlist = JHTML::_('select.genericlist', $langOptions, 'select_language_id', 'id="select_language_id" class="inputbox"  size="1" onChange="translateItem(\''.$linkType.'\');"', 'value', 'text', -1);//$langActive[0]->lang_id );
 	// I also need to trap component specific actions e.g. pony gallery uses
 ?>
 <span class='modtranslate'>
@@ -202,25 +192,7 @@ function openTranslationDialog(target, linktype) {
 <?php
 }
 else {
-?>
-<span class='modtranslate'>
-<?php
-$params = JComponentHelper::getParams('com_languages');
-$language = $joomFishManager->getLanguageByCode($params->get("site", 'en-GB'));
-if(isset($language) && $language) {
-	echo JText::_('Default language') .': ';
-	$langImg = '/components/com_joomfish/images/flags/' .$language->getLanguageCode() .".gif";
-	if( isset($language->image) && $language->image!="" ) {
-		$langImg = '/images/' .$language->image;
-	}
-	$outString = $language->name;
-	if( file_exists( JPATH_SITE . $langImg ) ) {
-		$outString = '<img src="' .JURI::root(true) . $langImg. '" alt="' .$language->name. '" title="' .$language->name. '" />';
-	}
-	echo $outString;
-}
-?>
-</span>
-<?php
+	$layout = JModuleHelper::getLayoutPath('mod_translate','default');
+	require($layout);	
 }
 ?>

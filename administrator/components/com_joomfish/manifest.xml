@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install type="component" version="1.5.0" method="upgrade">
+<install type="component" version="1.5.0" method="install">
 	<name>Joom!Fish</name>
 	<license>Open Source License, GPL v2 based</license>
 	<author>Joom!Fish Project</author>
 	<authorEmail>support@joomfish.net</authorEmail>
 	<authorUrl>http://www.joomfish.net</authorUrl>
-	<creationDate>2011-04-16</creationDate>
-	<copyright>2003 - 2011, Think Network GmbH, Munich</copyright>
-	<version>2.1.7</version>
+	<creationDate>2012-01-20</creationDate>
+	<copyright>2003 - 2012, Think Network GmbH, Munich</copyright>
+	<version>2.2.3</version>
 	<description>
 		Multilingual extention and translation manager for Joomla! 1.5.x
 	</description>
@@ -22,6 +22,12 @@
 
 	<uninstall>
 	</uninstall>
+	
+	<upgrade version="2.0">
+		<sql>
+			<file driver="mysql" charset="utf8">install/upgrade.mysql.utf8.sql</file>
+		</sql>
+	</upgrade>
 
     <files folder="site">
 		<folder>helpers</folder>
@@ -34,6 +40,10 @@
 	<languages folder="site/language">
 		<language tag="en-GB">en-GB.com_joomfish.ini</language>
    	</languages>
+
+	<media folder="media" destination="com_joomfish">
+		<folder>default</folder>
+	</media>
 
 	<administration>
 		<menu img="components/com_joomfish/assets/images/icon-16-joomfish.png">Joom!Fish</menu>
@@ -89,7 +99,7 @@
 
 				<file>helper.php</file>
 				<file>index.html</file>
-				<file>mod_jflanguageselection.php</file>
+				<file module="mod_jflanguageselection">mod_jflanguageselection.php</file>
 				<file>mod_jflanguageselection.xml</file>
 			</files>
 
@@ -101,13 +111,13 @@
 		
 		<module module="mod_translate" title="Direct Translation" position="status" client="administrator">
 			<files folder="mod_translate">
-				<folder>elements</folder>
-				<file>mod_translate_no.png</file>
-				<file>mod_translate.png</file>
+				<file module="mod_translate">mod_translate.php</file>
+				<file>helper.php</file>
 				<file>index.html</file>
-				<file>mod_translate.css</file>
-				<file>mod_translate.php</file>
 				<file>mod_translate.xml</file>
+				<folder>assets</folder>
+				<folder>elements</folder>
+				<folder>tmpl</folder>
 			</files>
 			<languages folder="mod_translate/language">
 				<language tag="en-GB">en-GB.mod_translate.ini</language>

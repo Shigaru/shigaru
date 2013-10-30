@@ -2,7 +2,7 @@
 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich, 2007-2009 GWE Systems Ltd
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich, 2007-2009 GWE Systems Ltd
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -26,7 +26,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: sefprefix.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: sefprefix.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage jfrouter
  * @version 2.0
@@ -56,7 +56,7 @@ class JElementSefprefix extends JElement
 				$default = "";
 				$value = array();				
 				foreach ($activeLanguages as $key => $val) {
-					$value[$key] = $val->id."::".$default.$val->shortcode; 
+					$value[$key] = $val->lang_id."::".$default.$val->sef; 
 				}
 			}
 
@@ -71,10 +71,10 @@ class JElementSefprefix extends JElement
 			foreach ($activeLanguages as $key => $val) {
 				$html .= "<tr>";
 				$html .= '<td>'.$val->name.'</td><td>';
-				$prefix = array_key_exists($val->id,$indexedvalues)? $indexedvalues[$val->id] : "lang-".$val->shortcode; 
-				$idprefix = $val->id."::".$prefix;
-				$html .= "<input type='text' length='10' maxlength='50' id='sefprefix".$val->id."' onblur='document.getElementById(\"hiddensefprefix".$val->id."\").value=\"".$val->id."::\"+this.value;' value='".$prefix."' />";
-				$html .= "<input type='hidden' id='hiddensefprefix".$val->id."' name='".$control_name.'['.$name.'][]'."' value='".$idprefix."' />";	
+				$prefix = array_key_exists($val->lang_id,$indexedvalues)? $indexedvalues[$val->lang_id] : "lang-".$val->sef; 
+				$idprefix = $val->lang_id."::".$prefix;
+				$html .= "<input type='text' length='10' maxlength='50' id='sefprefix".$val->lang_id."' onblur='document.getElementById(\"hiddensefprefix".$val->lang_id."\").value=\"".$val->lang_id."::\"+this.value;' value='".$prefix."' />";
+				$html .= "<input type='hidden' id='hiddensefprefix".$val->lang_id."' name='".$control_name.'['.$name.'][]'."' value='".$idprefix."' />";	
 				$html .= "</td></tr>";
 			}
 			$html .="</table></fieldset>";

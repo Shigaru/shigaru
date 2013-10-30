@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,11 +25,12 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: statistics.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: statistics.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
+// Check to ensure this file is included in Joomla!
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
@@ -40,12 +41,12 @@ jimport( 'joomla.application.component.model' );
  */
 class StatisticsModelStatistics extends JModel
 {
-	var $_modelName = 'statistics';
+	protected $_modelName = 'statistics';
 
 	/**
 	 * return the model name
 	 */
-	function getName() {
+	public function getName() {
 		return $this->_modelName;
 	}
 	
@@ -60,7 +61,7 @@ class StatisticsModelStatistics extends JModel
 	 * @param string	$statecheck_i	running row number starting with -1!
 	 * @param string	$message	system message
 	 */
-	function testTranslationStatus( $translationStatus, &$phase, &$statecheck_i, &$message ) {
+	public function testTranslationStatus( $translationStatus, &$phase, &$statecheck_i, &$message ) {
 		$db = JFactory::getDBO();
 		$jfManager = JoomFishManager::getInstance();
 
@@ -68,9 +69,9 @@ class StatisticsModelStatistics extends JModel
 
 		switch ($phase) {
 			case 1:
-				$sql = "SELECT jfc.reference_table, jfc.language_id, jfl.name AS language" .
+				$sql = "SELECT jfc.reference_table, jfc.language_id, jfl.title AS language" .
 				"\n FROM #__jf_content AS jfc" .
-				"\n JOIN #__languages AS jfl ON jfc.language_id = jfl.id" .
+				"\n JOIN #__languages AS jfl ON jfc.language_id = jfl.lang_id" .
 				"\n GROUP BY jfc.reference_table, jfc.language_id";
 				$db->setQuery($sql);
 				$rows = $db->loadObjectList();
@@ -117,7 +118,7 @@ class StatisticsModelStatistics extends JModel
 				if( is_array($translationStatus) && count ($translationStatus)>0 ) {
 
 					for ($i=0; $i<count($translationStatus); $i++) {
-						$stateRow = $translationStatus[$i];
+						$stateRow =& $translationStatus[$i];
 						$sql = "select *" .
 						"\n from #__jf_content as jfc" .
 						"\n where published=1" .
@@ -141,7 +142,7 @@ class StatisticsModelStatistics extends JModel
 			case 3:
 				if( is_array($translationStatus) && count ($translationStatus)>0 ) {
 					if( $statecheck_i>=0 && $statecheck_i<count($translationStatus)) {
-						$stateRow = $translationStatus[$statecheck_i];
+						$stateRow =& $translationStatus[$statecheck_i];
 
 						$contentElement = $jfManager->getContentElement( $stateRow['catid'] );
 						$filters = array();
@@ -216,7 +217,7 @@ class StatisticsModelStatistics extends JModel
 	 * @param array		$languages	array of availabe languages
 	 * @return array	with resulting rows
 	 */
-	function testOriginalStatus($originalStatus, &$phase, &$statecheck_i, &$message, $languages) {
+	public function testOriginalStatus($originalStatus, &$phase, &$statecheck_i, &$message, $languages) {
 		$db = JFactory::getDBO();
 		$jfManager = JoomFishManager::getInstance();
 		$tranFilters=array();
@@ -285,11 +286,11 @@ class StatisticsModelStatistics extends JModel
 			case 2:
 				if( is_array($originalStatus) && count ($originalStatus)>0 ) {
 					if( $statecheck_i>=0 && $statecheck_i<count($originalStatus)) {
-						$stateRow = $originalStatus[$statecheck_i];
+						$stateRow =& $originalStatus[$statecheck_i];
 
 						foreach ($languages as $lang) {
 							$sql = "SELECT * FROM #__jf_content as jfc" .
-							"\n  WHERE jfc.language_id=" .$lang->id .
+							"\n  WHERE jfc.language_id=" .$lang->lang_id .
 							"\n    AND jfc.reference_table='" .$stateRow['catid'] ."'".
 							"\n    AND jfc.published=1" .
 							"\n	 GROUP BY reference_id";

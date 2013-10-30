@@ -26,12 +26,12 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: CHANGELOG.php 1580 2011-04-16 17:11:41Z akede $
+ * $Id: CHANGELOG.php 1597 2012-01-20 10:03:16Z akede $
  *
 */
 
 // no direct access
-defined( 'JPATH_BASE' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 
 1. Copyright and disclaimer
@@ -39,7 +39,7 @@ defined( 'JPATH_BASE' ) or die( 'Restricted access' );
 This application is opensource software released under a variant of the GPL.
 Please see source code and the LICENSE file for more details.
 
-Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+Copyright (C) 2003 - 2012, Think Network GmbH, Munich
 - All Rights Reserved.
 
 
@@ -62,73 +62,298 @@ Legend:
 ! -> Note
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==== 2012-01-20 Joom!Fish 2.2.3 Stable release =====
 
-==== 16 April 2011 Joom!Fish 2.1.7 Stable release =====
+commit cf41005601defe3c3ce5f674d9bc844f0e26c408
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com> 2012-01-20 00:17:18
+# fixed coding style in jfrouter
+# fixed module to deal with duplicate language codes
+
+commit 8c346a3eeb3b108ca5a04a2b79d127d29a13bb3d
+Author: Geraint Edwards <github@copyn.plus.com> 2012-01-19 14:03:41
+Fix to avoid redirect when Joomla language has not been installed when we create it in Joomfish
+
+commit d609344e58d7a2fb8c474aceb3cb1250ddf921f0
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Wed Jan 18 08:27:17 2012 +0100
+
+    # correcting creating date for release
+
+commit 7ceaecbe722e8a2800e50bb68cf61ad5da042ddc
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Wed Jan 18 08:20:27 2012 +0100
+
+    # adding a text for google translation information
+
+commit ecfa32f6a17ce16fbb86dabad528b14fe6f4b257
+Merge: d22e7c8 1173e29
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Wed Jan 18 07:45:54 2012 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit d22e7c83bb0b8fd829de0f8e22a112e22703a044
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Wed Jan 18 07:36:53 2012 +0100
+
+    # Changing icon for translation and adding additional help information
+
+commit 1173e29a70de6894b87c9017681f4c2a0335e062
+Merge: 1a4f05f e9da1eb
+Author: Alex Kempkens <alex.kempkens@gmail.com>
+Date:   Tue Jan 17 22:03:51 2012 -0800
+
+    Merge pull request #2 from klas/master
+    
+    Issue alert when there is no google translate api key
+
+commit e9da1eb86c0dde3f45e47df68461e634a26e0107
+Author: klas <klas.berlic@gmail.com>
+Date:   Tue Jan 17 19:47:20 2012 +0100
+
+    Google API key check to prevent errors when there is no key
+
+commit c16d143feec15667a774aca4e16a5c2d49826171
+Author: klas <klas.berlic@gmail.com>
+Date:   Tue Jan 17 14:21:03 2012 +0100
+
+    merge upstream
+
+commit 1a4f05f20fafc0f3b06035b0b32109bc823f31f7
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Sun Jan 8 15:06:18 2012 +0100
+
+    # another correction of the language module to allow usage of languages
+    based on their ID and not on the lang_code which might be the same.
+
+commit 1bbc6d1a396163ee0cdd906ebc75629c1da525fc
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Sun Jan 8 13:36:11 2012 +0100
+
+    # Fixing an issue with managing multiple languages with empty language
+    codes
+    # Fixing issue with creating multiple languages with empty sef codes
+    (error message not shown)
+
+commit 8208aad647d40b7151d77c8fff5072792cbc4825
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Fri Jan 6 08:14:45 2012 +0100
+
+    # correcting further version numbers
+
+commit ed69736252b5b6d8e6d2405fefcb1aca5d1f971c
+Merge: 0930c01 2ab1f5b
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Fri Jan 6 08:04:30 2012 +0100
+
+    Merge remote branch 'origin/master'
+
+commit 0930c0158e8bffecfd338ae5581dd5bc4120c6b8
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Fri Jan 6 08:03:57 2012 +0100
+
+    # correnting version numbers for stable release
+
+commit 392756b61a8bbc42001b2a9feb6281560499a3dc
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Fri Jan 6 07:28:13 2012 +0100
+
+    + add manifest to ignore list
+
+commit 2ab1f5b288ddcc867bfb2b328fb706e024b88c4a
+Merge: 8af0636 7d2a2c5
+Author: Alex Kempkens <alex.kempkens@gmail.com>
+Date:   Thu Dec 15 23:23:16 2011 -0800
+
+    Merge pull request #1 from klas/master
+    
+    Google translate API V2
+
+commit 8af0636a0293690d50bc16fbbc28e921898c7905
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Tue Dec 6 22:19:29 2011 +0100
+
+    # Correcting the usage of directory path with Joomla constants
+
+commit 7d2a2c5f6da56fa905df8858062ff67d32119738
+Author: klas <klas.berlic@gmail.com>
+Date:   Sun Dec 4 01:40:38 2011 +0100
+
+    Change auto translate function to use Google translate API V2
+
+commit b9175e69b49d84fd6f95bc2e113e22ba5d9f3e60
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Tue Nov 29 11:02:59 2011 +0100
+
+    - removing all .svn directories
+
+commit 220b5c0ce11202dfcedbbd560a605a75f6bbecb2
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Tue Nov 29 09:10:55 2011 +0100
+
+    # Fixed encoding issue in help page
+    # corrected versioning information for new release
+    - removed unneeded .svn directories
+
+commit b2c4eec938a6ad07452d7df2849ed218ca0543ed
+Author: Alex Kempkens <alex.kempkens@thinknetwork.com>
+Date:   Fri Oct 21 11:59:15 2011 -0400
+
+    Initial update of the current 2.2 code on SVN
+
+
+==== 2011 Joom!Fish 2.2.2 Stable release =====
+
+2011-06-12 Alex Kempkens
+ # 342: 2.2 not translating meta-tags - http://www.joomfish.net/forum/viewtopic.php?f=47&t=9186&p=34147#p34147
+
+2011-05-29 Alex Kempkens
+ # ensured that the news module is not shown if the RSS feed is not available
+
+2011-05-06 Alex Kempkens
+ ! removed the necessarity for the view. The view is removed completely from the installation and all other references
+
 2011-04-16 Alex Kempkens
- # Fixed SQL create table statement for MySQL 5.5
- # [#24270] JF fails to change current language on visitor first visit
- # Correcting spelling mistakes in the help screen
- # Correcting credits on the help screen pages
- # re-integrating 2.2 help screen design to 2.1
- - removed not needed postinstallation and information text
- # Correcting default values for component parameters
- + Update of the module parameter while installing
- # Fixed inconsistent usage of path / directory for flags 
- ! Parameter values for the image path of the flags is expected to start without a leading / 
- # Updated all versioning information, final packageing activities
-
+  # [#24270] JF fails to change current language on visitor first visit
+  # Fixed an issue with JFile not being included in the help dialogs
+  + http://joomfish.uservoice.com/forums/7879-joom-fish-core/suggestions/461511-translate-plugins-parameters
+  # Updated version file
+ 
 2011-04-16 Geraint Edwards
  # Ensure insert/select type subquery doesn't trigger setreftables
  # ensure profile data is not processed if it isn't an array
  # ensure content items marked as non-default language don't trigger the creation of inappropriate translations in the frontend when updating content
 
-==== 24 March 2011 Joom!Fish 2.1.6 Stable release =====
-
 2011-03-24 Alex Kempkens
- ! preparing for 2.1.6 stable release
- # Fixed problem for manage translations http://www.joomfish.net/forum/viewtopic.php?f=28&t=7541
-
-2011-03-24 Geraint Edwards
- # Fixed notice issues with fallback language
+ # fixing issue with wrong media path in flag image determination
 
 2011-01-19 Geraint Edwards
  # Reinstate fallback language support
  
-2010-12-22 Geraint Edwards
+2011-01-04 Geraint Edwards
  # Missing clone when creating introtext translation out of fulltext
+ # Fix language switching module when using subdomain
  # Allow for non-numeric primary key values in translation
-
-==== 23 November 2010 Joom!Fish 2.1.5 Stable release =====
-
-2010-11-23 Alex Kempkens
- # preparing for 2.1.5 public release
- # re-integrating changes that are important based on the 2.2 release changes
- # re-integrated the flags to the component directory for compatiblity reasons
-
-2010-10-26 Alex Kempkens
- # Changed versioning information in all files
- # preparing for public release of 2.1.3
-
-2010-10-26 Geraint Edwards
  # Replaced correct language string reference for default language in content languages page
  # changed error messages to not show "failed to get table info" regardless of the error
  # remove bad reference to order lists in elements overview
  # Add missing database indexes
  # Correct handling of introtext and fulltext when only one has been translated
 
+ 2010-10-14 Alex Kempkens
+ # Fixed problem with image path in windows environments
+ 
+2010-10-05 Alex Kempkens
+ ! preparing for the club public release of 2.1
+ ! going to rename 2.1 into 2.2 to reduce confusion with add-ons
+
+2010-10-04 Alex Kempkens
+ # Fixed issue with manage translations
+ # Fixed issue with translation statistics
+
+2010-09-24 Alex Kempkens
+ # Fixed an issue installation loading wrong classes
+ # Fixed JFLanguagesModule to work correctly with table classes
+ + Method to installer auto loading already installed languages if language table is empty
+
+2010-09-06 Alex Kempkens
+ # Fixed issue with JFTable class not loading correctly in PHP 5.2 environments
+ # Fixed missing language strings in latest commit en-GB reference
+
+2010-08-26 Alex Kempkens
+ + added Khemer flag to media repository
+  
+2010-08-24 Alex Kempkens
+ # Removed create view from inital database population script to avoid issues during upgrade process
+ 
 2010-08-22 Alex Kempkens
  # corrected problem with extensionHelper called without JFile being imported
- 
+
 2010-08-18 Alex Kempkens
+ # Integrated automatic SQL structure upgrade routine during installation process
+ ! language files updated to include special keys
+ # fixed smaller bugs with declaration of classes
+ # prepared for stable release
+ 
+2010-08-17 Alex Kempkens
  # Changed presentation of long fields in translation overview. The text cut's off now and a tooltip shows the full text 
  # double checked all files to include JEXEC checks - thx to Andrew for the jscan script.
-   
+ # split TranslationFilter.php file into class depended pieces
+ # _createFilter functions converted to public createFilter
+ # Corrected the declaration for all existing classes
+ # Corrected methods in controllerHelper to have correct naming for public method
+ # Changed the help & tutorials screen to include the most current information and better introduction to the first time users.
+ ! The content of these files is now moved to /admin/help/en-GB/. The idea is to provide an full translated package of all help files this way.
+ ! Translation of all files in these directories would be perfect
+
 2010-08-16 Alex Kempkens
  # Fixed problem with mod_jflanguageselection and URL's including array definitions
+ # Moved component mapping information from mod_translate parameter to content element files.
+ ! The module parameter overwrite existing mapping in the content element file 
+ # Corrected core content element files to include component mapping information
  # [#19541] Error 500 with joomfish and joomla 1.5.15 with debug activated resolved - thx simon gendrin
  # [#21802] Some flags - thx Andrew McCarthy
  # [#12752] The dropdown view of the module should allways be in the dropdown even if there is only one language
 
+2010-08-04 Alex Kempkens
+ + User splash screen with information and reference to support information
+ # changed parameter section titles to use css styles with better visability
+
+2010-07-29 Alex Kempkens
+ + Introduced iJFTranslatable interface for the implementation of external models or tables from 3rd party extensions
+ ! The iJFTranslatable interface is still under heavy development and might change until the final release of version 2.2
+ ! The idea is that any 3rd party extension can specify in their own translation objects using what ever technique to store and identify the various
+ ! language versions.
+ # changed ContentObject to use new interface and PHP5 syntax
+ # fixed issue with ContentObject accessing private variables of JFManager
+ # config issue with  'Overwrite global config values' http://www.joomfish.net/forum/viewtopic.php?f=15&t=5318
+
+2010-07-22 Alex Kempkens
+ # fixed problem with CSS for the module
+ 
+2010-07-14 Alex Kempkens
+ # Corrented mod_translate package structure
+ # implemented special installation routine to determine old table structure
+ 
+2010-07-08 Alex Kempkens
+ # Implemented config system parameters dialog as modal window in language manager
+ # corrected JFLanguage class methods to load language information correctly
+ # updated images to be conform with new JoomFish logos
+ # Implementing delete and add methods to the language manager
+ 
+2010-07-06 Alex Kempkens
+ # Corrected flag path for mod_translate
+ # Corrected various methods in JoomFishManager to retrieve the language data correctly
+ # Made further class PHP 5 conform
+ 
+2010-07-06 Geraint Edwards
+ + Integrated initial version of Google translate within translation edit
+
+2010-07-05 Alex Kempkens
+ # Optimized language manager user interface
+ # completed integration of flag image browser and selection
+ + new JLanguage table representation
+ ! changed JFLanguage table object to be only place holder for aggregated copies of JLanguage and JFLanguageExt
+ ! all thrid party extensions shall only use JFLanguage as primary table. All methods are directed to the corresponding objects
+ ! please make sure you are not using TableJLanguage or TableJFLanguageExt directly as they do not keep the information to the other table in synch
+ # added special __set method to redirect information
+ 
+2010-07-01 Alex Kempkens
+ # Changed the occurance of deprecated attributes (id, code, name, shortcode) to their corresponding new attributes
+ # Implemented the default language change within the JoomFish language manager
+ # Fixed some minor issues with the select lists for languages
+ # changed JoomFishManager to be PHP 5 syntax conform
+
+2010-06-29 Alex Kempkens
+ # Changed copyright notice in help screens
+ # changed version information
+ # corrected mod_jflanguage tests to reflect new language attributes
+ # corrected extension helper methods for language image determination to first search for extended image information and later treat Joomla language image like sef information
+ 
+2010-06-25 Alex Kempkens
+ # Separation of JFLanguage table class into an exact represenation of the Joomla language table and a special extended version for JoomFish
+ # correcting some other email references
+ 
 2010-06-22 Alex Kempkens
  # Refactoring of performance status check -> moved checks into generic system check
  - removed tab for performance tests in cpanel

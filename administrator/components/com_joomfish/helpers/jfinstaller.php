@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfinstaller.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: jfinstaller.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage jfinstaller
  *
@@ -43,21 +43,21 @@ jimport('joomla.filesystem.file');
  *
  */
 class jfInstaller {
-	var $_iswin			= false;
-	var $errno			= 0;
-	var $error			= "";
-	var $_unpackdir		= "";
+	private $_iswin			= false;
+	public $errno			= 0;
+	public $error			= "";
+	private $_unpackdir		= "";
 
 	/** @var string The directory where the element is to be installed */
-	var $_elementdir 		= '';
-	var $_uploadfile		= null;
-	var $_realname			= null;
-	var $_contentelements	= array();
+	private $_elementdir 		= '';
+	private $_uploadfile		= null;
+	private $_realname			= null;
+	private $_contentelements	= array();
 
 	/**
 	* Constructor
 	*/
-	function jfInstaller() {
+	public function __construct() {
 		$this->_iswin = (substr(PHP_OS, 0, 3) == 'WIN');
 		$this->_elementdir =JPath::clean( JPATH_COMPONENT_ADMINISTRATOR. DS.'contentelements' );
 
@@ -67,7 +67,7 @@ class jfInstaller {
 	 * Installation of a single file or archive for the joomfish files
 	 * @param array uploadfile	retrieved information transferred by the upload form
 	 */
-	function install( $uploadfile = null ) {
+	public function install( $uploadfile = null ) {
 		if( $uploadfile === null ) {
 			return false;
 		}
@@ -81,7 +81,7 @@ class jfInstaller {
 	* Uploads and unpacks a file
 	* @return boolean True on success, False on error
 	*/
-	function upload() {
+	public function upload() {
 		if( !preg_match( '/.xml$/i', $this->_realname ) ) {
 			if(! $this->extractArchive() ) {
 				return false;
@@ -110,7 +110,7 @@ class jfInstaller {
 	* Extracts the package archive file
 	* @return boolean True on success, False on error
 	*/
-	function extractArchive() {
+	public function extractArchive() {
 
 		$base_Dir 		=JPath::clean( JPATH_BASE. '/media' );
 
@@ -151,7 +151,7 @@ class jfInstaller {
 
 		// Try to find the correct install dir. in case that the package have subdirs
 		// Save the install dir for later cleanup
-	jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.folder');
 		$this->_uploadfile =JFolder::files($extractdir, '' );
 
 		if (count( $this->_uploadfile ) == 1) {

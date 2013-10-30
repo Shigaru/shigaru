@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,11 +25,12 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: manage.php 1553 2011-03-24 14:26:25Z akede $
+ * $Id: manage.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
+// Check to ensure this file is included in Joomla!
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
@@ -40,22 +41,22 @@ jimport( 'joomla.application.component.model' );
  */
 class ManageModelManage extends JModel
 {
-	var $_modelName = 'manage';
+	protected $_modelName = 'manage';
 
 	/**
 	 * return the model name
 	 */
-	function getName() {
+	public function getName() {
 		return $this->_modelName;
 	}
 	
 	/**
 	 * returns the list of available languages
 	 */
-	function getLanguageList() {
+	public function getLanguageList() {
 		$jfManager = JoomFishManager::getInstance();
 		$languages = $jfManager->getLanguages( false );		// all languages even non active once
-		$defaultLang = $this->get('DefaultLanguage');
+		$defaultLang = $jfManager->getDefaultLanguage();
 		$params = JComponentHelper::getParams( 'com_joomfish' );
 		$showDefaultLanguageAdmin = $params->get("showDefaultLanguageAdmin", false);
 		$langOptions = array();
@@ -64,8 +65,8 @@ class ManageModelManage extends JModel
 		if ( count($languages)>0 ) {
 			foreach( $languages as $language )
 			{
-				if($language->code != $defaultLang || $showDefaultLanguageAdmin) {
-					$langOptions[] = array('value' => $language->id, 'text' => $language->name );
+				if($language->lang_code != $defaultLang || $showDefaultLanguageAdmin) {
+					$langOptions[] = array('value' => $language->lang_id, 'text' => $language->title );
 				}
 			}
 		}
@@ -81,7 +82,7 @@ class ManageModelManage extends JModel
 	 * @param unknown_type $message
 	 * @return array	Information result array
 	 */
-	function copyOriginalToLanguage($original2languageInfo, &$phase, &$state_catid, $language_id, $overwrite, &$message) {
+	public function copyOriginalToLanguage($original2languageInfo, &$phase, &$state_catid, $language_id, $overwrite, &$message) {
 		$db = JFactory::getDBO();
 		$jfManager = JoomFishManager::getInstance();
 		$sql = '';

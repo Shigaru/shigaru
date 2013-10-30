@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: ContentElementTable.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: ContentElementTable.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Models
  *
@@ -43,19 +43,19 @@ include_once(dirname(__FILE__).DS."ContentElementTableField.php");
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003 - 2011, Think Network GmbH, Munich
+ * @copyright 2003 - 2012, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1551 $
- * @author Alex Kempkens <joomfish@thinknetwork.com>
+ * @version $Revision: 1592 $
+ * @author Alex Kempkens
  */
 class ContentElementTable {
-	var $Name;
-	var $Fields;
-	var $Filter;
+	public $Name;
+	public $Fields;
+	public $Filter;
 
 	/** Standard constructor
 	*/
-	function ContentElementTable( $tableElement ) {
+	public function __construct( $tableElement ) {
 		$this->Name = trim( $tableElement->getAttribute( 'name' ) );
 
 		$tableFields = $tableElement->getElementsByTagName( 'field' );
@@ -77,7 +77,7 @@ class ContentElementTable {
 	 * @param	string	Fieldname
 	 * @return	object	field
 	 */
-	function getField( $name ) {
+	public function getField( $name ) {
 		$ret_field = null;
 		foreach( $this->Fields  as $field ) {
 			if ($field->Name == $name ) {

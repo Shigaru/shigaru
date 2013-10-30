@@ -1,7 +1,7 @@
 <?php 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,14 +25,14 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: default.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: default.php 1597 2012-01-20 10:03:16Z akede $
  * @package joomfish
  * @subpackage Views
  *
 */
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="index.php" method="post">
 <table class="adminform">
 	<tr>
 		<td width="55%" valign="top">
@@ -75,10 +75,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	
 			foreach ($tabs as $tab) {
 				$title = JText::_($tab->title);
-				echo $pane->startPanel( $title, 'jfcpanel-panel-'.$tab->name );
 				$renderer = 'render' .$tab->name;
-				echo $this->$renderer();
-				echo $pane->endPanel();
+				$output = $this->$renderer();
+				if($output != '')  {
+					echo $pane->startPanel( $title, 'jfcpanel-panel-'.$tab->name );
+					echo $output;
+					echo $pane->endPanel();
+				}
 			}
 	
 			echo $pane->endPane();
@@ -88,9 +91,35 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 </table>
-
 <input type="hidden" name="option" value="com_joomfish" />
 <input type="hidden" name="task" value="cpanel.show" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>
+
+<?php if($this->usersplash == 1) :?>
+<script type="text/javascript">
+//<![CDATA[
+function showUserSplash() {
+	var sBox = SqueezeBox.initialize();
+
+	sBox.fromElement(document, {
+		handler: 'iframe',
+		url: '<?php echo JURI::base()?>index.php?option=com_joomfish&task=cpanel.usersplash&layout=usersplash&tmpl=component',
+		size: {x: 800, y: 600}
+	});
+
+	return sBox;
+}
+
+// The configuration shall be saved anytime the splash screen is closed.
+// This is to ensure that a simple change in the splash screen can provide good user experience
+sBox = showUserSplash();
+sBox.addEvent('onClose', function(e){
+	var form = $E('iframe').contentDocument.getElementById('jfusersplashform');
+	form.submit();
+});
+
+//]]>
+</script>
+<?php endif;?>

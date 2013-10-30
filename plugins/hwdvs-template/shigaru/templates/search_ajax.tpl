@@ -12,7 +12,7 @@ oSearchParams.ordering='{/literal}{$sort}{literal}',
 oSearchParams.filtering=null;
 </script>
 {/literal}
-					<div class="f15em mbot12 clearfix">
+					<div id="searchsummary" class="f15em mbot12 clearfix">
 									{$totalvideos} 
 									{if $searchterm eq ''}
 										{$smarty.const._HWDVIDS_META_SRCCEE}
@@ -28,7 +28,7 @@ oSearchParams.filtering=null;
 						</div>	
 						
 						{if $print_matchvids}
-								<div id="resultcontainer">
+								<div id="resultsajax">
 									{foreach name=outer item=data from=$matchingvids}
 									  {include file="video_list_full.tpl"}
 									{/foreach}

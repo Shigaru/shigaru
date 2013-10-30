@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: view.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: view.php 1597 2012-01-20 10:03:16Z akede $
  * @package joomfish
  * @subpackage view
  *
@@ -57,9 +57,11 @@ class CPanelViewCPanel extends JoomfishViewDefault
 	{
 		
 		JHTML::stylesheet( 'joomfish.css', 'administrator/components/com_joomfish/assets/css/' );
-
+		JHTML::stylesheet( 'jfhelp.css', 'administrator/components/com_joomfish/assets/css/' );
+		
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('JOOMFISH_TITLE') . ' :: ' .JText::_('CONTROL PANEL'));
+		$document->addScript(JURI::base().'components/com_joomfish/assets/js/joomfish.mootools.js');
 		
 		// Set toolbar items for the page
 		JToolBarHelper::title( JText::_('JOOMFISH_TITLE') .' :: '. JText::_( 'JOOMFISH_HEADER' ), 'fish' );
@@ -84,6 +86,7 @@ class CPanelViewCPanel extends JoomfishViewDefault
 		$this->assignRef('contentInfo', $this->contentInfo);
 		$this->assignRef('performanceInfo', $this->performanceInfo);
 		$this->assignRef('publishedTabs', $this->publishedTabs);
+		$this->assignRef('usersplash', $this->get('usersplash'));
 		
 		JHTML::_('behavior.tooltip');
 		parent::display($tpl);
@@ -97,7 +100,7 @@ class CPanelViewCPanel extends JoomfishViewDefault
 	 	$output = '';
 	 	//$panelStates = $this->get('panelStates');
 		$this->assignRef('sysInfo', $this->panelStates['system']);
-		echo $this->loadTemplate('information');
+		return $this->loadTemplate('information');
 	 }
 	 
 	 /**
@@ -115,7 +118,7 @@ class CPanelViewCPanel extends JoomfishViewDefault
 		$rssDoc = JFactory::getXMLparser('RSS', $options);
 
 		if ( $rssDoc == false ) {
-			$output = JText::_('Error: Feed not retrieved');
+			$output = '';
 		} else {	
 			// channel header and link
 			$title 	= $rssDoc->get_title();
@@ -152,7 +155,7 @@ class CPanelViewCPanel extends JoomfishViewDefault
 	 /**
 	  * render content state information
 	  */
-	 function renderContentState() {
+	 protected function renderContentState() {
 	 	$joomFishManager =  JoomFishManager::getInstance();
 	 	$output = '';
 		$alertContent = false;
@@ -223,7 +226,7 @@ class CPanelViewCPanel extends JoomfishViewDefault
 	 /**
 	  * render content state information
 	  */
-	 function renderPerformanceInfo() {
+	 protected function renderPerformanceInfo() {
 	 	$output = '';
 		ob_start();
 		?>
@@ -268,7 +271,7 @@ class CPanelViewCPanel extends JoomfishViewDefault
 	 /**
 	  * render system state information
 	  */
-	 function renderSystemState() {
+	 protected function renderSystemState() {
 	 	$output = '';
 		$stateGroups =  $this->panelStates;
 		ob_start();
@@ -308,7 +311,7 @@ class CPanelViewCPanel extends JoomfishViewDefault
 	 	return $output;
 	 }
 
-	function limitText($text, $wordcount)
+	protected function limitText($text, $wordcount)
 	{
 		if(!$wordcount) {
 			return $text;

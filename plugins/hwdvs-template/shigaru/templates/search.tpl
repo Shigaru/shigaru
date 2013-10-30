@@ -264,19 +264,8 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		<div id="resultwrapper">
 			
 						<div class="f15em mbot12 clearfix">
-							<div class="fleft">
-									{$totalvideos} 
-									{if $searchterm eq ''}
-										{$smarty.const._HWDVIDS_META_SRCCEE}
-									{else}
-										{$smarty.const._HWDVIDS_META_SRF}
-									{/if}	
-									<b> {$searchterm}</b>
-									{if $totalvideos gt 0}
-									<span class="f80">
-										{$vpageCounter}
-									</span>
-									{/if}	
+							<div id="searchsummarytext" class="fleft">
+						
 							</div>
 							<div class="fright f80">		
 								{if $totalvideos gt 0}

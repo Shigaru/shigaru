@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,12 +25,11 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: JoomfishManager.class.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: JoomfishManager.class.php 1597 2012-01-20 10:03:16Z akede $
  * @package joomfish
  * @subpackage classes
  *
 */
-
 
 
 /** ensure this file is being included by a parent file */
@@ -43,47 +42,47 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003 - 2011, Think Network GmbH, Munich
+ * @copyright 2003 - 2012, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version 2.1, $Revision: 1551 $
- * @author Alex Kempkens <joomfish@thinknetwork.com>
+ * @version 1.0, 2009-01-07 $Revision: 1597 $
+ * @author Alex Kempkens
 */
 class JoomFishManager {
 	/** @var array of all known content elements and the reference to the XML file */
-	var $_contentElements;
+	private $_contentElements;
 
-	/** @var string Content type which can use default values */
-	var $DEFAULT_CONTENTTYPE="content";
+	/** @static string Content type which can use default values */
+	public static $DEFAULT_CONTENTTYPE='content';
 
 	/** @var config Configuration of the map */
-	var $_config=null;
+	private $_config=null;
 
 	/** @var Component config */
-	var $componentConfig= null;
+	private $componentConfig= null;
 
 	/**	PrimaryKey Data */
-	var $_primaryKeys = null;
+	private $_primaryKeys = null;
 
 	/** @var array for all system known languages */
-	var $allLanguagesCache=array();
+	private $allLanguagesCache=array();
 
 	/** @var array for all languages listed by shortcode */
-	var $allLanguagesCacheByShortcode=array();
+	private $allLanguagesCacheByShortcode=array();
 
 	/** @var array for all languages listed by ID */
-	var $allLanguagesCacheByID=array();
+	private $allLanguagesCacheByID=array();
 
 	/** @var array for all active languages */
-	var $activeLanguagesCache=array();
+	private $activeLanguagesCache=array();
 
 	/** @var array for all active languages listed by shortcode */
-	var $activeLanguagesCacheByShortcode=array();
+	private $activeLanguagesCacheByShortcode=array();
 
 	/** @var array for all active languages listed by ID */
-	var $activeLanguagesCacheByID=array();
-
+	private $activeLanguagesCacheByID=array();
+	
 	/** Standard constructor */
-	function JoomFishManager() {
+	public function __construct() {
 		include_once(JOOMFISH_ADMINPATH .DS. "models".DS."ContentElement.php");
 
 		// now redundant
@@ -100,7 +99,11 @@ class JoomFishManager {
 		$this->componentConfig = JComponentHelper::getParams( 'com_joomfish' );
 	}
 
-	function & getInstance($adminPath=null){
+	/**
+	 * Method to create a single instance of the JoomFishManager
+	 * @param string $adminPath	
+	 */
+	public static function & getInstance($adminPath=null){
 		static $instance;
 		if (!isset($instance)){
 			$instance = new JoomFishManager($adminPath);
@@ -113,21 +116,21 @@ class JoomFishManager {
 	 * This method splits the system relevant languages in various caches for faster access
 	 * @param array of languages to be stored
 	 */
-	function _cacheLanguages($langlist) {
+	private function _cacheLanguages($langlist) {
 		$this->activeLanguagesCache = array();
 		$this->activeLanguagesCacheByShortcode = array();
 		$this->activeLanguagesCacheByID = array();
 
 		if (count($langlist)>0){
 			foreach ($langlist as $alang){
-				if ($alang->active){
-					$this->activeLanguagesCache[$alang->code] = $alang;
-					$this->activeLanguagesCacheByID[$alang->id] = $alang;
-					$this->activeLanguagesCacheByShortcode[$alang->shortcode] = $alang;
+				if ($alang->published){
+					$this->activeLanguagesCache[$alang->lang_code] = $alang;
+					$this->activeLanguagesCacheByID[$alang->lang_id] = $alang;
+					$this->activeLanguagesCacheByShortcode[$alang->sef] = $alang;
 				}
-				$this->allLanguagesCache[$alang->code] = $alang;
-				$this->allLanguagesCacheByID[$alang->id] = $alang;
-				$this->allLanguagesCacheByShortcode[$alang->shortcode] = $alang;
+				$this->allLanguagesCache[$alang->lang_code] = $alang;
+				$this->allLanguagesCacheByID[$alang->lang_id] = $alang;
+				$this->allLanguagesCacheByShortcode[$alang->sef] = $alang;
 			}
 		}
 	}
@@ -136,7 +139,7 @@ class JoomFishManager {
 	 * Load Primary key data from database
 	 *
 	 */
-	function _loadPrimaryKeyData() {
+	private function _loadPrimaryKeyData() {
 		if ($this->_primaryKeys==null){
 			$db = JFactory::getDBO();
 			$db->setQuery( "SELECT joomlatablename,tablepkID FROM `#__jf_tableinfo`");
@@ -157,7 +160,7 @@ class JoomFishManager {
 	 * @param string $tablename
 	 * @return string primarykey
 	 */
-	function getPrimaryKey($tablename){
+	public function getPrimaryKey($tablename){
 		if ($this->_primaryKeys==null) $this->_loadPrimaryKeyData();
 		if (array_key_exists($tablename,$this->_primaryKeys)) return $this->_primaryKeys[$tablename];
 		else return "id";
@@ -170,7 +173,7 @@ class JoomFishManager {
 	 * built in Joomla cache will not work because of the class structere of the results
 	 * we get lots of incomplete classes from the unserialisation
 	*/
-	function _loadContentElements() {
+	private function _loadContentElements() {
 		// XML library
 
 		// Try to find the XML file
@@ -201,7 +204,7 @@ class JoomFishManager {
 	/**
 	 * Loading of specific XML files
 	*/
-	function _loadContentElement($tablename) {
+	private function _loadContentElement($tablename) {
 		if (!is_array($this->_contentElements)){
 			$this->_contentElements = array();
 		}
@@ -236,7 +239,7 @@ class JoomFishManager {
 	 * @param boolean $reload	forces to reload the element files
 	 * @return unknown
 	 */
-	function getContentElements( $reload=false ) {
+	public function getContentElements( $reload=false ) {
 		if( !isset( $this->_contentElements ) || $reload ) {
 			$this->_loadContentElements();
 		}
@@ -246,7 +249,7 @@ class JoomFishManager {
 	/** gives you one content element
 	 * @param	key 	of the element
 	*/
-	function getContentElement( $key ) {
+	public function getContentElement( $key ) {
 		$element = null;
 		if( isset($this->_contentElements) &&  array_key_exists( strtolower($key), $this->_contentElements ) ) {
 			$element = $this->_contentElements[ strtolower($key) ];
@@ -258,10 +261,25 @@ class JoomFishManager {
 	}
 
 	/**
+	 * Returns the system default language based on the Joomla configuration
+	 * @since	2.1
+	 * @return	string	Language_code of the system default language;	
+	 */
+	public static function getDefaultLanguage() {
+		static $defaultLanguage;
+		
+		if(!isset($defaultLanguage)) {
+			$params = JComponentHelper::getParams('com_languages');
+			$defaultLanguage = $params->get("site", 'en-GB');
+		}
+		return $defaultLanguage;
+	}
+	
+	/**
 	* @param string The name of the variable (from configuration.php)
 	* @return mixed The value of the configuration variable or null if not found
 	*/
-	function getCfg( $varname , $default=null) {
+	public function getCfg( $varname , $default=null) {
 		// Must not get the config here since if I do so dynamically it could be within a translation and really mess things up.
  		return $this->componentConfig->getValue($varname,$default);
 	}
@@ -270,7 +288,7 @@ class JoomFishManager {
 	* @param string The name of the variable (from configuration.php)
 	* @param mixed The value of the configuration variable
 	*/
-	function setCfg( $varname, $newValue) {
+	public function setCfg( $varname, $newValue) {
 		$config = JComponentHelper::getParams( 'com_joomfish' );
 		$config->setValue($varname, $newValue);
 	}
@@ -279,7 +297,7 @@ class JoomFishManager {
 	 *
 	 * @return	Array of languages
 	 */
-	function getActiveLanguages($cacheReload=false) {
+	public function getActiveLanguages($cacheReload=false) {
 		if( isset($this) && $cacheReload) {
 			$langList = $this->getLanguages();
 			$this->_cacheLanguages($langList);
@@ -300,24 +318,25 @@ class JoomFishManager {
 	 * @param boolean	indicates if those languages must be active or not
 	 * @return	Array of languages
 	 */
-	function getLanguages( $active=true ) {
+	public function getLanguages( $active=true ) {
 		$db = JFactory::getDBO();
 		$langActive=null;
 
-		$sql = 'SELECT * FROM #__languages';
+		//$sql = 'SELECT * FROM #__jf_languages';
+		$sql = 'select `l`.`lang_id` AS `lang_id`,`l`.`lang_code` AS `lang_code`,`l`.`title` AS `title`,`l`.`title_native` AS `title_native`,`l`.`sef` AS `sef`,`l`.`description` AS `description`,`l`.`metakey` AS `metakey`,`l`.`metadesc` AS `metadesc`,`l`.`published` AS `published`,`l`.`image` AS `image`,`lext`.`image_ext` AS `image_ext`,`lext`.`fallback_code` AS `fallback_code`,`lext`.`params` AS `params`,`lext`.`ordering` AS `ordering` from (`#__languages` `l` left join `#__jf_languages_ext` `lext` on((`l`.`lang_id` = `lext`.`lang_id`)))';
 
 		if( $active ) {
-			$sql  .= ' WHERE active=1';
+			$sql  .= ' WHERE published=1';
 		}
-		$sql .= ' ORDER BY ordering';
+		$sql .= ' order by `lext`.`ordering`';
 
 		$db->setQuery(  $sql );
-		$rows = $db->loadObjectList('id');
+		$rows = $db->loadObjectList('lang_id');
 		// We will need this class defined to popuplate the table
 		include_once(JOOMFISH_ADMINPATH .DS. 'tables'.DS.'JFLanguage.php');
 		if( $rows ) {
 			foreach ($rows as $row) {
-				$lang = new TableJFLanguage($db);
+				$lang = JTable::getInstance('JFLanguage', 'Table');
 				$lang->bind($row);
 
 				$langActive[] = $lang;
@@ -331,8 +350,9 @@ class JoomFishManager {
 	 * Fetches full langauge data for given shortcode from language cache
 	 *
 	 * @param array()
+	 * @deprecated		replace by getLanguageBySEF
 	 */
-	function getLanguageByShortcode($shortcode, $active=false){
+	public function getLanguageByShortcode($shortcode, $active=false){
 		if ($active){
 			if (isset($this) && isset($this->activeLanguagesCacheByShortcode) && array_key_exists($shortcode,$this->activeLanguagesCacheByShortcode))
 			return $this->activeLanguagesCacheByShortcode[$shortcode];
@@ -345,11 +365,29 @@ class JoomFishManager {
 	}
 
 	/**
+	 * Fetches full langauge data for given shortcode from language cache
+	 *
+	 * @param array()
+	 * @since	2.1
+	 */
+	public function getLanguageBySEF($sef, $active=false){
+		if ($active){
+			if (isset($this) && isset($this->activeLanguagesCacheByShortcode) && array_key_exists($sef,$this->activeLanguagesCacheByShortcode))
+			return $this->activeLanguagesCacheByShortcode[$sef];
+		}
+		else {
+			if (isset($this) && isset($this->allLanguagesCacheByShortcode) && array_key_exists($sef,$this->allLanguagesCacheByShortcode))
+			return $this->allLanguagesCacheByShortcode[$sef];
+		}
+		return false;
+	}
+
+	/**
 	 * Fetches full langauge data for given code from language cache
 	 *
 	 * @param array()
 	 */
-	function getLanguageByCode($code, $active=false){
+	public function getLanguageByCode($code, $active=false){
 		if ($active){
 			if (isset($this) && isset($this->activeLanguagesCache) && array_key_exists($code,$this->activeLanguagesCache))
 			return $this->activeLanguagesCache[$code];
@@ -360,9 +398,28 @@ class JoomFishManager {
 		}
 		return false;
 	}
-
-
-	function getLanguagesIndexedByCode($active=false){
+	
+	/** Fetch full language object by language id
+	 *  @param	int language id
+	 *  @param	boolean	search only in active languages
+	 *  @return JFLanguage object
+	 */
+	public function getLanguageByID($id, $active=false) {
+		if ($active){
+			if (isset($this) && isset($this->activeLanguagesCacheByID) && array_key_exists($id,$this->activeLanguagesCacheByID))
+			return $this->activeLanguagesCacheByID[$id];
+		}
+		else {
+			if (isset($this) && isset($this->allLanguagesCacheByID) && array_key_exists($id,$this->allLanguagesCacheByID))
+			return $this->allLanguagesCacheByID[$id];
+		}
+		return false;
+	}
+	/**
+	 * 
+	 * @param boolean $active
+	 */
+	public function getLanguagesIndexedByCode($active=false){
 		if ($active){
 			if (isset($this) && isset($this->activeLanguagesCache))
 			return $this->activeLanguagesCache;
@@ -374,7 +431,11 @@ class JoomFishManager {
 		return false;
 	}
 
-	function getLanguagesIndexedById($active=false){
+	/**
+	 * 
+	 * @param boolean $active
+	 */
+	public function getLanguagesIndexedById($active=false){
 		if ($active){
 			if (isset($this) && isset($this->activeLanguagesCacheByID))
 			return $this->activeLanguagesCacheByID;
@@ -388,10 +449,11 @@ class JoomFishManager {
 
 	/** Retrieves the language ID from the given language name
 	 *
+	 * TODO Think about moving the SQL query to the model or JTable class
 	 * @param	string	Code language name (normally $mosConfig_lang
 	 * @return	int 	Database id of this language
 	 */
-	function getLanguageID( $codeLangName="" ) {
+	public function getLanguageID( $codeLangName="" ) {
 		$db = JFactory::getDBO();
 		$langID = -1;
 		if ($codeLangName != "" ) {
@@ -400,7 +462,7 @@ class JoomFishManager {
 				return $this->allLanguagesCache[$codeLangName]->id;
 			}
 			else {
-				$db->setQuery( "SELECT id FROM #__languages WHERE active=1 and code = '$codeLangName' order by ordering" );
+				$db->setQuery( "SELECT lang_id FROM #__language WHERE published=1 and lang_code = '$codeLangName' order by ordering" );
 				$langID = $db->loadResult(false);
 			}
 		}
@@ -412,21 +474,25 @@ class JoomFishManager {
 	 * @param	string	Code language name (normally $mosConfig_lang
 	 * @return	int 	Database id of this language
 	 */
-	function getLanguageCode( $codeLangName="" ) {
+	public function getLanguageCode( $codeLangName="" ) {
 		$db = JFactory::getDBO();
 		$langID = -1;
 		if ($codeLangName != "" ) {
 			if (isset($this) && isset($this->activeLanguagesCache) && array_key_exists($codeLangName,$this->activeLanguagesCache))
 			return $this->activeLanguagesCache[$codeLangName]->shortcode;
 			else {
-				$db->setQuery( "SELECT shortcode FROM #__languages WHERE active=1 and code = '$codeLangName' order by ordering" );
+				$db->setQuery( "SELECT sef FROM #__language WHERE published=1 and lang_code = '$codeLangName' order by ordering" );
 				$langID = $db->loadResult(false);
 			}
 		}
 		return $langID;
 	}
 
-	function & getCache($lang=""){
+	/**
+	 * 
+	 * @param string $lang
+	 */
+	public function & getCache($lang=""){
 		$conf = JFactory::getConfig();
 		if ($lang===""){
 			$lang=$conf->getValue('config.language');
@@ -462,5 +528,4 @@ class JoomFishManager {
 		$this->_cache[$lang] = JCache::getInstance( "callback", $options );
 		return $this->_cache[$lang];
 	}
-
 }

@@ -1,36 +1,48 @@
-CREATE TABLE IF NOT EXISTS `#__languages` (
-	`id` int(11) NOT NULL auto_increment,
-	`name` varchar(100) NOT NULL default '',
-	`active` tinyint(1) NOT NULL default '0',
-	`iso` varchar(20) default NULL,
-	`code` varchar(20) NOT NULL default '',
-	`shortcode` varchar(20) default NULL,
-	`image` varchar(100) default NULL,
-	`fallback_code` varchar(20) NOT NULL default '',
-	`params` text NOT NULL default '',
-	`ordering` int(11) NOT NULL default '0',
-	PRIMARY KEY  (`id`)
-	) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__jf_content` (
-	`id` int(10) unsigned NOT NULL auto_increment,
-	`language_id` int(11) NOT NULL default '0',
-	`reference_id` int(11) NOT NULL default '0',
-	`reference_table` varchar(100) NOT NULL default '',
-	`reference_field` varchar(100) NOT NULL default '',
-	`value` mediumtext  NOT NULL default '',
-	`original_value` varchar(255) default NULL,
-	`original_text` mediumtext default NULL,
-	`modified` datetime NOT NULL default '0000-00-00 00:00:00',
-	`modified_by` int(11) unsigned NOT NULL default '0',
-	`published` tinyint(1) unsigned NOT NULL default '0',
-	PRIMARY KEY  (`id`),
-	INDEX `combo`  (`reference_id` , `reference_field` , `reference_table`)
-	) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `language_id` int(11) NOT NULL DEFAULT '0',
+  `reference_id` int(11) NOT NULL DEFAULT '0',
+  `reference_table` varchar(100) NOT NULL DEFAULT '',
+  `reference_field` varchar(100) NOT NULL DEFAULT '',
+  `value` mediumtext NOT NULL,
+  `original_value` varchar(255) DEFAULT NULL,
+  `original_text` mediumtext NOT NULL,
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(11) unsigned NOT NULL DEFAULT '0',
+  `published` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `combo` (`reference_id`,`reference_field`,`reference_table`),
+  KEY `jfContent` (`language_id`,`reference_id`,`reference_table`),
+  KEY `jfContentLanguage` (`reference_id`,`reference_field`,`reference_table`,`language_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `#__jf_languages_ext` (
+  `lang_id` int(11) NOT NULL AUTO_INCREMENT,
+  `image_ext` varchar(100) DEFAULT NULL,
+  `fallback_code` varchar(20) NOT NULL DEFAULT '',
+  `params` text NOT NULL,
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`lang_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `#__jf_tableinfo` (
-	`id` int(11) NOT NULL auto_increment,
-	`joomlatablename` varchar(100) NOT NULL default '',
-	`tablepkID` varchar(100) NOT NULL default '',
-	PRIMARY KEY  (`id`)
-	) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `joomlatablename` varchar(100) NOT NULL DEFAULT '',
+  `tablepkID` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `#__languages` (
+  `lang_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `lang_code` char(7) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `title_native` varchar(50) NOT NULL,
+  `sef` varchar(50) NOT NULL,
+  `image` varchar(50) NOT NULL,
+  `description` varchar(512) NOT NULL,
+  `metakey` text NOT NULL,
+  `metadesc` text NOT NULL,
+  `published` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`lang_id`),
+  UNIQUE KEY `idx_sef` (`sef`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

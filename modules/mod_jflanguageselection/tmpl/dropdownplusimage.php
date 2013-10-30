@@ -1,7 +1,7 @@
 <?php 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: dropdownplusimage.php 1579 2011-04-16 17:05:48Z akede $
+ * $Id: dropdownplusimage.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage mod_jflanguageselection
  *
@@ -42,25 +42,25 @@ if ( count($langActive)>0 ) {
 	foreach( $langActive as $language )
 	{
 		$languageCode = $language->getLanguageCode();
-		if( $language->code == $curLanguage->getTag() && !$show_active ) {
+		if( $language->get('id') == $curLanguage->get('id') && !$show_active ) {
 			continue;		// Not showing the active language
 		}
 		$href = JFModuleHTML::_createHRef ($language, $params);
 		$langImg = JFModuleHTML::getLanguageImageSource($language);
 		
-		if ($language->code == $curLanguage->getTag() ){
+		if ($language->get('id') == $curLanguage->get('id') ){
 			$activehref=$href;
-			$activeLangImg = array( 'img' => $langImg, 'code' => $languageCode, 'name' => $language->name );
+			$activeLangImg = array( 'img' => $langImg, 'code' => $languageCode, 'name' => $language->title_native );
 		}
 		if (isset($language->disabled) && $language->disabled){
 			$disabled=" disabled='disabled'";
-			$noscriptString .= '<span lang="' .$languageCode. '" xml:lang="' .$languageCode. '" style="opacity:0.5" class="opaque">' .$language->name. '</span>&nbsp;';
-			$langOption=JFModuleHTML::makeOption($href , $language->name, $disabled." style='padding-left:22px;background-image: url(\"".JURI::base() . $langImg."\");background-repeat: no-repeat;background-position:center left;opacity:0.5;' class='opaque'" );
+			$noscriptString .= '<span lang="' .$languageCode. '" xml:lang="' .$languageCode. '" style="opacity:0.5" class="opaque">' .$language->title_native. '</span>&nbsp;';
+			$langOption=JFModuleHTML::makeOption($href , $language->title_native, $disabled." style='padding-left:22px;background-image: url(\"".JURI::base(true) . $langImg."\");background-repeat: no-repeat;background-position:center left;opacity:0.5;' class='opaque'" );
 		}
 		else {
 			$disabled="";
-			$noscriptString .= '<a href="' .$href. '"><span lang="' .$languageCode. '" xml:lang="' .$languageCode. '">' .$language->name. '</span></a>&nbsp;';
-			$langOption=JFModuleHTML::makeOption($href , $language->name, $disabled." style='padding-left:22px;background-image: url(\"".JURI::base() . $langImg."\");background-repeat: no-repeat;background-position:center left;'" );
+			$noscriptString .= '<a href="' .$href. '"><span lang="' .$languageCode. '" xml:lang="' .$languageCode. '">' .$language->title_native. '</span></a>&nbsp;';
+			$langOption=JFModuleHTML::makeOption($href , $language->title_native, $disabled." style='padding-left:22px;background-image: url(\"".JURI::base(true) . $langImg."\");background-repeat: no-repeat;background-position:center left;'" );
 		}
 
 		$langOption->iso = $language->iso;
@@ -73,7 +73,7 @@ if ( count($langActive)>0 ) {
 		$outString = '<div id="jflanguageselection">';
 		$outString .= '<label for="jflanguageselection" class="jflanguageselection">' .JText::_('JFMSELECT'). '</label>';
 		if( $activeLangImg != null ) {
-			$outString .='<img src="' .JURI::base(). $activeLangImg['img']. '" alt="' .$activeLangImg['name']. '" title="' .$activeLangImg['name']. '" border="0" class="langImg"/>';
+			$outString .='<img src="' .JURI::base(true). $activeLangImg['img']. '" alt="' .$activeLangImg['name']. '" title="' .$activeLangImg['name']. '" border="0" class="langImg"/>';
 		}
 		$langlist = JFModuleHTML::selectList( $langOptions, 'lang', ' class="jflanguageselection" onfocus="jfselectlang=this.selectedIndex;" onchange="if(this.options[this.selectedIndex].disabled){this.selectedIndex=jfselectlang;} else {document.location.replace(this.value);}"', 'value', 'text', $activehref);
 		$outString .= ''.$langlist.'';

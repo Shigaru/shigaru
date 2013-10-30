@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: edit.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: edit.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Views
  *
@@ -108,10 +108,69 @@ else {
 			alert("<?php echo JText::_('CLIPBOARD_NOSUPPORT');?>");
 		}
 	}
-    </script>
-    <?php } ?>
+	function translationWriteValue(field, value){
+		try {
+			var srcEl = document.getElementById("text_origText_"+field);
+			srcEl.value = value;
+			srcEl.select();
+			if (window.clipboardData){
+				window.clipboardData.setData("Text",innerHTML);
+				alert("<?php echo JText::_('CLIPBOARD_COPIED'); ?>");
+			}
+			else {
+				srcEl = document.getElementById("text_origText_"+field);
+				srcEl.value = value;
+				srcEl.select();
+				alert("<?php echo JText::_('CLIPBOARD_COPY');?>");
+			}
+		}
 
-	<script language="javascript" type="text/javascript">
+		catch(e){
+			alert("<?php echo JText::_('CLIPBOARD_NOSUPPORT');?>");
+		}
+	}
+
+	</script>
+<?php } ?>
+
+<script language="javascript" type="text/javascript">
+	function translateText(result) {
+	       if (!result.error) {
+				translationWriteValue(this.value, result.data.translations[0].translatedText);
+				}
+				else {
+					alert(result.error.message)
+				}
+	      }
+	    
+	function googleTranslate(value) {
+		<?php
+		$jfm = JoomFishManager::getInstance();
+		$languages = $jfm->getLanguagesIndexedById();
+		$targetlang = $languages[$select_language_id];
+		$code = substr($targetlang->code,0,2);
+		$defaultLang = substr($this->get('DefaultLanguage'),0,2);
+		?>
+		
+		var APIKey = '<?php echo $this->googleApikey;?>';
+		if (!APIKey) {
+			alert('<?php echo JText::_('GOOGLE_TRANSLATE_API_KEY');?>');
+			return;
+		}
+		
+		this.value = value;
+		var newScript = document.createElement('script');
+		newScript.type = 'text/javascript';
+	    var sourceText = escape(document.getElementById('original_value_'+value).innerHTML);
+	    // WARNING: be aware that YOUR-API-KEY inside html is viewable by all your users.
+	    // Restrict your key to designated domains or use a proxy to hide your key
+	    // to avoid misuage by other party.
+	    var source = 'https://www.googleapis.com/language/translate/v2?key=<?php echo $this->googleApikey;?>&source=<?php echo $defaultLang;?>&target=<?php echo $code;?>&callback=translateText&q=' + sourceText;
+	    newScript.src = source;
+
+	    document.getElementsByTagName('head')[0].appendChild(newScript);
+	}
+	
 	function confirmChangeLanguage(fromLang, fromIndex){
 		selections = document.getElementsByName("language_id")[0].options;
 		selection = document.getElementsByName("language_id")[0].selectedIndex;
@@ -138,7 +197,7 @@ else {
 			$k=1;
 			for( $i=0; $i<count($elementTable->Fields); $i++ ) {
 				$field = $elementTable->Fields[$i];
-				
+
 				$field->preHandle($elementTable);
 				$originalValue = $field->originalValue;
 
@@ -190,6 +249,9 @@ else {
 				<?php if( strtolower($field->Type)!='htmltext' ) {?>
 					<a class="toolbar" onclick="document.adminForm.refField_<?php echo $field->Name;?>.value = document.adminForm.origText_<?php echo $field->Name;?>.value;"><span class="icon-32-copy"></span><?php echo JText::_('Copy'); ?></a>
 				<?php }	else { ?>
+					<div id='googlebranding'>
+						<a class="toolbar" onclick="googleTranslate('<?php echo $field->Name;?>');" onmouseout="MM_swapImgRestore();" title="<?php echo JText::_('GOOGLE_TRANSLATE_INFORMATION');?>"><span class="icon-32-translate"></span><?php echo JText::_('TRANSLATE'); ?></a>
+					</div>
 					<a class="toolbar" onclick="copyToClipboard('<?php echo $field->Name;?>','copy');" onmouseout="MM_swapImgRestore();"><span class="icon-32-copy"></span><?php echo JText::_('Copy'); ?></a>
 				<?php  }?>
 			  </td>
@@ -231,7 +293,7 @@ else {
 				</td>
 				<td valign="top" class="button">
 					<?php
-					 if ( strtolower($field->Type)=='readonlytext'){
+					if ( strtolower($field->Type)=='readonlytext'){
 					}
 					else if( strtolower($field->Type)!='htmltext' ) {?>
 					<a class="toolbar" onclick="document.adminForm.refField_<?php echo $field->Name;?>.value = '';"><span class="icon-32-delete"></span><?php echo JText::_('Delete'); ?></a>
@@ -249,7 +311,7 @@ else {
 	      		// if translated value is blank then we always copy across the original value
 	      		$joomFishManager =  JoomFishManager::getInstance();
 	      		if ($joomFishManager->getCfg('copyparams',1) &&  $translationContent->value==""){
-		      		$translationContent->value = $field->originalValue;
+	      			$translationContent->value = $field->originalValue;
 	      		}
 	      	?>
 		    <tr class="<?php echo "row$k"; ?>">
@@ -268,12 +330,18 @@ else {
 			     </tr>
 			     <tr>
 			      <td align="left" valign="top" class="origparams" id="original_value_<?php echo $field->Name?>">
+			      <!--
+			      <iframe src="<?php echo JRoute::_("index.php?option=$option&task=translate.paramsiframe&id=".$translationContent->reference_id."&type=orig&tmpl=component&catid=".$translationContent->reference_table."&lang=".$select_language_id,false);?>" ></iframe>
+			      <iframe src="<?php echo JRoute::_("index.php?option=$option&task=translate.paramsiframe&id=".$translationContent->reference_id."&type=default&tmpl=component&catid=".$translationContent->reference_table."&lang=".$select_language_id,false);?>" ></iframe>
+			      //-->
 			      <?php
+			      JLoader::import( 'models.TranslateParams',JOOMFISH_ADMINPATH);
 			      $tpclass = "TranslateParams_".$elementTable->Name;
 			      if (!class_exists($tpclass)){
 			      	$tpclass = "TranslateParams";
 			      }
 			      $transparams = new $tpclass($field->originalValue,$translationContent->value, $field->Name,$elementTable->Fields);
+			      // comment lut if using iframes above
 			      $transparams->showOriginal();
 			      $transparams->showDefault();
 			      ?>
@@ -345,21 +413,21 @@ else {
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
 <script language="javascript" type="text/javascript">
-    function submitbutton(pressbutton) {
-    	var form = document.getElementsByName ('adminForm');
-    	<?php
-    	if( isset($editorFields) && is_array($editorFields) ) {
-    		foreach ($editorFields as $editor) {
-    			// Where editor[0] = your areaname and editor[1] = the field name
-				echo $wysiwygeditor->save( $editor[1]);
-    		}
-    	}
-    	?>
-    	if (pressbutton == 'cancel') {
-    		submitform( pressbutton );
-    		return;
-    	} else {
-    		submitform( pressbutton );
-    	}
-    }
+function submitbutton(pressbutton) {
+	var form = document.getElementsByName ('adminForm');
+	<?php
+	if( isset($editorFields) && is_array($editorFields) ) {
+		foreach ($editorFields as $editor) {
+			// Where editor[0] = your areaname and editor[1] = the field name
+			echo $wysiwygeditor->save( $editor[1]);
+		}
+	}
+	?>
+	if (pressbutton == 'cancel') {
+		submitform( pressbutton );
+		return;
+	} else {
+		submitform( pressbutton );
+	}
+}
 </script>

@@ -34,10 +34,8 @@ $limit = $app->getUserStateFromRequest('com_search.limit', 'limit', $app->getCfg
 			<div class="roksearch-wrapper">
 				<input id="roksearch_search_str" name="pattern" type="text" placeholder="Search bands, songs, genres, instruments..." class="inputbox search"  />
 			</div>
-			<input type="hidden" name="searchphrase" value="<?php echo $params->get("searchphrase")?>"/>
 			<input type="hidden" name="limit" value="<?php echo $limit; ?>" />
-			<input type="hidden" name="order" value="<?php echo $params->get("ordering")?>" />
-			<input type="hidden" name="task" value="displayresults" />
+			<input type="hidden" name="task" value="search" />
 			<input type="hidden" name="Itemid" value="28" />
 			<input type="hidden" name="option" value="com_hwdvideoshare" />
 		</form>

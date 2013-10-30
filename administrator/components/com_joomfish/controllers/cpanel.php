@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: cpanel.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: cpanel.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage cpanel
  *
@@ -46,7 +46,7 @@ class CpanelController extends JController  {
 	 * @param array		configuration
 	 * @return joomfishTasker
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
 		$this->registerTask( 'show',  'display' );
@@ -54,23 +54,78 @@ class CpanelController extends JController  {
 		// ensure DB cache table is created and up to date
 		JLoader::import( 'helpers.controllerHelper',JOOMFISH_ADMINPATH);
 		JLoader::import( 'classes.JCacheStorageJFDB',JOOMFISH_ADMINPATH);
-		JoomfishControllerHelper::_checkDBCacheStructure();
-		JoomfishControllerHelper::_checkDBStructure();
+		JoomfishControllerHelper::checkDBCacheStructure();
 	}
 
 	/**
 	 * Standard display control structure
 	 * 
 	 */
-	function display( )
+	public function display($msg=null)
 	{
 		$this->view =  $this->getView('cpanel');
 		parent::display();
 	}
 	
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect( 'index.php?option=com_joomfish' );
+	}
+	
+	public function usersplash() {
+		$this->view = $this->getView('cpanel');
+		$viewLayout	= JRequest::getCmd( 'layout', 'usersplash' );
+		$this->view->setLayout($viewLayout);
+		parent::display();	
+	}
+	
+	/** This special task allows to save general config parameters outside of the
+	 * standard configuration systme. It is used for example in the splash screen
+	 * to change the setting for automatic presentation of the screen or not
+	 * @return void
+	 */
+	public function saveconfig() {
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+		
+		$post = JRequest::get('post');
+		$msg = '';
+		$config = JComponentHelper::getParams( 'com_joomfish' );
+		if($post != null && array_key_exists('params', $post)) {
+			$params = $post['params']; 
+			if($params != null && count($params)>0) {
+				
+				foreach ($params as $key => $value) {
+					$config->setValue($key, $value);
+				}
+				
+				$post['params'] = $config->toArray();
+				
+				$table =& JTable::getInstance('component');
+				if (!$table->loadByOption( 'com_joomfish' ))
+				{
+					JError::raiseWarning( 500, 'Not a valid component' );
+					return false;
+				}
+		
+				$post['option'] = 'com_joomfish';
+				$table->bind( $post );
+		
+				// pre-save checks
+				if (!$table->check()) {
+					JError::raiseWarning( 500, $table->getError() );
+					return false;
+				}
+		
+				// save the changes
+				if (!$table->store()) {
+					JError::raiseWarning( 500, $table->getError() );
+					return false;
+				}
+				
+				$msg = JText::_('The Configuration Details have been updated');
+			}
+		}
 	}
 }
 

@@ -1,6 +1,6 @@
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -24,7 +24,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: joomfish.css 1571 2011-04-16 10:50:06Z akede $
+ * $Id: joomfish.css 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage joomfish
  *
@@ -88,7 +88,15 @@ div.icon-48-statistics {
 div.icon-48-translation {
 	background: url(../images/icon-48-translation.png) no-repeat left;
 }
+div.icon-32-translate, span.icon-32-translate {
+	background: url(../images/icon-32-translate.png) no-repeat left;
+}
+.jfIconContainer {width: 20px; height: 20px;}
 
+.jfAdminContainer{margin:5px 0;width:100%;}
+table.jfAdminContainer td {vertical-align: top;}
+table.jfMaxInput td input {width: 100%;}
+table.jfMaxInput td input[type="button"]{width: 60px;background-color:#F0F0F0;}
 table.adminform a.toolbar {
    display: block;
 	white-space: nowrap;
@@ -116,13 +124,7 @@ table.adminform a.toolbar span {
 	margin: 0 auto; 
 	display: block;
 }
-
-a.jfclublogo {
-	float: right;
-	display: block;
-	position: relative;
-	top: -20px;
-}
+.jfAdminContainer .jfLangList img.flag {height:12px;width:18px;top:2px;position:relative;} 
 
 #jfToggleSidebarContainer {clear:both;text-align:right;}
 #jfToggleSidebar {
@@ -132,7 +134,7 @@ a.jfclublogo {
 	background: url("../images/sidebar.png") no-repeat scroll 0 0 #F6F6F6;
 	-moz-border-radius: 4px 4px 4px 4px;
 }
-#adminJFSidebar {vertical-align:top; padding-left:15px;padding-top:55px;width:300px;float:left;}
+#adminJFSidebar {vertical-align:top; padding-left:5px;width:300px;}
 #adminJFSidebar .jfSidebarInformation {border: 1px dashed #ccc;padding:0;width:100%;margin-bottom:10px;}
 #adminJFSidebar table thead th { 
 	background:none repeat scroll 0 0 #F0F0F0;
@@ -142,4 +144,16 @@ a.jfclublogo {
 	text-align:center;
 	padding: 3px 4px 3px 4px;
 }
+
+
+form.fileBrowserForm #addressPath {width: 502px;}
+form.fileBrowserForm .item a {height:50px;width:50px;vertical-align:top;padding-top:10px;}
+
+a.jfclublogo {
+	float: right;
+	display: block;
+	position: relative;
+	top: -20px;
+}
+
 div#jfcontent {}

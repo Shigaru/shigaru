@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: missing_translation.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: missing_translation.php 1592 2012-01-20 12:51:08Z akede $
  *
 */
 
@@ -73,7 +73,7 @@ class plgJoomfishMissing_Translation extends JPlugin
 			// don't even think about translations if none exist for the table
 			if ($db->translatedContentAvailable($reference_table)) {
 				// only offer alternatives for table == content
-				if( $reference_table == $jfManager->DEFAULT_CONTENTTYPE ) {
+				if( $reference_table == JoomFishManager::$DEFAULT_CONTENTTYPE ) {
 					// get default text from joomfish language (if present)
 					$jflang =  $conf->getValue("joomfish.language");
 					$langParams = new JParameter( $jflang->params );

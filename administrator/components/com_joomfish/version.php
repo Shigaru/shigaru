@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: version.php 1571 2011-04-16 10:50:06Z akede $
+ * $Id: version.php 1593 2012-01-20 17:37:59Z akede $
  * @package joomfish
  * @subpackage version
  *
@@ -35,12 +35,12 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class JoomFishVersion {
-	var $_version	= '2.1.7';
-	var $_versionid	= 'Dafad';
-	var $_date		= '2011-04-16';
-	var $_status	= 'Stable release';
-	var $_revision	= '$Rev: 1571 $';
-	var $_copyyears = '2003-2011';
+	var $_version	= '2.2.3';
+	var $_versionid	= 'Feng Huang';
+	var $_date		= '2012-01-20';
+	var $_status	= 'Stable';
+	var $_revision	= '$Rev: 1593 $';
+	var $_copyyears = '2003-2012';
 
 	/**
 	 * This method delivers the full version information in one line

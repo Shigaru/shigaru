@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,11 +25,13 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: JFContent.php 1580 2011-04-16 17:11:41Z akede $
+ * $Id: JFContent.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Tables
  *
 */
+
+// Don't allow direct linking
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
@@ -37,42 +39,42 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  *
  * @package joomfish
  * @subpackage administrator
- * @copyright 2003 - 2011, Think Network GmbH, Munich
+ * @copyright 2003 - 2012, Think Network GmbH, Munich
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Revision: 1580 $
- * @author Alex Kempkens <joomfish@thinknetwork.com>
+ * @version $Revision: 1592 $
+ * @author Alex Kempkens
  */
 class jfContent extends JTable  {
 	/** @var int Primary ke */
-	var $id=null;
+	public $id=null;
 	/** @var int Reference id for the language */
-	var $language_id=null;
+	public $language_id=null;
 	/** @var int Reference id for the original content */
-	var $reference_id=null;
+	public $reference_id=null;
 	/** @var int Reference table of the original content */
-	var $reference_table=null;
+	public $reference_table=null;
 	/** @var int Reference field of the original content */
-	var $reference_field=null;
+	public $reference_field=null;
 	/** @var string translated value*/
-	var $value=null;
+	public $value=null;
 	/** @var string original value for equals check*/
-	var $original_value=null;
+	public $original_value=null;
 	/** @var string original value for equals check*/
-	var $original_text=null;
+	public $original_text=null;
 	/** @var int user that checked out the jfContent*/
-	//	var $checked_out=null;					// not yet supported
+	//	public $checked_out=null;					// not yet supported
 	/** @var datetime time when the checkout was done*/
-	//	var $checked_out_time=null;			// not yet supported
+	//	public $checked_out_time=null;			// not yet supported
 	/** @var date Date of last modification*/
-	var $modified=null;
+	public $modified=null;
 	/** @var string Last translator*/
-	var $modified_by=null;
+	public $modified_by=null;
 	/** @var boolean Flag of the translation publishing status*/
-	var $published=false;
+	public $published=false;
 
 	/** Standard constructur
 	*/
-	function jfContent( &$db ) {
+	public function __construct( &$db ) {
 		parent::__construct( '#__jf_content', 'id', $db );
 	}
 
@@ -80,7 +82,7 @@ class jfContent extends JTable  {
 	 * Bind the content of the newValues to the object. Overwrite to make it possible
 	 * to use also objects here
 	 */
-	function bind( $newValues ) {
+	public function bind( $newValues ) {
 		if (is_array( $newValues )) {
 			return parent::bind( $newValues );
 		} else {
@@ -99,7 +101,7 @@ class jfContent extends JTable  {
 	 * Name and Code name are mandatory
 	 * activated will automatically set to false if not set
 	 */
-	function check() {
+	public function check() {
 		if (trim( $this->language_id ) == '') {
 			$this->_error = JText::_('NO_LANGUAGE_DBERROR');
 			return false;
@@ -108,7 +110,7 @@ class jfContent extends JTable  {
 		return true;
 	}
 
-	function toString() {
+	public function toString() {
 		$retString = "<p>content field:<br />";
 		$retString .= "id=$this->id; language_id=$this->language_id<br>";
 		$retString .= "reference_id=$this->reference_id, reference_table=$this->reference_table, reference_field=$this->reference_field<br>";

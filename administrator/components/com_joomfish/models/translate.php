@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,11 +25,12 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: translate.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: translate.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
+// Check to ensure this file is included in Joomla!
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JLoader::register('JFModel', JOOMFISH_ADMINPATH .DS. 'models' .DS. 'JFModel.php' );
@@ -41,12 +42,12 @@ JLoader::register('JFModel', JOOMFISH_ADMINPATH .DS. 'models' .DS. 'JFModel.php'
  */
 class TranslateModelTranslate extends JFModel
 {
-	var $_modelName = 'translate';
+	protected $_modelName = 'translate';
 
 	/**
 	 * return the model name
 	 */
-	function getName() {
+	public function getName() {
 		return $this->_modelName;
 	}
 
@@ -56,7 +57,7 @@ class TranslateModelTranslate extends JFModel
 	 * if defined in the config.
 	 * @return array of languages
 	 */
-	function getLanguages() {
+	public function getLanguages() {
 		$jfManager = JoomFishManager::getInstance();
 		return $jfManager->getLanguages(false);
 	}
@@ -65,7 +66,7 @@ class TranslateModelTranslate extends JFModel
 	 * Deletes the selected translations (only the translations of course)
 	 * @return string	message
 	 */
-	function _removeTranslation( $catid, $cid ) {
+	public function removeTranslation( $catid, $cid ) {
 		$message = '';
 		$db = JFactory::getDBO();
 		foreach( $cid as $cid_row ) {

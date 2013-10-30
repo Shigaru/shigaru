@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -82,17 +82,20 @@ class  JoomfishExtensionHelper  {
 		global $mainframe;
 		
 		$params = JComponentHelper::getParams('com_joomfish');
-		$media = $params->get('directory_flags', 'components/com_joomfish/images');
+		$media = $params->get('directory_flags', '/media/com_joomfish/default');
 		$cur_template = $mainframe->getTemplate();
 		$folder = '';
 		$file = '';
 
-		if(!empty($language->image)) {
-			$file =  basename($language->image);
-			$folder = dirname($language->image);
+		if(!empty($language->image_ext)) {
+			$file =  basename($language->image_ext);
+			$folder = dirname($language->image_ext);
 			
-		} elseif (!empty( $language->shortcode)) {
-			$file = $language->shortcode . '.gif';
+		} elseif (!empty( $language->image)) {
+			$file = $language->image . '.gif';
+			$folder = 'flags';
+		} elseif (!empty( $language->sef)) {
+			$file = $language->sef . '.gif';
 			$folder = 'flags';
 		} else {
 			return '';
@@ -111,7 +114,7 @@ class  JoomfishExtensionHelper  {
 				self::$imagePath[$path] = '/templates/'. $cur_template .'/'.$path;
 			} elseif ( JFile::exists ( JPATH_SITE .DS. $path )) {
 				self::$imagePath[$path] = $path;
-			} elseif ( JFile::exists ( JPATH_SITE .DS. $media .DS. $path )) {
+			} elseif ( JFile::exists ( JPATH_SITE . $media .DS. $path )) {
 				self::$imagePath[$path] = $media .DS. $path;
 			} else {
 				self::$imagePath[$path] = $path;

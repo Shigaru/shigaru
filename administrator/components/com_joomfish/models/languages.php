@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,13 +25,15 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: languages.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: languages.php 1597 2012-01-20 10:03:16Z akede $
  * @package joomfish
  * @subpackage Models
  *
 */
+// Check to ensure this file is included in Joomla!
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport( 'joomla.filesystem.file');
 JLoader::register('JFModel', JOOMFISH_ADMINPATH .DS. 'models' .DS. 'JFModel.php' );
 
 /**
@@ -44,18 +46,18 @@ class LanguagesModelLanguages extends JFModel
 	 * @var string	name of the current model
 	 * @access private
 	 */
-	var $_modelName = 'languages';
+	private $_modelName = 'languages';
 
 	/**
 	 * @var array	set of languages found in the system
 	 * @access private
 	 */
-	var $_languages = null;
+	private $_languages = null;
 
 	/**
 	 * default constrcutor
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 
 		$this->addTablePath(JOOMFISH_ADMINPATH .DS. 'tables');
@@ -77,7 +79,7 @@ class LanguagesModelLanguages extends JFModel
 	/**
 	 * return the model name
 	 */
-	function getName() {
+	public function getName() {
 		return $this->_modelName;
 	}
 
@@ -85,41 +87,60 @@ class LanguagesModelLanguages extends JFModel
 	 * generic method to load the language related data
 	 * @return array of languages
 	 */
-	function getData() {
+	public function getData() {
 		if($this->_languages == null) {
-			$this->_loadLanguages();
+			$this->loadLanguages();
 		}
 		return $this->_languages;
+	}
+	
+	/** This method adds an empty line to the dataset for further usage
+	 * @since 2.1
+	 * @return void
+	 */
+	public function add() {
+		if($this->_languages == null) {
+			$this->loadLanguages();
+		}
+		
+		$jfLanguage = $this->getTable('JFLanguage');
+		$this->_languages['new'] = $jfLanguage;
 	}
 
 	/**
 	 * Method to store language information
 	 */
-	function store($cid, $data) {
+	public function store($cid, $data) {
 		if( is_array($cid) && count($cid)>0 ) {
 			for ($i=0; $i<count($cid); $i++) {
 				$jfLang = $this->getTable('JFLanguage');
-				$jfLang->id =$cid[$i];
-				$jfLang->name = $data['name'][$i];
-
+				$jfLang->set('lang_id', $cid[$i]);
+				$jfLang->set('title', $data['title'][$i]);
+				$jfLang->set('title_native', $data['title_native'][$i]);
+				
 				// The checkbox is only filled when it was active - so we have to check if
 				// one box is fitting to your language
-				if( isset($data['active']) ) {
-					foreach( $data['active'] as $activeLanguageID ) {
-						if( $activeLanguageID == $jfLang->id ) {
-							$jfLang->active = true;
+				if( isset($data['published']) ) {
+					foreach( $data['published'] as $activeLanguageID ) {
+						if( $activeLanguageID == $jfLang->lang_id ) {
+							$jfLang->set('published', true);
 							break;
 						}
 					}
 				}
-				$jfLang->iso = $data['iso'][$i];
-				$jfLang->shortcode = $data['shortCode'][$i];
-				$jfLang->code = $data['code'][$i];
-				$jfLang->image = $data['image'][$i];
-				$jfLang->ordering = $data['order'][$i];
-				$jfLang->fallback_code = $data['fallbackCode'][$i];
-				$jfLang->params = $data['params'][$i];
-
+				$jfLang->set('lang_code', $data['lang_code'][$i]);
+				$jfLang->set('sef', $data['sef'][$i]);
+				$jfLang->set('image_ext', $data['image'][$i]);
+				$jfLang->set('image', $this->extractImagePrefix($data['image'][$i]));
+				$jfLang->set('ordering', $data['order'][$i]);
+				$jfLang->set('fallback_code', $data['fallbackCode'][$i]);
+				$jfLang->set('params', $data['params'][$i]);
+				
+				// ensure the meta key information are stored in the respective fields, therefore extract them additionally form the params
+				$params = new JParameter($data['params'][$i]);
+				$jfLang->set('metadesc', $params->get('MetaDesc', ''));
+				$jfLang->set('metakey', $params->get('MetaKeys', ''));
+				
 				if( !$jfLang->store() ) {
 					$this->setError($jfLang->getError());
 					return false;
@@ -132,7 +153,7 @@ class LanguagesModelLanguages extends JFModel
 	/**
 	 * Method to remove a language completely
 	 */
-	function remove($cid, $data) {
+	public function remove($cid, $data) {
 		if( is_array($cid) && count($cid)>0 ) {
 			for ($i=0; $i<count($cid); $i++) {
 				$jfLang = $this->getTable('JFLanguage');
@@ -144,69 +165,91 @@ class LanguagesModelLanguages extends JFModel
 		}
 		return true;
 	}
+	
+	/** 
+	 * Method to set the Joomla client system wide default language
+	 * 
+	 * @param int $lang_id	language ID to be set as new default language
+	 * @return boolean		success or not
+	 * @since 2.1
+	 * @access public
+	 */
+	public function setDefault($lang_id) {
+		
+		$jfLang = $this->getTable('JFLanguage');
+		$jfLang->load($lang_id);
+		
+		// We define that the default language can only be changed for the Joomla Client - not the admin
+		$client	=& JApplicationHelper::getClientInfo(0);
+	
+		$params = JComponentHelper::getParams('com_languages');
+		$params->set($client->name, $jfLang->lang_code);
+	
+		$table =& JTable::getInstance('component');
+		$table->loadByOption( 'com_languages' );
+	
+		$table->params = $params->toString();
+	
+		// pre-save checks
+		if (!$table->check()) {
+			JError::raiseWarning( 500, $table->getError() );
+			return false;
+		}
+	
+		// save the changes
+		if (!$table->store()) {
+			JError::raiseWarning( 500, $table->getError() );
+			return false;
+		}
+		
+		return true;
+	}
 
 	/**
-	 * Method to load the languages in the system
-	 * This is based on the languages currently configured in the Joom!Fish and all frontend languages installed in the system<br />
-	 * Loaded languages will be stored in the private variable _languages
-	 *
-	 * @return void
+	 * Loads content languages based on table information
 	 */
-	function _loadLanguages(){
+	private function loadLanguages() {
 		global $mainframe, $option;
 		$db = JFactory::getDBO();
 
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'l.ordering',	'cmd' );
+		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'lext.ordering',	'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
 
 		// 1. read all known languages from the database
-		$sql = "SELECT l.*"
-		. "\nFROM #__languages AS l";
+		//$sql = "SELECT l.*"
+		//. "\nFROM #__jf_languages AS l";
+		$sql = 'select `l`.`lang_id` AS `lang_id`,`l`.`lang_code` AS `lang_code`,`l`.`title` AS `title`,`l`.`title_native` AS `title_native`,`l`.`sef` AS `sef`,`l`.`description` AS `description`,`l`.`metakey` AS `metakey`,`l`.`metadesc` AS `metadesc`,`l`.`published` AS `published`,`l`.`image` AS `image`,`lext`.`image_ext` AS `image_ext`,`lext`.`fallback_code` AS `fallback_code`,`lext`.`params` AS `params`,`lext`.`ordering` AS `ordering` from (`#__languages` `l` left join `#__jf_languages_ext` `lext` on((`l`.`lang_id` = `lext`.`lang_id`)))'; 
 
 		if ($filter_order != ''){
 			$sql .= ' ORDER BY ' .$filter_order .' '. $filter_order_Dir;
 		}
 		$db->setQuery( $sql	);
-		$languages = $db->loadObjectList();
-		if ($db->getErrorNum()) {
-			JError::raiseWarning( 400,$db->getErrorMsg());
+		$languages = $db->loadObjectList('lang_id');
+		if($languages === null) {
+			JError::raiseWarning( 400, $db->getErrorMsg());
 		}
-
-		// Read the languages dir to find new installed languages
-		// This method returns a list of JLanguage objects with the related inforamtion
-		$systemLanguages = JLanguage::getKnownLanguages(JPATH_SITE);
-
-		// Generate a compability list of known languages
-		$backwardLanguages = array();
-		foreach ($systemLanguages as $jLanguage) {
-			$backwardLanguages[$jLanguage['backwardlang']] = $jLanguage;
-		}
-
+		
 		// We convert any language of the table into a JFLanguage object. As within the language list the key will be the language code
-		// All Joomla! system languages not known will be added to the result list
 		$this->_languages = array();
 		foreach($languages as $language) {
 			$jfLanguage = $this->getTable('JFLanguage');
 			$jfLanguage->bind($language);
 
-			// solving [12658] language codes might be determint and maped also using the compability field!
-			foreach (array_keys($backwardLanguages) as $backwardlang) {
-				if($backwardlang == substr($jfLanguage->code, 0, strlen($backwardlang))) {
-					$jLanguage = $backwardLanguages[$backwardlang];
-					$jfLanguage->set('code', $jLanguage['tag']);
-					$jfLanguage->set('iso',  $jLanguage['locale']);
-				}
-			}
-			$this->_languages[$jfLanguage->code] = $jfLanguage;
+			$this->_languages[$jfLanguage->lang_id] = $jfLanguage;
 		}
-
-		foreach ($systemLanguages as $jLanguage) {
-			if($jLanguage != null && !array_key_exists($jLanguage['tag'], $this->_languages)) {
-					$jfLanguage = $this->getTable('JFLanguage');
-					$jfLanguage->bindFromJLanguage($jLanguage);
-					$this->_languages[$jfLanguage->code] = $jfLanguage;
-			}
-		}
+	}
+		
+	/**
+	 * Method to identify the Joomla 1.6 image prefix for a given full image path
+	 * As the specification of this prefix might change here is one special method handling this
+	 * @param	string	full image name
+	 * @return	string	Joomla 1.6 image prefix
+	 * @since	2.1
+	 * @access	private 
+	 */
+	private function extractImagePrefix($image) {
+		$fileName = JFile::getName($image);
+		return JFile::stripExt($fileName);
 	}
 }
 ?>

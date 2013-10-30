@@ -83,7 +83,7 @@ function freichatx_get_hash($ses){
 				<a class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
 					<h1>SHIGARU</h1>
 				</a>
-				<span id="head_comm_text"><?php echo JText::_('The community for sharing musical knowledge') ?></span>
+				<span id="head_comm_text" class="f80"><?php echo JText::_('The community for sharing musical knowledge') ?></span>
 			</div>		
 			
 		</div>	
@@ -96,10 +96,8 @@ function freichatx_get_hash($ses){
 										<input type="text" class="inputbox" placeholder="Search bands, songs, genres, instruments..." name="pattern" id="roksearch_search_str" autocomplete="off">
 										<a href="#" class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" title="Click on this icon to expand search options"><i class="icon-cog"></i></a>
 									</div>
-									<input type="hidden" value="any" name="searchphrase">
 									<input type="hidden" value="20" name="limit">
-									<input type="hidden" value="newest" name="order">
-									<input type="hidden" value="displayresults" name="task">
+									<input type="hidden" value="search" name="task">
 									<input type="hidden" value="28" name="Itemid">
 									<input type="hidden" value="com_hwdvideoshare" name="option">
 								</form>

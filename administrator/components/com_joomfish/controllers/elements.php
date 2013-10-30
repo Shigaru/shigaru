@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011, Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: elements.php 1551 2011-03-24 13:03:07Z akede $
+ * $Id: elements.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage elements
  *
@@ -44,29 +44,29 @@ JLoader::import( 'helpers.controllerHelper',JOOMFISH_ADMINPATH);
 class ElementsController extends JController   {
 
 	/** @var string		current used task */
-	var $task=null;
+	private $task=null;
 
 	/** @var string		action within the task */
-	var $act=null;
+	private $act=null;
 
 	/** @var array		int or array with the choosen list id */
-	var $cid=null;
+	private $cid=null;
 
 	/** @var string		file code */
-	var $fileCode = null;
+	private $fileCode = null;
 
 	/**
 	 * @var object	reference to the Joom!Fish manager
 	 * @access private
 	 */
-	var $_joomfishManager=null;
+	private $_joomfishManager=null;
 
 	/**
-	 * PHP 4 constructor for the tasker
+	 * Constructor for the tasker
 	 *
 	 * @return joomfishTasker
 	 */
-	function __construct( ){
+	public function __construct( ){
 		parent::__construct();
 		$this->registerDefaultTask( 'show' );
 
@@ -104,11 +104,14 @@ class ElementsController extends JController   {
 		$this->view->assignRef('act', $this->act);
 	}
 
-	// DONE
-	function showCElementConfig() {
+	/**
+	 * Shows the content element configuration overview
+	 * @return void
+	 */
+	public function showCElementConfig() {
 		$db = JFactory::getDBO();
 
-		JoomfishControllerHelper::_setupContentElementCache();
+		JoomfishControllerHelper::setupContentElementCache();
 
 		$this->showElementOverview();
 	}
@@ -117,7 +120,7 @@ class ElementsController extends JController   {
 	 * Installs the uploaded file
 	 *
 	 */
-	function installContentElement() {
+	public function installContentElement() {
 		if (@is_uploaded_file($_FILES["userfile"]["tmp_name"])) {
 			JLoader::import( 'helpers.jfinstaller',JOOMFISH_ADMINPATH);
 			$installer = new jfInstaller();
@@ -136,7 +139,7 @@ class ElementsController extends JController   {
 	/**
 	 * method to remove all selected content element files
 	 */
-	function removeContentElement() {
+	public function removeContentElement() {
 		// Check for request forgeries
 		//JRequest::checkToken() or die( 'Invalid Token' );
 		
@@ -154,8 +157,7 @@ class ElementsController extends JController   {
 	 * Method deletes one content element file
 	 * @param filename
 	 */
-	// DONE
-	function _deleteContentElement( $filename = null ) {
+	private function _deleteContentElement( $filename = null ) {
 
 		$elementfolder = JOOMFISH_ADMINPATH .DS. 'contentelements/';
 		$filename .= '.xml';
@@ -165,8 +167,7 @@ class ElementsController extends JController   {
 
 	/** Presentation of the content element list
 	 */
-	//DONE
-	function showElementOverview() {
+	public function showElementOverview() {
 		$db = JFactory::getDBO();
 		global  $mainframe;
 
@@ -191,8 +192,8 @@ class ElementsController extends JController   {
 	}
 
 	/** Detailinformation about one specific content element */
-	// DONE - should move more from the view to here or the model!
-	function showElementConfiguration( ) {
+	// TODO - should move more from the view to here or the model!
+	public function showElementConfiguration( ) {
 		$cid =  JRequest::getVar( 'cid', array(0) );
 		if (count($cid)>0){
 			$id = $cid[0];
@@ -214,8 +215,7 @@ class ElementsController extends JController   {
 	 * Method to install content element files
 	 *
 	 */
-	//DONE
-	function showContentElementsInstaller() {
+	public function showContentElementsInstaller() {
 		$cElements = $this->_joomfishManager->getContentElements(true);
 		// get the view
 		$view =  $this->getView("elements");

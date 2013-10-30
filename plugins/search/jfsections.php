@@ -1,7 +1,7 @@
 <?php
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003 - 2011 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012 Think Network GmbH, Munich
  * 
  * All rights reserved.  The Joom!Fish project is a set of extentions for 
  * the content management system Joomla!. It enables Joomla! 
@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: jfsections.php 1580 2011-04-16 17:11:41Z akede $
+ * $Id: jfsections.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage jfcontent
  *
@@ -95,10 +95,10 @@ function plgSearchJFSections( $text, $phrase='', $ordering='', $areas=null )
 	. ' "" AS created,'
 	. ' "2" AS browsernav,'
 	. ' a.id AS secid,'
-	. ' jfl.code as jflang, jfl.name as jflname'
+	. ' jfl.code as jflang, jfl.title as jflname'
 	. ' FROM #__sections AS a'
 	. "\n LEFT JOIN #__jf_content as jfc ON reference_id = a.id"
-	. "\n LEFT JOIN #__languages as jfl ON jfc.language_id = jfl.id"
+	. "\n LEFT JOIN #__languages as jfl ON jfc.language_id = jfl.lang_id"
 	. ' WHERE jfc.value LIKE '.$text
 	. ' AND a.published = 1'
 	. ' AND a.access <= '.(int) $user->get( 'aid' )

@@ -1,7 +1,7 @@
 <?php 
 /**
  * Joom!Fish - Multi Lingual extention and translation manager for Joomla!
- * Copyright (C) 2003-2009 Think Network GmbH, Munich
+ * Copyright (C) 2003 - 2012, Think Network GmbH, Munich
  *
  * All rights reserved.  The Joom!Fish project is a set of extentions for
  * the content management system Joomla!. It enables Joomla!
@@ -25,25 +25,19 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: namesplusimages.php 1344 2009-06-18 11:50:09Z akede $
+ * $Id: namesplusimages.php 1592 2012-01-20 12:51:08Z akede $
  * @package joomfish
  * @subpackage mod_jflanguageselection
  *
 */
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-$titleString= constant('Click on this linkf to display the language options');
-$outString = '<div class="topbuttons" id="lang"><a href="#" class="dropper btn" title="'.$titleString.'"><span>'.$curLanguage->getName().'</span><span class="arrow"></span></a>';
-$curLangImg = '/images/' .$curLanguage->get( 'image' );						
-//<img src="' .JURI::base(true). $curLangImg. '" alt="' .$curLanguage->getName(). '" title="' .$curLanguage->getName(). '" border="0" class="langImg"/>
-$outString .= '<div id="langDropMenu" class="floatingBox">
-						  <ul class="jflanguageselection">';
-$countryCount =0;					  
+$outString = '<div id="jflanguageselection">';
+$outString .= '<ul class="jflanguageselection">';
 foreach( $langActive as $language )
 {
-	//$outString .= '<li' .$langActive. '>';
 	$langActive = '';
-	if( $language->code == $curLanguage->getTag() ) {
+	if( $language->get('id') == $curLanguage->get('id') ) {
 		if( !$show_active ) {
 			continue;		// Not showing the active language
 		} else {
@@ -52,38 +46,36 @@ foreach( $langActive as $language )
 	}
 
 	$href = JFModuleHTML::_createHRef ($language, $params);
-	$langlIneClass = '';
-	if($countryCount & 1){
-		$langlIneClass='gray';
-		}else{
-			$langlIneClass='white';
-			}
-	
+
 	if (isset($language->disabled) && $language->disabled){
-		$outString .= '<li' .$langActive. ' style="opacity:0.5" class="opaque '.$langlIneClass.'">';
+		$outString .= '<li' .$langActive. ' style="opacity:0.5" class="opaque">';
 	}
 	else {
-		$outString .= '<li' .$langActive. ' class="'.$langlIneClass.'" onmouseover="hoverFuncAdd(this)" onmouseout="hoverFuncRemove(this)">';
+		$outString .= '<li' .$langActive. '>';
 	}
+	
+	$outString .= '<a href="' .$href. '" class="btn">';
+	
 	if($type == 'namesplusimages') {
-		if( isset($language->image) && $language->image!="" ) {
-			$langImg = '/images/' .$language->image;
-		} else {
-			$langImg = '/components/com_joomfish/images/flags/' .$language->getLanguageCode() .".gif";
-		}
-		$outString .='<img src="' .JURI::base(true). $langImg. '" alt="' .$language->name. '" title="' .$language->name. '" border="0" class="langImg"/>';
+		$langImg = JFModuleHTML::getLanguageImageSource($language);
+		$outString .='<img src="' .JURI::base(true). $langImg. '" alt="' .$language->title_native. '" title="' .$language->title_native. '" border="0" class="langImg"/>';
 	}
 
 	if (isset($language->disabled) && $language->disabled){
-			$outString .= '<span lang="' .$language->getLanguageCode(). '" xml:lang="' .$language->getLanguageCode(). '" >' .$language->name. '</span>';
+			$outString .= '<span lang="' .$language->getLanguageCode(). '" xml:lang="' .$language->getLanguageCode(). '" >' .$language->title_native. '</span>';
 		}
 		else {
-			$outString .= '<a href="' .$href. '" ><span lang="' .$language->getLanguageCode(). '" xml:lang="' .$language->getLanguageCode(). '">' .$language->name. '</span></a>';
+			$outString .= '<span lang="' .$language->getLanguageCode(). '" xml:lang="' .$language->getLanguageCode(). '">' .$language->title_native. '</span>';
 	}
 
-	$outString .= '</li>';
-	$countryCount++;
+	$outString .= '</a></li>';
 }
-$outString .= '</ul></div></div>';
+$outString .= '</ul></div>';
 
 echo $outString;
+
+if( $inc_jf_css && JFile::exists(JPATH_ROOT.DS.'modules'.DS.'mod_jflanguageselection'.DS.'tmpl'.DS.'mod_jflanguageselection.css') ) {
+	$document = JFactory::getDocument();
+	$document->addStyleSheet(JURI::base(true).'/modules/mod_jflanguageselection/tmpl/mod_jflanguageselection.css');
+}
+
