@@ -25,7 +25,7 @@
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * -----------------------------------------------------------------------------
- * $Id: mod_jflanguageselection.php 1592 2012-01-20 12:51:08Z akede $
+ * $Id: mod_jflanguageselection.php 1592 2012-01-18 12:51:08Z akede $
  * @package joomfish
  * @subpackage mod_jflanguageselection
  *
@@ -56,7 +56,7 @@ $spacer		= trim( $params->get( 'spacer', '&nbsp;' ) );
 jimport('joomla.filesystem.file');
 
 $jfManager = JoomFishManager::getInstance();
-$langActive = $jfManager->getLanguagesIndexedById(true);
+$langActive = $jfManager->getActiveLanguages(true);
 
 // setup Joomfish plugins
 $dispatcher	   = JDispatcher::getInstance();
@@ -70,11 +70,9 @@ if( !isset( $langActive ) || count($langActive)==0) {
 }
 
 // check for unauthorised access to inactive language
-$registry = JFactory::getConfig();
-$curLanguage = $registry->getValue("joomfish.language");
-if (!array_key_exists($curLanguage->get('id'),$langActive)){
-	reset($langActiveCode);
-	reset($$langActive);
+$curLanguage = JFactory::getLanguage();
+if (!array_key_exists($curLanguage->getTag(),$langActive)){
+	reset($langActive);
 	//$currentlang = current($langActive);
 	//global $mainframe;
 	//$mainframe->redirect(JRoute::_("index.php?lang=".$currentlang->iso));
@@ -82,6 +80,7 @@ if (!array_key_exists($curLanguage->get('id'),$langActive)){
 	$deflang = $registry->getValue("config.defaultlang");
 	global $mainframe;
 	$mainframe->redirect(JRoute::_("index.php?lang=".$deflang));
+	JError::raiseError('0', JText::_('NOT AUTHORISED').' '.$curLanguage->getTag());
 	exit();
 }
 
