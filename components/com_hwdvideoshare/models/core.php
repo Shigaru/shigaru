@@ -466,6 +466,8 @@ class hwd_vs_core
 		global $smartyvs;
 		$domain = JURI::root();
 		$smartyvs->assign("domain", $domain);
+		$pattern = JRequest::getVar( 'pattern', '' );
+		$smartyvs->assign("searchterm", $pattern);
 		$smartyvs->display('search.tpl');
     }
     /**

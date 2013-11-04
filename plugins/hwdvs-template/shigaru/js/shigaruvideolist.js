@@ -11,6 +11,7 @@ jQuery(document).ready(function() {
 	var $optionSets 	= jQuery(opts.optionLinks);
     var $optionLinks 	= $optionSets.find('a');
     var oListUrl 		= opts.listURL;
+    var isISotopized	= false;
     var oUserUrl 		= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_userdetails&format=raw&user_id="+jQuery('#user_id').val();
     var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_setuserstatusmessage&format=raw"
     
@@ -119,9 +120,12 @@ jQuery(document).ready(function() {
 		$container.html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
 		var oPosition = $container.position();	  
 		//jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');	
+		var oPattern = paramUrl;
+		if(jQuery('#searchinput').val())
+			oPattern += '&pattern='+jQuery('#searchinput').val();
 		jQuery(opts.actionbars).block({ message: null });
 		jQuery.ajax({
-            url: paramUrl
+            url: oPattern
         }).done(function (data) {
 			$container.hide().html(data).find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
 			$container.find('span[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
@@ -161,7 +165,8 @@ jQuery(document).ready(function() {
 	
 	function setPageActions(){
 		jQuery(opts.paginationLinks).click(function(e){
-					$container.isotope( 'destroy' );
+					if(isISotopized)
+						$container.isotope( 'destroy' );
 					doLoadAjaxContent(transformPageUrls(e)+composeOrderUrl(e));
 					e.preventDefault();
 					return false;
@@ -180,6 +185,7 @@ jQuery(document).ready(function() {
 		cellsByRow : {columnWidth : 330, rowHeight: 215},	
 		layoutMode:$optionSets.find('.active').attr('data-option-value')
       },function(){
+		  isISotopized = true;
 		  jQuery('.videolistoptions .btn').click(function(e) {
 				var $this = jQuery(this);
 				$this.toggleClass("active");
@@ -276,7 +282,8 @@ jQuery(document).ready(function() {
 	function changeLayoutMode( $link, options ) {
 		var oItems = jQuery('#resultcontainer .resultelement');	
 		resetLayoutParams(oItems);
-		$container.isotope(options);		
+		$container.isotope(options);
+		isISotopized = true;		
 		prepareLayoutParameters(options.layoutMode);
       }
       
@@ -306,6 +313,7 @@ jQuery(document).ready(function() {
 			});
 			
 			jQuery('#sort_by').change(function(e){
+					if(isISotopized)
 					$container.isotope( 'destroy' );
 					doLoadAjaxContent(oListUrl+composeOrderUrl(e));
 					e.preventDefault();
