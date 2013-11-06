@@ -2,3 +2,13 @@
 *.wmv
 *.avi
 *.mp4
+images/comprofiler/
+hwdvideos/thumbs/
+components/com_hwdvideoshare/xml/
+configuration.php
+crossdomain.xml
+administrator/cache/
+angularjs-perf/
+cache/
+
+
