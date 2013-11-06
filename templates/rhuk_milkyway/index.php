@@ -8,23 +8,17 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
-
- 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 $headerstuff = $this->getHeadData();
 $headerstuff['scripts'] = array();
 $this->setHeadData($headerstuff);
 $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js");
-$this->addScript($this->baseurl."/modules/mod_rokajaxsearch/js/rokajaxsearch.js");
-
+$this->addScript($this->baseurl."/templates/rhuk_milkyway/js/typeahead.js");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
 <jdoc:include type="head" />
-<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.js"></script>
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery.qtip.min.css" />
@@ -86,14 +80,16 @@ function freichatx_get_hash($ses){
 				<span id="head_comm_text" class="f80"><?php echo JText::_('The community for sharing musical knowledge') ?></span>
 			</div>		
 			
-		</div>	
+		</div>
+		
+			
 		<div id="nav_browse" class="fleft mtop12 mleft20 mright20">
 					<div id="nav_browse_content">
 						<div id="nav_browse_search">
 							<div class="rokajaxsearch fleft">
 								<form method="get" action="index.php?option=com_hwdvideoshare&amp;task=search" class="light" id="rokajaxsearch" name="rokajaxsearch">
 									<div class="roksearch-wrapper">
-										<input type="text" class="inputbox" placeholder="Search bands, songs, genres, instruments..." name="pattern" id="roksearch_search_str" autocomplete="off">
+										<input type="text" class="inputbox" placeholder="Search bands, songs, genres, instruments..." name="pattern" id="roksearch_search_str">
 										<a href="#" class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" title="Click on this icon to expand search options"><i class="icon-cog"></i></a>
 									</div>
 									<input type="hidden" value="20" name="limit">
@@ -222,5 +218,8 @@ function freichatx_get_hash($ses){
 	</div>
 </div>
 <div id="communitytooltip" class="dispnon"></div>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.min.js"></script>
 </body>
 </html>
