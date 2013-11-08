@@ -23,7 +23,7 @@
 		</div>
 		<div class="rightcolumn">
 			<div class="content_box">
-					<h3>The "Most" in Shigaru</h3>
+					<h3>{$smarty.const._HWDVIDS_SHIGARU_THEMOST}</h3>
 					<div id="the_most" class="slidesContainer">
 						<div id="the_most_title">
 							<h6><span>MOST</span></h6>
@@ -41,13 +41,13 @@
 								<div id="tabs-2" class="tab_wrapper ajaxload">
 									<div class="tabmodcontrols w100 tcenter mbot6">
 										<div class="btn-group">
-										  <a class="btn date active" href="#allcategories">All</a>
-										  <a class="btn date" href="#songtutorial">Song tutorials</a>
-										  <a class="btn date" href="#theory">Theory</a>
-										  <a class="btn date" href="#watchmeplay">Watch me play</a>
+										  <a class="btn date active" href="#allcategories">{$smarty.const._HWDVIDS_SHIGARU_ALL}</a>
+										  <a class="btn date" href="#songtutorial">{$smarty.const._HWDVIDS_SHIGARU_SONGTUTORIALS}</a>
+										  <a class="btn date" href="#theory">{$smarty.const._HWDVIDS_SHIGARU_THEORY}</a>
+										  <a class="btn date" href="#watchmeplay">{$smarty.const._HWDVIDS_SHIGARU_WATCHMEPLAY}</a>
 										</div>
 										<div class="btn-group">
-											<a class="btn tabreload" href="#"><i class="icon-repeat"></i> Reload</a>
+											<a class="btn tabreload" href="#"><i class="icon-repeat"></i> {$smarty.const._HWDVIDS_SHIGARU_RELOAD}</a>
 										</div>
 									</div>
 									<div class="tabscroller">
@@ -61,13 +61,13 @@
 								<div id="tabs-1" class="tab_wrapper loadondemand">
 									<div class="tabmodcontrols w100 tcenter mbot6">
 										<div class="btn-group">
-										  <a class="btn date active" href="#alltime">All time</a>
-										  <a class="btn date" href="#thismonth">This month</a>
-										  <a class="btn date" href="#thisweek">This week</a>
-										  <a class="btn date" href="#today">Today</a>
+										  <a class="btn date active" href="#alltime">{$smarty.const._HWDVIDS_SHIGARU_AllTIME}</a>
+										  <a class="btn date" href="#thismonth">{$smarty.const._HWDVIDS_SHIGARU_THISMONTH}</a>
+										  <a class="btn date" href="#thisweek">{$smarty.const._HWDVIDS_SHIGARU_THISWEEK}</a>
+										  <a class="btn date" href="#today">{$smarty.const._HWDVIDS_SHIGARU_TODAY}</a>
 										</div>
 										<div class="btn-group">
-											<a class="btn tabreload" href="#"><i class="icon-repeat"></i> Reload</a>
+											<a class="btn tabreload" href="#"><i class="icon-repeat"></i> {$smarty.const._HWDVIDS_SHIGARU_RELOAD}</a>
 										</div>
 									</div>
 									<div class="tabscroller">
@@ -82,13 +82,13 @@
 								<div id="tabs-3" class="tab_wrapper loadondemand">
 								  <div class="tabmodcontrols w100 tcenter mbot6">
 										<div class="btn-group">
-										  <a class="btn date active" href="#alltime">All time</a>
-										  <a class="btn date" href="#thismonth">This month</a>
-										  <a class="btn date" href="#thisweek">This week</a>
-										  <a class="btn date" href="#today">Today</a>
+										  <a class="btn date active" href="#alltime">{$smarty.const._HWDVIDS_SHIGARU_AllTIME}</a>
+										  <a class="btn date" href="#thismonth">{$smarty.const._HWDVIDS_SHIGARU_THISMONTH}</a>
+										  <a class="btn date" href="#thisweek">{$smarty.const._HWDVIDS_SHIGARU_THISWEEK}</a>
+										  <a class="btn date" href="#today">{$smarty.const._HWDVIDS_SHIGARU_TODAY}</a>
 										</div>
 										<div class="btn-group">
-											<a class="btn tabreload" href="#"><i class="icon-repeat"></i> Reload</a>
+											<a class="btn tabreload" href="#"><i class="icon-repeat"></i> {$smarty.const._HWDVIDS_SHIGARU_RELOAD}</a>
 										</div>
 									</div>	
 									<div class="tabscroller">
@@ -107,13 +107,13 @@
 								<div id="tabs-4" class="tab_wrapper loadondemand">
 									<div class="tabmodcontrols w100 tcenter mbot6">
 										<div class="btn-group">
-										  <a class="btn date active" href="#alltime">All time</a>
-										  <a class="btn date" href="#thismonth">This month</a>
-										  <a class="btn date" href="#thisweek">This week</a>
-										  <a class="btn date" href="#today">Today</a>
+										  <a class="btn date active" href="#alltime">{$smarty.const._HWDVIDS_SHIGARU_AllTIME}</a>
+										  <a class="btn date" href="#thismonth">{$smarty.const._HWDVIDS_SHIGARU_THISMONTH}</a>
+										  <a class="btn date" href="#thisweek">{$smarty.const._HWDVIDS_SHIGARU_THISWEEK}</a>
+										  <a class="btn date" href="#today">{$smarty.const._HWDVIDS_SHIGARU_TODAY}</a>
 										</div>
 										<div class="btn-group">
-											<a class="btn tabreload" href="#"><i class="icon-repeat"></i> Reload</a>
+											<a class="btn tabreload" href="#"><i class="icon-repeat"></i> {$smarty.const._HWDVIDS_SHIGARU_RELOAD}</a>
 										</div>
 									</div>
 									<div class="tabscroller">
@@ -128,13 +128,13 @@
 								<div id="tabs-5" class="tab_wrapper loadondemand">
 									<div class="tabmodcontrols w100 tcenter mbot6">
 										<div class="btn-group">
-										  <a class="btn date active" href="#alltime">All time</a>
-										  <a class="btn date" href="#thismonth">This month</a>
-										  <a class="btn date" href="#thisweek">This week</a>
-										  <a class="btn date" href="#today">Today</a>
+										  <a class="btn date active" href="#alltime">{$smarty.const._HWDVIDS_SHIGARU_AllTIME}</a>
+										  <a class="btn date" href="#thismonth">{$smarty.const._HWDVIDS_SHIGARU_THISMONTH}</a>
+										  <a class="btn date" href="#thisweek">{$smarty.const._HWDVIDS_SHIGARU_THISWEEK}</a>
+										  <a class="btn date" href="#today">{$smarty.const._HWDVIDS_SHIGARU_TODAY}</a>
 										</div>
 										<div class="btn-group">
-											<a class="btn tabreload" href="#"><i class="icon-repeat"></i> Reload</a>
+											<a class="btn tabreload" href="#"><i class="icon-repeat"></i> {$smarty.const._HWDVIDS_SHIGARU_RELOAD}</a>
 										</div>
 									</div>
 									<div class="tabscroller">
@@ -159,7 +159,7 @@
 <div id="beingwatched" class="workarea">
 	<div class="workarea_odd">
 		<div class="workarea_wrapper">
-			<div class="content_box">
+			<div class="content_box padtop12">
 				<h3 class="mbot12">{$smarty.const._HWDVIDS_BWN}</h3>
 			</div>	
 		</div>
@@ -175,7 +175,7 @@
 				<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab" id="Player_15f536d8-0473-4bed-afb3-001f3f827d48"  WIDTH="600px" HEIGHT="200px"> <PARAM NAME="movie" VALUE="http://ws.amazon.com/widgets/q?rt=tf_cw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8010%2F15f536d8-0473-4bed-afb3-001f3f827d48&Operation=GetDisplayTemplate"><PARAM NAME="quality" VALUE="high"><PARAM NAME="bgcolor" VALUE="#FFFFFF"><PARAM NAME="allowscriptaccess" VALUE="always"><embed src="http://ws.amazon.com/widgets/q?rt=tf_cw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8010%2F15f536d8-0473-4bed-afb3-001f3f827d48&Operation=GetDisplayTemplate" id="Player_15f536d8-0473-4bed-afb3-001f3f827d48" quality="high" bgcolor="#ffffff" name="Player_15f536d8-0473-4bed-afb3-001f3f827d48" allowscriptaccess="always"  type="application/x-shockwave-flash" align="middle" height="200px" width="600px"></embed></OBJECT> <NOSCRIPT><A HREF="http://ws.amazon.com/widgets/q?rt=tf_cw&ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fshigarucom-20%2F8010%2F15f536d8-0473-4bed-afb3-001f3f827d48&Operation=NoScript">Amazon.com Widgets</A></NOSCRIPT>
 			</div>	
 		<div class="leftcolumn">
-			<div class="content_box video_activity">
+			<div class="content_box video_activity padtop12">
 					<h3>Popular tags</h3>
 					<div class="video_activity_header">
 						<div>
@@ -226,7 +226,7 @@
 			</div>
 		</div>	
 		<div class="rightcolumn">
-			<div class="content_box video_activity">
+			<div class="content_box video_activity padtop12">
 					<h3>Comments</h3>
 					<div class="video_activity_header">
 						<div>
@@ -264,7 +264,7 @@
 <div class="workarea">
   <div class="workarea_odd">
 	<div class="workarea_wrapper">
-		<div class="content_box">
+		<div class="content_box padtop12">
 					<div class="content_box video_activity">
 							<h3>Community</h3>
 							<div class="video_activity_header bwhite">

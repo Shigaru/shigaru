@@ -405,7 +405,7 @@ DEFINE("_HWDVIDS_WMIP_02","complemento.");
 DEFINE("_HWDVIDS_MVTD","vistos hoy");
 DEFINE("_HWDVIDS_MVTW","vistos esta semana");
 DEFINE("_HWDVIDS_MVTM","vistos este mes");
-DEFINE("_HWDVIDS_MVAT","vistos");
+DEFINE("_HWDVIDS_MVAT","Vistos");
 DEFINE("_HWDVIDS_MFTD","Más favoritos de hoy");
 DEFINE("_HWDVIDS_MFTW","Más favorito de la semana");
 DEFINE("_HWDVIDS_MFTM","Más favorito del mes");
@@ -542,9 +542,9 @@ DEFINE("_HWDVIDS_RATE_3STAR","medio");
 DEFINE("_HWDVIDS_RATE_4STAR","Bueno");
 DEFINE("_HWDVIDS_RATE_5STAR","Excelente");
 
-DEFINE("_HWDVIDS_VIEWED","vistos");
+DEFINE("_HWDVIDS_VIEWED","Vistos");
 DEFINE("_HWDVIDS_POPULAR","Popular");
-DEFINE("_HWDVIDS_FAVOURED","Favorito");
+DEFINE("_HWDVIDS_FAVOURED","Favoritos");
 
 DEFINE("_HWDVIDS_NVPA","No hay videos que se encuentran pendientes de aprobación.");
 DEFINE("_HWDVIDS_ALERT_LOG2ADDC","Debes conectarte para crear un canal.");
@@ -608,9 +608,9 @@ DEFINE("_HWDVIDS_SHIGARU_FACEFAN","Éstos son sólo algunos de nuestros fans de 
 DEFINE("_HWDVIDS_SHIGARU_TWITTER","¿Qué estamos twitteando ...");
 DEFINE("_HWDVIDS_SHIGARU_OURFACES","Comunidad de shigaru (y creciendo)");
 DEFINE("_HWDVIDS_SHIGARU_TOTALCATEGORIZED","(categorizados por la comunidad Shigaru)");
-DEFINE("_HWDVIDS_MOST_RECENT","recientes");
+DEFINE("_HWDVIDS_MOST_RECENT","Recientes");
 DEFINE("_HWDVIDS_MOST_RATED","Rated");
-DEFINE("_HWDVIDS_MOST_COMMENTED","comentó");
+DEFINE("_HWDVIDS_MOST_COMMENTED","Comentados");
 DEFINE("_HWDVIDS_FEATURED_VIDEOS","Vídeos destacados");
 DEFINE("_HWDVIDS_POP_BANDS","bandas populares <br />");
 DEFINE("_HWDVIDS_POP_TAGS","etiquetas más populares <br />");
@@ -904,3 +904,14 @@ DEFINE("_HWDVIDS_SHIGARU_SHIGAR_CONFIRMATION","Confirmación");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_SAVECHANG","Guardar cambios");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_WHYNOT","¿Por qué no");
 DEFINE("_HWDVIDS_SHIGARU_SHIGAR_CLICKTOVOTE","Haga clic para votar!");
+
+DEFINE("_HWDVIDS_SHIGARU_AllTIME","Siempre");
+DEFINE("_HWDVIDS_SHIGARU_THISMONTH","Este mes");
+DEFINE("_HWDVIDS_SHIGARU_THISWEEK","Esta semana");
+DEFINE("_HWDVIDS_SHIGARU_TODAY","Hoy");
+DEFINE("_HWDVIDS_SHIGARU_ALL","Todos");
+DEFINE("_HWDVIDS_SHIGARU_SONGTUTORIALS","Tutorial canción");
+DEFINE("_HWDVIDS_SHIGARU_THEORY","Teoría");
+DEFINE("_HWDVIDS_SHIGARU_WATCHMEPLAY","Mira como toco!");
+DEFINE("_HWDVIDS_SHIGARU_RELOAD","Refrescar");
+DEFINE("_HWDVIDS_SHIGARU_THEMOST","\"Lo Más\" de Shigaru");

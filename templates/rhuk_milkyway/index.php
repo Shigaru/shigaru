@@ -13,7 +13,7 @@ $headerstuff = $this->getHeadData();
 $headerstuff['scripts'] = array();
 $this->setHeadData($headerstuff);
 $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery-1.7.2.min.js");
-$this->addScript($this->baseurl."/templates/rhuk_milkyway/js/typeahead.js");
+$this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery.autocomplete.js");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
@@ -48,158 +48,161 @@ $host = JURI::root();
 </head>
 <body id="page_bg">
 <a name="up" id="up"></a>
-<div id="head" class="clearfix">
-	<div id="head_content" class="clearfix">
-		<div id="head_logo" class="fleft">
-			<div class="fleft mright12" >
-				<a href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
-					<img height="35" width="35" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
-				</a>
-			</div>	
-			<div class="fleft" >
-				<a class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
-					<h1>SHIGARU</h1>
-				</a>
-				<span id="head_comm_text" class="f80"><?php echo JText::_('The community for sharing musical knowledge') ?></span>
-			</div>		
-			
-		</div>
-		
-			
-		<div id="nav_browse" class="fleft mtop12 mleft20 mright20">
-					<div id="nav_browse_content">
-						<div id="nav_browse_search">
-							<div class="rokajaxsearch fleft">
-								<form method="get" action="index.php?option=com_hwdvideoshare&amp;task=search" class="light" id="rokajaxsearch" name="rokajaxsearch">
-									<div class="roksearch-wrapper">
-										<input type="text" class="inputbox" placeholder="Search bands, songs, genres, instruments..." name="pattern" id="roksearch_search_str">
-										<a href="#" class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" title="Click on this icon to expand search options"><i class="icon-cog"></i></a>
-									</div>
-									<input type="hidden" value="20" name="limit">
-									<input type="hidden" value="search" name="task">
-									<input type="hidden" value="28" name="Itemid">
-									<input type="hidden" value="com_hwdvideoshare" name="option">
-								</form>
-							</div>
-						</div>	
-					</div>
+<header> 
+	<div id="head" class="clearfix">
+		<div id="head_content" class="clearfix">
+			<div id="head_logo" class="fleft">
+				<div class="fleft mright12" >
+					<a href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+						<img height="50" width="50" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
+					</a>
 				</div>	
-			<div class="fright">
-				<a href="/" title="Click on this icon to expand the available options" class="f300 fontwhite fontbold mbot12 mtop12 tdecnone"><i class="icon-double-angle-down icon-3"></i></a>
-			</div>
+				<div class="fleft" >
+					<a class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+						<h1>SHIGARU</h1>
+					</a>
+					<span id="head_comm_text" class="f80"><?php echo JText::_('Sharing musical knowledge') ?></span>
+				</div>		
 				
-			<div id="topnavmenu" class="fright">
-				<?php
-					global $_CB_framework, $ueConfig, $mainframe;
-					include_once( $mainframe->getCfg( 'absolute_path' ) . '/administrator/components/com_comprofiler/plugin.foundation.php' );
-					include_once( $mainframe->getCfg( 'absolute_path' ) . '/components/com_comprofiler/plugin/user/plug_cbmenu/cb.menu.php' );
-		
-					cbimport( 'cb.html' );
-					$user =& JFactory::getUser();
-					$cbUser =& CBuser::getInstance( $user->id );
+			</div>
+			
+				
+			<div id="nav_browse" class="fleft mtop12 mleft20 mright20 w40">
+								<form method="get" action="index.php?option=com_hwdvideoshare&amp;task=search" class="light" id="rokajaxsearch" name="rokajaxsearch">
+										<div class="roksearch-wrapper">
+											<input type="text" class="w90 inputbox" placeholder="Search bands, songs, genres, instruments..." name="pattern" id="roksearch_search_str">
+											<a href="#" class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" title="Click on this icon to expand search options"><i class="icon-cog"></i></a>
+										</div>
+										<input type="hidden" value="20" name="limit">
+										<input type="hidden" value="search" name="task">
+										<input type="hidden" value="28" name="Itemid">
+										<input type="hidden" value="com_hwdvideoshare" name="option">
+									</form>
+					</div>	
+				<div class="fright">
+					<a href="/" title="Click on this icon to expand the available options" class="f300 fontwhite fontbold mbot12 mtop12 tdecnone"><i class="icon-double-angle-down icon-3"></i></a>
+				</div>
 					
-					if ($user && !$user->guest)
-					echo '<div class="greetinguser"></div>';
+				<div id="topnavmenu" class="fright">
+					<?php
+						global $_CB_framework, $ueConfig, $mainframe;
+						include_once( $mainframe->getCfg( 'absolute_path' ) . '/administrator/components/com_comprofiler/plugin.foundation.php' );
+						include_once( $mainframe->getCfg( 'absolute_path' ) . '/components/com_comprofiler/plugin/user/plug_cbmenu/cb.menu.php' );
+			
+						cbimport( 'cb.html' );
+						$user =& JFactory::getUser();
+						$cbUser =& CBuser::getInstance( $user->id );
+						
+						if ($user && !$user->guest)
+						echo '<div class="greetinguser"></div>';
+						?>
+						<jdoc:include type="modules" name="top" />
+						<?php					
+						if ($user && !$user->guest){
+								echo '<div id="grettings" class="btn-group mtopl6 mright12">';
+								echo '<div class="mtop12 mleft6 f16px"><i class="f150 icon-female"></i> ';
+								echo $user->username;
+								echo '</div>';
+								echo '<ul class="dropdown-menu">
+											<li><a href="index.php?option=com_comprofiler&Itemid=53"><span class="icon-user-md"></span>View Profile</a></li>
+											<li><a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails"><span class="icon-edit"></span>Edit Profile</a></li>
+											<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox"><span class="icon-envelope"></span>Inbox</a></li>
+											<li class="divider"></li>
+											<li><a href="index.php?option=com_hwdvideoshare&task=yourvideos"><span class="icon-headphones"></span>My Videos</a></li>
+											<li><a href="index.php?option=com_hwdvideoshare&task=yourfavourites"><span class="icon-heart"></span>Videos I liked</a></li>
+											<li class="divider"></li>
+											<li><a href="index.php?option=com_comprofiler&task=logout"><span class="icon-off"></span>Logout</a></li>
+										  </ul>';
+								echo '</div>';
+							}
+							 
+						
 					?>
-					<jdoc:include type="modules" name="top" />
-					<?php					
-					if ($user && !$user->guest){
-							echo '<div id="grettings" class="btn-group mtopl6 mright12">';
-							echo '<div class="mtop12 mleft6 f16px"><i class="f150 icon-female"></i> ';
-							echo $user->username;
-							echo '</div>';
-							echo '<ul class="dropdown-menu">
-										<li><a href="index.php?option=com_comprofiler&Itemid=53"><span class="icon-user-md"></span>View Profile</a></li>
-										<li><a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails"><span class="icon-edit"></span>Edit Profile</a></li>
-										<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox"><span class="icon-envelope"></span>Inbox</a></li>
-										<li class="divider"></li>
-										<li><a href="index.php?option=com_hwdvideoshare&task=yourvideos"><span class="icon-headphones"></span>My Videos</a></li>
-										<li><a href="index.php?option=com_hwdvideoshare&task=yourfavourites"><span class="icon-heart"></span>Videos I liked</a></li>
-										<li class="divider"></li>
-										<li><a href="index.php?option=com_comprofiler&task=logout"><span class="icon-off"></span>Logout</a></li>
-									  </ul>';
-							echo '</div>';
-						}
-						 
 					
-				?>
+					
+					
+				</div>
 				
-				
-				
-			</div>
-			
-		</div>	
-	
-</div>	
-
+			</div>	
+		
+	</div>	
+</header> 
 
 </div>
-<div id="nav_tabs" class="clearfix">	
-	<jdoc:include type="modules" name="user3" />
-</div>
-<div class="clear"></div>
-<div class="workarea">
-	<div class="workarea_wrapper">
-<?php		
-      if ($user->get('guest') != 1 && $user->lastvisitDate == "0000-00-00 00:00:00")
-      {
-         //echo 'amos pichica';       
-      }		
-?>      
-<jdoc:include type="message" />
-<jdoc:include type="modules" name="left" style="rounded" />
-<jdoc:include type="component" />
-<jdoc:include type="modules" name="footer" style="xhtml"/>
-<jdoc:include type="modules" name="right" style="xhtml"/>
-<jdoc:include type="modules" name="debug" />
-<jdoc:include type="modules" name="chat" />
-</div>
-</div>
-<div id="footer_topborder"></div>
-<div id="footer">
-	<div id="footer_content">
-		<div id="leftcolumn">
-			<div>
-				<h3>Stay in touch</h3>
+<nav> 
+	<div id="nav_tabs" class="clearfix">	
+		<jdoc:include type="modules" name="user3" />
+	</div>
+</nav> 
+<section> 
+	<div class="clear"></div>
+	<div class="workarea">
+		<div class="workarea_wrapper">
+	<?php		
+		  if ($user->get('guest') != 1 && $user->lastvisitDate == "0000-00-00 00:00:00")
+		  {
+			 //echo 'amos pichica';       
+		  }		
+	?>      
+	<jdoc:include type="message" />
+	<jdoc:include type="modules" name="left" style="rounded" />
+	<jdoc:include type="component" />
+	<jdoc:include type="modules" name="footer" style="xhtml"/>
+	<jdoc:include type="modules" name="right" style="xhtml"/>
+	<jdoc:include type="modules" name="debug" />
+	<jdoc:include type="modules" name="chat" />
+	</div>
+	</div>
+</section> 
+<footer>
+	<div id="footer_topborder"></div>
+	<div id="footer">
+		<div id="footer_content">
+			<div id="leftcolumn">
 				<div>
-					<ul>
-						<li>
-							<a href="http://www.facebook.com/ShigaruCommunity" target="_blank" title="Follow us on Facebook"><div class="facebook"><span class="dispnon">Facebook</span></div></a>
-						</li>
-						<li>
-							<a href="http://twitter.com/shigaru" target="_blank" title="Follow us on Twitter"><div class="twitter"><span class="dispnon">Twitter</span></div></a>
-						</li>
-						<li>
-							<a href="http://twitter.com/shigaru" target="_blank" title="Follow us on Google"><div class="google"><span class="dispnon">Google</span></div></a>
-						</li>
-						<li>
-							<a href="http://www.stumbleupon.com/stumbler/Shigaru" target="_blank" title="Follow us on Stumbleupon"><div class="stumbleupon"><span class="dispnon">Stumbleupon</span></div></a>
-						</li>
-					</ul>
+					<h3>Stay in touch</h3>
+					<div>
+						<ul>
+							<li>
+								<a href="http://www.facebook.com/ShigaruCommunity" target="_blank" title="Follow us on Facebook"><div class="facebook"><span class="dispnon">Facebook</span></div></a>
+							</li>
+							<li>
+								<a href="http://twitter.com/shigaru" target="_blank" title="Follow us on Twitter"><div class="twitter"><span class="dispnon">Twitter</span></div></a>
+							</li>
+							<li>
+								<a href="http://twitter.com/shigaru" target="_blank" title="Follow us on Google"><div class="google"><span class="dispnon">Google</span></div></a>
+							</li>
+							<li>
+								<a href="http://www.stumbleupon.com/stumbler/Shigaru" target="_blank" title="Follow us on Stumbleupon"><div class="stumbleupon"><span class="dispnon">Stumbleupon</span></div></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+			</div>
+			<div id="rightcolmn">
+				<div>
+					<h3>Sign up for our Newsletters</h3>
+					<jdoc:include type="modules" name="subscribelink" /> 
+					</div>
+				
+				<div class="clear w75">
+					<p>"Without music, life would be a mistake."</p>
+					<span class="fright tItalic">Friedrich Nietzsche</span>
 				</div>
 			</div>
-			
-		</div>
-		<div id="rightcolmn">
-			<div>
-				<h3>Sign up for our Newsletters</h3>
-				<jdoc:include type="modules" name="subscribelink" /> 
-				</div>
-			
-			<div class="clear w75">
-				<p>"Without music, life would be a mistake."</p>
-				<span class="fright tItalic">Friedrich Nietzsche</span>
+			<div class="clear">
+				<div class="shigarulogo"></div>
+				 <nav> 
+					<div class="footer_links">
+						<jdoc:include type="modules" name="pagefooter" /> 
+					</div>
+				</nav>	
+				<div class="copyright">&reg; 2012 Shigaru.com. &copy; All rights reserved. Contact: <a href="mailto:info@shigaru.com">info@shigaru.com</a></div>
 			</div>
-		</div>
-		<div class="clear">
-			<div class="shigarulogo"></div>
-			<div class="footer_links">
-				<jdoc:include type="modules" name="pagefooter" /> 
-			</div>
-			<div class="copyright">&reg; 2012 Shigaru.com. &copy; All rights reserved. Contact: <a href="mailto:info@shigaru.com">info@shigaru.com</a></div>
 		</div>
 	</div>
-</div>
+</footer>
 <div id="communitytooltip" class="dispnon"></div>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.min.js"></script>

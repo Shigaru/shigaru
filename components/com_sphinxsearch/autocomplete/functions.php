@@ -29,14 +29,21 @@ class SphinxAutoComplete {
 		foreach($result['matches'] as $key => $match) {
 		  $arr[] = $match["attrs"]["title"];
 		}
-		$excerpts = $this->_sphinx->BuildExcerpts($arr, 'suggestsvideos', $text);
+		$excerpts = $this->_sphinx->BuildExcerpts($arr, 'suggestsvideos', $text,array(
+                    'before_match'=>'<span class="fontbold">',
+                    'after_match' => '</span>'
+                    )
+                );
 		/*echo '<pre>';
 		var_dump($result['matches']);
 		var_dump($excerpts);
 		echo '</pre>';*/
         $this->_total = $result['total_found'];
        
-        return $excerpts;
+        return array(
+						'excerpts'=>$excerpts,
+						'matches'=>$result['matches']
+					);
     } 
 }
 ?>

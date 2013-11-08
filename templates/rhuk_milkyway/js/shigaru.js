@@ -32,12 +32,15 @@ jQuery(document).ready(function($){
 				jQuery('.beingwatched_header').shigaruTabs({slidesWrapper:'#beingwatched .slidesWrapper',controls:true,hideTabs:true,directionOfSorting:'left'});
 				});
 	}
-	jQuery('#roksearch_search_str').typeahead([
-		  {
-			name: 'Shigaru',
-			remote: 'components/com_sphinxsearch/autocomplete/ajax_suggest.php?term=%QUERY'
-		  }
-		]);
+		
+	jQuery("#roksearch_search_str").autocomplete('components/com_sphinxsearch/autocomplete/ajax_suggest.php', {
+		multiple: true,
+		matchContains: true,
+		formatResult: function(data, value) {
+			return value.split(".")[0];
+		}
+	})
+	
 	jQuery('.usermessages div a.close').click(function(){
 			jQuery.unblockUI();
 			jQuery(this).parent().parent().fadeOut();
