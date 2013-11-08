@@ -6,15 +6,6 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<div class="workarea" id="workareainit">
-	<div class="workarea_wrapper">
-		<div id="homepromo">
-			{$smarty.const._HWDVIDS_HOMEPROMO} 
-			<a href="{$tenreasonsurl}" title="{$tenreasonstext} Shigaru">{$tenreasonstext}</a>
-		</div>
-	</div>
-</div>
-
 <div class="workarea">
 	<div class="workarea_wrapper">
 		<div class="leftcolumn">
