@@ -16,6 +16,7 @@ jQuery(document).ready(function() {
     var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_setuserstatusmessage&format=raw"
     
     return this.each(function() {
+		transformFiltersLinks();
 		doLoadAjaxContent(oListUrl);
 		if(opts.needsHeaderProfile)
 			doLoadAjaxUserDetails();	
@@ -119,7 +120,7 @@ jQuery(document).ready(function() {
 	function doLoadAjaxContent(paramUrl){
 		$container.html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
 		var oPosition = $container.position();	  
-		//jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');	
+		jQuery('html, body').animate({scrollTop:oPosition.top-50}, 'slow');	
 		var oPattern = paramUrl;
 		if(jQuery('#searchinput').val())
 			oPattern += '&pattern='+jQuery('#searchinput').val();
@@ -152,9 +153,32 @@ jQuery(document).ready(function() {
 					oLimitStart = oLimitStart.substring(0,oLimitStart.indexOf('&'));
 				oLimitStart +=  "&limitstart="+oLimitStart;
 				}
-			return oListUrl+oLimitStart+composeOrderUrl();	
+			return oListUrl+oLimitStart+composeFiltersUrl()+composeOrderUrl();	
 			}
 		
+	function transformFiltersLinks(){	
+			jQuery(opts.filtersLinks).click(function(e){
+					if(!jQuery(e.target).is('input')){
+						if(jQuery(e.target).siblings().is(':checked') || jQuery(e.target).parent().siblings().is(':checked')){
+							jQuery(e.target).siblings().attr('checked',false);
+							jQuery(e.target).parent().siblings().attr('checked',false);
+						}else{
+							jQuery(e.target).siblings().attr('checked','checked');
+							jQuery(e.target).parent().siblings().attr('checked','checked');
+							}
+						e.preventDefault();	
+					}
+					if(isISotopized)
+						$container.isotope( 'destroy' );
+					doLoadAjaxContent(oListUrl+composeOrderUrl(e)+composeFiltersUrl());
+					
+				});
+			jQuery(opts.filtersSelects).change(function(e){
+					if(isISotopized)
+						$container.isotope( 'destroy' );
+					doLoadAjaxContent(oListUrl+composeOrderUrl(e)+composeFiltersUrl());
+				});	
+	}
 	
 	function composeOrderUrl(){
 		var oSort = '&sort_by='+jQuery('#sort_by').val();
@@ -167,7 +191,7 @@ jQuery(document).ready(function() {
 		jQuery(opts.paginationLinks).click(function(e){
 					if(isISotopized)
 						$container.isotope( 'destroy' );
-					doLoadAjaxContent(transformPageUrls(e)+composeOrderUrl(e));
+					doLoadAjaxContent(transformPageUrls(e)+composeOrderUrl(e)+composeFiltersUrl());
 					e.preventDefault();
 					return false;
 				});		
@@ -180,9 +204,9 @@ jQuery(document).ready(function() {
       prepareLayoutParameters($optionSets.find('.active').attr('data-option-value'));
       $container.isotope({
         itemSelector : '.resultelement',
-        masonry : {columnWidth : 238},
-		masonryHorizontal : {rowHeight: 160},
-		cellsByRow : {columnWidth : 330, rowHeight: 215},	
+        masonry : {columnWidth : 245},
+		masonryHorizontal : {rowHeight: 200},
+		cellsByRow : {columnWidth : 340, rowHeight: 225},	
 		layoutMode:$optionSets.find('.active').attr('data-option-value')
       },function(){
 		  isISotopized = true;
@@ -229,11 +253,43 @@ jQuery(document).ready(function() {
 			});
 	}
 	
+	function composeFiltersUrl(){
+		var oParamName = '';
+		
+		jQuery('#resultfilters .filter:visible').each(function(){	
+				if(jQuery(this).hasClass('filtercheck')){
+					
+						var $oThis = jQuery(this).find('input:checked');
+						if($oThis.length>0 )
+							oParamName += '&'+jQuery(this).attr('id')+'=';
+						jQuery($oThis).each(function(i){
+							if(jQuery(this).val() !=''){
+								if(i==$oThis.length-1)	
+									oParamName += jQuery(this).val();
+									else
+										oParamName += jQuery(this).val()+',';
+							}		
+						});
+					}else{
+						var $oThis = jQuery(this).find('select');
+						if($oThis.length>0)
+							oParamName += '&'+jQuery(this).attr('id')+'=';
+						jQuery($oThis).each(function(i){
+								if(jQuery(this).val())
+									oParamName += jQuery(this).val();
+								
+							});
+						}	
+				
+			});	
+		return oParamName;
+	}
+	
 	function resetLayoutParams(paramItems){
 		   paramItems.find('.twolinestitle').show();
 		   paramItems.find('.longtitle').hide();
 		   paramItems.find('.searchResultInfo').hide().css({'margin':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
-		   paramItems.css({'width': "218px",'height':'140px',fontSize:'100%','padding':'4px 0 0 0','border':'none',margin:0});
+		   paramItems.css({'width': "245px",'height':'150px',fontSize:'100%','padding':'4px 0 0 0','border':'none',margin:0});
 		   paramItems.find('img.bradius5').css({width: "87px"}).prev().css('width','87px');;
 		   jQuery('.searchResultInfo .extendedinfo').hide();
 		}
@@ -261,15 +317,9 @@ jQuery(document).ready(function() {
 								  jQuery('.searchResultInfo').css({'border-bottom':'none','margin':'3px 0 0 0', 'padding-bottom':'3px', 'padding-top':'0'}).show();
 								break;				
 					case 'straightDown':
-								oItems.css({'border-bottom':'1px dotted gray', 'padding':'4px 2px 2px 0'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
-								oItems.animate({ 
-									width: "98%",
-									height: "140px",
-									fontSize:'110%'
-								  });
-								  oItems.find('img.bradius5').animate({ 
-									width: "114px"
-								  }).prev().css('width','114px').parent().next().css('margin-top','-20px');
+								oItems.css({height: "140px",fontSize:'110%','border-bottom':'1px dotted gray', 'padding':'4px 2px 2px 0'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
+								oItems.animate({width: "98%"});
+								  oItems.find('img.bradius5').css({width: "132px"}).prev().css('width','132px').parent().next().css('margin-top','-20px');
 								  jQuery('.searchResultInfo .extendedinfo').fadeIn();
 								  jQuery('.searchResultInfo').css({'border-left':'1px dotted gray','border-bottom':'none','padding-left':'12px'}).show().parent().css('width','60%').prev().css('width','40%');
 								  oItems.find('.twolinestitle').hide();
@@ -315,7 +365,7 @@ jQuery(document).ready(function() {
 			jQuery('#sort_by').change(function(e){
 					if(isISotopized)
 					$container.isotope( 'destroy' );
-					doLoadAjaxContent(oListUrl+composeOrderUrl(e));
+					doLoadAjaxContent(oListUrl+composeOrderUrl(e)+composeFiltersUrl());
 					e.preventDefault();
 					return false;
 			});

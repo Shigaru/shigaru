@@ -13,7 +13,7 @@
 {literal}
 <script type="text/javascript">
 jQuery(document).ready(function($){
-	jQuery('.searchwrapper').shigaruSearch();
+	//jQuery('.searchwrapper').shigaruSearch();
 	jQuery('select#genre_id,select#language_id,select#intrument_id').addClass('w90').chosen({allow_single_deselect:true});
 });
 var oSearchParams = {
@@ -34,7 +34,7 @@ var oSearchParams = {
 					<button id="searchgo" class= button fnone" type="submit" onclick="this.form.submit();" name="Submit"><span class="gbqfi"></span></button>
 					<input type="hidden" name="task"   value="search" />
 				</div>	
-				<div class="search-results-filter-categories fleft" style="display: block; ">
+				<!--<div class="search-results-filter-categories fleft" style="display: block; ">
 					<p class="search-results-categories search-results-category-default_collection">
 						<span class="styledCheckbox styledCheckboxChecked" for="search-results-input-category-default_collection">
 							<label id="videos" for="search-results-input-category-default_collection">Videos </label>
@@ -50,7 +50,7 @@ var oSearchParams = {
 							<label id="users" for="search-results-input-category-help">Users</label>
 						</span>
 					</p>
-				</div>		
+				</div>		-->
 			</form>
 			
 		</div>

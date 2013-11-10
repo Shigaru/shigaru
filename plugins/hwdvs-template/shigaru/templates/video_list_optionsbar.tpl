@@ -18,8 +18,8 @@
 
 <div id="options" class="clearfix fright">    
 	<div class="btn-group" data-option-key="layoutMode">
-	  <a class="btn active" href="#masonry" data-option-value="masonry" class="active"><i class="icon-th"></i></a>
+	  <a class="btn" href="#masonry" data-option-value="masonry"><i class="icon-th"></i></a>
 	  <a class="btn" href="#cellsByRow" data-option-value="cellsByRow"><i class="icon-th-large"></i></a>
-	  <a class="btn" href="#straightDown" data-option-value="straightDown"><i class="icon-th-list"></i></a>
+	  <a class="btn active" href="#straightDown" data-option-value="straightDown" class="active"><i class="icon-th-list"></i></a>
 	</div>
 </div> <!-- #options -->
