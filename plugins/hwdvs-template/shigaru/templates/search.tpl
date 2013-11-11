@@ -6,23 +6,6 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
-<script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/chosen.jquery.min.js"></script>
-<link rel="stylesheet" href="{$domain}/templates/rhuk_milkyway/css/chosen.css" type="text/css" />
-{literal}
-<script type="text/javascript">
-jQuery(document).ready(function($){
-	//jQuery('.searchwrapper').shigaruSearch();
-	jQuery('select#genre_id,select#language_id,select#intrument_id').addClass('w90').chosen({allow_single_deselect:true});
-});
-var oSearchParams = {
-		ordering:'date_uploaded',
-		filtering:null,
-		currentUrl:'{/literal}{$pageURL}{literal}'
-	};
-</script>
-{/literal}
 <div class="searchwrapper">
 <div class="f90">
 <div id="searchtabs">
@@ -63,25 +46,25 @@ var oSearchParams = {
 		
 		<div id="resultfilters">
 			<div>
-				<h4><span class="icon-filter mright6"></span>Filters</h4>
+				<h4><span class="icon-filter mright6"></span>{$smarty.const._HWDVIDS_SHIGARU_FILTERS}</h4>
 			</div>	
 			<div id="level_id" class="filter filtercheck videos">
-				<label>Difficulty level</label>
+				<label>{$smarty.const._HWDVIDS_SHIGARU_DIFFICULTYLEVEL}</label>
 				<div class="widget">
 					<label>
-					<input type="checkbox" value="10"><a href="#">Absolute Beginner</a>
+					<input type="checkbox" value="10"><a href="#">{$smarty.const._HWDVIDS_SHIGARU_LEVELS_ABSOLUTE_BEGINNER}</a>
 					</label>
 					<label>
-					<input type="checkbox" value="20"><a href="#">Beginner</a>
+					<input type="checkbox" value="20"><a href="#">{$smarty.const._HWDVIDS_SHIGARU_LEVELS_BEGINNER}</a>
 					</label>
 					<label>
-					<input type="checkbox" value="30"><a href="#">Intermediate</a>
+					<input type="checkbox" value="30"><a href="#">{$smarty.const._HWDVIDS_SHIGARU_LEVELS_INTERMEDIATE}</a>
 					</label>
 					<label>
-					<input type="checkbox" value="40"><a href="#">Upper Intermediate</a>
+					<input type="checkbox" value="40"><a href="#">{$smarty.const._HWDVIDS_SHIGARU_LEVELS_UPPER_INTERMEDIATE}</a>
 					</label>
 					<label>
-					<input type="checkbox" value="50"><a href="#">Expert</a>
+					<input type="checkbox" value="50"><a href="#">{$smarty.const._HWDVIDS_SHIGARU_LEVELS_EXPERT}</a>
 					</label>
 				</div>
 			</div>
@@ -91,14 +74,14 @@ var oSearchParams = {
 					<label for="category_id_default">
 						<input type="radio" value="" id="category_id_default" name="category_id" checked="checked"><span><a href="#">All</a></span>
 					</label>
-					<label for="category_id_3">
-						<input type="radio" value="1" id="category_id_1" name="category_id"><span><a href="#">Tutorial - How to play a song/tune</a></span>
+					<label for="category_id_1">
+						<input type="radio" value="1" id="category_id_1" name="category_id"><span><a href="#">Song Tutorial</a></span>
 					</label>
 					<label for="category_id_3">
-						<input type="radio" value="2" id="category_id_2" name="category_id"><span><a href="#">Music Theory Tutorial</a></span>
+						<input type="radio" value="3" id="category_id_2" name="category_id"><span><a href="#">Theory</a></span>
 					</label>
-					<label for="category_id_3">
-						<input type="radio" value="3" id="category_id_3" name="category_id"><span><a href="#">Non Tutorial (Watch me play!)</a></span>
+					<label for="category_id_2">
+						<input type="radio" value="2" id="category_id_3" name="category_id"><span><a href="#">Watch me play!</a></span>
 					</label>
 				</div>
 			</div>
@@ -296,3 +279,20 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </div>
 
 <div style="clear:both;"></div>
+<script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
+<script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/chosen.jquery.min.js"></script>
+<link rel="stylesheet" href="{$domain}/templates/rhuk_milkyway/css/chosen.css" type="text/css" />
+{literal}
+<script type="text/javascript">
+jQuery(document).ready(function($){
+	var oShigaruVideoList  = jQuery('#resultcontainer').shigaruVideoList({needsHeaderProfile:false});
+	jQuery('select#genre_id,select#language_id,select#intrument_id').addClass('w90').chosen({allow_single_deselect:true});
+});
+var oSearchParams = {
+		ordering:'date_uploaded',
+		filtering:null,
+		currentUrl:'{/literal}{$pageURL}{literal}'
+	};
+</script>
+{/literal}

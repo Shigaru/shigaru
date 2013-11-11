@@ -468,6 +468,12 @@ class hwd_vs_core
 		$smartyvs->assign("domain", $domain);
 		$pattern = JRequest::getVar( 'pattern', '' );
 		$smartyvs->assign("searchterm", $pattern);
+		$instrumentsCombo = hwd_vs_tools::generateVideoCombos('a.id as a, a.instrument as b','hwdvidsinstruments as a, #__hwdvidsvideos as b WHERE a.id = b.intrument_id ','instrument','intrument_id',true,true,true);				
+		$languagesCombo = hwd_vs_tools::generateVideoCombos('a.id, a.iso_code as a, a.literalkey as b','hwdvidslanguages as a, #__hwdvidsvideos as b WHERE a.iso_code = b.language_id ','id','language_id',true,true,true);
+		$genresCombo = hwd_vs_tools::generateVideoCombos('a.id as a, a.genre as b','hwdvidsgenres as a, #__hwdvidsvideos as b WHERE a.id = b.genre_id ','genre','genre_id',true,true,true);	
+		$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
+		$smartyvs->assign("genresCombo", $genresCombo);
+		$smartyvs->assign("languagesCombo", $languagesCombo);
 		$smartyvs->display('search.tpl');
     }
     /**

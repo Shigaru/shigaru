@@ -1,7 +1,3 @@
-jQuery(document).ready(function() {
-	var oShigaruVideoList  = jQuery('#resultcontainer').shigaruVideoList();
-   });
-
 (function(jQuery) {
   jQuery.fn.shigaruVideoList = function(options) {
 	  
@@ -204,9 +200,9 @@ jQuery(document).ready(function() {
       prepareLayoutParameters($optionSets.find('.active').attr('data-option-value'));
       $container.isotope({
         itemSelector : '.resultelement',
-        masonry : {columnWidth : 245},
+        masonry : {columnWidth : 275},
 		masonryHorizontal : {rowHeight: 200},
-		cellsByRow : {columnWidth : 340, rowHeight: 225},	
+		cellsByRow : {columnWidth : 380, rowHeight: 225},	
 		layoutMode:$optionSets.find('.active').attr('data-option-value')
       },function(){
 		  isISotopized = true;
@@ -303,28 +299,20 @@ jQuery(document).ready(function() {
 								oItems.find('.thumbplay').css('margin','20px 0 0 28px');
 								break;
 					case 'cellsByRow':
-								oItems.css('border-bottom','1px dotted gray').animate({ 
-									width: "300px",
-									height: "210px",
-									fontSize:'100%',
-									'padding-top':'0',
-									'margin':'-12px 0 0 -12px'
-								  });
-								  oItems.find('img.bradius5').animate({ 
-									width: "120px"
-								  }).prev().css('width','120px').parent().next().css('margin-top','-20px');
+								oItems.css({'border-bottom':'1px dotted gray',fontSize:'100%','padding-top':'0','margin':'-12px 0 0 -12px'}).animate({ width: "340px",height: "210px"});
+								  oItems.find('img.bradius5').css({ width: "120px"}).prev().css('width','120px').parent().next().css('margin-top','-20px');
 								  oItems.find('.thumbplay').css('margin','31px 0 0 48px');
 								  jQuery('.searchResultInfo').css({'border-bottom':'none','margin':'3px 0 0 0', 'padding-bottom':'3px', 'padding-top':'0'}).show();
 								break;				
 					case 'straightDown':
 								oItems.css({height: "140px",fontSize:'110%','border-bottom':'1px dotted gray', 'padding':'4px 2px 2px 0'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
 								oItems.animate({width: "98%"});
-								  oItems.find('img.bradius5').css({width: "132px"}).prev().css('width','132px').parent().next().css('margin-top','-20px');
+								  oItems.find('img.bradius5').css({width: "133px"}).prev().css('width','133px').parent().next().css('margin-top','-20px');
 								  jQuery('.searchResultInfo .extendedinfo').fadeIn();
 								  jQuery('.searchResultInfo').css({'border-left':'1px dotted gray','border-bottom':'none','padding-left':'12px'}).show().parent().css('width','60%').prev().css('width','40%');
 								  oItems.find('.twolinestitle').hide();
 								  oItems.find('.longtitle').show();
-								  oItems.find('.thumbplay').css('margin','31px 0 0 45px');
+								  oItems.find('.thumbplay').css('margin','40px 0px 0px 55px');
 								break;			
 					  }
 		}	
