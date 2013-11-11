@@ -279,6 +279,19 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </div>
 
 <div style="clear:both;"></div>
+<div id="deletevideomessage" class="dispnon span4">
+	<div class="pad12">
+		<div class="clearfix">
+			<i class="icon-warning-sign fleft w20pc icon-3x fontyellow"></i> 
+			<h4 class="fleft w80 mleft12 mtop12 fontbold">{$smarty.const._HWDVIDS_INFO_CONFIRMFRONTDEL}</h4>
+		</div>	
+		<p class="mtop24 f80">{$smarty.const._HWDVIDS_TITLE_CONFIRMDELETEEXPLAIN}</p>
+		<div class="fright mtop24">
+			<a class="cancel btn" href="#"> {$smarty.const._HWDVIDS_BUTTON_CANX}</a>
+			<a class="btn btn-danger" href="#"><i class="icon-trash icon-large"></i> Delete</a>
+		</div>
+	</div>	
+</div>
 <script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
 <script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
 <script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/chosen.jquery.min.js"></script>

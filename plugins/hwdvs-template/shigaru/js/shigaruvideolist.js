@@ -286,7 +286,7 @@
 		   paramItems.find('.longtitle').hide();
 		   paramItems.find('.searchResultInfo').hide().css({'margin':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
 		   paramItems.css({'width': "245px",'height':'150px',fontSize:'100%','padding':'4px 0 0 0','border':'none',margin:0});
-		   paramItems.find('img.bradius5').css({width: "87px"}).prev().css('width','87px');;
+		   paramItems.find('img.bradius5').css({width: "98px"}).prev().css('width','98px');;
 		   jQuery('.searchResultInfo .extendedinfo').hide();
 		}
 	
@@ -300,8 +300,8 @@
 								break;
 					case 'cellsByRow':
 								oItems.css({'border-bottom':'1px dotted gray',fontSize:'100%','padding-top':'0','margin':'-12px 0 0 -12px'}).animate({ width: "340px",height: "210px"});
-								  oItems.find('img.bradius5').css({ width: "120px"}).prev().css('width','120px').parent().next().css('margin-top','-20px');
-								  oItems.find('.thumbplay').css('margin','31px 0 0 48px');
+								  oItems.find('img.bradius5').css({ width: "136px"}).prev().css('width','136px').parent().next().css('margin-top','-20px');
+								  oItems.find('.thumbplay').css('margin','40px 0px 0px 55px');
 								  jQuery('.searchResultInfo').css({'border-bottom':'none','margin':'3px 0 0 0', 'padding-bottom':'3px', 'padding-top':'0'}).show();
 								break;				
 					case 'straightDown':

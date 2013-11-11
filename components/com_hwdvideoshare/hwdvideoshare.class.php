@@ -1613,7 +1613,10 @@ class hwd_vs_tools {
 			$code[$i]->duration = $row->video_length;
 			if ($hwdvsTemplateOverride['show_uploader']) {             $code[$i]->uploader = hwd_vs_tools::generateUserFromID($row->user_id, $row->username, $row->name); }
 			if ($hwdvsTemplateOverride['show_timesince']) {            $code[$i]->timesince = hwd_vs_tools::generateTimeSinceUpload($row->date_uploaded); }
-			$code[$i]->upload_date = hwd_vs_tools::getAgoDate(strtotime($row->date_uploaded));
+			if($row->upload_date)
+				$code[$i]->upload_date = hwd_vs_tools::getAgoDate(strtotime($row->date_uploaded));
+				else
+						$code[$i]->upload_date = hwd_vs_tools::getAgoDate($row->date_added);
 			if ($hwdvsTemplateOverride['show_tags']) {                 $code[$i]->tags	= hwd_vs_tools::generateTagListString($row->tags); }
 			$code[$i]->titleplain = htmlspecialchars(strip_tags(stripslashes($row->title)));
 			$code[$i]->titletrunc = hwd_vs_tools::generateVideoLink( $row->id, $row->title, $hwdvs_itemid, null, 35,$code[$i]->titleplain);
