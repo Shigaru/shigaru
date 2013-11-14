@@ -9,7 +9,7 @@ class SphinxAutoComplete {
     function __construct() {
         $pServer		= '127.0.0.1' ;
 		$pPort	 		= (int) 9312 ;
-		$this->_index 	= 'suggestsearched suggestsvideos';
+		$this->_index 	= 'suggestsearched suggestssongs suggestsbands suggestsalbums';
         $this->_sphinx 	= new SphinxClient();
         $this->_sphinx->SetServer($pServer, (int) $pPort);
         $this->_sphinx->SetMatchMode(SPH_MATCH_EXTENDED2);
@@ -26,23 +26,48 @@ class SphinxAutoComplete {
 		$this->_query = $text;
 		$result = $this->_sphinx->Query($text, $this->_index);
 		$arr =array();
+		$arrexc =array();
+		$counter=0;
 		foreach($result['matches'] as $key => $match) {
-		  $arr[] = $match["attrs"]["title"];
+			$arrexc[] = $match["attrs"]["title"];
 		}
-		$excerpts = $this->_sphinx->BuildExcerpts($arr, 'suggestsvideos', $text,array(
-                    'before_match'=>'<span class="fontbold">',
-                    'after_match' => '</span>'
-                    )
-                );
+		$excerpts = $this->_sphinx->BuildExcerpts($arrexc, 'suggestsbands', $text);
+		
+		foreach($result['matches'] as $key => $match) {
+			$object = new StdClass;  
+			$object->data 	= $excerpts[$counter]; 
+			$object->value 	= $match["attrs"]["title"]; 
+			$object->result = $match["attrs"]["title"]; 
+			$object->pic = $match["attrs"]["pic"]; 
+			$object->originalsource = $match["attrs"]["source"]; 
+			switch($match["attrs"]["source"]){
+				case 'bsongssource':
+					$object->source = 'Songs';
+				break;
+				case 'cbandsssource':
+					$object->source = 'Bands';
+				break;
+				case 'dalbumssource':
+					$object->source = 'Albums';
+				break;
+				case 'asearchedsource':
+					$object->source = 'Searched'; 
+				break;
+				} 
+			$object->id = $key ; 
+			$object->excerpt = $excerpts[$counter];
+			$arr[] = $object;
+			$counter++;
+			}
 		/*echo '<pre>';
-		var_dump($result['matches']);
+		//var_dump($result['matches']);
 		var_dump($excerpts);
 		echo '</pre>';*/
         $this->_total = $result['total_found'];
        
         return array(
 						'excerpts'=>$excerpts,
-						'matches'=>$result['matches']
+						'matches'=>$arr
 					);
     } 
 }

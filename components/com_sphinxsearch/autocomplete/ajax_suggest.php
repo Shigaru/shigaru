@@ -6,12 +6,7 @@ $q = trim($_GET['q']);
 $results;
 $autoCompleteSearch = new SphinxAutoComplete();
 $results = $autoCompleteSearch->search($q);
-$counter = 0;
-foreach ($results['matches'] as $key => $value) {
-    echo '<div class="clearfix"><div class="fleft w85">'.$results['excerpts'][$counter].'</div><img width="50" class="fleft" src="/hwdvideos/thumbs/tp-'.$key.'.jpg"/></div>'.'|'.$results['excerpts'][$counter]. "\n";
-    /*echo '<pre>';
-    var_dump($value);
-    echo '</pre>';*/
-    $counter++;
-}
+function cmp($a, $b){return strcmp($a->source, $b->source);}
+usort($results['matches'],'cmp');
+echo json_encode($results['matches']);
 exit();

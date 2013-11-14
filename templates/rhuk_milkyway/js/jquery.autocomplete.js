@@ -407,7 +407,7 @@ $.Autocompleter = function(input, options) {
 
 $.Autocompleter.defaults = {
 	inputClass: "ac_input",
-	resultsClass: "ac_results",
+	resultsClass: "ac_results dropdown-menu",
 	loadingClass: "ac_loading",
 	minChars: 1,
 	delay: 400,
@@ -582,7 +582,9 @@ $.Autocompleter.Select = function (options, input, select, config) {
 		term = "",
 		needsInit = true,
 		element,
-		list;
+		list,
+		categoryelement,
+		currentCategory = "";
 	
 	// Create results
 	function init() {
@@ -591,25 +593,9 @@ $.Autocompleter.Select = function (options, input, select, config) {
 		element = $("<div/>")
 		.hide()
 		.addClass(options.resultsClass)
-		.css("position", "absolute")
+		.css("position", "fixed")
 		.appendTo(document.body);
-	
-		list = $("<ul/>").appendTo(element).mouseover( function(event) {
-			if(target(event).nodeName && target(event).nodeName.toUpperCase() == 'LI') {
-	            active = $("li", list).removeClass(CLASSES.ACTIVE).index(target(event));
-			    $(target(event)).addClass(CLASSES.ACTIVE);            
-	        }
-		}).click(function(event) {
-			$(target(event)).addClass(CLASSES.ACTIVE);
-			select();
-			// TODO provide option to avoid setting focus again after selection? useful for cleanup-on-focus
-			input.focus();
-			return false;
-		}).mousedown(function() {
-			config.mouseDownOnSelect = true;
-		}).mouseup(function() {
-			config.mouseDownOnSelect = false;
-		});
+		
 		
 		if( options.width > 0 )
 			element.css("width", options.width);
@@ -654,24 +640,75 @@ $.Autocompleter.Select = function (options, input, select, config) {
 	}
 	
 	function limitNumberOfItems(available) {
-		return options.max && options.max < available
-			? options.max
-			: available;
+		
+		return 20;
 	}
 	
 	function fillList() {
-		list.empty();
+		element.empty();
 		var max = limitNumberOfItems(data.length);
 		for (var i=0; i < max; i++) {
 			if (!data[i])
 				continue;
+			if(i==0){				
+				categoryelement = $("<div/>").appendTo(element);
+				list = $("<ul/>").addClass('fright').appendTo(categoryelement).mouseover( function(event) {
+					if(target(event).nodeName && target(event).nodeName.toUpperCase() == 'LI') {
+						active = $("li", element.find('ul')).removeClass(CLASSES.ACTIVE).index(target(event));
+						$(target(event)).addClass(CLASSES.ACTIVE);            
+					}
+				}).click(function(event) {
+					$(target(event)).addClass(CLASSES.ACTIVE);
+					select();
+					// TODO provide option to avoid setting focus again after selection? useful for cleanup-on-focus
+					input.focus();
+					return false;
+				}).mousedown(function() {
+					config.mouseDownOnSelect = true;
+				}).mouseup(function() {
+					config.mouseDownOnSelect = false;
+				});
+				currentCategory = data[0].source;
+				categoryelement.addClass(data[0].source+ ' categoryelement clearfix');
+				var headerCategory = $('<h4>').html(data[0].source)
+				var categoryLabel = $('<div/>').addClass('fleft w25').html(headerCategory);
+				list.parent().append(categoryLabel);
+				
+				}	
 			var formatted = options.formatItem(data[i].data, i+1, max, data[i].value, term);
 			if ( formatted === false )
 				continue;
-			var li = $("<li/>").html( options.highlight(formatted, term) ).addClass(i%2 == 0 ? "ac_even" : "ac_odd").appendTo(list)[0];
-			$.data(li, "ac_data", data[i]);
+			if(currentCategory != data[i].source){
+				categoryelement = $("<div/>").addClass(data[i].source+ ' categoryelement catsub clearfix').appendTo(element);
+				list = $("<ul/>").addClass('fright '+data[i].source).appendTo(categoryelement).mouseover( function(event) {
+					if(target(event).nodeName && target(event).nodeName.toUpperCase() == 'LI') {
+						active = $("li", element.find('ul')).removeClass(CLASSES.ACTIVE).index(target(event));
+						$(target(event)).addClass(CLASSES.ACTIVE);            
+					}
+				}).click(function(event) {
+					$(target(event)).addClass(CLASSES.ACTIVE);
+					select();
+					// TODO provide option to avoid setting focus again after selection? useful for cleanup-on-focus
+					input.focus();
+					return false;
+				}).mousedown(function() {
+					config.mouseDownOnSelect = true;
+				}).mouseup(function() {
+					config.mouseDownOnSelect = false;
+				});
+				var headerCategory = $('<h4>').html(data[i].source)
+				var categoryLabel = $('<div/>').addClass('fleft w25').html(headerCategory);
+				list.parent().append(categoryLabel);
+				currentCategory = data[i].source;
+				}
+				var pic ;
+				if(data[i].originalsource !='searchedsource' && data[i].pic !='')
+					pic = $('<img class="mright6" width="20" height="20" src="'+data[i].pic+'" alt="'+data[i].value+'" title="'+data[i].value+'" />');
+				var link = $('<a href="/" title="'+data[i].value+'" />').append(pic).append(options.highlight(formatted, term));
+				var li = $("<li/>").append(link).addClass(i%2 == 0 ? "ac_even" : "ac_odd").appendTo(list)[0];					
+				$.data(li, "ac_data", data[i]);	
 		}
-		listItems = list.find("li");
+		listItems = element.find("li");
 		if ( options.selectFirst ) {
 			listItems.slice(0, 1).addClass(CLASSES.ACTIVE);
 			active = 0;
@@ -720,19 +757,14 @@ $.Autocompleter.Select = function (options, input, select, config) {
 			return this.visible() && (listItems.filter("." + CLASSES.ACTIVE)[0] || options.selectFirst && listItems[0]);
 		},
 		show: function() {
-			var offset = $(input).offset();
+			var offset = $(input).position();
 			element.css({
 				width: typeof options.width == "string" || options.width > 0 ? options.width : $(input).width(),
 				top: offset.top + input.offsetHeight,
 				left: offset.left
 			}).show();
             if(options.scroll) {
-                list.scrollTop(0);
-                list.css({
-					maxHeight: options.scrollHeight,
-					overflow: 'auto'
-				});
-				
+                list.scrollTop(0);				
                 if($.browser.msie && typeof document.body.style.maxHeight === "undefined") {
 					var listHeight = 0;
 					listItems.each(function() {

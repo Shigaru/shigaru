@@ -34,16 +34,26 @@ jQuery(document).ready(function($){
 	}
 		
 	jQuery("#roksearch_search_str").autocomplete('components/com_sphinxsearch/autocomplete/ajax_suggest.php', {
-		multiple: true,
+		multiple: false,
 		matchContains: true,
+		matchSubset: false,
+		parse: function(data) {
+			return data;
+		},
+		max:20,
+		highlight:false,
+		dataType:'json',
 		formatResult: function(data, value) {
-			return value.split(".")[0];
+			return value;
+		},
+		formatItem: function(item) {
+			return item;
 		}
-	})
-	jQuery("#roksearch_search_str").result(function(event, data, formatted) {
+	}).result(function(event, data, formatted) {
 		if (data)
 			alert(formatted);
 	});
+	
 	jQuery('.usermessages div a.close').click(function(){
 			jQuery.unblockUI();
 			jQuery(this).parent().parent().fadeOut();
