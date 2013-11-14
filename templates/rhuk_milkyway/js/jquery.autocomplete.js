@@ -573,7 +573,7 @@ $.Autocompleter.Cache = function(options) {
 
 $.Autocompleter.Select = function (options, input, select, config) {
 	var CLASSES = {
-		ACTIVE: "ac_over"
+		ACTIVE: "active"
 	};
 	
 	var listItems,
@@ -614,9 +614,13 @@ $.Autocompleter.Select = function (options, input, select, config) {
 	}
 
 	function moveSelect(step) {
+		
 		listItems.slice(active, active + 1).removeClass(CLASSES.ACTIVE);
 		movePosition(step);
         var activeItem = listItems.slice(active, active + 1).addClass(CLASSES.ACTIVE);
+        console.log(activeItem);
+        console.log(step);
+		console.log(active);
         if(options.scroll) {
             var offset = 0;
             listItems.slice(0, active).each(function() {
