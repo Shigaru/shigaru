@@ -618,9 +618,6 @@ $.Autocompleter.Select = function (options, input, select, config) {
 		listItems.slice(active, active + 1).removeClass(CLASSES.ACTIVE);
 		movePosition(step);
         var activeItem = listItems.slice(active, active + 1).addClass(CLASSES.ACTIVE);
-        console.log(activeItem);
-        console.log(step);
-		console.log(active);
         if(options.scroll) {
             var offset = 0;
             listItems.slice(0, active).each(function() {
@@ -765,11 +762,16 @@ $.Autocompleter.Select = function (options, input, select, config) {
 			return this.visible() && (listItems.filter("." + CLASSES.ACTIVE)[0] || options.selectFirst && listItems[0]);
 		},
 		show: function() {
-			var offset = $(input).position();
+			var offset 			= $(input).position();
+			var displayHeight 	= $(window).height() - offset.top - $(input).height()-30;
+			var asIsHeight		= element.height()+offset.top+$(input).height();
+			var actualHeight 	= (asIsHeight>displayHeight)?displayHeight:asIsHeight;
 			element.css({
 				width: typeof options.width == "string" || options.width > 0 ? options.width : $(input).width(),
 				top: offset.top + input.offsetHeight,
-				left: offset.left
+				left: offset.left,
+				height:actualHeight,
+				'overflow-y':'auto'
 			}).show();
             if(options.scroll) {
                 list.scrollTop(0);				
