@@ -590,8 +590,10 @@ $.Autocompleter.Select = function (options, input, select, config) {
 	function init() {
 		if (!needsInit)
 			return;
+		elementWrap = $("<div/>").addClass('elemwrap');	
 		element = $("<div/>")
 		.hide()
+		.append(elementWrap)
 		.addClass(options.resultsClass)
 		.css("position", "fixed")
 		.appendTo(document.body);
@@ -647,12 +649,14 @@ $.Autocompleter.Select = function (options, input, select, config) {
 	
 	function fillList() {
 		element.empty();
+		var elementWrap = $("<div/>").addClass('elemwrap');	
+		element.append(elementWrap);
 		var max = limitNumberOfItems(data.length);
 		for (var i=0; i < max; i++) {
 			if (!data[i])
 				continue;
 			if(i==0){				
-				categoryelement = $("<div/>").appendTo(element);
+				categoryelement = $("<div/>").appendTo(elementWrap);
 				list = $("<ul/>").addClass('fright').appendTo(categoryelement).mouseover( function(event) {
 					if(target(event).nodeName && target(event).nodeName.toUpperCase() == 'LI') {
 						active = $("li", element.find('ul')).removeClass(CLASSES.ACTIVE).index(target(event));
@@ -680,7 +684,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 			if ( formatted === false )
 				continue;
 			if(currentCategory != data[i].source){
-				categoryelement = $("<div/>").addClass(data[i].source+ ' categoryelement catsub clearfix').appendTo(element);
+				categoryelement = $("<div/>").addClass(data[i].source+ ' categoryelement catsub clearfix').appendTo(elementWrap);
 				list = $("<ul/>").addClass('fright '+data[i].source).appendTo(categoryelement).mouseover( function(event) {
 					if(target(event).nodeName && target(event).nodeName.toUpperCase() == 'LI') {
 						active = $("li", element.find('ul')).removeClass(CLASSES.ACTIVE).index(target(event));
@@ -721,6 +725,30 @@ $.Autocompleter.Select = function (options, input, select, config) {
 		// apply bgiframe if available
 		if ( $.fn.bgiframe )
 			list.bgiframe();
+			
+		var offset 			= $(input).position();	
+		var asIsHeight		= 0;
+		var displayHeight 	= $(window).height() - offset.top - $(input).height()-30;
+		var elemWrap 		= element.find('.elemwrap');
+		if(element.hasClass('shown') && (elemWrap.height()>0)){
+			asIsHeight = elemWrap.height()+offset.top+10;
+			}else{
+				if(!element.hasClass('shown')){
+					element.addClass('shown');
+					asIsHeight = element.height()+offset.top+$(input).height();
+					}else{
+						element.css('height','');
+						elemWrap.css('height','');
+						asIsHeight = element.height()+offset.top+$(input).height();
+						}
+			}
+		
+		var actualHeight 	= (asIsHeight>displayHeight)?displayHeight:asIsHeight;
+		console.log(element.height());
+		console.log(element.height()>0);
+		console.log(element.find('.elemwrap').height());
+		console.log(actualHeight);
+		element.css({height:actualHeight});	
 	}
 	
 	return {
@@ -763,14 +791,10 @@ $.Autocompleter.Select = function (options, input, select, config) {
 		},
 		show: function() {
 			var offset 			= $(input).position();
-			var displayHeight 	= $(window).height() - offset.top - $(input).height()-30;
-			var asIsHeight		= element.height()+offset.top+$(input).height();
-			var actualHeight 	= (asIsHeight>displayHeight)?displayHeight:asIsHeight;
 			element.css({
 				width: typeof options.width == "string" || options.width > 0 ? options.width : $(input).width(),
 				top: offset.top + input.offsetHeight,
 				left: offset.left,
-				height:actualHeight,
 				'overflow-y':'auto'
 			}).show();
             if(options.scroll) {
