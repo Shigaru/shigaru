@@ -17,14 +17,14 @@ class SphinxAutoComplete {
     }
     
     function starIt ($q){
-		return $q.'*';
+		return stripslashes($q).'*';
 	}
        
     function search($query)
     {
 		$text = $this->starIt(trim( $query ));
-		$this->_query = $text;
-		$result = $this->_sphinx->Query($text, $this->_index);
+		$this->_query = $this->_sphinx->escapeString($text);
+		$result = $this->_sphinx->Query($this->_query, $this->_index);
 		$arr =array();
 		$arrexc =array();
 		$counter=0;
