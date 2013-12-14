@@ -69,7 +69,7 @@ $host = JURI::root();
 				
 			<div id="nav_browse" class="fleft mtop12 mleft20 mright20 w33">
 								<form method="get" action="index.php?option=com_hwdvideoshare&amp;task=search" class="form-wrapper cf" id="rokajaxsearch" name="rokajaxsearch">
-										<input type="text" placeholder="Search bands, songs, genres, instruments..." name="pattern" id="roksearch_search_str">
+										<input type="text" placeholder="Search bands, songs, genres,..." name="pattern" id="roksearch_search_str">
 										<button type="submit">Search</button>
 										<input type="hidden" value="20" name="limit">
 										<input type="hidden" value="search" name="task">
