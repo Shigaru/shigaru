@@ -119,33 +119,7 @@ class hwd_vs_html
     {
 		global $Itemid, $smartyvs, $hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
-		// load the menu name
-		jimport( 'joomla.application.menu' );
-		$menu   = &JMenu::getInstance('site');
-		$mparams = &$menu->getParams($Itemid);
-		$mparams_pt	= $mparams->get( 'page_title', '');
-		jimport( 'joomla.document.document' );
-		$doc = & JFactory::getDocument();
 
-		$active = &$menu->getActive();
-
-		if (!empty($mparams_pt)) {
-			$metatitle = $mparams_pt;
-		} else if (!empty($active->name)) {
-			$metatitle = $active->name;
-		} else {
-			$metatitle = _HWDVIDS_META_DEFAULT;
-		}
-
-		// set the page/meta title
-		if(!$fromtop && $isAjax=='no'){
-			$doc->setTitle( $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
-			$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_SR." - ".$searchterm );
-			$doc->addCustomTag( '<link rel="stylesheet" type="text/css" media="all" href="'.JURI::root( true ).'/templates/rhuk_milkyway/css/chosen.css" />' );
-		}
-		
-		hwd_vs_tools::generateActiveLink(1);
-		hwd_vs_tools::generateBreadcrumbs();
 	    $domain = JURI::root();
 	    $smartyvs->assign("domain", $domain);
 		$smartyvs->assign("searchterm", $searchterm);

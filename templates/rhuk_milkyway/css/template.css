@@ -36,27 +36,15 @@ body {
 #head_logo{clear:both;}
 #head_logo img{margin-top:3px;}
 **/
-#head{ margin: auto;
-    position: fixed;
-    top: 0;padding: 4px 0;
-    width: 100%;font-size:90%;
-    z-index: 999;color:#fff;background: #634c63; /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2MzRjNjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjOTk3ODk4IiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-background: -moz-radial-gradient(center, ellipse cover,  #634c63 0%, #997898 100%); /* FF3.6+ */
-background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#634c63), color-stop(100%,#997898)); /* Chrome,Safari4+ */
-background: -webkit-radial-gradient(center, ellipse cover,  #634c63 0%,#997898 100%); /* Chrome10+,Safari5.1+ */
-background: -o-radial-gradient(center, ellipse cover,  #634c63 0%,#997898 100%); /* Opera 12+ */
-background: -ms-radial-gradient(center, ellipse cover,  #634c63 0%,#997898 100%); /* IE10+ */
-background: radial-gradient(ellipse at center,  #634c63 0%,#997898 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#634c63', endColorstr='#997898',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
--webkit-box-shadow:1px 1px 2px 0 #fff,0px 0 15px 2px rgba(0,0,0,0.3);box-shadow:1px 1px 2px 0 #fff,0px 0 15px 2px rgba(0,0,0,0.3);
-}
-#head_content{min-width:1075px;margin:0 12px;}
-#topnavmenu div.topbuttons{display:block; float:left; margin-right: 21px;padding: 4px 6px; cursor:pointer;position: relative;}
+#head{ }
+#head_content{ width:100%;
+    background:#F0F0F0;
+    border-bottom:1px solid #CCC;}
+#topnavmenu div.topbuttons{display:block; float:left; margin-right: 21px;padding: 4px 6px;
+cursor:pointer;position: relative;margin-top: 12px;font-size: 120%;}
 #topnavmenu div.topbuttons a{text-decoration:none;}
 /* TOP TAB AREA*/
-#nav_tabs{max-width:1075px;min-width:1075px;margin: 45px auto 0;}
+#nav_tabs{max-width:1075px;min-width:1075px;margin: 0 auto;}
 #nav_tabs ul{background: url("../images/the_most_dot.png") repeat-x scroll 0 30px transparent;}
 #nav_tabs ul:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}  
 #nav_tabs ul {display: inline-block;}  
@@ -1327,6 +1315,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .tshadowblack{text-shadow: 1px 1px black;}
 .tshadowwhite{text-shadow: 1px 1px #fff;}
 .fontred {color: red;}
+.fontsig {color: #5B485B;}
 .fontblue {color: blue;}
 .fontyellow {color:rgb(254,191,1);}
 .fontgreen {color: #1FBC74 !important;}
@@ -3953,3 +3942,112 @@ font-weight: bold;
 text-transform: uppercase;
 margin: 5px 20px;text-shadow:0 10px 3px #c1c1c1;
 }
+/* Form wrapper styling */
+.cf:before, .cf:after{
+    content:"";
+    display:table;
+}
+ 
+.cf:after{
+    clear:both;
+}
+ 
+.cf{
+    zoom:1;
+}
+
+.form-wrapper {
+}
+ 
+/* Form text input */
+ 
+.form-wrapper input {
+    width: 360px;
+    height: 20px;
+    padding: 10px 5px;
+    float: left;    
+    font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    border: 0;
+    background: #eee;
+    border-radius: 3px 0 0 3px;      
+}
+ 
+.form-wrapper input:focus {
+    outline: 0;
+    background: #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+ 
+.form-wrapper input::-webkit-input-placeholder {
+   color: #999;
+   font-weight: normal;
+   font-style: italic;
+}
+ 
+.form-wrapper input:-moz-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}
+ 
+.form-wrapper input:-ms-input-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}    
+ 
+/* Form submit button */
+.form-wrapper button {
+    overflow: visible;
+    position: relative;
+    float: right;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 40px;
+    width: 110px;
+    font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    color: #fff;
+    text-transform: uppercase;
+    background: #5B485B;
+    border-radius: 0 3px 3px 0;      
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
+}   
+   
+.form-wrapper button:hover{     
+    background-color: #BF2E23;
+    background-image: linear-gradient(to bottom, #C83025, #B32B21);
+    background-repeat: repeat-x;
+}   
+   
+.form-wrapper button:active,
+.form-wrapper button:focus{   
+    background-color: #BF2E23;
+    background-image: linear-gradient(to bottom, #C83025, #B32B21);
+    background-repeat: repeat-x;
+    outline: 0;   
+}
+ 
+.form-wrapper button:before { /* left arrow */
+    content: '';
+    position: absolute;
+    border-width: 8px 8px 8px 0;
+    border-style: solid solid solid none;
+    border-color: transparent #5B485B transparent;
+    top: 12px;
+    left: -6px;
+}
+ 
+.form-wrapper button:hover:before{
+    border-right-color: #BF2E23;
+}
+ 
+.form-wrapper button:focus:before,
+.form-wrapper button:active:before{
+        border-right-color: #BF2E23;
+}      
+ 
+.form-wrapper button::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
+    border: 0;
+    padding: 0;
+}  

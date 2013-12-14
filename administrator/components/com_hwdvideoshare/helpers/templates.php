@@ -56,27 +56,14 @@ class hwd_vs_templates
 		$smartyvs->assign("HWDVSURL", JURI::root( true )."/index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid);
 		$smartyvs->assign("Itemid", $hwdvsItemid );
 
-		$searchterm = Jrequest::getVar( 'pattern', _HWDVIDS_SEARCHBAR );
-		$smartyvs->assign("form_search", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=search"));
-		$smartyvs->assign("form_tp", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=addconfirm"));
-		$smartyvs->assign("form_upload", JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=upload"));
-		$smartyvs->assign("searchinput", "<input type=\"text\" name=\"pattern\" value=\"".$searchterm."\" class=\"inputbox\" onchange=\"document.adminForm.submit();\"  onblur=\"if(this.value=='') this.value='"._HWDVIDS_SEARCHBAR."';\" onfocus=\"if(this.value=='"._HWDVIDS_SEARCHBAR."') this.value='';\"/>");
-
+		
 		// define config variables
 		if ($c->diable_nav_videos == 0 || $c->diable_nav_catego == 0 || $c->diable_nav_groups == 0 || $c->diable_nav_upload == 0) { $smartyvs->assign("print_nav", 1); }
 		if ($c->diable_nav_search == 0) { $smartyvs->assign("print_search", 1); }
 		if ($my->id && $c->diable_nav_user == 0 && ($c->diable_nav_user1 == 0 || $c->diable_nav_user2 == 0 || $c->diable_nav_user3 == 0 || $c->diable_nav_user4 == 0 || $c->diable_nav_user5 == 0)) { $smartyvs->assign("print_usernav", 1); }
 		if ($c->diable_nav_videos == 0) { $smartyvs->assign("print_vlink", 1); $smartyvs->assign("vlink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=frontpage")."\">"._HWDVIDS_NAV_VIDEOS."</a>"); }
 		if ($c->diable_nav_catego == 0) { $smartyvs->assign("print_clink", 1); $smartyvs->assign("clink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=categories")."\">"._HWDVIDS_NAV_CATEGORIES."</a>"); }
-		if (hwd_vs_access::checkAccess($c->gtree_grup, $c->gtree_grup_child, 1, 0, "", "", "", "exclamation.png", 0, "", 1, "core.frontend.group"))
-		{
-			if ($c->diable_nav_groups == 0)
-			{
-				$smartyvs->assign("print_glink", 1);
-				$smartyvs->assign("glink", "<a href=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=groups")."\">"._HWDVIDS_NAV_GROUPS."</a>");
-				$print_glink = true;
-			}
-		}
+	
  		if ($c->diable_nav_upload == 0)
 		{
 			$smartyvs->assign("print_ulink", 1);

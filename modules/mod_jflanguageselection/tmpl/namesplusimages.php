@@ -54,19 +54,19 @@ foreach( $langActive as $language )
 		$outString .= '<li' .$langActive. '>';
 	}
 	
-	$outString .= '<a href="' .$href. '" class="btn">';
+	$outString .= '<a href="' .$href. '" class="tdecnone">';
 	
 	if($type == 'namesplusimages') {
 		$langImg = JFModuleHTML::getLanguageImageSource($language);
 		$outString .='<img src="' .JURI::base(true). $langImg. '" alt="' .$language->title_native. '" title="' .$language->title_native. '" border="0" class="langImg"/>';
 	}
 
-	if (isset($language->disabled) && $language->disabled){
+	/*if (isset($language->disabled) && $language->disabled){
 			$outString .= '<span lang="' .$language->getLanguageCode(). '" xml:lang="' .$language->getLanguageCode(). '" >' .$language->title_native. '</span>';
 		}
 		else {
 			$outString .= '<span lang="' .$language->getLanguageCode(). '" xml:lang="' .$language->getLanguageCode(). '">' .$language->title_native. '</span>';
-	}
+	}*/
 
 	$outString .= '</a></li>';
 }

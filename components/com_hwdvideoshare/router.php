@@ -44,26 +44,7 @@ function hwdVideoShareBuildRoute(&$query)
 				unset( $query['task'] );
 			break;
 
-			case 'groups':
-				$segments[] = URLSafe(_HWDVS_SEF_GROUPS);
-				unset( $query['task'] );
-			break;
-
-			case 'creategroup':
-				$segments[] = URLSafe(_HWDVS_SEF_CREATEGROUP);
-				unset( $query['task'] );
-			break;
-
-			case 'editgroup':
-				$segments[] = URLSafe(_HWDVS_SEF_EDITGROUP);
-				unset( $query['task'] );
-			break;
-
-			case 'viewgroup':
-				$segments[] = URLSafe(_HWDVS_SEF_VIEWGROUP);
-				unset( $query['task'] );
-			break;
-
+			
 			case 'yourvideos':
 				$segments[] = URLSafe(_HWDVS_SEF_YV);
 				unset( $query['task'] );
@@ -90,21 +71,7 @@ function hwdVideoShareBuildRoute(&$query)
 			break;
 
 			case 'featuredvideos':
-				$segments[] = URLSafe(_HWDVS_SEF_FEATUREDVIDEOS);
-				unset( $query['task'] );
-			break;
-
-			case 'featuredgroups':
-				$segments[] = URLSafe(_HWDVS_SEF_FEATUREDGROUPS);
-				unset( $query['task'] );
-			break;
-
-			case 'rss':
-				$segments[] = URLSafe(_HWDVS_SEF_RSS);
-				unset( $query['task'] );
-				$segments[] = $query['feed'];
-				unset( $query['feed'] );
-			break;
+				break;
 
 			case 'categories':
 				$segments[] = URLSafe(_HWDVS_SEF_CATEGORIES);
@@ -117,30 +84,13 @@ function hwdVideoShareBuildRoute(&$query)
 			break;
 
 			case 'nextvideo':
-				$segments[] = URLSafe(_HWDVS_SEF_NV);
-				unset( $query['task'] );
-				$segments[] = $query['category_id'];
-				unset( $query['category_id'] );
-				$segments[] = $query['video_id'];
-				unset( $query['video_id'] );
-			break;
+				break;
 
 			case 'previousvideo':
-				$segments[] = URLSafe(_HWDVS_SEF_PV);
-				unset( $query['task'] );
-				$segments[] = $query['category_id'];
-				unset( $query['category_id'] );
-				$segments[] = $query['video_id'];
-				unset( $query['video_id'] );
-			break;
+				break;
 
 			case 'search':
-				$segments[] = URLSafe(_HWDVS_SEF_SEARCH);
-				unset( $query['task'] );
-				if (empty($query['category_id'])) { $query['category_id'] = 0; }
-				$segments[] = $query['category_id'];
-				unset( $query['category_id'] );
-			break;
+				break;
 
 			case 'displayresults':
 				$segments[] = URLSafe(_HWDVS_SEF_DR);
@@ -192,40 +142,7 @@ function hwdVideoShareBuildRoute(&$query)
 				$segments[] = $categoryName;
 			break;
 
-			case 'viewgroup':
-				$gid = intval($query['group_id']);
-				$sqlquery = 'SELECT g.group_name'
-					   . ' FROM #__hwdvidsgroups AS g'
-					   . ' WHERE g.id = '.$gid
-					   ;
-				$db->SetQuery($sqlquery);
-				$group_name = $db->loadResult();
-
-				$groupName 	= URLSafe(html_entity_decode($group_name));
-
-				$segments[] = URLSafe(_HWDVS_SEF_VIEWGROUP);
-				unset( $query['task'] );
-				$segments[] = $query['group_id'];
-				unset( $query['group_id'] );
-				$segments[] = $groupName;
-			break;
-
-			case 'viewchannel':
-				$uid = intval($query['user_id']);
-				$sqlquery = "SELECT username FROM #__users WHERE id = $uid";
-				$db->SetQuery($sqlquery);
-				$username = $db->loadResult();
-
-				$segments[] = URLSafe(_HWDVS_SEF_VIEWCHANNEL);
-				unset( $query['task'] );
-				$segments[] = $uid;
-				unset( $query['user_id'] );
-
-				if (isset($username))
-				{
-					$segments[] = URLSafe($username);
-				}
-			break;
+			
 
 			default:
 				$segments[] = $query['task'];
@@ -296,36 +213,12 @@ function hwdVideoShareParseRoute($segments)
 			$vars['task'] = 'addconfirm';
 		break;
 
-		case URLSafe(_HWDVS_SEF_GROUPS):
-			$vars['task'] = 'groups';
-		break;
-
-		case URLSafe(_HWDVS_SEF_CREATEGROUP):
-			$vars['task'] = 'creategroup';
-		break;
-
-		case URLSafe(_HWDVS_SEF_EDITGROUP):
-			$vars['task'] = 'editgroup';
-		break;
-
-		case URLSafe(_HWDVS_SEF_VIEWGROUP):
-			$vars['task'] = 'viewgroup';
-		break;
-
 		case URLSafe(_HWDVS_SEF_YV):
 			$vars['task'] = 'yourvideos';
 		break;
 
 		case URLSafe(_HWDVS_SEF_YF):
 			$vars['task'] = 'yourfavourites';
-		break;
-
-		case URLSafe(_HWDVS_SEF_YG):
-			$vars['task'] = 'yourgroups';
-		break;
-
-		case URLSafe(_HWDVS_SEF_YM):
-			$vars['task'] = 'yourmemberships';
 		break;
 
 		case URLSafe(_HWDVS_SEF_EDITVIDEO):
@@ -353,22 +246,6 @@ function hwdVideoShareParseRoute($segments)
 			$vars['task'] = 'gotocategory';
 		break;
 
-		case URLSafe(_HWDVS_SEF_NV):
-			$vars['task'] = 'nextvideo';
-			$vars['category_id'] = $segments[1];
-			$vars['video_id'] = $segments[2];
-		break;
-
-		case URLSafe(_HWDVS_SEF_PV):
-			$vars['task'] = 'previousvideo';
-			$vars['category_id'] = $segments[1];
-			$vars['video_id'] = $segments[2];
-		break;
-
-		case URLSafe(_HWDVS_SEF_SEARCH):
-			$vars['task'] = 'search';
-			$vars['category_id'] = $segments[1];
-		break;
 
 		case URLSafe(_HWDVS_SEF_DR):
 			$vars['task'] = 'displayresults';
@@ -383,16 +260,6 @@ function hwdVideoShareParseRoute($segments)
 		case URLSafe(_HWDVS_SEF_VIEWCATEGORY):
 			$vars['task'] = 'viewcategory';
 			$vars['cat_id'] = $segments[1];
-		break;
-
-		case URLSafe(_HWDVS_SEF_VIEWGROUP):
-			$vars['task'] = 'viewgroup';
-			$vars['group_id'] = $segments[1];
-		break;
-
-		case URLSafe(_HWDVS_SEF_VIEWCHANNEL):
-			$vars['task'] = 'viewchannel';
-			$vars['user_id'] = $segments[1];
 		break;
 
 		default:

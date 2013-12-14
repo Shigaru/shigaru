@@ -744,10 +744,6 @@ $.Autocompleter.Select = function (options, input, select, config) {
 			}
 		
 		var actualHeight 	= (asIsHeight>displayHeight)?displayHeight:asIsHeight;
-		console.log(element.height());
-		console.log(element.height()>0);
-		console.log(element.find('.elemwrap').height());
-		console.log(actualHeight);
 		element.css({height:actualHeight});	
 	}
 	

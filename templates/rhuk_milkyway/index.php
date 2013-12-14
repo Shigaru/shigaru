@@ -54,34 +54,30 @@ $host = JURI::root();
 			<div id="head_logo" class="fleft">
 				<div class="fleft mright12" >
 					<a href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
-						<img height="50" width="50" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
+						<img height="63" width="65" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo_new.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
 					</a>
 				</div>	
 				<div class="fleft" >
-					<a class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+					<a class="f150 fontsig fontbold tdecnone" id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
 						<h1>SHIGARU</h1>
 					</a>
-					<span id="head_comm_text" class="f80"><?php echo JText::_('Sharing musical knowledge') ?></span>
+					<span id="head_comm_text fontsig" class="f80"><?php echo JText::_('Sharing musical knowledge') ?></span>
 				</div>		
 				
 			</div>
 			
 				
 			<div id="nav_browse" class="fleft mtop12 mleft20 mright20 w40">
-								<form method="get" action="index.php?option=com_hwdvideoshare&amp;task=search" class="light" id="rokajaxsearch" name="rokajaxsearch">
-										<div class="roksearch-wrapper">
-											<input type="text" class="w90 inputbox" placeholder="Search bands, songs, genres, instruments..." name="pattern" id="roksearch_search_str">
-											<a href="#" class="f150 fontwhite fontbold mbot12 mtop12 tdecnone" title="Click on this icon to expand search options"><i class="icon-cog"></i></a>
-										</div>
+								<form method="get" action="index.php?option=com_hwdvideoshare&amp;task=search" class="form-wrapper cf" id="rokajaxsearch" name="rokajaxsearch">
+										<input type="text" placeholder="Search bands, songs, genres, instruments..." name="pattern" id="roksearch_search_str">
+										<button type="submit">Search</button>
 										<input type="hidden" value="20" name="limit">
 										<input type="hidden" value="search" name="task">
 										<input type="hidden" value="28" name="Itemid">
 										<input type="hidden" value="com_hwdvideoshare" name="option">
 									</form>
 					</div>	
-				<div class="fright">
-					<a href="/" title="Click on this icon to expand the available options" class="f300 fontwhite fontbold mbot12 mtop12 tdecnone"><i class="icon-double-angle-down icon-3"></i></a>
-				</div>
+				
 					
 				<div id="topnavmenu" class="fright">
 					<?php
@@ -97,12 +93,16 @@ $host = JURI::root();
 						echo '<div class="greetinguser"></div>';
 						?>
 						<jdoc:include type="modules" name="top" />
+						<?php
+						echo '<div class="fleft mtop12 mright24"><a class="btn btn-info" href="#"><i class="icon-share icon-large"></i> <span class="f150">'. JText::_('_HWDVIDS_SHIGARU_SUBMITURL').' </span></a></div>';
+						?>
+								
 						<?php					
 						if ($user && !$user->guest){
-								echo '<div id="grettings" class="btn-group mtopl6 mright12">';
-								echo '<div class="mtop12 mleft6 f16px"><i class="f150 icon-female"></i> ';
+								echo '<div id="grettings" class="mtop6 btn-group mtopl6 mright12">';
+								echo '<div class="mtop12 mleft6 f16px curpointer"><i class="f12em icon-user"></i> <span class="f12em"> ';
 								echo $user->username;
-								echo '</div>';
+								echo '</span></div>';
 								echo '<ul class="dropdown-menu">
 											<li><a href="index.php?option=com_comprofiler&Itemid=53"><span class="icon-user-md"></span>View Profile</a></li>
 											<li><a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails"><span class="icon-edit"></span>Edit Profile</a></li>
@@ -195,7 +195,7 @@ $host = JURI::root();
 				<div class="shigarulogo"></div>
 				 <nav> 
 					<div class="footer_links">
-						<jdoc:include type="modules" name="pagefooter" /> 
+						
 					</div>
 				</nav>	
 				<div class="copyright">&reg; 2012 Shigaru.com. &copy; All rights reserved. Contact: <a href="mailto:info@shigaru.com">info@shigaru.com</a></div>

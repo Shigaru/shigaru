@@ -67,6 +67,13 @@ jQuery(document).ready(function($){
 		e.stopPropagation();	
 	});
 	
+	
+	jQuery(window).scroll( function() {
+		var top = jQuery(this).scrollTop();
+		console.log('hola');
+		console.log(top);
+	});
+	
 	jQuery('body').click(function () {
 			jQuery('#topnavmenu ul.dropdown-menu').hide();
 			if(jQuery('#grettings').hasClass('userzoneopen'))jQuery('#grettings').removeClass('userzoneopen');

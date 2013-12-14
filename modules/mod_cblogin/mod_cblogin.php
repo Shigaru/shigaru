@@ -721,7 +721,7 @@ if ( $_CB_framework->myId() ) {
 			}
 			$loginPostReg = str_replace("http://","https://",$loginPostReg);
 		}
-		echo '<a href="'.$loginPostReg.'" title=' . _UE_REGISTER . '" class="btn">';
+		echo '<a href="'.$loginPostReg.'" title=' . _UE_REGISTER . '" class="fontsig">';
 		if ( $show_remind_register_icons >= 1 ) {
 			echo '<img src="' . $urlImgPath . 'register.png" alt="' . _UE_REGISTER . '" title="' . _UE_REGISTER . '" width="25px" height="20px" style="border-width:0px;cursor:pointer;" /> ';
 		}
@@ -731,7 +731,7 @@ if ( $_CB_framework->myId() ) {
 		echo '</a></div>'; 
 	 
 	 
-	echo '<div class="topbuttons" id="login"><a href="#" class="dropper" title="'._UE_BUTTON_LOGIN.'"><span class="btn">'._UE_BUTTON_LOGIN.'</span><span class="arrow"></span></a>
+	echo '<div class="topbuttons" id="login"><a href="#" class="dropper" title="'._UE_BUTTON_LOGIN.'"><span class="fontsig">'._UE_BUTTON_LOGIN.'</span><span class="arrow"></span></a>
                 <div class="floatingBox" id="loginBox">                
 				
 	<form action="'.$loginPost.'" method="post" id="' . $idFormLogin . '" class="cbLoginForm"';
