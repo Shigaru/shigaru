@@ -70,8 +70,6 @@ jQuery(document).ready(function($){
 	
 	jQuery(window).scroll( function() {
 		var top = jQuery(this).scrollTop();
-		console.log('hola');
-		console.log(top);
 	});
 	
 	jQuery('body').click(function () {

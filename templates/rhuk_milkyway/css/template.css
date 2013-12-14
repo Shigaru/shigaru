@@ -3942,7 +3942,7 @@ box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 color: #634c63;
 font-weight: bold;
 text-transform: uppercase;
-margin: 5px 20px;text-shadow:0 10px 3px #c1c1c1;
+margin: 5px;text-shadow:0 10px 3px #c1c1c1;
 }
 /* Form wrapper styling */
 .cf:before, .cf:after{

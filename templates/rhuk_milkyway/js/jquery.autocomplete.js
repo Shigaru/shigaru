@@ -788,7 +788,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 		show: function() {
 			var offset 			= $(input).position();
 			element.css({
-				width: typeof options.width == "string" || options.width > 0 ? options.width : $(input).width(),
+				width: typeof options.width == "string" || options.width > 0 ? options.width : $(input).width()+$(input).next().width(),
 				top: offset.top + input.offsetHeight,
 				left: offset.left,
 				'overflow-y':'auto'
