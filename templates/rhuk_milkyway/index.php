@@ -67,7 +67,7 @@ $host = JURI::root();
 			</div>
 			
 				
-			<div id="nav_browse" class="fleft mtop12 mleft20 mright20 w40">
+			<div id="nav_browse" class="fleft mtop12 mleft20 mright20 w33">
 								<form method="get" action="index.php?option=com_hwdvideoshare&amp;task=search" class="form-wrapper cf" id="rokajaxsearch" name="rokajaxsearch">
 										<input type="text" placeholder="Search bands, songs, genres, instruments..." name="pattern" id="roksearch_search_str">
 										<button type="submit">Search</button>
@@ -95,12 +95,13 @@ $host = JURI::root();
 						<jdoc:include type="modules" name="top" />
 						<?php
 						echo '<div class="fleft mtop12 mright24"><a class="fontsig fontbold tdecnone" href="#"><i class="icon-share icon-large"></i> <span class="f150">'. JText::_('_HWDVIDS_SHIGARU_SUBMITURL').' </span></a></div>';
+						echo '<div class="fleft mtop12 mright24"><a class="fontsig f150 tdecnone" href="#" title="Menu"><i class="icon-th"></i></a></div>';
 						?>
 								
 						<?php					
 						if ($user && !$user->guest){
-								echo '<div id="grettings" class="mtop6 btn-group mtopl6 mright12">';
-								echo '<div class="mtop12 mleft6 f16px curpointer"><i class="f12em icon-user"></i> <span class="f12em"> ';
+								echo '<div id="grettings" class="fontsig btn-group mtopl6 mright12">';
+								echo '<div class="mtop20 mleft6 f16px curpointer"><i class="f12em icon-user"></i> <span class="f12em"> ';
 								echo $user->username;
 								echo '</span></div>';
 								echo '<ul class="dropdown-menu">

@@ -3964,7 +3964,7 @@ margin: 5px;text-shadow:0 10px 3px #c1c1c1;
 /* Form text input */
  
 .form-wrapper input {
-    width: 360px;
+    width: 60%;
     height: 20px;
     padding: 10px 5px;
     float: left;    
@@ -4002,7 +4002,7 @@ margin: 5px;text-shadow:0 10px 3px #c1c1c1;
 .form-wrapper button {
     overflow: visible;
     position: relative;
-    float: right;
+    float: left;
     border: 0;
     padding: 0;
     cursor: pointer;

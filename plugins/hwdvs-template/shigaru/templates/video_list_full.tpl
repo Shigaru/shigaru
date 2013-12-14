@@ -68,7 +68,7 @@
 						</div>	
 						{/if}-->		
 						
-							<div class="clearfix padtop12">
+							<div class="clearfix">
 								<div class="fleft mleft6 w20pc">
 									<label for="username" class="searchLabels">
 									Instrument: <br /> <span>{$data->instrument}</span>
