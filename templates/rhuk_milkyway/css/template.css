@@ -37,7 +37,7 @@ body {
 #head_logo img{margin-top:3px;}
 **/
 #head{ }
-#head_content{ width:100%;
+#head_content{min-width:1200px; width:100%;
     background:#F0F0F0;
     border-bottom:1px solid #CCC;position:fixed;z-index:999;}
 #topnavmenu div.topbuttons{display:block; float:left; margin-right: 21px;padding: 4px 6px;
@@ -59,6 +59,7 @@ font-size: 91%;background-color: #fff;}
 #nav_tabs ul li a#active_menu-nav{color:#a86060;}
 #nav_tabs ul li:first-child {-moz-border-radius:3px 0 0 3px;-webkit-border-radius:3px 0 0 3px;border-radius:3px 0 0 3px;}
 #nav_tabs ul li.last a{border-right:none;}
+#main-nav-drop{position: absolute;top:64px;z-index:1000;}
 /**** Isotope styles ****/
 
 select,textarea,input[type="text"],input[type="password"],input[type="datetime"],input[type="datetime-local"],input[type="date"],input[type="month"],input[type="time"],input[type="week"],input[type="number"],input[type="email"],input[type="url"],input[type="search"],input[type="tel"],input[type="color"],.uneditable-input {
