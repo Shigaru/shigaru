@@ -26,7 +26,7 @@ ol { margin-left:2em; }
   src: local('Ubuntu Light'), local('Ubuntu-Light'), url('../font/ubuntul.woff') format('woff');
 }
 
-body{font-family: 'Ubuntu', arial, serif;color:#666666;min-width:1050px;}
+body{font-family: 'Ubuntu', arial, serif;color:#666666;min-width:1200px;}
 html,
 body {
   height: 100%;
@@ -41,12 +41,12 @@ body {
     background:#F0F0F0;
     border-bottom:1px solid #CCC;position:fixed;z-index:999;}
 #topnavmenu div.topbuttons{display:block; float:left; margin-right: 21px;padding: 4px 6px;
-cursor:pointer;position: relative;margin-top: 12px;font-size: 120%;}
+cursor:pointer;position: relative;margin-top: 12px;font-size: 100%;}
 #topnavmenu div.topbuttons a{text-decoration:none;}
 #topnavmenu div.topbuttons a:hover{text-decoration:underline;}
 #topnavmenu a:hover{text-decoration: underline;}
 /* TOP TAB AREA*/
-#nav_tabs{max-width:1075px;min-width:1075px;margin: 50px auto 0 auto;}
+#nav_tabs{max-width:1200px;min-width:1200px;margin: 50px auto 0 auto;}
 #nav_tabs ul{background: url("../images/the_most_dot.png") repeat-x scroll 0 30px transparent;}
 #nav_tabs ul:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}  
 #nav_tabs ul {display: inline-block;}  
@@ -102,7 +102,7 @@ input[type="text"],textarea,input[type="password"],input[type="datetime"],input[
 #beingwatched div.workarea_odd{height:330px;background: url("../images/back_content_box_beingwatched.png") repeat-x scroll 0 0 transparent;}
 .workarea .leftcolumn{float:left;width:50%;}
 .workarea div.workarea_odd h3{text-shadow: 1px 2px 2px #fff;}
-.workarea .workarea_wrapper {min-width:1050px;max-width:1100px;margin: 0 auto;}
+.workarea .workarea_wrapper {min-width:1200px;max-width:1200px;margin: 0 auto;}
 .workarea .rightcolumn{float:right;width:42%;}
 .workarea div.content_box{margin-bottom:36px;}
 .workarea div.content_box  h3{color:#909090; font-size:200%;margin:0 0 40px 0;}
@@ -447,7 +447,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #the_most div.tab_wrapper ul li:hover a,#hwdvids div.tab_wrapper ul li:hover a{}
 /* FOOTER */
 #footer{height:420px;background: url("../images/back_footer_home.png") repeat-x scroll 0 0 transparent;  margin-top: -4px;position: relative;z-index: 2;color:#fff; }
-#footer_content{min-width:1075px;max-width:1075px;margin: 0 auto; padding: 40px 0 0;}
+#footer_content{min-width:1200px;max-width:1200px;margin: 0 auto; padding: 40px 0 0;}
 #footer #leftcolumn{float:left;width:54%;}
 #footer #rightcolmn{float:right;width:42%;}
 #footer #rightcolmn div {margin-bottom:15px; overflow:hidden;}	

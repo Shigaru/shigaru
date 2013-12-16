@@ -94,7 +94,7 @@ $host = JURI::root();
 						?>
 						<jdoc:include type="modules" name="top" />
 						<?php
-						echo '<div class="fleft mtop12 mright24"><a class="fontsig fontbold tdecnone" href="#"><i class="icon-share icon-large"></i> <span class="f150">'. JText::_('_HWDVIDS_SHIGARU_SUBMITURL').' </span></a></div>';
+						echo '<div class="fleft mtop12 mright24"><a class="fontsig fontbold tdecnone" href="#"><i class="icon-share icon-large"></i> <span class="f120">'. JText::_('_HWDVIDS_SHIGARU_SUBMITURL').' </span></a></div>';
 						echo '<div class="fleft mtop12 mright24" id="navdrop"><a class="fontsig f150 tdecnone" href="#" title="Menu"><i class="icon-th"></i></a></div>';
 						?>
 								
