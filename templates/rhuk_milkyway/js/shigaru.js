@@ -1,5 +1,6 @@
 var $jq = jQuery.noConflict();
 jQuery(document).ready(function($){
+	jQuery('#sectionwrap').css({height:jQuery( window ).height()-jQuery( '#head' ).height(), 'overflow-y':'auto'});
 	
 	jQuery.blockUI.defaults.css = {backgroundColor:'#fff'};
 	
@@ -58,7 +59,6 @@ jQuery(document).ready(function($){
 			jQuery.unblockUI();
 			jQuery(this).parent().parent().fadeOut();
 		});
-		
 	jQuery('#main-nav-drop').css({'line-height':jQuery( window ).height()+'px',height:jQuery( window ).height(),width:jQuery( window ).width(),'top':-jQuery( window ).height()});	
 	jQuery('#navdrop').click(function(){
 			var $this = jQuery('#main-nav-drop');
