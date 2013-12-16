@@ -157,6 +157,10 @@ class hwd_vs_usrfunc
 	function getHeaderMoreOptions()
 	{
 		global $smartyvs;
+		$smartyvs->assign("songCount", hwd_vs_tools::getTotalCategoryVideosCount(1));
+		$smartyvs->assign("watchmeCount", hwd_vs_tools::getTotalCategoryVideosCount(2));
+		$smartyvs->assign("theoryCount", hwd_vs_tools::getTotalCategoryVideosCount(3));
+		$smartyvs->assign("searched", hwd_vs_tools::getLatestSearchs());
 		$oResults = $smartyvs->fetch('headomoreptions.tpl');
 		return $oResults;
 		}

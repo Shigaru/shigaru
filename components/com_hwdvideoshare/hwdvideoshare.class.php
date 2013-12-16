@@ -3937,7 +3937,63 @@ $app = & JFactory::getApplication();
 	
 	}
 	
+	function getTotalCategoryVideosCount($paramcategory){
+		$db = & JFactory::getDBO();
+		// get video count
+        $db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video WHERE category_id ='.$paramcategory
+					 . $hwdvs_joinv
+					 . $where
+					 );
+        $total = $db->loadResult();
+        echo $db->getErrorMsg();
+        return $total;
+		}
 	
+	function getLatestSearchs() {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT pattern FROM #__hwdvidssearchlog_term'; 
+		$query .= ' WHERE 1';
+		$query .= ' ORDER BY last_update DESC LIMIT 0,15';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$wordList = $db->loadResultArray();
+		$wordListFormat = '';
+		$counter = 0;
+		foreach ($wordList as &$value) {
+			if($value!='' && $value!=' '){	
+				if($counter === 0)
+				$wordListFormat .= hwd_vs_tools::getAnchor($value);
+				else
+					$wordListFormat .= ', '.hwd_vs_tools::getAnchor($value);
+			$counter++;
+			}
+		}
+		return $wordListFormat;
+		}
+		
+	function getAnchor($word) {
+		$url ='';
+			if(trim($word) != ''){	
+				$url = JRoute::_("index.php?option=com_hwdvideoshare&task=search&Itemid=$Itemid");
+				$url = str_replace("&amp;", "&", $url);
+
+				$pos = strpos($url, "?");
+				if ($pos === false)
+				{
+					$url = $url."?pattern=".$word;
+				}
+				else
+				{
+					$url = $url."&pattern=".$word;
+
+				}
+			}
+		
+		
+			$searchLink = '<a href="'.$url.'&r='.rand().'" title="'.JText::_('View results for ').$word.'">'.$word.'</a>';
+			return $searchLink ;
+		}
 	
 	function getMostRecent ($paramDateRange){		
 		$db = & JFactory::getDBO();

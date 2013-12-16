@@ -79,7 +79,7 @@ jQuery(document).ready(function($){
 				  url: 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_headmoreoptions&format=raw'
 				}).done(function(data){
 							$this.removeClass('loadingcontent').find('.icon-spinner').hide();
-							$( "ul#mainlevel-nav" ).clone().appendTo($this);
+							$( "div#nav_tabs" ).clone().appendTo($this);
 							$this.append(data);
 					});
 			}
