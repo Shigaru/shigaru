@@ -245,12 +245,16 @@ class hwd_vs_ajax
 	function ajax_search()	{
 		header('Content-type: text/html; charset=utf-8');
 		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
-		$app = & JFactory::getApplication();
-		$uri = & JFactory::getURI();
-		$pageURL = $uri->toString();
-		
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'core.php');
 		hwd_vs_core::displayResults(true);
+		}
+		
+	function ajax_headmoreoptions()	{
+		header('Content-type: text/html; charset=utf-8');
+		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		print hwd_vs_usrfunc::getUserProfileSideMenu();
+		exit;
 		}
 	
     /**

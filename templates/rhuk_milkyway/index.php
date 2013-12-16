@@ -94,7 +94,7 @@ $host = JURI::root();
 						?>
 						<jdoc:include type="modules" name="top" />
 						<?php
-						echo '<div class="fleft mtop12 mright24"><a class="fontsig fontbold tdecnone" href="#"><i class="icon-share icon-large"></i> <span class="f120">'. JText::_('_HWDVIDS_SHIGARU_SUBMITURL').' </span></a></div>';
+						echo '<div class="fleft mtop12 mright24"><a class="fontsig fontbold tdecnone" href="#"><i class="icon-share icon-large"></i> <span class="f120">'. JText::_('Share video').' </span></a></div>';
 						echo '<div class="fleft mtop12 mright24" id="navdrop"><a class="fontsig f150 tdecnone" href="#" title="Click on this icon to display more options"><i class="icon-plus-sign"></i></a></div>';
 						?>
 								
@@ -208,7 +208,10 @@ $host = JURI::root();
 	</footer>
 </div>		
 <div id="communitytooltip" class="dispnon"></div>
-<div id="main-nav-drop" class="dispnon loadingcontent"><i class="icon-spinner icon-spin"></i></div>
+<div id="main-nav-drop" class="dispnon loadingcontent">
+		<i class="icon-spinner icon-spin"></i>
+		<a class="frgith fontsig f150 tdecnone" href="#" title="Click on this icon to display more options"><i class="icon-minus-sign"></i></a>
+</div>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.min.js"></script>

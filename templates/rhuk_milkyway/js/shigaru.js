@@ -63,6 +63,14 @@ jQuery(document).ready(function($){
 	jQuery('#navdrop').click(function(){
 			var $this = jQuery('#main-nav-drop');
 			$this.show().animate({top:0});
+			if(!jQuery(this).hasClass('loaded')){
+				jQuery(this).addClass('loaded');
+				jQuery.ajax({
+				  url: 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_headmoreoptions&format=raw'
+				}).done(function(data){
+							$this.html(data);
+					});
+			}
 			return false;
 		});
 	

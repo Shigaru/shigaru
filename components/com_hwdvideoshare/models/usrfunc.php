@@ -149,6 +149,18 @@ class hwd_vs_usrfunc
 		$oResults = $smartyvs->fetch('video_list_sidemenu.tpl');
 		return $oResults;
 		}
+   
+   
+   /**
+    * List User Favourite Videos
+    */
+	function getHeaderMoreOptions()
+	{
+		global $smartyvs;
+		$oResults = $smartyvs->fetch('video_list_sidemenu.tpl');
+		return $oResults;
+		}
+   
    /**
     * Edit video details
     */

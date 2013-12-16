@@ -673,8 +673,8 @@ function userProfile( $option, $uid, $submitvalue) {
 
 	if ( $user === null ) {
 		$lang =& JFactory::getLanguage();
-			$url    = 'index.php?option=com_comprofiler&task=registers&profilerfrom=ownprofile';
-			JFactory::getApplication()->redirect(JURI::getInstance($url)->toString().'&redirected=profiler');  
+			$url    = 'index.php?option=com_comprofiler&task=registers&profilerfrom=ownprofile&redirected=profiler';
+			JFactory::getApplication()->redirect(JURI::getInstance($url)->toString());  
 			return;
 		return;
 	}
