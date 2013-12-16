@@ -208,9 +208,8 @@ $host = JURI::root();
 	</footer>
 </div>		
 <div id="communitytooltip" class="dispnon"></div>
-<div id="main-nav-drop" class="dispnon loadingcontent">
+<div id="main-nav-drop" class="closed dispnon loadingcontent">
 		<i class="icon-spinner icon-spin"></i>
-		<a class="frgith fontsig f150 tdecnone" href="#" title="Click on this icon to display more options"><i class="icon-minus-sign"></i></a>
 </div>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.min.js"></script>

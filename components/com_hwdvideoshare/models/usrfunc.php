@@ -157,7 +157,7 @@ class hwd_vs_usrfunc
 	function getHeaderMoreOptions()
 	{
 		global $smartyvs;
-		$oResults = $smartyvs->fetch('video_list_sidemenu.tpl');
+		$oResults = $smartyvs->fetch('headomoreptions.tpl');
 		return $oResults;
 		}
    

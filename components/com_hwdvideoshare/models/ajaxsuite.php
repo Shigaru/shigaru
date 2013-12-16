@@ -253,7 +253,7 @@ class hwd_vs_ajax
 		header('Content-type: text/html; charset=utf-8');
 		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
-		print hwd_vs_usrfunc::getUserProfileSideMenu();
+		print hwd_vs_usrfunc::getHeaderMoreOptions();
 		exit;
 		}
 	

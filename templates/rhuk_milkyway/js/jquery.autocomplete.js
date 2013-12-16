@@ -595,7 +595,6 @@ $.Autocompleter.Select = function (options, input, select, config) {
 		.hide()
 		.append(elementWrap)
 		.addClass(options.resultsClass)
-		.css("position", "fixed")
 		.appendTo(document.body);
 		
 		

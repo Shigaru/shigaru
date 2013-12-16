@@ -59,19 +59,31 @@ jQuery(document).ready(function($){
 			jQuery.unblockUI();
 			jQuery(this).parent().parent().fadeOut();
 		});
-	jQuery('#main-nav-drop').css({'line-height':jQuery( window ).height()+'px',height:jQuery( window ).height(),width:jQuery( window ).width(),'top':-jQuery( window ).height()});	
-	jQuery('#navdrop').click(function(){
+	jQuery('#main-nav-drop').css({height:jQuery( document ).height()-jQuery( '#head' ).height(),width:jQuery( document ).width(),'top':-jQuery( document ).height()});	
+	
+	jQuery('#navdrop').click(function(e){
 			var $this = jQuery('#main-nav-drop');
-			$this.show().animate({top:0});
+			if($this.hasClass('closed')){
+				$this.removeClass('closed').addClass('open');
+				jQuery(this).find('i').removeClass('icon-plus-sign').addClass('icon-minus-sign');
+				$this.show().animate({top:jQuery( '#head' ).height()});
+				}else{
+					$this.removeClass('open').addClass('closed');
+					jQuery(this).find('i').removeClass('icon-minus-sign').addClass('icon-plus-sign');
+					$this.animate({top:-$this.height()},function(){$this.hide();});
+					}			
+			
 			if(!jQuery(this).hasClass('loaded')){
 				jQuery(this).addClass('loaded');
 				jQuery.ajax({
 				  url: 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_headmoreoptions&format=raw'
 				}).done(function(data){
-							$this.html(data);
+							$this.removeClass('loadingcontent').find('.icon-spinner').hide();
+							$( "ul#mainlevel-nav" ).clone().appendTo($this);
+							$this.append(data);
 					});
 			}
-			return false;
+			e.preventDefault();		
 		});
 	
 	
