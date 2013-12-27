@@ -15,6 +15,24 @@
 			<div>
 				<h3 class="fontbold f150">{$band->band_name}</h3>
 			</div>
+			
+			<div>
+				<h5 class="fontbold mtop20">{$smarty.const._HWDVIDS_SHIGARU_SONGS}</h5>
+				<ul class="mtop20 mbot20">
+					{foreach name=outer item=data from=$songs}
+					 <li class="{if $smarty.foreach.outer.index is even}ac_odd{else}ac_even{/if}">	
+						<div class="clearfix">
+							<div class="fleft">
+								{$data->songname}
+							</div>
+							<div class="fleft">
+								{$data->album_name}
+							</div>
+						</div>
+					</li>	
+					{/foreach}
+				</ul>
+			</div>
 			<div>
 				<div><h5>{$smarty.const._HWDVIDS_SHIGARU_RELATEDVIDEOS}</h5></div>
 			<div>

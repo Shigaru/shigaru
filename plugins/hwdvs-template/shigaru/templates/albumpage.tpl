@@ -19,6 +19,19 @@
 				<a href="" alt=""><span class="f150">{$album->band_name}</span></a>
 			</div>
 			<div>
+				<ul class="mtop20 mbot20">
+					{foreach name=outer item=data from=$songs}
+					 <li class="{if $smarty.foreach.outer.index is even}ac_odd{else}ac_even{/if}">	
+						<div class="clearfix">
+							<div>
+								{$data->songname}
+							</div>
+						</div>
+					</li>	
+					{/foreach}
+				</ul>
+			</div>
+			<div>
 				<div><h5>{$smarty.const._HWDVIDS_SHIGARU_RELATEDVIDEOS}</h5></div>
 			<div>
 		</div>
