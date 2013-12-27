@@ -494,8 +494,25 @@ $app = & JFactory::getApplication();
 	}
 
 	function searchbyoption()	{
-		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
-		print hwd_vs_usrfunc::getHeaderMoreOptions();
+		
+		$searchoption 	= JRequest::getVar( 'searchoption', '');
+		$item_id 		= JRequest::getInt( 'item_id', 0 );
+		
+		switch($searchoption){
+			case 'bsongssource':
+					$song = hwd_vs_tools::getSongInfo($item_id);
+					hwd_vs_html::songpage($song);
+					break;
+			case 'cbandsssource':
+					$band = hwd_vs_tools::getBandInfo($item_id);
+					hwd_vs_html::bandpage($band);
+					break;
+			case 'dalbumssource':
+					$album = hwd_vs_tools::getAlbumInfo($item_id);
+					hwd_vs_html::albumpage($album);
+					break;				
+			}
+		
 		}
 
 

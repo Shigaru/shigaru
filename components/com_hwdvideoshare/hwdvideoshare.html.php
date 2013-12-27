@@ -38,7 +38,6 @@ class hwd_vs_html
 		global $Itemid, $smartyvs, $hwdvsTemplateOverride, $limit, $limitstart, $j15, $j16;
 		$c = hwd_vs_Config::get_instance();
   		$db =& JFactory::getDBO();
-		$app = & JFactory::getApplication();
 		// load the menu name
 		jimport( 'joomla.application.menu' );
 		$menu   = &JMenu::getInstance('site');
@@ -112,6 +111,44 @@ class hwd_vs_html
 		$smartyvs->display('index.tpl');
 		return;
     }
+    
+    
+    /**
+     *
+     */
+    function songpage($song)
+    {
+		global $Itemid, $smartyvs;	
+		$smartyvs->assign("song", $song[0]);
+		$smartyvs->display('songpage.tpl');
+		return;
+    }
+    
+    /**
+     *
+     */
+    function bandpage($band)
+    {
+		global $Itemid, $smartyvs;
+		$smartyvs->assign("band", $band[0]);
+		$smartyvs->assign("songs", $band);
+		$smartyvs->display('bandpage.tpl');
+		return;
+    }
+    
+    /**
+     *
+     */
+    function albumpage($album)
+    {
+		global $Itemid, $smartyvs;	
+		$smartyvs->assign("album", $album[0]);
+		$smartyvs->assign("songs", $album);
+		$smartyvs->display('albumpage.tpl');
+		return;
+    }
+    
+    
     /**
      *
      */

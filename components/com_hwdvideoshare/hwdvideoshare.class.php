@@ -3524,6 +3524,38 @@ $app = & JFactory::getApplication();
     }
     
     /**
+     * Retrieves the song information stored in DB
+     *
+     * @return       $srows
+     */
+    
+    function getBandInfo($band_id){
+		
+		$db = & JFactory::getDBO();
+		$db->SetQuery( 'SELECT 
+								s.id as songid,
+								s.label as songname,
+								s.provider as source,
+								s.band_id as bandid,
+								s.external_id as extsongid,
+								s.external_url as extsongurl,
+								s.embedding as songurl,
+								b.label as band_name,
+								b.external_id as extbandid,
+								b.external_url as extURL,
+								u.label as album_name,
+								u.thumbnail as album_thumb'
+								. ' FROM #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id INNER JOIN #__hwdvidsalbums as u ON s.album_id=u.id'
+								. ' WHERE s.band_id = '.$band_id
+								);
+						
+		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		$srows = $db->loadObjectList();
+		return $srows;
+	}
+    
+    /**
      * checks if the band is already in the list of bands
      *
      * 
@@ -3764,7 +3796,38 @@ $app = & JFactory::getApplication();
     }
     
     
-   
+   /**
+     * Retrieves the song information stored in DB
+     *
+     * @return       $srows
+     */
+    
+    function getAlbumInfo($album_id){
+		
+		$db = & JFactory::getDBO();
+		$db->SetQuery( 'SELECT 
+								s.id as songid,
+								s.label as songname,
+								s.provider as source,
+								s.band_id as bandid,
+								s.external_id as extsongid,
+								s.external_url as extsongurl,
+								s.embedding as songurl,
+								b.label as band_name,
+								b.external_id as extbandid,
+								b.external_url as extURL,
+								u.label as album_name,
+								u.external_url as extalbURL,
+								u.thumbnail as album_thumb'
+								. ' FROM #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id INNER JOIN #__hwdvidsalbums as u ON s.album_id=u.id'
+								. ' WHERE s.album_id = '.$album_id
+								);
+						
+		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		$srows = $db->loadObjectList();
+		return $srows;
+	}
     
     /**
      * Generates list of most songs tags

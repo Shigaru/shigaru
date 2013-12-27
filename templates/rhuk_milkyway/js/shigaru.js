@@ -53,6 +53,8 @@ jQuery(document).ready(function($){
 	}).result(function(event, data) {
 		if (data){
 			var oURL = 'index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption='+data.originalsource+'&item_id='+data.id;
+			if(data.originalsource =='asearchedsource')
+				oURL = 'index.php?option=com_hwdvideoshare&task=search&Itemid=28&pattern='+data.value;
 			window.location.href = oURL;
 		}
 	});
