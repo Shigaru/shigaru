@@ -27,6 +27,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 			if($uri->getVar('task') == 'categories' ||
 				$uri->getVar('task') == 'viewgroup' ||
 				$uri->getVar('task') == 'nextvideo' ||
+				$uri->getVar('task') == 'searchbyoption' ||
 				$uri->getVar('task') == 'previousvideo'){
 				hwdvsInitialise::language('plugs');
 			}
@@ -85,6 +86,37 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 		return $cache[$id];
     }
 	
+	function _getBand($id) {
+		static $cache = array();
+		
+		if (!isset($cache[$id])) {
+			$row = AceDatabase::loadRow("SELECT label FROM #__hwdvidsbands WHERE id =".$id);
+			$cache[$id]['bandname'] = $row[0];
+		}		
+		return $cache[$id]['bandname'];
+    }
+	
+	function _getSong($id) {
+		static $cache = array();
+		
+		if (!isset($cache[$id])) {
+			$row = AceDatabase::loadRow("SELECT label FROM #__hwdvidssongs WHERE id =".$id);
+			$cache[$id]['songname'] = $row[0];
+		}		
+		return $cache[$id]['songname'];
+    }
+    
+    function _getAlbum($id) {
+		static $cache = array();
+		
+		if (!isset($cache[$id])) {
+			$row = AceDatabase::loadRow("SELECT label FROM #__hwdvidsalbums WHERE id =".$id);
+			$cache[$id]['albumname'] = $row[0];
+		}		
+		return $cache[$id]['albumname'];
+    }
+	
+	
 	function build(&$vars, &$segments, &$do_sef, &$metadata, &$item_limitstart) {
 		self::_d_g_f_h_acesef();
 		
@@ -103,6 +135,25 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 						unset($vars['cat_id']);
 					}
                     break;
+                case 'searchbyoption':
+						
+						$oOption = JRequest::getVar('searchoption') ;
+						$oItemId = JRequest::getVar('item_id') ;
+						if($oOption=='bsongssource'){
+							$segments[] = JText::_('Songs');
+							$segments [] = self::_getSong(intval($oItemId));
+							}else if($oOption=='cbandsssource'){
+								$segments[] = JText::_('Bands');
+								$segments [] = self::_getBand(intval($oItemId));
+								}else if($oOption=='dalbumssource'){
+									$segments[] = JText::_('Albums');
+									$segments [] = self::_getAlbum(intval($oItemId));
+									}else{
+										}
+						unset($vars['item_id']);
+						unset($vars['searchoption']);
+						
+                    break;    
 				case 'viewvideo':
                     if (!empty($video_id)) {
                         $segments = array_merge( $segments, self::_getVideo(intval($video_id)));
@@ -339,7 +390,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 		}
 		
 		$metadata = parent::getMetaData($vars, $item_limitstart);
-		
+	
 		unset($vars['limit']);
 		unset($vars['limitstart']);
 	}

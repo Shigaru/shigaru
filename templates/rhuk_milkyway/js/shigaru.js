@@ -41,7 +41,7 @@ jQuery(document).ready(function($){
 		parse: function(data) {
 			return data;
 		},
-		max:20,
+		max:10,
 		highlight:false,
 		dataType:'json',
 		formatResult: function(data, value) {
@@ -50,9 +50,11 @@ jQuery(document).ready(function($){
 		formatItem: function(item) {
 			return item;
 		}
-	}).result(function(event, data, formatted) {
-		if (data)
-			alert(formatted);
+	}).result(function(event, data) {
+		if (data){
+			var oURL = 'index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption='+data.originalsource+'&item_id='+data.id;
+			window.location.href = oURL;
+		}
 	});
 	
 	jQuery('.usermessages div a.close').click(function(){
@@ -76,7 +78,7 @@ jQuery(document).ready(function($){
 			if(!jQuery(this).hasClass('loaded')){
 				jQuery(this).addClass('loaded');
 				jQuery.ajax({
-				  url: 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_headmoreoptions&format=raw'
+				  url: 'index.php?option=com_hwdvideoshare&task=ajax_headmoreoptions&format=raw'
 				}).done(function(data){
 							$this.removeClass('loadingcontent').find('.icon-spinner').hide();
 							$( "div#nav_tabs" ).clone().appendTo($this);

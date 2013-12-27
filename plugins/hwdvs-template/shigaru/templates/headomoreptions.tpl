@@ -55,7 +55,7 @@
 	
 	<div class="w33 fleft mbot30">
 		<div class="mbot12">
-			<h5><i class="fontorange f300 icon-share"></i> <span class="f150 mleft12 fontbold fontsig">{$smarty.const._HWDVIDS_SHIGARU_SUBMITURL}</span></h5>
+			<h5><i class="fontorange f300 icon-share-sign"></i> <span class="f150 mleft12 fontbold fontsig">{$smarty.const._HWDVIDS_SHIGARU_SUBMITURL}</span></h5>
 		</div>	
 		<div>
 			<div>

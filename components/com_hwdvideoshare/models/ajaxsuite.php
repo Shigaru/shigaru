@@ -257,6 +257,7 @@ class hwd_vs_ajax
 		exit;
 		}
 	
+	
     /**
      * Outputs frontpage HTML
      *

@@ -430,8 +430,7 @@ $('#cbbtncancel').click( function() {
 			echo '<input type="hidden" id="user_id" name="user_id" value="'.$user->id.'" />';
 			echo '<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 				<script type="text/javascript" src="'.$_CB_framework->getCfg( 'live_site' ).'/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
-				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruuserheader.js"></script>
-				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruusermenu.js"></script>';
+				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>';
 			echo "\n\t<div class=\"cbProfile\"><div id=\"cbProfileInner\">";
 			echo '<div id="usersection" class="cbProfile mtop12 mbot12">
 					<div class="f80 loadingcontent" style="line-height:150px"><i class="icon-spinner icon-spin"></i> Loading...</div>	

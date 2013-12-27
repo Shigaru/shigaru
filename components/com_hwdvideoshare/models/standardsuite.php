@@ -493,6 +493,10 @@ $app = & JFactory::getApplication();
 		return;
 	}
 
+	function searchbyoption()	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		print hwd_vs_usrfunc::getHeaderMoreOptions();
+		}
 
 
     /**

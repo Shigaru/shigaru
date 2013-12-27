@@ -232,7 +232,7 @@ $.Autocompleter = function(input, options) {
 		
 		$input.val(v);
 		hideResultsNow();
-		$input.trigger("result", [selected.data, selected.value]);
+		$input.trigger("result", selected);
 		return true;
 	}
 	
@@ -410,7 +410,7 @@ $.Autocompleter.defaults = {
 	resultsClass: "ac_results dropdown-menu",
 	loadingClass: "ac_loading",
 	minChars: 1,
-	delay: 400,
+	delay: 0,
 	matchCase: false,
 	matchSubset: true,
 	matchContains: false,
