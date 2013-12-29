@@ -291,8 +291,8 @@ class hwd_vs_ajax
 		  $oJsongResults = json_decode($gsJson);
 		  if($oJsongResults->resultsPage->status == 'ok'){
 			  if($oJsongResults->resultsPage->results->artist[0]->onTourUntil == null){
-					  $SongKickURL = 'http://api.hostip.info/get_json.php?ip=12.215.42.19&position=true';
-					  //$SongKickURL = 'http://api.hostip.info/get_json.php?ip='.urlencode($_SERVER['REMOTE_ADDR']).'&position=true';
+					  //$SongKickURL = 'http://api.hostip.info/get_json.php?ip=12.215.42.19&position=true';
+					  $SongKickURL = 'http://api.hostip.info/get_json.php?ip='.urlencode($_SERVER['REMOTE_ADDR']).'&position=true';
 					  $gsJson 		= file_get_contents($SongKickURL,0,null,null);
 					  $songResults 	= $gsJson;
 					  $oJsongResults = json_decode($gsJson);

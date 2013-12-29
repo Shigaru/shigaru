@@ -6,6 +6,16 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
+<script>
+	var bandId 			= "{$band->bandid}";
+	var bandName		= "{$band->band_name}";
+	var searchoption 	= "{$band->source}";
+	var oSearchParams = {literal}{
+		ordering:'date_uploaded',
+		filtering:null,
+		currentUrl:'{/literal}{$pageURL}'
+	};
+</script>
 <div class="workarea">
 	<div class="workarea_wrapper clearfix mbot30">
 		<div class="fleft">
@@ -27,3 +37,6 @@
 		</div>
 	<div>
 <div>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/bandpage.js"></script>
+<script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
