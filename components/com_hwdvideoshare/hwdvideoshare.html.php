@@ -155,7 +155,7 @@ class hwd_vs_html
      */
     function albumpage($album)
     {
-		global $Itemid, $smartyvs;	
+		global $Itemid, $smartyvs, $hwdvsTemplateOverride;	
 		$smartyvs->assign("album", $album[0]);
 		$smartyvs->assign("songs", $album);
 		$uri = & JFactory::getURI();
@@ -163,8 +163,15 @@ class hwd_vs_html
 		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
 		$pageURL = str_replace("&ajax=yes", "", $pageURL);
 		$smartyvs->assign("pageURL", $pageURL);
+		$songIds = array();
+		for($j = 0;$j<count($album);$j++){
+			$songIds[]=$album[$j]->songid;
+			}
+		$videosAlbum = hwd_vs_tools::getVideosBySongs($songIds);
+		$matchingvids = hwd_vs_tools::generateVideoListFromSql($videosAlbum, null, '133');
 		$domain = JURI::root();
 	    $smartyvs->assign("domain", $domain);
+	    $smartyvs->assign("videosAlbum", $matchingvids);
 		$smartyvs->display('albumpage.tpl');
 		return;
     }

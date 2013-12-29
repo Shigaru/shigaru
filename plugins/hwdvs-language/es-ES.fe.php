@@ -929,3 +929,4 @@ DEFINE("_HWDVIDS_SHIGARU_BANDEVENTS","Próximos eventos de");
 DEFINE("_HWDVIDS_SHIGARU_NOBANDEVENTS","Como parece que");
 DEFINE("_HWDVIDS_SHIGARU_NOBANDEVENT2","no esta de gira en este momento, aquí tienes los próximos conciertos cerca de dónde estás");
 DEFINE("_HWDVIDS_SHIGARU_BANDMOREINFO","Más información sobre");
+DEFINE("_HWDVIDS_SHIGARU_SONGSALBUM","Canciones de este disco");

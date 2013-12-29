@@ -1,4 +1,5 @@
 jQuery(document).ready(function () {
+    jQuery("#albumsongs .resultelement").css({width:'100%'});
     doLoadBandInfo();
     var oShigaruVideoList  = jQuery('#resultcontainer').shigaruVideoList(
 			{

@@ -136,9 +136,8 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 					}
                     break;
                 case 'searchbyoption':
-						
-						$oOption = JRequest::getVar('searchoption') ;
-						$oItemId = JRequest::getVar('item_id') ;
+						$oOption = $vars['searchoption'] ;
+						$oItemId = $vars['item_id'] ;
 						if($oOption=='bsongssource'){
 							$segments[] = JText::_('Songs');
 							$segments [] = self::_getSong(intval($oItemId));

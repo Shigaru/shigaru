@@ -3796,6 +3796,21 @@ $app = & JFactory::getApplication();
     }
     
     
+    function getVideosBySongs($song_ids){
+		 $db = & JFactory::getDBO();
+		 $query ='SELECT DISTINCT v.id as id, v.video_type,v.video_id,v.title,v.description,v.tags,v.song_id,v.band_id,v.language_id,v.category_id,v.genre_id,v.intrument_id,v.level_id,
+			UNIX_TIMESTAMP(v.date_uploaded) AS date_added,v.video_length,v.allow_comments,v.allow_embedding,v.allow_ratings,v.rating_number_votes,v.rating_total_points,v.user_id,
+			v.updated_rating,v.published,v.number_of_comments,v.public_private,v.thumb_snap,v.thumbnail,v.approved,v.number_of_views,u.username as username 
+			FROM #__hwdvidsvideos AS v JOIN #__users AS u ON v.user_id = u.id'
+			. ' WHERE v.song_id in ( ' . implode(', ',$song_ids) . ')'
+            . $orderVideos
+            ;
+            $db->setQuery($query);
+            echo $db->getErrorMsg();
+            $results = $db->loadObjectList();
+			return $results;
+		}
+    
    /**
      * Retrieves the song information stored in DB
      *
@@ -3820,7 +3835,7 @@ $app = & JFactory::getApplication();
 								u.external_url as extalbURL,
 								u.thumbnail as album_thumb'
 								. ' FROM #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id INNER JOIN #__hwdvidsalbums as u ON s.album_id=u.id'
-								. ' WHERE s.album_id = '.$album_id
+								. ' WHERE s.album_id = '.$album_id.' GROUP BY songname'
 								);
 						
 		$total = $db->loadResult();
