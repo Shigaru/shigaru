@@ -22,13 +22,13 @@
 			<img width="200" height="200" src="{$band->album_thumb}" />
 			<div class="w330 mtop20">
 					<div>
-						<h5 class="fontbold mbot20">{$smarty.const._HWDVIDS_SHIGARU_BANDMOREINFO} {$band->band_name}</h5>
+						<h5 class="fontbold mbot20"><i class="icon-bookmark fontsig f150"></i> {$smarty.const._HWDVIDS_SHIGARU_BANDMOREINFO} {$band->band_name}</h5>
 						<div id="bandinfo" class="f80">
 							<div class="f80 loadingcontent" style="line-height:250px">
 								<i class="icon-spinner icon-spin"></i> Loading...
 							</div>
 						</div>
-						<h5 class="fontbold mtop20 mbot20"><span id="inyourarea" class="dispnon">{$smarty.const._HWDVIDS_SHIGARU_EVENTSINYOURAREA}</span><span id="forthisband">{$smarty.const._HWDVIDS_SHIGARU_BANDEVENTS}  {$band->band_name}</span></h5>
+						<h5 class="fontbold mtop20 mbot20"><i class="icon-ticket fontsig f150"></i> <span id="inyourarea" class="dispnon">{$smarty.const._HWDVIDS_SHIGARU_EVENTSINYOURAREA}</span><span id="forthisband">{$smarty.const._HWDVIDS_SHIGARU_BANDEVENTS}  {$band->band_name}</span></h5>
 						<span id="inyourareaexplain" class="dispnon"><i class="icon-info-sign fontblue"></i> <span class="f80">{$smarty.const._HWDVIDS_SHIGARU_NOBANDEVENTS} {$band->band_name} {$smarty.const._HWDVIDS_SHIGARU_NOBANDEVENT2}</span></span>
 						<div id="bandevents" class="f80 mtop12">
 							<div class="f80 loadingcontent" style="line-height:250px">

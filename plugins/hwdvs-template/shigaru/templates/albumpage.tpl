@@ -66,7 +66,7 @@
 			<div>
 			<div class="clearfix mtop20">
 				<div>
-						<h5 class="mtop20 fontbold">{$smarty.const._HWDVIDS_SHIGARU_RELATEDVIDEOS}</h5>
+						<h5 class="mtop20 mbot20 fontbold">{$smarty.const._HWDVIDS_SHIGARU_RELATEDVIDEOS}</h5>
 						<div id="resultwrapper">
 			
 										<div class="f15em mbot12 clearfix">

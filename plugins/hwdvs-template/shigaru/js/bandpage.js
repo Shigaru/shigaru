@@ -41,8 +41,12 @@ jQuery(document).ready(function () {
 						loadScript();		
 					}else{
 							jQuery.each( data.resultsPage.results.event, function( i, item ) {
-							var exturl = jQuery( "<a />" ).attr( "src", item.performance[0].artist.uri ).attr('target','_blank').append(item.displayName);
-							jQuery( "<div />" ).append(exturl).appendTo(oBandEventsDiv);
+							var exturl = jQuery( "<a />" ).attr( "href", item.uri ).attr('target','_blank').append(item.displayName);
+							var whereDiv = jQuery( "<div />" ).addClass().html('@'+item.location.city)
+							if(i%2 != 0)
+								jQuery( "<div />" ).addClass('ac_even').append(exturl).append(whereDiv).appendTo(oBandEventsDiv);
+								else
+									jQuery( "<div />" ).addClass('ac_odd').append(exturl).append(whereDiv).appendTo(oBandEventsDiv);
 						  });	
 						}
 					
