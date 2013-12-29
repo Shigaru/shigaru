@@ -1,5 +1,11 @@
 jQuery(document).ready(function () {
     doLoadBandInfo();
+    var oShigaruVideoList  = jQuery('#resultcontainer').shigaruVideoList(
+			{
+				needsHeaderProfile:false,
+				listURL:'index.php?option=com_hwdvideoshare&Itemid=29&task=displayresults&ajax=yes&format=raw'
+			
+		});
     function doLoadBandInfo() {
         var oBandInfoDiv   = jQuery("#bandinfo");
         var oBandEventsDiv = jQuery("#bandevents");
@@ -10,7 +16,7 @@ jQuery(document).ready(function () {
 				if(data.response.status.code==0){
 					oBandInfoDiv.hide().empty();
 					jQuery.each( data.response.urls, function( i, item ) {
-						var exturl = jQuery( "<a />" ).attr( "src", item ).attr('target','_blank').append(item);
+						var exturl = jQuery( "<a />" ).attr( "href", item ).attr('target','_blank').append(item);
 						jQuery( "<div />" ).append(exturl).appendTo(oBandInfoDiv);
 					  });
 					oBandInfoDiv.show(500);
@@ -20,11 +26,14 @@ jQuery(document).ready(function () {
         })
         jQuery.ajax({
 			dataType: "json",
-            url: 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_getbandevents&item_id='+bandId,
+            url: 'index.php?option=com_hwdvideoshare&task=ajax_getbandevents&item_id='+bandId,
             success: function (data) {
 				oBandEventsDiv.hide().empty();
 				oBandEventsDiv.show(500,function(){
 					if(data.resultsPage.results.location){
+						jQuery('#forthisband').hide();
+						jQuery('#inyourarea').show();
+						jQuery('#inyourareaexplain').show();
 						jQuery( "<div />" ).attr('id','map-canvas').css({'width':'300px','height':'300px'}).appendTo(oBandEventsDiv);
 						initialPoint = data.resultsPage.results.location[0].city;
 						markers = data.resultsPage.results.location;	

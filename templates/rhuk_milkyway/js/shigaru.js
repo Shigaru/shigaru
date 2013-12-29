@@ -1,6 +1,6 @@
 var $jq = jQuery.noConflict();
 jQuery(document).ready(function($){
-	jQuery('#sectionwrap').css({height:jQuery( window ).height()-jQuery( '#head' ).height(), 'overflow-y':'auto'});
+	jQuery('#sectionwrap').css({height:jQuery( window ).height()-jQuery( '#head' ).height(), 'overflow-y':'auto','overflow-x':'hidden'});
 	
 	jQuery.blockUI.defaults.css = {backgroundColor:'#fff'};
 	

@@ -234,14 +234,11 @@
 	<div class="standard">
 	  <div class="padding">
           <div style="clear:both;"></div>
-	    <div id="ajaxresponse"></div>
+			<div id="ajaxresponse"></div>
           <div style="clear:both;"></div>	
-	  </div>
-        </div>
-      </div>
-      
-      </div>
-      </div>
+		</div>
+  </div>
+		
 
 {if $print_nextprev or $print_videourl or $print_embedcode or $print_uservideolist or $print_relatedlist}
   </div>

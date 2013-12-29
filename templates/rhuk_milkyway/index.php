@@ -138,22 +138,25 @@ $host = JURI::root();
 	</nav> 
 	<section> 
 		<div class="clear"></div>
-		<div class="workarea">
-			<div class="workarea_wrapper">
-		<?php		
-			  if ($user->get('guest') != 1 && $user->lastvisitDate == "0000-00-00 00:00:00")
-			  {
-				 //echo 'amos pichica';       
-			  }		
-		?>      
-		<jdoc:include type="message" />
-		<jdoc:include type="modules" name="left" style="rounded" />
-		<jdoc:include type="component" />
-		<jdoc:include type="modules" name="footer" style="xhtml"/>
-		<jdoc:include type="modules" name="right" style="xhtml"/>
-		<jdoc:include type="modules" name="debug" />
-		<jdoc:include type="modules" name="chat" />
-		</div>
+		
+			<div class="workarea">
+				<div class="workarea_wrapper">
+					<div class="mleft12 mright12 clearfix">
+			<?php		
+				  if ($user->get('guest') != 1 && $user->lastvisitDate == "0000-00-00 00:00:00")
+				  {
+					 //echo 'amos pichica';       
+				  }		
+			?>      
+			<jdoc:include type="message" />
+			<jdoc:include type="modules" name="left" style="rounded" />
+			<jdoc:include type="component" />
+			<jdoc:include type="modules" name="footer" style="xhtml"/>
+			<jdoc:include type="modules" name="right" style="xhtml"/>
+			<jdoc:include type="modules" name="debug" />
+			<jdoc:include type="modules" name="chat" />
+			</div>
+			</div>
 		</div>
 	</section> 
 
@@ -162,7 +165,7 @@ $host = JURI::root();
 		<div id="footer">
 			<div id="footer_content">
 				<div id="leftcolumn">
-					<div>
+					<div class="mleft12">
 						<h3>Stay in touch</h3>
 						<div>
 							<ul>

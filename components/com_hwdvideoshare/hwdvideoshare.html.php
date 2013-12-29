@@ -120,6 +120,13 @@ class hwd_vs_html
     {
 		global $Itemid, $smartyvs;	
 		$smartyvs->assign("song", $song[0]);
+		$uri = & JFactory::getURI();
+		$pageURL = $uri->toString();
+		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
+		$pageURL = str_replace("&ajax=yes", "", $pageURL);
+		$smartyvs->assign("pageURL", $pageURL);
+		$domain = JURI::root();
+	    $smartyvs->assign("domain", $domain);
 		$smartyvs->display('songpage.tpl');
 		return;
     }
@@ -132,6 +139,13 @@ class hwd_vs_html
 		global $Itemid, $smartyvs;
 		$smartyvs->assign("band", $band[0]);
 		$smartyvs->assign("songs", $band);
+		$uri = & JFactory::getURI();
+		$pageURL = $uri->toString();
+		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
+		$pageURL = str_replace("&ajax=yes", "", $pageURL);
+		$smartyvs->assign("pageURL", $pageURL);
+		$domain = JURI::root();
+	    $smartyvs->assign("domain", $domain);
 		$smartyvs->display('bandpage.tpl');
 		return;
     }
@@ -144,6 +158,13 @@ class hwd_vs_html
 		global $Itemid, $smartyvs;	
 		$smartyvs->assign("album", $album[0]);
 		$smartyvs->assign("songs", $album);
+		$uri = & JFactory::getURI();
+		$pageURL = $uri->toString();
+		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
+		$pageURL = str_replace("&ajax=yes", "", $pageURL);
+		$smartyvs->assign("pageURL", $pageURL);
+		$domain = JURI::root();
+	    $smartyvs->assign("domain", $domain);
 		$smartyvs->display('albumpage.tpl');
 		return;
     }
