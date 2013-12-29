@@ -6,11 +6,7 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<script type="text/javascript" src="{$baseurl}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruuserheader.js"></script>
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruusermenu.js"></script>
+
 {include file='header.tpl'}
 <div id="deletevideomessage" class="dispnon span4">
 	<div class="pad12">
@@ -91,5 +87,9 @@
 </div>
 <input type="hidden" id="user_id" name="user_id" value="{$user_id}" />	
 
-
+<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<script type="text/javascript" src="{$baseurl}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruuserheader.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruusermenu.js"></script>
 

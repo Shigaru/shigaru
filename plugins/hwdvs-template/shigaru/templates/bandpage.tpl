@@ -6,12 +6,16 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
+<script>
+	var bandId 			= "{$band->bandid}";
+	var searchoption 	= "{$band->source}";
+</script>
 <div class="workarea">
 	<div class="workarea_wrapper clearfix mbot30">
 		<div class="fleft">
 			<img width="200" height="200" src="{$band->album_thumb}" />
 		</div>
-		<div class="mleft20 fleft">
+		<div class="mleft20 fleft w80pc">
 			<div>
 				<h3 class="fontbold f150">{$band->band_name}</h3>
 			</div>
@@ -33,9 +37,35 @@
 					{/foreach}
 				</ul>
 			</div>
-			<div>
-				<div><h5>{$smarty.const._HWDVIDS_SHIGARU_RELATEDVIDEOS}</h5></div>
-			<div>
+			<div class="clearfix">
+				<div class="fleft w40 f80">
+					<div>
+						<h5>{$smarty.const._HWDVIDS_SHIGARU_RELATEDVIDEOS}</h5>
+						<div id="">
+							<div class="f80 loadingcontent" style="line-height:250px">
+								<i class="icon-spinner icon-spin"></i> Loading...
+							</div>
+						</div>
+					</div>
+				</div>
+				<div  class="fright w40">
+					<div>
+						<h5 class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_BANDMOREINFO} {$band->band_name}</h5>
+						<div id="bandinfo">
+							<div class="f80 loadingcontent" style="line-height:250px">
+								<i class="icon-spinner icon-spin"></i> Loading...
+							</div>
+						</div>
+						<h5 class="fontbold mtop20">{$smarty.const._HWDVIDS_SHIGARU_EVENTSINYOURAREA}</h5>
+						<div id="bandevents">
+							<div class="f80 loadingcontent" style="line-height:250px">
+								<i class="icon-spinner icon-spin"></i> Loading...
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	<div>
 <div>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/bandpage.js"></script>

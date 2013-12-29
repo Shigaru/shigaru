@@ -304,6 +304,17 @@ class UserController extends JController
 		hwd_vs_standard::searchbyoption();
 	}
 	
+	function ajax_getbandexternalinfo()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::ajax_getBandExternalInfo();
+	}
+	function ajax_getbandevents()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::ajax_getBandEvents();
+	}
+	
 	function ajax_getvideocount()
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');

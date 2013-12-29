@@ -241,6 +241,83 @@ class hwd_vs_ajax
 		print $code;
 		exit;
 		}
+	function ajax_getBandExternalInfo(){
+		header('Content-type: text/html; charset=utf-8');
+		$searchoption 	= JRequest::getVar( 'searchoption', '');
+		$item_id 		= JRequest::getInt( 'item_id', 0 );
+		$songResults 	= null;
+		$band 			= hwd_vs_tools::getBandInfo($item_id);
+		$gsJsonurl 		= '';
+		if($searchoption =='rdio'){
+		  $oEchonestURL = 'http://developer.echonest.com/api/v4/artist/urls?api_key=NJ40LBT3X3XEM8PD4&id=rdio-us-streaming:artist:';
+		  $gsJsonurl 	= $oEchonestURL.''.$band[0]->extbandid;
+		  $gsJson = file_get_contents($gsJsonurl,0,null,null);
+		  $oJsongResults = json_decode($gsJson);
+		  $songResults = $gsJson;	
+		}
+		
+		if($searchoption !='rdio' || $oJsongResults->response->status->code == 5){
+		  $oEchonestURL = 'http://developer.echonest.com/api/v4/artist/search?api_key=NJ40LBT3X3XEM8PD4&format=json&name='.urlencode($band[0]->band_name).'&results=1';
+		  $gsJson = file_get_contents($oEchonestURL,0,null,null);
+		  $oJsongResults = json_decode($gsJson);
+		  if($oJsongResults->response->status->code == 0){
+			  $oEchonestURL = 'http://developer.echonest.com/api/v4/artist/urls?api_key=NJ40LBT3X3XEM8PD4&id='.urlencode($oJsongResults->response->artists[0]->id).'&format=json';
+			  $gsJsonurl 	= $oEchonestURL;
+			  $gsJson = file_get_contents($gsJsonurl,0,null,null);
+			  $oJsongResults = json_decode($gsJson);
+			  $songResults = $gsJson;
+			  }else{
+				  
+				  }
+				  
+			}
+		$songResults = $gsJson;	
+		/*echo '<pre>';
+		var_dump($songResults);
+		echo '</pre>';*/
+		echo $songResults;
+		exit;
+		}
+		
+	function ajax_getBandEvents(){
+		header('Content-type: text/html; charset=utf-8');
+		$item_id 	= JRequest::getVar( 'item_id', '');
+		$songResults 	= null;
+		$band 			= hwd_vs_tools::getBandInfo($item_id);
+		
+		  $SongKickURL = 'http://api.songkick.com/api/3.0/search/artists.json?query='.urlencode($band[0]->band_name).'&apikey=EKOiqRoWeX1ZQ9vZ&per_page=1';
+		  $gsJson 		= file_get_contents($SongKickURL,0,null,null);
+		  $songResults 	= $gsJson;
+		  $oJsongResults = json_decode($gsJson);
+		  if($oJsongResults->resultsPage->status == 'ok'){
+			  if($oJsongResults->resultsPage->results->artist[0]->onTourUntil == null){
+					  $SongKickURL = 'http://api.hostip.info/get_json.php?ip=12.215.42.19&position=true';
+					  //$SongKickURL = 'http://api.hostip.info/get_json.php?ip='.urlencode($_SERVER['REMOTE_ADDR']).'&position=true';
+					  $gsJson 		= file_get_contents($SongKickURL,0,null,null);
+					  $songResults 	= $gsJson;
+					  $oJsongResults = json_decode($gsJson);
+					  if($oJsongResults->country_code != 'XX'){
+						  //
+							  $SongKickURL = 'http://api.songkick.com/api/3.0/search/locations.json?location=geo:'.$oJsongResults->lat.','.$oJsongResults->lng.'&apikey=EKOiqRoWeX1ZQ9vZ';
+							  $gsJson 		= file_get_contents($SongKickURL,0,null,null);
+							  $songResults 	= $gsJson;
+							  $oJsongResults = json_decode($gsJson);
+						  }
+				}else{
+						  $SongKickURL = 'http://api.songkick.com/api/3.0/artists/'.$oJsongResults->resultsPage->results->artist[0]->id.'/calendar.json?apikey=EKOiqRoWeX1ZQ9vZ';
+						  $gsJson 		= file_get_contents($SongKickURL,0,null,null);
+						  $songResults 	= $gsJson;
+						  $oJsongResults = json_decode($gsJson);
+					}
+			  }
+		/*echo '<pre>';
+		var_dump($oJsongResults);
+		echo '</pre>';
+		//var_dump($songResults);*/
+		echo $songResults;
+		exit;
+		}	
+	
 		
 	function ajax_search()	{
 		header('Content-type: text/html; charset=utf-8');
