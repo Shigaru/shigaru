@@ -207,13 +207,10 @@ class hwd_vs_html
 		if (count($matchingvids) > 0) {
 			
 			$smartyvs->assign("print_matchvids", 1);
-			if($searchtype == 'videos'){
+			if($searchtype == 'videos' || $searchtype == 'videosongs'){
 			$matchingvids = hwd_vs_tools::generateVideoListFromSql($matchingvids, null, $hwdvsTemplateOverride['thumbWidth1']);
 			}else if($searchtype == 'users'){
 				$matchingvids = hwd_vs_tools::generateUserListFromSql($matchingvids, null, $hwdvsTemplateOverride['thumbWidth1']);
-				/*echo '<pre>';
-				var_dump($matchingvids[1]);
-			echo '</pre>';*/
 				}
 			$smartyvs->assign("matchingvids", $matchingvids);
 
@@ -256,14 +253,12 @@ class hwd_vs_html
 			$smartyvs->assign("mgempty", _HWDVIDS_INFO_NMG);
 		}
 		
-
-		
 		if($isAjax=='yes'){
 			$smartyvs->assign("mvempty", _HWDVIDS_INFO_NMVFILT);
 			if($fromtop){
 				$smartyvs->display('search_ajax_header.tpl');				
 			}else{
-				if($searchtype == 'videos')
+				if($searchtype == 'videos' || $searchtype == 'videosongs')
 				$smartyvs->display('search_ajax.tpl');	
 				else if ($searchtype == 'users')
 					$smartyvs->display('search_ajax_users.tpl');

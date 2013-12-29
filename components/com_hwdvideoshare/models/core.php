@@ -545,6 +545,17 @@ class hwd_vs_core
 			$groupNav = null;
 			$matchingGroups = null;
 			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype,$fromtop);
+		}else if($searchtype == 'videosongs'){
+			$matchingVideos = hwd_vs_search::searchVideoSongs($pattern,$limitstart, $rlimit,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
+			$totalVideos = $matchingVideos['total_found'];
+			$_searchTime = $matchingVideos['time'];
+			$matchingVideos = hwd_vs_search::getDisplayVideoResults($matchingVideos,$sort);
+			jimport('joomla.html.pagination');
+			$videoNav = new JPagination( $totalVideos, $limitstart, $rlimit );
+			$totalGroups = 0;
+			$groupNav = null;
+			$matchingGroups = null;
+			hwd_vs_html::search($totalVideos, $matchingVideos, $videoNav, $totalGroups, $matchingGroups, $groupNav, $pattern, $category_id,$_searchTime,$isAjax,$searchtype,$fromtop);
 		}else if($searchtype == 'scomments'){
 			$matchingVideos = hwd_vs_search::search($pattern,$limitstart, $rlimit,$sort,$level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
 			$totalVideos = $matchingVideos['total_found'];

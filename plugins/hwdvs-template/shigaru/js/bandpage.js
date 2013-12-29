@@ -3,7 +3,7 @@ jQuery(document).ready(function () {
     var oShigaruVideoList  = jQuery('#resultcontainer').shigaruVideoList(
 			{
 				needsHeaderProfile:false,
-				listURL:'index.php?option=com_hwdvideoshare&Itemid=29&task=displayresults&ajax=yes&format=raw'
+				listURL:'index.php?option=com_hwdvideoshare&Itemid=29&task=displayresults&ajax=yes&searchcategory=videosongs&format=raw&pattern='+bandName
 			
 		});
     function doLoadBandInfo() {
@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
         var oBandEventsDiv = jQuery("#bandevents");
         jQuery.ajax({
 			dataType: "json",
-            url: 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_getbandexternalinfo&searchoption='+searchoption+'&item_id='+bandId,
+            url: 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_getbandexternalinfo&ajax=yes&searchoption='+searchoption+'&item_id='+bandId,
             success: function (data) {
 				if(data.response.status.code==0){
 					oBandInfoDiv.hide().empty();
@@ -26,7 +26,7 @@ jQuery(document).ready(function () {
         })
         jQuery.ajax({
 			dataType: "json",
-            url: 'index.php?option=com_hwdvideoshare&task=ajax_getbandevents&item_id='+bandId,
+            url: 'index.php?option=com_hwdvideoshare&task=ajax_getbandevents&ajax=yes&item_id='+bandId,
             success: function (data) {
 				oBandEventsDiv.hide().empty();
 				oBandEventsDiv.show(500,function(){

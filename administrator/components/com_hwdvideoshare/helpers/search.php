@@ -276,6 +276,44 @@ class hwd_vs_search
        
         return $result;
     }
+    /**
+     * Perform search
+     * @param string $query
+     * @return boolean
+     */
+    function searchVideoSongs($query,$limitstart, $limitv,$sort)
+    {
+       hwd_vs_search::initSearch('videosongs');
+		$limit              = isset($_REQUEST['limit']) ? (int) $_REQUEST['limit'] : 50 ;
+		if(0 === $limit) {
+			$limit = 10000;
+		}
+		// clean up our search text
+		$text = trim( $query );
+		$searchText = $text;
+		$this->_query = $searchText;
+		//hwd_vs_search::setFilters($level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
+		hwd_vs_search::setLimit($limitstart, $limitv);
+        $result = $this->_sphinx->Query($searchText, $this->_index);
+        /*echo '<pre>';
+		var_dump($result);
+		echo '</pre>';*/
+        if ( $result === false ) {
+            echo "Query failed: " . $this->_sphinx->GetLastError() . ".\n";
+            //return false;
+	} else if ( $this->_sphinx->GetLastWarning() ) {
+            echo "WARNING: " . $this->_sphinx->GetLastWarning() . "\n";
+            //return false;
+        }
+
+        if ( ! empty($result["matches"]) ) {
+            $this->_matches = $result["matches"];
+	}
+        $this->_searchTime = $result['time'];
+        $this->_total = $result['total_found'];
+       
+        return $result;
+    }
     
     function getDisplayUserResults($matchingVideos){
 		$db =& JFactory::getDBO();
