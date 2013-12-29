@@ -887,6 +887,9 @@ DEFINE("_HWDVIDS_SHIGARU_RELATEDSONGS","Related Songs");
 DEFINE("_HWDVIDS_SHIGARU_RELATEDALBUMS","Related Albums");
 DEFINE("_HWDVIDS_SHIGARU_SONGS","Songs");
 DEFINE("_HWDVIDS_SHIGARU_EVENTSINYOURAREA","Upcoming events in your area");
+DEFINE("_HWDVIDS_SHIGARU_BANDEVENTS","Upcoming events for");
+DEFINE("_HWDVIDS_SHIGARU_NOBANDEVENTS","As it looks like ");
+DEFINE("_HWDVIDS_SHIGARU_NOBANDEVENT2","is currently not on tour, you can find below future events near your area");
 DEFINE("_HWDVIDS_SHIGARU_BANDMOREINFO","More useful information about");
 
 

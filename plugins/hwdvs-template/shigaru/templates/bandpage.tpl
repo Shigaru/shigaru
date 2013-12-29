@@ -38,7 +38,7 @@
 				</ul>
 			</div>
 			<div class="clearfix">
-				<div class="fleft w40 f80">
+				<div class="fleft w45 f80">
 					<div>
 						<h5>{$smarty.const._HWDVIDS_SHIGARU_RELATEDVIDEOS}</h5>
 						<div id="">
@@ -48,16 +48,17 @@
 						</div>
 					</div>
 				</div>
-				<div  class="fright w40">
+				<div  class="fright w45">
 					<div>
 						<h5 class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_BANDMOREINFO} {$band->band_name}</h5>
-						<div id="bandinfo">
+						<div id="bandinfo" class="f80">
 							<div class="f80 loadingcontent" style="line-height:250px">
 								<i class="icon-spinner icon-spin"></i> Loading...
 							</div>
 						</div>
-						<h5 class="fontbold mtop20">{$smarty.const._HWDVIDS_SHIGARU_EVENTSINYOURAREA}</h5>
-						<div id="bandevents">
+						<h5 class="fontbold mtop20"><span id="inyourarea" class="dispnon">{$smarty.const._HWDVIDS_SHIGARU_EVENTSINYOURAREA}</span><span id="forthisband">{$smarty.const._HWDVIDS_SHIGARU_BANDEVENTS}  {$band->band_name}</span></h5>
+						<span id="inyourareaexplain" class="dispnon">{$smarty.const._HWDVIDS_SHIGARU_NOBANDEVENTS} {$band->band_name} {$smarty.const._HWDVIDS_SHIGARU_NOBANDEVENT2}</span>
+						<div id="bandevents" class="f80">
 							<div class="f80 loadingcontent" style="line-height:250px">
 								<i class="icon-spinner icon-spin"></i> Loading...
 							</div>

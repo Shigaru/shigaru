@@ -18,6 +18,7 @@ ol { margin-left:2em; }
 .clearfix {display: inline-block;}  
 * html .clearfix {height: 1%;}  
 .clearfix {display: block;}
+a{cursor:pointer;}
 /* GENERAL STYLES */
 @font-face {
   font-family: 'Ubuntu';

@@ -22,14 +22,21 @@ jQuery(document).ready(function () {
 			dataType: "json",
             url: 'index.php?option=com_hwdvideoshare&lang=en&task=ajax_getbandevents&item_id='+bandId,
             success: function (data) {
-				console.log(data);	
 				oBandEventsDiv.hide().empty();
-				jQuery( "<div />" ).attr('id','map-canvas').css({'width':'300px','height':'300px'}).appendTo(oBandEventsDiv);
 				oBandEventsDiv.show(500,function(){
-					initialPoint = data.resultsPage.results.location[0].city;
-					markers = data.resultsPage.results.location;
-					loadScript();
-					});
+					if(data.resultsPage.results.location){
+						jQuery( "<div />" ).attr('id','map-canvas').css({'width':'300px','height':'300px'}).appendTo(oBandEventsDiv);
+						initialPoint = data.resultsPage.results.location[0].city;
+						markers = data.resultsPage.results.location;	
+						loadScript();		
+					}else{
+							jQuery.each( data.resultsPage.results.event, function( i, item ) {
+							var exturl = jQuery( "<a />" ).attr( "src", item.performance[0].artist.uri ).attr('target','_blank').append(item.displayName);
+							jQuery( "<div />" ).append(exturl).appendTo(oBandEventsDiv);
+						  });	
+						}
+					
+				});
             }
         })
     }
