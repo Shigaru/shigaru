@@ -3543,6 +3543,7 @@ $app = & JFactory::getApplication();
 								b.label as band_name,
 								b.external_id as extbandid,
 								b.external_url as extURL,
+								u.id as albumid,
 								u.label as album_name,
 								u.thumbnail as album_thumb'
 								. ' FROM #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id INNER JOIN #__hwdvidsalbums as u ON s.album_id=u.id'
@@ -3823,6 +3824,7 @@ $app = & JFactory::getApplication();
 								b.label as band_name,
 								b.external_id as extbandid,
 								b.external_url as extURL,
+								u.id as albumid,
 								u.label as album_name,
 								u.external_url as extalbURL,
 								u.thumbnail as album_thumb 
@@ -3847,6 +3849,7 @@ $app = & JFactory::getApplication();
 								b.external_id as extbandid,
 								b.external_url as extURL,
 								u.label as album_name,
+								u.id as albumid,
 								u.external_url as extalbURL,
 								u.thumbnail as album_thumb 
 						from #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id INNER JOIN #__hwdvidsalbums as u ON s.album_id=u.id
@@ -3878,6 +3881,7 @@ $app = & JFactory::getApplication();
 								b.external_id as extbandid,
 								b.external_url as extURL,
 								u.label as album_name,
+								u.id as albumid,
 								u.external_url as extalbURL,
 								u.thumbnail as album_thumb'
 								. ' FROM #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id INNER JOIN #__hwdvidsalbums as u ON s.album_id=u.id'
@@ -5459,6 +5463,7 @@ $app = & JFactory::getApplication();
 								b.label as band_name,
 								b.external_id as extbandid,
 								u.label as album_name,
+								u.id as albumid,
 								u.thumbnail as album_thumb'
 								. ' FROM #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id INNER JOIN #__hwdvidsalbums as u ON s.album_id=u.id'
 								. ' WHERE s.id = '.$song_id

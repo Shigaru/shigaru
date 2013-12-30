@@ -127,7 +127,10 @@ class hwd_vs_html
 		$smartyvs->assign("pageURL", $pageURL);
 		$domain = JURI::root();
 	    $smartyvs->assign("domain", $domain);
+	    $smartyvs->assign("bandurl", 'index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption=cbandsssource&item_id='.$song[0]->bandid);
+	    $smartyvs->assign("albumurl", 'index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption=dalbumssource&item_id='.$song[0]->albumid);
 		$smartyvs->display('songpage.tpl');
+		
 		return;
     }
     
