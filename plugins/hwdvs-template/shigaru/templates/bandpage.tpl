@@ -19,7 +19,11 @@
 <div class="workarea">
 	<div class="workarea_wrapper clearfix mbot30">
 		<div class="fleft">
-			<img width="200" height="200" src="{$band->album_thumb}" />
+			{if $band->album_thumb neq ''}
+			<img src="{$band->album_thumb}" width="200" height="200"/>
+			{else}
+			<img src="templates/rhuk_milkyway/images/vinyl-icon_big.png" width="200" height="200"/>
+			{/if}
 			<div class="w330 mtop20">
 					<div>
 						<h5 class="fontbold mbot20"><i class="icon-bookmark fontsig f150"></i> {$smarty.const._HWDVIDS_SHIGARU_BANDMOREINFO} {$band->band_name}</h5>

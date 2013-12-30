@@ -6,7 +6,13 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-
+<script>
+	var oSearchParams = {literal}{
+		ordering:'date_uploaded',
+		filtering:null,
+		currentUrl:'{/literal}{$pageURL}'
+	};
+</script>
 {include file='header.tpl'}
 <div id="deletevideomessage" class="dispnon span4">
 	<div class="pad12">

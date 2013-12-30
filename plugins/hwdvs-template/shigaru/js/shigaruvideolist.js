@@ -10,12 +10,15 @@
     var isISotopized	= false;
     var oUserUrl 		= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_userdetails&format=raw&user_id="+jQuery('#user_id').val();
     var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_setuserstatusmessage&format=raw"
+    var oUserMenuUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_usermenu&format=raw";
     
     return this.each(function() {
 		transformFiltersLinks();
 		doLoadAjaxContent(oListUrl);
 		if(opts.needsHeaderProfile)
 			doLoadAjaxUserDetails();	
+		if(opts.needsUserMenu)
+			doLoadAjaxUserMenu();	
 		activateLayoutLinks();
 	});
 	
@@ -112,6 +115,18 @@
         });
 		
 		}
+		
+	function doLoadAjaxUserMenu(){
+		jQuery.ajax({
+            url: oUserMenuUrl
+        }).done(function (data) {
+			var $userMenuContainer = jQuery(opts.menuWrapper);
+			$userMenuContainer.hide().html(data).find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+			$userMenuContainer.find(".loadingcontent").hide();
+			$userMenuContainer.fadeIn();
+        });
+		
+	}
 	
 	function doLoadAjaxContent(paramUrl){
 		$container.html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
@@ -375,12 +390,14 @@
 	filtersSelects: '#resultfilters .filter .widget select',
 	paginationContainer: '.vidlistoptbar .vidlistpagination',
 	actionbars:'.vidlistoptbar',
+	menuWrapper:'#usermenuwrapper',
 	listURL : 'index.php?option=com_hwdvideoshare&Itemid=29&task=displayresults&ajax=yes&format=raw',
 	masonryColumnWidth : 275,
 	masonryHorizontalRowHeight: 200,
 	cellsByRowColumnWidth : 380, 
 	cellsByRowRowHeight: 225,	
-	needsHeaderProfile: true
+	needsHeaderProfile: true,
+	needsUserMenu: false
   }
   
 })(jQuery);
