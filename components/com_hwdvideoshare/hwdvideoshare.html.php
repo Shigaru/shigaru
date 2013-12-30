@@ -153,6 +153,23 @@ class hwd_vs_html
     /**
      *
      */
+    function atoz()
+    {
+		global $Itemid, $smartyvs;
+		$uri = & JFactory::getURI();
+		$pageURL = $uri->toString();
+		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
+		$pageURL = str_replace("&ajax=yes", "", $pageURL);
+		$smartyvs->assign("pageURL", $pageURL);
+		$domain = JURI::root();
+	    $smartyvs->assign("domain", $domain);
+		$smartyvs->display('atoz.tpl');
+		return;
+    }
+    
+    /**
+     *
+     */
     function albumpage($album)
     {
 		global $Itemid, $smartyvs, $hwdvsTemplateOverride;	

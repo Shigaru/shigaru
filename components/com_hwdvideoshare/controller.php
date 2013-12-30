@@ -268,6 +268,12 @@ class UserController extends JController
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'standardsuite.php');
 		hwd_vs_standard::viewPrevVideo();
 	}
+	
+	function atoz()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'standardsuite.php');
+		hwd_vs_standard::atoz();
+	}
 
 	function ajax_rate()
 	{
@@ -291,6 +297,18 @@ class UserController extends JController
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
 		hwd_vs_ajax::ajax_searchsong();
+	}
+	
+	function ajax_getsongsbyfirstletter()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::ajax_getsongsbyfirstletter();
+	}
+	
+	function ajax_getbandsbyfirstletter()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::ajax_getbandsbyfirstletter();
 	}
 	
 	function ajax_headmoreoptions()

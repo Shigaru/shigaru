@@ -142,12 +142,6 @@ $host = JURI::root();
 			<div class="workarea">
 				<div class="workarea_wrapper">
 					<div class="mleft12 mright12 clearfix">
-			<?php		
-				  if ($user->get('guest') != 1 && $user->lastvisitDate == "0000-00-00 00:00:00")
-				  {
-					 //echo 'amos pichica';       
-				  }		
-			?>      
 			<jdoc:include type="message" />
 			<jdoc:include type="modules" name="left" style="rounded" />
 			<jdoc:include type="component" />

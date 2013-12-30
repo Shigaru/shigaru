@@ -226,6 +226,25 @@ class hwd_vs_ajax
 		exit;
 		}	
 		
+	function ajax_getsongsbyfirstletter(){
+		global $smartyvs;
+		header('Content-type: text/html; charset=utf-8');
+		$letter = Jrequest::getVar( 'letter', 'a' );
+		$results 	= hwd_vs_tools::getSongsByFirstLetter($letter);
+		$smartyvs->assign("results", $results);
+		$oResults = $smartyvs->fetch('bandsong_results.tpl');
+		print $oResults;
+		exit;
+		}	
+		
+	function ajax_getbandsbyfirstletter(){
+		header('Content-type: text/html; charset=utf-8');
+		$letter        = Jrequest::getVar( 'letter', 'a' );
+		$code = hwd_vs_tools::getBandsByFirstLetter($letter);
+		print $code;
+		exit;
+		}	
+		
 	function ajax_relatedvideos(){
 		header('Content-type: text/html; charset=utf-8');
 		$item_id 	   = Jrequest::getVar( 'item_id', null );

@@ -200,9 +200,9 @@
       prepareLayoutParameters($optionSets.find('.active').attr('data-option-value'));
       $container.isotope({
         itemSelector : '.resultelement',
-        masonry : {columnWidth : 275},
-		masonryHorizontal : {rowHeight: 200},
-		cellsByRow : {columnWidth : 380, rowHeight: 225},	
+        masonry : {columnWidth : opts.masonryColumnWidth},
+		masonryHorizontal : {rowHeight: opts.masonryHorizontalRowHeight},
+		cellsByRow : {columnWidth : opts.cellsByRowColumnWidth, rowHeight: opts.cellsByRowRowHeight},	
 		layoutMode:$optionSets.find('.active').attr('data-option-value')
       },function(){
 		  isISotopized = true;
@@ -376,6 +376,10 @@
 	paginationContainer: '.vidlistoptbar .vidlistpagination',
 	actionbars:'.vidlistoptbar',
 	listURL : 'index.php?option=com_hwdvideoshare&Itemid=29&task=displayresults&ajax=yes&format=raw',
+	masonryColumnWidth : 275,
+	masonryHorizontalRowHeight: 200,
+	cellsByRowColumnWidth : 380, 
+	cellsByRowRowHeight: 225,	
 	needsHeaderProfile: true
   }
   

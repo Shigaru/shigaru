@@ -3810,6 +3810,52 @@ $app = & JFactory::getApplication();
             $results = $db->loadObjectList();
 			return $results;
 		}
+		
+	function getSongsByFirstLetter($firstletter){
+		 $db = & JFactory::getDBO();
+		 $query ='select s.id as songid,
+								s.label as songname,
+								s.provider as source,
+								s.band_id as bandid,
+								s.external_id as extsongid,
+								s.external_url as extsongurl,
+								s.embedding as songurl,
+								b.label as band_name,
+								b.external_id as extbandid,
+								b.external_url as extURL,
+								u.label as album_name,
+								u.external_url as extalbURL,
+								u.thumbnail as album_thumb 
+					from #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id INNER JOIN #__hwdvidsalbums as u ON s.album_id=u.id
+					where s.label LIKE \''.$firstletter.'%\' GROUP BY s.label ORDER BY s.label ASC';
+		 $db->setQuery($query);
+         echo $db->getErrorMsg();
+         $results = $db->loadObjectList();
+		 return $results;
+		}	
+	
+	function getBandsByFirstLetter($firstletter){
+		 $db = & JFactory::getDBO();
+		 $query ='select s.id as songid,
+								s.label as songname,
+								s.provider as source,
+								s.band_id as bandid,
+								s.external_id as extsongid,
+								s.external_url as extsongurl,
+								s.embedding as songurl,
+								b.label as band_name,
+								b.external_id as extbandid,
+								b.external_url as extURL,
+								u.label as album_name,
+								u.external_url as extalbURL,
+								u.thumbnail as album_thumb 
+						from #__hwdvidssongs as s INNER JOIN #__hwdvidsbands as b ON s.band_id=b.id INNER JOIN #__hwdvidsalbums as u ON s.album_id=u.id
+						where b.label LIKE \''.$firstletter.'%\' GROUP BY b.label ORDER BY b.label ASC';
+		 $db->setQuery($query);
+         echo $db->getErrorMsg();
+         $results = $db->loadObjectList();
+		 return $results;
+		}	
     
    /**
      * Retrieves the song information stored in DB
