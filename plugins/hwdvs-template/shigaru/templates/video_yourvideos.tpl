@@ -27,7 +27,7 @@
 		</div>
 	</div>	
 </div>
-<div id="usersection" class="cbProfile mtop12 mbot12">
+<div id="usersection" class="cbProfile mbot12">
 <div class="f80 loadingcontent" style="line-height:150px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
 </div>	
 <div class="clearfix mtop12 f80">
@@ -39,10 +39,10 @@
 			<div class="clearfix">
 				<div class="fleft f15em fontbold">
 					<h3>
-						{if $otheruser eq 'no'}
+						{if $otheruser neq 'no'}
 							{$smarty.const._HWDVIDS_TITLE_VIDCREATBY} {$otheruser}
 						{else}
-							<span class="fontnormal">{$smarty.const._HWDVIDS_TITLE_MYVIDS}</span> - {$smarty.const._HWDVIDS_TITLE_YOURVIDS}
+							{$smarty.const._HWDVIDS_TITLE_MYVIDS} - <span class="fontnormal">{$smarty.const._HWDVIDS_TITLE_YOURVIDS}</span>
 						{/if}</h3>
 				</div>
 				<div class="fright">

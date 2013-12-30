@@ -5991,7 +5991,7 @@ $app = & JFactory::getApplication();
 				}
 			$page = $total - $c->vpp;
 			if ( $page > 0 ){
-				$oResults .= '<div id="videolistpage">';
+				$oResults .= '<div class="videopagination">';
 				$oResults .= $pageNav->getPagesLinks();
 				$oResults .= '</div>';
 			}	

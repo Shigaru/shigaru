@@ -431,7 +431,14 @@ $('#cbbtncancel').click( function() {
 			echo '<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 				<script type="text/javascript" src="'.$_CB_framework->getCfg( 'live_site' ).'/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
 				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
-				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/profile.js"></script>';
+				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/profile.js"></script>
+				<script>
+					var oSearchParams = {
+						ordering:"date_uploaded",
+						filtering:null,
+						currentUrl:""
+					};
+				</script>';
 			echo "\n\t<div class=\"cbProfile\"><div id=\"cbProfileInner\">";
 			echo '<div id="usersection" class="cbProfile mtop12 mbot12">
 					<div class="f80 loadingcontent" style="line-height:150px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
@@ -440,7 +447,7 @@ $('#cbbtncancel').click( function() {
 					<div id="usermenuwrapper"  class="well fleft w15">
 						<div class="f80 loadingcontent" style="line-height:550px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
 					</div>	
-				  <div id="videoresultwrapper" class="f80">
+				  <div id="videoresultwrapper" class="f80 fleft w80pc pad12">
 														<div class="vidlistoptbar clearfix mtop20">					
 															<form class="fleft clearfix">
 																			<div class="fleft">
