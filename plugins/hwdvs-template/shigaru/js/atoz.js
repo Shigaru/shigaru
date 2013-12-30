@@ -1,6 +1,9 @@
 jQuery(document).ready(function () {
 	var oBandInfoDiv   = jQuery("#resultcontainer");
 	var init = false;
+	var oUrl = 'index.php?option=com_hwdvideoshare&task=ajax_getsongsbyfirstletter&ajax=yes&letter=';
+		if(songorband == 'band')
+			oUrl = 'index.php?option=com_hwdvideoshare&task=ajax_getbandsbyfirstletter&ajax=yes&letter=';
 	loadBandSongs('a');        
      jQuery.ajax({
 			dataType: "json",
@@ -31,7 +34,7 @@ jQuery(document).ready(function () {
 			if(init)
 				oBandInfoDiv.empty().html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>').show(500);
 			jQuery.ajax({
-				url: 'index.php?option=com_hwdvideoshare&task=ajax_getsongsbyfirstletter&ajax=yes&letter='+letter,
+				url: oUrl+letter,
 				success: function (data) {
 					if(data){
 						oBandInfoDiv.empty().html(data).show(500);

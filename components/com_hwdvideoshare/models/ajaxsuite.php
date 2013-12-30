@@ -232,16 +232,21 @@ class hwd_vs_ajax
 		$letter = Jrequest::getVar( 'letter', 'a' );
 		$results 	= hwd_vs_tools::getSongsByFirstLetter($letter);
 		$smartyvs->assign("results", $results);
+		$smartyvs->assign("songorband", 'song');
 		$oResults = $smartyvs->fetch('bandsong_results.tpl');
 		print $oResults;
 		exit;
 		}	
 		
 	function ajax_getbandsbyfirstletter(){
+		global $smartyvs;
 		header('Content-type: text/html; charset=utf-8');
-		$letter        = Jrequest::getVar( 'letter', 'a' );
-		$code = hwd_vs_tools::getBandsByFirstLetter($letter);
-		print $code;
+		$letter = Jrequest::getVar( 'letter', 'a' );
+		$results 	= hwd_vs_tools::getBandsByFirstLetter($letter);
+		$smartyvs->assign("results", $results);
+		$smartyvs->assign("songorband", 'band');
+		$oResults = $smartyvs->fetch('bandsong_results.tpl');
+		print $oResults;
 		exit;
 		}	
 		

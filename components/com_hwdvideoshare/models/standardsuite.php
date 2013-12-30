@@ -525,6 +525,16 @@ $app = & JFactory::getApplication();
 		hwd_vs_html::atoz();
 		return;
 		}
+		
+	/**
+     * Call to html component to render A to Z  page
+     *
+     * @return       Nothing
+     */
+	function atozbands()	{
+		hwd_vs_html::atozbands();
+		return;
+		}
 
 
     /**

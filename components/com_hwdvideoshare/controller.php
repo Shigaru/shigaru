@@ -274,6 +274,12 @@ class UserController extends JController
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'standardsuite.php');
 		hwd_vs_standard::atoz();
 	}
+	
+	function atozbands()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'standardsuite.php');
+		hwd_vs_standard::atozbands();
+	}
 
 	function ajax_rate()
 	{
