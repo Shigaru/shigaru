@@ -430,7 +430,8 @@ $('#cbbtncancel').click( function() {
 			echo '<input type="hidden" id="user_id" name="user_id" value="'.$user->id.'" />';
 			echo '<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 				<script type="text/javascript" src="'.$_CB_framework->getCfg( 'live_site' ).'/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
-				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>';
+				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
+				<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/profile.js"></script>';
 			echo "\n\t<div class=\"cbProfile\"><div id=\"cbProfileInner\">";
 			echo '<div id="usersection" class="cbProfile mtop12 mbot12">
 					<div class="f80 loadingcontent" style="line-height:150px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
@@ -439,9 +440,43 @@ $('#cbbtncancel').click( function() {
 					<div id="usermenuwrapper"  class="well fleft w15">
 						<div class="f80 loadingcontent" style="line-height:550px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
 					</div>	
-				  <div id="resultcontainer" class="fleft clearfix pad12">
-						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
-					</div></div>';
+				  <div id="videoresultwrapper" class="f80">
+														<div class="vidlistoptbar clearfix mtop20">					
+															<form class="fleft clearfix">
+																			<div class="fleft">
+																				<label for="sort_by" class="sort-control-label">Sort by:</label>
+																				<select class="sort_select" id="sort_by" name="sort_by">
+																					<option value="date_uploaded" selected="selected">Date</option>
+																					<option value="number_of_views">Views</option>
+																					<option value="category">Category</option>
+																					<option value="updated_rating">Rating</option>
+																					<option value="level_id">Level</option>
+																					<option value="number_of_comments">Comments</option>
+																				</select>
+																			</div>	
+																			<!--<a href="#" class="fleft fontred pad6"><i class="icon-arrow-up icon-large fontblack"></i></a>
+																			<input class="icon-search mleft30 fleft" type="text" placeholder="Search your videos..."/>-->
+																			
+																		</form>
+																		<div class="vidlistpagination w63 f100 mtop2 fleft tcenter"></div>
+
+																		<div id="options" class="clearfix fright">    
+																			<div class="btn-group" data-option-key="layoutMode">
+																			  <a class="btn" href="#masonry" data-option-value="masonry"><i class="icon-th"></i></a>
+																			  <a class="btn" href="#cellsByRow" data-option-value="cellsByRow"><i class="icon-th-large"></i></a>
+																			  <a class="btn active" href="#straightDown" data-option-value="straightDown" class="active"><i class="icon-th-list"></i></a>
+																			</div>
+																		</div> <!-- #options -->
+														</div>
+														<div id="resultcontainer" class="mtop20">
+															<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...
+															</div>
+														</div>
+														<div class="vidlistoptbar clearfix mtop20">
+																<div class="vidlistpagination w100 f100 fleft tcenter">
+																</div>
+														</div>
+													</div>';
 			//echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $user, 'Profile', 'drawProfile', array( &$user, &$userViewTabs ), $output );
 
 			echo "</div></div>\n" . "";		// end of cbProfile floating div
