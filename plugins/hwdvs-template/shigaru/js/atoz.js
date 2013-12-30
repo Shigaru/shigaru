@@ -1,21 +1,13 @@
 jQuery(document).ready(function () {
-   jQuery.ajax({
-            url: 'index.php?option=com_hwdvideoshare&task=ajax_getsongsbyfirstletter&ajax=yes',
-            success: function (data) {
-				if(data){
-					var oBandInfoDiv   = jQuery("#resultcontainer");
-					oBandInfoDiv.hide().empty().html(data).show(500);
-					}
-            }
-        });
-        
+	var oBandInfoDiv   = jQuery("#resultcontainer");
+	var init = false;
+	loadBandSongs('a');        
      jQuery.ajax({
 			dataType: "json",
             url: 'index.php?option=com_hwdvideoshare&task=ajax_getbandevents&ajax=yes&item_id=all',
             success: function (data) {
 				var oBandEventsDiv = jQuery("#bandevents");
-				oBandEventsDiv.hide().empty();
-				oBandEventsDiv.show(500,function(){
+				oBandEventsDiv.empty().show(500,function(){
 					if(data.resultsPage.results.location){
 						jQuery( "<div />" ).attr('id','map-canvas').css({'width':'250px','height':'250px'}).appendTo(oBandEventsDiv);
 						initialPoint = data.resultsPage.results.location[0].city;
@@ -27,10 +19,27 @@ jQuery(document).ready(function () {
         });
         
             
-    jQuery('.bandsong').click(function(e){
-		
-		
+    jQuery('.pagination a.page').click(function(e){
+			var $this = jQuery(e.target);
+			loadBandSongs($this.attr('class').split(' ')[0]);		
+			jQuery('a.page.selected').removeClass('selected');
+			$this.addClass('selected');
+			e.preventDefault();
 		});
+		
+	function loadBandSongs(letter){
+			if(init)
+				oBandInfoDiv.empty().html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>').show(500);
+			jQuery.ajax({
+				url: 'index.php?option=com_hwdvideoshare&task=ajax_getsongsbyfirstletter&ajax=yes&letter='+letter,
+				success: function (data) {
+					if(data){
+						oBandInfoDiv.empty().html(data).show(500);
+						init = true;
+						}
+				}
+			});
+		}	
 });
 
 

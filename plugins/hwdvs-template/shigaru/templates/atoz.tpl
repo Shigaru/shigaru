@@ -52,7 +52,6 @@
 									<a class="x page" href="#">X</a>
 									<a class="y page" href="#">Y</a>
 									<a class="z page disabled" href="#">Z</a>
-									<a class="_ page" href="#">...</a>
 								</div>
 						</div>
 						<div id="resultcontainer" class="clearfix mtopl6">
@@ -87,7 +86,6 @@
 									<a class="x page" href="#">X</a>
 									<a class="y page" href="#">Y</a>
 									<a class="z page disabled" href="#">Z</a>
-									<a class="_ page" href="#">...</a>
 								</div>
 						</div>
 					</div>
