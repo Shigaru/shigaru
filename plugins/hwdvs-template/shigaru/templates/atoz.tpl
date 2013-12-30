@@ -22,43 +22,112 @@
 				</div>
 			<div>
 			<div>
-				<div class="listNav">
-						<div class="pagination fontbold">
-								<a class="a page" href="#">A</a>
-								<a class="b page" href="#">B</a>
-								<a class="c page" href="#">C</a>
-								<a class="d page" href="#">D</a>
-								<a class="e page" href="#">E</a>
-								<a class="f page" href="#">F</a>
-								<a class="g page" href="#">G</a>
-								<a class="h page" href="#">H</a>
-								<a class="i page" href="#">I</a>
-								<a class="j page" href="#">J</a>
-								<a class="k page disabled" href="#">K</a>
-								<a class="l page" href="#">L</a>
-								<a class="m page" href="#">M</a>
-								<a class="n page" href="#">N</a>
-								<a class="o page disabled" href="#">O</a>
-								<a class="p page" href="#">P</a>
-								<a class="q page" href="#">Q</a>
-								<a class="r page" href="#">R</a>
-								<a class="s page" href="#">S</a>
-								<a class="t page" href="#">T</a>
-								<a class="u page" href="#">U</a>
-								<a class="v page" href="#">V</a>
-								<a class="w page" href="#">W</a>
-								<a class="x page" href="#">X</a>
-								<a class="y page" href="#">Y</a>
-								<a class="z page disabled" href="#">Z</a>
-								<a class="_ page" href="#">...</a>
+				
+					<div id="videoresultwrapper" class="f80 clearfix fleft w75">
+						<div class="listNav clearfix">
+							<div class="pagination fontbold">
+									<a class="a page selected" href="#">A</a>
+									<a class="b page" href="#">B</a>
+									<a class="c page" href="#">C</a>
+									<a class="d page" href="#">D</a>
+									<a class="e page" href="#">E</a>
+									<a class="f page" href="#">F</a>
+									<a class="g page" href="#">G</a>
+									<a class="h page" href="#">H</a>
+									<a class="i page" href="#">I</a>
+									<a class="j page" href="#">J</a>
+									<a class="k page disabled" href="#">K</a>
+									<a class="l page" href="#">L</a>
+									<a class="m page" href="#">M</a>
+									<a class="n page" href="#">N</a>
+									<a class="o page disabled" href="#">O</a>
+									<a class="p page" href="#">P</a>
+									<a class="q page" href="#">Q</a>
+									<a class="r page" href="#">R</a>
+									<a class="s page" href="#">S</a>
+									<a class="t page" href="#">T</a>
+									<a class="u page" href="#">U</a>
+									<a class="v page" href="#">V</a>
+									<a class="w page" href="#">W</a>
+									<a class="x page" href="#">X</a>
+									<a class="y page" href="#">Y</a>
+									<a class="z page disabled" href="#">Z</a>
+									<a class="_ page" href="#">...</a>
+								</div>
 						</div>
-					</div>
-					<div id="videoresultwrapper" class="f80">
-						<div id="resultcontainer" class="mtop20">
+						<div id="resultcontainer" class="clearfix mtopl6">
 							<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...
 							</div>
 						</div>
+						<div class="listNav clearfix">
+							<div class="pagination fontbold">
+									<a class="a page selected" href="#">A</a>
+									<a class="b page" href="#">B</a>
+									<a class="c page" href="#">C</a>
+									<a class="d page" href="#">D</a>
+									<a class="e page" href="#">E</a>
+									<a class="f page" href="#">F</a>
+									<a class="g page" href="#">G</a>
+									<a class="h page" href="#">H</a>
+									<a class="i page" href="#">I</a>
+									<a class="j page" href="#">J</a>
+									<a class="k page disabled" href="#">K</a>
+									<a class="l page" href="#">L</a>
+									<a class="m page" href="#">M</a>
+									<a class="n page" href="#">N</a>
+									<a class="o page disabled" href="#">O</a>
+									<a class="p page" href="#">P</a>
+									<a class="q page" href="#">Q</a>
+									<a class="r page" href="#">R</a>
+									<a class="s page" href="#">S</a>
+									<a class="t page" href="#">T</a>
+									<a class="u page" href="#">U</a>
+									<a class="v page" href="#">V</a>
+									<a class="w page" href="#">W</a>
+									<a class="x page" href="#">X</a>
+									<a class="y page" href="#">Y</a>
+									<a class="z page disabled" href="#">Z</a>
+									<a class="_ page" href="#">...</a>
+								</div>
+						</div>
 					</div>
+					<div class="clearfix fleft mleft12 w20pc">	
+						<h5 class="fontbold mtop20 mbot20"><i class="icon-ticket fontsig f150"></i> <span id="inyourarea">{$smarty.const._HWDVIDS_SHIGARU_EVENTSINYOURAREA}</span></h5>
+						<div id="bandevents" class="f80 mtop12">
+							<div class="f80 loadingcontent" style="line-height:250px">
+								<i class="icon-spinner icon-spin"></i> Loading...
+							</div>
+						</div>
+						<div class="mtop20 mleft20">
+							<script type="text/javascript"><!--
+							google_ad_client = "ca-pub-1916456389191969";
+							/* search_module */
+							google_ad_slot = "7689083467";
+							google_ad_width = 160;
+							google_ad_height = 600;
+							//-->
+							</script>
+							<script type="text/javascript"
+							src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+							</script>
+						</div>
+						
+						<div class="mtop20 mleft20">
+							<script type="text/javascript"><!--
+							google_ad_client = "ca-pub-1916456389191969";
+							/* search_module */
+							google_ad_slot = "7689083467";
+							google_ad_width = 160;
+							google_ad_height = 600;
+							//-->
+							</script>
+							<script type="text/javascript"
+							src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+							</script>
+						</div>
+						
+					</div>
+				
 			</div>
 	<div>
 <div>
