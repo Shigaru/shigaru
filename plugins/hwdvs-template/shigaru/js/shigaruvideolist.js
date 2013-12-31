@@ -8,9 +8,9 @@
     var $optionLinks 	= $optionSets.find('a');
     var oListUrl 		= opts.listURL;
     var isISotopized	= false;
-    var oUserUrl 		= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_userdetails&format=raw&user_id="+jQuery('#user_id').val();
-    var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&lang=en&task=ajax_setuserstatusmessage&format=raw"
-    var oUserMenuUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_usermenu&format=raw";
+    var oUserUrl 		= "index.php?option=com_hwdvideoshare&task=ajax_userdetails&format=raw&user_id="+jQuery('#user_id').val();
+    var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_setuserstatusmessage&format=raw"
+    var oUserMenuUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_usermenu&format=raw&selected=";
     
     return this.each(function() {
 		transformFiltersLinks();
@@ -123,6 +123,7 @@
 			var $userMenuContainer = jQuery(opts.menuWrapper);
 			$userMenuContainer.hide().html(data).find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
 			$userMenuContainer.find(".loadingcontent").hide();
+			jQuery(opts.selectedUserMenu).addClass('active');
 			$userMenuContainer.fadeIn();
         });
 		
@@ -397,7 +398,8 @@
 	cellsByRowColumnWidth : 380, 
 	cellsByRowRowHeight: 225,	
 	needsHeaderProfile: true,
-	needsUserMenu: false
+	needsUserMenu: false,
+	selectedUserMenu: '#whattowatch'
   }
   
 })(jQuery);

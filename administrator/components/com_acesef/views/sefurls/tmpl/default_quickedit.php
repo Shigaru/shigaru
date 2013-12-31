@@ -83,9 +83,9 @@ defined('_JEXEC') or die('Restricted access');
 		window.location = 'index.php?option=com_acesef&controller=sefurls&task=view&type='+type;
 	}
 
-	$(document).ready(function(){
+	/*$(document).ready(function(){
 		$("#tb_newtag").autocomplete('components/com_acesef/library/autocompleters/tags.php');
-	});
+	});*/
 </script>
 
 <form action="index.php?option=com_acesef&amp;controller=sefurls&amp;task=view" method="post" name="adminForm" id="adminForm">

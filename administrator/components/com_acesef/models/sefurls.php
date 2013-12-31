@@ -490,6 +490,8 @@ class AcesefModelSefUrls extends AcesefModel {
 			}
 		}
 		
+		var_dump($this->search_real);
+		
 		// Search Real URL
 		if ($this->search_real != '' && $type != 'notfound') {
 			$src = parent::secureQuery($this->search_real, true);

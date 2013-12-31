@@ -186,6 +186,12 @@ class hwd_vs_ajax
 		echo $code;
 		exit;
 		}	
+	function myvideoscreated(){
+		header('Content-type: text/html; charset=utf-8');
+		$code = hwd_vs_tools::getMyVideosCreated();
+		echo $code;
+		exit;
+		}	
 	
 	function ajax_userdetails(){
 		header('Content-type: text/html; charset=utf-8');

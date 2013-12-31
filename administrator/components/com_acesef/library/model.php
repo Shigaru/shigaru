@@ -119,7 +119,6 @@ class AcesefModel extends JModel {
 	
 	function _getSecureUserState($long_name, $short_name, $default = null, $type = 'none') {
 		$request = $this->_mainframe->getUserStateFromRequest($long_name, $short_name, $default, $type);
-		
 		if (is_string($request)) {
 			$request = strip_tags(str_replace('"', '', $request));
 		}

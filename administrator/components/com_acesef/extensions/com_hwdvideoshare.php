@@ -232,6 +232,9 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 				case 'yourvideos':
 					$segments[] = _HWDVIDS_NAV_YOURVIDS;
                     break;
+				case 'yourvideoscreated':
+					$segments[] = _HWDVIDS_NAV_YOURVIDSCREATED;
+                    break;
 				case 'yourfavourites':
 					$segments[] = _HWDVIDS_NAV_YOURFAVS;
                     break;

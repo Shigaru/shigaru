@@ -298,10 +298,7 @@ defined('_JEXEC') or die('Restricted access');
 										<?php echo JText::_('ACESEF_CPANEL_LICENSE'); ?>
 									</td>
 									<td>
-										<?php 
-											$license = AcesefUtility::getXmlText(JPATH_ACESEF_ADMIN.DS.'acesef.xml', 'license');
-											list($l_name, $l_link) = explode(', ', $license);
-										?>
+										
 										<a href="http://www.joomace.net/company/license-policy" target="_blank"><?php echo $l_name; ?></a>
 									</td>
 								</tr>

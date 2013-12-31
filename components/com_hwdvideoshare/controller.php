@@ -148,6 +148,12 @@ class UserController extends JController
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
 		hwd_vs_usrfunc::yourVideos();
 	}
+	
+	function yourvideoscreated()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		hwd_vs_usrfunc::yourVideosCreated();
+	}
 
 	function yourfavourites()
 	{
@@ -291,6 +297,12 @@ class UserController extends JController
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
 		hwd_vs_ajax::myvideos();
+	}
+	
+	function ajax_myvideoscreated()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::myvideoscreated();
 	}
 	
 	function ajax_userdetails()

@@ -5999,6 +5999,95 @@ $app = & JFactory::getApplication();
 		return $oResults;
 	}
     
+    function getMyVideosCreated(){
+		global $smartyvs,$mainframe, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		$limitstart = Jrequest::getInt( 'limitstart', '0' );
+		$my = & JFactory::getUser();
+		$oResults = '';
+		$sort_by = Jrequest::getVar( 'sort_by', 'no' );
+		$orderVideos;
+		if (!$my->id && $otheruser=='no') {
+			$msg = _HWDVIDS_ALERT_LOG2CYV;
+			$mainframe->enqueueMessage($msg);
+			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
+		}
+
+		//$limit 	= intval($c->vpp);
+		$limit 	= 12;
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
+
+		$where = ' WHERE video.approved = "yes"';
+		$where .= ' AND video.published = 1';
+		$where .= ' AND video.original_autor = 1';
+		$where .= ' AND video.user_id = '.$user_id;
+		$db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 . $where
+					 );
+  		$total = $db->loadResult();
+		if ($sort_by == 'category')
+				{
+					$orderVideos = " ORDER BY video.category_id DESC";
+				}
+				else if ($sort_by == 'date_uploaded')
+				{
+					$orderVideos = " ORDER BY video.date_uploaded DESC";
+				}
+				else if ($sort_by == 'updated_rating')
+				{
+					$orderVideos = " ORDER BY video.updated_rating DESC";
+				}
+				else if ($sort_by == 'number_of_views')
+				{
+					$orderVideos = " ORDER BY video.number_of_views DESC";
+				}
+				else if ($sort_by == 'level_id')
+				{
+					$orderVideos = " ORDER BY video.level_id DESC";
+				}
+				else if ($sort_by == 'number_of_comments')
+				{
+					$orderVideos = " ORDER BY video.number_of_comments DESC";
+				}
+				else
+				{
+					$orderVideos = " ORDER BY video.date_uploaded DESC";
+				}
+		
+		$query = 'SELECT'.$hwdvs_selectv
+               	. ' FROM #__hwdvidsvideos AS video'
+				. $hwdvs_joinv
+				. $where
+				. $orderVideos
+				;
+		$db->SetQuery($query, $limitstart, $limit );
+		$rows = $db->loadObjectList();
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+		if (count($rows) > 0) {
+			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,'87');
+			$userdetails = hwd_vs_tools::getUserContextDetails($user_id);			
+			foreach($list as $video){
+					$smartyvs->assign("data", $video);
+					$smartyvs->assign("userdetails", $userdetails);
+					$oResults .= $smartyvs->fetch('video_list_full.tpl');
+				}
+			$page = $total - $c->vpp;
+			if ( $page > 0 ){
+				$oResults .= '<div class="videopagination">';
+				$oResults .= $pageNav->getPagesLinks();
+				$oResults .= '</div>';
+			}	
+		}
+		return $oResults;
+	}
+    
     /**
      * Generates the human readable allowed video formats string
      *

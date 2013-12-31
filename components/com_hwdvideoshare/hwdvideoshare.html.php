@@ -1417,6 +1417,50 @@ $app = & JFactory::getApplication();
     /**
      *
      */
+    function yourVideosCreated($total,$otheruser='no',$user_id)
+    {
+		global $smartyvs, $limitstart,$Itemid,$hwdvsTemplateOverride;
+		$c = hwd_vs_Config::get_instance();
+
+		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
+		// load the menu name
+		jimport( 'joomla.application.menu' );
+		$menu   = &JMenu::getInstance('site');
+		$mparams = &$menu->getParams($Itemid);
+		$mparams_pt	= $mparams->get( 'page_title', '');
+
+		jimport( 'joomla.document.document' );
+		$doc = & JFactory::getDocument();
+
+		$active = &$menu->getActive();
+		
+		if (!empty($mparams_pt)) {
+			$metatitle = $mparams_pt;
+		} else if (!empty($active->name)) {
+			$metatitle = $active->name;
+		} else {
+			$metatitle = _HWDVIDS_META_DEFAULT;
+		}
+
+		// set the page/meta title
+		$doc->setTitle( $metatitle." - "._HWDVIDS_META_YVIDS );
+		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
+		hwd_vs_tools::generateActiveLink(1);
+		hwd_vs_tools::generateBreadcrumbs();
+		
+		$baseurl = JURI::root();
+		$smartyvs->assign("baseurl", $baseurl);
+		$smartyvs->assign("otheruser", $otheruser);
+		$smartyvs->assign("user_id", $user_id);
+		
+		$uploadLink = JRoute::_("index.php?option=com_hwdvideoshare&task=upload");
+		$smartyvs->assign("uploadLink", $uploadLink);
+		$smartyvs->display('video_yourvideos_created.tpl');
+		return;
+    }
+    /**
+     *
+     */
     function yourFavourites($total,$otheruser='no',$user_id)
     {
 		global $Itemid, $smartyvs,$hwdvsTemplateOverride;
