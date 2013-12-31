@@ -94,7 +94,7 @@ $host = JURI::root();
 						?>
 						<jdoc:include type="modules" name="top" />
 						<?php
-						echo '<div class="fleft mtop12 mright24"><a class="fontsig fontbold tdecnone" href="#"><i class="icon-share icon-large"></i> <span class="f120">'. JText::_('Share video').' </span></a></div>';
+						echo '<div class="fleft mtop12 mright24"><a class="fontsig fontbold tdecnone" href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=upload").'"><i class="icon-share icon-large"></i> <span class="f120">'. JText::_('Share video').' </span></a></div>';
 						echo '<div class="fleft mtop12 mright24" id="navdrop"><a class="fontsig f150 tdecnone" href="#" title="Click on this icon to display more options"><i class="icon-plus-sign"></i></a></div>';
 						?>
 								

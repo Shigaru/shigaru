@@ -97,8 +97,26 @@ class hwd_vs_usrfunc
 			$mainframe->enqueueMessage($msg);
 			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
 		}
+		$limit 	= intval($c->vpp);
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
+		
+		$where = ' WHERE video.approved = "yes"';
+		$where .= ' AND video.published = 1';
+		$where .= ' AND video.user_id = '.$user_id;
 
-		hwd_vs_html::yourFavourites($otheruser);
+		$db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 . $where
+					 
+					 );
+  		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+		hwd_vs_html::yourFavourites($total,$otheruser,$my->id);
 	}
 	
 	function setUserStatusMessage($mind){

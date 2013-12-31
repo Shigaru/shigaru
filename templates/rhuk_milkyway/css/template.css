@@ -1418,6 +1418,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .curpointer{cursor:pointer;}
 .bradius5{-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
 .bradius10{-moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px;}
+.blockUI.blockMsg{border: 2px solid purple;border-radius: 5px;-moz-box-shadow:4px 7px 3px #aaa;-webkit-box-shadow:4px 7px 3px #aaa;box-shadow:4px 7px 3px #aaa;}
 .reddbuttonsubmit{border:none;outline:none;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;color: #ffffff;display: block;cursor:pointer;margin: 0px auto;
     clear:both;padding: 7px 25px;text-shadow: 0 1px 1px #777;font-weight:bold;font-size:22px;-moz-box-shadow:0px 0px 3px #aaa;-webkit-box-shadow:0px 0px 3px #aaa;box-shadow:0px 0px 3px #aaa;
     background:red;text-decoration:none;}

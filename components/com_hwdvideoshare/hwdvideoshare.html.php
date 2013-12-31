@@ -1417,7 +1417,7 @@ $app = & JFactory::getApplication();
     /**
      *
      */
-    function yourFavourites($rows, $pageNav, $total,$otheruser='no')
+    function yourFavourites($total,$otheruser='no',$user_id)
     {
 		global $Itemid, $smartyvs,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
@@ -1445,32 +1445,12 @@ $app = & JFactory::getApplication();
 		// set the page/meta title
 		$doc->setTitle( $metatitle." - "._HWDVIDS_META_YFAVS );
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YFAVS );
-		hwd_vs_tools::generateActiveLink(1);
-		hwd_vs_tools::generateBreadcrumbs();
-
-		if (count($rows) > 0) {
-			$smartyvs->assign("print_videolist", 1);
-			$list = hwd_vs_tools::generateVideoListFromSql($rows,null,$hwdvsTemplateOverride['thumbWidth1']);
-			$smartyvs->assign("list", $list);
-		}
-		$page = $total - $c->vpp;
-		$pageNavigation = null;
-		if ( $page > 0 )
-                {
-			if ($j16)
-			{
-				$pageNavigation.= "<div class=\"pagination\">";
-			}
-			$pageNavigation.= $pageNav->getPagesLinks();
-			//$pageNavigation.= "<br />".$pageNav->getPagesCounter();
-			if ($j16)
-			{
-				$pageNavigation.= "</div>";
-			}
-		}
+	    $baseurl = JURI::root();
+		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("pageNavigation", $pageNavigation);
 		$smartyvs->assign("otheruser", $otheruser);
 		$smartyvs->assign("total", $total);
+		$smartyvs->assign("user_id", $user_id);
 		$smartyvs->display('video_yourfavourites.tpl');
 		return;
 

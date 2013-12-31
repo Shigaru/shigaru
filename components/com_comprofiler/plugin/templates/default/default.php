@@ -230,7 +230,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 		if($redirected == 'none'){
 			}else if($redirected =='submit'){
 ?>	
-	<div id="fromhwdshare" class="usermessages">
+	<div id="fromhwdshare" class="usermessages clearfix">
 		<div id="fromhwdsharewrap">         
 			<div><a id="no" class="close"></a></div>
 			<h1>Sorry, you have to be logged in to do that!</h1>
@@ -247,7 +247,8 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 					$.unblockUI(); 
 					return false; 
 				});	
-				$.blockUI({ message: $('#fromhwdshare'), css: { width: '600px' } }); 
+				$.blockUI({ message: $('#fromhwdshare'), css: { top: (jQuery(window).height() - $('#fromprofiler').height()) / 2 + "px",
+						left: (jQuery(window).width() - $('#fromprofiler').width()) / 2 + "px",width: '400px' } }); 
 				$('.usermessages #no').click(function() { 
 					$.unblockUI(); 
 					return false; 
@@ -258,7 +259,7 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 				}else if($redirected =='ownprofile'){
 					$oProfileText = (JRequest::getVar('profilerfrom','none') == 'community')?'this user\'s':'your';
 ?>
-	<div id="fromprofiler" class="usermessages">
+	<div id="fromprofiler" class="usermessages clearfix">
 		<div id="fromprofilerwrap">         
 			<div><a id="no" class="close"></a></div>
 			<h1><a href="<?php echo JURI::getInstance( 'index.php?option=com_comprofiler&task=login')->toString(); ?>" title="Click here to go to login page" >Log in</a> to view <?php echo $oProfileText ?> profile page</h1>
@@ -275,7 +276,8 @@ class CBRegisterFormView_html_default extends cbRegistrationView {
 					$.unblockUI(); 
 					return false; 
 				});	
-				$.blockUI({ message: $('#fromprofiler'), css: { width: '600px' } }); 
+				$.blockUI({ message: $('#fromprofiler'), css: { top: (jQuery(window).height() - $('#fromprofiler').height()) / 2 + "px",
+						left: (jQuery(window).width() - $('#fromprofiler').width()) / 2 + "px",width: '600px' } }); 
 			});
 	</script>
 

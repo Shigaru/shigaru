@@ -236,13 +236,10 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 					$segments[] = _HWDVIDS_NAV_YOURFAVS;
                     break;
 				case 'uploadconfirmperl':
-					$segments[] = _HWDVIDS_INFO_SUCUPLD;
 					break;
 				case 'uploadconfirmflash':
-					$segments[] = _HWDVIDS_INFO_SUCUPLD;
 					break;
 				case 'uploadconfirmphp':
-					$segments[] = _HWDVIDS_INFO_SUCUPLD;
 					break;
 				case 'addconfirm':
 					$segments[] = _HWDVIDS_META_ADDSUC;
@@ -263,6 +260,8 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 				case 'deleteplaylist':
 				case 'frontpage':
 				case 'upload':
+					$segments[] = _HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU;
+                    break; 
 				case 'uploadconfirm':
 				case 'categories':
 				case 'flaggroup':
