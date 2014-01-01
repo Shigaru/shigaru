@@ -71,34 +71,34 @@
 							<div class="clearfix">
 								<div class="fleft mleft6 w20pc">
 									<label for="username" class="searchLabels">
-									Instrument: <br /> <span>{$data->instrument}</span>
+									{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENT}: <br /> <span>{$data->instrument}</span>
 									</label>
 								</div>	
 								<div class="fleft mleft12 w20pc">
 									<label for="username" class="searchLabels">
-									Genre:<br /> <span>{$data->genre}</span>
+									{$smarty.const._HWDVIDS_SHIGARU_GENRE}:<br /> <span>{$data->genre}</span>
 									</label>
 								</div>	
 								<div class="fleft mleft12 w20pc">
 									<label for="username" class="searchLabels">
-									Level:<br /> <span>{$data->level}</span>
+									{$smarty.const._HWDVIDS_SHIGARU_SHIGAR_LEVEL}<br /> <span>{$data->level}</span>
 									</label>
 								</div>	
 								<div class="fleft mleft12 w20pc">
 									<label for="username" class="searchLabels">
-									Language:<br /> <span>{$data->language}</span>
+									{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}:<br /> <span>{$data->language}</span>
 									</label>
 								</div>
 							</div>
 							<div class="extendedinfo">
 								<div class="fleft mleft6 w20pc mtop6">
 									<label for="rating" class="searchLabels">
-									Rating: <span>{$data->rating}</span>
+									{$smarty.const._HWDVIDS_SELECT_RATING}: <span>{$data->rating}</span>
 									</label>
 								</div>
 								<div class="fleft mleft12 w70 mtop6">
 									<label for="description" class="searchLabels">
-									Description: <br /><span>{$data->descriptiontrunc}</span>
+									{$smarty.const._HWDVIDS_DESC}: <br /><span>{$data->descriptiontrunc}</span>
 									</label>
 								</div>
 							</div>

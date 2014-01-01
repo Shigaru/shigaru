@@ -22,7 +22,7 @@
 					</div>	
 					<div>
 						<div class="fontbold mleft6 mtop6">
-							<a href="index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=bsongssource&item_id={$data->songid}" title="Click on this icon to navigate to this song's page">{$data->songname}</a>
+							<a href="{$data->url}" title="Click on this icon to navigate to this song's page">{$data->songname}</a>
 						</div>
 					</div>
 			</div>		

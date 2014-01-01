@@ -4,6 +4,6 @@ jQuery(document).ready(function () {
 				needsHeaderProfile:true,
 				needsUserMenu:true,
 				selectedUserMenu:'#myvideoscreated',
-				listURL:'index.php?option=com_hwdvideoshare&task=ajax_myvideos&format=raw'
+				listURL:'index.php?option=com_hwdvideoshare&task=ajax_myvideos&format=raw&lang='+currentLang
 		});    
 });

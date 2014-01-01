@@ -161,14 +161,15 @@ class hwd_vs_html
 		global $Itemid, $smartyvs;
 		$uri = & JFactory::getURI();
 		$pageURL = $uri->toString();
+		$lang = JFactory::getLanguage();
 		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
 		$pageURL = str_replace("&ajax=yes", "", $pageURL);
 		$smartyvs->assign("pageURL", $pageURL);
 		$domain = JURI::root();
 	    $smartyvs->assign("domain", $domain);
 	    $smartyvs->assign("songorband", 'song');
-	    $smartyvs->assign("bandsurl", 'index.php?option=com_hwdvideoshare&task=atozbands');
-	    $smartyvs->assign("songsurl", 'index.php?option=com_hwdvideoshare&task=atoz');
+	    $smartyvs->assign("bandsurl", JRoute::_('index.php?option=com_hwdvideoshare&task=atozbands&lang='.substr($lang->getTag(),0,2)));
+	    $smartyvs->assign("songsurl", JRoute::_('index.php?option=com_hwdvideoshare&task=atoz&lang='.substr($lang->getTag(),0,2)));
 		$smartyvs->display('atoz.tpl');
 		return;
     }
@@ -181,14 +182,15 @@ class hwd_vs_html
 		global $Itemid, $smartyvs;
 		$uri = & JFactory::getURI();
 		$pageURL = $uri->toString();
+		$lang = JFactory::getLanguage();
 		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
 		$pageURL = str_replace("&ajax=yes", "", $pageURL);
 		$smartyvs->assign("pageURL", $pageURL);
 		$domain = JURI::root();
 	    $smartyvs->assign("domain", $domain);
 	    $smartyvs->assign("songorband", 'band');
-	    $smartyvs->assign("bandsurl", 'index.php?option=com_hwdvideoshare&task=atozbands');
-	    $smartyvs->assign("songsurl", 'index.php?option=com_hwdvideoshare&task=atoz');
+	    $smartyvs->assign("bandsurl", JRoute::_('index.php?option=com_hwdvideoshare&task=atozbands&lang='.substr($lang->getTag(),0,2)));
+	    $smartyvs->assign("songsurl", JRoute::_('index.php?option=com_hwdvideoshare&task=atoz&lang='.substr($lang->getTag(),0,2)));
 		$smartyvs->display('atoz.tpl');
 		return;
     }

@@ -3833,6 +3833,11 @@ $app = & JFactory::getApplication();
 		 $db->setQuery($query);
          echo $db->getErrorMsg();
          $results = $db->loadObjectList();
+         if(count($results)>0){
+			 foreach($results as $result){
+						$result->url = JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=bsongssource&item_id='.$result->songid);
+					}
+			}
 		 return $results;
 		}	
 	
@@ -3857,6 +3862,11 @@ $app = & JFactory::getApplication();
 		 $db->setQuery($query);
          echo $db->getErrorMsg();
          $results = $db->loadObjectList();
+         if(count($results)>0){
+			 foreach($results as $result){
+						$result->url = JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=cbandsssource&item_id='.$result->bandid);
+					}
+			}	
 		 return $results;
 		}	
     

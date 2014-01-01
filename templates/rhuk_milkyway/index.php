@@ -19,7 +19,6 @@ $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery.autocomplete
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
 <jdoc:include type="head" />
-<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.js"></script>
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/template.css" type="text/css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/css/jquery.qtip.min.css" />
 <!--[if IE 7]>
@@ -32,7 +31,7 @@ $lang = JFactory::getLanguage();
 $currentLang = substr($lang->getTag(),0,2);
 ?>
 <script type="text/javascript">
-  var currentLang = "<?php echo $currentLang ?>";
+var currentLang = "<?php echo $currentLang ?>";
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-768264-1']);
   _gaq.push(['_setDomainName', 'shigaru.com']);
@@ -210,6 +209,7 @@ $currentLang = substr($lang->getTag(),0,2);
 <div id="main-nav-drop" class="closed dispnon loadingcontent">
 		<i class="icon-spinner icon-spin"></i>
 </div>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.min.js"></script>

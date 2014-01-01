@@ -1,13 +1,13 @@
 jQuery(document).ready(function () {
 	var oBandInfoDiv   = jQuery("#resultcontainer");
 	var init = false;
-	var oUrl = 'index.php?option=com_hwdvideoshare&task=ajax_getsongsbyfirstletter&ajax=yes&letter=';
+	var oUrl = 'index.php?option=com_hwdvideoshare&task=ajax_getsongsbyfirstletter&ajax=yes&lang='+currentLang+'&letter=';
 		if(songorband == 'band')
-			oUrl = 'index.php?option=com_hwdvideoshare&task=ajax_getbandsbyfirstletter&ajax=yes&letter=';
+			oUrl = 'index.php?option=com_hwdvideoshare&task=ajax_getbandsbyfirstletter&ajax=yes&lang='+currentLang+'&letter=';
 	loadBandSongs('a');        
      jQuery.ajax({
 			dataType: "json",
-            url: 'index.php?option=com_hwdvideoshare&task=ajax_getbandevents&ajax=yes&item_id=all',
+            url: 'index.php?option=com_hwdvideoshare&task=ajax_getbandevents&ajax=yes&item_id=all&lang='+currentLang,
             success: function (data) {
 				var oBandEventsDiv = jQuery("#bandevents");
 				oBandEventsDiv.empty().show(500,function(){

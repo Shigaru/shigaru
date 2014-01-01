@@ -139,13 +139,13 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 						$oOption = $vars['searchoption'] ;
 						$oItemId = $vars['item_id'] ;
 						if($oOption=='bsongssource'){
-							$segments[] = JText::_('Songs');
+							$segments[] = JText::_('_HWDVIDS_SHIGARU_SONGSTEXT');
 							$segments [] = self::_getSong(intval($oItemId));
 							}else if($oOption=='cbandsssource'){
-								$segments[] = JText::_('Bands');
+								$segments[] = JText::_('_HWDVIDS_SHIGARU_BANDSTEXT');
 								$segments [] = self::_getBand(intval($oItemId));
 								}else if($oOption=='dalbumssource'){
-									$segments[] = JText::_('Albums');
+									$segments[] = JText::_('_HWDVIDS_SHIGARU_ALBUMSTEXT');
 									$segments [] = self::_getAlbum(intval($oItemId));
 									}else{
 										}
