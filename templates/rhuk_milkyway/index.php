@@ -45,7 +45,6 @@ var currentLang = "<?php echo $currentLang ?>";
   })();
 
 </script>
-<link rel="stylesheet" href="<?php echo $host; ?>freichat/client/jquery/freichat_themes/freichatcss.php" type="text/css">
 </head>
 <body id="page_bg">
 <a name="up" id="up"></a>

@@ -4,7 +4,7 @@ jQuery(document).ready(function () {
     var oShigaruVideoList  = jQuery('#resultcontainer').shigaruVideoList(
 			{
 				needsHeaderProfile:false,
-				listURL:'index.phpindex.php?option=com_hwdvideoshare&Itemid=29&task=displayresults&ajax=yes&searchcategory=videosongs&lang='+currentLang+'&format=raw&pattern='+bandName
+				listURL:'index.php?option=com_hwdvideoshare&Itemid=29&task=displayresults&ajax=yes&searchcategory=videosongs&lang='+currentLang+'&format=raw&pattern='+bandName
 			
 		});
     function doLoadBandInfo() {
