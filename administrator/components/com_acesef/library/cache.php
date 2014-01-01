@@ -202,14 +202,13 @@ class AcesefCache extends JCache {
 						$url_2 .= '&'.$var.'='.$value;
 					}
 					$lang = JFactory::getLanguage();
-					if($lang->getTag() == 'en-GB' && $vars_itemid["lang"] != 'es'){
+					if(($lang->getTag() == 'en-GB' && $vars_itemid["lang"] != 'es') || $vars_itemid["lang"] == 'en'){
 						$row_3 = AceDatabase::loadObject("SELECT {$fields} FROM #__acesef_urls WHERE url_real = '{$url}%' AND params LIKE '%notfound=0%' LIMIT 1");
 						}else{
 							if(substr($lang->getTag(),0,2) == 'es'){
 								$row_3 = AceDatabase::loadObject("SELECT {$fields} FROM #__acesef_urls WHERE url_real LIKE '{$url_1}%' AND url_real LIKE '%{$url_2}' AND (url_real LIKE '%lang=es' OR url_real LIKE '%lang=es%') AND params LIKE '%notfound=0%' LIMIT 1");
 							}
-							}
-					
+						}
 				}
 			}
 			else {
