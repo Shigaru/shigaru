@@ -254,11 +254,8 @@ class AcesefModelSefUrls extends AcesefModel {
 	function _getURLs() {
 		$where = AcesefController::_getWhere($this);
 		if (!$urls = AceDatabase::loadResultArray("SELECT url_sef FROM #__acesef_urls {$where}")) {
-			var_dump($where);
 			return false;
 		}
-		var_dump($where);
-		exit();
 		return $urls;
 	}
 	
@@ -490,7 +487,6 @@ class AcesefModelSefUrls extends AcesefModel {
 			}
 		}
 		
-		var_dump($this->search_real);
 		
 		// Search Real URL
 		if ($this->search_real != '' && $type != 'notfound') {
