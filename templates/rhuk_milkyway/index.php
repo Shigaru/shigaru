@@ -28,9 +28,11 @@ $this->addScript($this->baseurl."/templates/rhuk_milkyway/js/jquery.autocomplete
 <?php
 $session = JSession::getInstance("none",array());
 $host = JURI::root();
+$lang = JFactory::getLanguage();
+$currentLang = substr($lang->getTag(),0,2);
 ?>
 <script type="text/javascript">
-
+  var currentLang = "<?php echo $currentLang ?>";
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-768264-1']);
   _gaq.push(['_setDomainName', 'shigaru.com']);

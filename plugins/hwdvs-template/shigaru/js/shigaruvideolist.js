@@ -8,9 +8,9 @@
     var $optionLinks 	= $optionSets.find('a');
     var oListUrl 		= opts.listURL;
     var isISotopized	= false;
-    var oUserUrl 		= "index.php?option=com_hwdvideoshare&task=ajax_userdetails&format=raw&user_id="+jQuery('#user_id').val();
-    var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_setuserstatusmessage&format=raw"
-    var oUserMenuUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_usermenu&format=raw&selected=";
+    var oUserUrl 		= "index.php?option=com_hwdvideoshare&task=ajax_userdetails&format=raw&user_id="+jQuery('#user_id').val()+'&lang='+currentLang;
+    var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_setuserstatusmessage&format=raw&lang="+currentLang;
+    var oUserMenuUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_usermenu&format=raw&lang="+currentLang+"&selected=";
     
     return this.each(function() {
 		transformFiltersLinks();
@@ -392,7 +392,7 @@
 	paginationContainer: '.vidlistoptbar .vidlistpagination',
 	actionbars:'.vidlistoptbar',
 	menuWrapper:'#usermenuwrapper',
-	listURL : 'index.php?option=com_hwdvideoshare&Itemid=29&task=displayresults&ajax=yes&format=raw',
+	listURL : 'index.php?option=com_hwdvideoshare&Itemid=29&task=displayresults&ajax=yes&format=raw&lang='+currentLang,
 	masonryColumnWidth : 275,
 	masonryHorizontalRowHeight: 200,
 	cellsByRowColumnWidth : 380, 

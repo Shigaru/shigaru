@@ -26,7 +26,7 @@ jQuery(document).ready(function($){
 	}
 	if(jQuery('#the_most_title').length >0){
 		jQuery.ajax({
-			  url: 'index.php?option=com_hwdvideoshare&task=ajax_showtabs&format=raw&listtype=being'
+			  url: 'index.php?option=com_hwdvideoshare&task=ajax_showtabs&format=raw&listtype=being&lang='+currentLang
 			}).done(function(data) {
 				jQuery('#beingwatched .content_box h3').after(data)
 				jQuery('#beingwatched .content_box .slidesWrapper li a').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
@@ -52,9 +52,9 @@ jQuery(document).ready(function($){
 		}
 	}).result(function(event, data) {
 		if (data){
-			var oURL = 'index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption='+data.originalsource+'&item_id='+data.id;
+			var oURL = 'index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption='+data.originalsource+'&item_id='+data.id+'&lang='+currentLang;
 			if(data.originalsource =='asearchedsource')
-				oURL = 'index.php?option=com_hwdvideoshare&task=search&Itemid=28&pattern='+data.value;
+				oURL = 'index.php?option=com_hwdvideoshare&task=search&Itemid=28&pattern='+data.value+'&lang='+currentLang;
 			window.location.href = oURL;
 		}
 	});
@@ -80,7 +80,7 @@ jQuery(document).ready(function($){
 			if(!jQuery(this).hasClass('loaded')){
 				jQuery(this).addClass('loaded');
 				jQuery.ajax({
-				  url: 'index.php?option=com_hwdvideoshare&task=ajax_headmoreoptions&format=raw'
+				  url: 'index.php?option=com_hwdvideoshare&task=ajax_headmoreoptions&format=raw&lang='+currentLang
 				}).done(function(data){
 							$this.removeClass('loadingcontent').find('.icon-spinner').hide();
 							$( "div#nav_tabs" ).clone().appendTo($this);
@@ -258,7 +258,7 @@ jQuery(document).ready(function($){
 				var oOrdering = paramElem.find('.tabmodcontrols a.active').attr('href');
 				oOrderingParam = '&when='+oOrdering.substring(1);
 				}
-			oUrl = 'index.php?option=com_hwdvideoshare&task=ajax_showtabs&format=raw&showtab='+oVideoList.attr('id')+'&listtype='+oVideoList.attr('class')+oOrderingParam;		
+			oUrl = 'index.php?option=com_hwdvideoshare&task=ajax_showtabs&format=raw&showtab='+oVideoList.attr('id')+'&listtype='+oVideoList.attr('class')+oOrderingParam+'&lang='+currentLang;		
 			if(!isAlreadyLoaded){
 				paramElem.addClass('loadedondemand').find('.tabscroller').css('overflow-y','hidden');
 				oVideoList.parent().append('<div class="loadingcontent" style="line-height:'+paramElem.find('.tabscroller').height()+'px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
@@ -428,7 +428,7 @@ jQuery(document).ready(function($){
 	
 	function composeUrl(e){
 		$optionSets 								= jQuery(opts.optionLinks);
-			oCurrentUrl = 'index.php?option=com_hwdvideoshare&task=ajax_search&format=raw';
+			oCurrentUrl = 'index.php?option=com_hwdvideoshare&task=ajax_search&format=raw'+'&lang='+currentLang;
 		if(jQuery(e.target).parent().parent().hasClass('videopagination') || jQuery(e.target).parent().parent().hasClass('pagination')){
 			var oLimitStart = e.target.href.substring(e.target.href.indexOf("&limitstart=")+12,e.target.href.length);
 				if(oLimitStart.indexOf('&')>0)
@@ -650,7 +650,7 @@ jQuery(document).ready(function($){
 	optionLinks:'#options .btn-group',
 	paginationContainer: '.vidlistoptbar .vidlistpagination',
 	actionbars:'.vidlistoptbar',
-	listURL : 'index.php?option=com_hwdvideoshare&task=ajax_myvideos&format=raw',
+	listURL : 'index.php?option=com_hwdvideoshare&task=ajax_myvideos&format=raw&lang='+currentLang,
 	needsHeaderProfile: true,
 	optionLinks:'#options .btn-group'
   }
