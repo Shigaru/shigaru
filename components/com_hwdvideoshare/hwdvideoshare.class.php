@@ -3813,6 +3813,7 @@ $app = & JFactory::getApplication();
 		}
 		
 	function getSongsByFirstLetter($firstletter){
+		 $lang = JFactory::getLanguage();
 		 $db = & JFactory::getDBO();
 		 $query ='select s.id as songid,
 								s.label as songname,
@@ -3835,13 +3836,14 @@ $app = & JFactory::getApplication();
          $results = $db->loadObjectList();
          if(count($results)>0){
 			 foreach($results as $result){
-						$result->url = JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=bsongssource&item_id='.$result->songid);
+						$result->url = 'index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=bsongssource&item_id='.$result->songid.'&lang='.substr($lang->getTag(),0,2);
 					}
 			}
 		 return $results;
 		}	
 	
 	function getBandsByFirstLetter($firstletter){
+		 $lang = JFactory::getLanguage();
 		 $db = & JFactory::getDBO();
 		 $query ='select s.id as songid,
 								s.label as songname,
@@ -3864,7 +3866,7 @@ $app = & JFactory::getApplication();
          $results = $db->loadObjectList();
          if(count($results)>0){
 			 foreach($results as $result){
-						$result->url = JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=cbandsssource&item_id='.$result->bandid);
+						$result->url = 'index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=cbandsssource&item_id='.$result->bandid.'&lang='.substr($lang->getTag(),0,2);
 					}
 			}	
 		 return $results;

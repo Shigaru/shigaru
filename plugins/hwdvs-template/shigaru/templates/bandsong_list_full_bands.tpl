@@ -13,9 +13,9 @@
 						<div class="fleft w40">
 							<div>
 								{if $data->album_thumb neq ''}
-								<img src="{$data->album_thumb}" width="50" height="50"/>
+								<img src="{$data->album_thumb}" width="80" height="80"/>
 								{else}
-								<img src="templates/rhuk_milkyway/images/vinyl-icon_big.png" width="50" height="50"/>
+								<img src="templates/rhuk_milkyway/images/vinyl-icon_big.png" width="80" height="80"/>
 								{/if}
 							</div>
 						</div>
