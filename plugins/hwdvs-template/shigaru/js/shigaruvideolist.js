@@ -55,7 +55,7 @@
 		jQuery.ajax({
             url: oUserUrl
         }).done(function (data) {
-			$usercontainer.hide().html(data).find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
+			$usercontainer.html(data).find('a[title]').qtip({position: {show: {delay: 2000},my: 'top center',at: 'bottom center',adjust: {x: 0,y: 25},target: 'mouse'}});
 			$usercontainer.find(".loadingcontent").hide();
 			$usercontainer.fadeIn();
 			$usercontainer.find('a.close').click(function(e){
