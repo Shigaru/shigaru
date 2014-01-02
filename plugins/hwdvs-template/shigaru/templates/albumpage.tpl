@@ -8,7 +8,7 @@
 *}
 <script>
 	var bandId 			= "{$album->bandid}";
-	var bandName		= "{$album->band_name}";
+	var bandName		= "{$album->band_name|addslashes}";
 	var searchoption 	= "{$album->source}";
 	var oSearchParams = {literal}{
 		ordering:'date_uploaded',
@@ -58,7 +58,7 @@
 				<h3 class="fontbold f150">{$album->album_name}</h3>
 			</div>
 			<div>
-				<a href="index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption=cbandsssource&item_id={$album->bandid}" alt="{$bandpage}"><span class="f150">{$album->band_name}</span></a>
+				<a href="{$bandurl}" alt="{$bandpage}"><span class="f150">{$album->band_name}</span></a>
 			</div>
 			<div id="albumsongs" class="fnone clearfix mtop20">
 			<h5 class="mbot20 fontbold">{$smarty.const._HWDVIDS_SHIGARU_SONGSALBUM}</h5>

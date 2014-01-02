@@ -408,7 +408,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 
     function _getCategory($id) {
 		static $cache = array();
-		
+		$lang = JFactory::getLanguage();
 		if (!isset($cache[$id])) {
 			$joomfish = $this->AcesefConfig->joomfish_trans_url ? ', id' : '';
 			
@@ -423,7 +423,18 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 			while ($id > 0) {
 				$row = AceDatabase::loadRow("SELECT category_name, parent, category_description$joomfish FROM #__hwdvidscategories WHERE id =".$id);
 		
-				$name = (($this->params->get('categoryid_inc', '1') != '1') ? $id.' ' : '').$row[0];
+				$name = '';
+				switch($id){
+					case 1:
+							$name = $lang->_strings['_HWDVIDS_SHIGARU_TUTORIALS'];
+					break;
+					case 2:
+							$name = $lang->_strings['_HWDVIDS_SHIGARU_WATCHMEPLAY'];
+					break;
+					case 3:
+							$name = $lang->_strings['_HWDVIDS_SHIGARU_THEORY'];
+					break;
+					}
 				
 				array_unshift($categories, $name);
 				array_push($cat_title, $row[0]);
@@ -444,7 +455,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 		if (!empty($cache[$id]['meta_desc'])) {
 			$this->meta_desc = $cache[$id]['meta_desc'][0];
 		}
-		
+		//var_dump($id);exit;
 		return $cache[$id]['name'];
     }
 

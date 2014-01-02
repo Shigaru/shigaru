@@ -955,3 +955,5 @@ DEFINE("_HWDVIDS_SHIGARU_VIDEOSILIKED","Videos Que Me gustan");
 DEFINE("_HWDVIDS_SHIGARU_PROFILECOMMENTS","Comentarios");
 DEFINE("_HWDVIDS_SHIGARU_STATUSUPDATES","Actualizaciones de Estado");
 DEFINE("_HWDVIDS_SHIGARU_MYSHIGARUFRIENDS","Mis amigos en Shigaru");
+DEFINE("_HWDVIDS_META_SRF","resultados para");
+DEFINE("_HWDVIDS_META_SRCC","resultados encontrados");

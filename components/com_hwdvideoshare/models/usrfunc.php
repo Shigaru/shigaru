@@ -208,6 +208,8 @@ class hwd_vs_usrfunc
 	function getUserProfileSideMenu()
 	{
 		global $smartyvs;
+		$lang = JFactory::getLanguage();
+		$smartyvs->assign("lang", substr($lang->getTag(),0,2));
 		$oResults = $smartyvs->fetch('video_list_sidemenu.tpl');
 		return $oResults;
 		}

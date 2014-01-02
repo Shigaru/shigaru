@@ -8,7 +8,7 @@
 *}
 <script>
 	var bandId 			= "{$song->bandid}";
-	var bandName		= "{$song->songname}";
+	var bandName		= "{$song->songname|addslashes}";
 	var searchoption 	= "{$song->source}";
 	var oSearchParams = {literal}{
 		ordering:'date_uploaded',

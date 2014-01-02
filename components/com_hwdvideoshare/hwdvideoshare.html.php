@@ -120,6 +120,7 @@ class hwd_vs_html
     {
 		global $Itemid, $smartyvs;	
 		$smartyvs->assign("song", $song[0]);
+		$lang = JFactory::getLanguage();
 		$uri = & JFactory::getURI();
 		$pageURL = $uri->toString();
 		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
@@ -127,8 +128,8 @@ class hwd_vs_html
 		$smartyvs->assign("pageURL", $pageURL);
 		$domain = JURI::root();
 	    $smartyvs->assign("domain", $domain);
-	    $smartyvs->assign("bandurl", 'index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption=cbandsssource&item_id='.$song[0]->bandid);
-	    $smartyvs->assign("albumurl", 'index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption=dalbumssource&item_id='.$song[0]->albumid);
+	    $smartyvs->assign("bandurl", JRoute::_('index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption=cbandsssource&item_id='.$song[0]->bandid.'&lang='.substr($lang->getTag(),0,2)));
+	    $smartyvs->assign("albumurl", JRoute::_('index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption=dalbumssource&item_id='.$song[0]->albumid.'&lang='.substr($lang->getTag(),0,2)));
 		$smartyvs->display('songpage.tpl');
 		
 		return;
@@ -201,6 +202,7 @@ class hwd_vs_html
     function albumpage($album)
     {
 		global $Itemid, $smartyvs, $hwdvsTemplateOverride;	
+		$lang = JFactory::getLanguage();
 		$smartyvs->assign("album", $album[0]);
 		$smartyvs->assign("songs", $album);
 		$uri = & JFactory::getURI();
@@ -215,6 +217,7 @@ class hwd_vs_html
 		$videosAlbum = hwd_vs_tools::getVideosBySongs($songIds);
 		$matchingvids = hwd_vs_tools::generateVideoListFromSql($videosAlbum, null, '133');
 		$domain = JURI::root();
+		$smartyvs->assign("bandurl", JRoute::_('index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption=cbandsssource&item_id='.$album[0]->bandid.'&lang='.substr($lang->getTag(),0,2)));
 	    $smartyvs->assign("domain", $domain);
 	    $smartyvs->assign("videosAlbum", $matchingvids);
 		$smartyvs->display('albumpage.tpl');
