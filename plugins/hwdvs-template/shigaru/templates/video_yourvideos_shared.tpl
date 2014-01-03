@@ -42,7 +42,7 @@
 						{if $otheruser neq 'no'}
 							{$smarty.const._HWDVIDS_TITLE_VIDCREATBY} {$otheruser}
 						{else}
-							{$smarty.const._HWDVIDS_TITLE_MYVIDS}</span>
+							{$smarty.const._HWDVIDS_TITLE_MYVIDS} - <span class="fontnormal">{$smarty.const._HWDVIDS_TITLE_YOURVIDSSHARED}</span>
 						{/if}</h3>
 				</div>
 				<div class="fright">
@@ -96,5 +96,5 @@
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <script type="text/javascript" src="{$baseurl}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
 <script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/yourvideos.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/yourvideosshared.js"></script>
 

@@ -45,7 +45,87 @@ class hwd_vs_usrfunc
    /**
     * List User Videos
     */
+	function watchHistory()
+	{
+		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		
+		$my = & JFactory::getUser();
+
+		
+		if (!$my->id && $otheruser=='no') {
+			$msg = _HWDVIDS_ALERT_LOG2CYV;
+			$mainframe->enqueueMessage($msg);
+			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
+		}
+
+		$limit 	= intval($c->vpp);
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
+		
+		$where = ' WHERE video.approved = "yes"';
+		$where .= ' AND video.published = 1';
+		$where .= ' AND history.videoid = video.id';
+		$where .= ' AND history.userid = '.$user_id;
+
+		$db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidslogs_views AS history, #__hwdvidsvideos as video '
+					 . $where					 
+					 );
+  		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+		hwd_vs_html::watchHistory($total,$otheruser,$my->id);
+	}
+   /**
+    * List User Videos
+    */
 	function yourVideos()
+	{
+		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		
+		$my = & JFactory::getUser();
+
+		
+		if (!$my->id && $otheruser=='no') {
+			$msg = _HWDVIDS_ALERT_LOG2CYV;
+			$mainframe->enqueueMessage($msg);
+			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
+		}
+
+		$limit 	= intval($c->vpp);
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
+		
+		$where = ' WHERE video.approved = "yes"';
+		$where .= ' AND video.published = 1';
+		$where .= ' AND video.user_id = '.$user_id;
+
+		$db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 . $where
+					 
+					 );
+  		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+		hwd_vs_html::yourVideos($total,$otheruser,$my->id);
+	}
+   /**
+    * List User Videos
+    */
+	function yourVideosShared()
 	{
 		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
 		$c = hwd_vs_Config::get_instance();
@@ -81,7 +161,7 @@ class hwd_vs_usrfunc
 		echo $db->getErrorMsg();
 		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
-		hwd_vs_html::yourVideos($total,$otheruser,$my->id);
+		hwd_vs_html::yourVideosShared($total,$otheruser,$my->id);
 	}
 	
 	/**

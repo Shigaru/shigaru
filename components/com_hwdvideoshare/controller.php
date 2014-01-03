@@ -142,11 +142,24 @@ class UserController extends JController
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'groups.php');
 		hwd_vs_groups::leaveGroup();
 	}
+	
+	
+	function watchhistory()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		hwd_vs_usrfunc::watchHistory();
+	}
 
 	function yourvideos()
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
 		hwd_vs_usrfunc::yourVideos();
+	}
+	
+	function yourvideosshared()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		hwd_vs_usrfunc::yourVideosShared();
 	}
 	
 	function yourvideoscreated()
@@ -299,10 +312,22 @@ class UserController extends JController
 		hwd_vs_ajax::myvideos();
 	}
 	
+	function ajax_watchhistory()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::ajax_watchhistory();
+	}
+	
 	function ajax_myvideoscreated()
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
 		hwd_vs_ajax::myvideoscreated();
+	}
+	
+	function ajax_myvideosshared()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::myvideosshared();
 	}
 	
 	function ajax_userdetails()

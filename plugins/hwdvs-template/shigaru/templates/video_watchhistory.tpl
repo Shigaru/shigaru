@@ -39,11 +39,8 @@
 			<div class="clearfix">
 				<div class="fleft f15em fontbold">
 					<h3>
-						{if $otheruser neq 'no'}
-							{$smarty.const._HWDVIDS_TITLE_VIDCREATBY} {$otheruser}
-						{else}
-							{$smarty.const._HWDVIDS_TITLE_MYVIDS}</span>
-						{/if}</h3>
+							{$smarty.const._HWDVIDS_SHIGARU_WATCHHISTORY}</span>
+						</h3>
 				</div>
 				<div class="fright">
 					<!--<form class="">
@@ -96,5 +93,5 @@
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <script type="text/javascript" src="{$baseurl}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
 <script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/yourvideos.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/watchhistory.js"></script>
 

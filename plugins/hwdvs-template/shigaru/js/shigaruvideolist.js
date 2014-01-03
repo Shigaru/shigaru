@@ -211,58 +211,62 @@
 	
 		
 	function initVideoList(){
-      setPageActions();
-      resetLayoutParams(jQuery('#resultcontainer .resultelement'));
-      prepareLayoutParameters($optionSets.find('.active').attr('data-option-value'));
-      $container.isotope({
-        itemSelector : '.resultelement',
-        masonry : {columnWidth : opts.masonryColumnWidth},
-		masonryHorizontal : {rowHeight: opts.masonryHorizontalRowHeight},
-		cellsByRow : {columnWidth : opts.cellsByRowColumnWidth, rowHeight: opts.cellsByRowRowHeight},	
-		layoutMode:$optionSets.find('.active').attr('data-option-value')
-      },function(){
-		  isISotopized = true;
-		  jQuery('.videolistoptions .btn').click(function(e) {
-				var $this = jQuery(this);
-				$this.toggleClass("active");
-				$this.next('ul.dropdown-menu').toggle();
-				return false;
-			});
-			jQuery('body').click(function () {
-				jQuery('.videolistoptions ul.dropdown-menu').hide();
-				if(jQuery('.videolistoptions .btn').hasClass('active'))jQuery('.videolistoptions .btn').removeClass('active');
-			});
-		  });
-		  
-		  jQuery(".dropdown-menu .editvideobutton").click(function (e) {
-				e.preventDefault();
-				jQuery(this).prev().submit();
-			});
-			
-			jQuery(".dropdown-menu .deletevideobutton").click(function (e) {
-				e.preventDefault();
-				var oDeleteEvent = e;
-				jQuery.blockUI({
-					message: 	'<p class="shigarunotice"><span id="close"></span>'+
-									jQuery('#deletevideomessage').html()+	
-								'</p>',
-					css: {
-						top: (jQuery(window).height() - 200) / 2 + "px",
-						left: (jQuery(window).width() - 400) / 2 + "px",
-						height: "200px",
-						width: "400px",
-						"overflow-y:": "auto"
+      
+      if($container.find('#noresultswrapper').length == 0){
+				setPageActions();
+				resetLayoutParams(jQuery('#resultcontainer .resultelement'));
+				  prepareLayoutParameters($optionSets.find('.active').attr('data-option-value'));
+				  $container.isotope({
+					itemSelector : '.resultelement',
+					masonry : {columnWidth : opts.masonryColumnWidth},
+					masonryHorizontal : {rowHeight: opts.masonryHorizontalRowHeight},
+					cellsByRow : {columnWidth : opts.cellsByRowColumnWidth, rowHeight: opts.cellsByRowRowHeight},	
+					layoutMode:$optionSets.find('.active').attr('data-option-value')
+				  },function(){
+					  isISotopized = true;
+					  jQuery('.videolistoptions .btn').click(function(e) {
+							var $this = jQuery(this);
+							$this.toggleClass("active");
+							$this.next('ul.dropdown-menu').toggle();
+							return false;
+						});
+						jQuery('body').click(function () {
+							jQuery('.videolistoptions ul.dropdown-menu').hide();
+							if(jQuery('.videolistoptions .btn').hasClass('active'))jQuery('.videolistoptions .btn').removeClass('active');
+						});
+					  });
+					  
+					  jQuery(".dropdown-menu .editvideobutton").click(function (e) {
+							e.preventDefault();
+							jQuery(this).prev().submit();
+						});
+						
+						jQuery(".dropdown-menu .deletevideobutton").click(function (e) {
+							e.preventDefault();
+							var oDeleteEvent = e;
+							jQuery.blockUI({
+								message: 	'<p class="shigarunotice"><span id="close"></span>'+
+												jQuery('#deletevideomessage').html()+	
+											'</p>',
+								css: {
+									top: (jQuery(window).height() - 200) / 2 + "px",
+									left: (jQuery(window).width() - 400) / 2 + "px",
+									height: "200px",
+									width: "400px",
+									"overflow-y:": "auto"
+								}
+							});
+							jQuery(".shigarunotice #close,.blockUI .cancel").click(function (e) {
+								e.preventDefault();
+								jQuery.unblockUI();
+							});
+							jQuery(".blockUI .btn-danger").click(function (e) {
+								e.preventDefault();
+								jQuery(oDeleteEvent.target).prev().submit();
+							});
+						});
+				}else{
 					}
-				});
-				jQuery(".shigarunotice #close,.blockUI .cancel").click(function (e) {
-					e.preventDefault();
-					jQuery.unblockUI();
-				});
-				jQuery(".blockUI .btn-danger").click(function (e) {
-					e.preventDefault();
-					jQuery(oDeleteEvent.target).prev().submit();
-				});
-			});
 	}
 	
 	function composeFiltersUrl(){

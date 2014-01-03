@@ -221,6 +221,12 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 					}
 					$segments[] = JText::_('Search');*/
                     break;
+				case 'yourvideosshared':
+					$segments[] = _HWDVIDS_SHIGARU_MYVIDEOSISHARED;
+                    break;
+				case 'watchhistory':
+					$segments[] = _HWDVIDS_SHIGARU_WATCHHISTORY;
+                    break;
 				case 'atoz':
 					$segments[] = _HWDVIDS_SHIGARU_ATOZ;
                     break;

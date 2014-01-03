@@ -186,6 +186,21 @@ class hwd_vs_ajax
 		echo $code;
 		exit;
 		}	
+	
+	function myvideosshared(){
+		header('Content-type: text/html; charset=utf-8');
+		$code = hwd_vs_tools::getMyVideosShared();
+		echo $code;
+		exit;
+		}	
+		
+	function ajax_watchhistory(){
+		header('Content-type: text/html; charset=utf-8');
+		$code = hwd_vs_tools::getMyWatchHistory();
+		echo $code;
+		exit;
+		}	
+		
 	function myvideoscreated(){
 		header('Content-type: text/html; charset=utf-8');
 		$code = hwd_vs_tools::getMyVideosCreated();

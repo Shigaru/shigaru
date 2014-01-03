@@ -3,7 +3,7 @@ jQuery(document).ready(function () {
 			{
 				needsHeaderProfile:true,
 				needsUserMenu:true,
-				selectedUserMenu:'#myvideos',
-				listURL:'index.php?option=com_hwdvideoshare&task=ajax_myvideos&format=raw&lang='+currentLang
+				selectedUserMenu:'#myvideosshared',
+				listURL:'index.php?option=com_hwdvideoshare&task=ajax_myvideosshared&format=raw&lang='+currentLang
 		});    
 });
