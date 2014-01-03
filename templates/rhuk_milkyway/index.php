@@ -61,15 +61,15 @@ var currentLang = "<?php echo $currentLang ?>";
 					<a class="f150 fontsig fontbold tdecnone" id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
 						<h1>SHIGARU</h1>
 					</a>
-					<span id="head_comm_text fontsig" class="f80"><?php echo JText::_('Sharing musical knowledge') ?></span>
+					<span id="head_comm_text fontsig" class="f80"><?php echo JText::_('HWDVIDS_SHIGARU_SHARINGMUSIKNOW') ?></span>
 				</div>		
 				
 			</div>
 			
 				
 			<div id="nav_browse" class="fleft mtop12 mleft20 mright20 w40">
-								<form method="get" action="index.php?option=com_hwdvideoshare&amp;task=search" class="form-wrapper cf" id="rokajaxsearch" name="rokajaxsearch">
-										<input type="text" placeholder="Search bands, songs, genres,..." name="pattern" id="roksearch_search_str">
+								<form method="get" action="index.php?option=com_hwdvideoshare&task=displayresults" class="form-wrapper cf" id="rokajaxsearch" name="rokajaxsearch">
+										<input type="text" placeholder="<?php echo JText::_('HWDVIDS_SHIGARU_SEARCHBSG') ?>" name="pattern" id="roksearch_search_str">
 										<button type="submit">Search</button>
 										<input type="hidden" value="20" name="limit">
 										<input type="hidden" value="search" name="task">
@@ -94,7 +94,7 @@ var currentLang = "<?php echo $currentLang ?>";
 						?>
 						<jdoc:include type="modules" name="top" />
 						<?php
-						echo '<div class="fleft mtop12 mright24"><a class="fontsig fontbold tdecnone" href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=upload").'"><i class="icon-share icon-large"></i> <span class="f120">'. JText::_('Share video').' </span></a></div>';
+						echo '<div class="fleft mtop12 mright24"><a class="fontsig fontbold tdecnone" href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=upload").'"><i class="icon-share icon-large"></i> <span class="f120">'. JText::_('HWDVIDS_SHIGARU_SHAREVIDEO').' </span></a></div>';
 						echo '<div class="fleft mtop12 mright24" id="navdrop"><a class="fontsig f150 tdecnone" href="#" title="Click on this icon to display more options"><i class="icon-plus-sign"></i></a></div>';
 						?>
 								
