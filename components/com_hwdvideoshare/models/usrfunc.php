@@ -206,6 +206,69 @@ class hwd_vs_usrfunc
 		hwd_vs_html::yourVideosCreated($total,$otheruser,$my->id);
 	}
 	
+	/**
+    * List User Videos
+    */
+	function videosIlike()
+	{
+		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		
+		$my = & JFactory::getUser();
+
+		
+		if (!$my->id && $otheruser=='no') {
+			$msg = _HWDVIDS_ALERT_LOG2CYV;
+			$mainframe->enqueueMessage($msg);
+			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
+		}
+
+		$limit 	= intval($c->vpp);
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
+		
+		$where = ' WHERE video.approved = "yes"';
+		$where .= ' AND video.published = 1';
+		$where .= ' AND likes.item_id = video.id';
+		$where .= ' AND likes.item_type = "video"';
+		$where .= ' AND likes.user_id = '.$user_id;
+
+		$db->SetQuery( 'SELECT count(*)'
+					. ' FROM #__hwdvidslikes AS likes, #__hwdvidsvideos as video '
+					 . $where
+					 
+					 );
+  		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+		hwd_vs_html::videosIlike($total,$otheruser,$my->id);
+	}
+	/**
+    * List User Videos
+    */
+	function aboutMe()
+	{
+		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		
+		$my = & JFactory::getUser();
+
+		
+		if (!$my->id && $otheruser=='no') {
+			$msg = _HWDVIDS_ALERT_LOG2CYV;
+			$mainframe->enqueueMessage($msg);
+			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
+		}
+		hwd_vs_html::aboutMe($total,$otheruser,$my->id);
+	}
+	
    /**
     * List User Favourite Videos
     */

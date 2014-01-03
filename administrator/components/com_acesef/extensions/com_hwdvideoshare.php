@@ -224,8 +224,14 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 				case 'yourvideosshared':
 					$segments[] = _HWDVIDS_SHIGARU_MYVIDEOSISHARED;
                     break;
+				case 'aboutme':
+					$segments[] = _HWDVIDS_SHIGARU_ABOUTME;
+                    break;
 				case 'watchhistory':
 					$segments[] = _HWDVIDS_SHIGARU_WATCHHISTORY;
+                    break;
+				case 'videosilike':
+					$segments[] = _HWDVIDS_SHIGARU_VIDEOSILIKED;
                     break;
 				case 'atoz':
 					$segments[] = _HWDVIDS_SHIGARU_ATOZ;

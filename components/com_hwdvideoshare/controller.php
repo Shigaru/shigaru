@@ -149,6 +149,11 @@ class UserController extends JController
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
 		hwd_vs_usrfunc::watchHistory();
 	}
+	function videosilike()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		hwd_vs_usrfunc::videosIlike();
+	}
 
 	function yourvideos()
 	{
@@ -172,6 +177,12 @@ class UserController extends JController
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
 		hwd_vs_usrfunc::yourFavourites();
+	}
+	
+	function aboutme()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
+		hwd_vs_usrfunc::aboutMe();
 	}
 
 	function yourgroups()
@@ -316,6 +327,18 @@ class UserController extends JController
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
 		hwd_vs_ajax::ajax_watchhistory();
+	}
+	
+	function ajax_aboutme()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::aboutme();
+	}
+	
+	function ajax_videosilike()
+	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'ajaxsuite.php');
+		hwd_vs_ajax::videosilike();
 	}
 	
 	function ajax_myvideoscreated()

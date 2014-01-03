@@ -13,13 +13,15 @@
     var oUserMenuUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_usermenu&format=raw&lang="+currentLang+"&selected=";
     
     return this.each(function() {
-		transformFiltersLinks();
-		doLoadAjaxContent(oListUrl);
+		if(opts.needsVideoListLoading){
+			transformFiltersLinks();
+			doLoadAjaxContent(oListUrl);
+			activateLayoutLinks();
+		}
 		if(opts.needsHeaderProfile)
 			doLoadAjaxUserDetails();	
 		if(opts.needsUserMenu)
 			doLoadAjaxUserMenu();	
-		activateLayoutLinks();
 	});
 	
 	function doPublishStatus(paramThis){
@@ -401,6 +403,7 @@
 	masonryHorizontalRowHeight: 200,
 	cellsByRowColumnWidth : 380, 
 	cellsByRowRowHeight: 225,	
+	needsVideoListLoading: true,
 	needsHeaderProfile: true,
 	needsUserMenu: false,
 	selectedUserMenu: '#whattowatch'

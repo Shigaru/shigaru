@@ -194,6 +194,20 @@ class hwd_vs_ajax
 		exit;
 		}	
 		
+	function videosilike(){
+		header('Content-type: text/html; charset=utf-8');
+		$code = hwd_vs_tools::getMyLikedVideos();
+		echo $code;
+		exit;
+		}	
+		
+	function aboutme(){
+		header('Content-type: text/html; charset=utf-8');
+		$code = hwd_vs_tools::getAboutMeData();
+		echo $code;
+		exit;
+		}	
+		
 	function ajax_watchhistory(){
 		header('Content-type: text/html; charset=utf-8');
 		$code = hwd_vs_tools::getMyWatchHistory();
