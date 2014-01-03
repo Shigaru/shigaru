@@ -68,11 +68,11 @@ var currentLang = "<?php echo $currentLang ?>";
 			
 				
 			<div id="nav_browse" class="fleft mtop12 mleft20 mright20 w40">
-								<form method="get" action="index.php?option=com_hwdvideoshare&task=search" class="form-wrapper cf" id="rokajaxsearch" name="rokajaxsearch">
+								<form method="get" action="index.php?option=com_hwdvideoshare&task=displayresults" class="form-wrapper cf" id="rokajaxsearch" name="rokajaxsearch">
 										<input type="text" placeholder="<?php echo JText::_('HWDVIDS_SHIGARU_SEARCHBSG') ?>" name="pattern" id="roksearch_search_str">
 										<button type="submit">Search</button>
 										<input type="hidden" value="20" name="limit">
-										<input type="hidden" value="search" name="task">
+										<input type="hidden" value="displayresults" name="task">
 										<input type="hidden" value="28" name="Itemid">
 										<input type="hidden" value="com_hwdvideoshare" name="option">
 									</form>
