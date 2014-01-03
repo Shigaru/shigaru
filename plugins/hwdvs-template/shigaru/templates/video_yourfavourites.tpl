@@ -29,7 +29,7 @@
 	</div>	
 </div>
 <div id="usersection" class="cbProfile mbot12">
-<div class="f80 loadingcontent" style="line-height:150px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
+<div class="f80 loadingcontent" style="line-height:200px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
 </div>	
 <div class="clearfix mtop12 f80">
 	<div id="usermenuwrapper"  class="well fleft w15">
