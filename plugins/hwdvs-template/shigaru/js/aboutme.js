@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
 				var oTargetDiv = jQuery('#resultcontainer');
 				console.log(data);
 				if(data){
-					oTargetDiv.html(data).show(500);	
+					//oTargetDiv.html(data).show(500);	
 				}					
             }
         });	
