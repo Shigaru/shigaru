@@ -3109,7 +3109,7 @@ class cbCalendars {
 		global $_CB_framework;
 
 		static $added				=	array( 1 => false, 2 => false );
-		$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/jquery-1.5.2/jquery-1.5.2.js', true );
+		//$_CB_framework->document->addHeadScriptUrl( '/components/com_comprofiler/js/jquery-1.5.2/jquery-1.5.2.js', true );
 		if ( ! $added[$this->calendarType] ) {
 			$UElanguagePath			=	$_CB_framework->getCfg( 'absolute_path' ).'/components/com_comprofiler/plugin/language';
 			if ( file_exists( $UElanguagePath.'/'.$_CB_framework->getCfg( 'lang' ).'/calendar-locals.js' ) ) {

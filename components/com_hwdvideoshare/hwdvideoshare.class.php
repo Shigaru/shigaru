@@ -6401,7 +6401,7 @@ $app = & JFactory::getApplication();
 		$piecesLang = explode(",", $cbUser->getField( 'cb_language' , null, 'csv', 'profile' ));
 		$finalLang = hwd_vs_tools::constantizeArray($piecesLang);				
 		$timeRegistered = hwd_vs_tools::getAgoDate(strtotime($cbUser->_cbuser->registerDate));				
-		$lastvisitDate = hwd_vs_tools::getAgoDate(strtotime($cbUser->_cbuser->lastvisitDate));				
+		$lastvisitDate = hwd_vs_tools::getAgoDate(strtotime($cbUser->_cbuser->lastvisitDate));		
 		$smartyvs->assign("sex", constant($cbUser->_cbuser->cb_sex));
 		$smartyvs->assign("cb_countryiam", constant($cbUser->_cbuser->cb_countryiam));
 		$smartyvs->assign("languages", $finalLang);

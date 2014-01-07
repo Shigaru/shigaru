@@ -128,12 +128,7 @@ class getgeocodefactoryTab extends cbTabHandler {
 		$return.= '		var centerPoint = new GLatLng(u_lat,u_lng) ; '."\n";
 		$return.= '		map.setCenter(centerPoint,zoom) ; '."\n";
 		
-		if($this->params->get('mapControl') == 1)		$return.= ' map.addControl(new GSmallMapControl());';
-		if($this->params->get('mapControl') == 2)		$return.= ' map.addControl(new GLargeMapControl());';
-		if($this->params->get('mapTypeControl')) 		$return.= ' map.addControl(new GMapTypeControl());';
-		if($this->params->get('overviewMapControl'))	$return.= ' map.addControl(new GOverviewMapControl());';
-		if($this->params->get('doubleClickZoom')) 		$return.= ' map.enableDoubleClickZoom();';
-		else 											$return.= ' map.disableDoubleClickZoom();';
+		' map.enableDoubleClickZoom();';
 			
 		switch ($this->params->get('mapTypeOnStart')) {
 			case 'G_SATELLITE_MAP':						$return.= ' map.setMapType(G_SATELLITE_MAP);'; break;
@@ -147,15 +142,15 @@ class getgeocodefactoryTab extends cbTabHandler {
 			$return.= ' 		var marker = new GMarker(centerPoint, {draggable: true}); ' ;
 			$return.= ' 		map.addOverlay(marker); '."\n";
 	
-			$return.= ' 		GEvent.addListener(marker, "dragend", function() { ';
+			$return.= ' 		GEvent.addListener(marker, "dragend", function(e) { ';
 			$return.= ' 			ll = marker.getLatLng() ; ';
-			$return.= ' 			document.getElementById("cb_plug_lat").value = ll.y; ';
-			$return.= ' 			document.getElementById("cb_plug_lng").value = ll.x; ';
+			$return.= ' 			document.getElementById("cb_plug_lat").value = e.nb; ';
+			$return.= ' 			document.getElementById("cb_plug_lng").value = e.ob; ';
 			$return.= ' 		}); '."\n";
 			$return.= ' 		GEvent.addListener(map, "click", function(overlay, point) { ';
 			$return.= ' 			if (point) { ';
-			$return.= ' 				document.getElementById("cb_plug_lat").value = point.y; ';
-			$return.= ' 				document.getElementById("cb_plug_lng").value = point.x; ';
+			$return.= ' 				document.getElementById("cb_plug_lat").value = point.nb; ';
+			$return.= ' 				document.getElementById("cb_plug_lng").value = point.ob; ';
 			$return.= ' 				loadUserMap(map.getZoom()); ';
 			$return.= ' 			} ';
 			$return.= ' 		}); '."\n";  
