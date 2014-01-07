@@ -6397,14 +6397,30 @@ $app = & JFactory::getApplication();
 		//cbimport( 'cb.html' );
 				
 		$cbUser =& CBuser::getInstance( $user_id);
-		$josuser =& JFactory::getUser( $user_id );		
-						
-		$smartyvs->assign("onlinestatus", $cbUser->getField( 'onlinestatus', null, 'csv'));
-		$smartyvs->assign("data", $userdetails);
-		var_dump($cbUser->getField( 'onlinestatus', null, 'csv'));
-		var_dump($cbUser);
+		$josuser =& JFactory::getUser( $user_id );	
+		$piecesLang = explode(",", $cbUser->getField( 'cb_language' , null, 'csv', 'profile' ));
+		$finalLang = hwd_vs_tools::constantizeArray($piecesLang);				
+		$timeRegistered = hwd_vs_tools::getAgoDate(strtotime($cbUser->_cbuser->registerDate));				
+		$lastvisitDate = hwd_vs_tools::getAgoDate(strtotime($cbUser->_cbuser->lastvisitDate));				
+		$smartyvs->assign("sex", constant($cbUser->_cbuser->cb_sex));
+		$smartyvs->assign("cb_countryiam", constant($cbUser->_cbuser->cb_countryiam));
+		$smartyvs->assign("languages", $finalLang);
+		$smartyvs->assign("timeRegistered", $timeRegistered);
+		$smartyvs->assign("lastvisitDate", $lastvisitDate);
+		$smartyvs->assign("data", $cbUser);
+		//echo '<pre>';
+		//var_dump($piecesLang);
+		//echo '</pre>';
 		$oResults .= $smartyvs->fetch('aboutme_data.tpl');
 		return $oResults;
+		}
+	
+	function constantizeArray($constantsArray){
+		$oReturn = '';
+		foreach($constantsArray as $cont){
+				$oReturn .= constant($cont).', ';
+			}
+		return $oReturn;
 		}
 	
 	function generateSuggestion(){

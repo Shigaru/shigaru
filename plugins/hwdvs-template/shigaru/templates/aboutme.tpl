@@ -37,10 +37,19 @@
 	<div id="videosmaincontent" class="fleft clearfix pad12">
 		<div class="clearfix">
 			<div class="clearfix">
-				<div class="fleft f15em fontbold">
-					<h3>
+				<div class="f15em fontbold">
+					<h3 class="fontbold">
 							{$smarty.const._HWDVIDS_SHIGARU_ABOUTME}</span>
-						</h3>
+					</h3>
+					<div class="aboutme dropdown clearfix">
+						<a href="#generalinfo" class="active"><span class="icon-caret-right pad6"></span> {$smarty.const._UE_CONTACT_INFO_HEADER}</a>
+						<a href="#friends" class="borleftgrey">{$smarty.const._UE_YOURCONNECTIONS}</a>
+						<a href="#where" class="borleftgrey">{$smarty.const._UE_WHEREINWORLD}</a>
+						<a href="#myband" class="borleftgrey">{$smarty.const._UE_MYBAND}</a>
+						<a href="#personalsites" class="borleftgrey">{$smarty.const._UE_PERSONALSITES}</a>
+						<a href="#musicalinterests" class="borleftgrey">{$smarty.const._UE_MUSICALINTERESTS}</a>
+						<a href="#otherinfo" class="borleftgrey">{$smarty.const._UE_OTHERINTERINFO}</a>
+					</div>
 				</div>
 			</div>
 		</div>
