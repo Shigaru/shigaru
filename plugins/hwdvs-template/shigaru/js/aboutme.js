@@ -12,7 +12,12 @@ jQuery(document).ready(function () {
             url: 'index.php?option=com_hwdvideoshare&task=ajax_aboutme&ajax=yes&item_id=all&lang='+currentLang,
             success: function (data) {
 				var oTargetDiv = jQuery('#resultcontainer');
-				if(data){
+				if(data){					
+					oTargetDiv.css({'-webkit-box-shadow': '0px 0px 0px 0px rgba(12, 12, 12, 0.3)',
+						'box-shadow': '0px 0px 0px 0px rgba(12, 12, 12, 0.3)',
+						'-webkit-border-radius': '0px',
+						'border-radius': '0px'
+						});
 					oTargetDiv.html(data).show(500);	
 					initialPoint = {};
 					initialPoint.lat = jQuery('#lat').val();

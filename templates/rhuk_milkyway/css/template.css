@@ -1886,7 +1886,6 @@ font-weight: normal;
 font-size: 70%;-moz-box-shadow: 0 0 2px #888;
 -webkit-box-shadow: 0 0 2px #888;
 box-shadow: 0 0 2px #888;
-margin-bottom:3em;
 }
 .aboutme>a {color:#e63a1c;
 width:14%;
@@ -1905,7 +1904,6 @@ width: auto;
 display: inline-block;
 background-color: #fff;
 overflow: hidden;
-margin-top: -34px;
 margin-bottom: 12px;
 font-weight: bold;
 font-size: 1.5em;

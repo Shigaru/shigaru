@@ -26,6 +26,8 @@ DEFINE('_UE_CITYREGION','City/Region');
 DEFINE('_UE_NATIVELANG','Native language');
 DEFINE('_UE_OTHERLANG','Other languages');
 DEFINE('_UE_PERSONALSITES','Personal Sites');
+DEFINE('_UE_OFFICIALWEBSITE','Official Website');
+DEFINE('_UE_PREVIOUSLYKNOWN','Previously known as');
 DEFINE('_UE_MYWEB1','My website (1)');
 DEFINE('_UE_MYWEB2','My website (2)');
 DEFINE('_UE_MYWEBDESC','Description');
@@ -50,7 +52,13 @@ DEFINE('_UE_FAVOURITES','Favourites');
 DEFINE('_UE_COMMENTS','Comments');
 DEFINE('_UE_MORE','View this comment');
 DEFINE('_UE_MYBAND','My Band');
+DEFINE('_UE_MYBANDNAME','Band Name');
 DEFINE('_UE_MYOTHERBAND','My Other Band');
+DEFINE('_UE_MYBANDGENRE','Genre');
+DEFINE('_UE_MYBANDSOUNDSLIKE','Sounds Like');
+DEFINE('_UE_MYBANDMEMBERS','Band members');
+DEFINE('_UE_MYBANDMEMBERSNAMES','Band member names');
+DEFINE('_UE_MYBANDSIGNEDTORECORD','Signed to record label?');
 
 
 DEFINE("_HWDVIDS_SHIGARU_EIGHTIES","80's Songs");
