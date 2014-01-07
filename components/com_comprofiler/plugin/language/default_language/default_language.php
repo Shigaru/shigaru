@@ -167,7 +167,7 @@ DEFINE('_UE_IDISLIKE','Disikes');
 DEFINE('_UE_COUNTRIESTRAVELD','Countries travelled to');
 DEFINE('_UE_COUNTRIESTOTRAVEL','Countries would love to travel to');
 DEFINE('_UE_WHOTOMET','Who I would most like to meet');
-DEFINE('_UE_FAVBOOKS','Favourite books:');
+DEFINE('_UE_FAVBOOKS','Favourite books');
 DEFINE('_UE_FAVMOVIES','Favourite movies');
 DEFINE('_UE_FAVTV','Favourite tv');
 DEFINE('_UE_HOBBIES','Hobbies');

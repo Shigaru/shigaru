@@ -1900,11 +1900,11 @@ text-align:center;
 }
 
 .profilehead{
-width: auto;
+width: auto;margin-top: 30px;
 display: inline-block;
 background-color: #fff;
 overflow: hidden;
-margin-bottom: 12px;
+margin-bottom: -1px;
 font-weight: bold;
 font-size: 1.5em;
 border: 1px solid #ECEBEB;
@@ -1915,6 +1915,11 @@ border-radius: 3px 3px 0px 0px;
 -webkit-box-shadow: 1px -1px 0px #ECEBEB;
 box-shadow: 1px -1px 0px #ECEBEB;
 }
+.profilebody{border: 1px solid #ECEBEB;
+border-bottom: none;border-radius: 3px 3px 0px 0px;
+-moz-box-shadow: 0 0 2px #888;
+-webkit-box-shadow: 1px -1px 0px #ECEBEB;
+box-shadow: 1px -1px 0px #ECEBEB;padding:12px;}
 
 /* -------------- Button Base -------------- */
 .buttonbar{

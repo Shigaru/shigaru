@@ -8,46 +8,46 @@
 *} 
 
 <h4 class="profilehead fontsig"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_CONTACT_INFO_HEADER}</h4>
-<div class="mleft12 other clearfix" data-symbol="H" data-category="other">
+<div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="generalinfo" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div>
-								<span>{$smarty.const._HWDVIDS_SELECT_NAME}</span>
+								<span class="fontbold">{$smarty.const._HWDVIDS_SELECT_NAME}:</span>
 								<span>{$data->_cbuser->cb_fname} {$data->_cbuser->cb_lname}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_SEX}</span>
+								<span class="fontbold">{$smarty.const._UE_SEX}:</span>
 								<span>{$sex}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_YOURAGEGROUP}</span>
+								<span class="fontbold">{$smarty.const._UE_YOURAGEGROUP}:</span>
 								<span>{$data->_cbuser->cb_youragegroup}</span>
 							</div>
 							<div>
-								<span>{$smarty.const.HWDVIDS_SHIGARU_COUNTRY}</span>
+								<span class="fontbold">{$smarty.const.HWDVIDS_SHIGARU_COUNTRY}:</span>
 								<span>{$cb_countryiam}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_LANGUAGE}</span>
+								<span class="fontbold">{$smarty.const._UE_LANGUAGE}:</span>
 								<span>{$languages}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MEMBERSINCE}</span>
+								<span class="fontbold">{$smarty.const._UE_MEMBERSINCE}:</span>
 								<span>{$timeRegistered}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_LASTONLINE}</span>
+								<span class="fontbold">{$smarty.const._UE_LASTONLINE}:</span>
 								<span>{$lastvisitDate}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_TAGS}</span>
+								<span class="fontbold">{$smarty.const._UE_TAGS}:</span>
 								<span>{$data->_cbuser->cb_tags}</span>
 								
 							</div>
 							<div>
-								<span>{$smarty.const._UE_IAM}</span>
+								<span class="fontbold">{$smarty.const._UE_IAM}:</span>
 								<span>{$data->_cbuser->cb_iam}</span>
 							</div>
 						</div>
@@ -58,33 +58,33 @@
 
 
 <h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_WHEREINWORLD}</h4>
-<div class="mleft12 other clearfix" data-symbol="H" data-category="other">
+<div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div>
-								<span>{$smarty.const._UE_COUNTRYIAM}</span>
+								<span class="fontbold">{$smarty.const._UE_COUNTRYIAM}:</span>
 								<span>{$cb_countryiam}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_CITYREGION}</span>
+								<span class="fontbold">{$smarty.const._UE_CITYREGION}:</span>
 								<span>{$data->_cbuser->cb_cityiam}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_COUNTRYILIVE}</span>
+								<span class="fontbold">{$smarty.const._UE_COUNTRYILIVE}:</span>
 								<span>{$cb_countryilive}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_CITYREGION}</span>
+								<span class="fontbold">{$smarty.const._UE_CITYREGION}:</span>
 								<span>{$data->_cbuser->cb_cityilive}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_NATIVELANG}</span>
+								<span class="fontbold">{$smarty.const._UE_NATIVELANG}:</span>
 								<span>{$cb_nativelang}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_OTHERLANG}</span>
+								<span class="fontbold">{$smarty.const._UE_OTHERLANG}:</span>
 								<span>{$cb_otherlanguages}</span>
 							</div>
 							<div>
@@ -98,45 +98,45 @@
 
 
 <h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_MYBAND}</h4>
-<div class="mleft12 other clearfix" data-symbol="H" data-category="other">
+<div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div>
-								<span>{$smarty.const._UE_MYBANDNAME}</span>
+								<span class="fontbold">{$smarty.const._UE_MYBANDNAME}:</span>
 								<span>{$data->_cbuser->cb_bandname}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_OFFICIALWEBSITE}</span>
+								<span class="fontbold">{$smarty.const._UE_OFFICIALWEBSITE}:</span>
 								<span>{$data->_cbuser->cb_officialwebsite}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_PREVIOUSLYKNOWN}</span>
+								<span class="fontbold">{$smarty.const._UE_PREVIOUSLYKNOWN}:</span>
 								<span>{$data->_cbuser->cb_previouslyknownas}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MYBANDGENRE}</span>
+								<span class="fontbold">{$smarty.const._UE_MYBANDGENRE}:</span>
 								<span>{$data->_cbuser->cb_bandgenre}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MYBANDSOUNDSLIKE}</span>
+								<span class="fontbold">{$smarty.const._UE_MYBANDSOUNDSLIKE}:</span>
 								<span>{$data->_cbuser->cb_soundslike}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MYBANDMEMBERS}</span>
+								<span class="fontbold">{$smarty.const._UE_MYBANDMEMBERS}:</span>
 								<span>{$data->_cbuser->cb_nobandmembers}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MYBANDMEMBERSNAMES}</span>
+								<span class="fontbold">{$smarty.const._UE_MYBANDMEMBERSNAMES}:</span>
 								<span>{$data->_cbuser->cb_bandmembernames}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MYBANDSIGNEDTORECORD}</span>
+								<span class="fontbold">{$smarty.const._UE_MYBANDSIGNEDTORECORD}:</span>
 								<span>{$data->_cbuser->cb_signedtorecordlabel}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MYWEBDESC}</span>
+								<span class="fontbold">{$smarty.const._UE_MYWEBDESC}:</span>
 								<span>{$data->_cbuser->cb_banddescription}</span>
 							</div>
 						</div>
@@ -149,25 +149,25 @@
 
 
 <h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_PERSONALSITES}</h4>
-<div class="mleft12 other clearfix" data-symbol="H" data-category="other">
+<div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div>
-								<span>{$smarty.const._UE_MYWEB1}</span>
+								<span class="fontbold">{$smarty.const._UE_MYWEB1}:</span>
 								<span>{$data->_cbuser->cb_myweb1}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MYWEBDESC}</span>
+								<span class="fontbold">{$smarty.const._UE_MYWEBDESC}:</span>
 								<span>{$data->_cbuser->cb_mywebdesc}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MYWEB2}</span>
+								<span class="fontbold">{$smarty.const._UE_MYWEB2}:</span>
 								<span>{$data->_cbuser->cb_myweb2}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MYWEBDESC}</span>
+								<span class="fontbold">{$smarty.const._UE_MYWEBDESC}:</span>
 								<span>{$data->_cbuser->cb_mywebdesc2}</span>
 							</div>
 						</div>
@@ -179,29 +179,29 @@
 
 
 <h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_MUSICALINTERESTS}</h4>
-<div class="mleft12 other clearfix" data-symbol="H" data-category="other">
+<div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div>
-								<span>{$smarty.const._UE_FAVMUSICGENRE}</span>
+								<span class="fontbold">{$smarty.const._UE_FAVMUSICGENRE}:</span>
 								<span>{$cb_favmusicgenre}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_MUSICALINFLU}</span>
+								<span class="fontbold">{$smarty.const._UE_MUSICALINFLU}:</span>
 								<span>{$data->_cbuser->cb_musicinflu}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_FAVARTISTS}</span>
+								<span class="fontbold">{$smarty.const._UE_FAVARTISTS}:</span>
 								<span>{$data->_cbuser->cb_favartirsts}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_ARTBANDRECOMEND}</span>
+								<span class="fontbold">{$smarty.const._UE_ARTBANDRECOMEND}:</span>
 								<span>{$data->_cbuser->cb_newartistsrecom}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_FAVSITES}</span>
+								<span class="fontbold">{$smarty.const._UE_FAVSITES}:</span>
 								<span>{$data->_cbuser->cb_favristerecomm}</span>
 							</div>
 						</div>
@@ -211,49 +211,49 @@
 </div>
 
 <h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_OTHERINTERINFO}</h4>
-<div class="mleft12 other clearfix" data-symbol="H" data-category="other">
+<div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div>
-								<span>{$smarty.const._UE_PHILOSOLIFE}</span>
+								<span class="fontbold">{$smarty.const._UE_PHILOSOLIFE}:</span>
 								<span>{$data->_cbuser->cb_philosolife}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_ILIKE}</span>
+								<span class="fontbold">{$smarty.const._UE_ILIKE}:</span>
 								<span>{$data->_cbuser->cb_ilike}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_IDISLIKE}</span>
+								<span class="fontbold">{$smarty.const._UE_IDISLIKE}:</span>
 								<span>{$data->_cbuser->cb_idislike}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_COUNTRIESTRAVELD}</span>
+								<span class="fontbold">{$smarty.const._UE_COUNTRIESTRAVELD}:</span>
 								<span>{$cb_contriestravelled}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_COUNTRIESTOTRAVEL}</span>
+								<span class="fontbold">{$smarty.const._UE_COUNTRIESTOTRAVEL}:</span>
 								<span>{$cb_countriestotravel}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_WHOTOMET}</span>
+								<span class="fontbold">{$smarty.const._UE_WHOTOMET}:</span>
 								<span>{$data->_cbuser->cb_whotomet}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_FAVBOOKS}</span>
+								<span class="fontbold">{$smarty.const._UE_FAVBOOKS}:</span>
 								<span>{$data->_cbuser->cb_favbooks}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_FAVMOVIES}</span>
+								<span class="fontbold">{$smarty.const._UE_FAVMOVIES}:</span>
 								<span>{$data->_cbuser->cb_favmovies}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_FAVTV}</span>
+								<span class="fontbold">{$smarty.const._UE_FAVTV}:</span>
 								<span>{$data->_cbuser->cb_favtv}</span>
 							</div>
 							<div>
-								<span>{$smarty.const._UE_HOBBIES}</span>
+								<span class="fontbold">{$smarty.const._UE_HOBBIES}:</span>
 								<span>{$data->_cbuser->cb_hobbies}</span>
 							</div>
 						</div>
