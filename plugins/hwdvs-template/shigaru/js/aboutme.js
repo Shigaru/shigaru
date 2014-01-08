@@ -6,7 +6,9 @@ jQuery(document).ready(function () {
 				needsVideoListLoading:false,
 				selectedUserMenu:'#aboutme',
 				listURL:'index.php?option=com_hwdvideoshare&task=ajax_aboutme&format=raw&lang='+currentLang
-		});    
+		});  
+		
+	  
 		
 	jQuery.ajax({
             url: 'index.php?option=com_hwdvideoshare&task=ajax_aboutme&ajax=yes&item_id=all&lang='+currentLang,
@@ -19,11 +21,21 @@ jQuery(document).ready(function () {
 						'border-radius': '0px'
 						});
 					oTargetDiv.html(data).show(500);	
-					initialPoint = {};
-					initialPoint.lat = jQuery('#lat').val();
-					initialPoint.lng = jQuery('#lng').val();
-					console.log(initialPoint);
-					loadScript();	
+					if(jQuery('#lat').val()){
+						initialPoint = {};
+						initialPoint.lat = jQuery('#lat').val();
+						initialPoint.lng = jQuery('#lng').val();
+						loadScript();	
+					}
+					
+					jQuery('#resultcontainer div.aboutme a').click(function(e){
+						var $this = jQuery(this);
+						var oTarget = jQuery($this.attr('href'));
+						var oTargetOffset = oTarget.position();
+						jQuery('html, body').animate({scrollTop:oTarget.top+100}, 'slow');	
+						e.preventDefault();
+						});	
+					
 				}					
             }
         });	

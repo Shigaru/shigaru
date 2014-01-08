@@ -6,8 +6,16 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *} 
-
-<h4 class="profilehead fontsig"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_CONTACT_INFO_HEADER}</h4>
+<div class="aboutme dropdown clearfix">
+	<a href="#generalinfo" class="active"><span class="icon-caret-right pad6"></span> {$smarty.const._UE_CONTACT_INFO_HEADER}</a>
+	{if $ShowWhere}<a href="#where" class="borleftgrey">{$smarty.const._UE_WHEREINWORLD}</a>{/if}
+	{if $ShowMyBand}<a href="#myband" class="borleftgrey">{$smarty.const._UE_MYBAND}</a>{/if}
+	{if $ShowPersonalSites}<a href="#personalsites" class="borleftgrey">{$smarty.const._UE_PERSONALSITES}</a>{/if}
+	{if $ShowMusicalInterest}<a href="#musicalinterests" class="borleftgrey">{$smarty.const._UE_MUSICALINTERESTS}</a>{/if}
+	{if $ShowOtherInterest}<a href="#otherinfo" class="borleftgrey">{$smarty.const._UE_OTHERINTERINFO}</a>{/if}
+</div>
+					
+<h4 id="generalinfo" class="profilehead fontsig"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_CONTACT_INFO_HEADER}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="generalinfo" class="clearfix">
 				<div>
@@ -57,7 +65,7 @@
 </div>
 
 {if $ShowWhere}
-<h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_WHEREINWORLD}</h4>
+<h4 id="where" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_WHEREINWORLD}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
@@ -97,7 +105,7 @@
 </div>
 {/if}
 {if $ShowMyBand}
-<h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_MYBAND}</h4>
+<h4 id="myband" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_MYBAND}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
@@ -147,7 +155,7 @@
 {/if}
 
 {if $ShowPersonalSites}
-<h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_PERSONALSITES}</h4>
+<h4 id="personalsites" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_PERSONALSITES}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
@@ -178,7 +186,7 @@
 {/if}
 
 {if $ShowMusicalInterest}
-<h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_MUSICALINTERESTS}</h4>
+<h4 id="musicalinterests" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_MUSICALINTERESTS}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
@@ -212,7 +220,7 @@
 {/if}
 
 {if $ShowOtherInterest}
-<h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_OTHERINTERINFO}</h4>
+<h4 id="otherinfo" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_OTHERINTERINFO}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
