@@ -6378,10 +6378,16 @@ $app = & JFactory::getApplication();
 	
 	function getAboutMeData(){
 		global $smartyvs,$mainframe, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
-		$otheruser = Jrequest::getVar( 'guid', 'no' );
-		$limitstart = Jrequest::getInt( 'limitstart', '0' );
-		$my = & JFactory::getUser();
-		$oResults = '';
+		$otheruser 				= Jrequest::getVar( 'guid', 'no' );
+		$limitstart 			= Jrequest::getInt( 'limitstart', '0' );
+		$my 					= & JFactory::getUser();
+		$oResults 				= '';
+		$oShowWhere 			= true;
+		$oShowMyBand 			= true;
+		$oShowPersonalSites 	= true;
+		$oShowMusicalInterest 	= true;
+		$oShowOtherInterest 	= true;
+		
 		if (!$my->id && $otheruser=='no') {
 			$msg = _HWDVIDS_ALERT_LOG2CYV;
 			$mainframe->enqueueMessage($msg);
@@ -6408,8 +6414,40 @@ $app = & JFactory::getApplication();
 		$finalcb_contriestravelled = hwd_vs_tools::constantizeArray($cb_contriestravelled);				
 		$cb_countriestotravel = explode(",", $cbUser->getField( 'cb_countriestotravel' , null, 'csv', 'profile' ));
 		$finalcb_countriestotravel = hwd_vs_tools::constantizeArray($cb_countriestotravel);				
+		$cb_bandgenre = explode(",", $cbUser->getField( 'cb_bandgenre' , null, 'csv', 'profile' ));
+		$finalcb_bandgenre = hwd_vs_tools::constantizeArray($cb_bandgenre);				
 		$timeRegistered = hwd_vs_tools::getAgoDate(strtotime($cbUser->_cbuser->registerDate));				
-		$lastvisitDate = hwd_vs_tools::getAgoDate(strtotime($cbUser->_cbuser->lastvisitDate));		
+		$lastvisitDate = hwd_vs_tools::getAgoDate(strtotime($cbUser->_cbuser->lastvisitDate));	
+		
+		if($cbUser->_cbuser->cb_myweb1 == '' && $cbUser->_cbuser->cb_mywebdesc ==''
+			&& $cbUser->_cbuser->cb_myweb2 == '' && $cbUser->_cbuser->cb_mywebdesc2 == '')
+			$oShowPersonalSites 			= false;
+			
+		if($cbUser->_cbuser->cb_countryiam == '' && $cbUser->_cbuser->cb_cityiam ==''
+			&& $cbUser->_cbuser->cb_countryilive == '' && $cbUser->_cbuser->cb_cityilive == ''
+			&& $cbUser->_cbuser->cb_nativelang == '' && $cbUser->_cbuser->cb_otherlanguages == ''
+			&& $cbUser->_cbuser->cb_plug_lat == '' && $cbUser->_cbuser->cb_plug_lng == '')
+			$oShowWhere 			= false;	
+			
+		if($cbUser->_cbuser->cb_bandname == '' && $cbUser->_cbuser->cb_officialwebsite ==''
+			&& $cbUser->_cbuser->cb_previouslyknownas == '' && $cbUser->_cbuser->cb_bandgenre == ''
+			&& $cbUser->_cbuser->cb_soundslike == '' && $cbUser->_cbuser->cb_nobandmembers == ''
+			&& $cbUser->_cbuser->cb_bandmembernames == '' && $cbUser->_cbuser->cb_signedtorecordlabel == ''
+			&& $cbUser->_cbuser->cb_banddescription == '')
+			$oShowMyBand 			= false;	
+			
+		if($cbUser->_cbuser->cb_favmusicgenre == '' && $cbUser->_cbuser->cb_musicinflu ==''
+			&& $cbUser->_cbuser->cb_favartirsts == '' && $cbUser->_cbuser->cb_newartistsrecom == ''
+			&& $cbUser->_cbuser->cb_favristerecomm == '')
+			$oShowMusicalInterest 			= false;	
+			
+		if($cbUser->_cbuser->cb_philosolife == '' && $cbUser->_cbuser->cb_ilike ==''
+			&& $cbUser->_cbuser->cb_idislike == '' && $cbUser->_cbuser->cb_contriestravelled == ''
+			&& $cbUser->_cbuser->cb_countriestotravel == '' && $cbUser->_cbuser->cb_whotomet == ''
+			&& $cbUser->_cbuser->cb_favbooks == '' && $cbUser->_cbuser->cb_favmovies == ''
+			&& $cbUser->_cbuser->cb_favtv == '' && $cbUser->_cbuser->cb_hobbies == '')
+			$oShowOtherInterest 			= false;
+			
 		$smartyvs->assign("sex", constant($cbUser->_cbuser->cb_sex));
 		$smartyvs->assign("cb_countryiam", constant($cbUser->_cbuser->cb_countryiam));
 		$smartyvs->assign("cb_countryilive", constant($cbUser->_cbuser->cb_countryilive));
@@ -6419,6 +6457,12 @@ $app = & JFactory::getApplication();
 		$smartyvs->assign("cb_favmusicgenre", $finalcb_favmusicgenre);
 		$smartyvs->assign("cb_contriestravelled", $finalcb_contriestravelled);
 		$smartyvs->assign("cb_countriestotravel", $finalcb_countriestotravel);
+		$smartyvs->assign("cb_bandgenre", $finalcb_bandgenre);
+		$smartyvs->assign("ShowPersonalSites", $oShowPersonalSites);
+		$smartyvs->assign("ShowWhere", $oShowWhere);
+		$smartyvs->assign("ShowMyBand", $oShowMyBand);
+		$smartyvs->assign("ShowMusicalInterest", $oShowMusicalInterest);
+		$smartyvs->assign("ShowOtherInterest", $oShowOtherInterest);
 		$smartyvs->assign("timeRegistered", $timeRegistered);
 		$smartyvs->assign("lastvisitDate", $lastvisitDate);
 		$smartyvs->assign("data", $cbUser);

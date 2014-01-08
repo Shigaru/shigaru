@@ -1893,6 +1893,7 @@ height:2em;
 display:block;
 float:left;
 margin-top: 12px;
+margin-bottom: 12px;
 text-align:center;
 }
 .aboutme>a.active{
@@ -1900,7 +1901,7 @@ text-align:center;
 }
 
 .profilehead{
-width: auto;margin-top: 30px;
+width: auto;
 display: inline-block;
 background-color: #fff;
 overflow: hidden;
@@ -1911,15 +1912,14 @@ border: 1px solid #ECEBEB;
 border-bottom: none;
 padding: 4px 10px;
 border-radius: 3px 3px 0px 0px;
--moz-box-shadow: 0 0 2px #888;
--webkit-box-shadow: 1px -1px 0px #ECEBEB;
-box-shadow: 1px -1px 0px #ECEBEB;
+-moz-box-shadow: 5px 0 8px #ECEBEB;
+-webkit-box-shadow: 5px 0 8px #ECEBEB;
+box-shadow: 5px 0 8px #ECEBEB;
 }
-.profilebody{border: 1px solid #ECEBEB;
-border-bottom: none;border-radius: 3px 3px 0px 0px;
--moz-box-shadow: 0 0 2px #888;
--webkit-box-shadow: 1px -1px 0px #ECEBEB;
-box-shadow: 1px -1px 0px #ECEBEB;padding:12px;}
+.profilebody{border: 1px solid #ECEBEB;border-radius: 3px 3px 0px 0px;
+-moz-box-shadow: 5px 3px 8px #ECEBEB;
+-webkit-box-shadow: 5px 3px 8px #ECEBEB;
+box-shadow: 5px 3px 8px #ECEBEB;padding:12px;}
 
 /* -------------- Button Base -------------- */
 .buttonbar{

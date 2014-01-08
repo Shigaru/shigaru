@@ -56,7 +56,7 @@
 	</div>	
 </div>
 
-
+{if $ShowWhere}
 <h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_WHEREINWORLD}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
@@ -95,8 +95,8 @@
 			</div>		
 	</div>	
 </div>
-
-
+{/if}
+{if $ShowMyBand}
 <h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_MYBAND}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
@@ -117,7 +117,7 @@
 							</div>
 							<div>
 								<span class="fontbold">{$smarty.const._UE_MYBANDGENRE}:</span>
-								<span>{$data->_cbuser->cb_bandgenre}</span>
+								<span>{$cb_bandgenre}</span>
 							</div>
 							<div>
 								<span class="fontbold">{$smarty.const._UE_MYBANDSOUNDSLIKE}:</span>
@@ -144,10 +144,9 @@
 			</div>		
 	</div>	
 </div>
+{/if}
 
-
-
-
+{if $ShowPersonalSites}
 <h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_PERSONALSITES}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
@@ -176,8 +175,9 @@
 	</div>	
 </div>
 
+{/if}
 
-
+{if $ShowMusicalInterest}
 <h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_MUSICALINTERESTS}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
@@ -209,7 +209,9 @@
 			</div>		
 	</div>	
 </div>
+{/if}
 
+{if $ShowOtherInterest}
 <h4 class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_OTHERINTERINFO}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
@@ -261,5 +263,6 @@
 			</div>		
 	</div>	
 </div>
+{/if}
 <input type="hidden" value="{$data->_cbuser->cb_plug_lat}" id="lat" name="lat">
 <input type="hidden" value="{$data->_cbuser->cb_plug_lng}" id="lng" name="lng">
