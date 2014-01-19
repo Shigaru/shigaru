@@ -31,7 +31,8 @@ jQuery(document).ready(function () {
             success: function (data) {
 				oBandEventsDiv.hide().empty();
 				oBandEventsDiv.show(500,function(){
-					if(data.resultsPage.results.location){
+
+					if(data.resultsPage && data.resultsPage.results.location){
 						jQuery('#forthisband').hide();
 						jQuery('#inyourarea').show();
 						jQuery('#inyourareaexplain').show();
@@ -40,14 +41,19 @@ jQuery(document).ready(function () {
 						markers = data.resultsPage.results.location;	
 						loadScript();		
 					}else{
-							jQuery.each( data.resultsPage.results.event, function( i, item ) {
-							var exturl = jQuery( "<a />" ).attr( "href", item.uri ).attr('target','_blank').append(item.displayName);
-							var whereDiv = jQuery( "<div />" ).addClass().html('@'+item.location.city)
-							if(i%2 != 0)
-								jQuery( "<div />" ).addClass('ac_even').append(exturl).append(whereDiv).appendTo(oBandEventsDiv);
-								else
-									jQuery( "<div />" ).addClass('ac_odd').append(exturl).append(whereDiv).appendTo(oBandEventsDiv);
-						  });	
+							if (navigator.geolocation) {
+								  navigator.geolocation.getCurrentPosition(loadScript, error);
+								} else {
+								  jQuery.each( data.resultsPage.results.event, function( i, item ) {
+									var exturl = jQuery( "<a />" ).attr( "href", item.uri ).attr('target','_blank').append(item.displayName);
+									var whereDiv = jQuery( "<div />" ).addClass().html('@'+item.location.city)
+									if(i%2 != 0)
+										jQuery( "<div />" ).addClass('ac_even').append(exturl).append(whereDiv).appendTo(oBandEventsDiv);
+										else
+											jQuery( "<div />" ).addClass('ac_odd').append(exturl).append(whereDiv).appendTo(oBandEventsDiv);
+								  });
+								}
+								
 						}
 					
 				});
@@ -55,25 +61,54 @@ jQuery(document).ready(function () {
         })
     }
     
-   
+function error(msg) {
+  var s = document.querySelector('#status');
+  s.innerHTML = typeof msg == 'string' ? msg : "failed";
+  s.className = 'fail';
+  
+  // console.log(arguments);
+}   
    
 });
 
 var initialPoint = null;
 var markers = null;
 var map = null;
+var userPosition = null;
 function initialize() {
-  var mapOptions = {
-    zoom: 8,
-    center: new google.maps.LatLng(initialPoint.lat, initialPoint.lng)
-  };
+  if(!userPosition) {
+	var mapOptions = {
+		zoom: 8,
+		center: new google.maps.LatLng(initialPoint.lat, initialPoint.lng)
+	  };
 
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-  addMarkers();    
+	  map = new google.maps.Map(document.getElementById('map-canvas'),
+		  mapOptions);
+      addMarkers();   
+  }else{
+	  var oBandEventsDiv = jQuery("#bandevents");
+	  jQuery( "<div />" ).attr('id','map-canvas').css({'width':'300px','height':'300px'}).appendTo(oBandEventsDiv);
+	  var latlng = new google.maps.LatLng(userPosition.coords.latitude, userPosition.coords.longitude);
+	  var myOptions = {
+			zoom: 15,
+			center: latlng,
+			mapTypeControl: false,
+			navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		  };
+		  map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+		  
+		  var marker = new google.maps.Marker({
+			  position: latlng, 
+			  map: map, 
+			  title:"You are here! (at least within a "+userPosition.coords.accuracy+" meter radius)"
+		  });
+	  }     
+	 
 }
 
-function loadScript() {
+function loadScript(position) {
+  userPosition = position;
   var script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +

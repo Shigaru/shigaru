@@ -95,8 +95,8 @@ var currentLang = "<?php echo $currentLang ?>";
 						?>
 						<jdoc:include type="modules" name="top" />
 						<?php
-						echo '<div class="fleft mtop12 mright24"><a class="fontsig fontbold tdecnone" href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=upload").'"><i class="icon-share icon-large"></i> <span class="f120">'. JText::_('HWDVIDS_SHIGARU_SHAREVIDEO').' </span></a></div>';
-						echo '<div class="fleft mtop12 mright24" id="navdrop"><a class="fontsig f150 tdecnone" href="#" title="Click on this icon to display more options"><i class="icon-plus-sign"></i></a></div>';
+						echo '<div class="fleft mtop12 mright24"><a class="fontsig tdecnone" href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=upload&lang=".$currentLang).'"><i class="icon-share icon-large"></i> <span class="">'. JText::_('HWDVIDS_SHIGARU_SHAREVIDEO').' </span></a></div>';
+						//echo '<div class="fleft mtop12 mright24" id="navdrop"><a class="fontsig f150 tdecnone" href="#" title="Click on this icon to display more options"><i class="icon-plus-sign"></i></a></div>';
 						?>
 								
 						<?php					
@@ -106,14 +106,14 @@ var currentLang = "<?php echo $currentLang ?>";
 								echo $user->username;
 								echo '</span></div>';
 								echo '<ul class="dropdown-menu">
-											<li><a href="index.php?option=com_comprofiler&Itemid=53"><span class="icon-user-md"></span>View Profile</a></li>
-											<li><a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails"><span class="icon-edit"></span>Edit Profile</a></li>
-											<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox"><span class="icon-envelope"></span>Inbox</a></li>
+											<li><a href="index.php?option=com_comprofiler&Itemid=53&lang='.$currentLang.'"><span class="icon-user-md"></span>View Profile</a></li>
+											<li><a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails&lang='.$currentLang.'"><span class="icon-edit"></span>Edit Profile</a></li>
+											<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox&lang='.$currentLang.'"><span class="icon-envelope"></span>Inbox</a></li>
 											<li class="divider"></li>
-											<li><a href="index.php?option=com_hwdvideoshare&task=yourvideos"><span class="icon-headphones"></span>My Videos</a></li>
-											<li><a href="index.php?option=com_hwdvideoshare&task=yourfavourites"><span class="icon-heart"></span>Videos I liked</a></li>
+											<li><a href="index.php?option=com_hwdvideoshare&task=yourvideos&lang='.$currentLang.'"><span class="icon-headphones"></span>My Videos</a></li>
+											<li><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang='.$currentLang.'"><span class="icon-heart"></span>Videos I liked</a></li>
 											<li class="divider"></li>
-											<li><a href="index.php?option=com_comprofiler&task=logout"><span class="icon-off"></span>Logout</a></li>
+											<li><a href="index.php?option=com_comprofiler&task=logout&lang='.$currentLang.'"><span class="icon-off"></span>Logout</a></li>
 										  </ul>';
 								echo '</div>';
 							}
@@ -124,19 +124,18 @@ var currentLang = "<?php echo $currentLang ?>";
 					
 					
 				</div>
-				
+			<nav> 
+				<div id="nav_tabs" class="clearfix">	
+					<jdoc:include type="modules" name="user3" />
+				</div>
+			</nav> 
 			</div>	
-		
+
 	</div>	
 </header> 
 
 </div>
 <div id="sectionwrap" class="clearfix">
-	<nav> 
-		<div id="nav_tabs" class="clearfix">	
-			<jdoc:include type="modules" name="user3" />
-		</div>
-	</nav> 
 	<section> 
 		<div class="clear"></div>
 		
