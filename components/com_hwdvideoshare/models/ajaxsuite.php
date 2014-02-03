@@ -199,6 +199,13 @@ class hwd_vs_ajax
 		$code = hwd_vs_tools::getMyLikedVideos();
 		echo $code;
 		exit;
+		}
+			
+	function ajax_learnlater(){
+		header('Content-type: text/html; charset=utf-8');
+		$code = hwd_vs_tools::getMyLearnLaterVideos();
+		echo $code;
+		exit;
 		}	
 		
 	function aboutme(){

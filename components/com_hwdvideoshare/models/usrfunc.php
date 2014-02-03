@@ -85,6 +85,46 @@ class hwd_vs_usrfunc
    /**
     * List User Videos
     */
+	function yourlearnlater()
+	{
+		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		
+		$my = & JFactory::getUser();
+
+		
+		if (!$my->id && $otheruser=='no') {
+			$msg = _HWDVIDS_ALERT_LOG2CYV;
+			$mainframe->enqueueMessage($msg);
+			$mainframe->redirect( JURI::root( true ) . '/index.php?option=com_hwdvideoshare&Itemid='.$Itemid );
+		}
+
+		$limit 	= intval($c->vpp);
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
+		
+		$where = ' WHERE video.approved = "yes"';
+		$where .= ' AND video.published = 1';
+		$where .= ' AND learnlater.playlist_id = 0 ';
+		$where .= ' AND learnlater.user_id = '.$my->id;
+		$where .= ' AND learnlater.item_id = video.id';
+		$db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsplaylists_videos AS learnlater, #__hwdvidsvideos as video '
+					 . $where
+					 );
+  		$total = $db->loadResult();
+		echo $db->getErrorMsg();
+		jimport('joomla.html.pagination');
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+		hwd_vs_html::learnLater($total,$otheruser,$my->id);
+	}
+   /**
+    * List User Videos
+    */
 	function yourVideos()
 	{
 		global $mainframe, $limitstart, $Itemid, $hwdvs_joinv, $hwdvs_selectv;

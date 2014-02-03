@@ -6,7 +6,7 @@
 
 		  <li id="watchhistory"><a href="index.php?option=com_hwdvideoshare&task=watchhistory&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_WATCHHISTORY}</a></li>	
 
-		  <li id="searchhistory"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_SEARCHHISTORY}</a></li>	
+		  <!--<li id="searchhistory"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_SEARCHHISTORY}</a></li>	-->
 
 		  <!--<li id="whatishot"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_WHATISHOT}</a></li>	-->
 
@@ -21,17 +21,17 @@
 				<li id="myvideosshared"><a href="index.php?option=com_hwdvideoshare&task=yourvideosshared&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_MYVIDEOSISHARED}</a></li>
 				<li class="divider"></li>
 				<!--<li id="myplaylists"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_MYPLAYLISTS}</a></li>-->
-				<li id="mylearnlater"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_MYLEARNLATER}</a></li>
+				<li id="mylearnlater"><a href="index.php?option=com_hwdvideoshare&task=yourlearnlater&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_MYLEARNLATER}</a></li>
 				<li id="myfavourites"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_MYFAVOURITES}</a></li>
 				<li id="videosiliked"><a href="index.php?option=com_hwdvideoshare&task=videosilike&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_VIDEOSILIKED}</a></li>
 			</ul>
 		  </li>
 
-		  <li id="profilecomments"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_PROFILECOMMENTS}</a></li>
+		  <!--<li id="profilecomments"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_PROFILECOMMENTS}</a></li>-->
 
-		  <li id="statusupdates"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_STATUSUPDATES}</a></li>
+		  <!--<li id="statusupdates"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_STATUSUPDATES}</a></li>-->
 
-		  <li id="myshigarufriends"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_MYSHIGARUFRIENDS}</a></li>
+		  <!--<li id="myshigarufriends"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}">{$smarty.const._HWDVIDS_SHIGARU_MYSHIGARUFRIENDS}</a></li>-->
 		</ul>
 					
 
