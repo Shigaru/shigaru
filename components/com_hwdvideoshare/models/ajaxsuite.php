@@ -182,7 +182,8 @@ class hwd_vs_ajax
 		
 	function myvideos(){
 		header('Content-type: text/html; charset=utf-8');
-		$code = hwd_vs_tools::getMyVideos();
+		$guid = JRequest::getVar( 'guid', '' );
+		$code = hwd_vs_tools::getMyVideos($guid);
 		echo $code;
 		exit;
 		}	
@@ -210,14 +211,16 @@ class hwd_vs_ajax
 		
 	function aboutme(){
 		header('Content-type: text/html; charset=utf-8');
-		$code = hwd_vs_tools::getAboutMeData();
+		$guid = JRequest::getVar( 'guid', '' );
+		$code = hwd_vs_tools::getAboutMeData($guid);
 		echo $code;
 		exit;
 		}	
 		
 	function ajax_watchhistory(){
 		header('Content-type: text/html; charset=utf-8');
-		$code = hwd_vs_tools::getMyWatchHistory();
+		$guid = JRequest::getVar( 'user_id', '' );
+		$code = hwd_vs_tools::getMyWatchHistory($guid);
 		echo $code;
 		exit;
 		}	
@@ -525,7 +528,8 @@ class hwd_vs_ajax
 		header('Content-type: text/html; charset=utf-8');
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'usrfunc.php');
 		echo "<META NAME=\"ROBOTS\" CONTENT=\"NOINDEX, NOFOLLOW\">";
-		print hwd_vs_usrfunc::getUserProfileSideMenu();
+		$guid = JRequest::getVar( 'user_id', '' );
+		print hwd_vs_usrfunc::getUserProfileSideMenu($guid);
 		exit;
 	}
 	

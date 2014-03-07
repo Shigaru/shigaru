@@ -21,40 +21,40 @@
 				<div>
 					<div class="clearfix">	
 						<div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._HWDVIDS_SELECT_NAME}:</span>
 								<span>{$data->_cbuser->cb_fname} {$data->_cbuser->cb_lname}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_SEX}:</span>
 								<span>{$sex}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_YOURAGEGROUP}:</span>
 								<span>{$data->_cbuser->cb_youragegroup}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const.HWDVIDS_SHIGARU_COUNTRY}:</span>
 								<span>{$cb_countryiam}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_LANGUAGE}:</span>
 								<span>{$languages}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MEMBERSINCE}:</span>
 								<span>{$timeRegistered}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_LASTONLINE}:</span>
 								<span>{$lastvisitDate}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_TAGS}:</span>
 								<span>{$data->_cbuser->cb_tags}</span>
 								
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_IAM}:</span>
 								<span>{$data->_cbuser->cb_iam}</span>
 							</div>
@@ -71,31 +71,31 @@
 				<div>
 					<div class="clearfix">	
 						<div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_COUNTRYIAM}:</span>
 								<span>{$cb_countryiam}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_CITYREGION}:</span>
 								<span>{$data->_cbuser->cb_cityiam}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_COUNTRYILIVE}:</span>
 								<span>{$cb_countryilive}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_CITYREGION}:</span>
 								<span>{$data->_cbuser->cb_cityilive}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_NATIVELANG}:</span>
 								<span>{$cb_nativelang}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_OTHERLANG}:</span>
 								<span>{$cb_otherlanguages}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<div id="map-canvas" style="height:350px;width:350px;"></div>
 							</div>
 						</div>
@@ -111,39 +111,39 @@
 				<div>
 					<div class="clearfix">	
 						<div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYBANDNAME}:</span>
 								<span>{$data->_cbuser->cb_bandname}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_OFFICIALWEBSITE}:</span>
 								<span>{$data->_cbuser->cb_officialwebsite}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_PREVIOUSLYKNOWN}:</span>
 								<span>{$data->_cbuser->cb_previouslyknownas}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYBANDGENRE}:</span>
 								<span>{$cb_bandgenre}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYBANDSOUNDSLIKE}:</span>
 								<span>{$data->_cbuser->cb_soundslike}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYBANDMEMBERS}:</span>
 								<span>{$data->_cbuser->cb_nobandmembers}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYBANDMEMBERSNAMES}:</span>
 								<span>{$data->_cbuser->cb_bandmembernames}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYBANDSIGNEDTORECORD}:</span>
 								<span>{$data->_cbuser->cb_signedtorecordlabel}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYWEBDESC}:</span>
 								<span>{$data->_cbuser->cb_banddescription}</span>
 							</div>
@@ -161,19 +161,19 @@
 				<div>
 					<div class="clearfix">	
 						<div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYWEB1}:</span>
 								<span>{$data->_cbuser->cb_myweb1}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYWEBDESC}:</span>
 								<span>{$data->_cbuser->cb_mywebdesc}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYWEB2}:</span>
 								<span>{$data->_cbuser->cb_myweb2}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MYWEBDESC}:</span>
 								<span>{$data->_cbuser->cb_mywebdesc2}</span>
 							</div>
@@ -192,23 +192,23 @@
 				<div>
 					<div class="clearfix">	
 						<div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_FAVMUSICGENRE}:</span>
 								<span>{$cb_favmusicgenre}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_MUSICALINFLU}:</span>
 								<span>{$data->_cbuser->cb_musicinflu}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_FAVARTISTS}:</span>
 								<span>{$data->_cbuser->cb_favartirsts}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_ARTBANDRECOMEND}:</span>
 								<span>{$data->_cbuser->cb_newartistsrecom}</span>
 							</div>
-							<div>
+							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_FAVSITES}:</span>
 								<span>{$data->_cbuser->cb_favristerecomm}</span>
 							</div>
@@ -226,43 +226,43 @@
 				<div>
 					<div class="clearfix">	
 						<div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_PHILOSOLIFE}:</span>
 								<span>{$data->_cbuser->cb_philosolife}</span>
 							</div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_ILIKE}:</span>
 								<span>{$data->_cbuser->cb_ilike}</span>
 							</div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_IDISLIKE}:</span>
 								<span>{$data->_cbuser->cb_idislike}</span>
 							</div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_COUNTRIESTRAVELD}:</span>
 								<span>{$cb_contriestravelled}</span>
 							</div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_COUNTRIESTOTRAVEL}:</span>
 								<span>{$cb_countriestotravel}</span>
 							</div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_WHOTOMET}:</span>
 								<span>{$data->_cbuser->cb_whotomet}</span>
 							</div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_FAVBOOKS}:</span>
 								<span>{$data->_cbuser->cb_favbooks}</span>
 							</div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_FAVMOVIES}:</span>
 								<span>{$data->_cbuser->cb_favmovies}</span>
 							</div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_FAVTV}:</span>
 								<span>{$data->_cbuser->cb_favtv}</span>
 							</div>
-							<div>
+							<div class="mbot6">
 								<span class="fontbold">{$smarty.const._UE_HOBBIES}:</span>
 								<span>{$data->_cbuser->cb_hobbies}</span>
 							</div>

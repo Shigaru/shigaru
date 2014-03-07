@@ -388,11 +388,18 @@ class hwd_vs_usrfunc
    /**
     * List User Favourite Videos
     */
-	function getUserProfileSideMenu()
+	function getUserProfileSideMenu($guid='no')
 	{
 		global $smartyvs;
 		$lang = JFactory::getLanguage();
+		$otheruser = $guid;
+		$my = & JFactory::getUser();
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 		$smartyvs->assign("lang", substr($lang->getTag(),0,2));
+		$smartyvs->assign("user_id", $user_id);
 		$oResults = $smartyvs->fetch('video_list_sidemenu.tpl');
 		return $oResults;
 		}

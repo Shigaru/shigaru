@@ -49,6 +49,7 @@
 		<div id="resultcontainer" class="mtop20">
 			<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 		</div>
+		<div id="backtotop" style="display:none" class="btn icon-2x"><i class="icon-arrow-up"></i> Back to top</div>
 	</div>
 	<div class="fleft w15">
 		

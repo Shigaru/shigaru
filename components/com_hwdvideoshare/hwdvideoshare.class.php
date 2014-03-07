@@ -5923,11 +5923,11 @@ $app = & JFactory::getApplication();
 	 }
     
     
-    function getMyVideos(){
+    function getMyVideos($guid='no'){
 		global $smartyvs,$mainframe, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
-		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		$otheruser = $guid;
 		$limitstart = Jrequest::getInt( 'limitstart', '0' );
 		$my = & JFactory::getUser();
 		$oResults = '';
@@ -6195,11 +6195,11 @@ $app = & JFactory::getApplication();
 		return $oResults;
 	}
 	
-    function getMyWatchHistory(){
+    function getMyWatchHistory($guid= 'no'){
 		global $smartyvs,$mainframe, $Itemid, $hwdvs_joinv, $hwdvs_selectv;
 		$c = hwd_vs_Config::get_instance();
 		$db = & JFactory::getDBO();
-		$otheruser = Jrequest::getVar( 'guid', 'no' );
+		$otheruser = $guid;
 		$limitstart = Jrequest::getInt( 'limitstart', '0' );
 		$my = & JFactory::getUser();
 		$oResults = '';

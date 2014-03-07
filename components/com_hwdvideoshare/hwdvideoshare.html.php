@@ -1446,7 +1446,10 @@ $app = & JFactory::getApplication();
 		} else {
 			$metatitle = _HWDVIDS_META_DEFAULT;
 		}
-
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 		// set the page/meta title
 		$doc->setTitle( $metatitle." - "._HWDVIDS_META_YVIDS );
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
@@ -1579,6 +1582,11 @@ $app = & JFactory::getApplication();
 		} else {
 			$metatitle = _HWDVIDS_META_DEFAULT;
 		}
+		
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 
 		// set the page/meta title
 		$doc->setTitle( $metatitle." - "._HWDVIDS_SHIGARU_ABOUTME );

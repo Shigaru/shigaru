@@ -9,8 +9,8 @@
     var oListUrl 		= opts.listURL;
     var isISotopized	= false;
     var oUserUrl 		= "index.php?option=com_hwdvideoshare&task=ajax_userdetails&format=raw&user_id="+jQuery('#user_id').val()+'&lang='+currentLang;
-    var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_setuserstatusmessage&format=raw&lang="+currentLang;
-    var oUserMenuUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_usermenu&format=raw&lang="+currentLang+"&selected=";
+    var oUserStatusUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_setuserstatusmessage&format=raw&lang="+currentLang+'&user_id='+jQuery('#user_id').val();
+    var oUserMenuUrl 	= "index.php?option=com_hwdvideoshare&task=ajax_usermenu&format=raw&lang="+currentLang+"&selected="+'&user_id='+jQuery('#user_id').val();
     
     return this.each(function() {
 		if(opts.needsVideoListLoading){
