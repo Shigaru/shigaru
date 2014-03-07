@@ -1408,7 +1408,10 @@ $app = & JFactory::getApplication();
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
-		
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("otheruser", $otheruser);
@@ -1499,7 +1502,10 @@ $app = & JFactory::getApplication();
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
-		
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("otheruser", $otheruser);
@@ -1543,7 +1549,10 @@ $app = & JFactory::getApplication();
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
-		
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("otheruser", $otheruser);
@@ -1635,7 +1644,10 @@ $app = & JFactory::getApplication();
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
-		
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("otheruser", $otheruser);
@@ -1679,7 +1691,10 @@ $app = & JFactory::getApplication();
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
-		
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("otheruser", $otheruser);
@@ -1717,7 +1732,10 @@ $app = & JFactory::getApplication();
 		} else {
 			$metatitle = _HWDVIDS_META_DEFAULT;
 		}
-
+		if($otheruser=='no')
+			$user_id = $my->id;
+			else
+				$user_id = $otheruser;
 		// set the page/meta title
 		$doc->setTitle( $metatitle." - "._HWDVIDS_META_YFAVS );
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YFAVS );

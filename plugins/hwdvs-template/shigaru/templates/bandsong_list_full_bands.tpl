@@ -12,11 +12,13 @@
 					<div class="clearfix">	
 						<div class="fleft w40">
 							<div>
-								{if $data->album_thumb neq ''}
-								<img src="{$data->album_thumb}" width="110" height="110"/>
-								{else}
-								<img src="templates/rhuk_milkyway/images/vinyl-icon_big.png" width="110" height="110"/>
-								{/if}
+								<a href="{$data->url}" title="Click on this icon to navigate to this song's page">
+									{if $data->album_thumb neq ''}
+									<img src="{$data->album_thumb}" width="110" height="110"/>
+									{else}
+									<img src="templates/rhuk_milkyway/images/vinyl-icon_big.png" width="110" height="110"/>
+									{/if}
+								</a>
 							</div>
 						</div>
 					</div>	

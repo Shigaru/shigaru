@@ -332,12 +332,12 @@ class hwd_vs_usrfunc
 		
 		$where = ' WHERE video.approved = "yes"';
 		$where .= ' AND video.published = 1';
-		$where .= ' AND video.user_id = '.$user_id;
+		$where .= ' AND f.userid = '.$user_id;
 
 		$db->SetQuery( 'SELECT count(*)'
 					 . ' FROM #__hwdvidsvideos AS video'
+					 . ' LEFT JOIN #__hwdvidsfavorites AS f ON video.id = f.videoid'
 					 . $where
-					 
 					 );
   		$total = $db->loadResult();
 		echo $db->getErrorMsg();
