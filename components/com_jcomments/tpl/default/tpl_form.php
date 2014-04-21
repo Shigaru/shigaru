@@ -96,7 +96,7 @@ class jtt_tpl_form extends JoomlaTuneTemplate
 		}
 ?>
 <p>
-	<textarea id="comments-form-comment" name="comment" cols="65" rows="8" tabindex="5"></textarea>
+	<textarea id="comments-form-comment" class="h200px" name="comment" cols="65" rows="8" tabindex="5"></textarea>
 </p>
 <?php
 		if ($this->getVar('comments-form-subscribe', 0) == 1) {

@@ -6,9 +6,10 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-
-{include file='header.tpl'}
 <script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/videoplayer.min.js"></script>
+<script type="text/javascript" src="components/com_jcomments/js/jcomments-v2.1.js?v=2"></script>
+ <script type="text/javascript" src="components/com_jcomments/libraries/joomlatune/ajax.js"></script>
+{include file='header.tpl'}
 
 {if $print_nextprev or $print_videourl or $print_embedcode or $print_uservideolist or $print_relatedlist}
 <div class="f80 mtop24 sic-container">
@@ -252,3 +253,4 @@
         <input type="button" class="reddbuttonsubmit" id="yes" value="{$smarty.const._HWDVIDS_BUTTON_GO}" /> 
 	</div>         
 </div> 
+
