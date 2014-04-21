@@ -444,6 +444,8 @@ class hwd_vs_html
 			$smartyvs->assign("infoPassed", 'true');
 			$smartyvs->assign("captcha", $captcha);
 			$smartyvs->assign("domain", $domain);
+			$lang =& JFactory::getLanguage();
+			$smartyvs->assign("currentlang", $lang->getTag());
 			$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
 			$smartyvs->assign("levelsCombo", $levelsCombo);
 			$smartyvs->assign("languagesCombo", $languagesCombo);

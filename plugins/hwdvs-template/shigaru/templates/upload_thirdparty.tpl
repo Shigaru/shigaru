@@ -325,7 +325,7 @@
 	</div>
 
 <div class="f100 mtopl50">{$smarty.const._HWDVIDS_SHIGARU_FILLUPTHIS}</div>
-<form id="formElem" name="formElem" action="{$form_tp}" method="post">
+<form id="formElem" name="formElem" action="index.php?option=com_hwdvideoshare&task=addconfirm" method="post">
 <div id="infograbbed">
 		<div id="fields">
 			<div>
@@ -475,6 +475,9 @@
                                 <button id="registerButton" type="submit">{$smarty.const._HWDVIDS_BUTTON_ADD}</button>
                             </p>
                            </fieldset>
+                        <input type="hidden" value="com_hwdvideoshare" name="option" id="option">    
+                        <input type="hidden" value="addconfirm" name="task" id="task">    
+                        <input type="hidden" value="{$currentlang}" name="lang" id="lang">    
                         <input type="hidden" value="{$videoInfo->video_title}" name="videotitle" id="videotitle">    
                         <input type="hidden" value="{$username}" id="shigaruuser" name="shigaruuser"/>
                         <input type="hidden" value="{$ipaddress}" id="ip_address" name="ip_address"/>
