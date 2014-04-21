@@ -445,7 +445,7 @@ class hwd_vs_html
 			$smartyvs->assign("captcha", $captcha);
 			$smartyvs->assign("domain", $domain);
 			$lang =& JFactory::getLanguage();
-			$smartyvs->assign("currentlang", $lang->getTag());
+			$smartyvs->assign("form_tp",JRoute::_( 'index.php?option=com_hwdvideoshare&Itemid=29&task=addconfirm&lang='.substr($lang->getTag(),0,2)));
 			$smartyvs->assign("instrumentsCombo", $instrumentsCombo);
 			$smartyvs->assign("levelsCombo", $levelsCombo);
 			$smartyvs->assign("languagesCombo", $languagesCombo);
