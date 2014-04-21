@@ -4,7 +4,7 @@
 		  	
 		  <!--<li id="whattowatch"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_WHATTOWATCH}</a></li>-->
 
-		  <li id="watchhistory"><a href="index.php?option=com_hwdvideoshare&task=watchhistory&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_WATCHHISTORY}</a></li>	
+		  {if $showown eq 'yes'}<li id="watchhistory"><a href="index.php?option=com_hwdvideoshare&task=watchhistory&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_WATCHHISTORY}</a></li>{/if}	
 
 		  <!--<li id="searchhistory"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_SEARCHHISTORY}</a></li>	-->
 
@@ -21,9 +21,9 @@
 				<li id="myvideosshared"><a href="index.php?option=com_hwdvideoshare&task=yourvideosshared&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYVIDEOSISHARED}</a></li>
 				<li class="divider"></li>
 				<!--<li id="myplaylists"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYPLAYLISTS}</a></li>-->
-				<li id="mylearnlater"><a href="index.php?option=com_hwdvideoshare&task=yourlearnlater&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYLEARNLATER}</a></li>
-				<li id="myfavourites"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYFAVOURITES}</a></li>
-				<li id="videosiliked"><a href="index.php?option=com_hwdvideoshare&task=videosilike&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_VIDEOSILIKED}</a></li>
+				{if $showown eq 'yes'}<li id="mylearnlater"><a href="index.php?option=com_hwdvideoshare&task=yourlearnlater&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYLEARNLATER}</a></li>{/if}
+				{if $showown eq 'yes'}<li id="myfavourites"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYFAVOURITES}</a></li>{/if}
+				{if $showown eq 'yes'}<li id="videosiliked"><a href="index.php?option=com_hwdvideoshare&task=videosilike&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_VIDEOSILIKED}</a></li>{/if}
 			</ul>
 		  </li>
 

@@ -5646,9 +5646,15 @@ $app = & JFactory::getApplication();
 							. "</div>";
 		$cbUser =& CBuser::getInstance( $user_id);
 		$josuser =& JFactory::getUser( $user_id );
+		$my = & JFactory::getUser();
+		$myid = $my->id;
 		if ( $josuser->id != $user_id ) {
 				recordViewHit( $_CB_framework->myId(), $user->id, getenv( 'REMOTE_ADDR' ) );
 			}
+		$showown = 'no';
+		if($myid === $user_id){
+			$showown = 'yes';
+			}	
 		$cbCon	=	new cbConnection($user_id);
 		$cbMenu = 	new getMenuTab();
 		//$pmIMG			=	getFieldValue( 'pm', $cbUser->_cbuser->username, $cbCon, null, 1 );
@@ -5659,11 +5665,12 @@ $app = & JFactory::getApplication();
 		$userMenu->prepareMenu($josuser);
 		$userMenu->getMenuAndStatus(1,$josuser,1);
 		$userMenu = $userMenu->getDisplayTab(1,$josuser,1);
-		$return = hwd_vs_tools::getSocialIconsMenu($cbUser);
+		$return = hwd_vs_tools::getSocialIconsMenu($cbUser,$showown);
 		$cbcountry = $cbUser->getField( 'cb_country' , null, 'csv', 'div', 'profile' );
 		$smartyvs->assign("cb_country", constant($cbcountry));
 		$smartyvs->assign("cb_countryflag", $cbcountry);
 		$smartyvs->assign("mind", $mind);
+		$smartyvs->assign("showown", $showown);
 		$smartyvs->assign("profileURL", $profileURL);
 		$smartyvs->assign("profileURLText", $profileURLText);
 		$smartyvs->assign("hits", $cbUser->_cbuser->hits);
@@ -5684,78 +5691,77 @@ $app = & JFactory::getApplication();
 		return $oResults;
 	}	
 	
-	function getSocialIconsMenu($cbUser){
+	function getSocialIconsMenu($cbUser, $showown = 'no'){
 		global $_CB_framework, $ueConfig;
-		$oUserName = $cbUser->getField( 'username', null, 'csv');
+		$oUserName = $cbUser->getField( 'username', null, 'csv', 'div','edit');
 		$livesite = JURI::base();
-		$myspacepage =  $cbUser->getField( 'cb_myspacepageURL', null, 'csv');
+		$myspacepage =  $cbUser->getField( 'cb_myspacepageURL', null, 'csv', 'div','edit');
 		$ocode ='';
 		$return ='';
+		$haveany = false;
 		if($myspacepage  !=''){
 		$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' '.$oUserName.' '._UE_ON.' myspace" href="http://home.myspace.com/'.$myspacepage.'" target="_blank">
 						<i class="icon-pinterest-sign fontorange icon-2x"></i></a>';
-		}else{
-			$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' '.$oUserName.' '._UE_ON.' myspace" href="http://home.myspace.com/'.$myspacepage.'" target="_blank">
-						<i class="icon-pinterest-sign fontgrey icon-2x"></i></a>';
-			} 
-		$twitterpage = $cbUser->getField( 'cb_twitterpageURL', null, 'csv');
+						$haveany = true;
+		}
+		$twitterpage = $cbUser->getField( 'cb_twitterpageURL', null, 'csv', 'div','edit');
 		if($twitterpage  !=''){
-		$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' twitter" href="http://twitter.com/'.$twitterpage.'" target="_blank">
-					<i class="icon-twitter-sign fontorange icon-2x"></i></a>';	
-		}else{
 			$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' twitter" href="http://twitter.com/'.$twitterpage.'" target="_blank">
-					<i class="icon-twitter-sign fontgrey icon-2x"></i></a>';
-			}
-		$facebook = $cbUser->getField( 'cb_facebookURL', null, 'csv');
+					<i class="icon-twitter-sign fontorange icon-2x"></i></a>';	
+			$haveany = true;
+		}
+		$facebook = $cbUser->getField( 'cb_facebookURL', null, 'csv', 'div','edit');
 		if($facebook  !=''){
 		$ocode .= '<a  class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' facebook" target="_blank" href="http://www.facebook.com/'.$facebook.'">
 			<i class="icon-facebook-sign fontorange icon-2x"></i></a>';			
-		}else{
-			$ocode .= '<a  class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' facebook" target="_blank" href="http://www.facebook.com/'.$facebook.'">
-			<i class="icon-facebook-sign fontgrey icon-2x"></i></a>';	
-			}	
-		$linkedin = $cbUser->getField( 'cb_linkedinURL', null, 'csv');
+			$haveany = true;
+		}	
+		$linkedin = $cbUser->getField( 'cb_linkedinURL', null, 'csv', 'div','edit');
 		if($linkedin  !=''){
 		$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' linkedin" target="_blank" href="http://www.linkedin.com/in/'.$linkedin.'">
-		<i class="icon-linkedin-sign fontorange icon-2x"></i></a>';			
-		}else{
-			$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' linkedin" target="_blank" href="http://www.linkedin.com/in/'.$linkedin.'">
-		<i class="icon-linkedin-sign fontgrey icon-2x"></i></a>';
-			}
+		<i class="icon-linkedin-sign fontorange icon-2x"></i></a>';		
+		$haveany = true;	
+		}
 			
-		$google = $cbUser->getField( 'cb_googleURL', null, 'csv');
+		$google = $cbUser->getField( 'cb_googleURL', null, 'csv', 'div','edit');
 		if($google  !=''){
 		$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' google" target="_blank" href="http://google.com/'.$google.'">
-			<i class="icon-google-plus-sign fontorange icon-2x"></i></a>';			
-		}else{
-			$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' google" target="_blank" href="http://google.com/'.$google.'">
-			<i class="icon-google-plus-sign fontgrey icon-2x"></i></a>';	
-			}	
-		$youtube = $cbUser->getField( 'cb_youtubeURL', null, 'csv');
+			<i class="icon-google-plus-sign fontorange icon-2x"></i></a>';	
+			$haveany = true;		
+		}	
+		$youtube = $cbUser->getField( 'cb_youtubeURL', null, 'csv', 'div','edit');
 		if($youtube  !=''){
-		$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' youtube" target="_blank" href="http://youtube.com/'.$youtube.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/youtube.png" alt="YouTube">&nbsp;&nbsp;</a>';			
+			$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' youtube" target="_blank" href="http://youtube.com/'.$youtube.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/youtube.png" alt="YouTube">&nbsp;&nbsp;</a>';	
+			$haveany = true;		
 		}
-		$return .= '<div class="btn-group close"><div class="f13px w100 tcenter">';
-		$return .= $ocode;
-		$cb_myspacepageURL = $cbUser->getField( 'cb_myspacepageURL', null, 'htmledit', 'div','edit');
-		$cb_twitterpageURL = $cbUser->getField( 'cb_twitterpageURL', null, 'htmledit', 'div','edit');
-		$cb_facebookURL = $cbUser->getField( 'cb_facebookURL', null, 'htmledit', 'div','edit');
-		$cb_linkedinURL = $cbUser->getField( 'cb_linkedinURL', null, 'htmledit', 'div','edit');
-		$cb_googleURL = $cbUser->getField( 'cb_googleURL', null, 'htmledit', 'div','edit');
-		
-		$return .= '</div><ul class="dropdown-menu socialedit pad6">
-							<li><i class="icon-info-sign fontblue"></i> <span>Enter your external site user in the boxes below to share them with the community</span></li>
-							<li>'.$cb_myspacepageURL.'</li>
-							<li>'.$cb_twitterpageURL.'</li>
-							<li>'.$cb_facebookURL.'</li>
-							<li>'.$cb_linkedinURL.'</li>
-							<li>'.$cb_googleURL.'</li>
-							<li><button type="submit" id="publishmind" class="fright btn fontblack mtop12 mbot6">
-										<i class="icon-save fontorange fontbold"></i> Save
-									</button></li>
-						  </ul>';
-		$return .= '</div>';
-		return $return;		
+			if($haveany && $showown	=== 'yes'){
+				$return .= '<div class="btn-group close"><div class="f13px w100 tcenter">';
+				$return .= $ocode;
+				$cb_myspacepageURL = $cbUser->getField( 'cb_myspacepageURL', null, 'htmledit', 'div','edit');
+				$cb_twitterpageURL = $cbUser->getField( 'cb_twitterpageURL', null, 'htmledit', 'div','edit');
+				$cb_facebookURL = $cbUser->getField( 'cb_facebookURL', null, 'htmledit', 'div','edit');
+				$cb_linkedinURL = $cbUser->getField( 'cb_linkedinURL', null, 'htmledit', 'div','edit');
+				$cb_googleURL = $cbUser->getField( 'cb_googleURL', null, 'htmledit', 'div','edit');
+				
+				$return .= '</div><ul class="dropdown-menu socialedit pad6">
+									<li><i class="icon-info-sign fontblue"></i> <span>Enter your external site user in the boxes below to share them with the community</span></li>
+									<li>'.$cb_myspacepageURL.'</li>
+									<li>'.$cb_twitterpageURL.'</li>
+									<li>'.$cb_facebookURL.'</li>
+									<li>'.$cb_linkedinURL.'</li>
+									<li>'.$cb_googleURL.'</li>
+									<li><button type="submit" id="publishmind" class="fright btn fontblack mtop12 mbot6">
+												<i class="icon-save fontorange fontbold"></i> Save
+											</button></li>
+								  </ul>';
+				$return .= '</div>';
+					
+			}else if($haveany){
+				$return .= $ocode;
+				}else
+				$return = '';
+		  
+		  return $return;	
 		}
 	
    function getUserVideoCount($user_id){

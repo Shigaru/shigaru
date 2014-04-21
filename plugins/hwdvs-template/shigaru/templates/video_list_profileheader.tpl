@@ -28,9 +28,11 @@
 								</div>
 						<div class="well bbwhite f90 pad12 mtop12 clearfix">
 							<div class="clearfix">
+								{if $totalfriends gt 0}
 								<div class="fright f80">
 									{$connectionsLink}
 								</div>
+								{/if}
 								<div class="fleft">
 									<span class="">{$smarty.const._UE_CONNECTION}: </span>
 									<span class="fontorange fontbold f120">{$totalfriends}</span>
@@ -66,16 +68,16 @@
 										<div><span class="fontorange">{$hits}</span></div>
 									</div>
 									<div class="fleft w33">
-										<div><span class="fontbold">Subscribers: </span></div>
+										<!--<div><span class="fontbold">Subscribers: </span></div>
 										<div>	
 												<span class="fontorange">1234</span> 
 												
-										</div>
+										</div>-->
 									</div>
 									<div class="fleft w33">
-										<button type="submit" id="subscribe" class="btn fontblack">
+										<!--<button type="submit" id="subscribe" class="btn fontblack">
 													<i class="icon-circle-arrow-right fontorange bbwhite"></i> Subscribe
-										</button>
+										</button>-->
 									</div>
 								</div>
 								<div class="clearfix f90 mtop12">	
@@ -96,16 +98,17 @@
 							</div>
 						</div>	
 				</div>
-					<div class="fleft w25 f90">
-						<div class="well bbwhite mleft20 f90">
+					{if $socialpages neq ''}
+						<div class="fleft w25 f90">
+							<div class="well bbwhite mleft20 f90">
 								<div class="mtop12 mleft20"><span class="fontbold">Follow me on: </span></div>
 								<div class="pad12 mright6">{$socialpages}</div>
 								
-						</div>	
-								
-					</div>
-					
+							</div>			
+						</div>
+					{/if}
 					<div class="clearfix fleft w67">
+							{if $showown eq 'yes'}
 							<div id="statuserror" class="dispnon clear well f80 pad4">
 								<a class="fright mright6 close mtop2" href="#">
 									<i class="icon-remove-sign"></i>
@@ -129,6 +132,7 @@
 									</button>
 								</div>	
 							</div>
+							{/if}
 							<div class="fleft w63 f80 mleft20">	
 								
 								<h6 class="fontbold fleft f90">Last update:</h6>
