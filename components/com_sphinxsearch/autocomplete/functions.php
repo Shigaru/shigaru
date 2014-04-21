@@ -28,6 +28,7 @@ class SphinxAutoComplete {
 		$arr =array();
 		$arrexc =array();
 		$counter=0;
+		$qlang = trim($_GET['lang']);
 		foreach($result['matches'] as $key => $match) {
 			$arrexc[] = $match["attrs"]["title"];
 		}
@@ -42,16 +43,29 @@ class SphinxAutoComplete {
 			$object->originalsource = $match["attrs"]["source"]; 
 			switch($match["attrs"]["source"]){
 				case 'bsongssource':
+				 if($qlang == 'en')
 					$object->source = 'Songs';
+					else
+					$object->source = 'Canciones';
 				break;
 				case 'cbandsssource':
-					$object->source = 'Bands';
+					if($qlang == 'en')
+						$object->source = 'Bands';
+						else
+						$object->source = 'Artistas';
 				break;
 				case 'dalbumssource':
+					if($qlang == 'en')
+					$object->source = 'Albums';
+					else
 					$object->source = 'Albums';
 				break;
 				case 'asearchedsource':
+					if($qlang == 'en')
 					$object->source = 'Searched'; 
+					else
+					$object->source = 'Buscados'; 
+					
 				break;
 				} 
 			$object->id = $key ; 
