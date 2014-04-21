@@ -1449,29 +1449,25 @@ Moderation Functions
 
 	HTML_comprofiler::outputMosFormVal( '#adminForm' );
 ?>
+
 <!-- TAB -->
 <div class="componentheading"><?php echo _UE_REPORTUSER_TITLE; ?></div>
 <form action='<?php
 	echo cbSef('index.php?option=com_comprofiler&amp;task=reportUser'.($Itemid ? "&amp;Itemid=".(int) $Itemid : ""));
 		?>' method="post" id="adminForm" name="adminForm">
-<table width='100%' border='0' cellpadding='4' cellspacing='2'>
-<tr align='left' valign='middle'>
-	<td colspan="4" class="titleCell">
+<div class="pad6 fontbold f90">
+	<div class="pad12 w100 fontbold"><?php echo _UE_REPORTUSERSACTIVITY; ?></div>
+	<textarea class="h200px" mosReq="1" mosLabel="User Report" mosLength="4000" cols="50" rows="8" name="reportexplaination"></textarea>
 
-<?php echo _UE_REPORTUSERSACTIVITY; ?></td></tr>
-<tr><td colspan="4" align="center" class="fieldCell">
-<textarea mosReq="1" mosLabel="User Report" mosLength="4000" cols="50" rows="8" name="reportexplaination"></textarea>
-</td></tr>
-<tr><td colspan="4" align="center">
-<input class="button" type="submit" value="<?php echo _UE_SUBMITFORM; ?>" />
-</td></tr>
-</table>
-<input type="hidden" name="reportedbyuser" value="<?php echo $_CB_framework->myId(); ?>" />
-<input type="hidden" name="reporteduser" value="<?php echo $uid; ?>" />
-<input type="hidden" name="reportform" value="0" />
+	<input class="button" type="submit" value="<?php echo _UE_SUBMITFORM; ?>" />
+
+	<input type="hidden" name="reportedbyuser" value="<?php echo $_CB_framework->myId(); ?>" />
+	<input type="hidden" name="reporteduser" value="<?php echo $uid; ?>" />
+	<input type="hidden" name="reportform" value="0" />
 <?php
 	echo cbGetSpoofInputTag( 'reportUserForm' );
 ?>
+</div>
 </form>
 <?php
 }
