@@ -137,7 +137,7 @@ jQuery(document).ready(function () {
         return "index.php?option=com_hwdvideoshare&lang=en&task=ajax_like&format=raw" + t + "&item_id=" + i + "&item_type=video"
     }
     var e = 0;
-    var t = "index.php?option=com_hwdvideoshare&lang=en&task=ajax_relatedvideos&" + "format=raw&item_id=" + jQuery("input#videoid").val();
+    var t = "index.php?option=com_hwdvideoshare&lang=en&task=ajax_relatedvideos&lang=" + jQuery("input#lang").val(); + "&" + "format=raw&item_id=" + jQuery("input#videoid").val();
     n();
     e += 10;
     jQuery("#infocontext #morerelated").click(function (t) {
