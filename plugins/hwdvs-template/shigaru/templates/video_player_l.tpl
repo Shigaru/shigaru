@@ -6,7 +6,7 @@
 //    @license http://creativecommons.org/licenses/by-nc-nd/3.0/
 //////
 *}
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/videoplayer.min.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/videoplayer.js"></script>
 <script type="text/javascript" src="components/com_jcomments/js/jcomments-v2.1.js?v=2"></script>
  <script type="text/javascript" src="components/com_jcomments/libraries/joomlatune/ajax.js"></script>
 {include file='header.tpl'}
