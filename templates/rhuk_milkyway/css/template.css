@@ -40,7 +40,9 @@ body {
 #head{ }
 #head_content{min-width:1200px; width:100%;
     background:#F0F0F0;position: fixed;
-    border-bottom:1px solid #CCC;z-index:999;}
+    border-bottom:1px solid #CCC;z-index:999;-webkit-box-shadow: 0px 4px 5px 0px rgba(173, 173, 173, 0.75);
+-moz-box-shadow:    0px 4px 5px 0px rgba(173, 173, 173, 0.75);
+box-shadow:         0px 4px 5px 0px rgba(173, 173, 173, 0.75);}
 #topnavmenu div.topbuttons{display:block; float:left; margin-right: 21px;padding: 4px 6px;
 cursor:pointer;position: relative;margin-top: 12px;font-size: 90%;}
 #topnavmenu div.topbuttons a{text-decoration:none;}
@@ -48,12 +50,12 @@ cursor:pointer;position: relative;margin-top: 12px;font-size: 90%;}
 #topnavmenu a:hover{text-decoration: underline;}
 /* TOP TAB AREA*/
 #nav_tabs{clear:both;}
-#nav_tabs ul{background: url("../images/the_most_dot.png") repeat-x scroll 0 30px transparent;}
+#nav_tabs ul{background: url("../images/the_most_dot.png") repeat-x scroll 0 20px transparent;}
 #nav_tabs ul:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}  
 #nav_tabs ul {display: inline-block;}  
 * html #nav_tabs ul {height: 1%;}  
 #nav_tabs ul {display: block;width:100%;text-align: center;}
-#nav_tabs ul li {display: inline-block;list-style: none outside none;margin: 20px 0;
+#nav_tabs ul li {display: inline-block;list-style: none outside none;margin: 10px 0;
 font-size: 91%;background-color: #F0F0F0;}
 #nav_tabs ul li a {padding: 0 30px;color:#796979;text-decoration: none;text-transform: uppercase;font-weight:bold;border-right:1px solid #c1c1c1;}
 #nav_tabs ul li a:hover{color:#A75F5F;}
