@@ -505,8 +505,27 @@ $('#cbbtncancel').click( function() {
 																</div>
 														</div>
 													</div>
+													
 							
 					</div>
+					<div class="fleft w15">		
+															<div class="mleft12 clearfix mtop20 mbot20">
+																<div class="fontbold"><a class="mtop6 pad12 btn btn-primary fleft" href="{$uploadLink}"><i class="icon-share icon-4x fontblack"></i> <span class="icon-3x fontblack">Share a video</span></a></div>
+															</div> 
+															<div class="mleft12 clearfix">
+																<script type="text/javascript"><!--
+																google_ad_client = "ca-pub-1916456389191969";
+																/* profile */
+																google_ad_slot = "7689083467";
+																google_ad_width = 160;
+																google_ad_height = 600;
+																//-->
+																</script>
+																<script type="text/javascript"
+																src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+																</script>
+															</div> 
+														</div> 
 				  ';
 			//echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $user, 'Profile', 'drawProfile', array( &$user, &$userViewTabs ), $output );
 
