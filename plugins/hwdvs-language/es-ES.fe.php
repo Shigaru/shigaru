@@ -959,6 +959,7 @@ DEFINE("_HWDVIDS_SHIGARU_STATUSUPDATES","Actualizaciones de Estado");
 DEFINE("_HWDVIDS_SHIGARU_MYSHIGARUFRIENDS","Mis amigos en Shigaru");
 DEFINE("_HWDVIDS_META_SRF","resultados para");
 DEFINE("_HWDVIDS_META_SRCC","resultados encontrados");
+DEFINE("_HWDVIDS_META_SRCCEE","Videos en Shigaru");
 DEFINE("_HWDVIDS_ALL","Todos");
 DEFINE("_HWDVIDS_C_UPLOADS","%s videos subidos");
 DEFINE("_HWDVIDS_C_FAVOURITES","%s videos favoritos");

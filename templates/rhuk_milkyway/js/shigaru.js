@@ -613,7 +613,7 @@ jQuery(document).ready(function($){
 			$container.isotope( 'destroy' );
 		$container.html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
 		var oPosition = $container.position();	  
-		//jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');	
+		jQuery('html, body').animate({scrollTop:oPosition.top+150}, 'slow');	
 		jQuery(opts.actionbars).block({ message: null });
 		jQuery.ajax({
             url: paramUrl

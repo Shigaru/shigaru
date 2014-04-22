@@ -447,7 +447,28 @@ $('#cbbtncancel').click( function() {
 					<div id="usermenuwrapper"  class="well fleft w15">
 						<div class="f80 loadingcontent" style="line-height:550px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
 					</div>	
-				  <div id="videoresultwrapper" class="f80 fleft w80pc pad12">
+					<div id="videosmaincontent" class="fleft clearfix pad12">
+							<div class="clearfix">
+								<div class="fleft f15em fontbold">
+									<h3>
+											'._HWDVIDS_SHIGARU_MYVIDEOS.'
+										</h3>
+								</div>
+								<div class="fright">
+									<!--<form class="">
+										<label for="quick_links" class="sort-control-label">Quick Links:</label>
+										<select class="quick_links" id="quick_links" name="quick_links">
+											<option value="sortable_at" selected="selected">Share a video</option>
+											<option value="username">Author</option>
+											<option value="category">Category</option>
+											<option value="average_rating">Rating</option>
+											<option value="sales_count">Sales</option>
+											<option value="cost">Price</option>
+										</select>
+									</form>-->
+								</div>
+							</div>
+							<div id="videoresultwrapper" class="f90 fleft w100 pad12">
 														<div class="vidlistoptbar clearfix mtop20">					
 															<form class="fleft clearfix">
 																			<div class="fleft">
@@ -483,7 +504,10 @@ $('#cbbtncancel').click( function() {
 																<div class="vidlistpagination w100 f100 fleft tcenter">
 																</div>
 														</div>
-													</div>';
+													</div>
+							
+					</div>
+				  ';
 			//echo HTML_comprofiler::_cbTemplateRender( $cbTemplate, $user, 'Profile', 'drawProfile', array( &$user, &$userViewTabs ), $output );
 
 			echo "</div></div>\n" . "";		// end of cbProfile floating div

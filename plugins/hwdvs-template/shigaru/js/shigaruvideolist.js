@@ -134,7 +134,8 @@
 	function doLoadAjaxContent(paramUrl){
 		$container.html('<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>');
 		var oPosition = $container.position();	  
-		jQuery('html, body').animate({scrollTop:oPosition.top-50}, 'slow');	
+		if(opts.reScrollOnLoad)
+			jQuery('html, body').animate({scrollTop:oPosition.top-50}, 'slow');	
 		var oPattern = paramUrl;
 		if(jQuery('#searchinput').val())
 			oPattern += '&pattern='+jQuery('#searchinput').val();
@@ -406,7 +407,8 @@
 	needsVideoListLoading: true,
 	needsHeaderProfile: true,
 	needsUserMenu: false,
-	selectedUserMenu: '#whattowatch'
+	selectedUserMenu: '#whattowatch',
+	reScrollOnLoad:false
   }
   
 })(jQuery);

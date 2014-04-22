@@ -299,7 +299,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 {literal}
 <script type="text/javascript">
 jQuery(document).ready(function($){
-	var oShigaruVideoList  = jQuery('#resultcontainer').shigaruVideoList({needsHeaderProfile:false});
+	var oShigaruVideoList  = jQuery('#resultcontainer').shigaruVideoList({needsHeaderProfile:false,reScrollOnLoad:true});
 	jQuery('select#genre_id,select#language_id,select#intrument_id').addClass('w90').chosen({allow_single_deselect:true});
 });
 var oSearchParams = {
