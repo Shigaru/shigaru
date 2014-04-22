@@ -51,24 +51,33 @@ var currentLang = "<?php echo $currentLang ?>";
 <header> 
 	<div id="head" class="clearfix">
 		<div id="head_content" class="clearfix">
-			<div id="head_logo" class="fleft">
-				<div class="fleft mright12" >
-					<a href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
-						<img height="63" width="65" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo_new.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
-					</a>
-				</div>	
-				<div class="fleft" >
-					<a class="f150 fontsig fontbold tdecnone" id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
-						<h1>SHIGARU</h1>
-					</a>
-					<span id="head_comm_text fontsig" class="f80"><?php echo JText::_('HWDVIDS_SHIGARU_SHARINGMUSIKNOW') ?></span>
+			<div id="head_logo" class="clearfix fleft">
+				<div class="clearfix" >
+					<div class="fleft mright12" >
+						<a href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+							<img height="63" width="65" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo_new.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
+						</a>
+					</div>	
+					<div class="fleft" >
+						<a class="f150 fontsig fontbold tdecnone" id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+							<h1>SHIGARU</h1>
+						</a>
+						<div class="clearfix btn-group">
+							<div class="f16px">
+								<jdoc:include type="modules" name="in-content" />
+							</div>
+						</div>
+						<div id="head_comm_text fontsig" class="fleft f80"><?php echo JText::_('HWDVIDS_SHIGARU_SHARINGMUSIKNOW') ?></div>
+					</div>	
 				</div>		
 				
 			</div>
 			
+			
 				
-			<div id="nav_browse" class="fleft mtop12 mleft20 mright20 w40">
-								<form method="get" action="index.php" class="form-wrapper cf" id="rokajaxsearch" name="rokajaxsearch">
+			<div id="nav_browse" class="clearfix fleft mtop12 mleft20 mright20 w30">
+									
+									<form method="get" action="index.php" class="form-wrapper cf" id="rokajaxsearch" name="rokajaxsearch">
 										<input type="text" placeholder="<?php echo JText::_('HWDVIDS_SHIGARU_SEARCHBSG') ?>" name="pattern" id="roksearch_search_str">
 										<button type="submit"><?php echo JText::_('HWDVIDS_SHIGARU_SEARCH') ?></button>
 										<input type="hidden" value="20" name="limit">
@@ -80,7 +89,8 @@ var currentLang = "<?php echo $currentLang ?>";
 					</div>	
 				
 					
-				<div id="topnavmenu" class="fright">
+				<div id="topnavmenu" class="fright clearfix w33">
+					<div class="fright w100">
 					<?php
 						global $_CB_framework, $ueConfig, $mainframe;
 						include_once( $mainframe->getCfg( 'absolute_path' ) . '/administrator/components/com_comprofiler/plugin.foundation.php' );
@@ -94,35 +104,30 @@ var currentLang = "<?php echo $currentLang ?>";
 						echo '<div class="greetinguser"></div>';
 						?>
 						<jdoc:include type="modules" name="top" />
-						<?php
-						echo '<div class="fleft mtop12 mright24"><a class="fontsig tdecnone" href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=upload&lang=".$currentLang).'"><i class="icon-share icon-large"></i> <span class="">'. JText::_('HWDVIDS_SHIGARU_SHAREVIDEO').' </span></a></div>';
-						//echo '<div class="fleft mtop12 mright24" id="navdrop"><a class="fontsig f150 tdecnone" href="#" title="Click on this icon to display more options"><i class="icon-plus-sign"></i></a></div>';
-						?>
-								
+														
 						<?php					
 						if ($user && !$user->guest){
-								echo '<div id="grettings" class="fontsig btn-group mtopl6 mright12">';
-								echo '<div class="mtop20 mleft6 f16px curpointer"><i class="f12em icon-user"></i> <span class="f12em"> ';
+								echo '<div id="grettings" class="fontsig btn-group mright12">';
+								echo '<a href="#" class="btn primary mtop12 f16px curpointer"> <img src="'.$cbUser->getField( 'avatar' , null, 'csv', 'div', 'profile' ).'" width="15" height="15" /> <span class="f12em"> ';
 								echo $user->username;
-								echo '</span></div>';
+								echo '</span> <span class="icon-caret-down"></span></a>';
 								echo '<ul class="dropdown-menu">
 											<li><a href="index.php?option=com_comprofiler&Itemid=53&lang='.$currentLang.'"><span class="icon-user-md"></span>View Profile</a></li>
 											<li><a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails&lang='.$currentLang.'"><span class="icon-edit"></span>Edit Profile</a></li>
 											<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox&lang='.$currentLang.'"><span class="icon-envelope"></span>Inbox</a></li>
 											<li class="divider"></li>
-											<li><a href="index.php?option=com_hwdvideoshare&task=yourvideos&lang='.$currentLang.'"><span class="icon-headphones"></span>My Videos</a></li>
-											<li><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang='.$currentLang.'"><span class="icon-heart"></span>Videos I liked</a></li>
+											<li><a href="index.php?option=com_hwdvideoshare&task=yourvideos&lang='.$currentLang.'&guid='.$user->id.'"><span class="icon-headphones"></span>My Videos</a></li>
+											<li><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang='.$currentLang.'&guid='.$user->id.'"><span class="icon-heart"></span>Videos I liked</a></li>
 											<li class="divider"></li>
-											<li><a href="index.php?option=com_comprofiler&task=logout&lang='.$currentLang.'"><span class="icon-off"></span>Logout</a></li>
+											<li><a href="index.php?option=com_comprofiler&task=logout&lang='.$currentLang.'&guid='.$user->id.'"><span class="icon-off"></span>Logout</a></li>
 										  </ul>';
 								echo '</div>';
-							}
-							 
-						
-					?>
-					
-					
-					
+								
+							}?>
+							 <?php
+								echo '<a class="btn mright12 mtop12 tdecnone f16px btn-danger" href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=upload&lang=".$currentLang).'"> <i class="icon-share"></i> <span class="f12em">'. JText::_('HWDVIDS_SHIGARU_SHAREVIDEO').'</span> </a>';
+							?>
+					</div>
 				</div>
 			<nav> 
 				<div id="nav_tabs" class="clearfix">	

@@ -32,46 +32,37 @@
 */
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-$outString = '<div id="jflanguageselection">';
-$outString .= '<ul class="jflanguageselection">';
+
+//echo '<pre>';var_dump($langActive);echo '</pre>';
+$outString ='';
+$counter = 0;
+$langlist = '';
 foreach( $langActive as $language )
 {
+	
 	$langActive = '';
-	if( $language->get('id') == $curLanguage->get('id') ) {
-		if( !$show_active ) {
-			continue;		// Not showing the active language
-		} else {
-			$langActive = ' id="active_language"';
-		}
-	}
-
+	$langActiveIcon = '';
+	
 	$href = JFModuleHTML::_createHRef ($language, $params);
-
-	if (isset($language->disabled) && $language->disabled){
-		$outString .= '<li' .$langActive. ' style="opacity:0.5" class="opaque">';
-	}
-	else {
-		$outString .= '<li' .$langActive. '>';
-	}
-	
-	$outString .= '<a href="' .$href. '" class="tdecnone">';
-	
-	if($type == 'namesplusimages') {
-		$langImg = JFModuleHTML::getLanguageImageSource($language);
-		$outString .='<img src="' .JURI::base(true). $langImg. '" alt="' .$language->title_native. '" title="' .$language->title_native. '" border="0" class="langImg"/>';
-	}
-
-	/*if (isset($language->disabled) && $language->disabled){
-			$outString .= '<span lang="' .$language->getLanguageCode(). '" xml:lang="' .$language->getLanguageCode(). '" >' .$language->title_native. '</span>';
+	$langImg = JFModuleHTML::getLanguageImageSource($language);
+	if($counter == 0){
+		$langlist .= '<ul class="jflanguageselection dropdown-menu">';
 		}
-		else {
-			$outString .= '<span lang="' .$language->getLanguageCode(). '" xml:lang="' .$language->getLanguageCode(). '">' .$language->title_native. '</span>';
-	}*/
+	if( $language->code == $curLanguage->getTag() ) {
+		$outString .= '<a href="'.$href.'" class="bradius5 tshadowwhite fontsig tdecnone">'.'<img src="' .JURI::base(true). $langImg. '" alt="' .$language->title_native. '" title="' .$language->title_native. '" border="0" class="mright6"/>'.strtoupper($language->shortcode).' <span class="icon-caret-down"></span> </a>';
+		$langActive = ' ';
+	}
 
-	$outString .= '</a></li>';
+	$langlist .= '<li' .$langActive. '> ';
+	$langlist .= '<a href="' .$href. '" class="tdecnone">';
+	$langlist .=' <img src="' .JURI::base(true). $langImg. '" alt="' .$language->title_native. '" title="' .$language->title_native. '" border="0" class="mright6"/>'.strtoupper($language->shortcode);
+	$langlist .= '</a></li>';
+	if(count($langActive) == $counter){
+		$langlist .= '</ul>';
+		$outString .= $langActiveIcon.$langlist;		
+		}
+	$counter++;
 }
-$outString .= '</ul></div>';
-
 echo $outString;
 
 if( $inc_jf_css && JFile::exists(JPATH_ROOT.DS.'modules'.DS.'mod_jflanguageselection'.DS.'tmpl'.DS.'mod_jflanguageselection.css') ) {

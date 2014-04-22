@@ -91,10 +91,16 @@ jQuery(document).ready(function($){
 		});
 	
 	
-	jQuery('#grettings').click(function(e) {
+	jQuery('#grettings>a').click(function(e) {
 		var $this = jQuery(this);
-		$this.toggleClass("userzoneopen");
-		$this.find('ul.dropdown-menu').toggle();
+		$this.parent().find('ul.dropdown-menu').toggle();
+		e.preventDefault();	
+		e.stopPropagation();	
+	});
+	jQuery('#head_content a.bradius5.tshadowwhite').click(function(e) {
+		var $this = jQuery(this);
+		$this.parent().find('ul.dropdown-menu').toggle();
+		e.preventDefault();	
 		e.stopPropagation();	
 	});
 	
