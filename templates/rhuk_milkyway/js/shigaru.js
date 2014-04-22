@@ -110,9 +110,8 @@ jQuery(document).ready(function($){
 	});
 	
 	jQuery('body').click(function () {
-			jQuery('#topnavmenu ul.dropdown-menu').hide();
-			if(jQuery('#grettings').hasClass('userzoneopen'))jQuery('#grettings').removeClass('userzoneopen');
-		});
+			jQuery('ul.dropdown-menu').hide();
+			});
 
 	// Login Form	
 	jQuery('#login a.dropper,#lang a.dropper').click(function(e) {
