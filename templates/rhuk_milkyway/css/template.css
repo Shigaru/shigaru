@@ -50,13 +50,13 @@ cursor:pointer;position: relative;margin-top: 12px;font-size: 90%;}
 #topnavmenu a:hover{text-decoration: underline;}
 /* TOP TAB AREA*/
 #nav_tabs{clear:both;}
-#nav_tabs ul{background: url("../images/the_most_dot.png") repeat-x scroll 0 20px transparent;}
+#nav_tabs ul{background: url("../images/the_most_dot.png") repeat-x scroll 0 17px transparent;}
 #nav_tabs ul:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}  
 #nav_tabs ul {display: inline-block;}  
 * html #nav_tabs ul {height: 1%;}  
 #nav_tabs ul {display: block;width:100%;text-align: center;}
 #nav_tabs ul li {display: inline-block;list-style: none outside none;margin: 10px 0;
-font-size: 91%;background-color: #F0F0F0;}
+font-size: 80%;background-color: #F0F0F0;}
 #nav_tabs ul li a {padding: 0 30px;color:#796979;text-decoration: none;text-transform: uppercase;font-weight:bold;border-right:1px solid #c1c1c1;}
 #nav_tabs ul li a:hover{color:#A75F5F;}
 #nav_tabs ul li a#active_menu-nav{color:#a86060;}
@@ -1383,6 +1383,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .f120{font-size:120%;}
 .f90{font-size:90%;}
 .f80{font-size:80%;}
+.f60{font-size:60%;}
 .f13px{font-size:13px;}
 .f16px{font-size:16px;}
 .w20pc{width:20%;}

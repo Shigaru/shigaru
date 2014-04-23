@@ -67,7 +67,7 @@ var currentLang = "<?php echo $currentLang ?>";
 								<jdoc:include type="modules" name="in-content" />
 							</div>
 						</div>
-						<div id="head_comm_text fontsig" class="fleft f80"><?php echo JText::_('HWDVIDS_SHIGARU_SHARINGMUSIKNOW') ?></div>
+						<div id="head_comm_text fontsig" class="fleft f60"><?php echo JText::_('HWDVIDS_SHIGARU_SHARINGMUSIKNOW') ?></div>
 					</div>	
 				</div>		
 				
