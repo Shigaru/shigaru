@@ -4846,7 +4846,7 @@ $app = & JFactory::getApplication();
 		$c = hwd_vs_Config::get_instance();
 		$my = & JFactory::getUser();
 		$doc = & JFactory::getDocument();
-
+		$lang = JFactory::getLanguage();
 		$code = null;
 		$url = JRoute::_($_SERVER['REQUEST_URI']);
 
@@ -4870,7 +4870,7 @@ $app = & JFactory::getApplication();
 			}
 		}
 
-		$code.="<form name=\"editvideo\" style=\"display: none;\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=editvideo")."\" method=\"post\">";
+		$code.="<form name=\"editvideo\" style=\"display: none;\" action=\""."index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=editvideo&lang=".substr($lang->getTag(),0,2)."\" method=\"post\">";
 		$code.="<input type=\"hidden\" name=\"user_id\" value=\"".$my->id."\" />";
 		$code.="<input type=\"hidden\" name=\"video_id\" value=\"".$row->id."\" />";
 		$code.="<input type=\"hidden\" name=\"url\" value=\"".$url."\" />";

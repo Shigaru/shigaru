@@ -9,7 +9,12 @@ jQuery(document).ready(function () {
 				listURL:'index.php?option=com_hwdvideoshare&task=ajax_aboutme&format=raw&lang='+currentLang+'&guid='+guid
 		});  
 		
-	  
+	 jQuery('ul#mainlevel-nav li a').each(function(i,e){
+			if(jQuery(e).attr('id') == 'active_menu-nav')
+				jQuery(e).removeAttr('id')
+				else if(jQuery(e).parent().hasClass('last'))
+					jQuery(e).attr('id','active_menu-nav');
+		}); 
 		
 	jQuery.ajax({
             url: 'index.php?option=com_hwdvideoshare&task=ajax_aboutme&ajax=yes&item_id=all&lang='+currentLang+'&guid='+guid,

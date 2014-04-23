@@ -16,7 +16,7 @@ if ( ! ( defined( '_VALID_CB' ) || defined( '_JEXEC' ) || defined( '_VALID_MOS' 
 //Field Labels
 DEFINE('_UE_HITS','Hits');
 DEFINE('_UE_PROFILEVIEWS','Profile views');
-DEFINE('_UE_VIDEOSUBMITED','Videos submitted');
+DEFINE('_UE_VIDEOSUBMITED','Videos shared');
 DEFINE('_UE_URL','URL');
 DEFINE('_UE_ABOUTME','About me');
 DEFINE('_UE_WHEREINWORLD','Where in the World');
@@ -171,7 +171,7 @@ DEFINE('_UE_FAVBOOKS','Favourite books');
 DEFINE('_UE_FAVMOVIES','Favourite movies');
 DEFINE('_UE_FAVTV','Favourite tv');
 DEFINE('_UE_HOBBIES','Hobbies');
-DEFINE('_UE_CLICKTOVISIT','Click on this link visit');
+DEFINE('_UE_CLICKTOVISIT','Click on this link to visit');
 DEFINE('_UE_AREYOUSUREREMOVEIMAGE','Are you sure you wish to remove your image');
 DEFINE('_UE_EDITPROFILENOTE',"Note that the fields marked * are required. All other fields are optional. This means if you don’t fill them out they will not appear in your profile… you can put as much or as little as you wish! Remember to click “Update” at the very end after making any changes.");
 DEFINE('_UE_ON','on');
@@ -1774,6 +1774,8 @@ DEFINE('_UE_SEX','Sex');
 DEFINE('_UE_SEXMALE','Male');
 DEFINE('_UE_SEXFEMALE','Female');
 DEFINE('_UE_SEXYESPLEASE','Yes please!');
+DEFINE('_UE_SHIGARU_MYVIDEOS','My videos');
+DEFINE('_UE_SHIGARU_SHAREVIDEO','Share a video');
 // IMPORTANT WARNING: The closing tag, "?" and ">" has been intentionally omitted - CB works fine without it.
 // This was done to avoid errors caused by custom strings being added after the closing tag. ]
 // With such tags, always watchout to NOT add any line or space or anything after the "?" and the ">".

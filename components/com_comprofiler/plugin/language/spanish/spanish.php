@@ -1222,3 +1222,6 @@ DEFINE('_UE_SEXYESPLEASE','Sííí porfa!!!');
 DEFINE('_UE_LANGUAGE','Idioma');
 DEFINE('_UE_TAGS','Etiquetas');
 DEFINE('_UE_IAM','Soy...');
+DEFINE('_UE_SHIGARU_MYVIDEOS','Mis videos');
+DEFINE('_UE_SHIGARU_SHAREVIDEO','Comparte un video');
+DEFINE('_UE_CLICKTOVISIT','Pulse en este link para visitar el perfil de');

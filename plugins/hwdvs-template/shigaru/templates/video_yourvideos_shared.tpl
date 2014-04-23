@@ -28,11 +28,11 @@
 	</div>	
 </div>
 <div id="usersection" class="cbProfile mbot12">
-<div class="f80 loadingcontent" style="line-height:200px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
+<div class="f80 loadingcontent" style="line-height:200px"><i class="icon-spinner icon-spin"></i> {$smarty.const._HWDVIDS_SHIGARU_LOADING}...</div>	
 </div>	
 <div class="clearfix mtop12 f80">
 	<div id="usermenuwrapper"  class="well fleft w15">
-	<div class="f80 loadingcontent" style="line-height:550px"><i class="icon-spinner icon-spin"></i> Loading...</div>	
+	<div class="f80 loadingcontent" style="line-height:550px"><i class="icon-spinner icon-spin"></i> {$smarty.const._HWDVIDS_SHIGARU_LOADING}...</div>	
 	</div>
 	<div id="videosmaincontent" class="fleft clearfix pad12">
 		<div class="clearfix">
@@ -40,7 +40,7 @@
 				<div class="fleft f15em fontbold">
 					<h3>
 						{if $otheruser neq 'no'}
-							{$smarty.const._HWDVIDS_TITLE_VIDCREATBY} {$otheruser}
+							{$smarty.const._HWDVIDS_TITLE_VIDSHAREDBY} {$username}
 						{else}
 							{$smarty.const._HWDVIDS_TITLE_MYVIDS} - <span class="fontnormal">{$smarty.const._HWDVIDS_TITLE_YOURVIDSSHARED}</span>
 						{/if}</h3>
@@ -65,7 +65,7 @@
 		</div>
 		
 		<div id="resultcontainer" class="mtop20">
-			<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
+			<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> {$smarty.const._HWDVIDS_SHIGARU_LOADING}...</div>
 		</div>
 		<div class="vidlistoptbar clearfix mtop20">
 			<div class="vidlistpagination w100 f100 fleft tcenter"></div>
@@ -74,7 +74,7 @@
 	<div class="fleft w15">
 		
 		<div class="mleft6 clearfix mtop20 mbot20">
-			<div class="fontbold"><a class="mtop6 pad12 btn btn-primary fleft" href="{$uploadLink}"><i class="icon-share icon-4x fontblack"></i> <span class="icon-3x fontblack">Share a video</span></a></div>
+			<div class="fontbold"><a class="mtop6 pad12 btn btn-danger fleft" href="{$uploadLink}"><i class="icon-share icon-4x fontwhite"></i> <br /><span class="icon-2x fontwhite"> {$smarty.const._HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU}</span></a></div>
 		</div> 
 		<div class="mleft6 clearfix">
 			<script type="text/javascript"><!--

@@ -469,7 +469,7 @@ $('#cbbtncancel').click( function() {
 								</div>
 							</div>
 							<div id="videoresultwrapper" class="f90 fleft w100 pad12">
-														<div class="vidlistoptbar clearfix mtop20">					
+														<div class="vidlistoptbar clearfix mtop20 f110">					
 															<form class="fleft clearfix">
 																			<div class="fleft">
 																				<label for="sort_by" class="sort-control-label">Sort by:</label>
@@ -510,7 +510,7 @@ $('#cbbtncancel').click( function() {
 					</div>
 					<div class="fleft w15">		
 															<div class="mleft12 clearfix mtop20 mbot20">
-																<div class="fontbold"><a class="mtop6 pad12 btn btn-primary fleft" href="{$uploadLink}"><i class="icon-share icon-4x fontblack"></i> <span class="icon-3x fontblack">Share a video</span></a></div>
+																<div class="fontbold"><a class="mtop6 pad12 btn btn-danger fleft" href="{$uploadLink}"><i class="icon-share icon-4x fontwhite"></i> <br /><span class="icon-2x fontwhite">'._UE_SHIGARU_SHAREVIDEO.'</span></a></div>
 															</div> 
 															<div class="mleft12 clearfix">
 																<script type="text/javascript"><!--

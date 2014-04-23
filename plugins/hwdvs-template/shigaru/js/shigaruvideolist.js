@@ -108,10 +108,9 @@
 				   });;
 			
 			
-			 jQuery('.profileoptions .btn').click(function(e) {
+			 jQuery('.profileoptions').click(function(e) {
 				var $this = jQuery(this);
-				$this.toggleClass("active");
-				$this.next('ul.dropdown-menu').toggle();
+				$this.find('ul.dropdown-menu').toggle();
 				return false;
 			});
         });
@@ -308,8 +307,8 @@
 		   paramItems.find('.twolinestitle').show();
 		   paramItems.find('.longtitle').hide();
 		   paramItems.find('.searchResultInfo').hide().css({'margin':'0','border-left':'none','padding':'0'}).parent().css('width','100%').prev().css('width','100%');
-		   paramItems.css({'width': "245px",'height':'150px',fontSize:'100%','padding':'4px 0 0 0','border':'none',margin:0});
-		   paramItems.find('img.bradius5').css({width: "98px"}).prev().css('width','98px');;
+		   paramItems.css(opts.layoutDefaultCss[0]);
+		   paramItems.find('img.bradius5').css(opts.layoutDefaultImgCss[0]).prev().css(opts.layoutDefaultImgCss[0]);
 		   jQuery('.searchResultInfo .extendedinfo').hide();
 		}
 	
@@ -317,20 +316,20 @@
 		var oItems = jQuery('#resultcontainer .resultelement');	
 		switch(paramMode){
 					case 'masonry':
-								oItems.css({'border-bottom':'1px dotted gray','margin':'12px 0px 0px 4px'});
+								oItems.css(opts.masonryCss[0]);
 								oItems.find('.searchResultInfo').hide();
 								oItems.find('.thumbplay').css('margin','20px 0 0 28px');
 								break;
 					case 'cellsByRow':
-								oItems.css({'border-bottom':'1px dotted gray',fontSize:'100%','padding-top':'0','margin':'-12px 0 0 -12px'}).animate({ width: "340px",height: "210px"});
-								  oItems.find('img.bradius5').css({ width: "136px"}).prev().css('width','136px').parent().next().css('margin-top','-20px');
+								oItems.css(opts.cellsByRowCss[0]).animate({ width: "340px",height: "210px"});
+								  oItems.find('img.bradius5').css(opts.cellsByRowImgCss[0]).prev().css(opts.cellsByRowImgCss[0]).parent().next().css('margin-top','-20px');
 								  oItems.find('.thumbplay').css('margin','40px 0px 0px 55px');
 								  jQuery('.searchResultInfo').css({'border-bottom':'none','margin':'3px 0 0 0', 'padding-bottom':'3px', 'padding-top':'0'}).show();
 								break;				
 					case 'straightDown':
-								oItems.css({height: "140px",fontSize:'110%','border-bottom':'1px dotted gray', 'padding':'4px 2px 2px 0'}).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
+								oItems.css(opts.straightDownCss[0]).find('.searchResultInfo').addClass('fleft').prev().addClass('fleft');
 								oItems.animate({width: "98%"});
-								  oItems.find('img.bradius5').css({width: "133px"}).prev().css('width','133px').parent().next().css('margin-top','-20px');
+								  oItems.find('img.bradius5').css(opts.straightDownImgCss[0]).prev().css(opts.straightDownImgCss[0]).parent().next().css('margin-top','-20px');
 								  jQuery('.searchResultInfo .extendedinfo').fadeIn();
 								  jQuery('.searchResultInfo').css({'border-left':'1px dotted gray','border-bottom':'none','padding-left':'12px'}).show().parent().css('width','60%').prev().css('width','40%');
 								  oItems.find('.twolinestitle').hide();
@@ -408,7 +407,15 @@
 	needsHeaderProfile: true,
 	needsUserMenu: false,
 	selectedUserMenu: '#whattowatch',
-	reScrollOnLoad:false
+	reScrollOnLoad:false,
+	layoutDefaultCss:[{'width': "245px",'height':'150px',fontSize:'100%','padding':'4px 0 0 0','border':'none',margin:0}],
+	layoutDefaultImgCss: [{ width: "98px"}],
+	masonryCss:[{'border-bottom':'1px dotted gray','margin':'12px 0px 0px 4px'}],
+	masonryImgCss:[{'border-bottom':'1px dotted gray','margin':'12px 0px 0px 4px'}],
+	cellsByRowCss: [{'border-bottom':'1px dotted gray',fontSize:'100%','padding-top':'0','margin':'-12px 0 0 -12px'}],
+	cellsByRowImgCss: [{ width: "136px"}],
+	straightDownCss: [{height: "140px",fontSize:'120%','border-bottom':'1px dotted gray', 'padding':'4px 2px 2px 0'}],
+	straightDownImgCss: [{width: "133px"}]
   }
   
 })(jQuery);

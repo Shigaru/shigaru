@@ -1384,7 +1384,8 @@ $app = & JFactory::getApplication();
     {
 		global $smartyvs, $limitstart,$Itemid,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
-
+		$jUser = null;
+		$lang = JFactory::getLanguage();
 		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
 		// load the menu name
 		jimport( 'joomla.application.menu' );
@@ -1410,16 +1411,19 @@ $app = & JFactory::getApplication();
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
-		if($otheruser=='no')
+		if($otheruser=='no'){
 			$user_id = $my->id;
-			else
+			$jUser = & JFactory::getUser();
+			}else{
 				$user_id = $otheruser;
+				$jUser = & JFactory::getUser($otheruser);
+				}
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("otheruser", $otheruser);
 		$smartyvs->assign("user_id", $user_id);
-		
-		$uploadLink = JRoute::_("index.php?option=com_hwdvideoshare&task=upload");
+		$smartyvs->assign("username", $jUser->username);
+		$uploadLink = JRoute::_("index.php?option=com_hwdvideoshare&task=upload&lang=".substr($lang->getTag(),0,2));
 		$smartyvs->assign("uploadLink", $uploadLink);
 		$smartyvs->display('video_yourvideos.tpl');
 		return;
@@ -1620,7 +1624,8 @@ $app = & JFactory::getApplication();
     {
 		global $smartyvs, $limitstart,$Itemid,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
-
+		$jUser = null;
+		$lang = JFactory::getLanguage();
 		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
 		// load the menu name
 		jimport( 'joomla.application.menu' );
@@ -1646,17 +1651,20 @@ $app = & JFactory::getApplication();
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
-		if($otheruser=='no')
+		if($otheruser=='no'){
 			$user_id = $my->id;
-			else
+			$jUser = & JFactory::getUser();
+			}else{
 				$user_id = $otheruser;
+				$jUser = & JFactory::getUser($otheruser);
+				}
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("otheruser", $otheruser);
 		$smartyvs->assign("user_id", $user_id);
-		
-		$uploadLink = JRoute::_("index.php?option=com_hwdvideoshare&task=upload");
-		$smartyvs->assign("uploadLink", $uploadLink);
+		$smartyvs->assign("username", $jUser->username);
+		$uploadLink = JRoute::_("index.php?option=com_hwdvideoshare&task=upload&lang=".substr($lang->getTag(),0,2));
+		$smartyvs->assign("uploadlink", $uploadLink);
 		$smartyvs->display('video_yourvideos_created.tpl');
 		return;
     }
@@ -1667,7 +1675,8 @@ $app = & JFactory::getApplication();
     {
 		global $smartyvs, $limitstart,$Itemid,$hwdvsTemplateOverride;
 		$c = hwd_vs_Config::get_instance();
-
+		$jUser = null;
+		$lang = JFactory::getLanguage();
 		if ($c->showrating == 1 || $c->showviews == 1 || $c->showduration == 1 || $c->showuplder == 1) { $infowidth = 150; } else { $infowidth = 0; }
 		// load the menu name
 		jimport( 'joomla.application.menu' );
@@ -1693,16 +1702,19 @@ $app = & JFactory::getApplication();
 		$doc->setMetaData( 'title' , $metatitle." - "._HWDVIDS_META_YVIDS );
 		hwd_vs_tools::generateActiveLink(1);
 		hwd_vs_tools::generateBreadcrumbs();
-		if($otheruser=='no')
+		if($otheruser=='no'){
 			$user_id = $my->id;
-			else
+			$jUser = & JFactory::getUser();
+			}else{
 				$user_id = $otheruser;
+				$jUser = & JFactory::getUser($otheruser);
+				}
 		$baseurl = JURI::root();
 		$smartyvs->assign("baseurl", $baseurl);
 		$smartyvs->assign("otheruser", $otheruser);
 		$smartyvs->assign("user_id", $user_id);
-		
-		$uploadLink = JRoute::_("index.php?option=com_hwdvideoshare&task=upload");
+		$smartyvs->assign("username", $jUser->username);
+		$uploadLink = JRoute::_("index.php?option=com_hwdvideoshare&task=upload&lang=".substr($lang->getTag(),0,2));
 		$smartyvs->assign("uploadLink", $uploadLink);
 		$smartyvs->display('video_yourvideos_shared.tpl');
 		return;
