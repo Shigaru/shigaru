@@ -54,7 +54,7 @@
 								<span>{$data->_cbuser->cb_tags}</span>
 								
 							</div>
-							<div class="w50 fleft mbot6">
+							<div class="w100 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_IAM}:</span>
 								<span>{$data->_cbuser->cb_iam}</span>
 							</div>
@@ -73,19 +73,11 @@
 						<div>
 							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_COUNTRYIAM}:</span>
-								<span>{$cb_countryiam}</span>
-							</div>
-							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_CITYREGION}:</span>
-								<span>{$data->_cbuser->cb_cityiam}</span>
+								<span>{$cb_countryiam} ({$data->_cbuser->cb_cityiam})</span>
 							</div>
 							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_COUNTRYILIVE}:</span>
-								<span>{$cb_countryilive}</span>
-							</div>
-							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_CITYREGION}:</span>
-								<span>{$data->_cbuser->cb_cityilive}</span>
+								<span>{$cb_countryilive} ({$data->_cbuser->cb_cityilive})</span>
 							</div>
 							<div class="w50 fleft mbot6">
 								<span class="fontbold">{$smarty.const._UE_NATIVELANG}:</span>

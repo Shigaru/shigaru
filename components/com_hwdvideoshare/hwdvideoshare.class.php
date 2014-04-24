@@ -6312,10 +6312,7 @@ $app = & JFactory::getApplication();
 
 		//$limit 	= intval($c->vpp);
 		$limit 	= 12;
-		if($otheruser=='no')
-			$user_id = $my->id;
-			else
-				$user_id = $otheruser;
+		$user_id = $my->id;
 
 		$where = ' WHERE video.approved = "yes"';
 		$where .= ' AND video.published = 1';
@@ -6608,33 +6605,33 @@ $app = & JFactory::getApplication();
 		$timeRegistered = hwd_vs_tools::getAgoDate(strtotime($cbUser->_cbuser->registerDate));				
 		$lastvisitDate = hwd_vs_tools::getAgoDate(strtotime($cbUser->_cbuser->lastvisitDate));	
 		
-		if($cbUser->_cbuser->cb_myweb1 == '' && $cbUser->_cbuser->cb_mywebdesc ==''
-			&& $cbUser->_cbuser->cb_myweb2 == '' && $cbUser->_cbuser->cb_mywebdesc2 == '')
+		if(trim($cbUser->_cbuser->cb_myweb1 == '') && trim($cbUser->_cbuser->cb_mywebdesc =='')
+			&& trim($cbUser->_cbuser->cb_myweb2 == '') && trim($cbUser->_cbuser->cb_mywebdesc2 == ''))
 			$oShowPersonalSites 			= false;
 			
-		if($cbUser->_cbuser->cb_countryiam == '' && $cbUser->_cbuser->cb_cityiam ==''
-			&& $cbUser->_cbuser->cb_countryilive == '' && $cbUser->_cbuser->cb_cityilive == ''
-			&& $cbUser->_cbuser->cb_nativelang == '' && $cbUser->_cbuser->cb_otherlanguages == ''
-			&& $cbUser->_cbuser->cb_plug_lat == '' && $cbUser->_cbuser->cb_plug_lng == '')
+		if(trim($cbUser->_cbuser->cb_countryiam == '') && trim($cbUser->_cbuser->cb_cityiam =='')
+			&& trim($cbUser->_cbuser->cb_countryilive == '') && trim($cbUser->_cbuser->cb_cityilive == '')
+			&& trim($cbUser->_cbuser->cb_nativelang == '') && trim($cbUser->_cbuser->cb_otherlanguages == '')
+			&& trim($cbUser->_cbuser->cb_plug_lat == '') && trim($cbUser->_cbuser->cb_plug_lng == ''))
 			$oShowWhere 			= false;	
 			
-		if($cbUser->_cbuser->cb_bandname == '' && $cbUser->_cbuser->cb_officialwebsite ==''
-			&& $cbUser->_cbuser->cb_previouslyknownas == '' && $cbUser->_cbuser->cb_bandgenre == ''
-			&& $cbUser->_cbuser->cb_soundslike == '' && $cbUser->_cbuser->cb_nobandmembers == ''
-			&& $cbUser->_cbuser->cb_bandmembernames == '' && $cbUser->_cbuser->cb_signedtorecordlabel == ''
-			&& $cbUser->_cbuser->cb_banddescription == '')
+		if(trim($cbUser->_cbuser->cb_bandname == '') && trim($cbUser->_cbuser->cb_officialwebsite =='')
+			&& trim($cbUser->_cbuser->cb_previouslyknownas == '') && trim($cbUser->_cbuser->cb_bandgenre == '')
+			&& trim($cbUser->_cbuser->cb_soundslike == '') && (trim($cbUser->_cbuser->cb_nobandmembers == '') || trim($cbUser->_cbuser->cb_nobandmembers == '0'))
+			&& trim($cbUser->_cbuser->cb_bandmembernames == '') && trim($cbUser->_cbuser->cb_signedtorecordlabel == '')
+			&& trim($cbUser->_cbuser->cb_banddescription == ''))
 			$oShowMyBand 			= false;	
 			
-		if($cbUser->_cbuser->cb_favmusicgenre == '' && $cbUser->_cbuser->cb_musicinflu ==''
-			&& $cbUser->_cbuser->cb_favartirsts == '' && $cbUser->_cbuser->cb_newartistsrecom == ''
-			&& $cbUser->_cbuser->cb_favristerecomm == '')
+		if(trim($cbUser->_cbuser->cb_favmusicgenre == '') && trim($cbUser->_cbuser->cb_musicinflu =='')
+			&& trim($cbUser->_cbuser->cb_favartirsts == '') && trim($cbUser->_cbuser->cb_newartistsrecom == '')
+			&& trim($cbUser->_cbuser->cb_favristerecomm == ''))
 			$oShowMusicalInterest 			= false;	
 			
-		if($cbUser->_cbuser->cb_philosolife == '' && $cbUser->_cbuser->cb_ilike ==''
-			&& $cbUser->_cbuser->cb_idislike == '' && $cbUser->_cbuser->cb_contriestravelled == ''
-			&& $cbUser->_cbuser->cb_countriestotravel == '' && $cbUser->_cbuser->cb_whotomet == ''
-			&& $cbUser->_cbuser->cb_favbooks == '' && $cbUser->_cbuser->cb_favmovies == ''
-			&& $cbUser->_cbuser->cb_favtv == '' && $cbUser->_cbuser->cb_hobbies == '')
+		if(trim($cbUser->_cbuser->cb_philosolife == '') && trim($cbUser->_cbuser->cb_ilike =='')
+			&& trim($cbUser->_cbuser->cb_idislike == '') && trim($cbUser->_cbuser->cb_contriestravelled == '')
+			&& trim($cbUser->_cbuser->cb_countriestotravel == '') && trim($cbUser->_cbuser->cb_whotomet == '')
+			&& trim($cbUser->_cbuser->cb_favbooks == '') && trim($cbUser->_cbuser->cb_favmovies == '')
+			&& trim($cbUser->_cbuser->cb_favtv == '') && trim($cbUser->_cbuser->cb_hobbies == ''))
 			$oShowOtherInterest 			= false;
 			
 		$smartyvs->assign("sex", constant($cbUser->_cbuser->cb_sex));

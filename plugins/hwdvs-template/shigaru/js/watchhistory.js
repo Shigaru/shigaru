@@ -10,7 +10,6 @@ jQuery(document).ready(function () {
 				masonryHorizontalRowHeight: 200,
 				cellsByRowColumnWidth : 380, 
 				cellsByRowRowHeight: 225,	
-				listURL:'index.php?option=com_hwdvideoshare&Itemid=29&task=ajax_myvideos&ajax=yes&format=raw&lang='+currentLang+'&guid='+guid,
 				layoutDefaultCss:[{'width': "235px",'height':'150px',fontSize:'100%','padding':'4px 0 0 0','border':'none',margin:0}],
 				layoutDefaultImgCss: [{ width: "94px"}],
 				masonryCss:[{'border-bottom':'1px dotted gray','margin':'12px 0px 0px 4px'}],
