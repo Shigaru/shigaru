@@ -57,7 +57,7 @@
 								  <div><span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENT}</span><br />{$videoplayer->instrument}</div>
 								  <div><span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_GENRE}</span><br />{$videoplayer->genre}</div>
 								  <div><span class="fontbold">{$smarty.const._HWDVIDS_SHIGARU_LANGUAGE}</span><br />{$videoplayer->language}</div>
-								  <div class="fontbold"><a class="mtop6 fontwhite pad12 btn btn-danger fleft" href="{$uploadLink}"><i class="icon-share icon-4x"></i> {$smarty.const._HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU}</a></div>
+								  <div class="fontbold"><a class="mtop6 fontwhite pad12 btn btn-danger fleft" href="{$uploadLink}"><i class="icon-share icon-4x"></i> <br />{$smarty.const._HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU}</a></div>
 							</div>	
 						</div>	
 				  </div>

@@ -451,7 +451,7 @@ $('#cbbtncancel').click( function() {
 							<div class="clearfix">
 								<div class="fleft f15em fontbold">
 									<h3>
-											'._HWDVIDS_SHIGARU_MYVIDEOS.'
+											'._UE_SHIGARU_MYVIDEOS.'
 										</h3>
 								</div>
 								<div class="fright">

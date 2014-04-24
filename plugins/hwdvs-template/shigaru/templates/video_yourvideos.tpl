@@ -39,7 +39,7 @@
 			<div class="clearfix">
 				<div class="fleft f15em fontbold">
 					<h3>
-						{if $otheruser neq 'no'}
+						{if $ismyprofile eq 'no'}
 							{$smarty.const._HWDVIDS_TITLE_VIDCREATBY} {$username}
 						{else}
 							{$smarty.const._HWDVIDS_TITLE_MYVIDS}</span>

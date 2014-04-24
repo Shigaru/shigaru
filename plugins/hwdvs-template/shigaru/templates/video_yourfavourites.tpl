@@ -40,8 +40,8 @@
 			<div class="clearfix">
 				<div class="fleft f15em fontbold">
 					<h3>
-						{if $otheruser neq 'no'}
-							{$smarty.const._HWDVIDS_TITLE_YOURFAVS} {$otheruser}
+						{if $ismyprofile eq 'no'}
+							{$smarty.const._HWDVIDS_TITLE_YOURFAVSOTHER} {$username}
 						{else}
 							{$smarty.const._HWDVIDS_TITLE_MYVIDS} - <span class="fontnormal">{$smarty.const._HWDVIDS_TITLE_YOURFAVS}</span>
 						{/if}</h3>
@@ -75,7 +75,7 @@
 	<div class="fleft w15">
 		
 		<div class="mleft6 clearfix mtop20 mbot20">
-			<div class="fontbold"><a class="mtop6 pad12 btn btn-primary fleft" href="{$uploadLink}"><i class="icon-share icon-4x fontblack"></i> <span class="icon-3x fontblack">Share a video</span></a></div>
+			<div class="fontbold"><a class="mtop6 pad12 btn btn-danger fleft" href="{$uploadLink}"><i class="icon-share icon-4x fontwhite"></i> <br /><span class="icon-2x fontwhite">{$smarty.const._HWDVIDS_SHIGARU_SUBMIT_TO_SHIGARU}</span></a></div>
 		</div> 
 		<div class="mleft6 clearfix">
 			<script type="text/javascript"><!--

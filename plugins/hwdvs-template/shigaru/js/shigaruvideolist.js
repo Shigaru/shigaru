@@ -70,14 +70,14 @@
 				e.stopPropagation();				
 			});
 			
-			$usercontainer.find('.usersocialicon').click(function(e){
+			/*$usercontainer.find('.usersocialicon').click(function(e){
 				e.preventDefault();
 				var oParent = jQuery(this).parent().parent();
 				if(oParent.hasClass('open'))
 					oParent.removeClass('open').addClass('close');
 					else
 						oParent.removeClass('close').addClass('open');
-			});
+			});*/
 			
 			
 			

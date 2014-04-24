@@ -5700,7 +5700,7 @@ $app = & JFactory::getApplication();
 		$return ='';
 		$haveany = false;
 		if($myspacepage  !=''){
-		$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' '.$oUserName.' '._UE_ON.' myspace" href="http://home.myspace.com/'.$myspacepage.'" target="_blank">
+		$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' myspace" href="http://home.myspace.com/'.$myspacepage.'" target="_blank">
 						<i class="icon-pinterest-sign fontorange icon-2x"></i></a>';
 						$haveany = true;
 		}
@@ -5731,7 +5731,8 @@ $app = & JFactory::getApplication();
 		}	
 		$youtube = $cbUser->getField( 'cb_youtubeURL', null, 'csv', 'div','edit');
 		if($youtube  !=''){
-			$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' youtube" target="_blank" href="http://youtube.com/'.$youtube.'"><img src="'.$livesite.'templates/rhuk_milkyway/images/socialmedia/icons_32x32/youtube.png" alt="YouTube">&nbsp;&nbsp;</a>';	
+			$ocode .= '<a class="mright6 usersocialicon" title="'._UE_CLICKTOVISIT.' '.$oUserName.' '._UE_ON.' youtube" target="_blank" href="http://youtube.com/'.$youtube.'">
+			<i class="icon-youtube-sign fontorange icon-2x"></i></a>';	
 			$haveany = true;		
 		}
 			if($haveany && $showown	=== 'yes'){

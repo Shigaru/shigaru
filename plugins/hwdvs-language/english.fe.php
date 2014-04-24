@@ -101,6 +101,7 @@ DEFINE("_HWDVIDS_TITLE_YOURSHVIDS","Videos I Shared");
 DEFINE("_HWDVIDS_TITLE_MYVIDS","My Videos");
 DEFINE("_HWDVIDS_TITLE_CONFIRMDELETEEXPLAIN","You will always be asked to confirm this, since this operation cannot be undone.");
 DEFINE("_HWDVIDS_TITLE_YOURFAVS","Your Favourite Videos");
+DEFINE("_HWDVIDS_TITLE_YOURFAVSOTHER","Favourite Videos of");
 DEFINE("_HWDVIDS_TITLE_YOURGROUPS","Your Groups");
 DEFINE("_HWDVIDS_TITLE_YOURMEMBERSHIPS","Your Group Memberships");
 DEFINE("_HWDVIDS_TITLE_CREATEGROUP","Create a Group");
