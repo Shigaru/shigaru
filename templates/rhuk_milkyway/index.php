@@ -108,7 +108,7 @@ var currentLang = "<?php echo $currentLang ?>";
 						<?php					
 						if ($user && !$user->guest){
 								echo '<div id="grettings" class="fontsig btn-group mright12">';
-								echo '<a href="#" class="btn primary mtop12 f16px curpointer"> <img src="'.$cbUser->getField( 'avatar' , null, 'csv', 'div', 'profile' ).'" width="15" height="15" /> <span class="f12em"> ';
+								echo '<a href="#" class="btn primary mtop12 f16px curpointer"> <img src="'.$cbUser->getField( 'avatar' , null, 'csv', 'div', 'profile' ).'" height="20" /> <span class="f12em"> ';
 								echo $user->username;
 								echo '</span> <span class="icon-caret-down"></span></a>';
 								echo '<ul class="dropdown-menu">

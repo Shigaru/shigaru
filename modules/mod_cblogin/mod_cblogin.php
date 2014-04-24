@@ -721,7 +721,7 @@ if ( $_CB_framework->myId() ) {
 			}
 			$loginPostReg = str_replace("http://","https://",$loginPostReg);
 		}
-		echo '<a href="'.$loginPostReg.'" title=' . _UE_REGISTER . '" class="btn btn-small fontsig"><i class="icon-check"></i> ';
+		echo '<a href="'.$loginPostReg.'" title=' . _UE_REGISTER . '" class="btn btn-small fontsig fontbold"><i class="icon-check fontbold"></i> ';
 		if ( $show_remind_register_icons >= 1 ) {
 			echo '<img src="' . $urlImgPath . 'register.png" alt="' . _UE_REGISTER . '" title="' . _UE_REGISTER . '" width="25px" height="20px" style="border-width:0px;cursor:pointer;" /> ';
 		}
