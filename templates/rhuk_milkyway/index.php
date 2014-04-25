@@ -116,9 +116,6 @@ var currentLang = "<?php echo $currentLang ?>";
 											<li><a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails&lang='.$currentLang.'"><span class="icon-edit"></span> '. JText::_('HWDVIDS_SHIGARU_EDITPROFILE').'</a></li>
 											<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox&lang='.$currentLang.'"><span class="icon-envelope"></span> '. JText::_('HWDVIDS_SHIGARU_MESSAGES').'</a></li>
 											<li class="divider"></li>
-											<li><a href="index.php?option=com_hwdvideoshare&task=yourvideos&lang='.$currentLang.'&guid='.$user->id.'"><span class="icon-headphones"></span>My Videos</a></li>
-											<li><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang='.$currentLang.'&guid='.$user->id.'"><span class="icon-heart"></span>Videos I liked</a></li>
-											<li class="divider"></li>
 											<li><a href="index.php?option=com_comprofiler&task=logout&lang='.$currentLang.'&guid='.$user->id.'"><span class="icon-off"></span> '. JText::_('HWDVIDS_SHIGARU_LOGOUT').'</a></li>
 										  </ul>';
 								echo '</div>';
