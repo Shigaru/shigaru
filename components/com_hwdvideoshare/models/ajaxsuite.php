@@ -356,17 +356,15 @@ class hwd_vs_ajax
 		}
 	
 	function getLocationEvents(){
-		  //$SongKickURL = 'http://api.hostip.info/get_json.php?ip=12.215.42.19&position=true';
-		  $SongKickURL = 'http://api.hostip.info/get_json.php?ip='.urlencode($_SERVER['REMOTE_ADDR']).'&position=true';
+		  $SongKickURL = 'http://api.songkick.com/api/3.0/events.json?location=ip:'.urlencode($_SERVER['REMOTE_ADDR']).'&apikey=EKOiqRoWeX1ZQ9vZ';
+		  //$SongKickURL = 'http://api.songkick.com/api/3.0/events.json?location=ip:2.136.83.249&apikey=EKOiqRoWeX1ZQ9vZ';
 		  $gsJson 		= file_get_contents($SongKickURL,0,null,null);
-		  $songResults 	= $gsJson;
 		  $oJsongResults = json_decode($gsJson);
-		  if($oJsongResults->country_code != 'XX'){
-				  $SongKickURL = 'http://api.songkick.com/api/3.0/search/locations.json?location=geo:'.$oJsongResults->lat.','.$oJsongResults->lng.'&apikey=EKOiqRoWeX1ZQ9vZ';
-				  $gsJson 		= file_get_contents($SongKickURL,0,null,null);
-				  $songResults 	= $gsJson;
-				  $oJsongResults = json_decode($gsJson);
-			  }
+		  $songResults 	= $gsJson;
+		  /*if($oJsongResults[0][4]){
+				  $SongKickURL = 'http://api.songkick.com/api/3.0/search/locations.json?location=geo:'.$oJsongResults[0][4].','.$oJsongResults[0][5].'&apikey=EKOiqRoWeX1ZQ9vZ';
+				  $songResults = file_get_contents($SongKickURL,0,null,null);
+			  }*/
 		 return $songResults;
 		}
 		
@@ -395,7 +393,7 @@ class hwd_vs_ajax
 			$songResults 	= hwd_vs_ajax::getLocationEvents();
 			}	  
 		/*echo '<pre>';
-		var_dump($oJsongResults);
+		var_dump(json_decode($songResults));
 		echo '</pre>';
 		//var_dump($songResults);*/
 		echo $songResults;
