@@ -14,18 +14,13 @@
 
 		  <!--<li id="myalerts"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYALERTS} </a><span class="mleft6"><i class="icon-bell"></i> <span class="fontred">(0) New</span></span></li>	-->
 
-		  <li id="myvideos">
-			<a href="index.php?option=com_hwdvideoshare&task=yourvideos&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYVIDEOS}</a>
-			<ul class="mtop6">
-				<li id="myvideoscreated"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYVIDEOSICREATED}</a></li>
-				<li id="myvideosshared"><a href="index.php?option=com_hwdvideoshare&task=yourvideosshared&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYVIDEOSISHARED}</a></li>
-				<li class="divider"></li>
-				<!--<li id="myplaylists"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYPLAYLISTS}</a></li>-->
-				{if $showown eq 'yes'}<li id="mylearnlater"><a href="index.php?option=com_hwdvideoshare&task=yourlearnlater&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYLEARNLATER}</a></li>{/if}
-				{if $showown eq 'yes'}<li id="myfavourites"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYFAVOURITES}</a></li>{/if}
-				{if $showown eq 'yes'}<li id="videosiliked"><a href="index.php?option=com_hwdvideoshare&task=videosilike&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_VIDEOSILIKED}</a></li>{/if}
-			</ul>
-		  </li>
+			<li id="myvideoscreated"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYVIDEOSICREATED}</a></li>
+			<li id="myvideosshared"><a href="index.php?option=com_hwdvideoshare&task=yourvideosshared&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYVIDEOSISHARED}</a></li>
+			<!--<li id="myplaylists"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYPLAYLISTS}</a></li>-->
+			{if $showown eq 'yes'}<li id="mylearnlater"><a href="index.php?option=com_hwdvideoshare&task=yourlearnlater&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYLEARNLATER}</a></li>{/if}
+			{if $showown eq 'yes'}<li id="myfavourites"><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_MYFAVOURITES}</a></li>{/if}
+			{if $showown eq 'yes'}<li id="videosiliked"><a href="index.php?option=com_hwdvideoshare&task=videosilike&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_VIDEOSILIKED}</a></li>{/if}
+		
 
 		  <!--<li id="profilecomments"><a href="index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang={$lang}&guid={$user_id}">{$smarty.const._HWDVIDS_SHIGARU_PROFILECOMMENTS}</a></li>-->
 

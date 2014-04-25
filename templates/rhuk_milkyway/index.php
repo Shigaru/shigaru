@@ -112,14 +112,14 @@ var currentLang = "<?php echo $currentLang ?>";
 								echo $user->username;
 								echo '</span> <span class="icon-caret-down"></span></a>';
 								echo '<ul class="dropdown-menu">
-											<li><a href="index.php?option=com_comprofiler&Itemid=53&lang='.$currentLang.'"><span class="icon-user-md"></span>View Profile</a></li>
-											<li><a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails&lang='.$currentLang.'"><span class="icon-edit"></span>Edit Profile</a></li>
-											<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox&lang='.$currentLang.'"><span class="icon-envelope"></span>Inbox</a></li>
+											<li><a href="index.php?option=com_comprofiler&Itemid=53&lang='.$currentLang.'"><span class="icon-user-md"></span> '. JText::_('HWDVIDS_SHIGARU_VIEWPROFILE').'</a></li>
+											<li><a href="index.php?option=com_comprofiler&Itemid=53&task=userDetails&lang='.$currentLang.'"><span class="icon-edit"></span> '. JText::_('HWDVIDS_SHIGARU_EDITPROFILE').'</a></li>
+											<li><a href="index.php?option=com_uddeim&Itemid=&task=inbox&lang='.$currentLang.'"><span class="icon-envelope"></span> '. JText::_('HWDVIDS_SHIGARU_MESSAGES').'</a></li>
 											<li class="divider"></li>
 											<li><a href="index.php?option=com_hwdvideoshare&task=yourvideos&lang='.$currentLang.'&guid='.$user->id.'"><span class="icon-headphones"></span>My Videos</a></li>
 											<li><a href="index.php?option=com_hwdvideoshare&task=yourfavourites&lang='.$currentLang.'&guid='.$user->id.'"><span class="icon-heart"></span>Videos I liked</a></li>
 											<li class="divider"></li>
-											<li><a href="index.php?option=com_comprofiler&task=logout&lang='.$currentLang.'&guid='.$user->id.'"><span class="icon-off"></span>Logout</a></li>
+											<li><a href="index.php?option=com_comprofiler&task=logout&lang='.$currentLang.'&guid='.$user->id.'"><span class="icon-off"></span> '. JText::_('HWDVIDS_SHIGARU_LOGOUT').'</a></li>
 										  </ul>';
 								echo '</div>';
 								

@@ -479,7 +479,7 @@ DEFINE ('_UDDEADM_MOOTOOLS_2', 'forzar carga de MooTools 1.2');
 DEFINE ('_UDDEADM_CFGFILE_CONVERTING_1', '...confirguando valor por omisión para MooTools');
 DEFINE ('_UDDEADM_AGORA', 'Agora');
 
-/ New: 1.2
+// New: 1.2
 DEFINE ('_UDDEADM_CRYPT3', 'Coficiación Base64');
 DEFINE ('_UDDEADM_TIMEZONE_HEAD', 'Ajustar zona horaria');
 DEFINE ('_UDDEADM_TIMEZONE_EXP', 'Cuando uddeIM muestra mal el horario puedes ajustar la zona horaria aquí. Usualmente, cuando todo se configura correctamente este valor debe ser 0, pero de todos modos puede haber casos raros donde necesites modificar este valor.');
@@ -857,6 +857,7 @@ DEFINE ('_UDDEIM_NOMESSAGES_INBOX', '<strong>No hay mensajes en tu bandeja de en
 DEFINE ('_UDDEIM_NOMESSAGES_OUTBOX', '<strong>No hay mensajes en tu bandeja de salida.</strong>');
 DEFINE ('_UDDEIM_NOMESSAGES_TRASHCAN', '<strong>No hay mensajes en tu papelera.</strong>');
 DEFINE ('_UDDEIM_INBOX', 'Bandeja de entrada');
+DEFINE ('_UDDEIM_MESSAGES', 'Mensajes');
 DEFINE ('_UDDEIM_OUTBOX', 'Bandeja de salida');
 DEFINE ('_UDDEIM_TRASHCAN', 'Papelera');
 DEFINE ('_UDDEIM_CREATE', 'Nuevo mensaje');

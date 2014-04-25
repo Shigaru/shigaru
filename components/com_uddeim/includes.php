@@ -480,84 +480,77 @@ function uddeIMprintMenu($myself, $uddeaction, $item_id, $config) {
 	$pathtosite = uddeIMgetPath('live_site');
 	$my_gid = $config->usergid;
 
-	// write the uddeim title
-	if ($config->showtitle)
-		echo "<div class='contentheading'>".$config->showtitle."</div>";
+
+	echo "<div class='contentheading fontbold f150 pad12'>"._UDDEIM_MESSAGES."</div>";
 
 	if ($config->showmenuicons==3)
 		return;
 
 	// write the uddeim menu
-	echo "\n<div id='uddeim-navbar2'><ul>\n";
+	echo "\n<div id='uddeim-navbar2' class=\"btn-group\">\n";
 
 	if ( $config->enablepostbox ) {
 		$cnt = "";
 		if ($config->showmenucount)
 			$cnt = " (".uddeIMgetInboxCount($myself, 0, true, 0)."/".uddeIMgetInboxCount($myself)."/".uddeIMgetOutboxCount($myself).")";
 		if ($uddeaction=="postbox") {
-			echo "<li class='uddeim-activemenu'><span>";
+			echo "<div class='active btn'><span>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_inbox.gif' alt='"._UDDEIM_POSTBOX."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_POSTBOX;
 			echo $cnt;
-			echo "</span></li>\n";
+			echo "</span></div>\n";
 		} else {
-			echo "<li>";
-			echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=postbox&Itemid=".$item_id)."'>";
+			echo "<a class=\"btn\" href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=postbox&Itemid=".$item_id)."'>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_inbox.gif' border='0' alt='"._UDDEIM_POSTBOX."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_POSTBOX;
 			echo $cnt;
 			echo "</a>";
-			echo "</li>\n";
 		}
 	} else {
 		$cnt = "";
 		if ($config->showmenucount)
 			$cnt = " (".uddeIMgetInboxCount($myself, 0, true, 0)."/".uddeIMgetInboxCount($myself).")";
 		if ($uddeaction=="inbox") {
-			echo "<li class='uddeim-activemenu'><span>";
+			echo "<div class='active btn'><span>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_inbox.gif' alt='"._UDDEIM_INBOX."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_INBOX;
 			echo $cnt;
-			echo "</span></li>\n";
+			echo "</span></div>\n";
 		} else {
-			echo "<li>";
-			echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=inbox&Itemid=".$item_id)."'>";
+			echo "<a class=\"btn\" href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=inbox&Itemid=".$item_id)."'>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_inbox.gif' border='0' alt='"._UDDEIM_INBOX."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_INBOX;
 			echo $cnt;
 			echo "</a>";
-			echo "</li>\n";
 		}
 
 		$cnt = "";
 		if ($config->showmenucount)
 			$cnt = " (".uddeIMgetOutboxCount($myself).")";
 		if ($uddeaction=="outbox") {
-			echo "<li class='uddeim-activemenu'><span>";
+			echo "<div class='active btn'><span>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_outbox.gif' alt='"._UDDEIM_OUTBOX."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_OUTBOX;
 			echo $cnt;
-			echo "</span></li>\n";
+			echo "</span></div>\n";
 		} else {
-			echo "<li>";
-			echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=outbox&Itemid=".$item_id)."'>";
+			echo "<a class=\"btn\" href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=outbox&Itemid=".$item_id)."'>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_outbox.gif' border='0' alt='"._UDDEIM_OUTBOX."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_OUTBOX;
 			echo $cnt;
 			echo "</a>";
-			echo "</li>\n";
 		}
 	}
 
@@ -569,26 +562,24 @@ function uddeIMprintMenu($myself, $uddeaction, $item_id, $config) {
 		$cnt = " (".uddeIMgetTrashcanCount($myself, $timeframe).")";
 	}
 	if ($uddeaction=="trashcan") {
-		echo "<li class='uddeim-activemenu'><span>";
+		echo "<div class='active btn'><span>";
 		if ($config->showmenuicons==1 || $config->showmenuicons==2)
 			echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_trashcan.gif' alt='"._UDDEIM_TRASHCAN."' />";
 		if ($config->showmenuicons==0 || $config->showmenuicons==1)
 			echo _UDDEIM_TRASHCAN;
 		echo $cnt;
-		echo "</span></li>\n";
+		echo "</span></div>\n";
 	} else {
 		if( ($config->trashrestriction==0) ||
 			($config->trashrestriction==1 && uddeIMisSpecial($my_gid)) || 
 			($config->trashrestriction==2 && uddeIMisAdmin($my_gid)) ) {
-			echo "<li>";
-			echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=trashcan&Itemid=".$item_id)."'>";
+			echo "<a class=\"btn\" href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=trashcan&Itemid=".$item_id)."'>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_trashcan.gif' border='0' alt='"._UDDEIM_TRASHCAN."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_TRASHCAN;
 			echo $cnt;
 			echo "</a>";
-			echo "</li>\n";
 		}
 	}
 
@@ -596,59 +587,55 @@ function uddeIMprintMenu($myself, $uddeaction, $item_id, $config) {
 	if ($config->showmenucount)
 		$cnt = " (".uddeIMgetArchiveCount($myself).")";
 	if ($uddeaction=="archive") {
-		echo "<li class='uddeim-activemenu'><span>";
+		echo "<div class='active btn'><span>";
 		if ($config->showmenuicons==1 || $config->showmenuicons==2)
 			echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_archive.gif' alt='"._UDDEIM_ARCHIVE."' />";
 		if ($config->showmenuicons==0 || $config->showmenuicons==1)
 			echo _UDDEIM_ARCHIVE;
 		echo $cnt;
-		echo "</span></li>\n";
+		echo "</span></div>\n";
 	} else {
 		if ($config->allowarchive) {
-			echo "<li>";
-			echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=archive&Itemid=".$item_id)."'>";
+			echo "<a class=\"btn\" href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=archive&Itemid=".$item_id)."'>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_archive.gif' border='0' alt='"._UDDEIM_ARCHIVE."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_ARCHIVE;
 			echo $cnt;
 			echo "</a>";
-			echo "</li>\n";
 		}
 	}
 
 	if ($uddeaction=="lists") {
-		echo "<li class='uddeim-activemenu'><span>";
+		echo "<div class='active btn'><span>";
 		if ($config->showmenuicons==1 || $config->showmenuicons==2)
 			echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_book.gif' alt='"._UDDEIM_LISTS."' />";
 		if ($config->showmenuicons==0 || $config->showmenuicons==1)
 			echo _UDDEIM_LISTS;
-		echo "</span></li>\n";
+		echo "</span></div>\n";
 	} else {
 		if($config->allowmultiplerecipients &&
 		   (($config->enablelists==1) ||
 			($config->enablelists==2 && uddeIMisSpecial($my_gid)) || 
 			($config->enablelists==3 && uddeIMisAdmin($my_gid)) )
 		  ) {
-			echo "<li>";
-			echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=showlists&Itemid=".$item_id)."'>";
+			echo "<a class=\"btn\" href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=showlists&Itemid=".$item_id)."'>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_book.gif' border='0' alt='"._UDDEIM_LISTS."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_LISTS;
 			echo "</a>";
-			echo "</li>\n";
 		}
 	}
 
 	if ($uddeaction=="settings") {
 		if ($config->showsettingslink==1) {
-			echo "<li class='uddeim-activemenu'><span>";
+			echo "<div class='active btn'><span>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_settings.gif' alt='"._UDDEIM_SETTINGS."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_SETTINGS;
-			echo "</span></li>\n";
+			echo "</span></div>\n";
 		}
 	} else {
 		$showsettings = 0;
@@ -664,35 +651,31 @@ function uddeIMprintMenu($myself, $uddeaction, $item_id, $config) {
 				$showsettings = 1;
 		}
 		if ($showsettings) {
-			echo "<li>";
-			echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=settings&Itemid=".$item_id)."'>";
+			echo "<a class=\"btn\" href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=settings&Itemid=".$item_id)."'>";
 			if ($config->showmenuicons==1 || $config->showmenuicons==2)
 				echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_settings.gif' border='0' alt='"._UDDEIM_SETTINGS."' />";
 			if ($config->showmenuicons==0 || $config->showmenuicons==1)
 				echo _UDDEIM_SETTINGS;
 			echo "</a>";
-			echo "</li>\n";
 		}
 	}
 
 	if ($uddeaction=="new") {
-		echo "<li class='uddeim-activemenu'><span>";
+		echo "<div class='active btn'><span>";
 		if ($config->showmenuicons==1 || $config->showmenuicons==2)
 			echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_new.gif' alt='"._UDDEIM_COMPOSE."' />";
 		if ($config->showmenuicons==0 || $config->showmenuicons==1)
 			echo _UDDEIM_COMPOSE;
-		echo "</span></li>\n";
+		echo "</span></div>\n";
 	} else {
-		echo "<li>";
-		echo "<a href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=new&Itemid=".$item_id)."'>";
+		echo "<a class=\"btn\" href='".uddeIMsefRelToAbs("index.php?option=com_uddeim&task=new&Itemid=".$item_id)."'>";
 		if ($config->showmenuicons==1 || $config->showmenuicons==2)
 			echo "<img src='".$pathtosite."/components/com_uddeim/templates/".$config->templatedir."/images/menu_new.gif' border='0' alt='"._UDDEIM_COMPOSE."' />";
 		if ($config->showmenuicons==0 || $config->showmenuicons==1)
 			echo _UDDEIM_COMPOSE;
 		echo "</a>";
-		echo "</li>\n";
 	}
-	echo "</ul></div>\n";
+	echo "</div>\n";
 }
 
 function uddeIMcontentBottomborder($myself, $item_id, $uddemenucontent, $messagetotal, $config) {
@@ -1944,10 +1927,10 @@ function uddeIMdrawWriteform($myself, $my_gid, $item_id, $backto, $recipname, $p
 
 	// ================================== SEND BUTTON ==============================
 
-	echo "<div class='uddeim-sendbutton'>";
+	echo "<div class='uddeim-sendbutton clearfix w50'>";
 	// when going back one page (history(-1)) the button stays disabled
     // echo "<input type='submit' name='reply' class='button' onclick=\"this.disabled=true;this.value='"._UDDEIM_PROCESSING."';this.form.submit();\" value='"._UDDEIM_SUBMIT."' /> ";
-    echo "<input type='submit' name='reply' class='button' value='"._UDDEIM_SUBMIT."' /> ";
+    echo "<button type='submit' name='reply' class='fright btn f200 btn-danger'  > <i class=\"icon-repeat\"></i>  "._UDDEIM_SUBMIT."</button>";
 	echo "</div>";
 
 	echo "</form>\n";

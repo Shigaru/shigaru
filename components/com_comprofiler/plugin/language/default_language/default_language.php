@@ -228,7 +228,7 @@ DEFINE('_UE_REQUIRED_ERROR','This field is required!');
 DEFINE('_UE_FIELD_REQUIRED',' Required!');
 DEFINE('_UE_DELETE_AVATAR','Remove Image');
 
-DEFINE('_UE_INBOX','Inbox');
+DEFINE('_UE_INBOX','Messages');
 DEFINE('_UE_ACCOUNTSETTINGS','Account Settings');
 DEFINE('_UE_PROFILEOPTIONS','Profile Options');
 
@@ -1774,7 +1774,7 @@ DEFINE('_UE_SEX','Sex');
 DEFINE('_UE_SEXMALE','Male');
 DEFINE('_UE_SEXFEMALE','Female');
 DEFINE('_UE_SEXYESPLEASE','Yes please!');
-DEFINE('_UE_SHIGARU_MYVIDEOS','My videos');
+DEFINE('_UE_SHIGARU_MYVIDEOS','My Shared Videos');
 DEFINE('_UE_SHIGARU_SHAREVIDEO','Share a video');
 // IMPORTANT WARNING: The closing tag, "?" and ">" has been intentionally omitted - CB works fine without it.
 // This was done to avoid errors caused by custom strings being added after the closing tag. ]

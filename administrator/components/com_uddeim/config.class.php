@@ -19,7 +19,7 @@ if (defined('_uddeConfig')) {
   var $emn_forgetmenot = '';
   var $export_format = '';
   var $showtitle = 'Shigaru e-mail account';
-  var $templatedir = 'monoblue';
+  var $templatedir = 'modernblue';
   var $quotedivider = '__________';
   var $blockgroups = '';
   var $pubblockgroups = '';
@@ -59,7 +59,7 @@ if (defined('_uddeConfig')) {
   var $maxarchive = 100;
   var $allowcopytome = 1;
   var $trashoriginal = 1;
-  var $perpage = 8;
+  var $perpage = 12;
   var $enabledownload = 0;
   var $inboxlimit = 0;
   var $showinboxlimit = 0;
@@ -69,10 +69,10 @@ if (defined('_uddeConfig')) {
   var $animated = 0;
   var $animatedex = 0;
   var $showmenuicons = 1;
-  var $bottomlineicons = 1;
-  var $actionicons = 1;
+  var $bottomlineicons = 0;
+  var $actionicons = 0;
   var $showconnex = 1;
-  var $showsettingslink = 2;
+  var $showsettingslink = 1;
   var $showabout = 0;
   var $emailtrafficenabled = 0;
   var $getpiclink = 0;
@@ -140,7 +140,7 @@ if (defined('_uddeConfig')) {
   var $showlistattachment = 1;
   var $showmenucount = 0;
   var $encodeheader = 0;
-  var $enablesort = 0;
+  var $enablesort = 1;
   var $captchatype = 0;
   var $unprotectdownloads = 0;
   var $waitdays = 0;

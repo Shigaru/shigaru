@@ -847,6 +847,7 @@ DEFINE ('_UDDEIM_NOMESSAGES_INBOX', 'You have no messages in your inbox.');
 DEFINE ('_UDDEIM_NOMESSAGES_OUTBOX', 'You have no messages in your outbox.');
 DEFINE ('_UDDEIM_NOMESSAGES_TRASHCAN', 'You have no messages in your trashcan.');
 DEFINE ('_UDDEIM_INBOX', 'Inbox');
+DEFINE ('_UDDEIM_MESSAGES', 'Messages');
 DEFINE ('_UDDEIM_OUTBOX', 'Outbox');
 DEFINE ('_UDDEIM_TRASHCAN', 'Trashcan');
 DEFINE ('_UDDEIM_FROM', 'From');
