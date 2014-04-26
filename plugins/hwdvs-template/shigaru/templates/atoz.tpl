@@ -15,14 +15,14 @@
 				<div class="clearfix"> 
 					<div class="fleft"><i class="icon-sort-by-alphabet f120"></i> </div>
 					<ul class="fleft mleft20">
-						<li class="fleft mright12 {if $songorband eq 'band'}{/if}">	
-							<h5 class=""><a href="{$bandsurl}" clas="fontblue" title=""><span class="fontbold fontblue f120" >{$smarty.const._HWDVIDS_SHIGARU_AZBANDSTEXT}</span> ({$totalbands})</a></h5>
+						<li class="fleft mright12 ">	
+							<h5 class=""><a href="{$bandsurl}" title=""><span class="fontbold {if $songorband eq 'band'}fontblue{/if} f120" >{$smarty.const._HWDVIDS_SHIGARU_AZBANDSTEXT}</span> ({$totalbands})</a></h5>
 						</li>
 						<li class="fleft">	
 							|
 						</li>
 						<li class="fleft {if $songorband eq 'song'}{/if} mleft12">
-							<h5 class=""><a href="{$songsurl}" title=""><span class="fontbold f120" > {$smarty.const._HWDVIDS_SHIGARU_AZSONGSTEXT}</span> ({$totalsongs})</a></h5>
+							<h5 class=""><a href="{$songsurl}" title=""><span class="fontbold {if $songorband eq 'song'}fontblue{/if} f120" > {$smarty.const._HWDVIDS_SHIGARU_AZSONGSTEXT}</span> ({$totalsongs})</a></h5>
 						</li>
 						
 					</ul>		

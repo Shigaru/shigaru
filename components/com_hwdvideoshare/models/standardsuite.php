@@ -548,7 +548,8 @@ $app = & JFactory::getApplication();
      * @return       Nothing
      */
 	function atozbands()	{
-		hwd_vs_html::atozbands();
+		$counts = hwd_vs_standard::atozcounts();
+		hwd_vs_html::atozbands($counts);
 		return;
 		}
 

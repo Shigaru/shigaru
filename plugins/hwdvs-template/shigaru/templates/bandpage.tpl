@@ -18,50 +18,13 @@
 </script>
 <div class="workarea">
 	<div class="workarea_wrapper clearfix mbot30">
-		<div class="fleft">
-			{if $band->album_thumb neq ''}
-			<img src="{$band->album_thumb}" width="200" height="200"/>
-			{else}
-			<img src="templates/rhuk_milkyway/images/vinyl-icon_big.png" width="200" height="200"/>
-			{/if}
-			<div class="w330 mtop20">
-					<div>
-						<h5 class="fontbold mbot20"><i class="icon-bookmark fontsig f150"></i> {$smarty.const._HWDVIDS_SHIGARU_BANDMOREINFO} {$band->band_name}</h5>
-						<div id="bandinfo" class="f80">
-							<div class="f80 loadingcontent" style="line-height:250px">
-								<i class="icon-spinner icon-spin"></i> Loading...
-							</div>
-						</div>
-						<h5 class="fontbold mtop20 mbot20"><i class="icon-ticket fontsig f150"></i> <span id="inyourarea" class="dispnon">{$smarty.const._HWDVIDS_SHIGARU_EVENTSINYOURAREA}</span><span id="forthisband">{$smarty.const._HWDVIDS_SHIGARU_BANDEVENTS}  {$band->band_name}</span></h5>
-						<span id="inyourareaexplain" class="dispnon"><i class="icon-info-sign fontblue"></i> <span class="f80">{$smarty.const._HWDVIDS_SHIGARU_NOBANDEVENTS} {$band->band_name} {$smarty.const._HWDVIDS_SHIGARU_NOBANDEVENT2}</span></span>
-						<div id="bandevents" class="f80 mtop12">
-							<div class="f80 loadingcontent" style="line-height:250px">
-								<i class="icon-spinner icon-spin"></i> Loading...
-							</div>
-						</div>
-					</div>
-					<div class="mtop20 mleft20">
-						<script type="text/javascript"><!--
-						google_ad_client = "ca-pub-1916456389191969";
-						/* search_module */
-						google_ad_slot = "7689083467";
-						google_ad_width = 160;
-						google_ad_height = 600;
-						//-->
-						</script>
-						<script type="text/javascript"
-						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-						</script>
-					</div>
-				</div>
-				
-		</div>
-		<div class="mleft20 fleft w67">
+		
+		<div class="fleft w67">
 			<div>
 				<h3 class="fontbold f150">{$band->band_name}</h3>
 			</div>
 			<div class="clearfix">
-				<div class="f80 mtop20">
+				<div class="mtop20">
 					<div>
 						<h5>{$smarty.const._HWDVIDS_SHIGARU_RELATEDVIDEOS}</h5>
 						<div id="resultwrapper">
@@ -100,6 +63,46 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="mleft20 fleft">
+			{if $band->album_thumb neq ''}
+			<img src="{$band->album_thumb}" width="200" height="200"/>
+			{else}
+			<img src="templates/rhuk_milkyway/images/vinyl-icon_big.png" width="200" height="200"/>
+			{/if}
+			<div class="w330 mtop20">
+					<div>
+						<h5 class="fontbold mbot20"><i class="icon-bookmark fontsig f150"></i> {$smarty.const._HWDVIDS_SHIGARU_BANDMOREINFO} {$band->band_name}</h5>
+						<div id="bandinfo" class="f80">
+							<div class="f80 loadingcontent" style="line-height:250px">
+								<i class="icon-spinner icon-spin"></i> Loading...
+							</div>
+						</div>
+						<h5 class="fontbold mtop20 mbot20"><i class="icon-ticket fontsig f150"></i> <span id="inyourarea" class="dispnon">{$smarty.const._HWDVIDS_SHIGARU_EVENTSINYOURAREA}</span><span id="forthisband">{$smarty.const._HWDVIDS_SHIGARU_BANDEVENTS}  {$band->band_name}</span></h5>
+						<span id="inyourareaexplain" class="dispnon"><i class="icon-info-sign fontblue"></i> <span class="f80">{$smarty.const._HWDVIDS_SHIGARU_NOBANDEVENTS} {$band->band_name} {$smarty.const._HWDVIDS_SHIGARU_NOBANDEVENT2}</span></span>
+						<div id="bandevents" class="f80 mtop12">
+							<div class="f80 loadingcontent" style="line-height:250px">
+								<i class="icon-spinner icon-spin"></i> Loading...
+							</div>
+						</div>
+					</div>
+					<div class="mtop20 mleft20">
+						<script type="text/javascript"><!--
+						google_ad_client = "ca-pub-1916456389191969";
+						/* search_module */
+						google_ad_slot = "7689083467";
+						google_ad_width = 160;
+						google_ad_height = 600;
+						//-->
+						</script>
+						<script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+						</script>
+					</div>
+				</div>
+				
+		</div>
+		
 	<div>
 <div>
 <script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/bandpage.js"></script>

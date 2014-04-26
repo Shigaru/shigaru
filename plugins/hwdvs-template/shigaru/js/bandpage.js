@@ -16,7 +16,7 @@ jQuery(document).ready(function () {
 				cellsByRowCss: [{'border-bottom':'1px dotted gray',fontSize:'100%','padding-top':'0','margin':'-12px 0 0 -12px'}],
 				cellsByRowImgCss: [{ width: "136px"}],
 				straightDownCss: [{height: "140px",fontSize:'120%','border-bottom':'1px dotted gray', 'padding':'4px 2px 2px 0'}],
-				straightDownImgCss: [{width: "122px"}]
+				straightDownImgCss: [{width: "126px"}]
 			
 		});
     function doLoadBandInfo() {
@@ -53,17 +53,13 @@ jQuery(document).ready(function () {
 						markers = data.resultsPage.results.location;	
 						loadScript();		
 					}else{
-							if (navigator.geolocation) {
-								  navigator.geolocation.getCurrentPosition(loadScript, error);
-								} else {
-								  jQuery.each( data.resultsPage.results.event, function( i, item ) {
-									var exturl = jQuery( "<a />" ).attr( "href", item.uri ).attr('target','_blank').append(item.displayName);
-									var whereDiv = jQuery( "<div />" ).addClass().html('@'+item.location.city)
-									if(i%2 != 0)
-										jQuery( "<div />" ).addClass('ac_even').append(exturl).append(whereDiv).appendTo(oBandEventsDiv);
-										else
-											jQuery( "<div />" ).addClass('ac_odd').append(exturl).append(whereDiv).appendTo(oBandEventsDiv);
-								  });
+							if(data.resultsPage.status == 'ok' && data.resultsPage.results.event){
+								jQuery( "<div />" ).attr('id','map-canvas').css({'width':'250px','height':'250px'}).appendTo(oBandEventsDiv);
+								initialPoint = data.resultsPage.results.event[0].location;
+								markers = data.resultsPage.results.event;	
+								loadScript();		
+							}else{
+								jQuery( '#bandevents').hide().prev().hide();
 								}
 								
 						}
@@ -72,55 +68,24 @@ jQuery(document).ready(function () {
             }
         })
     }
-    
-function error(msg) {
-  var s = document.querySelector('#status');
-  s.innerHTML = typeof msg == 'string' ? msg : "failed";
-  s.className = 'fail';
-  
-  // console.log(arguments);
-}   
    
 });
 
 var initialPoint = null;
 var markers = null;
 var map = null;
-var userPosition = null;
 function initialize() {
-  if(!userPosition) {
-	var mapOptions = {
-		zoom: 8,
-		center: new google.maps.LatLng(initialPoint.lat, initialPoint.lng)
-	  };
+  var mapOptions = {
+    zoom: 8,
+    center: new google.maps.LatLng(initialPoint.lat, initialPoint.lng)
+  };
 
-	  map = new google.maps.Map(document.getElementById('map-canvas'),
-		  mapOptions);
-      addMarkers();   
-  }else{
-	  var oBandEventsDiv = jQuery("#bandevents");
-	  jQuery( "<div />" ).attr('id','map-canvas').css({'width':'300px','height':'300px'}).appendTo(oBandEventsDiv);
-	  var latlng = new google.maps.LatLng(userPosition.coords.latitude, userPosition.coords.longitude);
-	  var myOptions = {
-			zoom: 15,
-			center: latlng,
-			mapTypeControl: false,
-			navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-		  };
-		  map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
-		  
-		  var marker = new google.maps.Marker({
-			  position: latlng, 
-			  map: map, 
-			  title:"You are here! (at least within a "+userPosition.coords.accuracy+" meter radius)"
-		  });
-	  }     
-	 
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+  addMarkers();    
 }
 
-function loadScript(position) {
-  userPosition = position;
+function loadScript() {
   var script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +
@@ -128,15 +93,54 @@ function loadScript(position) {
   document.body.appendChild(script);
 }
 
+function addInfoWindow(marker, oInfowindow) {
+	google.maps.event.addListener(marker, 'click', function () {
+		closeAllInfoWindows();
+		oInfowindow.open(map, marker);
+		infoWindows.push(oInfowindow);
+	});
+}
+var infoWindows = [];
+function closeAllInfoWindows() {
+  for (var i=0;i<infoWindows.length;i++) {
+     infoWindows[i].close();
+  }
+}
+
 function addMarkers(){
-	
 	for (var i = 0; i < markers.length; i++) {
             var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(markers[i].city.lat,markers[i].city.lng),
+                position: new google.maps.LatLng(markers[i].location.lat,markers[i].location.lng),
                 map: map,
-                title: markers[i].city.displayName+' ('+markers[i].city.country.displayName+') ',
+                title: markers[i].location.city+' ('+markers[i].displayName+') ',
                 zIndex: i
             });
+            var eventtime = ' (' + markers[i].start.time + ')';
+            var perfomance = '<div><h1 class="fontbold"> * '+markers[i].type+' *   	'+markers[i].location.city	+'</h1>';
+            for (var g = 0; g < markers[i].performance.length; g++){
+				  if(g==0)
+					perfomance += '<div>';
+				  perfomance += '<div><a  class="fontbold" target="_blank"  href="'+markers[i].performance[g].artist.uri+'">'+markers[i].performance[g].artist.displayName+'</a></div>';
+				  
+				  if(g==markers[i].performance.length-1)
+					perfomance += '</div>';
+				}
+            var contentWindow = perfomance+
+			  '</div>'+
+			  ''+
+			  '<div><a target="_blank" href="'+markers[i].uri+'">'+
+			  markers[i].displayName +
+			  '</a></div>'+
+			  '<div><a target="_blank"  href="'+markers[i].venue.uri+'">'+
+			  markers[i].venue.displayName + ' * ' + markers[i].start.date  + eventtime + ' *'+
+			  '</a></div>'+
+			  '<div>';
+			  	  
+			var oInfowindow = new google.maps.InfoWindow({
+			  content: contentWindow
+			});
+             addInfoWindow(marker, oInfowindow);
+			  console.log(markers);
         }
 	
 	}
