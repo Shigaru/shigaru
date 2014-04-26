@@ -140,7 +140,6 @@ function addMarkers(){
 			  content: contentWindow
 			});
              addInfoWindow(marker, oInfowindow);
-			  console.log(markers);
         }
 	
 	}
