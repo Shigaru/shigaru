@@ -15,7 +15,8 @@ jQuery(document).ready(function () {
 						jQuery( "<div />" ).attr('id','map-canvas').css({'width':'250px','height':'250px'}).appendTo(oBandEventsDiv);
 						initialPoint = data.resultsPage.results.event[0].location;
 						markers = data.resultsPage.results.event;	
-						loadScript();		
+						loadScript();
+						jQuery('#largemap').show();		
 					}else{
 						jQuery( '#bandevents').hide().prev().hide();
 						}					
@@ -51,6 +52,7 @@ jQuery(document).ready(function () {
 var initialPoint = null;
 var markers = null;
 var map = null;
+var mapbig = null;
 function initialize() {
   var mapOptions = {
     zoom: 8,
@@ -59,7 +61,17 @@ function initialize() {
 
   map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
-  addMarkers();    
+  addMarkers(map);    
+}
+function initializebig() {
+  var mapOptions = {
+    zoom: 8,
+    center: new google.maps.LatLng(initialPoint.lat, initialPoint.lng)
+  };
+
+  mapbig = new google.maps.Map(document.getElementById('biggermap'),
+      mapOptions);
+  addMarkers(mapbig);    
 }
 
 function loadScript() {
@@ -70,10 +82,10 @@ function loadScript() {
   document.body.appendChild(script);
 }
 
-function addInfoWindow(marker, oInfowindow) {
+function addInfoWindow(marker, oInfowindow,mappar) {
 	google.maps.event.addListener(marker, 'click', function () {
 		closeAllInfoWindows();
-		oInfowindow.open(map, marker);
+		oInfowindow.open(mappar, marker);
 		infoWindows.push(oInfowindow);
 	});
 }
@@ -84,11 +96,32 @@ function closeAllInfoWindows() {
   }
 }
 
-function addMarkers(){
+function addMarkers(mappar){
+	jQuery('#largemap').click(function(e){
+		jQuery.blockUI({
+					message: 	'<div class="shigarunotice"><span id="close"></span>'+	
+									'<div id="biggermap"></div>'+
+								'</div>',
+					css: {
+						top: 20 + "px",
+						left: 20 + "px",
+						height: jQuery(window).height()-40,
+						width: jQuery(window).width()-40,
+						"overflow-y:": "auto"
+					}
+				});
+		 jQuery("#biggermap").css({width:jQuery(window).width()-40,height: jQuery(window).height()-40});
+		 jQuery(".shigarunotice #close").click(function (e) {
+					e.preventDefault();
+					jQuery.unblockUI();
+				});
+		initializebig();
+		e.preventDefault();		
+		});
 	for (var i = 0; i < markers.length; i++) {
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(markers[i].location.lat,markers[i].location.lng),
-                map: map,
+                map: mappar,
                 title: markers[i].location.city+' ('+markers[i].displayName+') ',
                 zIndex: i
             });
@@ -116,7 +149,8 @@ function addMarkers(){
 			var oInfowindow = new google.maps.InfoWindow({
 			  content: contentWindow
 			});
-             addInfoWindow(marker, oInfowindow);
+             addInfoWindow(marker, oInfowindow,mappar);
+             
         }
 	
 	}

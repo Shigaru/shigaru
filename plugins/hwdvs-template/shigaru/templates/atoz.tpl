@@ -98,6 +98,7 @@
 					</div>
 					<div class="clearfix fleft mleft12 w20pc">	
 						<h5 class="fontbold mtop20 mbot20"><i class="icon-ticket fontsig f150"></i> <span id="inyourarea">{$smarty.const._HWDVIDS_SHIGARU_EVENTSINYOURAREA}</span></h5>
+						<a href="#" title="Click on this link to view the map in larger size" class="f80 dispnon" id="largemap">View large map</a>
 						<div id="bandevents" class="f80 mtop12">
 							<div class="f80 loadingcontent" style="line-height:250px">
 								<i class="icon-spinner icon-spin"></i> Loading...
