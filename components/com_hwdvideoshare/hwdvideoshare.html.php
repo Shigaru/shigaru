@@ -157,7 +157,7 @@ class hwd_vs_html
     /**
      *
      */
-    function atoz()
+    function atoz($counts)
     {
 		global $Itemid, $smartyvs;
 		$uri = & JFactory::getURI();
@@ -169,6 +169,8 @@ class hwd_vs_html
 		$domain = JURI::root();
 	    $smartyvs->assign("domain", $domain);
 	    $smartyvs->assign("songorband", 'song');
+	    $smartyvs->assign("totalbands", $counts[0]);
+	    $smartyvs->assign("totalsongs", $counts[1]);
 	    $smartyvs->assign("bandsurl", JRoute::_('index.php?option=com_hwdvideoshare&task=atozbands&lang='.substr($lang->getTag(),0,2)));
 	    $smartyvs->assign("songsurl", JRoute::_('index.php?option=com_hwdvideoshare&task=atoz&lang='.substr($lang->getTag(),0,2)));
 		$smartyvs->display('atoz.tpl');

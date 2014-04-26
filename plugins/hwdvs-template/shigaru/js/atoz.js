@@ -92,18 +92,32 @@ function addMarkers(){
                 title: markers[i].location.city+' ('+markers[i].displayName+') ',
                 zIndex: i
             });
-			var oInfowindow = new google.maps.InfoWindow({
-			  content: '<div id="content">'+
-			  '<div id="siteNotice">'+
+            var eventtime = ' (' + markers[i].start.time + ')';
+            var perfomance = '<div><h1 class="fontbold"> * '+markers[i].type+' *   	'+markers[i].location.city	+'</h1>';
+            for (var g = 0; g < markers[i].performance.length; g++){
+				  if(g==0)
+					perfomance += '<div>';
+				  perfomance += '<div><a  class="fontbold" target="_blank"  href="'+markers[i].performance[g].artist.uri+'">'+markers[i].performance[g].artist.displayName+'</a></div>';
+				  
+				  if(g==markers[i].performance.length-1)
+					perfomance += '</div>';
+				}
+            var contentWindow = perfomance+
 			  '</div>'+
-			  '<h1 id="firstHeading" class="firstHeading">'+markers[i].location.city	+'</h1>'+
-			  '<div id="bodyContent">'+
+			  ''+
+			  '<div><a target="_blank" href="'+markers[i].uri+'">'+
 			  markers[i].displayName +
-			  '</div>'+
-			  '</div>'
+			  '</a></div>'+
+			  '<div><a target="_blank"  href="'+markers[i].venue.uri+'">'+
+			  markers[i].venue.displayName + ' * ' + markers[i].start.date  + eventtime + ' *'+
+			  '</a></div>'+
+			  '<div>';
+			  	  
+			var oInfowindow = new google.maps.InfoWindow({
+			  content: contentWindow
 			});
              addInfoWindow(marker, oInfowindow);
-			  
+			  console.log(markers);
         }
 	
 	}

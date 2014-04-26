@@ -515,14 +515,30 @@ $app = & JFactory::getApplication();
 		
 		}
 	
-	
+	function atozcounts()	{
+		$db = & JFactory::getDBO();
+		$query ='select count(*) FROM #__hwdvidssongs as song,#__hwdvidsvideos AS video, #__hwdvidsalbums as album 
+								WHERE song.id = video.song_id AND TRIM( song.label ) !=  \'\' AND song.album_id != 0 AND song.band_id !=0 
+								AND song.album_id = album.id AND video.published = 1 GROUP BY song.label';
+		$db->setQuery($query);
+         echo $db->getErrorMsg();
+         $totalsongs = count($db->loadResultArray());
+         $query ='select count(*) FROM #__hwdvidsbands as band,#__hwdvidsvideos AS video, #__hwdvidsalbums as album 
+								WHERE band.id = video.band_id AND TRIM( band.label ) !=  \'\' AND album.band_id = band.id 
+								AND video.published = 1 GROUP BY band.label';
+		 $db->setQuery($query);
+         echo $db->getErrorMsg();
+         $totalbands = count($db->loadResultArray());
+		return array ($totalbands,$totalsongs);
+		}
 	/**
      * Call to html component to render A to Z  page
      *
      * @return       Nothing
      */
 	function atoz()	{
-		hwd_vs_html::atoz();
+		$counts = hwd_vs_standard::atozcounts();
+		hwd_vs_html::atoz($counts);
 		return;
 		}
 		

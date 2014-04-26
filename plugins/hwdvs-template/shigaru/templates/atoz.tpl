@@ -12,15 +12,16 @@
 <div class="workarea">
 	<div class="workarea_wrapper clearfix mbot30">	
 			<div class="clearfix">
-				<div class="clearfix">
-					<div class="fleft"><i class="icon-sort-by-alphabet fontsig f300"></i> </div>
+				<div class="clearfix"> 
+					<div class="fleft"><i class="icon-sort-by-alphabet f300"></i> </div>
 					<ul class="fleft mleft20">
-						<li class="fleft {if $songorband eq 'song'}f150{/if} mright24">
-							<h5 class="fontbold f120"><a href="{$songsurl}" title="">{$smarty.const._HWDVIDS_SHIGARU_SONGSTEXT}</a></h5>
+						<li class="fleft {if $songorband eq 'band'}{/if}">	
+							<h5 class="active"><a href="{$bandsurl}" title=""><span class="fontbold f120" >{$smarty.const._HWDVIDS_SHIGARU_AZBANDSTEXT}</span> ({$totalbands})</a> | </h5>
 						</li>
-						<li class="fleft {if $songorband eq 'band'}f150{/if}">	
-							<h5 class="fontbold f120"><a href="{$bandsurl}" title="">{$smarty.const._HWDVIDS_SHIGARU_BANDSTEXT}</a></h5>
+						<li class="fleft {if $songorband eq 'song'}{/if} mright24">
+							<h5 class=""><a href="{$songsurl}" title=""><span class="fontbold" > {$smarty.const._HWDVIDS_SHIGARU_AZSONGSTEXT}</span> ({$totalsongs})</a></h5>
 						</li>
+						
 					</ul>		
 				</div>
 			<div>
