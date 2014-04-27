@@ -356,12 +356,9 @@ class hwd_vs_ajax
 		}
 	
 	function getLocationEvents(){
-		  var_dump('****');
 		  $SongKickURL = 'http://api.songkick.com/api/3.0/events.json?location=ip:'.urlencode($_SERVER['REMOTE_ADDR']).'&apikey=EKOiqRoWeX1ZQ9vZ';
-		  var_dump($SongKickURL);
 		  //$SongKickURL = 'http://api.songkick.com/api/3.0/events.json?location=ip:2.136.83.249&apikey=EKOiqRoWeX1ZQ9vZ';
 		  $gsJson 		= file_get_contents($SongKickURL,0,null,null);
-		  var_dump($gsJson);
 		  $oJsongResults = json_decode($gsJson);
 		  $songResults 	= $gsJson;
 		  /*if($oJsongResults[0][4]){
@@ -376,7 +373,6 @@ class hwd_vs_ajax
 		$item_id 	= JRequest::getVar( 'item_id', '');
 		$songResults 	= null;
 		$band 			= null;
-		var_dump('...........');
 		if($item_id !='all'){
 		  $band 			= hwd_vs_tools::getBandInfo($item_id);	
 		  $SongKickURL = 'http://api.songkick.com/api/3.0/search/artists.json?query='.urlencode($band[0]->band_name).'&apikey=EKOiqRoWeX1ZQ9vZ&per_page=1';
