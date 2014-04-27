@@ -112,6 +112,7 @@ function addMarkers(mappar){
 				});
 		 jQuery("#biggermap").css({width:jQuery(window).width()-40,height: jQuery(window).height()-40});
 		 jQuery(".shigarunotice #close").click(function (e) {
+					delete mapbig;
 					e.preventDefault();
 					jQuery.unblockUI();
 				});
