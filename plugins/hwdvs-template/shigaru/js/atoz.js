@@ -8,17 +8,19 @@ jQuery(document).ready(function () {
      jQuery.ajax({
 			dataType: "json",
             url: 'index.php?option=com_hwdvideoshare&task=ajax_getbandevents&ajax=yes&item_id=all&lang='+currentLang,
-            success: function (data) {
+            success: function (data) {console.log(data);
 				var oBandEventsDiv = jQuery("#bandevents");
 				oBandEventsDiv.empty().show(500,function(){
-					if(data.resultsPage.status == 'ok' && data.resultsPage.results.event){
+					if(data.resultsPage.status == 'ok' && data.resultsPage.results.event){console.log('a');
 						jQuery( "<div />" ).attr('id','map-canvas').css({'width':'250px','height':'250px'}).appendTo(oBandEventsDiv);
 						initialPoint = data.resultsPage.results.event[0].location;
 						markers = data.resultsPage.results.event;	
 						loadScript();
+						jQuery('#forthisband').hide();
+						jQuery('#inyourarea').show();
 						jQuery('#largemap').show();		
-					}else{
-						jQuery( '#bandevents').hide().prev().hide();
+					}else{console.log('b');
+						jQuery( '#bandevents').hide().prev().hide().prev().hide();
 						}					
 				});
             }
@@ -105,8 +107,8 @@ function addMarkers(mappar){
 					css: {
 						top: 20 + "px",
 						left: 20 + "px",
-						height: jQuery(window).height()-40,
-						width: jQuery(window).width()-40,
+						height: jQuery(window).height()-50,
+						width: jQuery(window).width()-50,
 						"overflow-y:": "auto"
 					}
 				});

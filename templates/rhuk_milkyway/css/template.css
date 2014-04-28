@@ -500,7 +500,8 @@ height: 50px;
 width: 50px;
 cursor: pointer;
 margin: -40px -50px 0 0;}
-.blockUI #close{margin: -28px -50px 0 0}
+.blockUI #close{margin: -28px -50px 0 0;position: absolute;
+z-index: 999;}
 #theidea h3{color:#944a4a;font-size:220%;margin:12px 0 30px;}
 #theidea ul li{  min-height: 55px;display: inline-block;
     list-style: none outside none;

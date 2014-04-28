@@ -59,7 +59,7 @@ jQuery(document).ready(function () {
 								markers = data.resultsPage.results.event;	
 								loadScript();		
 							}else{
-								jQuery( '#bandevents').hide().prev().hide();
+								jQuery( '#bandevents').hide().prev().hide().prev().hide();
 								}
 								
 						}
