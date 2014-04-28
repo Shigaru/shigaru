@@ -43,27 +43,22 @@ jQuery(document).ready(function () {
             success: function (data) {
 				oBandEventsDiv.hide().empty();
 				oBandEventsDiv.show(500,function(){
-
-					if(data.resultsPage && data.resultsPage.results.location){
-						jQuery('#forthisband').hide();
-						jQuery('#inyourarea').show();
-						jQuery('#inyourareaexplain').show();
-						jQuery( "<div />" ).attr('id','map-canvas').css({'width':'300px','height':'300px'}).appendTo(oBandEventsDiv);
-						initialPoint = data.resultsPage.results.location[0].city;
-						markers = data.resultsPage.results.location;	
-						loadScript();		
-					}else{
 							if(data.resultsPage.status == 'ok' && data.resultsPage.results.event){
 								jQuery( "<div />" ).attr('id','map-canvas').css({'width':'250px','height':'250px'}).appendTo(oBandEventsDiv);
 								initialPoint = data.resultsPage.results.event[0].location;
-								markers = data.resultsPage.results.event;	
+								markers = data.resultsPage.results.event;
 								loadScript();		
 							}else{
 								jQuery( '#bandevents').hide().prev().hide().prev().hide();
 								}
 								
-						}
-					
+							if(data.resultsPage.clientLocation){
+								jQuery('#forthisband').hide();
+								jQuery('#inyourarea').show();
+							}else{
+								jQuery('#forthisband').show();
+								jQuery('#inyourarea').hide();
+								}					
 				});
             }
         })

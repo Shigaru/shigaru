@@ -212,11 +212,10 @@ class hwd_vs_search
 		}
 		// clean up our search text
 		$text = trim( $query );
-		$searchText = $text;
-		$this->_query = $searchText;
+		$this->_query = $this->_sphinx->escapeString($text);
 		hwd_vs_search::setFilters($level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
 		hwd_vs_search::setLimit($limitstart, $limitv);
-        $result = $this->_sphinx->Query($searchText, $this->_index);
+        $result = $this->_sphinx->Query($this->_query, $this->_index);
        /* echo '<pre>';
 		var_dump($result);
 		echo '</pre>';*/
@@ -252,11 +251,10 @@ class hwd_vs_search
 		}
 		// clean up our search text
 		$text = trim( $query );
-		$searchText = $text;
-		$this->_query = $searchText;
+		$this->_query = $this->_sphinx->escapeString($text);	
 		//hwd_vs_search::setFilters($level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
 		hwd_vs_search::setLimit($limitstart, $limitv);
-        $result = $this->_sphinx->Query($searchText, $this->_index);
+        $result = $this->_sphinx->Query($this->_query, $this->_index);
         /*echo '<pre>';
 		var_dump($result);
 		echo '</pre>';*/
@@ -291,10 +289,10 @@ class hwd_vs_search
 		// clean up our search text
 		$text = trim( $query );
 		$searchText = $text;
-		$this->_query = $searchText;
+		$this->_query = $this->_sphinx->escapeString($searchText);		
 		//hwd_vs_search::setFilters($level_id,$category_id,$genre_id,$language_id,$daterange,$intrument_id,$video_length);
 		hwd_vs_search::setLimit($limitstart, $limitv);
-        $result = $this->_sphinx->Query($searchText, $this->_index);
+        $result = $this->_sphinx->Query($this->_query, $this->_index);
         /*echo '<pre>';
 		var_dump($result);
 		echo '</pre>';*/

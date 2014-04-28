@@ -11,17 +11,16 @@ jQuery(document).ready(function () {
             success: function (data) {console.log(data);
 				var oBandEventsDiv = jQuery("#bandevents");
 				oBandEventsDiv.empty().show(500,function(){
-					if(data.resultsPage.status == 'ok' && data.resultsPage.results.event){console.log('a');
+					if(data.resultsPage.status == 'ok' && data.resultsPage.results.event){
 						jQuery( "<div />" ).attr('id','map-canvas').css({'width':'250px','height':'250px'}).appendTo(oBandEventsDiv);
 						initialPoint = data.resultsPage.results.event[0].location;
 						markers = data.resultsPage.results.event;	
 						loadScript();
-						jQuery('#forthisband').hide();
-						jQuery('#inyourarea').show();
 						jQuery('#largemap').show();		
-					}else{console.log('b');
+					}else{
 						jQuery( '#bandevents').hide().prev().hide().prev().hide();
-						}					
+						}
+					
 				});
             }
         });
@@ -107,12 +106,12 @@ function addMarkers(mappar){
 					css: {
 						top: 20 + "px",
 						left: 20 + "px",
-						height: jQuery(window).height()-50,
-						width: jQuery(window).width()-50,
+						height: jQuery(window).height()-40,
+						width: jQuery(window).width()-40,
 						"overflow-y:": "auto"
 					}
 				});
-		 jQuery("#biggermap").css({width:jQuery(window).width()-40,height: jQuery(window).height()-40});
+		 jQuery("#biggermap").css({width:jQuery(window).width()-50,height: jQuery(window).height()-50,'margin-top':'5px','margin-left':'5px'});
 		 jQuery(".shigarunotice #close").click(function (e) {
 					delete mapbig;
 					e.preventDefault();
