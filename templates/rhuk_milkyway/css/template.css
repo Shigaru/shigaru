@@ -1323,6 +1323,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .tshadowblack{text-shadow: 1px 1px black;}
 .tshadowwhite{text-shadow: 1px 1px #fff;}
 .fontred {color: red;}
+.fontredsig {color:#c6282c;}
 .fontsig {color: #5B485B;}
 .fontblue {color: #0b3768;}
 .fontyellow {color:rgb(254,191,1);}

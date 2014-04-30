@@ -47,18 +47,12 @@ if ($task !== "deliverThumb")
 {
 	hwdvsInitialise::isModerator();
 	hwdvsInitialise::itemid();
-	hwdvsInitialise::mobiles();
 	hwdvsInitialise::background();
 	hwdvsInitialise::language();
 	if (!hwdvsInitialise::template()) {return;}
-	hwdvsInitialise::revenueManager();
 	hwdvsInitialise::mysqlQuery();
 	hwdvsInitialise::definitions();
 	if (!hwd_vs_access::checkAccess($c->gtree_core, $c->gtree_core_child, 1, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORACCESS, _HWDVIDS_ALERT_NOT_AUTHORIZED, 'exclamation.png', 0, "", 0, "core.frontend.access")) {return;}
-	if ($c->loadmootools == "on")
-	{
-		JHTML::_('behavior.mootools');
-	}
 }
 
 // Require the base controller

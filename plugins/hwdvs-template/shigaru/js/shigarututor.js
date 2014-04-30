@@ -1,0 +1,113 @@
+jQuery(document).ready(function () {
+	var oTargetDiv 			= jQuery('#recentactivityvideos');
+	var oTargetDivOthers 	= jQuery('#recentactivityother');
+	var oTargetDivPlaylists	= jQuery('#channelplaylists');
+	jQuery.ajax({
+			dataType: "json",
+            url: 'index.php?option=com_shigarututor&Itemid=83&lang=es&task=getrecentchannelactivity&format=raw&lang='+currentLang,
+            success: function (data) {
+				oTargetDiv.empty();console.log(data);
+				oTargetDivOthers.empty();
+				if(data){
+					jQuery(data.items).each(function(i,e){console.log(e);
+					     var oUrl = 'index.php?option=com_shigarututor&Itemid=83&lang=es&task=gotovideo&video_id='
+						 if(e.snippet.type == 'upload'){
+							var itemContent = '';
+							if(i==0){
+								itemContent += '<div class="fleft clearfix">';
+								itemContent += '<div class="clearfix"><div class="mbot12 clearfix fleft"><a href="'+oUrl+e.contentDetails.upload.videoId+'" class="fleft"><img src="'+e.snippet.thumbnails.medium.url+'" class="fleft"/></a></div>'
+								itemContent += '<div class="fleft w50 clearfix">';
+								itemContent += '<h5 class="fleft mleft12 mbot6"><a href="'+oUrl+e.contentDetails.upload.videoId+'">'+e.snippet.title+'</a></h5>';	
+								}else{
+									var str = e.snippet.title;
+									var res = str.substring(0, 100);
+									if(str.length > 100)
+										res += '...';
+									itemContent += '<div class="fleft w50 clearfix">';
+									itemContent += '<div class="clearfix"><div class="mbot12 clearfix fleft"><a href="'+oUrl+e.contentDetails.upload.videoId+'" class="fleft"><img src="'+e.snippet.thumbnails.default.url+'" class="fleft mtop12"/></a></div>'
+									itemContent += '<div class="fleft w50 clearfix f90">';
+									itemContent +='<h5 class="fleft mleft12 mtop12 mbot6"><a href="'+oUrl+e.contentDetails.upload.videoId+'" class="fleft">'+res+'</a></h5>';	
+								}
+							if(i==0){
+							var str = e.snippet.description;
+							var res = str.substring(0, 350);	
+							itemContent += '<div class="fleft f90 mleft12 mbot12"> '+res+'</div>';	
+							}
+							itemContent += '</div></div>';
+							itemContent += '<div class="fnone clearfix mtopl25"><div class="fright mright12 f90"> shared '+timeSince(new Date(e.snippet.publishedAt))+' ago</div></div>';	
+							itemContent += '</div>';
+							itemContent += '</div>';
+							oTargetDiv.append(itemContent);
+						  }else{
+								var itemContent = '<div class="fleft w30 mleft12 mbot6 clearfix">';
+								var str = e.snippet.title;
+								var res = str.substring(0, 16);
+								itemContent += '<a href="'+e.contentDetails.like.resourceId.videoId+'" title="'+e.snippet.title+'"><img src="'+e.snippet.thumbnails.default.url+'" class="fleft"/>'
+								itemContent += '<h6 class="fleft mtop6">'+res+'...</h6>';	
+								itemContent += '</div>';
+								oTargetDivOthers.append(itemContent);
+							  }	
+						});
+					
+					
+				}					
+            }
+        });
+        
+        jQuery.ajax({
+			dataType: "json",
+            url: 'index.php?option=com_shigarututor&Itemid=83&lang=es&task=getchannelplaylists&format=raw&lang='+currentLang,
+            success: function (data) {
+				oTargetDivPlaylists.empty();
+				console.log(data);
+				if(data){
+					jQuery(data.items).each(function(i,e){
+							console.log(e);
+							var oUrl = 'index.php?option=com_shigarututor&Itemid=83&lang=es&task=gotovideo&video_id='
+							var itemContent = '';
+							var str = e.snippet.title;
+							var res = str.substring(0, 100);
+							if(str.length > 100)
+								res += '...';
+							itemContent += '<div class="fleft w50 clearfix">';
+							itemContent += '<div class="clearfix"><div class="mbot12 clearfix fleft mleft12"><a href="'+oUrl+e.id+'" class="fleft"><img src="'+e.snippet.thumbnails.default.url+'" class="fleft mtop12"/></a></div>'
+							itemContent += '<div class="fleft w40 clearfix f90">';
+							itemContent +='<h5 class="fleft mleft12 mtop12 mbot6"><a href="'+oUrl+e.id+'" class="fleft">'+res+'</a></h5>';	
+							itemContent += '</div></div>';
+							itemContent += '<div class="fnone clearfix mtopl25"><div class="fright mright12 f90"> shared '+timeSince(new Date(e.snippet.publishedAt))+' ago</div></div>';	
+							itemContent += '</div>';
+							itemContent += '</div>';
+							oTargetDivPlaylists.append(itemContent);
+						});
+					
+					
+				}					
+            }
+        });
+        
+        
+        function timeSince(date) {
+			var seconds = Math.floor((new Date() - date) / 1000);
+			var interval = Math.floor(seconds / 31536000);
+			if (interval > 1) {
+				return interval + " years";
+			}
+			interval = Math.floor(seconds / 2592000);
+			if (interval > 1) {
+				return interval + " months";
+			}
+			interval = Math.floor(seconds / 86400);
+			if (interval > 1) {
+				return interval + " days";
+			}
+			interval = Math.floor(seconds / 3600);
+			if (interval > 1) {
+				return interval + " hours";
+			}
+			interval = Math.floor(seconds / 60);
+			if (interval > 1) {
+				return interval + " minutes";
+			}
+			return Math.floor(seconds) + " seconds";
+		}	  
+});
