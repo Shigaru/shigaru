@@ -6,10 +6,10 @@ jQuery(document).ready(function () {
 			dataType: "json",
             url: 'index.php?option=com_shigarututor&Itemid=83&lang=es&task=getrecentchannelactivity&format=raw&lang='+currentLang,
             success: function (data) {
-				oTargetDiv.empty();console.log(data);
+				oTargetDiv.empty();//console.log(data);
 				oTargetDivOthers.empty();
 				if(data){
-					jQuery(data.items).each(function(i,e){console.log(e);
+					jQuery(data.items).each(function(i,e){//console.log(e);
 					     var oUrl = 'index.php?option=com_shigarututor&Itemid=83&lang=es&task=gotovideo&video_id='
 						 if(e.snippet.type == 'upload'){
 							var itemContent = '';
@@ -41,10 +41,11 @@ jQuery(document).ready(function () {
 						  }else{
 								var itemContent = '<div class="fleft w30 mleft12 mbot6 clearfix">';
 								var str = e.snippet.title;
+								str = str.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, ' ');
 								var res = str.substring(0, 16);
-								itemContent += '<a href="'+e.contentDetails.like.resourceId.videoId+'" title="'+e.snippet.title+'"><img src="'+e.snippet.thumbnails.default.url+'" class="fleft"/>'
+								itemContent += '<a href="index.php?option=com_shigarututor&Itemid=83&lang=es&task=gotovideo&video_id='+e.contentDetails.like.resourceId.videoId+'" title="'+str+'"><img src="'+e.snippet.thumbnails.default.url+'" class="fleft"/>'
 								itemContent += '<h6 class="fleft mtop6">'+res+'...</h6>';	
-								itemContent += '</div>';
+								itemContent += '</a></div>';
 								oTargetDivOthers.append(itemContent);
 							  }	
 						});
@@ -52,11 +53,14 @@ jQuery(document).ready(function () {
 						oTargetDiv.find('.videobox a').click(function(e){
 							addLoadingLayer(this);
 						});
+						oTargetDivOthers.find('.fleft.w30 a').click(function(e){
+							addLoadingLayer(this);
+						});
 					
 				}					
             }
         });
-        
+        /*
         jQuery.ajax({
 			dataType: "json",
             url: 'index.php?option=com_shigarututor&Itemid=83&lang=es&task=getchannelplaylists&format=raw&lang='+currentLang,
@@ -86,14 +90,13 @@ jQuery(document).ready(function () {
 				}					
             }
         });
-        
+        */
         function addLoadingLayer($this){
-				var oViedoBox = jQuery($this).closest( ".videobox" );
+				var oViedoBox = (jQuery($this).closest( ".videobox" ).length == 0)?jQuery($this).closest( ".fleft.w30" ):jQuery($this).closest( ".videobox" );
 				oViedoBox.css('background','#F0F0F0');
 				oViedoBox.find('.fleft.f90').empty().append('<div class="mtop20 w100 tcenter f300"><i class="icon-spinner icon-spin"></i></div>');
 				oViedoBox.find('.fnone.mtopl25').empty();
 				oViedoBox.find('img').fadeTo( "fast", 0.33 );
-				
 			}
         
         function timeSince(date) {

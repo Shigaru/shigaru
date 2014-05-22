@@ -122,7 +122,7 @@ var currentLang = "<?php echo $currentLang ?>";
 								
 							}?>
 							 <?php
-								echo '<a class="btn mright12 mtop12 tdecnone f16px btn-danger" href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=upload&lang=".$currentLang).'"> <i class="icon-share"></i> <span class="f12em">'. JText::_('HWDVIDS_SHIGARU_SHAREVIDEO').'</span> </a>';
+								echo '<a class="btn mright12 mtop12 tdecnone f16px btn-danger" href="'.JRoute::_("index.php?option=com_hwdvideoshare&task=upload&lang=".$currentLang).'"> <i class="icon-share"></i> <span class="">'. JText::_('HWDVIDS_SHIGARU_SHAREVIDEO').'</span> </a>';
 							?>
 					</div>
 				</div>

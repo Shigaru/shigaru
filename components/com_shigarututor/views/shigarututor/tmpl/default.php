@@ -23,12 +23,12 @@
 				<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 			</div>
 		</div>
-		<div  class="fright clearfix w40 f90 mtop25">
+		<!--<div  class="fright clearfix w40 f90 mtop25">
 			<h3 class="fontbold mbot12">Playlists</h3>
 			<div id="channelplaylists" class="clearfix">
 				<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 			</div>
-		</div>
+		</div>-->
 	</div>
 	
 </div>
