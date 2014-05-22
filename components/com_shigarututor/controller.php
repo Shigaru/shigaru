@@ -66,10 +66,16 @@ class ShigarututorController extends JController
 	function gotovideo(){
 		  require_once(JPATH_SITE.DS.'components'.DS.'com_shigarututor'.DS.'shigarututor.class.php');
 		  $f = new shigarututorTools;
+		  $url = '';
 		  $video_id = Jrequest::getVar( 'video_id', '' );
 		  $oShigaruVideo = $f->getVideoByExternalId($video_id);
 		  $app = & JFactory::getApplication();
-		  $url = 'index.php?option=com_hwdvideoshare&task=viewvideo&video_id='.$oShigaruVideo->id;
+		  if($oShigaruVideo)
+			$url = 'index.php?option=com_hwdvideoshare&task=viewvideo&video_id='.$oShigaruVideo->id;
+			else{
+					$url = htmlspecialchars($_SERVER['HTTP_REFERER']);
+					JError::raiseNotice( 100, JText::_('NOTYETINSHIGARU'));
+				}
 		  $app->redirect( $url );
 	}
 

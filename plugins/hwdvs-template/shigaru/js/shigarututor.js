@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
 						 if(e.snippet.type == 'upload'){
 							var itemContent = '';
 							if(i==0){
-								itemContent += '<div class="fleft clearfix">';
+								itemContent += '<div class="fleft clearfix videobox">';
 								itemContent += '<div class="clearfix"><div class="mbot12 clearfix fleft"><a href="'+oUrl+e.contentDetails.upload.videoId+'" class="fleft"><img src="'+e.snippet.thumbnails.medium.url+'" class="fleft"/></a></div>'
 								itemContent += '<div class="fleft w50 clearfix">';
 								itemContent += '<h5 class="fleft mleft12 mbot6"><a href="'+oUrl+e.contentDetails.upload.videoId+'">'+e.snippet.title+'</a></h5>';	
@@ -23,7 +23,7 @@ jQuery(document).ready(function () {
 									var res = str.substring(0, 100);
 									if(str.length > 100)
 										res += '...';
-									itemContent += '<div class="fleft w50 clearfix">';
+									itemContent += '<div class="fleft w50 clearfix videobox">';
 									itemContent += '<div class="clearfix"><div class="mbot12 clearfix fleft"><a href="'+oUrl+e.contentDetails.upload.videoId+'" class="fleft"><img src="'+e.snippet.thumbnails.default.url+'" class="fleft mtop12"/></a></div>'
 									itemContent += '<div class="fleft w50 clearfix f90">';
 									itemContent +='<h5 class="fleft mleft12 mtop12 mbot6"><a href="'+oUrl+e.contentDetails.upload.videoId+'" class="fleft">'+res+'</a></h5>';	
@@ -48,7 +48,10 @@ jQuery(document).ready(function () {
 								oTargetDivOthers.append(itemContent);
 							  }	
 						});
-					
+						
+						oTargetDiv.find('.videobox a').click(function(e){
+							addLoadingLayer(this);
+						});
 					
 				}					
             }
@@ -62,7 +65,6 @@ jQuery(document).ready(function () {
 				console.log(data);
 				if(data){
 					jQuery(data.items).each(function(i,e){
-							console.log(e);
 							var oUrl = 'index.php?option=com_shigarututor&Itemid=83&lang=es&task=gotovideo&video_id='
 							var itemContent = '';
 							var str = e.snippet.title;
@@ -85,6 +87,14 @@ jQuery(document).ready(function () {
             }
         });
         
+        function addLoadingLayer($this){
+				var oViedoBox = jQuery($this).closest( ".videobox" );
+				oViedoBox.css('background','#F0F0F0');
+				oViedoBox.find('.fleft.f90').empty().append('<div class="mtop20 w100 tcenter f300"><i class="icon-spinner icon-spin"></i></div>');
+				oViedoBox.find('.fnone.mtopl25').empty();
+				oViedoBox.find('img').fadeTo( "fast", 0.33 );
+				
+			}
         
         function timeSince(date) {
 			var seconds = Math.floor((new Date() - date) / 1000);

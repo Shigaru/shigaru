@@ -10,13 +10,13 @@ class shigarututorTools{
 	  $this->setYoutubeApiKey();
    }
    
-   function setYoutubeApiKey($in){
+   function setYoutubeApiKey(){
 		require_once(JPATH_SITE.DS.'configuration.php');
 		$jconfig = new JConfig();
 		$this->youtubeApiKey = $jconfig->youtubeApiKey;
    }
    
-   function setChannelId($in){
+   function setChannelId(){
       $this->channelId = 'UC_wSoQNCOUjR3rhg6ej_-HQ';
    }
  
@@ -55,14 +55,40 @@ class shigarututorTools{
      */  
 	function getVideoByExternalId($video_id){
 		$db = & JFactory::getDBO();
-		$query = 'SELECT *'
+		$query = 'SELECT video.id'
 				. ' FROM #__hwdvidsvideos AS video'
 				. ' WHERE video.video_id = "'.$video_id.'"';
 		$db->SetQuery($query);
 		$row = $db->loadObject();
-		var_dump($row);
-		var_dump($query);
-		exit;
+		if(!$row)
+			shigarututorTools::sendAlertEmail($video_id);
+		return $row;
+	}
+	
+	private function sendAlertEmail($video_id){
+		$mailer =& JFactory::getMailer();
+		$config =& JFactory::getConfig();
+		$sender = array( 
+			$config->getValue( 'config.mailfrom' ),
+			$config->getValue( 'config.fromname' ) );
+		$mailer->setSender($sender);
+		$recipient = 'murcialito@gmail.com';
+		$mailer->addRecipient($recipient);
+		$body   = "The body string";
+		$mailer->setSubject('Missing video in Shigaru from Youtube Channel');
+		$mailer->setBody($body);
+		$body   = '<h2>https://www.youtube.com/watch?v=</h2>'.$video_id
+	. '<div>The message string'
+	. '<img src="cid:logo_id" alt="logo"/></div>';
+		$mailer->isHTML(true);
+		$mailer->Encoding = 'base64';
+		$mailer->setBody($body);
+		$send =& $mailer->Send();
+		if ( $send !== true ) {
+			echo 'Error sending email: ' . $send->message;
+		} else {
+			echo 'Mail sent';
+		}
 	}
 }
 
