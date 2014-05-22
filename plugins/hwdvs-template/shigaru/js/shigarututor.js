@@ -8,12 +8,14 @@ jQuery(document).ready(function () {
             success: function (data) {
 				oTargetDiv.empty();//console.log(data);
 				oTargetDivOthers.empty();
+				var nextuploadbig = false;
 				if(data){
 					jQuery(data.items).each(function(i,e){//console.log(e);
 					     var oUrl = 'index.php?option=com_shigarututor&Itemid=83&lang=es&task=gotovideo&video_id='
 						 if(e.snippet.type == 'upload'){
 							var itemContent = '';
-							if(i==0){
+							if(i==0 || nextuploadbig){
+								nextuploadbig = false;
 								itemContent += '<div class="fleft clearfix videobox">';
 								itemContent += '<div class="clearfix"><div class="mbot12 clearfix fleft"><a href="'+oUrl+e.contentDetails.upload.videoId+'" class="fleft"><img src="'+e.snippet.thumbnails.medium.url+'" class="fleft"/></a></div>'
 								itemContent += '<div class="fleft w50 clearfix">';
@@ -39,10 +41,14 @@ jQuery(document).ready(function () {
 							itemContent += '</div>';
 							oTargetDiv.append(itemContent);
 						  }else{
+								if(i==0 || nextuploadbig)
+									nextuploadbig = true;
+									else
+										nextuploadbig = false;
 								var itemContent = '<div class="fleft w30 mleft12 mbot6 clearfix">';
 								var str = e.snippet.title;
-								str = str.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, ' ');
 								var res = str.substring(0, 16);
+								str = str.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, ' ');
 								itemContent += '<a href="index.php?option=com_shigarututor&Itemid=83&lang=es&task=gotovideo&video_id='+e.contentDetails.like.resourceId.videoId+'" title="'+str+'"><img src="'+e.snippet.thumbnails.default.url+'" class="fleft"/>'
 								itemContent += '<h6 class="fleft mtop6">'+res+'...</h6>';	
 								itemContent += '</a></div>';
