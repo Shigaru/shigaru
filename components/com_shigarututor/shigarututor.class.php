@@ -72,14 +72,13 @@ class shigarututorTools{
 			$config->getValue( 'config.mailfrom' ),
 			$config->getValue( 'config.fromname' ) );
 		$mailer->setSender($sender);
-		$recipient = 'murcialito@gmail.com';
+		$recipient = array( 'murcialito@gmail.com', 'richyeuro@hotmail.com', 'PovesRJ@state.gov', 'dannypoves@gmail.com' ,'admin@shigaru.com');
 		$mailer->addRecipient($recipient);
 		$body   = "The body string";
 		$mailer->setSubject('Missing video in Shigaru from Youtube Channel');
 		$mailer->setBody($body);
-		$body   = '<h2>https://www.youtube.com/watch?v=</h2>'.$video_id
-	. '<div>The message string'
-	. '<img src="cid:logo_id" alt="logo"/></div>';
+		$body   = '<h4>https://www.youtube.com/watch?v='.$video_id.'</h4>'
+				. 'This video is missing pichones';
 		$mailer->isHTML(true);
 		$mailer->Encoding = 'base64';
 		$mailer->setBody($body);
