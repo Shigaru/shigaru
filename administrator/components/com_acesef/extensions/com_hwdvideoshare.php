@@ -149,6 +149,10 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 									$segments[] = $lang->_strings['_HWDVIDS_SHIGARU_ALBUMSTEXT'];
 									$segments [] = self::_getAlbum(intval($oItemId));
 									}else{
+											if (!empty($oItemId)) {
+												$oVideoName = self::_getVideo(intval($oItemId));
+												$segments [] =$oVideoName[1];
+											}
 										}
 						unset($vars['item_id']);
 						unset($vars['searchoption']);
@@ -160,14 +164,6 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 						unset($vars['video_id']);
 					}
                     break;
-				case 'viewgroup':/*
-					$segments[] = _HWDVS_SEF_GROUPS;
-					
-                    if (!empty($group_id)){
-                        $segments[] = self::_getGroup(intval($group_id));
-						unset($vars['group_id']);
-                    }*/
-                    break;
 				case 'viewPlaylist':
 					$segments[] = JText::_('Playlist');
 					
@@ -176,7 +172,6 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 						unset($vars['playlist_id']);
                     }
                     break;
-				case 'viewchannel':
 				case 'viewChannel':
 					$segments[] = _HWDVIDS_NAV_YOURCHANNEL;
 					
@@ -185,28 +180,7 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 						unset($vars['user_id']);
                     }
                     break;
-				case 'nextvideo':
-					/*$segments[] = _HWDVS_SEF_NV;
-                    if (!empty($category_id) && empty($video_id)) {
-                        $segments = array_merge( $segments, self::_getCategory(intval($category_id)));
-						unset($vars['category_id']);
-					}
-                    if (!empty($video_id)) {
-                        $segments = array_merge( $segments, self::_getVideo(intval($video_id)));
-						unset($vars['video_id']);
-					}*/
-					break;
-				case 'previousvideo':/*
-					$segments[] = _HWDVS_SEF_PV;
-                    if (!empty($category_id) && empty($video_id)) {
-                        $segments = array_merge( $segments, self::_getCategory(intval($category_id)));
-						unset($vars['category_id']);
-					}
-                    if (!empty($video_id)) {
-                        $segments = array_merge( $segments, self::_getVideo(intval($video_id)));
-						unset($vars['video_id']);
-					}
-                    break;*/
+				
 				case 'displayresults':
                     if (!empty($category_id)) {
                         $segments = array_merge( $segments, self::_getCategory(intval($category_id)));

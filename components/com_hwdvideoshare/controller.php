@@ -402,6 +402,7 @@ class UserController extends JController
 	function searchbyoption()
 	{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'models'.DS.'standardsuite.php');
+		
 		hwd_vs_standard::searchbyoption();
 	}
 	

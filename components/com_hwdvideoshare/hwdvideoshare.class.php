@@ -5486,6 +5486,51 @@ $app = & JFactory::getApplication();
 		$srows = $db->loadObjectList();
 		return $srows;
 	}
+	/**
+     * Retrieves the song information stored in DB
+     *
+     * @return       $srows
+     */
+    
+    function getVideoInfo($video_id){
+		
+		global $hwdvs_joinv, $hwdvs_selectv, $smartyvs, $isModerator;
+		$c = hwd_vs_Config::get_instance();
+		$db = & JFactory::getDBO();
+		$my = & JFactory::getUser();
+		$acl= & JFactory::getACL();
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+
+		if (!hwd_vs_access::checkAccess($c->gtree_plyr, $c->gtree_plyr_child, 2, 0, _HWDVIDS_TITLE_NOACCESS, _HWDVIDS_ALERT_REGISTERFORPLYR, _HWDVIDS_ALERT_PLYR_NOT_AUTHORIZED, "exclamation.png", 0, "", 0, "core.frontend.access"))
+		{
+			return;
+		}
+
+        // check video can be viewed by user
+        $where = ' WHERE video.id = '.$video_id;
+		$hwdvs_selectv.=',song_id,band_id,language_id,category_id,genre_id,intrument_id,level_id';
+        $query = 'SELECT'.$hwdvs_selectv
+                . ' FROM #__hwdvidsvideos AS video'
+                . $hwdvs_joinv
+                . $where
+                . ' ORDER BY video.date_uploaded DESC'
+                ;
+        $db->SetQuery($query);
+        $row = $db->loadObject();
+
+		if (!hwd_vs_tools::validateVideoAccess($row))
+		{
+			return;
+		}
+
+        // get view count
+        hwd_vs_tools::logViewing($video_id);
+        require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
+        hwd_vs_recount::recountVideoViews($video_id);
+
+        // send out
+        return $row;
+	}
 	
     /**
      * Generates multilanguage text for Video Genre

@@ -9,7 +9,7 @@ class SphinxAutoComplete {
     function __construct() {
         $pServer		= '127.0.0.1' ;
 		$pPort	 		= (int) 9312 ;
-		$this->_index 	= 'suggestsearched suggestssongs suggestsbands suggestsalbums';
+		$this->_index 	= 'suggestvideosshig suggestssongs suggestsbands suggestsalbums';
         $this->_sphinx 	= new SphinxClient();
         $this->_sphinx->SetServer($pServer, (int) $pPort);
         $this->_sphinx->SetMatchMode(SPH_MATCH_EXTENDED2);
@@ -60,11 +60,11 @@ class SphinxAutoComplete {
 					else
 					$object->source = 'Albums';
 				break;
-				case 'asearchedsource':
+				case 'avideossource':
 					if($qlang == 'en')
-					$object->source = 'Searched'; 
+					$object->source = 'Tutorials'; 
 					else
-					$object->source = 'Buscados'; 
+					$object->source = 'Tutoriales'; 
 					
 				break;
 				} 

@@ -511,6 +511,10 @@ $app = & JFactory::getApplication();
 					$album = hwd_vs_tools::getAlbumInfo($item_id);
 					hwd_vs_html::albumpage($album);
 					break;				
+			case 'avideossource':
+					$row = hwd_vs_tools::getVideoInfo($item_id);
+					hwd_vs_html::viewVideo($row);
+					break;				
 			}
 		
 		}

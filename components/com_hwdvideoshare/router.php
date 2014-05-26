@@ -268,7 +268,6 @@ function hwdVideoShareParseRoute($segments)
 	}
 	return $vars;
 }
-
 if (!function_exists('URLSafe'))
 {
 	function URLSafe($string)
