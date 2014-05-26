@@ -204,19 +204,35 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 					$segments[] = _HWDVIDS_SHIGARU_MYVIDEOSISHARED;
                     break;
 				case 'yourlearnlater':
-					if (!empty($user_id)){
-                        $segments[] = self::_getUser(intval($user_id));
-						unset($vars['user_id']);
+					$oOption = $vars['guid'] ;
+					if (!empty($oOption)){
+                        $segments[] = self::_getUser(intval($oOption));
+						unset($vars['guid']);
                     }
 					$segments[] = _HWDVIDS_T_LEARNLATER;
                     break;
 				case 'aboutme':
+					$oOption = $vars['guid'] ;
+					if (!empty($oOption)){
+                        $segments[] = self::_getUser(intval($oOption));
+						unset($vars['guid']);
+                    }
 					$segments[] = _HWDVIDS_SHIGARU_ABOUTME;
                     break;
 				case 'watchhistory':
+				$oOption = $vars['guid'] ;
+					if (!empty($oOption)){
+                        $segments[] = self::_getUser(intval($oOption));
+						unset($vars['guid']);
+                    }
 					$segments[] = _HWDVIDS_SHIGARU_WATCHHISTORY;
                     break;
 				case 'videosilike':
+					$oOption = $vars['guid'] ;
+					if (!empty($oOption)){
+                        $segments[] = self::_getUser(intval($oOption));
+						unset($vars['guid']);
+                    }
 					$segments[] = _HWDVIDS_SHIGARU_VIDEOSILIKED;
                     break;
 				case 'atoz':
@@ -229,12 +245,27 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 					$segments[] = _HWDVIDS_SHIGARU_ATOZSONGS;
                     break;        
 				case 'yourvideos':
+				$oOption = $vars['guid'] ;
+					if (!empty($oOption)){
+                        $segments[] = self::_getUser(intval($oOption));
+						unset($vars['guid']);
+                    }
 					$segments[] = _HWDVIDS_NAV_YOURVIDS;
                     break;
 				case 'yourvideoscreated':
+					$oOption = $vars['guid'] ;
+					if (!empty($oOption)){
+                        $segments[] = self::_getUser(intval($oOption));
+						unset($vars['guid']);
+                    }
 					$segments[] = _HWDVIDS_NAV_YOURVIDSCREATED;
                     break;
 				case 'yourfavourites':
+					$oOption = $vars['guid'] ;
+					if (!empty($oOption)){
+                        $segments[] = self::_getUser(intval($oOption));
+						unset($vars['guid']);
+                    }
 					$segments[] = _HWDVIDS_NAV_YOURFAVS;
                     break;
 				case 'uploadconfirmperl':
