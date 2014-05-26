@@ -196,9 +196,10 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 					$segments[] = JText::_('Search');*/
                     break;
 				case 'yourvideosshared':
-					if (!empty($user_id)){
-                        $segments[] = self::_getUser(intval($user_id));
-						unset($vars['user_id']);
+					$oOption = $vars['guid'] ;
+					if (!empty($oOption)){
+                        $segments[] = self::_getUser(intval($oOption));
+						unset($vars['guid']);
                     }
 					$segments[] = _HWDVIDS_SHIGARU_MYVIDEOSISHARED;
                     break;
