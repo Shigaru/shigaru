@@ -2922,7 +2922,7 @@ $app = & JFactory::getApplication();
 			}
 			$code.= "<form class=\"fleft\" name=\"report\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
 						  <div class=\"btn-group\">
-							<button type=\"submit\" title=\""._HWDVIDS_T_LEARNLATERTIP."\" id=\"learnlaterbutton\" class=\"btn".$likedclass."\"><i class=\"icon-time".$likediconclass."\"></i> "._HWDVIDS_T_LEARNLATER."</button>
+							<button type=\"submit\" title=\""._HWDVIDS_T_LEARNLATERTIP."\" id=\"learnlaterbutton\" class=\"btn".$likedclass."\"><i class=\"icon-time".$likediconclass."\"></i> "._HWDVIDS_T_LEARNLATERS."</button>
 							<ul class=\"dropdown-menu\">";
 			$code.= "<li class=\"mleft12\">
 										<a class=\"crossclose fright\" title=\""._HWDVIDS_CLICKTOCLOSE."\"><i class=\"icon-remove\"></i></a>
@@ -2932,7 +2932,7 @@ $app = & JFactory::getApplication();
 			}else{
 				$code.= "<form class=\"fleft\" name=\"report\" action=\"".JRoute::_("index.php?option=com_hwdvideoshare&Itemid=".$hwdvsItemid."&task=reportvideo")."\" method=\"post\">
 						  <div class=\"btn-group\">
-							<button type=\"submit\" title=\""._HWDVIDS_T_LEARNLATERTIP."\" id=\"learnlaterbutton\" class=\"btn\"><i class=\"icon-time\"></i> "._HWDVIDS_T_LEARNLATER."</button>
+							<button type=\"submit\" title=\""._HWDVIDS_T_LEARNLATERTIP."\" id=\"learnlaterbutton\" class=\"btn\"><i class=\"icon-time\"></i> "._HWDVIDS_T_LEARNLATERS."</button>
 							<ul class=\"dropdown-menu\">";
 				$code.= "<li><span class=\"pad6\">"._HWDVIDS_META_LOGTOLLTR."</span>";
 				}

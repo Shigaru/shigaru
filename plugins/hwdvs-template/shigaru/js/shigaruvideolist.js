@@ -108,9 +108,9 @@
 				   });;
 			
 			
-			 jQuery('.profileoptions').click(function(e) {
+			 jQuery('.profileoptions .btn').click(function(e) {
 				var $this = jQuery(this);
-				$this.find('ul.dropdown-menu').toggle();
+				$this.parent().find('ul.dropdown-menu').toggle();
 				return false;
 			});
         });

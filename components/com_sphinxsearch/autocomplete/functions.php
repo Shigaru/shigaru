@@ -9,9 +9,11 @@ class SphinxAutoComplete {
     function __construct() {
         $pServer		= '127.0.0.1' ;
 		$pPort	 		= (int) 9312 ;
-		$this->_index 	= 'suggestvideosshig suggestssongs suggestsbands suggestsalbums';
+		$this->_index 	= 'suggestsbands suggestvideosshig suggestssongs suggestsalbums';
         $this->_sphinx 	= new SphinxClient();
         $this->_sphinx->SetServer($pServer, (int) $pPort);
+        $this->_sphinx->SetIndexWeights(array('suggestsbands' => 10, 'suggestvideosshig' => 5, 'suggestssongs' =>10, 'suggestsalbums' => 10));
+        $this->_sphinx->SetRankingMode ( SPH_RANK_PROXIMITY );
         $this->_sphinx->SetMatchMode(SPH_MATCH_EXTENDED2);
         $this->_sphinx->SetSortMode(SPH_SORT_RELEVANCE);
     }
@@ -32,13 +34,14 @@ class SphinxAutoComplete {
 		foreach($result['matches'] as $key => $match) {
 			$arrexc[] = $match["attrs"]["title"];
 		}
-		$excerpts = $this->_sphinx->BuildExcerpts($arrexc, 'suggestsbands', $text);
+		$excerpts = $this->_sphinx->BuildExcerpts($arrexc, 'suggestvideosshig', $text);
 		
 		foreach($result['matches'] as $key => $match) {
 			$object = new StdClass;  
 			$object->data 	= $excerpts[$counter]; 
 			$object->value 	= $match["attrs"]["title"]; 
 			$object->result = $match["attrs"]["title"]; 
+			$object->weight = $match["weight"]; 
 			$object->pic = $match["attrs"]["pic"]; 
 			$object->originalsource = $match["attrs"]["source"]; 
 			switch($match["attrs"]["source"]){

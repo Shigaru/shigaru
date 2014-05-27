@@ -609,6 +609,7 @@ DEFINE("_HWDVIDS_C_GROUPS","%s's groups");
 DEFINE("_HWDVIDS_C_PLAYLISTS","%s's playlists");
 DEFINE("_HWDVIDS_T_PLAYLISTS","Add to Playlist");
 DEFINE("_HWDVIDS_T_LEARNLATER","My \"Learn Later\" Videos");
+DEFINE("_HWDVIDS_T_LEARNLATERS","Learn Later");
 DEFINE("_HWDVIDS_T_LIKE","Like");
 DEFINE("_HWDVIDS_T_LEARNLATERTIP","Click on this button to add this video to your Learn Later list");
 DEFINE("_HWDVIDS_T_LIKETIP","Click on this button if you liked this video!");

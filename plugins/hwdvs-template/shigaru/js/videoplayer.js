@@ -201,8 +201,11 @@ jQuery(document).ready(function () {
     });
     jQuery(".videoactions button.btn").click(function (e) {});
     jQuery("#add2plbutton").click(function (e) {
+		var $this = jQuery(this);
+        $this.next().fadeToggle();
+        $this.parents(".btn-group").toggleClass("open");
         e.preventDefault();
-        jQuery(this).parents(".btn-group").toggleClass("open")
+        e.stopPropagation();	
     });
     jQuery("#learnlaterbutton").click(function (e) {
         e.preventDefault();
