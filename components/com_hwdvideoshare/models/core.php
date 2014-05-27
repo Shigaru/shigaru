@@ -219,7 +219,6 @@ class hwd_vs_core
         hwd_vs_tools::logViewing($video_id);
         require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_hwdvideoshare'.DS.'libraries'.DS.'maintenance_recount.class.php');
         hwd_vs_recount::recountVideoViews($video_id);
-
         // send out
         hwd_vs_html::viewVideo($row);
     }

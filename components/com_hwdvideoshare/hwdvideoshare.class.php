@@ -5868,11 +5868,23 @@ $app = & JFactory::getApplication();
 		}
     
     function getSongPlayer($song_id) {	
+	  $lang = JFactory::getLanguage();	
 	  $songinfo = hwd_vs_tools::getSongInfo($song_id);	
-	 // var_dump(hwdSongkick::request($songinfo[0]->band_name)); 		
-	  $oPlayer = '';
+	  $songthumb = '';		
+	 if($songinfo[0]->source == 'grooveshark')
+		$songthumb = 'templates/rhuk_milkyway/images/vinyl-icon.png';
+			else
+				$songthumb = $songinfo[0]->album_thumb;
+	  $oPlayer ='<div class="clearfix bblack w330 fontwhite">
+							<img class="fleft" src="'.$songthumb.'" alt="'.$songinfo[0]->album_name.'" height="100"/>
+							<div class="fleft w210 mleft12 mtop6 f90">
+								<div class="mbot6"><span class="fontbold">Song:</span> <a class="fontwhite" href="index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=bsongssource&item_id='.$songinfo[0]->songid.'&lang='.substr($lang->getTag(),0,2).'" title="'.$songinfo[0]->songname.'">'.$songinfo[0]->songname.'</a></div>
+								<div class="mbot6"><span class="fontbold">Album:</span> <a class="fontwhite" href="index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=dalbumssource&item_id='.$songinfo[0]->albumid.'&lang='.substr($lang->getTag(),0,2).'" title="'.$songinfo[0]->album_name.'">'.$songinfo[0]->album_name.'</a></div>
+								<div><span class="fontbold">Band:</span> <a class="fontwhite" href="index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=cbandsssource&item_id='.$songinfo[0]->bandid.'&lang='.substr($lang->getTag(),0,2).'" title="'.$songinfo[0]->band_name.'">'.$songinfo[0]->band_name.'</a></div>
+							</div>	
+						</div>';
 	  if($songinfo[0]->source == 'grooveshark'){
-			  $oPlayer ='<object width="330" height="40" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+			  $oPlayer .='<object width="330" height="40" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
 							id="gsSong'.$songinfo[0]->extsongid.'" name="gsSong'.$songinfo[0]->extsongid.'">
 							<param name="movie" value="http://grooveshark.com/songWidget.swf" />
 							<param name="wmode" value="window" />
@@ -5887,15 +5899,7 @@ $app = & JFactory::getApplication();
 							</object>
 						</object>';
 		}else if($songinfo[0]->source == 'rdio'){	
-					  $oPlayer ='
-						<div class="clearfix bblack w330 fontwhite">
-							<img class="fleft" src="'.$songinfo[0]->album_thumb.'" alt="'.$songinfo[0]->album_name.'" height="100"/>
-							<div class="fleft w210 mleft12 mtop6 f90">
-								<div class="mbot6"><span class="fontbold">Song:</span> '.$songinfo[0]->songname.'</div>
-								<div class="mbot6"><span class="fontbold">Album:</span> '.$songinfo[0]->album_name.'</div>
-								<div><span class="fontbold">Band:</span> '.$songinfo[0]->band_name.'</div>
-							</div>	
-						</div>
+					  $oPlayer .='
 						<object width="330" height="40">
 							<param name="movie" value="'.$songinfo[0]->songurl.'"></param>
 							<param name="allowFullScreen" value="true"></param>
