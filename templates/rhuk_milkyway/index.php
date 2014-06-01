@@ -197,7 +197,16 @@ var currentLang = "<?php echo $currentLang ?>";
 					<div class="shigarulogo"></div>
 					 <nav> 
 						<div class="footer_links">
-							
+							<ul class="menu">
+								<li class="active item64"><a href="index.php?option=com_hwdvideoshare&lang=<?php echo $currentLang ?>"><span>Home</span></a></li>
+								<li class="item54"><a href="index.php?option=com_content&Itemid=18&id=47&view=article&lang=<?php echo $currentLang ?>"><span>The Idea</span></a></li>
+								<li class="item57"><a href="index.php?option=com_content&Itemid=57&id=51&view=article&lang=<?php echo $currentLang ?>"><span>About us</span></a></li>
+								<li class="item58"><a href="index.php?option=com_content&Itemid=58&id=48&view=article&lang=<?php echo $currentLang ?>"><span>Privacy Policy</span></a></li>
+								<li class="item59"><a href="index.php?option=com_content&Itemid=59&id=49&view=article&lang=<?php echo $currentLang ?>"><span>Terms of Use</span></a></li>
+								<li class="item60"><a href="index.php?option=com_content&Itemid=60&id=52&view=article&lang=<?php echo $currentLang ?>"><span>Tell a Friend</span></a></li>
+								<li class="item61"><a href="index.php?option=com_content&id=50&view=article&lang=<?php echo $currentLang ?>"><span>Contact us</span></a></li>
+								<li class="item65"><a href="index.php?option=com_content&Itemid=65&id=55&view=article&lang=<?php echo $currentLang ?>"><span>Donate</span></a></li>
+							</ul>
 						</div>
 					</nav>	
 					<div class="copyright">&reg; 2012 Shigaru.com. &copy; All rights reserved. Contact: <a href="mailto:info@shigaru.com">info@shigaru.com</a></div>

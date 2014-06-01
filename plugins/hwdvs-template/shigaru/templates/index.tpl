@@ -176,15 +176,15 @@
 			</div>	
 		<div class="leftcolumn">
 			<div class="content_box video_activity padtop12 mleft12 mright12">
-					<h3>Popular tags</h3>
+					<h3>{$smarty.const._HWDVIDS_SHIGARU_POPULARTAGS}</h3>
 					<div class="video_activity_header">
 						<div>
 							<ul>
-								<li class="selected"><a href="#instruments" title="Click to see popular Instruments">Instruments</a></li>
-								<li><a href="#bands" title="Click to see popular bands">Bands</a></li>
-								<li><a href="#songs" title="Click to see popular Songs">Songs</a></li>
-								<!--<li><a href="#albums" title="Click to see popular Albums">Albums</a></li>-->
-								<li><a href="#genre" title="Click to popular Genres">Genres</a></li>
+								<li class="selected"><a href="#instruments" title="Click to see popular Instruments">{$smarty.const._HWDVIDS_SHIGARU_INSTRUMENTS}</a></li>
+								<li><a href="#bands" title="Click to see popular bands">{$smarty.const._HWDVIDS_SHIGARU_BANDSTEXT}</a></li>
+								<li><a href="#songs" title="Click to see popular Songs">{$smarty.const._HWDVIDS_SHIGARU_SONGSTEXT}</a></li>
+								<!--<li><a href="#albums" title="Click to see popular Albums">{$smarty.const._HWDVIDS_SHIGARU_ALBUMSTEXT}</a></li>-->
+								<li><a href="#genre" title="Click to popular Genres">{$smarty.const._HWDVIDS_SHIGARU_GENRES}</a></li>
 							</ul>
 						</div>
 					</div>
@@ -227,7 +227,7 @@
 		</div>	
 		<div class="rightcolumn mright24">
 			<div class="content_box video_activity padtop12">
-					<h3>Comments</h3>
+					<h3>{$smarty.const._HWDVIDS_INFO_NOCOMM}</h3>
 					<div class="video_activity_header">
 						<div>
 							<ul>
@@ -266,14 +266,14 @@
 	<div class="workarea_wrapper">
 		<div class="content_box padtop12">
 					<div class="content_box video_activity">
-							<h3>Community</h3>
+							<h3>{$smarty.const._HWDVIDS_SHIGARU_COMMUNITY}</h3>
 							<div class="video_activity_header bwhite">
 								<ul>
-									<li class="selected"><a href="#recently" title="Click to see recently online members">Recently Online Members</a></li>
-									<li ><a href="#newusers" title="Click to see new users in Shigaru">New users</a></li>
-									<!--<li><a href="#topvideo" title="Click to see more Songs">Top Video Posters</a></li>
-									<li><a href="#recentstatus" title="Click to see Genres">Recent Status Updates</a></li>-->
-									<li><a href="#recentprofile" title="Click to see recent profile activity">Recent Profile Activity</a></li>
+									<li class="selected"><a href="#recently" title="Click to see recently online members">{$smarty.const._HWDVIDS_SHIGARU_RECENTONLINEM}</a></li>
+									<li ><a href="#newusers" title="Click to see new users in Shigaru">{$smarty.const._HWDVIDS_SHIGARU_NEWUSERS}</a></li>
+									<!--<li><a href="#topvideo" title="Click to see more Songs">{$smarty.const._HWDVIDS_SHIGARU_TOPVIDPOSTERS}</a></li>
+									<li><a href="#recentstatus" title="Click to see Genres">{$smarty.const._HWDVIDS_SHIGARU_RECENTSTATUSUPD}</a></li>-->
+									<li><a href="#recentprofile" title="Click to see recent profile activity">{$smarty.const._HWDVIDS_SHIGARU_RECENTPROFACT}</a></li>
 								</ul>
 							</div>
 							<div class="slidesWrapper">
