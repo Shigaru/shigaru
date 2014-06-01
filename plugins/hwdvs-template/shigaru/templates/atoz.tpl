@@ -16,13 +16,13 @@
 					<div class="fleft"><i class="icon-sort-by-alphabet f120"></i> </div>
 					<ul class="fleft mleft20">
 						<li class="fleft mright12 ">	
-							<h5 class=""><a href="{$bandsurl}" title=""><span class="fontbold {if $songorband eq 'band'}fontblue{/if} f120" >{$smarty.const._HWDVIDS_SHIGARU_AZBANDSTEXT}</span> ({$totalbands})</a></h5>
+							<h5 class="">{if $songorband neq 'band'}<a href="{$bandsurl}" title="">{/if} <span class="fontbold {if $songorband eq 'band'}fontdarkgrey{/if} f120" >{$smarty.const._HWDVIDS_SHIGARU_AZBANDSTEXT}</span> ({$totalbands}){if $songorband neq 'band'}</a>{/if}</h5>
 						</li>
 						<li class="fleft">	
 							|
 						</li>
 						<li class="fleft {if $songorband eq 'song'}{/if} mleft12">
-							<h5 class=""><a href="{$songsurl}" title=""><span class="fontbold {if $songorband eq 'song'}fontblue{/if} f120" > {$smarty.const._HWDVIDS_SHIGARU_AZSONGSTEXT}</span> ({$totalsongs})</a></h5>
+							<h5 class="">{if $songorband neq 'song'}<a href="{$songsurl}" title="">{/if} <span class="fontbold {if $songorband eq 'song'}fontdarkgrey{/if} f120" > {$smarty.const._HWDVIDS_SHIGARU_AZSONGSTEXT}</span> ({$totalsongs}){if $songorband neq 'song'}</a>{/if}</h5>
 						</li>
 						
 					</ul>		

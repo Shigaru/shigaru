@@ -4,11 +4,15 @@ jQuery(document).ready(function () {
 	var oUrl = 'index.php?option=com_hwdvideoshare&task=ajax_getsongsbyfirstletter&ajax=yes&lang='+currentLang+'&letter=';
 		if(songorband == 'band')
 			oUrl = 'index.php?option=com_hwdvideoshare&task=ajax_getbandsbyfirstletter&ajax=yes&lang='+currentLang+'&letter=';
-	loadBandSongs('a');        
+	var aLettters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];    		
+	var rand = aLettters[Math.floor(Math.random() * aLettters.length)];		
+	loadBandSongs(rand);   
+	jQuery('a.page.selected').removeClass('selected');
+	jQuery('a.page.'+rand).addClass('selected');     
      jQuery.ajax({
 			dataType: "json",
             url: 'index.php?option=com_hwdvideoshare&task=ajax_getbandevents&ajax=yes&item_id=all&lang='+currentLang,
-            success: function (data) {console.log(data);
+            success: function (data) {
 				var oBandEventsDiv = jQuery("#bandevents");
 				oBandEventsDiv.empty().show(500,function(){
 					if(data.resultsPage.status == 'ok' && data.resultsPage.results.event){
