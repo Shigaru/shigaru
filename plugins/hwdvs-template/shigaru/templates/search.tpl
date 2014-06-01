@@ -69,19 +69,19 @@
 				</div>
 			</div>
 			<div id="category_id" class="filter filtercheck videos">
-				<label>Type of video</label>
+				<label>{$smarty.const._HWDVIDS_SHIGARU_TYPEVIDEO}</label>
 				<div class="widget">
 					<label for="category_id_default">
-						<input type="radio" value="" id="category_id_default" name="category_id" checked="checked"><span><a href="#">All</a></span>
+						<input type="radio" value="" id="category_id_default" name="category_id" checked="checked"><span><a href="#">{$smarty.const._HWDVIDS_ALL}</a></span>
 					</label>
 					<label for="category_id_1">
-						<input type="radio" value="1" id="category_id_1" name="category_id"><span><a href="#">Song Tutorial</a></span>
+						<input type="radio" value="1" id="category_id_1" name="category_id"><span><a href="#">{$smarty.const._HWDVIDS_SHIGARU_SONGTUTORIALS}</a></span>
 					</label>
 					<label for="category_id_3">
-						<input type="radio" value="3" id="category_id_2" name="category_id"><span><a href="#">Theory</a></span>
+						<input type="radio" value="3" id="category_id_2" name="category_id"><span><a href="#">{$smarty.const._HWDVIDS_SHIGARU_THEORY}</a></span>
 					</label>
 					<label for="category_id_2">
-						<input type="radio" value="2" id="category_id_3" name="category_id"><span><a href="#">Watch me play!</a></span>
+						<input type="radio" value="2" id="category_id_3" name="category_id"><span><a href="#">{$smarty.const._HWDVIDS_SHIGARU_WATCHMEPLAY}</a></span>
 					</label>
 				</div>
 			</div>
@@ -115,40 +115,40 @@
 			
 			<div id="daterange" class="filter filtercheck videos">
 				<label>
-				Date
+				{$smarty.const._HWDVIDS_SHIGARU_DATE}
 				</label>
 				<div class="widget">
 					<label for="daterange_default">
-						<input type="radio" value="" id="daterange_default" name="daterange" checked="checked"><span><a href="#">Anytime</a></span>
+						<input type="radio" value="" id="daterange_default" name="daterange" checked="checked"><span><a href="#">{$smarty.const._HWDVIDS_SHIGARU_ANYTIME}</a></span>
 					</label>
 					<label for="daterange_1">
-						<input type="radio" value="1" id="daterange_1" name="daterange"><span><a href="#">Last week</a></span>
+						<input type="radio" value="1" id="daterange_1" name="daterange"><span><a href="#">{$smarty.const._HWDVIDS_SHIGARU_LASTWEEK}</a></span>
 					</label>
 					<label for="daterange_2">
-						<input type="radio" value="2" id="daterange_2" name="daterange"><span><a href="#">Last month</a></span>
+						<input type="radio" value="2" id="daterange_2" name="daterange"><span><a href="#">{$smarty.const._HWDVIDS_SHIGARU_LASTMONTH}</a></span>
 					</label>
 					<label for="daterange_3">
-						<input type="radio" value="3" id="daterange_3" name="daterange"><span><a href="#">Last year</a></span>
+						<input type="radio" value="3" id="daterange_3" name="daterange"><span><a href="#">{$smarty.const._HWDVIDS_SHIGARU_LASTYEAR}</a></span>
 					</label>
 				</div>
 				
 			</div>
 			<div id="video_length" class="filter filtercheck videos">
 				<label>
-				Duration
+				{$smarty.const._HWDVIDS_LENGTH}
 				</label>
 				<div class="widget">
 					<label for="video_length_default">
-						<input type="radio" value="" id="video_length_default" name="video_length" checked="checked"><span><a href="#">All</a></span>
+						<input type="radio" value="" id="video_length_default" name="video_length" checked="checked"><span><a href="#">{$smarty.const._HWDVIDS_ALL}</a></span>
 					</label>
 					<label for="video_length_1">
-						<input type="radio" value="1" id="video_length_1" name="video_length"><span><a href="#">Short videos (1-3min)</a></span>
+						<input type="radio" value="1" id="video_length_1" name="video_length"><span><a href="#">{$smarty.const._HWDVIDS_SHIGARU_SHORVIDEOS}</a></span>
 					</label>
 					<label for="video_length_2">
-						<input type="radio" value="2" id="video_length_2" name="video_length"><span><a href="#">Medium videos (3-10min)</a></span>
+						<input type="radio" value="2" id="video_length_2" name="video_length"><span><a href="#">{$smarty.const._HWDVIDS_SHIGARU_MEDIUMVIDEOS}</a></span>
 					</label>
 					<label for="video_length_3">
-						<input type="radio" value="3" id="video_length_3" name="video_length"><span><a href="#">Long videos (+10min)</a></span>
+						<input type="radio" value="3" id="video_length_3" name="video_length"><span><a href="#">{$smarty.const._HWDVIDS_SHIGARU_LONGVIDEOS}</a></span>
 					</label>
 				</div>			
 			</div>
@@ -254,7 +254,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 								{if $totalvideos gt 0}
 										<div class="f80">
 											<label for="limit">
-												Display
+												{$smarty.const._HWDVIDS_SHIGARU_DISPLAY}
 											</label>
 											{$vpageLimits}
 										</div>

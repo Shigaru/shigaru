@@ -162,7 +162,7 @@ var currentLang = "<?php echo $currentLang ?>";
 			<div id="footer_content">
 				<div id="leftcolumn">
 					<div class="mleft12">
-						<h3>Stay in touch</h3>
+						<h3><?php echo JText::_('HWDVIDS_SHIGARU_STAYTOUCH'); ?></h3>
 						<div>
 							<ul>
 								<li>
@@ -184,12 +184,12 @@ var currentLang = "<?php echo $currentLang ?>";
 				</div>
 				<div id="rightcolmn">
 					<div>
-						<h3>Sign up for our Newsletters</h3>
+						<h3><?php echo JText::_('HWDVIDS_SHIGARU_SUBSNEWSLETT'); ?></h3>
 						<jdoc:include type="modules" name="subscribelink" /> 
 						</div>
 					
 					<div class="clear w75">
-						<p>"Without music, life would be a mistake."</p>
+						<p>"<?php echo JText::_('HWDVIDS_SHIGARU_WITHOUMUSIC'); ?>."</p>
 						<span class="fright tItalic">Friedrich Nietzsche</span>
 					</div>
 				</div>
@@ -198,18 +198,18 @@ var currentLang = "<?php echo $currentLang ?>";
 					 <nav> 
 						<div class="footer_links">
 							<ul class="menu">
-								<li class="active item64"><a href="index.php?option=com_hwdvideoshare&lang=<?php echo $currentLang ?>"><span>Home</span></a></li>
-								<li class="item54"><a href="index.php?option=com_content&Itemid=18&id=47&view=article&lang=<?php echo $currentLang ?>"><span>The Idea</span></a></li>
-								<li class="item57"><a href="index.php?option=com_content&Itemid=57&id=51&view=article&lang=<?php echo $currentLang ?>"><span>About us</span></a></li>
-								<li class="item58"><a href="index.php?option=com_content&Itemid=58&id=48&view=article&lang=<?php echo $currentLang ?>"><span>Privacy Policy</span></a></li>
-								<li class="item59"><a href="index.php?option=com_content&Itemid=59&id=49&view=article&lang=<?php echo $currentLang ?>"><span>Terms of Use</span></a></li>
-								<li class="item60"><a href="index.php?option=com_content&Itemid=60&id=52&view=article&lang=<?php echo $currentLang ?>"><span>Tell a Friend</span></a></li>
-								<li class="item61"><a href="index.php?option=com_content&id=50&view=article&lang=<?php echo $currentLang ?>"><span>Contact us</span></a></li>
-								<li class="item65"><a href="index.php?option=com_content&Itemid=65&id=55&view=article&lang=<?php echo $currentLang ?>"><span>Donate</span></a></li>
+								<li class="active item64"><a href="index.php?option=com_hwdvideoshare&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_HOMEPAGE'); ?></span></a></li>
+								<li class="item54"><a href="index.php?option=com_content&Itemid=18&id=47&view=article&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_THEIDEA'); ?></span></a></li>
+								<li class="item57"><a href="index.php?option=com_content&Itemid=57&id=51&view=article&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_ABOUTUS'); ?></span></a></li>
+								<li class="item58"><a href="index.php?option=com_content&Itemid=58&id=48&view=article&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_PRIVPOLICY'); ?></span></a></li>
+								<li class="item59"><a href="index.php?option=com_content&Itemid=59&id=49&view=article&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_TERMSUSE'); ?></span></a></li>
+								<li class="item60"><a href="index.php?option=com_content&Itemid=60&id=52&view=article&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_TELLFRIEND'); ?></span></a></li>
+								<li class="item61"><a href="index.php?option=com_content&id=50&view=article&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_CONTACTUS'); ?></span></a></li>
+								<li class="item65"><a href="index.php?option=com_content&Itemid=65&id=55&view=article&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_DONATIONS'); ?></span></a></li>
 							</ul>
 						</div>
 					</nav>	
-					<div class="copyright">&reg; 2012 Shigaru.com. &copy; All rights reserved. Contact: <a href="mailto:info@shigaru.com">info@shigaru.com</a></div>
+					<div class="copyright">&reg; 2012 Shigaru.com. &copy; <?php echo JText::_('HWDVIDS_SHIGARU_ALLRIGHTS'); ?>. <?php echo JText::_('HWDVIDS_SHIGARU_CONTACT'); ?>: <a href="mailto:info@shigaru.com">info@shigaru.com</a></div>
 				</div>
 			</div>
 		</div>
