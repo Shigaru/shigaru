@@ -54,7 +54,7 @@ var currentLang = "<?php echo $currentLang ?>";
 			<div id="head_logo" class="clearfix fleft">
 				<div class="clearfix" >
 					<div class="fleft mright12" >
-						<a href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+						<a href="index.php?option=com_hwdvideoshare&lang=<?php echo $currentLang ?>" title="<?php echo JText::_('Shigaru.com Home page') ?>">
 							<img height="63" width="65" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo_new.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
 						</a>
 					</div>	
