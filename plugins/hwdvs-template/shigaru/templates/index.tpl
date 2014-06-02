@@ -26,7 +26,7 @@
 					<h3>{$smarty.const._HWDVIDS_SHIGARU_THEMOST}</h3>
 					<div id="the_most" class="slidesContainer">
 						<div id="the_most_title">
-							<h6><span>MOST</span></h6>
+							<h6><span>{$smarty.const._HWDVIDS_SHIGARU_MOST}</span></h6>
 							<ul>
 								<li class="first selected"><a href="#tabs-2">{$smarty.const._HWDVIDS_MOST_RECENT}</a></li>
 								<li ><a href="#tabs-1">{$smarty.const._HWDVIDS_VIEWED}</a></li>

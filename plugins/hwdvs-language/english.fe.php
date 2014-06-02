@@ -942,6 +942,10 @@ DEFINE("_HWDVIDS_SHIGARU_LASTYEAR","Last year");
 DEFINE("_HWDVIDS_SHIGARU_SHORVIDEOS","Short videos (1-3min)");
 DEFINE("_HWDVIDS_SHIGARU_MEDIUMVIDEOS","Medium videos (3-10min)");
 DEFINE("_HWDVIDS_SHIGARU_LONGVIDEOS","Long videos (+10min)");
+DEFINE("_HWDVIDS_SHIGARU_MOST","MOST");
+DEFINE("_HWDVIDS_SHIGARU_AGOMETRIC",serialize (array('second','minute','hour','day','week','month','year','decade')));
+DEFINE("_HWDVIDS_SHIGARU_AGOTEXT","ago");
+
 
 
 
