@@ -204,7 +204,7 @@ var currentLang = "<?php echo $currentLang ?>";
 								<li class="item58"><a href="index.php?option=com_content&Itemid=58&id=48&view=article&format=html&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_PRIVPOLICY'); ?></span></a></li>
 								<li class="item59"><a href="index.php?option=com_content&Itemid=59&id=49&view=article&format=html&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_TERMSUSE'); ?></span></a></li>
 								<li class="item60"><a href="index.php?option=com_content&Itemid=60&id=52&view=article&format=html&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_TELLFRIEND'); ?></span></a></li>
-								<!--<li class="item61"><a href="index.php?option=com_content&id=50&view=article&format=html&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_CONTACTUS'); ?></span></a></li>-->
+								<li class="item61"><a href="index.php?option=com_shigarucontact&view=shigarucontact&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_CONTACTUS'); ?></span></a></li>
 								<li class="item65"><a href="index.php?option=com_content&Itemid=65&id=55&view=article&format=html&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_DONATIONS'); ?></span></a></li>
 							</ul>
 						</div>

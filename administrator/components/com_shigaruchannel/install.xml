@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+	<name>Shigaru Channel</name>
+	<!-- The following elements are optional and free of formatting conttraints -->
+	<creationDate>2014-04-28</creationDate>
+	<author>MURCIALITO</author>
+	<authorEmail>info@shigaru.com</authorEmail>
+	<authorUrl>http://www.shigaru.com</authorUrl>
+	<copyright>All rights reserved by Shigaru.com</copyright>
+	<license>GPL 2.0</license>
+	<!--  The version string is recorded in the components table -->
+	<version>1.00</version>
+	<!-- The description is optional and defaults to the name -->
+	<description>Displays information and content about the youtube channel  for shigaru</description>
+
+	<!-- Site Main File Copy Section -->
+	<!-- Note the folder attribute: This attribute describes the folder
+      to copy FROM in the package to install therefore files copied
+      in this section are copied from /site/ in the package -->
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>shigarututor.php</filename>
+		<filename>index.html</filename>
+		<filename>views/index.html</filename>
+		<filename>views/shigarututor/index.html</filename>
+		<filename>views/shigarututor/view.html.php</filename>
+		<filename>views/shigarututor/tmpl/default.php</filename>
+		<filename>views/shigarututor/tmpl/index.html</filename>
+	</files>
+	<languages>
+			<!-- Any language files included with the module -->
+			<language tag="en-GB">lang/en-GB.com_shigarututor.ini</language>
+			<language tag="en-ES">lang/es-ES.com_shigarututor.ini</language>
+		</languages>
+
+	<administration>
+		<!-- Administration Menu Section -->
+		<menu>Shigaru Channel</menu>
+
+		<!-- Administration Main File Copy Section -->
+		<files folder="admin">
+			<filename>shigarututor.php</filename>
+			<filename>index.html</filename>
+		</files>  
+	</administration>
+</install>

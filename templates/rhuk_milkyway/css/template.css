@@ -3913,7 +3913,42 @@ input.btn-block[type="submit"], input.btn-block[type="reset"], input.btn-block[t
 .btn-group.open .btn-primary.dropdown-toggle {
     background-color: #C49C38;
 }
-
+.input-append .add-on, .input-prepend .add-on {
+display: inline-block;
+width: auto;
+height: 20px;
+min-width: 16px;
+padding: 4px 5px;
+font-size: 14px;
+font-weight: normal;
+line-height: 20px;
+text-align: center;
+text-shadow: 0 1px 0 #ffffff;
+background-color: #eeeeee;
+border: 1px solid #ccc;}
+.input-prepend .add-on:first-child, .input-prepend .btn:first-child {
+-webkit-border-radius: 4px 0 0 4px;
+-moz-border-radius: 4px 0 0 4px;
+border-radius: 4px 0 0 4px;
+}
+.input-append, .input-prepend {
+display: inline-block;
+margin-bottom: 10px;
+vertical-align: middle;
+font-size: 0;
+white-space: nowrap;
+}
+.input-append input[class*="span"], .input-append .uneditable-input[class*="span"], .input-prepend input[class*="span"], .input-prepend .uneditable-input[class*="span"], .row-fluid input[class*="span"], .row-fluid select[class*="span"], .row-fluid textarea[class*="span"], .row-fluid .uneditable-input[class*="span"], .row-fluid .input-prepend [class*="span"], .row-fluid .input-append [class*="span"] {
+display: inline-block;
+}
+.input-append input, .input-prepend input, .input-append select, .input-prepend select, .input-append .uneditable-input, .input-prepend .uneditable-input {
+position: relative;
+margin-bottom: 0;
+vertical-align: top;
+-webkit-border-radius: 0 4px 4px 0;
+-moz-border-radius: 0 4px 4px 0;
+border-radius: 0 4px 4px 0;
+}
 .buttonbar button span,.jspPane button span,#videoTitle button span,
 .roksearch_header .button span{padding-right:6px;}
 
@@ -4112,4 +4147,4 @@ margin: 5px;text-shadow:0 10px 3px #c1c1c1;
 .form-wrapper button::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
     border: 0;
     padding: 0;
-}  
+} 
