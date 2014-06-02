@@ -54,12 +54,12 @@ var currentLang = "<?php echo $currentLang ?>";
 			<div id="head_logo" class="clearfix fleft">
 				<div class="clearfix" >
 					<div class="fleft mright12" >
-						<a href="index.php?option=com_hwdvideoshare&lang=<?php echo $currentLang ?>" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+						<a href="index.php?option=com_hwdvideoshare&task=frontpage&lang=<?php echo $currentLang ?>" title="<?php echo JText::_('Shigaru.com Home page') ?>">
 							<img height="63" width="65" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/images/head_logo_new.png" alt="<?php echo JText::_('Shigaru.com') ?>" />
 						</a>
 					</div>	
 					<div class="fleft" >
-						<a class="f150 fontsig fontbold tdecnone" id="head_title_text" href="/" title="<?php echo JText::_('Shigaru.com Home page') ?>">
+						<a class="f150 fontsig fontbold tdecnone" id="head_title_text" href="index.php?option=com_hwdvideoshare&task=frontpage&lang=<?php echo $currentLang ?>" title="<?php echo JText::_('Shigaru.com Home page') ?>">
 							<h1>SHIGARU</h1>
 						</a>
 						<div class="clearfix btn-group">
@@ -198,7 +198,7 @@ var currentLang = "<?php echo $currentLang ?>";
 					 <nav> 
 						<div class="footer_links">
 							<ul class="menu">
-								<li class="active item64"><a href="index.php?option=com_hwdvideoshare&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_HOMEPAGE'); ?></span></a></li>
+								<li class="active item64"><a href="index.php?option=com_hwdvideoshare&task=frontpage&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_HOMEPAGE'); ?></span></a></li>
 								<li class="item54"><a href="index.php?option=com_content&Itemid=18&id=47&view=article&format=html&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_THEIDEA'); ?></span></a></li>
 								<li class="item57"><a href="index.php?option=com_content&Itemid=57&id=51&view=article&format=html&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_ABOUTUS'); ?></span></a></li>
 								<li class="item58"><a href="index.php?option=com_content&Itemid=58&id=48&view=article&format=html&lang=<?php echo $currentLang ?>"><span><?php echo JText::_('HWDVIDS_SHIGARU_PRIVPOLICY'); ?></span></a></li>
