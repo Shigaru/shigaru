@@ -49,7 +49,7 @@ class ShigarucontactController extends JController
 			$mailer->setSender($sender);
 			$recipient = array('admin@shigaru.com');
 			$mailer->addRecipient($recipient);
-			$mailer->setSubject($subject);
+			$mailer->setSubject('Contact from users! '.$subject);
 			$mailer->setBody($body);
 			$body   = $message.' <br /> Message sent by:'.$name.'('.$email.')';
 			$mailer->isHTML(true);
