@@ -6,7 +6,7 @@
             var name = jQuery('#name').val();
             var email = jQuery('#email').val();
             var subject = jQuery('#subject').val();
-            var message = jQuery('#message').val();
+            var message = tinyMCE.activeEditor.getContent({format : 'raw'});;
 
             if(name.length == 0){
                 var error = true;

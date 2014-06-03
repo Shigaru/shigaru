@@ -150,8 +150,10 @@ class AceSEF_com_hwdvideoshare extends AcesefExtension {
 									$segments [] = self::_getAlbum(intval($oItemId));
 									}else{
 											if (!empty($oItemId)) {
-												$oVideoName = self::_getVideo(intval($oItemId));
-												$segments [] =$oVideoName[1];
+												$oVideoName  = self::_getVideo(intval($oItemId));
+												$oCategoryName = self::_getCategory(self::_getItemCatId($oItemId));
+												$segments [] = $oCategoryName[0];
+												$segments [] = $oVideoName[1];
 											}
 										}
 						unset($vars['item_id']);

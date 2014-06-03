@@ -27,9 +27,9 @@
 				  </div>
 				  <div class="clearfix">
 					  <div id="message_error" class="error dispnon pad6 f80"> <?php echo JText::_('SHIGCONTACT_MESSAGEERROR') ?></div> 
-					  <div class="input-prepend">
-						<span class="add-on"><i class="icon-pencil"></i></span>
-						<textarea  id="message" name="message" rows="4" cols="50" class="h200px" id='message' placeholder="<?php echo JText::_('SHIGCONTACT_PLACEMESSAGE') ?>"></textarea>
+					  <div class="input-prepend clearfix">
+						<span class="fleft add-on"><i class="icon-pencil"></i></span>
+						<div class="fleft"><?php echo $this->description; ?></div>
 					  </div>
 					  <div class="clearfix">
 						<div class="f150 ml35pt">

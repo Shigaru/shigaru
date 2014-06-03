@@ -22,9 +22,13 @@ class ShigarucontactViewShigarucontact extends JView
 	function display($tpl = null)
 	{
 		$lang = JFactory::getLanguage();	
+		$user =& JFactory::getUser();
 		$currentlang = substr($lang->getTag(),0,2);
+		$islogged = ($user->id)?1:0;
+		$editor      =& JFactory::getEditor();
+		$this->assignRef( 'description', $editor->display("message",stripslashes($row->description),350,250,40,20,1) );
 		$this->assignRef( 'currentlang', $currentlang );
-
+		$this->assignRef( 'islogged', $islogged );
 		parent::display($tpl);
 	}
 }

@@ -2653,7 +2653,7 @@ $app = & JFactory::getApplication();
     {
 		global $smartyvs, $hwdvsItemid;
 		$c = hwd_vs_Config::get_instance();
-
+		$lang = JFactory::getLanguage();
 		$code = null;
 		if ($c->showtags == "1")
 		{
@@ -2669,7 +2669,7 @@ $app = & JFactory::getApplication();
 
 				if ($tag != "")
 				{
-					$url = JRoute::_("index.php?option=com_hwdvideoshare&task=search&Itemid=$hwdvsItemid");
+					$url = JRoute::_("index.php?option=com_hwdvideoshare&task=displayresults&Itemid=$hwdvsItemid&lang=".substr($lang->getTag(),0,2));
 					$url = str_replace("&amp;", "&", $url);
 
 					$pos = strpos($url, "?");
