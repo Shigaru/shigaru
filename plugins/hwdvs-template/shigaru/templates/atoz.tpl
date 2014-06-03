@@ -138,5 +138,5 @@
 	<div>
 <div>
 <script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.min.js"></script>
 <script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/atoz.js"></script>

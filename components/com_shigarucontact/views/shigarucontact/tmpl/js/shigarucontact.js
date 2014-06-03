@@ -1,4 +1,5 @@
     jQuery(document).ready(function(){
+
         jQuery('#send_message').click(function(e){
             e.preventDefault();
 
@@ -6,8 +7,7 @@
             var name = jQuery('#name').val();
             var email = jQuery('#email').val();
             var subject = jQuery('#subject').val();
-            var message = tinyMCE.activeEditor.getContent({format : 'raw'});;
-
+            var message = tinyMCE.activeEditor.getContent({format : 'raw'});
             if(name.length == 0){
                 var error = true;
                 jQuery('#name_error').fadeIn(500);
