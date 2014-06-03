@@ -37,19 +37,21 @@ class ShigarucontactController extends JController
 	
 	function sendcontactmessage(){
 			$app = & JFactory::getApplication();
+			$user =& JFactory::getUser();
 			$name     =   Jrequest::getVar( 'name', '' );;  
 			$email    =   Jrequest::getVar( 'email', '' );
 			$subject  =   Jrequest::getVar( 'subject', '' );  
 			$message  =   Jrequest::getVar( 'message', '' );
 			$mailer =& JFactory::getMailer();
 			$config =& JFactory::getConfig();
+			$registered = ($user->id)?'REGISTERED USER: ':'';
 			$sender = array( 
 				$config->getValue( 'config.mailfrom' ),
 				$config->getValue( 'config.fromname' ) );
 			$mailer->setSender($sender);
 			$recipient = array('admin@shigaru.com');
 			$mailer->addRecipient($recipient);
-			$mailer->setSubject('Contact from users! '.$subject);
+			$mailer->setSubject('Contact from users! '.$registered.$subject);
 			$mailer->setBody($body);
 			$body   = $message.' <br /> Message sent by:'.$name.'('.$email.')';
 			$mailer->isHTML(true);

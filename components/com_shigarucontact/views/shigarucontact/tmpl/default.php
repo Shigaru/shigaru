@@ -4,18 +4,18 @@
 	 <div id="contact_form_holder"  class="bbwhite w70 mbot20">
 			<h3 class="pad12 fontbold f120"><?php echo JText::_('SHIGCONTACT_CONTACTUS') ?></h3>
 				<form action="index.php?option=com_shigarucontact&task=sendcontactmessage&lang=<?php echo $this->currentlang; ?>" method="post" class="w80pc mleft20" id="contact_form">
-				  <div class="clearfix">
+				  <div class="clearfix <?php if(!$this->islogged) echo 'dispnon'; ?>">
 					 <div id="name_error" class="error dispnon pad6 f80"> <?php echo JText::_('SHIGCONTACT_NAMEERROR') ?></div> 
 					 <div class="input-prepend">
 						<span class="add-on"><i class="icon-user"></i></span>
-						<input class="span2" name="name" id="name" type="text" placeholder="<?php echo JText::_('SHIGCONTACT_PLACENAME') ?>">
+						<input class="span2" name="name" id="name" type="text" value="<?php echo $this->user->username ?>" placeholder="<?php echo JText::_('SHIGCONTACT_PLACENAME') ?>">
 					</div>
 				  </div>
-				  <div class="clearfix">
+				  <div class="clearfix <?php if(!$this->islogged) echo 'dispnon'; ?>">
 					 <div id="email_error" class="error dispnon pad6 f80"> <?php echo JText::_('SHIGCONTACT_EMAILERROR') ?></div>  
 					 <div class="input-prepend">
 						<span class="add-on"><i class="icon-envelope"></i></span>
-						<input class="span2" name="email" id="email" type="text" placeholder="<?php echo JText::_('SHIGCONTACT_PLACEEMAIL') ?>">
+						<input class="span2" name="email" id="email" value="<?php echo $this->user->email ?>" type="text" placeholder="<?php echo JText::_('SHIGCONTACT_PLACEEMAIL') ?>">
 					</div>
 				  </div>
 				  <div class="clearfix">
