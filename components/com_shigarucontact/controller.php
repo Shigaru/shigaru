@@ -41,7 +41,7 @@ class ShigarucontactController extends JController
 			$name     =   Jrequest::getVar( 'name', '' );;  
 			$email    =   Jrequest::getVar( 'email', '' );
 			$subject  =   Jrequest::getVar( 'subject', '' );  
-			$message  =   Jrequest::getVar( 'message', '' );
+			$message  =   JRequest::getVar( 'message', '', 'post', 'string', JREQUEST_ALLOWHTML );
 			$mailer =& JFactory::getMailer();
 			$config =& JFactory::getConfig();
 			$registered = ($user->id)?'REGISTERED USER: ':'';
@@ -52,7 +52,6 @@ class ShigarucontactController extends JController
 			$recipient = array('admin@shigaru.com');
 			$mailer->addRecipient($recipient);
 			$mailer->setSubject('Contact from users! '.$registered.$subject);
-			$mailer->setBody($body);
 			$body   = $message.' <br /> Message sent by:'.$name.'('.$email.')';
 			$mailer->isHTML(true);
 			$mailer->Encoding = 'base64';
