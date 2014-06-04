@@ -21,8 +21,16 @@ class ShigaruhomeViewShigaruhome extends JView
 {
 	function display($tpl = null)
 	{
-		$greeting = "Hello, World!";
-		$this->assignRef( 'greeting', $greeting );
+		require_once(JPATH_SITE.DS.'components'.DS.'com_shigaruhome'.DS.'shigaruhome.class.php');
+		$f = new shigaruHome;
+		$oTotalVideosCount = $f->getTotalVideosCount();
+		$oTotalTutosVideosCount = $f->getTotalCategoryVideosCount("1");
+		$oTotalTheoryVideosCount = $f->getTotalCategoryVideosCount("2");
+		$oTotalWatchmeVideosCount = $f->getTotalCategoryVideosCount("3");
+		$this->assignRef( 'oTotalVideosCount', $oTotalVideosCount );
+		$this->assignRef( 'oTotalTutosVideosCount', $oTotalTutosVideosCount );
+		$this->assignRef( 'oTotalTheoryVideosCount', $oTotalTheoryVideosCount );
+		$this->assignRef( 'oTotalWatchmeVideosCount', $oTotalWatchmeVideosCount );
 
 		parent::display($tpl);
 	}

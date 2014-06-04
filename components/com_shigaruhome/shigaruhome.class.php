@@ -68,6 +68,31 @@ class shigaruHome{
       $this->limitend = $limitend;
 	  return;
    }
+   
+   function getTotalVideosCount(){
+		$db = & JFactory::getDBO();
+		// get video count
+        $db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video'
+					 . $hwdvs_joinv
+					 . $where
+					 );
+        $total = $db->loadResult();
+        echo $db->getErrorMsg();
+        return $total;
+		}
+   function getTotalCategoryVideosCount($paramcategory){
+		$db = & JFactory::getDBO();
+		// get video count
+        $db->SetQuery( 'SELECT count(*)'
+					 . ' FROM #__hwdvidsvideos AS video WHERE category_id ='.$paramcategory
+					 . $hwdvs_joinv
+					 . $where
+					 );
+        $total = $db->loadResult();
+        echo $db->getErrorMsg();
+        return $total;
+		}
 	
 }
 
