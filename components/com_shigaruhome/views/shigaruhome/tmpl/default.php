@@ -47,6 +47,7 @@ var currentLang = "<?php echo $currentLang ?>";
 		</div>
 	</div>			
 </div>
+<input type="hidden" id="currentlang" name="currentlang" value="<?php echo $currentLang ?>"/>
 <link rel="stylesheet" href="components/com_shigaruhome/views/shigaruhome/tmpl/owl-carousel/owl.carousel.css">
 <link rel="stylesheet" href="components/com_shigaruhome/views/shigaruhome/tmpl/owl-carousel/owl.theme.css">
 <script src="components/com_shigaruhome/views/shigaruhome/tmpl/owl-carousel/owl.carousel.js"></script>
