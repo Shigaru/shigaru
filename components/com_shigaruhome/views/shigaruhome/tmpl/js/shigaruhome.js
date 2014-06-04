@@ -29,10 +29,18 @@ jQuery(document).ready(function() {
   
   function customDataSuccess(data,target){
     var content = "";
-    for(var i in data){       
+    for(var i in data){       		
        var img = data[i].thumbnail;
-       var alt = data[i].title; 
-       content += '<div><a href="" title="' +alt+ '"><img src="hwdvideos/thumbs/' +img+ '" alt="' +alt+ '" /></a></div>'
+       var alt = data[i].title;
+		alt = alt.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, ' ');
+       var pic = null;
+       if(img !=''){
+			if(img.indexOf('http') < 0)
+				img = 'hwdvideos/thumbs/'+data[i].thumbnail;
+			pic = '<img class="mright6" src="'+img+'" alt="'+alt+'" title="'+alt+'" />'	
+				}else if(data[i].thumbnail =='')
+					pic = '<img class="mright6" width="20" height="20" src="templates/rhuk_milkyway/images/vinyl-icon.png" alt="'+alt+'" title="'+alt+'" />';					 
+       content += '<div><a href="index.php?option=com_hwdvideoshare&task=viewvideo&video_id='+data[i].id+'&lang='+oCurrentlang+'" title="' +alt+ '">'+pic+ '</a></div>'
     }
     jQuery(target).html(content);
   }
