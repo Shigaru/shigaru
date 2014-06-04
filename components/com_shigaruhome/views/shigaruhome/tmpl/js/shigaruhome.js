@@ -34,10 +34,13 @@ jQuery(document).ready(function() {
        var alt = data[i].title;
 		alt = alt.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, ' ');
        var pic = null;
+       var meass = ''; 
        if(img !=''){
 			if(img.indexOf('http') < 0)
 				img = 'hwdvideos/thumbs/'+data[i].thumbnail;
-			pic = '<img class="mright6" src="'+img+'" alt="'+alt+'" title="'+alt+'" />'	
+				else
+					meass = ' width="90px" height="120px" '
+			pic = '<img '+meass+' class="mright6" src="'+img+'" alt="'+alt+'" title="'+alt+'" />'	
 				}else if(data[i].thumbnail =='')
 					pic = '<img class="mright6" width="20" height="20" src="templates/rhuk_milkyway/images/vinyl-icon.png" alt="'+alt+'" title="'+alt+'" />';					 
        content += '<div><a href="index.php?option=com_hwdvideoshare&task=viewvideo&video_id='+data[i].id+'&lang='+oCurrentlang+'" title="' +alt+ '">'+pic+ '</a></div>'
