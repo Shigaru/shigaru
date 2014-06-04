@@ -9,31 +9,31 @@ var currentLang = "<?php echo $currentLang ?>";
 <div class="workarea clearfix">
 	<div class="clearfix">
 		
-		<div class="fleft w67">
-			<div class="content_box">
+		<div class="fleft w67 borrightdottedgrey">
+			<div class="content_box pad6">
 					
 					<h3><?php echo JText::_('SHIGARU_THEMOST'); ?></h3>
 					
 					
-					<h4><?php echo JText::_('SHIGARU_LIKED'); ?></h4>
+					<h4 class="fontbold mbot12 borbotgrey"><?php echo JText::_('LIKED'); ?></h4>
 							
 					<div id="owl-demo" class="owl-carousel">
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>
 							
-					<h4><?php echo JText::_('SHIGARU_PLAYLIST'); ?></h4>
+					<h4 class="fontbold mbot12 borbotgrey"><?php echo JText::_('BWN'); ?></h4>
 							
 					<div id="owl-demo2" class="owl-carousel">
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>
 					
-					<h4><?php echo JText::_('SHIGARU_NEW'); ?></h4>
+					<h4 class="fontbold mbot12 borbotgrey"><?php echo JText::_('MOST_RATED'); ?></h4>
 							
 					<div id="owl-demo3" class="owl-carousel">
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>		
 					
-					<h4><?php echo JText::_('SHIGARU_NEW'); ?></h4>
+					<h4 class="fontbold mbot12 borbotgrey"><?php echo JText::_('MOST_RECENT'); ?></h4>
 							
 					<div id="owl-demo4" class="owl-carousel">
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
