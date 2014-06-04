@@ -39,7 +39,7 @@ jQuery(document).ready(function() {
 			if(img.indexOf('http') < 0)
 				img = 'hwdvideos/thumbs/'+data[i].thumbnail;
 				else
-					meass = ' width="90px" height="120px" '
+					meass = ' width="120px" height="90px" '
 			pic = '<img '+meass+' class="mright6" src="'+img+'" alt="'+alt+'" title="'+alt+'" />'	
 				}else if(data[i].thumbnail =='')
 					pic = '<img class="mright6" width="20" height="20" src="templates/rhuk_milkyway/images/vinyl-icon.png" alt="'+alt+'" title="'+alt+'" />';					 

@@ -61,7 +61,7 @@ var currentLang = "<?php echo $currentLang ?>";
 							</div>
 					</div>
 					<div class="clearfix">
-						<h6 class="fleft pad12 w100 tcenter"><?php echo JText::_('SHIGARU_LOGINPROMOTIONHOME'); ?></h6>
+						<h6 class="fleft pad12"><?php echo JText::_('SHIGARU_LOGINPROMOTIONHOME'); ?></h6>
 					</div>
 					
 				</div>
