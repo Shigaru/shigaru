@@ -14,8 +14,6 @@ class shigarututorTools{
 		require_once(JPATH_SITE.DS.'configuration.php');
 		$jconfig = new JConfig();
 		$this->youtubeApiKey = $jconfig->youtubeApiKey;
-		var_dump($jconfig);
-		var_dump(JPATH_SITE.DS.'configuration.php');
    }
    
    function setChannelId(){
