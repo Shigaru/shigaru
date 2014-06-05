@@ -58,6 +58,7 @@ jQuery(document).ready(function() {
        content += '</div>';
     }
     jQuery(opts.oContentItemId).html(content);
+    addActions();
   }
   
   
@@ -70,6 +71,17 @@ jQuery(document).ready(function() {
 			navigation : opts.navigation
 		  });
 	  }
+	  
+  function addActions(){
+	  
+	  oContentItem.prev().find('a.btn').click(function(e) {
+				var $this = jQuery(this);
+				$this.next().toggle();
+				e.preventDefault();
+				e.stopPropagation();
+			});
+	  
+	  }	  
   function timeSince(date) {
 	  	var seconds = Math.floor((new Date() - date) / 1000);
 		var interval = Math.floor(seconds / 31536000);
@@ -96,7 +108,6 @@ jQuery(document).ready(function() {
 		return Math.floor(seconds) + " seconds";
 	}	  
   function addSpecificData(paramType, paramData){
-	  console.log(paramData);
 	  var oSpecificData = '';
 	  var oPlural = (parseInt(paramData.cnt)>1)?'s':'';
 		switch(paramType){
