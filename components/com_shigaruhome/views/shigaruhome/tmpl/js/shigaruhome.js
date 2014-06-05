@@ -80,7 +80,7 @@ jQuery(document).ready(function() {
   }
 
   jQuery.fn.shigaruHome.defaults = {
-	items : 5,
+	items : 6,
 	navigation : true,
 	paramUrl : 'index.php?option=com_shigaruhome&task=getvideolist&list_type=liked&format=raw&lang=en',
 	oContentItemId : '#shigaruowl'

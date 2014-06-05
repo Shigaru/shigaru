@@ -17,8 +17,8 @@ var currentLang = "<?php echo $currentLang ?>";
 						</div>
 					</div>
 					
-					<div class="clearfix borbotgrey mbot6 btn-danger">
-						<h4 class="fleft fontwhite pad6"><i class="icon-thumbs-up"></i> <?php echo JText::_('LIKED'); ?></h4>
+					<div class="clearfix borbotgrey mbot6 backgreysoft">
+						<h4 class="fleft fontblack pad6"><i class="icon-thumbs-up"></i> <?php echo JText::_('LIKED'); ?></h4>
 						<div class="clearfix fright mbot6 mtop6 mright6">
 							<div class="fleft mright6">
 								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
@@ -48,8 +48,8 @@ var currentLang = "<?php echo $currentLang ?>";
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>
 							
-					<div class="clearfix borbotgrey mbot6 btn-danger">
-						<h4 class="fleft fontwhite pad6"><i class="icon-eye-open"></i> <?php echo JText::_('BWN'); ?></h4>
+					<div class="clearfix borbotgrey mbot6 backgreysoft">
+						<h4 class="fleft fontblack pad6"><i class="icon-eye-open"></i> <?php echo JText::_('BWN'); ?></h4>
 						<div class="clearfix fright mbot6 mtop6 mright6">
 							<div class="fleft mright6">
 								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
@@ -77,8 +77,8 @@ var currentLang = "<?php echo $currentLang ?>";
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>
 					
-					<div class="clearfix borbotgrey mbot6 btn-danger">
-						<h4 class="fleft fontwhite pad6"><i class="icon-star"></i> <?php echo JText::_('MOST_RATED'); ?></h4>
+					<div class="clearfix borbotgrey mbot6 backgreysoft">
+						<h4 class="fleft fontblack pad6"><i class="icon-star"></i> <?php echo JText::_('MOST_RATED'); ?></h4>
 						<div class="clearfix fright mbot6 mtop6 mright6">
 							<div class="fleft mright6">
 								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
@@ -100,14 +100,17 @@ var currentLang = "<?php echo $currentLang ?>";
 									<li><a href="#"><i class="i"></i> Make admin</a></li>
 								  </ul>
 								</div>
+							<div class="fleft">
+								  <a class="btn btn-small mtop2 mright6 mleft6" href="#"><i class="fontblack icon-caret-down"></i> <span class="fontblack"></span></a>
+							</div>
 						</div>
 					</div>			
 					<div id="shigaruowlrated" class="owl-carousel">
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>		
 					
-					<div class="clearfix borbotgrey mbot6 btn-danger">
-						<h4 class="fleft fontwhite pad6"><i class="icon-star"></i> <?php echo JText::_('MOST_RECENT'); ?></h4>
+					<div class="clearfix borbotgrey mbot6 backgreysoft">
+						<h4 class="fleft fontblack pad6"><i class="icon-star"></i> <?php echo JText::_('MOST_RECENT'); ?></h4>
 						<div class="clearfix fright mbot6 mtop6 mright6">
 							<div class="fleft mright6">
 								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
