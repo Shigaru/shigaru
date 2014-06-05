@@ -1341,6 +1341,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .borleftgrey{border-left: 1px solid #ccc}
 .borleftdottedgrey{border-left: 1px dotted #ccc}
 .borrightdottedgrey{border-right: 1px dotted #ccc}
+.backgreysoft{background-color: #BFBFBF}
 .mtop2{margin-top:2px;}
 .mbot12{margin-bottom:12px;}
 .mbot20{margin-bottom:20px !important;}

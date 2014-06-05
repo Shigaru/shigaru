@@ -10,32 +10,128 @@ var currentLang = "<?php echo $currentLang ?>";
 	<div class="clearfix">
 		
 		<div class="fleft w67 borrightdottedgrey">
-			<div class="content_box pad6">
+			<div class="content_box pad6 f120">
+					<div id="the_most" class="mbot12">
+						<div id="the_most_title">
+							<h6><span class="fontbold"><?php echo JText::_('SHIGARU_THEMOST'); ?></span></h6>							
+						</div>
+					</div>
 					
-					<h3><?php echo JText::_('SHIGARU_THEMOST'); ?></h3>
+					<div class="clearfix borbotgrey mbot6 btn-danger">
+						<h4 class="fleft fontwhite pad6"><i class="icon-thumbs-up"></i> <?php echo JText::_('LIKED'); ?></h4>
+						<div class="clearfix fright mbot6 mtop6 mright6">
+							<div class="fleft mright6">
+								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
+								  <ul class="dropdown-menu">
+									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
+									<li class="divider"></li>
+									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  </ul>
+								</div>
+							<div class="fleft">
+								  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filters applied</span> <span class="icon-caret-down fontblack"></span></a>
+								  <ul class="dropdown-menu">
+									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
+									<li class="divider"></li>
+									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  </ul>
+								</div>
+						</div>
+					</div>
 					
-					
-					<h4 class="fontbold mbot12 borbotgrey"><?php echo JText::_('LIKED'); ?></h4>
-							
-					<div id="owl-demo" class="owl-carousel">
+						
+					<div id="shigaruowlliked" class="owl-carousel mbot12">
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>
 							
-					<h4 class="fontbold mbot12 borbotgrey"><?php echo JText::_('BWN'); ?></h4>
-							
-					<div id="owl-demo2" class="owl-carousel">
+					<div class="clearfix borbotgrey mbot6 btn-danger">
+						<h4 class="fleft fontwhite pad6"><i class="icon-eye-open"></i> <?php echo JText::_('BWN'); ?></h4>
+						<div class="clearfix fright mbot6 mtop6 mright6">
+							<div class="fleft mright6">
+								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
+								  <ul class="dropdown-menu">
+									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
+									<li class="divider"></li>
+									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  </ul>
+								</div>
+							<div class="fleft">
+								  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filters applied</span> <span class="icon-caret-down fontblack"></span></a>
+								  <ul class="dropdown-menu">
+									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
+									<li class="divider"></li>
+									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  </ul>
+								</div>
+						</div>
+					</div>		
+					<div id="shigaruowlbwn" class="owl-carousel mbot12">
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>
 					
-					<h4 class="fontbold mbot12 borbotgrey"><?php echo JText::_('MOST_RATED'); ?></h4>
-							
-					<div id="owl-demo3" class="owl-carousel">
+					<div class="clearfix borbotgrey mbot6 btn-danger">
+						<h4 class="fleft fontwhite pad6"><i class="icon-star"></i> <?php echo JText::_('MOST_RATED'); ?></h4>
+						<div class="clearfix fright mbot6 mtop6 mright6">
+							<div class="fleft mright6">
+								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
+								  <ul class="dropdown-menu">
+									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
+									<li class="divider"></li>
+									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  </ul>
+								</div>
+							<div class="fleft">
+								  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filters applied</span> <span class="icon-caret-down fontblack"></span></a>
+								  <ul class="dropdown-menu">
+									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
+									<li class="divider"></li>
+									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  </ul>
+								</div>
+						</div>
+					</div>			
+					<div id="shigaruowlrated" class="owl-carousel">
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>		
 					
-					<h4 class="fontbold mbot12 borbotgrey"><?php echo JText::_('MOST_RECENT'); ?></h4>
-							
-					<div id="owl-demo4" class="owl-carousel">
+					<div class="clearfix borbotgrey mbot6 btn-danger">
+						<h4 class="fleft fontwhite pad6"><i class="icon-star"></i> <?php echo JText::_('MOST_RECENT'); ?></h4>
+						<div class="clearfix fright mbot6 mtop6 mright6">
+							<div class="fleft mright6">
+								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
+								  <ul class="dropdown-menu">
+									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
+									<li class="divider"></li>
+									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  </ul>
+								</div>
+							<div class="fleft">
+								  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filters applied</span> <span class="icon-caret-down fontblack"></span></a>
+								  <ul class="dropdown-menu">
+									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
+									<li class="divider"></li>
+									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  </ul>
+								</div>
+						</div>
+					</div>			
+					<div id="shigaruowlrecent" class="owl-carousel">
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>		
 			</div>	
