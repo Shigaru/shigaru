@@ -1,7 +1,7 @@
 jQuery(document).ready(function() {
 	
   var oCurrentlang = jQuery('#currentlang').val();
-  
+  jQuery('.owl-carousel').hide();
   var owlliked = jQuery("#shigaruowlliked").shigaruHome({
 	paramUrl : 'index.php?option=com_shigaruhome&task=getvideolist&list_type=liked&format=raw&lang='+oCurrentlang,
     oContentItemId : '#shigaruowlliked'
@@ -68,7 +68,8 @@ jQuery(document).ready(function() {
 			jsonSuccess : function(data){customDataSuccess(data,opts.oContentItemId)},
 			items : opts.items,
 			lazyLoad : opts.lazyLoad,
-			navigation : opts.navigation
+			navigation : opts.navigation,
+			afterInit: function(){jQuery('.loadingcontent').hide();oContentItem.fadeIn(500);}
 		  });
 	  }
 	  

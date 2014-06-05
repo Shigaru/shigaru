@@ -16,7 +16,7 @@ var currentLang = "<?php echo $currentLang ?>";
 							<h6><span class="fontbold"><?php echo JText::_('SHIGARU_THEMOST'); ?></span></h6>							
 						</div>
 					</div>
-					
+					<div class="loadingcontent f90" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					<div class="clearfix borbotgrey mbot6 backgreysoft">
 						<h4 class="fleft fontblack pad6"><i class="icon-thumbs-up"></i> <?php echo JText::_('LIKED'); ?></h4>
 						<div class="clearfix fright mbot6 mtop6 mright6">
@@ -45,7 +45,6 @@ var currentLang = "<?php echo $currentLang ?>";
 					
 						
 					<div id="shigaruowlliked" class="owl-carousel mbot12">
-						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>
 							
 					<div class="clearfix borbotgrey mbot6 backgreysoft">
@@ -74,7 +73,6 @@ var currentLang = "<?php echo $currentLang ?>";
 						</div>
 					</div>		
 					<div id="shigaruowlbwnow" class="owl-carousel mbot12">
-						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>
 					
 					<div class="clearfix borbotgrey mbot6 backgreysoft">
@@ -106,7 +104,6 @@ var currentLang = "<?php echo $currentLang ?>";
 						</div>
 					</div>			
 					<div id="shigaruowlrated" class="owl-carousel">
-						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>		
 					
 					<div class="clearfix borbotgrey mbot6 backgreysoft">
@@ -135,7 +132,6 @@ var currentLang = "<?php echo $currentLang ?>";
 						</div>
 					</div>			
 					<div id="shigaruowlrecent" class="owl-carousel">
-						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>		
 			</div>	
 		</div>
