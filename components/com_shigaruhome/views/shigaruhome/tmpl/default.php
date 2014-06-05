@@ -73,7 +73,7 @@ var currentLang = "<?php echo $currentLang ?>";
 								</div>
 						</div>
 					</div>		
-					<div id="shigaruowlbwn" class="owl-carousel mbot12">
+					<div id="shigaruowlbwnow" class="owl-carousel mbot12">
 						<div class="loadingcontent" style="line-height:600px"><i class="icon-spinner icon-spin"></i> Loading...</div>
 					</div>
 					
@@ -187,7 +187,20 @@ var currentLang = "<?php echo $currentLang ?>";
 									</div>
 								</div>
 							</div>
+							
 						</div>
+						
+						<div class="mtop20">
+								<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+									<!-- newhomeside -->
+									<ins class="adsbygoogle"
+										 style="display:inline-block;width:300px;height:600px"
+										 data-ad-client="ca-pub-1916456389191969"
+										 data-ad-slot="9056190662"></ins>
+									<script>
+									(adsbygoogle = window.adsbygoogle || []).push({});
+									</script>
+							</div>
 					</div>
 		</div>
 	</div>			

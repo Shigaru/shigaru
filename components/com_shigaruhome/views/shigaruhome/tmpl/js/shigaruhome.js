@@ -6,9 +6,9 @@ jQuery(document).ready(function() {
 	paramUrl : 'index.php?option=com_shigaruhome&task=getvideolist&list_type=liked&format=raw&lang='+oCurrentlang,
     oContentItemId : '#shigaruowlliked'
   }); 
-  var owlbwn = jQuery("#shigaruowlbwn").shigaruHome({
+  var owlbwn = jQuery("#shigaruowlbwnow").shigaruHome({
 	paramUrl : 'index.php?option=com_shigaruhome&task=getvideolist&list_type=bwn&format=raw&lang='+oCurrentlang,
-    oContentItemId : '#shigaruowlbwn'
+    oContentItemId : '#shigaruowlbwnow'
   }); 
   var owlrated = jQuery("#shigaruowlrated").shigaruHome({
 	paramUrl : 'index.php?option=com_shigaruhome&task=getvideolist&list_type=rated&format=raw&lang='+oCurrentlang,
@@ -41,20 +41,21 @@ jQuery(document).ready(function() {
        var alt = data[i].title;
        var pic = null;
        var meass = ''; 
-       var oCount = addSpecificData(opts.oContentItemId.substring(opts.oContentItemId.length-3,opts.oContentItemId.length), data[i]);
+       var oCount = addSpecificData(opts.oContentItemId.substring(opts.oContentItemId.length-5,opts.oContentItemId.length), data[i]);
        alt = alt.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, ' ');
        if(img !=''){
 			if(img.indexOf('http') < 0)
 				img = 'hwdvideos/thumbs/'+data[i].thumbnail;
 				else
-					meass = ' width="120px" height="90px" '
+					meass = ' width="120px" height="90px" ';
 			pic = '<img '+meass+' class="mright6" src="'+img+'" alt="'+alt+'" title="'+alt+'" />'	
 				}else if(data[i].thumbnail =='')
 					pic = '<img class="mright6" width="20" height="20" src="templates/rhuk_milkyway/images/vinyl-icon.png" alt="'+alt+'" title="'+alt+'" />';					 
-       content += '<div><div><a href="index.php?option=com_hwdvideoshare&task=viewvideo&video_id='+data[i].id+'&lang='+oLanguage+'" title="' +alt+ '">'+pic+ '</a><div class="mright12"><span class="f60 mright24 videotime">'+data[i].video_length+'</span></div></div>'
-       content += '<div class="f13px mtop2 pad2"><h6><a href="index.php?option=com_hwdvideoshare&task=viewvideo&video_id='+data[i].id+'&lang='+oLanguage+'" title="' +alt+ '">'+data[i].title+'</a></h6></div>'
-       content += '<div class="f60">'+data[i].date_uploaded+'</div>'
-       content += '</div>'
+       content += '<div><div><a href="index.php?option=com_hwdvideoshare&task=viewvideo&video_id='+data[i].id+'&lang='+oLanguage+'" title="' +alt+ '">'+pic+ '</a><div class="mright12"><span class="f60 mright24 videotime">'+data[i].video_length+'</span></div></div>';
+       content += '<div class="f13px mtop2 pad2"><h6><a href="index.php?option=com_hwdvideoshare&task=viewvideo&video_id='+data[i].id+'&lang='+oLanguage+'" title="' +alt+ '">'+data[i].title+'</a></h6></div>';
+       content += oCount;
+       content += '<div class="f60">Shared '+timeSince(new Date(data[i].date_uploaded))+' ago</div>';
+       content += '</div>';
     }
     jQuery(opts.oContentItemId).html(content);
   }
@@ -69,18 +70,54 @@ jQuery(document).ready(function() {
 			navigation : opts.navigation
 		  });
 	  }
-	  
+  function timeSince(date) {
+	  	var seconds = Math.floor((new Date() - date) / 1000);
+		var interval = Math.floor(seconds / 31536000);
+
+		if (interval > 1) {
+			return interval + " years";
+		}
+		interval = Math.floor(seconds / 2592000);
+		if (interval > 1) {
+			return interval + " months";
+		}
+		interval = Math.floor(seconds / 86400);
+		if (interval > 1) {
+			return interval + " days";
+		}
+		interval = Math.floor(seconds / 3600);
+		if (interval > 1) {
+			return interval + " hours";
+		}
+		interval = Math.floor(seconds / 60);
+		if (interval > 1) {
+			return interval + " minutes";
+		}
+		return Math.floor(seconds) + " seconds";
+	}	  
   function addSpecificData(paramType, paramData){
+	  console.log(paramData);
 	  var oSpecificData = '';
+	  var oPlural = (parseInt(paramData.cnt)>1)?'s':'';
 		switch(paramType){
-			case 'recent':
+			case 'liked':
+							oSpecificData +='<div class="f60 mtop2">'+paramData.cnt+' time'+oPlural+' liked</div>';
+							break;
+			case 'rated':
+							oSpecificData +='<div class="f60 mtop2"><img src="components/com_hwdvideoshare/assets/images/ratings/stars'+parseInt(paramData.updated_rating)+'0.png" width="80" height="16" alt="'+paramData.cnt+' votes" /> <span class="f80">('+paramData.cnt+' vote'+oPlural+')</span></div>';
+							break;
+			case 'bwnow':
+							oSpecificData +='<div class="f60 mtop2">'+paramData.number_of_views+' views</div>';
+							break;
+			case 'ecent':
 							oSpecificData +='';
 							break;
 			default:
-							oSpecificData +='<div>'+paramData+'</div>';
+							oSpecificData +='<div class="f60 mtop2">'+paramData.number_of_views+' views</div>';
 							break;
 			
 			}
+		return	oSpecificData;
 	  }
 	  
   function addSortingControls(){
