@@ -58,6 +58,10 @@ jQuery(document).ready(function() {
        content += '</div>';
     }
     jQuery(opts.oContentItemId).html(content);
+    jQuery('img',jQuery(opts.oContentItemId)).load(function(){
+           jQuery('.loadingcontent').hide();
+           oContentItem.fadeIn(500);
+        });
     addActions();
   }
   
@@ -68,8 +72,7 @@ jQuery(document).ready(function() {
 			jsonSuccess : function(data){customDataSuccess(data,opts.oContentItemId)},
 			items : opts.items,
 			lazyLoad : opts.lazyLoad,
-			navigation : opts.navigation,
-			afterInit: function(){jQuery('.loadingcontent').hide();oContentItem.fadeIn(500);}
+			navigation : opts.navigation
 		  });
 	  }
 	  
