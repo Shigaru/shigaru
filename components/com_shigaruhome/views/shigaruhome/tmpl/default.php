@@ -192,6 +192,13 @@ var currentLang = "<?php echo $currentLang ?>";
 		</div>
 	</div>			
 </div>
+
+<div class="mbot20 w70 tcenter">
+	<a class="btn btn-large" href="#">
+	  <i class="icon-plus-sign fontblack"></i> <span class="fontblack f90">Load More Suggestions</span>
+	</a>
+</div>
+
 <input type="hidden" id="currentlang" name="currentlang" value="<?php echo $currentLang ?>"/>
 <link rel="stylesheet" href="components/com_shigaruhome/views/shigaruhome/tmpl/owl-carousel/owl.carousel.css">
 <link rel="stylesheet" href="components/com_shigaruhome/views/shigaruhome/tmpl/owl-carousel/owl.theme.css">
