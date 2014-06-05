@@ -20,27 +20,63 @@ var currentLang = "<?php echo $currentLang ?>";
 					<div class="clearfix borbotgrey mbot6 backgreysoft">
 						<h4 class="fleft fontblack pad6"><i class="icon-thumbs-up"></i> <?php echo JText::_('LIKED'); ?></h4>
 						<div class="clearfix fright mbot6 mtop6 mright6">
-							<div class="fleft mright6 btn-group">
+								<div class="fleft mright6 btn-group">
 								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
-								  <ul class="dropdown-menu">
-									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
-									<li class="divider"></li>
-									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  <ul class="dropdown-menu sortby">
+									<li><a href="#"><i class="icon-fixed-width icon-chevron-right"></i> <span class="fontbold">Date</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Rating</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Views</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Category</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Level</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Comments</span></a></li>
 								  </ul>
 								</div>
-							<div class="fleft btn-group">
-								  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filters applied</span> <span class="icon-caret-down fontblack"></span></a>
-								  <ul class="dropdown-menu">
-									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
-									<li class="divider"></li>
-									<li><a href="#"><i class="i"></i> Make admin</a></li>
-								  </ul>
+								<div class="fleft btn-group">
+									  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filter</span> <span class="icon-caret-down fontblack"></span></a>
+									  <ul class="dropdown-menu filter">
+										<li><a href="#" class="nodrop"><i class="icon-fixed-width icon-chevron-right"></i> <span class="fontbold">No filter</span></a></li>
+										<li>
+											<a><i class="icon-fixed-width icon-angle-right"></i> <span>Category</span></a>
+											 <ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Song Tutorials</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Theory</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Watch Me Play</span></a></li>
+											  </ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Level</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Absolute Beginner</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Beginner</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Intermediate</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Upper Intermediate</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Expert</span></a></li>
+											</ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Date</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Anytime</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Week</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Month</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Year</span></a></li>
+											</ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Duration</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>All</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Short videos (1-3min)</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Medium videos (3-10min)</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Long videos (+10min)</span></a></li>
+											</ul>
+										</li>
+									  </ul>
 								</div>
-						</div>
+							</div>
+							<div class="fleft">
+								  <a class="btn btn-small mtop2 mright6 mleft6" href="#"><i class="fontblack icon-caret-down"></i> <span class="fontblack"></span></a>
+							</div>
 					</div>
 					
 						
@@ -50,27 +86,63 @@ var currentLang = "<?php echo $currentLang ?>";
 					<div class="clearfix borbotgrey mbot6 backgreysoft">
 						<h4 class="fleft fontblack pad6"><i class="icon-eye-open"></i> <?php echo JText::_('BWN'); ?></h4>
 						<div class="clearfix fright mbot6 mtop6 mright6">
-							<div class="fleft mright6 btn-group">
+								<div class="fleft mright6 btn-group">
 								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
-								  <ul class="dropdown-menu">
-									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
-									<li class="divider"></li>
-									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  <ul class="dropdown-menu sortby">
+									<li><a href="#"><i class="icon-fixed-width icon-chevron-right"></i> <span class="fontbold">Date</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Rating</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Views</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Category</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Level</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Comments</span></a></li>
 								  </ul>
 								</div>
-							<div class="fleft btn-group">
-								  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filters applied</span> <span class="icon-caret-down fontblack"></span></a>
-								  <ul class="dropdown-menu">
-									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
-									<li class="divider"></li>
-									<li><a href="#"><i class="i"></i> Make admin</a></li>
-								  </ul>
+								<div class="fleft btn-group">
+									  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filter</span> <span class="icon-caret-down fontblack"></span></a>
+									  <ul class="dropdown-menu filter">
+										<li><a href="#" class="nodrop"><i class="icon-fixed-width icon-chevron-right"></i> <span class="fontbold">No filter</span></a></li>
+										<li>
+											<a><i class="icon-fixed-width icon-angle-right"></i> <span>Category</span></a>
+											 <ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Song Tutorials</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Theory</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Watch Me Play</span></a></li>
+											  </ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Level</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Absolute Beginner</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Beginner</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Intermediate</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Upper Intermediate</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Expert</span></a></li>
+											</ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Date</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Anytime</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Week</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Month</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Year</span></a></li>
+											</ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Duration</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>All</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Short videos (1-3min)</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Medium videos (3-10min)</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Long videos (+10min)</span></a></li>
+											</ul>
+										</li>
+									  </ul>
 								</div>
-						</div>
+							</div>
+							<div class="fleft">
+								  <a class="btn btn-small mtop2 mright6 mleft6" href="#"><i class="fontblack icon-caret-down"></i> <span class="fontblack"></span></a>
+							</div>
 					</div>		
 					<div id="shigaruowlbwnow" class="owl-carousel mbot12">
 					</div>
@@ -78,30 +150,63 @@ var currentLang = "<?php echo $currentLang ?>";
 					<div class="clearfix borbotgrey mbot6 backgreysoft">
 						<h4 class="fleft fontblack pad6"><i class="icon-star"></i> <?php echo JText::_('MOST_RATED'); ?></h4>
 						<div class="clearfix fright mbot6 mtop6 mright6">
-							<div class="fleft mright6 btn-group">
+								<div class="fleft mright6 btn-group">
 								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
-								  <ul class="dropdown-menu">
-									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
-									<li class="divider"></li>
-									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  <ul class="dropdown-menu sortby">
+									<li><a href="#"><i class="icon-fixed-width icon-chevron-right"></i> <span class="fontbold">Date</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Rating</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Views</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Category</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Level</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Comments</span></a></li>
 								  </ul>
 								</div>
-							<div class="fleft btn-group">
-								  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filters applied</span> <span class="icon-caret-down fontblack"></span></a>
-								  <ul class="dropdown-menu">
-									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
-									<li class="divider"></li>
-									<li><a href="#"><i class="i"></i> Make admin</a></li>
-								  </ul>
+								<div class="fleft btn-group">
+									  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filter</span> <span class="icon-caret-down fontblack"></span></a>
+									  <ul class="dropdown-menu filter">
+										<li><a href="#" class="nodrop"><i class="icon-fixed-width icon-chevron-right"></i> <span class="fontbold">No filter</span></a></li>
+										<li>
+											<a><i class="icon-fixed-width icon-angle-right"></i> <span>Category</span></a>
+											 <ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Song Tutorials</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Theory</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Watch Me Play</span></a></li>
+											  </ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Level</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Absolute Beginner</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Beginner</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Intermediate</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Upper Intermediate</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Expert</span></a></li>
+											</ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Date</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Anytime</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Week</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Month</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Year</span></a></li>
+											</ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Duration</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>All</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Short videos (1-3min)</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Medium videos (3-10min)</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Long videos (+10min)</span></a></li>
+											</ul>
+										</li>
+									  </ul>
 								</div>
+							</div>
 							<div class="fleft">
 								  <a class="btn btn-small mtop2 mright6 mleft6" href="#"><i class="fontblack icon-caret-down"></i> <span class="fontblack"></span></a>
 							</div>
-						</div>
 					</div>			
 					<div id="shigaruowlrated" class="owl-carousel">
 					</div>		
@@ -109,27 +214,63 @@ var currentLang = "<?php echo $currentLang ?>";
 					<div class="clearfix borbotgrey mbot6 backgreysoft">
 						<h4 class="fleft fontblack pad6"><i class="icon-star"></i> <?php echo JText::_('MOST_RECENT'); ?></h4>
 						<div class="clearfix fright mbot6 mtop6 mright6">
-							<div class="fleft mright6 btn-group">
+								<div class="fleft mright6 btn-group">
 								  <a class="btn btn-small" href="#"><i class="fontblack icon-list-ol"></i> <span class="fontblack">Sorty by:</span> <span class="fontblack fontbold">Date</span> <span class="icon-caret-down fontblack"></span></a>
-								  <ul class="dropdown-menu">
-									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
-									<li class="divider"></li>
-									<li><a href="#"><i class="i"></i> Make admin</a></li>
+								  <ul class="dropdown-menu sortby">
+									<li><a href="#"><i class="icon-fixed-width icon-chevron-right"></i> <span class="fontbold">Date</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Rating</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Views</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Category</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Level</span></a></li>
+									<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Comments</span></a></li>
 								  </ul>
 								</div>
-							<div class="fleft btn-group">
-								  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filters applied</span> <span class="icon-caret-down fontblack"></span></a>
-								  <ul class="dropdown-menu">
-									<li><a href="#"><i class="icon-fixed-width icon-pencil"></i> Edit</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-trash"></i> Delete</a></li>
-									<li><a href="#"><i class="icon-fixed-width icon-ban-circle"></i> Ban</a></li>
-									<li class="divider"></li>
-									<li><a href="#"><i class="i"></i> Make admin</a></li>
-								  </ul>
+								<div class="fleft btn-group">
+									  <a class="btn btn-small" href="#"><i class="icon-filter fontblack"></i> <span class="fontblack">Filter:</span> <span class="fontbold fontblack">No filter</span> <span class="icon-caret-down fontblack"></span></a>
+									  <ul class="dropdown-menu filter">
+										<li><a href="#" class="nodrop"><i class="icon-fixed-width icon-chevron-right"></i> <span class="fontbold">No filter</span></a></li>
+										<li>
+											<a><i class="icon-fixed-width icon-angle-right"></i> <span>Category</span></a>
+											 <ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Song Tutorials</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Theory</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Watch Me Play</span></a></li>
+											  </ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Level</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Absolute Beginner</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Beginner</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Intermediate</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Upper Intermediate</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Expert</span></a></li>
+											</ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Date</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Anytime</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Week</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Month</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Last Year</span></a></li>
+											</ul>
+										</li>
+										<li>
+											<a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Duration</span></a>
+											<ul class="nested-dropdown-menu">
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>All</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Short videos (1-3min)</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Medium videos (3-10min)</span></a></li>
+												<li><a href="#"><i class="icon-fixed-width icon-angle-right"></i> <span>Long videos (+10min)</span></a></li>
+											</ul>
+										</li>
+									  </ul>
 								</div>
-						</div>
+							</div>
+							<div class="fleft">
+								  <a class="btn btn-small mtop2 mright6 mleft6" href="#"><i class="fontblack icon-caret-down"></i> <span class="fontblack"></span></a>
+							</div>
 					</div>			
 					<div id="shigaruowlrecent" class="owl-carousel">
 					</div>		

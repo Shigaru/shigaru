@@ -3835,6 +3835,9 @@ input.btn-block[type="submit"], input.btn-block[type="reset"], input.btn-block[t
     margin: 9px 1px;
     overflow: hidden;
 }
+
+
+
 .dropdown-menu li > a {
     clear: both;
     color: #333333;
@@ -3874,6 +3877,13 @@ input.btn-block[type="submit"], input.btn-block[type="reset"], input.btn-block[t
 .open > .dropdown-menu {
     display: block;
 }
+
+.nested-dropdown-menu{display:none;}
+
+.nested-dropdown-menu li > a{
+padding-left: 32px;
+}
+
 .pull-right > .dropdown-menu {
     left: auto;
     right: 0;

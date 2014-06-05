@@ -74,13 +74,21 @@ jQuery(document).ready(function() {
 	  }
 	  
   function addActions(){
-	  
 	  oContentItem.prev().find('a.btn').click(function(e) {
 				var $this = jQuery(this);
 				$this.next().toggle();
 				e.preventDefault();
 				e.stopPropagation();
 			});
+	  oContentItem.prev().find('.dropdown-menu>li>a').click(function(e){
+				var $this = jQuery(this);
+				if($this.parent().parent().hasClass('sortby'))
+					executeSortingActions($this);
+					else if($this.parent().parent().hasClass('filter'))
+						executeFilteringActions($this);
+				e.preventDefault();
+				e.stopPropagation();
+		  });
 	  
 	  }	  
   function timeSince(date) {
@@ -132,12 +140,30 @@ jQuery(document).ready(function() {
 		return	oSpecificData;
 	  }
 	  
-  function addSortingControls(){
-	  
+  function executeSortingActions($this){
+		$this.parent().parent().prev().find('.fontblack.fontbold').html($this.find('span').html());
+		$this.parent().parent().find('span').removeClass('fontbold');
+		$this.parent().parent().find('i').removeClass('icon-chevron-right').addClass('icon-angle-right');
+		$this.find('span').addClass('fontbold');
+		$this.find('i').removeClass('icon-angle-right').addClass('icon-chevron-right');
+		$this.parent().parent().hide();
 	  }
   
-  function addFilteringControls(){
+  function executeFilteringActions($this){
+	  oContentItem.prev().find('.nested-dropdown-menu').each(function(i,el){
+			if(!$this.hasClass('nodrop') && !jQuery(el).prev().is($this))
+				jQuery(el).slideUp();
+				else if(!$this.hasClass('nodrop') && $this.next().is(":visible"))
+					$this.next().slideUp('slow');
+						else if(jQuery(el).prev().is($this) && !$this.next().is(":visible"))
+							$this.next().slideDown('slow');
+		  });
 	  
+		//$this.parent().parent().prev().find('.fontblack.fontbold').html($this.find('span').html());
+		if($this.hasClass('nodrop') && !jQuery(el).prev().is($this)){
+			$this.parent().parent().hide();
+			oContentItem.prev().find('.nested-dropdown-menu').slideUp('slow');
+			}
 	  }
 	  
   function previewItemContent(){
