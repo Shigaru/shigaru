@@ -92,33 +92,37 @@ jQuery(document).ready(function() {
 				e.preventDefault();
 				e.stopPropagation();
 		  });
+	  oContentItem.prev().find('.nested-dropdown-menu>li>a').click(function(e){
+				var $this = jQuery(this);
+				oContentItem.prev().find('.nested-dropdown-menu>li>a').each(function(i,el){
+					var $oThiA = jQuery(el);
+					if(!$oThiA.is($this)){
+						var $thisparentA = $oThiA.parent().parent().prev();
+						$oThiA.find('span').removeClass('fontbold');
+						$thisparentA.find('span').removeClass('fontbold');
+						$oThiA.find('i').removeClass('icon-chevron-right').addClass('icon-angle-right');
+						$thisparentA.find('i').removeClass('icon-chevron-right').addClass('icon-angle-right');
+						}else if($oThiA.is($this)){
+							var $thisparent = $this.parent().parent().prev();
+							$this.find('span').addClass('fontbold');
+							$this.find('i').removeClass('icon-angle-right').addClass('icon-chevron-right');
+							$thisparent.find('span').addClass('fontbold');
+							$thisparent.find('i').removeClass('icon-angle-right').addClass('icon-chevron-right');
+							executeFilteringActions($thisparent, true);
+								}
+				});
+				
+				oContentItem.prev().find('.dropdown-menu>li>a.nodrop').find('span').removeClass('fontbold');
+				oContentItem.prev().find('.dropdown-menu>li>a.nodrop').find('i').removeClass('icon-chevron-right').addClass('icon-angle-right');
+				
+				
+				//$this.parent().parent().hide();
+				e.preventDefault();
+				e.stopPropagation();
+		  });	  
 	  
 	  }	  
-  function timeSince(date) {
-	  	var seconds = Math.floor((new Date() - date) / 1000);
-		var interval = Math.floor(seconds / 31536000);
-
-		if (interval > 1) {
-			return interval + " years";
-		}
-		interval = Math.floor(seconds / 2592000);
-		if (interval > 1) {
-			return interval + " months";
-		}
-		interval = Math.floor(seconds / 86400);
-		if (interval > 1) {
-			return interval + " days";
-		}
-		interval = Math.floor(seconds / 3600);
-		if (interval > 1) {
-			return interval + " hours";
-		}
-		interval = Math.floor(seconds / 60);
-		if (interval > 1) {
-			return interval + " minutes";
-		}
-		return Math.floor(seconds) + " seconds";
-	}	  
+  	  
   function addSpecificData(paramType, paramData){
 	  var oSpecificData = '';
 	  var oPlural = (parseInt(paramData.cnt)>1)?'s':'';
@@ -152,18 +156,23 @@ jQuery(document).ready(function() {
 		$this.parent().parent().hide();
 	  }
   
-  function executeFilteringActions($this){
+  function executeFilteringActions($this, fromChild){
+	 
+	  
 	  oContentItem.prev().find('.nested-dropdown-menu').each(function(i,el){
-			if(!$this.hasClass('nodrop') && !jQuery(el).prev().is($this))
+			if(!$this.hasClass('nodrop') && !jQuery(el).prev().is($this) && !fromChild){alert('2');
 				jQuery(el).slideUp();
-				else if(!$this.hasClass('nodrop') && $this.next().is(":visible"))
-					$this.next().slideUp('slow');
-						else if(jQuery(el).prev().is($this) && !$this.next().is(":visible"))
-							$this.next().slideDown('slow');
+				jQuery(el).prev().find('i').removeClass('icon-chevron-down').addClass('icon-angle-right');
+				}else if(!$this.hasClass('nodrop') && $this.next().is(":visible") && !fromChild){
+					$this.next().slideUp('slow');alert('3');
+					$this.find('i').removeClass('icon-chevron-down').addClass('icon-angle-right');
+						}else if(jQuery(el).prev().is($this) && !$this.next().is(":visible")){
+							$this.next().slideDown('slow');alert('4');
+							$this.find('i').removeClass('icon-angle-right').addClass('icon-chevron-down');
+						}
 		  });
 	  
-		//$this.parent().parent().prev().find('.fontblack.fontbold').html($this.find('span').html());
-		if($this.hasClass('nodrop') && !jQuery(el).prev().is($this)){
+		if($this.hasClass('nodrop')){
 			$this.parent().parent().hide();
 			oContentItem.prev().find('.nested-dropdown-menu').slideUp('slow');
 			}
@@ -172,6 +181,32 @@ jQuery(document).ready(function() {
   function previewItemContent(){
 	  
 	  }
+	  
+  function timeSince(date) {
+	  	var seconds = Math.floor((new Date() - date) / 1000);
+		var interval = Math.floor(seconds / 31536000);
+
+		if (interval > 1) {
+			return interval + " years";
+		}
+		interval = Math.floor(seconds / 2592000);
+		if (interval > 1) {
+			return interval + " months";
+		}
+		interval = Math.floor(seconds / 86400);
+		if (interval > 1) {
+			return interval + " days";
+		}
+		interval = Math.floor(seconds / 3600);
+		if (interval > 1) {
+			return interval + " hours";
+		}
+		interval = Math.floor(seconds / 60);
+		if (interval > 1) {
+			return interval + " minutes";
+		}
+		return Math.floor(seconds) + " seconds";
+	}
 	  	  
   }
 
