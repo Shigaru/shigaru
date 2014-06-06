@@ -160,14 +160,14 @@ jQuery(document).ready(function() {
 	 
 	  
 	  oContentItem.prev().find('.nested-dropdown-menu').each(function(i,el){
-			if(!$this.hasClass('nodrop') && !jQuery(el).prev().is($this) && !fromChild){alert('2');
+			if(!$this.hasClass('nodrop') && !jQuery(el).prev().is($this) && !fromChild){
 				jQuery(el).slideUp();
 				jQuery(el).prev().find('i').removeClass('icon-chevron-down').addClass('icon-angle-right');
 				}else if(!$this.hasClass('nodrop') && $this.next().is(":visible") && !fromChild){
-					$this.next().slideUp('slow');alert('3');
+					$this.next().slideUp('slow');
 					$this.find('i').removeClass('icon-chevron-down').addClass('icon-angle-right');
 						}else if(jQuery(el).prev().is($this) && !$this.next().is(":visible")){
-							$this.next().slideDown('slow');alert('4');
+							$this.next().slideDown('slow');
 							$this.find('i').removeClass('icon-angle-right').addClass('icon-chevron-down');
 						}
 		  });
