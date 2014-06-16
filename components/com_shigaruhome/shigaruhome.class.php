@@ -71,28 +71,38 @@ class shigaruHome{
    
    function getTotalVideosCount(){
 		$db = & JFactory::getDBO();
-		// get video count
-        $db->SetQuery( 'SELECT count(*)'
-					 . ' FROM #__hwdvidsvideos AS video'
-					 . $hwdvs_joinv
-					 . $where
-					 );
+        $db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos AS video');
         $total = $db->loadResult();
         echo $db->getErrorMsg();
         return $total;
 		}
    function getTotalCategoryVideosCount($paramcategory){
 		$db = & JFactory::getDBO();
-		// get video count
-        $db->SetQuery( 'SELECT count(*)'
-					 . ' FROM #__hwdvidsvideos AS video WHERE category_id ='.$paramcategory
-					 . $hwdvs_joinv
-					 . $where
-					 );
+        $db->SetQuery( 'SELECT count(*) FROM #__hwdvidsvideos AS video WHERE category_id ='.$paramcategory);
         $total = $db->loadResult();
         echo $db->getErrorMsg();
         return $total;
 		}
+		
+	function getLatestSearchs() {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT DISTINCT pattern FROM #__hwdvidssearchlog_term WHERE 1 ORDER BY last_update DESC LIMIT 0,20';
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$wordList = $db->loadResultArray();
+		$wordListFormat = '';
+		$counter = 0;
+		foreach ($wordList as &$value) {
+			if($value!='' && $value!=' '){	
+				if($counter === 0)
+				$wordListFormat .= modRokajaxsearchHelper::getAnchor($value);
+				else
+					$wordListFormat .= ', '.modRokajaxsearchHelper::getAnchor($value);
+			$counter++;
+			}
+		}
+		return $wordListFormat;
+		}	
 	
 }
 

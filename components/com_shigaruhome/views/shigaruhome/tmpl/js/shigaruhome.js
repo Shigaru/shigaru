@@ -28,6 +28,7 @@ jQuery(document).ready(function() {
 	var opts 			= jQuery.extend({}, jQuery.fn.shigaruHome.defaults, options);
 	var oContentItem 	= jQuery(opts.oContentItemId);
 	var oLanguage		= jQuery('#currentlang').val()
+	var oOwlCarousel	= null;
 	
     return this.each(function() {
 			startCarousel();
@@ -67,7 +68,7 @@ jQuery(document).ready(function() {
   
   
   function startCarousel(){
-	  oContentItem.owlCarousel({
+	  oOwlCarousel = oContentItem.owlCarousel({
 			jsonPath : opts.paramUrl,
 			jsonSuccess : function(data){customDataSuccess(data,opts.oContentItemId)},
 			items : opts.items,
@@ -154,6 +155,18 @@ jQuery(document).ready(function() {
 		$this.find('span').addClass('fontbold');
 		$this.find('i').removeClass('icon-angle-right').addClass('icon-chevron-right');
 		$this.parent().parent().hide();
+		refreshContentItem();
+	  }
+  
+  function refreshContentItem(){
+	  oOwlCarousel.reinit({
+			jsonPath : opts.paramUrl,
+			jsonSuccess : function(data){customDataSuccess(data,opts.oContentItemId)},
+			items : opts.items,
+			lazyLoad : opts.lazyLoad,
+			navigation : opts.navigation		  
+		  });
+	  
 	  }
   
   function executeFilteringActions($this, fromChild){

@@ -552,8 +552,23 @@ $app = & JFactory::getApplication();
      * @return       Nothing
      */
 	function atozbands()	{
+		require_once(JPATH_SITE.DS.'components'.DS.'com_hwdvideoshare'.DS.'hwdvideoshare.html.php');
 		$counts = hwd_vs_standard::atozcounts();
-		hwd_vs_html::atozbands($counts);
+		global $Itemid, $smartyvs;
+		$uri = & JFactory::getURI();
+		$pageURL = $uri->toString();
+		$lang = JFactory::getLanguage();
+		$pageURL = str_replace("ajax_search", "displayresults", $pageURL);
+		$pageURL = str_replace("&ajax=yes", "", $pageURL);
+		$smartyvs->assign("pageURL", $pageURL);
+		$domain = JURI::root();
+	    $smartyvs->assign("domain", $domain);
+	    $smartyvs->assign("songorband", 'song');
+	    $smartyvs->assign("totalbands", $counts[0]);
+	    $smartyvs->assign("totalsongs", $counts[1]);
+	    $smartyvs->assign("bandsurl", JRoute::_('index.php?option=com_hwdvideoshare&task=atozbands&lang='.substr($lang->getTag(),0,2)));
+	    $smartyvs->assign("songsurl", JRoute::_('index.php?option=com_hwdvideoshare&task=atoz&lang='.substr($lang->getTag(),0,2)));
+		$smartyvs->display('atoz.tpl');
 		return;
 		}
 
