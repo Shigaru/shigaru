@@ -670,7 +670,7 @@ function userProfile( $option, $uid, $submitvalue) {
 			return;
 		}*/
 	}
-	if( $uid == 0 && isset( $_REQUEST['user'] ))
+	if( isset( $_REQUEST['user'] ))
 		$uid = $_REQUEST['user'];
 	$user					=&	loadComprofilerUser( $uid );
 
