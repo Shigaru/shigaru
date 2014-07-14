@@ -3829,7 +3829,7 @@ $app = & JFactory::getApplication();
 								s.embedding as songurl,
 								b.label as band_name,
 								b.external_id as extbandid,
-								b.external_url as extURL,
+		 					b.external_url as extURL,
 								u.id as albumid,
 								u.label as album_name,
 								u.external_url as extalbURL,
@@ -3841,7 +3841,7 @@ $app = & JFactory::getApplication();
          $results = $db->loadObjectList();
          if(count($results)>0){
 			 foreach($results as $result){
-						$result->url = 'index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=bsongssource&item_id='.$result->songid.'&lang='.substr($lang->getTag(),0,2);
+						$result->url = JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=bsongssource&Itemid=88&item_id='.$result->songid.'&lang='.substr($lang->getTag(),0,2));
 					}
 			}
 		 return $results;
@@ -3869,9 +3869,12 @@ $app = & JFactory::getApplication();
 		 $db->setQuery($query);
          echo $db->getErrorMsg();
          $results = $db->loadObjectList();
+         $app = JFactory::getApplication();
+		 $menu = $app->getMenu();
+		 $items = $menu->getItems('component', 'com_hwdvideoshare');
          if(count($results)>0){
 			 foreach($results as $result){
-						$result->url = 'index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=cbandsssource&item_id='.$result->bandid.'&lang='.substr($lang->getTag(),0,2);
+						$result->url = JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=cbandsssource&Itemid=88&item_id='.$result->bandid.'&lang='.substr($lang->getTag(),0,2));
 					}
 			}	
 		 return $results;

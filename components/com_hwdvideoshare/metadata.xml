@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
    <menu>
-      <options var="task">
+      <options var="task"> 
          <option name="HWDVS_MENU_VH" msg="HWDVS_MENU_VH_DESC" value="frontpage"  />
          <option name="HWDVS_MENU_VC" msg="HWDVS_MENU_VC_DESC" value="categories" />
          <option name="HWDVS_MENU_GC" msg="HWDVS_MENU_GC_DESC" value="gotocategory" />
          <option name="HWDVIDS_SHIGARU_ATOZ" msg="HWDVS_MENU_UV_DESC" value="atoz" />
+         <option name="HWDVIDS_SHIGARU_SEARCHOPTION" msg="HWDVS_MENU_UV_DESC" value="searchbyoption" />
          <option name="HWDVS_MENU_UV" msg="HWDVS_MENU_UV_DESC" value="upload" />
+         <option name="HWDVIDS_SHIGARU_SEARCH" msg="HWDVS_MENU_CH_DESC" value="search" />
          <option name="HWDVS_MENU_CH" msg="HWDVS_MENU_CH_DESC" value="channels" />
          <option name="HWDVS_MENU_VG" msg="HWDVS_MENU_VG_DESC" value="groups" />
          <option name="HWDVS_MENU_AG" msg="HWDVS_MENU_AG_DESC" value="creategroup" />
