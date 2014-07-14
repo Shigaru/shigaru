@@ -641,6 +641,8 @@ function & loadComprofilerUser( $uid ) {
 
 function userProfile( $option, $uid, $submitvalue) {
 	global $_REQUEST, $ueConfig, $_CB_framework, $_PLUGINS;
+	
+	
 	if ( isset( $_REQUEST['user'] ) ) {
 		if ( ! allowAccess( $ueConfig['allow_profileviewbyGID'], 'RECURSE', userGID( $_CB_framework->myId() ) ) ) {
 			if (	( $_CB_framework->myId() < 1 )
@@ -668,7 +670,8 @@ function userProfile( $option, $uid, $submitvalue) {
 			return;
 		}*/
 	}
-
+	if( $uid == 0 && isset( $_REQUEST['user'] ))
+		$uid = $_REQUEST['user'];
 	$user					=&	loadComprofilerUser( $uid );
 
 	if ( $user === null ) {
