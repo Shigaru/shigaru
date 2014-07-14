@@ -120,7 +120,6 @@ class JSite extends JApplication
 
 		$document->setTitle( $params->get('page_title') );
 		$document->setDescription( $params->get('page_description') );
-
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer( $contents, 'component');
 	}
