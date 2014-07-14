@@ -5735,7 +5735,7 @@ $app = & JFactory::getApplication();
 		$smartyvs->assign("connectionsLink", $connectionsLink);
 		$smartyvs->assign("username", $cbUser->_cbuser->username);
 		$smartyvs->assign("userMenu", $userMenu);
-		$smartyvs->assign("avatar", "images/comprofiler/".$cbUser->_cbuser->avatar);
+		$smartyvs->assign("avatar", JURI::root()."images/comprofiler/".$cbUser->_cbuser->avatar);
 		$smartyvs->assign("signeup", date("d-m-Y", strtotime($cbUser->_cbuser->registerDate)));
 		$smartyvs->assign("lastvisit", date("d-m-Y", strtotime($cbUser->_cbuser->lastvisitDate)));
 		$smartyvs->assign("socialpages", $return);

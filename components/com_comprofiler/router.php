@@ -129,8 +129,10 @@ function comprofilerParseRoute( $segments ) {
 
 			default:
 				$oUser = getUserBySluggedUsername($vars['task']);
-				$vars['task']				=	'userprofile';
-				$vars['user']				=	intval($oUser);
+				if($oUser){
+					$vars['task']				=	'userprofile';
+					$vars['user']				=	intval($oUser);
+				}
 				break;
 		}
 	}

@@ -402,6 +402,13 @@ class hwd_vs_usrfunc
 		$smartyvs->assign("lang", substr($lang->getTag(),0,2));
 		$smartyvs->assign("user_id", $user_id);
 		$smartyvs->assign("showown", $showown);
+		$smartyvs->assign("aboutme", JRoute::_('index.php?option=com_hwdvideoshare&task=aboutme&lang='.substr($lang->getTag(),0,2).'&guid='.$user_id));
+		$smartyvs->assign("watchhistory", JRoute::_('index.php?option=com_hwdvideoshare&task=watchhistory&lang='.substr($lang->getTag(),0,2).'&guid='.$user_id));
+		$smartyvs->assign("yourvideoscreated", JRoute::_('index.php?option=com_hwdvideoshare&task=yourvideoscreated&lang='.substr($lang->getTag(),0,2).'&guid='.$user_id));
+		$smartyvs->assign("yourvideosshared", JRoute::_('index.php?option=com_hwdvideoshare&task=yourvideosshared&lang='.substr($lang->getTag(),0,2).'&guid='.$user_id));
+		$smartyvs->assign("yourlearnlater", JRoute::_('index.php?option=com_hwdvideoshare&task=yourlearnlater&lang='.substr($lang->getTag(),0,2).'&guid='.$user_id));
+		$smartyvs->assign("yourfavourites", JRoute::_('index.php?option=com_hwdvideoshare&task=yourfavourites&lang='.substr($lang->getTag(),0,2).'&guid='.$user_id));
+		$smartyvs->assign("videosilike", JRoute::_('index.php?option=com_hwdvideoshare&task=videosilike&lang='.substr($lang->getTag(),0,2).'&guid='.$user_id));
 		$oResults = $smartyvs->fetch('video_list_sidemenu.tpl');
 		return $oResults;
 		}
