@@ -466,7 +466,7 @@ class CBListView_html_default extends cbListView {
 <?php
 		if ( $this->searchTabContent ) {
 ?>
-		<div class=" contentdescription cbUserListSearch" id="cbUserListsSearcher">
+		<div class=" contentdescription clearfix cbUserListSearch" id="cbUserListsSearcher">
 			<div class="componentheading"><?php echo $this->searchCriteriaTitleHtml; ?></div>
 			<div class="cbUserListSearchFields">
 <?php
@@ -502,7 +502,7 @@ class CBListView_html_default extends cbListView {
 ?>
 <link rel="stylesheet" href="<?php echo JURI::base(); ?>modules/mod_zncbmembers/tmpl/css/default.css" type="text/css" />
 <script type="text/javascript" src="<?php echo JURI::base(); ?>modules/mod_zncbmembers/tmpl/js/shiggymembers.js"></script>
-<div id="cbUserTable" class="pe-container cbUserListTable cbUserListT_<?php echo $this->listid ?>">
+<div id="cbUserTable" class="pe-container clearfix cbUserListTable cbUserListT_<?php echo $this->listid ?>">
 <p class="mbot12">Hover over an image to view details of each Shigaru member and click on an image to view their profile page.</p>
 	<ul id="pe-thumbs" class="pe-thumbs">
 					<?php

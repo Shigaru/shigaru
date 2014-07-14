@@ -840,7 +840,7 @@ List Functions
 
 				// top page links:
 ?>
-	<div class="cbUserListPagination cbUserListPaginationTop" style="width:100%;text-align:center;"><?php echo writePagesLinks($limitstart, $limit, $total, $ue_base_url.$pagingSearch.$spoofAmp, $search); ?></div>
+	<div class="cbUserListPagination cbUserListPaginationTop cbUserListPagination pagination f120" style="width:100%;text-align:center;"><?php echo writePagesLinks($limitstart, $limit, $total, $ue_base_url.$pagingSearch.$spoofAmp, $search); ?></div>
 <?php
 			}
 
@@ -853,7 +853,7 @@ List Functions
 			// bottom page links:
 ?>
 
-	<div class="cbUserListPagination cbUserListPaginationBottom" style="width:100%;text-align:center;"><?php echo writePagesLinks($limitstart, $limit, $total, $ue_base_url.$pagingSearch.$spoofAmp, $search); ?></div>
+	<div class="cbUserListPagination cbUserListPaginationBottom pagination f120" style="width:100%;text-align:center;"><?php echo writePagesLinks($limitstart, $limit, $total, $ue_base_url.$pagingSearch.$spoofAmp, $search); ?></div>
 <?php		}
 
 			if ( count( $pluginAdditions['footer'] ) ) {
