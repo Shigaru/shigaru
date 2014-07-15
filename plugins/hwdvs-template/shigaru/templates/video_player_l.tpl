@@ -102,21 +102,6 @@
 											  })();
 											</script>{/literal}
 										</div>
-										<div class="fleft mright12 mtop20">
-											<a href="http://pinterest.com/pin/create/button/?url={$currentUrl}" class="pin-it-button" count-layout="vertical"><img border="0" src="http://assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-											<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>
-										</div>
-										<div class="fleft mright12">
-											{literal}<!-- Place this tag where you want the su badge to render -->
-											<su:badge layout="5"></su:badge>
-											<script type="text/javascript">
-											  (function() {
-												var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
-												li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
-												var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
-											  })();
-											</script>{/literal}
-										</div>
 									</div>	
 								</div>	
 								<div class="clear">   </div> 

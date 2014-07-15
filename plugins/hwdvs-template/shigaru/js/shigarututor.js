@@ -21,10 +21,16 @@ jQuery(document).ready(function () {
 								itemContent += '<div class="fleft w50 clearfix">';
 								itemContent += '<h5 class="fleft mleft12 mbot6"><a href="'+oUrl+e.contentDetails.upload.videoId+'">'+e.snippet.title+'</a></h5>';	
 								}else{
-									var str = e.snippet.title;
-									var res = str.substring(0, 100);
-									if(str.length > 100)
-										res += '...';
+									var str = '';
+									var res = '';
+									if(e.snippet.title){
+										str = e.snippet.title;
+										res = str.substring(0, 100);
+										if(str.length > 100)
+											res += '...';
+									}else if(e.snippet.type == "subscription"){
+										str = e.snippet.type;
+										}
 									itemContent += '<div class="fleft w50 clearfix videobox">';
 									itemContent += '<div class="clearfix"><div class="mbot12 clearfix fleft"><a href="'+oUrl+e.contentDetails.upload.videoId+'" class="fleft"><img src="'+e.snippet.thumbnails.default.url+'" class="fleft mtop12"/></a></div>'
 									itemContent += '<div class="fleft w50 clearfix f90">';
@@ -46,10 +52,24 @@ jQuery(document).ready(function () {
 									else
 										nextuploadbig = false;
 								var itemContent = '<div class="fleft w30 mleft12 mbot6 clearfix">';
-								var str = e.snippet.title;
-								var res = str.substring(0, 16);
-								str = str.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, ' ');
-								itemContent += '<a href="index.php?option=com_shigarututor&Itemid=83&lang=es&task=gotovideo&video_id='+e.contentDetails.like.resourceId.videoId+'" title="'+str+'"><img src="'+e.snippet.thumbnails.default.url+'" class="fleft"/>'
+								var str = '';
+								var res = '';
+								var oLink = '';
+								if(e.snippet.title){
+									str = e.snippet.title;
+									res = str.substring(0, 16);
+									str = str.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, ' ');
+								}else if(e.snippet.type == "subscription"){
+									str = 'New ' + e.snippet.type + '! ';
+									res = str.substring(0, 17);
+									}
+									
+								if(e.contentDetails && e.contentDetails.like && e.contentDetails.like.resourceId.videoId){
+									oLink = 'index.php?option=com_shigarututor&Itemid=83&lang=es&task=gotovideo&video_id='+e.contentDetails.like.resourceId.videoId;
+									}else{
+										oLink = 'https://www.youtube.com/user/shigarututor';
+										}
+								itemContent += '<a href="'+oLink+'" title="'+str+'"><img src="'+e.snippet.thumbnails.default.url+'" class="fleft"/>'
 								itemContent += '<h6 class="fleft mtop6">'+res+'...</h6>';	
 								itemContent += '</a></div>';
 								oTargetDivOthers.append(itemContent);
