@@ -72,7 +72,7 @@ class ShigarututorController extends JController
 		  $oShigaruVideo = $f->getVideoByExternalId($video_id);
 		  $app = & JFactory::getApplication();
 		  if($oShigaruVideo)
-			$url = JRoute::_('index.php?option=com_hwdvideoshare&task=viewvideo&video_id='.$oShigaruVideo->id.'&lang='.substr($lang->getTag(),0,2));
+			$url = JRoute::_('index.php?option=com_hwdvideoshare&task=viewvideo&Itemid=28&video_id='.$oShigaruVideo->id.'&lang='.substr($lang->getTag(),0,2));
 			else{
 					$url = htmlspecialchars($_SERVER['HTTP_REFERER']);
 					JError::raiseNotice( 100, JText::_('NOTYETINSHIGARU'));
