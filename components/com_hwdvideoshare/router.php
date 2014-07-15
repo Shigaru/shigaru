@@ -375,28 +375,39 @@ function hwdVideoShareParseRoute($segments)
 		break;
 
 		case URLSafe(_HWDVS_SEF_ABOUTME):
-			$vars['guid'] = getUserIdByUri($segments[1]);
+			$oId = getUserIdByUri($segments[1]);
+			$vars['user'] = $oId;
+			$vars['guid'] = $oId;
 			$vars['task'] = 'aboutme';
 		break;
 		case URLSafe(_HWDVS_SEF_WATCHHIST):
-			$vars['guid'] = getUserIdByUri($segments[1]);
+			$oId = getUserIdByUri($segments[1]);
+			$vars['user'] = $oId;
+			$vars['guid'] = $oId;
 			$vars['task'] = 'watchhistory';
-			var_dump();
 		break;
 		case URLSafe(_HWDVS_SEF_YVIDCREATED):
-			$vars['guid'] = getUserIdByUri($segments[1]);
+			$oId = getUserIdByUri($segments[1]);
+			$vars['user'] = $oId;
+			$vars['guid'] = $oId;
 			$vars['task'] = 'yourvideoscreated';
 		break;
 		case URLSafe(_HWDVS_SEF_YVIDSHARED):
-			$vars['guid'] = getUserIdByUri($segments[1]);
+			$oId = getUserIdByUri($segments[1]);
+			$vars['user'] = $oId;
+			$vars['guid'] = $oId;
 			$vars['task'] = 'yourvideosshared';
 		break;
 		case URLSafe(_HWDVS_SEF_YLEARNLATER):
-			$vars['guid'] = getUserIdByUri($segments[1]);
+			$oId = getUserIdByUri($segments[1]);
+			$vars['user'] = $oId;
+			$vars['guid'] = $oId;
 			$vars['task'] = 'yourlearnlater';
 		break;
 		case URLSafe(_HWDVS_SEF_YLIKEDVIDS):
-			$vars['guid'] = getUserIdByUri($segments[1]);
+			$oId = getUserIdByUri($segments[1]);
+			$vars['user'] = $oId;
+			$vars['guid'] = $oId;
 			$vars['task'] = 'videosilike';
 		break;
 
@@ -436,7 +447,9 @@ function hwdVideoShareParseRoute($segments)
 		break;
 
 		case URLSafe(_HWDVS_SEF_YF):
-			$vars['guid'] = getUserIdByUri($segments[1]);
+			$oId = getUserIdByUri($segments[1]);
+			$vars['user'] = $oId;
+			$vars['guid'] = $oId;
 			$vars['task'] = 'yourfavourites';
 		break;
 
