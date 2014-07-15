@@ -28,7 +28,7 @@ class hwd_vs_Config{
   var $mailnotifyaddress = 'info@shigaru.com';
   var $cbint = '1';
   var $disablelocupld = '0';
-  var $flvplay_width = '640';
+  var $flvplay_width = '630';
   var $flvplay_height = '400';
   var $disablecaptcha = '1';
   var $aa3v = '1';
