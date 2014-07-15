@@ -455,6 +455,7 @@ class plgSystemJFRouter extends JPlugin{
 			}
 
 			$segments = explode('/', $route);
+		
 			$seg=0;
 			while ($seg<count($segments)){
 				if (strlen($segments[$seg])==0) {

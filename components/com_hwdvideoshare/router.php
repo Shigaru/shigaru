@@ -52,6 +52,44 @@ function hwdVideoShareBuildRoute(&$query)
 
 			case 'yourfavourites':
 				$segments[] = URLSafe(_HWDVS_SEF_YF);
+				$segments[] = getUserUriById($query['guid']);
+				unset( $query['guid'] );
+				unset( $query['task'] );
+			break;
+			case 'aboutme':
+				$segments[] = URLSafe(_HWDVS_SEF_ABOUTME);
+				$segments[] = getUserUriById($query['guid']);
+				unset( $query['guid'] );
+				unset( $query['task'] );
+			break;
+			case 'watchhistory':
+				$segments[] = URLSafe(_HWDVS_SEF_WATCHHIST);
+				$segments[] = getUserUriById($query['guid']);
+				unset( $query['guid'] );
+				unset( $query['task'] );
+			break;
+			case 'yourvideoscreated':
+				$segments[] = URLSafe(_HWDVS_SEF_YVIDCREATED);
+				$segments[] = getUserUriById($query['guid']);
+				unset( $query['guid'] );
+				unset( $query['task'] );
+			break;
+			case 'yourvideosshared':
+				$segments[] = URLSafe(_HWDVS_SEF_YVIDSHARED);
+				$segments[] = getUserUriById($query['guid']);
+				unset( $query['guid'] );
+				unset( $query['task'] );
+			break;
+			case 'yourlearnlater':
+				$segments[] = URLSafe(_HWDVS_SEF_YLEARNLATER);
+				$segments[] = getUserUriById($query['guid']);
+				unset( $query['guid'] );
+				unset( $query['task'] );
+			break;
+			case 'videosilike':
+				$segments[] = URLSafe(_HWDVS_SEF_YLIKEDVIDS);
+				$segments[] = getUserUriById($query['guid']);
+				unset( $query['guid'] );
 				unset( $query['task'] );
 			break;
 
@@ -122,12 +160,7 @@ function hwdVideoShareBuildRoute(&$query)
 
 			case 'search':
 				break;
-			case 'aboutme':
-			case 'watchhistory':
-			case 'yourvideoscreated':
-			case 'yourvideosshared':
 			case 'yourlearnlater':
-			case 'yourfavourites':
 			case 'videosilike':
 				$segments[] = $query['task'] ;
 				$segments[] = getUserUriById($query['guid']);
