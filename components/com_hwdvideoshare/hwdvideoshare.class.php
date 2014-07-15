@@ -3841,7 +3841,7 @@ $app = & JFactory::getApplication();
          $results = $db->loadObjectList();
          if(count($results)>0){
 			 foreach($results as $result){
-						$result->url = JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=bsongssource&Itemid=88&item_id='.$result->songid.'&lang='.substr($lang->getTag(),0,2));
+						$result->url = JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&Itemid=88&searchoption=bsongssource&item_id='.$result->songid.'&lang='.substr($lang->getTag(),0,2));
 					}
 			}
 		 return $results;
@@ -3874,7 +3874,7 @@ $app = & JFactory::getApplication();
 		 $items = $menu->getItems('component', 'com_hwdvideoshare');
          if(count($results)>0){
 			 foreach($results as $result){
-						$result->url = JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=cbandsssource&Itemid=88&item_id='.$result->bandid.'&lang='.substr($lang->getTag(),0,2));
+						$result->url = JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&Itemid=88&searchoption=cbandsssource&item_id='.$result->bandid.'&lang='.substr($lang->getTag(),0,2));
 					}
 			}	
 		 return $results;

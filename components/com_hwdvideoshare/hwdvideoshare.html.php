@@ -128,8 +128,8 @@ class hwd_vs_html
 		$smartyvs->assign("pageURL", $pageURL);
 		$domain = JURI::root();
 	    $smartyvs->assign("domain", $domain);
-	    $smartyvs->assign("bandurl", JRoute::_('index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption=cbandsssource&item_id='.$song[0]->bandid.'&lang='.substr($lang->getTag(),0,2)));
-	    $smartyvs->assign("albumurl", JRoute::_('index.php?option=com_hwdvideoshare&lang=en&task=searchbyoption&searchoption=dalbumssource&item_id='.$song[0]->albumid.'&lang='.substr($lang->getTag(),0,2)));
+	    $smartyvs->assign("bandurl", JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=cbandsssource&item_id='.$song[0]->bandid.'&lang='.substr($lang->getTag(),0,2)));
+	    $smartyvs->assign("albumurl", JRoute::_('index.php?option=com_hwdvideoshare&task=searchbyoption&searchoption=dalbumssource&item_id='.$song[0]->albumid.'&lang='.substr($lang->getTag(),0,2)));
 		$smartyvs->display('songpage.tpl');
 		
 		return;

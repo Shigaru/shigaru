@@ -116,7 +116,7 @@ function hwdVideoShareBuildRoute(&$query)
 				unset( $query['task'] );
 			break;
 			case 'search':
-				$segments[] = 'search';
+				$segments[] = URLSafe(_HWDVS_SEF_SEARCH);
 				unset( $query['task'] );
 				unset( $query['component'] );
 				unset( $query['option'] );
@@ -127,28 +127,24 @@ function hwdVideoShareBuildRoute(&$query)
 				unset( $query['task'] );
 			break;
 			case 'searchbyoption':
-				$app = JFactory::getApplication();
-				$menu = $app->getMenu();
-				$items = $menu->getItems('component', 'com_hwdvideoshare');
-				if (!isset($query['Itemid']))   
-				$query['Itemid'] =  $items->id;  
-				if (!isset($query['Itemid']))   
-					$query['Itemid'] =  $items->id;
 				if (isset($query['searchoption'])){
-						if($query['searchoption'] == 'bsongssource'){
-								$segments[] = 'songs';
-								$oSong = slug(getSongById($query['item_id']));
-								$segments[] = $oSong;
+					if($query['searchoption'] == 'bsongssource'){
+							$segments[] = URLSafe(_HWDVS_SEF_SONGS);
+							$oSong = slug(getSongById($query['item_id']));
+							$segments[] = $oSong;
+						}else if($query['searchoption'] == 'cbandsssource'){
+							$segments[] = URLSafe(_HWDVS_SEF_BANDS);
+							$oBand = slug(getBandById($query['item_id']));
+							$segments[] = $oBand;
 							}else{
-								$segments[] = 'bands';
-								$oBand = slug(getBandById($query['item_id']));
+								$segments[] = URLSafe(_HWDVS_SEF_ALBUMS);
+								$oBand = slug(getAlbumById($query['item_id']));
 								$segments[] = $oBand;
 								}
 					}
 				$segments[] = $query['item_id'];
 				unset( $query['task'] );
 				unset( $query['searchoption'] );
-				unset( $query['option'] );
 				unset( $query['item_id'] );
 			break;
 
@@ -159,15 +155,6 @@ function hwdVideoShareBuildRoute(&$query)
 				break;
 
 			case 'search':
-				break;
-			case 'yourlearnlater':
-			case 'videosilike':
-				$segments[] = $query['task'] ;
-				$segments[] = getUserUriById($query['guid']);
-				unset( $query['task'] );
-				unset( $query['Itemid'] );
-				unset( $query['option'] );
-				unset( $query['guid'] );
 				break;
 
 			case 'displayresults':
@@ -284,6 +271,20 @@ function getSongById($song_id) {
 		return $bandMatched;
     }
 
+function getAlbumById($band_id) {
+		$db = & JFactory::getDBO();
+		$query = 'SELECT label FROM #__hwdvidsalbums AS a'; 
+		$query .= ' WHERE a.id ='.$band_id;
+		$db->setQuery($query);
+		$db->loadObjectList();
+		$bandList = $db->loadResultArray();
+		if(sizeof($bandList)>0)
+			$bandMatched = $bandList[0];
+				else
+					$bandMatched =null;
+		return $bandMatched;
+    }
+    
 function getBandById($band_id) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT label FROM #__hwdvidsbands AS a'; 
@@ -364,6 +365,21 @@ function hwdVideoShareParseRoute($segments)
 
 		case URLSafe(_HWDVS_SEF_UPLOADEDP):
 			$vars['task'] = 'uploadconfirmperl';
+		break;
+		case URLSafe(_HWDVS_SEF_SONGS):
+			$vars['searchoption'] = 'bsongssource';
+			$vars['task'] = 'searchbyoption';
+			$vars['item_id'] = $segments[2];
+		break;
+		case URLSafe(_HWDVS_SEF_BANDS):
+			$vars['searchoption'] = 'cbandsssource';
+			$vars['task'] = 'searchbyoption';
+			$vars['item_id'] = $segments[2];
+		break;
+		case URLSafe(_HWDVS_SEF_ALBUMS):
+			$vars['searchoption'] = 'dalbumssource';
+			$vars['task'] = 'searchbyoption';
+			$vars['item_id'] = $segments[2];
 		break;
 
 		case URLSafe(_HWDVS_SEF_UPLOADEDF):
