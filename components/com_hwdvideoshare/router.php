@@ -122,6 +122,20 @@ function hwdVideoShareBuildRoute(&$query)
 
 			case 'search':
 				break;
+			case 'aboutme':
+			case 'watchhistory':
+			case 'yourvideoscreated':
+			case 'yourvideosshared':
+			case 'yourlearnlater':
+			case 'yourfavourites':
+			case 'videosilike':
+				$segments[] = $query['task'] ;
+				$segments[] = getUserUriById($query['guid']);
+				unset( $query['task'] );
+				unset( $query['Itemid'] );
+				unset( $query['option'] );
+				unset( $query['guid'] );
+				break;
 
 			case 'displayresults':
 				$segments[] = URLSafe(_HWDVS_SEF_DR);
@@ -214,6 +228,14 @@ function hwdVideoShareBuildRoute(&$query)
 	return $segments;
 	
 }
+
+function getUserUriById($paramUser){
+	$sql					=	'SELECT username, uri FROM #__users WHERE id = '. (int) $paramUser;
+	$database				=&	JFactory::getDBO();
+	$database->setQuery( $sql, 0, 1 );
+	$oUser					=	$database->loadObjectList();
+	return $oUser[0]->uri;
+	}
 
 function getSongById($song_id) {
 		$db = & JFactory::getDBO();
