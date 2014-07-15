@@ -257,6 +257,20 @@ function getUserUriById($paramUser){
 	return $oUser[0]->uri;
 	}
 
+function getUserIdByUri ($paramUsername) {
+	$database				=&	JFactory::getDBO();
+	$sluggedUserName 		= str_replace(":", '-', $paramUsername);
+	$sql					=	'SELECT id FROM #__users WHERE uri = '. $database->Quote( $sluggedUserName );
+	$database->setQuery( $sql, 0, 2 );
+	$userIds				=	$database->loadResultArray();
+	$user					= null;
+	if ( is_array( $userIds ) && ( count( $userIds ) == 1 ) ) {
+		$user				=	$userIds[0];
+	}
+	
+	return $user;	
+}	
+
 function getSongById($song_id) {
 		$db = & JFactory::getDBO();
 		$query = 'SELECT label FROM #__hwdvidssongs AS a'; 
@@ -353,14 +367,36 @@ function hwdVideoShareParseRoute($segments)
 	hwdvsInitialise::getJVersion();
 	hwdvsInitialise::language('plugs');
 	$vars = array();
+	$segments[0] = str_replace(':', '-', $segments[0]);
 	switch($segments[0])
 	{
 		case URLSafe(_HWDVS_SEF_FP):
 			$vars['task'] = 'frontpage';
 		break;
 
-		case URLSafe(_HWDVS_SEF_UPLOAD):
-			$vars['task'] = 'upload';
+		case URLSafe(_HWDVS_SEF_ABOUTME):
+			$vars['guid'] = getUserIdByUri($segments[1]);
+			$vars['task'] = 'aboutme';
+		break;
+		case URLSafe(_HWDVS_SEF_WATCHHIST):
+			$vars['guid'] = getUserIdByUri($segments[1]);
+			$vars['task'] = 'watchhistory';
+		break;
+		case URLSafe(_HWDVS_SEF_YVIDCREATED):
+			$vars['guid'] = getUserIdByUri($segments[1]);
+			$vars['task'] = 'yourvideoscreated';
+		break;
+		case URLSafe(_HWDVS_SEF_YVIDSHARED):
+			$vars['guid'] = getUserIdByUri($segments[1]);
+			$vars['task'] = 'yourvideosshared';
+		break;
+		case URLSafe(_HWDVS_SEF_YLEARNLATER):
+			$vars['guid'] = getUserIdByUri($segments[1]);
+			$vars['task'] = 'yourlearnlater';
+		break;
+		case URLSafe(_HWDVS_SEF_YLIKEDVIDS):
+			$vars['guid'] = getUserIdByUri($segments[1]);
+			$vars['task'] = 'videosilike';
 		break;
 
 		case URLSafe(_HWDVS_SEF_UPLOADEDP):
@@ -399,6 +435,7 @@ function hwdVideoShareParseRoute($segments)
 		break;
 
 		case URLSafe(_HWDVS_SEF_YF):
+			$vars['guid'] = getUserIdByUri($segments[1]);
 			$vars['task'] = 'yourfavourites';
 		break;
 
@@ -449,14 +486,8 @@ function hwdVideoShareParseRoute($segments)
 		break;
 
 		default:
-			$oSegment = preg_replace("/[^A-Za-z0-9 ]/", '', $segments[0]);
-			if($oSegment === "songtutorial" || $oSegment === "theory" || $oSegment === "watchmeplay"){
-				$oVideoId = getVideoByUri(str_replace(":", '-', $segments[1]));
-				$vars['task'] = 'viewvideo';
-				$vars['video_id'] = $oVideoId->id;
-				}else{
-					$vars['task'] = $segments[0];
-					}
+			$vars['task'] = $segments[0];
+					
 				
 		break;
 	}
