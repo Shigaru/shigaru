@@ -129,15 +129,15 @@ function hwdVideoShareBuildRoute(&$query)
 			case 'searchbyoption':
 				if (isset($query['searchoption'])){
 					if($query['searchoption'] == 'bsongssource'){
-							$segments[] = URLSafe(_HWDVS_SEF_SONGS);
+							$segments[] = URLSafe('songs');
 							$oSong = slug(getSongById($query['item_id']));
 							$segments[] = $oSong;
 						}else if($query['searchoption'] == 'cbandsssource'){
-							$segments[] = URLSafe(_HWDVS_SEF_BANDS);
+							$segments[] = URLSafe('bands');
 							$oBand = slug(getBandById($query['item_id']));
 							$segments[] = $oBand;
 							}else{
-								$segments[] = URLSafe(_HWDVS_SEF_ALBUMS);
+								$segments[] = URLSafe('albums');
 								$oBand = slug(getAlbumById($query['item_id']));
 								$segments[] = $oBand;
 								}
@@ -366,17 +366,17 @@ function hwdVideoShareParseRoute($segments)
 		case URLSafe(_HWDVS_SEF_UPLOADEDP):
 			$vars['task'] = 'uploadconfirmperl';
 		break;
-		case URLSafe(_HWDVS_SEF_SONGS):
+		case URLSafe('songs'):
 			$vars['searchoption'] = 'bsongssource';
 			$vars['task'] = 'searchbyoption';
 			$vars['item_id'] = $segments[2];
 		break;
-		case URLSafe(_HWDVS_SEF_BANDS):
+		case URLSafe('bands'):
 			$vars['searchoption'] = 'cbandsssource';
 			$vars['task'] = 'searchbyoption';
 			$vars['item_id'] = $segments[2];
 		break;
-		case URLSafe(_HWDVS_SEF_ALBUMS):
+		case URLSafe('albums'):
 			$vars['searchoption'] = 'dalbumssource';
 			$vars['task'] = 'searchbyoption';
 			$vars['item_id'] = $segments[2];
