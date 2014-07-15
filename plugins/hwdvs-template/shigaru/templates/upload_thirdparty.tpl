@@ -462,15 +462,6 @@
                                 {$languagesCombo}
                                 <div class="clear"></div>
                             </p>   
-                            <p class="clearfix">
-                                <span class="mleft30">
-                                {$captcha}
-								</span>
-								<br class="clear"/>
-                                <label for="security_code">{$smarty.const._HWDVIDS_INFO_SECURECODE} <font class="required">*</font></label>
-                                <input id="security_code" class="required" placeholder="Enter code" class="required mbot6" id="security_code" name="security_code" type="text" />
-                                <br class="clear"/>
-                            </p>
                             <p class="submit fright">
                                 <button id="registerButton" type="submit">{$smarty.const._HWDVIDS_BUTTON_ADD}</button>
                             </p>
