@@ -34,7 +34,7 @@
 								</div>
 								{/if}
 								<div class="fleft">
-									<span class="">{$smarty.const._UE_CONNECTION}: </span>
+									<span class="">{$smarty.const._SHIG_CONNECTION}: </span>
 									<span class="fontorange fontbold f120">{$totalfriends}</span>
 								</div>
 							</div>	
@@ -64,7 +64,7 @@
 							<div class="mright6">
 								<div class="clearfix f90">
 									<div class="fleft w33">
-										<div><span class="fontbold">{$smarty.const._UE_PROFILEVIEWS}: </span></div>
+										<div><span class="fontbold">{$smarty.const._SHIG_PROFILEVIEWS}: </span></div>
 										<div><span class="fontorange">{$hits}</span></div>
 									</div>
 									<div class="fleft w33">
@@ -83,7 +83,7 @@
 								<div class="clearfix f90 mtop12">	
 								
 									<div class="fleft w33">
-										<div><span class="fontbold">{$smarty.const._UE_VIDEOSUBMITED}: </span></div>
+										<div><span class="fontbold">{$smarty.const._SHIG_VIDEOSUBMITED}: </span></div>
 										<div><span class="fontorange">{$totalvideos}</span></div>
 									</div>
 									<div class="fleft w33">

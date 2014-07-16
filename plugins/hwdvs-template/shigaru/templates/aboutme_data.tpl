@@ -7,15 +7,15 @@
 //////
 *} 
 <div class="aboutme dropdown clearfix">
-	<a href="#generalinfo" class="active"><span class="icon-caret-right pad6"></span> {$smarty.const._UE_CONTACT_INFO_HEADER}</a>
-	{if $ShowWhere}<a href="#where" class="borleftgrey">{$smarty.const._UE_WHEREINWORLD}</a>{/if}
-	{if $ShowMyBand}<a href="#myband" class="borleftgrey">{$smarty.const._UE_MYBAND}</a>{/if}
-	{if $ShowPersonalSites}<a href="#personalsites" class="borleftgrey">{$smarty.const._UE_PERSONALSITES}</a>{/if}
-	{if $ShowMusicalInterest}<a href="#musicalinterests" class="borleftgrey">{$smarty.const._UE_MUSICALINTERESTS}</a>{/if}
-	{if $ShowOtherInterest}<a href="#otherinfo" class="borleftgrey">{$smarty.const._UE_OTHERINTERINFO}</a>{/if}
+	<a href="#generalinfo" class="active"><span class="icon-caret-right pad6"></span> {$smarty.const._SHIG_CONTACT_INFO_HEADER}</a>
+	{if $ShowWhere}<a href="#where" class="borleftgrey">{$smarty.const._SHIG_WHEREINWORLD}</a>{/if}
+	{if $ShowMyBand}<a href="#myband" class="borleftgrey">{$smarty.const._SHIG_MYBAND}</a>{/if}
+	{if $ShowPersonalSites}<a href="#personalsites" class="borleftgrey">{$smarty.const._SHIG_PERSONALSITES}</a>{/if}
+	{if $ShowMusicalInterest}<a href="#musicalinterests" class="borleftgrey">{$smarty.const._SHIG_MUSICALINTERESTS}</a>{/if}
+	{if $ShowOtherInterest}<a href="#otherinfo" class="borleftgrey">{$smarty.const._SHIG_OTHERINTERINFO}</a>{/if}
 </div>
 					
-<h4 id="generalinfo" class="profilehead fontsig"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_CONTACT_INFO_HEADER}</h4>
+<h4 id="generalinfo" class="profilehead fontsig"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._SHIG_CONTACT_INFO_HEADER}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="generalinfo" class="clearfix">
 				<div>
@@ -26,11 +26,11 @@
 								<span>{$data->_cbuser->cb_fname} {$data->_cbuser->cb_lname}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_SEX}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_SEX}:</span>
 								<span>{$sex}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_YOURAGEGROUP}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_YOURAGEGROUP}:</span>
 								<span>{$data->_cbuser->cb_youragegroup}</span>
 							</div>
 							<div class="w50 fleft mbot6">
@@ -38,24 +38,24 @@
 								<span>{$cb_countryiam}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_LANGUAGE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_LANGUAGE}:</span>
 								<span>{$languages}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MEMBERSINCE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MEMBERSINCE}:</span>
 								<span>{$timeRegistered}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_LASTONLINE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_LASTONLINE}:</span>
 								<span>{$lastvisitDate}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_TAGS}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_TAGS}:</span>
 								<span>{$data->_cbuser->cb_tags}</span>
 								
 							</div>
 							<div class="w100 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_IAM}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_IAM}:</span>
 								<span>{$data->_cbuser->cb_iam}</span>
 							</div>
 						</div>
@@ -65,26 +65,26 @@
 </div>
 
 {if $ShowWhere}
-<h4 id="where" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_WHEREINWORLD}</h4>
+<h4 id="where" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._SHIG_WHEREINWORLD}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_COUNTRYIAM}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_COUNTRYIAM}:</span>
 								<span>{$cb_countryiam} ({$data->_cbuser->cb_cityiam})</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_COUNTRYILIVE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_COUNTRYILIVE}:</span>
 								<span>{$cb_countryilive} ({$data->_cbuser->cb_cityilive})</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_NATIVELANG}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_NATIVELANG}:</span>
 								<span>{$cb_nativelang}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_OTHERLANG}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_OTHERLANG}:</span>
 								<span>{$cb_otherlanguages}</span>
 							</div>
 							<div class="w50 fleft mbot6">
@@ -97,46 +97,46 @@
 </div>
 {/if}
 {if $ShowMyBand}
-<h4 id="myband" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_MYBAND}</h4>
+<h4 id="myband" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._SHIG_MYBAND}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYBANDNAME}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYBANDNAME}:</span>
 								<span>{$data->_cbuser->cb_bandname}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_OFFICIALWEBSITE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_OFFICIALWEBSITE}:</span>
 								<span>{$data->_cbuser->cb_officialwebsite}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_PREVIOUSLYKNOWN}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_PREVIOUSLYKNOWN}:</span>
 								<span>{$data->_cbuser->cb_previouslyknownas}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYBANDGENRE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYBANDGENRE}:</span>
 								<span>{$cb_bandgenre}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYBANDSOUNDSLIKE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYBANDSOUNDSLIKE}:</span>
 								<span>{$data->_cbuser->cb_soundslike}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYBANDMEMBERS}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYBANDMEMBERS}:</span>
 								<span>{$data->_cbuser->cb_nobandmembers}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYBANDMEMBERSNAMES}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYBANDMEMBERSNAMES}:</span>
 								<span>{$data->_cbuser->cb_bandmembernames}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYBANDSIGNEDTORECORD}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYBANDSIGNEDTORECORD}:</span>
 								<span>{$data->_cbuser->cb_signedtorecordlabel}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYWEBDESC}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYWEBDESC}:</span>
 								<span>{$data->_cbuser->cb_banddescription}</span>
 							</div>
 						</div>
@@ -147,26 +147,26 @@
 {/if}
 
 {if $ShowPersonalSites}
-<h4 id="personalsites" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_PERSONALSITES}</h4>
+<h4 id="personalsites" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._SHIG_PERSONALSITES}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYWEB1}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYWEB1}:</span>
 								<span>{$data->_cbuser->cb_myweb1}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYWEBDESC}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYWEBDESC}:</span>
 								<span>{$data->_cbuser->cb_mywebdesc}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYWEB2}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYWEB2}:</span>
 								<span>{$data->_cbuser->cb_myweb2}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MYWEBDESC}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MYWEBDESC}:</span>
 								<span>{$data->_cbuser->cb_mywebdesc2}</span>
 							</div>
 						</div>
@@ -178,30 +178,30 @@
 {/if}
 
 {if $ShowMusicalInterest}
-<h4 id="musicalinterests" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_MUSICALINTERESTS}</h4>
+<h4 id="musicalinterests" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._SHIG_MUSICALINTERESTS}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_FAVMUSICGENRE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_FAVMUSICGENRE}:</span>
 								<span>{$cb_favmusicgenre}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_MUSICALINFLU}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_MUSICALINFLU}:</span>
 								<span>{$data->_cbuser->cb_musicinflu}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_FAVARTISTS}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_FAVARTISTS}:</span>
 								<span>{$data->_cbuser->cb_favartirsts}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_ARTBANDRECOMEND}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_ARTBANDRECOMEND}:</span>
 								<span>{$data->_cbuser->cb_newartistsrecom}</span>
 							</div>
 							<div class="w50 fleft mbot6">
-								<span class="fontbold">{$smarty.const._UE_FAVSITES}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_FAVSITES}:</span>
 								<span>{$data->_cbuser->cb_favristerecomm}</span>
 							</div>
 						</div>
@@ -212,50 +212,50 @@
 {/if}
 
 {if $ShowOtherInterest}
-<h4 id="otherinfo" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._UE_OTHERINTERINFO}</h4>
+<h4 id="otherinfo" class="profilehead fontsig mtop20"> <span class="icon-caret-right pad6 fontsig"></span> {$smarty.const._SHIG_OTHERINTERINFO}</h4>
 <div class="profilebody other clearfix" data-symbol="H" data-category="other">
 		<div id="friends" class="clearfix">
 				<div>
 					<div class="clearfix">	
 						<div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_PHILOSOLIFE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_PHILOSOLIFE}:</span>
 								<span>{$data->_cbuser->cb_philosolife}</span>
 							</div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_ILIKE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_ILIKE}:</span>
 								<span>{$data->_cbuser->cb_ilike}</span>
 							</div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_IDISLIKE}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_IDISLIKE}:</span>
 								<span>{$data->_cbuser->cb_idislike}</span>
 							</div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_COUNTRIESTRAVELD}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_COUNTRIESTRAVELD}:</span>
 								<span>{$cb_contriestravelled}</span>
 							</div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_COUNTRIESTOTRAVEL}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_COUNTRIESTOTRAVEL}:</span>
 								<span>{$cb_countriestotravel}</span>
 							</div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_WHOTOMET}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_WHOTOMET}:</span>
 								<span>{$data->_cbuser->cb_whotomet}</span>
 							</div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_FAVBOOKS}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_FAVBOOKS}:</span>
 								<span>{$data->_cbuser->cb_favbooks}</span>
 							</div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_FAVMOVIES}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_FAVMOVIES}:</span>
 								<span>{$data->_cbuser->cb_favmovies}</span>
 							</div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_FAVTV}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_FAVTV}:</span>
 								<span>{$data->_cbuser->cb_favtv}</span>
 							</div>
 							<div class="mbot6">
-								<span class="fontbold">{$smarty.const._UE_HOBBIES}:</span>
+								<span class="fontbold">{$smarty.const._SHIG_HOBBIES}:</span>
 								<span>{$data->_cbuser->cb_hobbies}</span>
 							</div>
 						</div>

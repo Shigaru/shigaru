@@ -5711,7 +5711,7 @@ $app = & JFactory::getApplication();
 		$cbCon	=	new cbConnection($user_id);
 		$cbMenu = 	new getMenuTab();
 		//$pmIMG			=	getFieldValue( 'pm', $cbUser->_cbuser->username, $cbCon, null, 1 );
-		$profileURL = cbSef("index.php?option=com_comprofiler&amp;task=userProfile&amp;user=".$user_id);
+		$profileURL = JRoute::_("index.php?option=com_comprofiler&task=userProfile&Itemid=53&user=".$user_id);
 		$profileURLText = str_replace("http://", "", $profileURL);
 		$userMenu = new getMenuTab();
 		$userMenuTab = $userMenu->getMenuTab();
