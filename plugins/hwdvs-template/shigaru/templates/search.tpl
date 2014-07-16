@@ -293,7 +293,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 	</div>	
 </div>
 <script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/jquery.isotope.min.js"></script>
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.min.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.min.v1.0.1.js"></script>
 <script type="text/javascript" src="{$domain}/templates/rhuk_milkyway/js/chosen.jquery.min.js"></script>
 <link rel="stylesheet" href="{$domain}/templates/rhuk_milkyway/css/chosen.css" type="text/css" />
 {literal}

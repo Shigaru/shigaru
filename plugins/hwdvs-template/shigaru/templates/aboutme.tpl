@@ -74,6 +74,6 @@
 <input type="hidden" id="user_id" name="user_id" value="{$user_id}" />	
 
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.min.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.min.v1.0.1.js"></script>
 <script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/aboutme.js"></script>
 

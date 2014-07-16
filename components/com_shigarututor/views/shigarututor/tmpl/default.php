@@ -33,6 +33,6 @@
 	
 </div>
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.min.js"></script>
-<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigarututor.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigaruvideolist.min.v1.0.1.js"></script>
+<script type="text/javascript" src="plugins/hwdvs-template/shigaru/js/shigarututor.min.v1.0.1.js"></script>
 

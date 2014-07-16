@@ -435,10 +435,10 @@ jQuery(document).ready(function($){
 		$optionSets 								= jQuery(opts.optionLinks);
 			oCurrentUrl = 'index.php?option=com_hwdvideoshare&task=ajax_search&format=raw'+'&lang='+currentLang;
 		if(jQuery(e.target).parent().parent().hasClass('videopagination') || jQuery(e.target).parent().parent().hasClass('pagination')){
-			var oLimitStart = e.target.href.substring(e.target.href.indexOf("&limitstart=")+12,e.target.href.length);
+			var oLimitStart = e.target.href.substring(e.target.href.indexOf("&start=")+12,e.target.href.length);
 				if(oLimitStart.indexOf('&')>0)
 					oLimitStart = oLimitStart.substring(0,oLimitStart.indexOf('&'));
-				oCurrentUrl +=  "&limitstart="+oLimitStart;
+				oCurrentUrl +=  "&start="+oLimitStart;
 			}
 		oCurrentUrl +=composeFiltersUrl();
 		oCurrentUrl +=composeOrderUrl(e);

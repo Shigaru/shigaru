@@ -161,15 +161,13 @@
 	function transformPageUrls(e){	
 			var oLimitStart	= '';
 			var oHrefUrl	= e.target.href;
-			console.log(oHrefUrl);
-			if(oHrefUrl.indexOf("&limitstart=")>0){
-				oLimitStart = oHrefUrl.substring(oHrefUrl.indexOf("&limitstart="),e.target.href.length);
+			if(oHrefUrl.indexOf("&start=")>0){
+				oLimitStart = oHrefUrl.substring(oHrefUrl.indexOf("&start="),e.target.href.length);
 				console.log(oLimitStart);
 				if(oLimitStart.indexOf('&')>0)
 					oLimitStart = oLimitStart.substring(0,oLimitStart.indexOf('&'));
-				oLimitStart +=  "&limitstart="+oLimitStart;
-				}
-			console.log(oListUrl+oLimitStart+composeFiltersUrl()+composeOrderUrl());	
+				oLimitStart +=  "&start="+oLimitStart;
+				}	
 			return oListUrl+oLimitStart+composeFiltersUrl()+composeOrderUrl();	
 			}
 		
