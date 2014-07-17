@@ -29,21 +29,10 @@ $session = JSession::getInstance("none",array());
 $host = JURI::root();
 $lang = JFactory::getLanguage();
 $currentLang = substr($lang->getTag(),0,2);
+$user_id = '';
 ?>
 <script type="text/javascript">
-var currentLang = "<?php echo $currentLang ?>";
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-768264-1']);
-  _gaq.push(['_setDomainName', 'shigaru.com']);
-  _gaq.push(['_setAllowLinker', true]);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
+var currentLang = "<?php echo $currentLang ?>";	
 </script>
 </head>
 <body id="page_bg">
@@ -99,9 +88,14 @@ var currentLang = "<?php echo $currentLang ?>";
 						cbimport( 'cb.html' );
 						$user =& JFactory::getUser();
 						$cbUser =& CBuser::getInstance( $user->id );
-						
-						if ($user && !$user->guest)
-						echo '<div class="greetinguser"></div>';
+							
+							
+						if ($user && !$user->guest){
+							$user_id = $user->id;
+							echo '<div class="greetinguser"></div>';
+						}else{
+							$user_id = $user->guest;
+							}
 						?>
 						<jdoc:include type="modules" name="top" />
 														
@@ -219,9 +213,19 @@ var currentLang = "<?php echo $currentLang ?>";
 <div id="main-nav-drop" class="closed dispnon loadingcontent">
 		<i class="icon-spinner icon-spin"></i>
 </div>
-<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.min.v2.0.2.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/shigaru.min.v2.0.3.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.qtip.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/rhuk_milkyway/js/jquery.blockUI.min.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-768264-1', 'auto');
+  ga('send', 'pageview');
+  ga('set', '&uid', '<?php echo $user_id; ?>'); // Establezca el ID de usuario mediante el user_id con el que haya iniciado sesión.	
+</script>
 </body>
 </html>
