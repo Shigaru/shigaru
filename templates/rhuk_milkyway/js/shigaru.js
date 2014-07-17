@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
 				});
 	}
 		
-	jQuery("#roksearch_search_str").autocomplete('components/com_sphinxsearch/autocomplete/ajax_suggest.php?lang='+currentLang, {
+	jQuery("#roksearch_search_str").autocomplete('/components/com_sphinxsearch/autocomplete/ajax_suggest.php?lang='+currentLang, {
 		multiple: false,
 		matchContains: true,
 		matchSubset: false,
