@@ -713,7 +713,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 							data[i].pic = data[i].pic.substring(17,data[i].pic.length)
 						pic = $('<img class="mright6" width="20" height="20" src="'+data[i].pic+'" alt="'+data[i].value+'" title="'+data[i].value+'" />');	
 							}else if(data[i].pic =='')
-								pic = $('<img class="mright6" width="20" height="20" src="templates/rhuk_milkyway/images/vinyl-icon.png" alt="'+data[i].value+'" title="'+data[i].value+'" />');
+								pic = $('<img class="mright6" width="20" height="20" src="/templates/rhuk_milkyway/images/vinyl-icon.png" alt="'+data[i].value+'" title="'+data[i].value+'" />');
 					var link = $('<a href="/" title="'+data[i].value+'" />').append(pic).append(options.highlight(formatted, term));
 					var li = $("<li/>").append(link).addClass(i%2 == 0 ? "ac_even" : "ac_odd").appendTo(list)[0];					
 					$.data(li, "ac_data", data[i]);	
