@@ -3,7 +3,7 @@
 <div class="clearfix mtop12 mbot30">
 	<div class="clearfix">
 			<div class="fleft">
-				<h3 class="fontbold"><i class="icon-youtube-sign icon-3x fontredsig"></i> <span class="f150"><?php echo $this->greeting; ?></span></h3>
+				<h3 class="fontbold"><i class="icon-youtube-sign icon-4x fontredsig"></i> <span class="f150"><?php echo $this->greeting; ?></span></h3>
 			</div>	
 			<div class="fright">
 				<script src="https://apis.google.com/js/platform.js"></script>

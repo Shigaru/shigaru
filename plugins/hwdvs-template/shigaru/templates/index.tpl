@@ -304,5 +304,17 @@
 <!-- {$zncbmembers} -->			
 {include file='header.tpl'}
 <div class="clear"></div>
-
+<div id="deletevideomessage" class="dispnon span4">
+	<div class="pad12">
+		<div class="clearfix">
+			<i class="icon-warning-sign fleft w20pc icon-3x fontyellow"></i> 
+			<h4 class="fleft w80 mleft12 mtop12 fontbold">{$smarty.const._HWDVIDS_INFO_CONFIRMFRONTDEL}</h4>
+		</div>	
+		<p class="mtop24 f80">{$smarty.const._HWDVIDS_TITLE_CONFIRMDELETEEXPLAIN}</p>
+		<div class="mtop24">
+			<a class="cancel btn" href="#"> {$smarty.const._HWDVIDS_BUTTON_CANX}</a>
+			<a class="btn btn-danger" href="#"><i class="icon-trash icon-large"></i> Delete</a>
+		</div>
+	</div>	
+</div>
 <!--{include file='footer.tpl'}-->

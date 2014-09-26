@@ -114,6 +114,7 @@ input[type="text"],textarea,input[type="password"],input[type="datetime"],input[
 .workarea div.tab_wrapper a.jcl_comment:hover{ color:#9C5352; text-decoration:underline;}
 .workarea div.tab_wrapper h6 a{ text-decoration:none; margin-bottom:6px;width: 95%;}
 .workarea div.tab_wrapper ul li div.thumb img{margin:0 12px 0 0;}
+.workarea div#videoTitle .videolistoptions ul.dropdown-menu {top: inherit; margin-top: 2px; left: inherit;}
 .workarea div#the_most_wrapper .videolistoptions ul.dropdown-menu {top: inherit; margin-top: 2px; left: 12%;}
 .workarea div#the_most_wrapper .videolistoptions ul.dropdown-menu li{margin-bottom: 2px;}
 .workarea div#the_most_wrapper ul li div.thumb img,#infocontext ul li img,
