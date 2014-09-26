@@ -325,7 +325,7 @@
 					<input type="hidden" name="id" value="{$rowid}" />
 					<input type="hidden" name="owner" value="{$rowuid}" />
 					<input type="hidden" name="songindex" id="songindex" value="{$videoInfo->songindex}" />
-					<input type="hidden" name="issearched" id="issearched" value="{$videoInfo->issearched}" />
+					<input type="hidden" name="issearched" id="issearched" value="0" />
 				</form>
 				</div>
 		</div>

@@ -623,7 +623,7 @@ class hwd_vs_usrfunc
 		$allow_ratings 		= JRequest::getInt( "allow_ratings", $c->shareoption4, "post" );
 		
 		$oStoringOutput = new JObject();
-		$issearched = Jrequest::getVar( 'issearched', '1' );	
+		$issearched = Jrequest::getVar( 'issearched', '0' );	
 		$originalband = Jrequest::getVar( 'originalband', '' );
 		$thirdpartyprovider = $app->getUserState( "hwdvs_song_source", "rdio" );
 		if($issearched == '1'){
@@ -635,11 +635,7 @@ class hwd_vs_usrfunc
 				$oSongChosen = Jrequest::getVar( 'songtitle', '' );
 			$oStoringOutput = hwd_vs_tools::storeSong($oSongChosen,$thirdpartyprovider);
 			$session->clear('songlist', 'songsearch');
-		}else{
-			$oSongChosen = Jrequest::getVar( 'songtitle', '' );
-			if($oSongChosen != '')
-				$oStoringOutput = hwd_vs_tools::storeSong($oSongChosen,$thirdpartyprovider,0,$originalband);
-			}
+		}
 		$_POST['id'] 				= $rowid;
 		$_POST['title'] 			= $title;
 		$_POST['description'] 		= $description;
