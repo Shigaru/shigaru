@@ -240,6 +240,7 @@
 					  });
 					  
 					  jQuery(".dropdown-menu .editvideobutton").click(function (e) {
+						  console.log(e);
 							e.preventDefault();
 							jQuery(this).prev().submit();
 						});

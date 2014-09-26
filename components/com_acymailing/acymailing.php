@@ -21,10 +21,6 @@ $taskGroup = JRequest::getCmd('ctrl',JRequest::getCmd('gtask','lists'));
 $doc =& JFactory::getDocument();
 $doc->addScript(ACYMAILING_JS.'acymailing.js');
 $config =& acymailing::config();
-$cssFrontend = $config->get('css_frontend','default');
-if(!empty($cssFrontend)){
-	$doc->addStyleSheet( ACYMAILING_CSS.'component_'.$cssFrontend.'.css' );
-}
 if(!include(ACYMAILING_CONTROLLER_FRONT.$taskGroup.'.php')){
 	return JError::raiseError( 404, 'Page not found : '.$taskGroup );
 }

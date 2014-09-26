@@ -14,6 +14,14 @@ jQuery(document).ready(function($){
 	jQuery('.rightcolumn .video_activity_header').shigaruTabs({slidesWrapper:'.rightcolumn .slidesWrapper'});
 	jQuery('.workarea_odd .video_activity .video_activity_header').shigaruTabs({slidesWrapper:'.workarea_odd .video_activity .slidesWrapper'});
 	}
+	jQuery('.videolistoptions .btn').click(function(e) {
+				var $this = jQuery(this);
+				$this.toggleClass("active");
+				$this.next('ul.dropdown-menu').toggle();
+				return false;
+			});
+	
+	
 	if(jQuery('#the_most_title').length >0){
 		jQuery.ajax({
 			  url: 'index.php?option=com_hwdvideoshare&task=ajax_showtabs&format=raw&listtype=being&lang='+currentLang
@@ -189,7 +197,6 @@ jQuery(document).ready(function($){
 						jQuery(opts.slidesWrapper).css('overflow', 'hidden');
 						oSlides.wrapAll('<div class="slideInner"></div>').css({'float' : opts.directionOfSorting,'width' : oSlideWidth});
 						jQuery(opts.slidesWrapper +' .slideInner').css('width', oSlideWidth * oNumberOfSlides);
-
 						oTabs.click(rotateTabs);
 						break;
 			case 'fade':
@@ -282,7 +289,43 @@ jQuery(document).ready(function($){
 									paramElem.find('ul.pe-thumbs li').shigaruToolTip();
 								});
 						}
-				  		
+				  	paramElem.find('.videolistoptions .btn').click(function(e) {
+							var $this = jQuery(this);
+							$this.toggleClass("active");
+							$this.next('ul.dropdown-menu').toggle();
+							return false;
+						});
+				  
+				    paramElem.find(".dropdown-menu .editvideobutton").click(function (e) {
+					  console.log(e);
+						e.preventDefault();
+						jQuery(this).prev().submit();
+					});
+					
+					paramElem.find(".dropdown-menu .deletevideobutton").click(function (e) {
+						e.preventDefault();
+						var oDeleteEvent = e;
+						jQuery.blockUI({
+							message: 	'<p class="shigarunotice"><span id="close"></span>'+
+											jQuery('#deletevideomessage').html()+	
+										'</p>',
+							css: {
+								top: (jQuery(window).height() - 200) / 2 + "px",
+								left: (jQuery(window).width() - 400) / 2 + "px",
+								height: "200px",
+								width: "400px",
+								"overflow-y:": "auto"
+							}
+						});
+						jQuery(".shigarunotice #close,.blockUI .cancel").click(function (e) {
+							e.preventDefault();
+							jQuery.unblockUI();
+						});
+						jQuery(".blockUI .btn-danger").click(function (e) {
+							e.preventDefault();
+							jQuery(oDeleteEvent.target).prev().submit();
+						});
+					});				
 				  paramElem.find('.tabmodcontrols a.tabreload').removeClass('active').find('.icon-refresh').removeClass('icon-refresh icon-spin').addClass('icon-repeat');		
 				});	
 			}
@@ -567,6 +610,7 @@ jQuery(document).ready(function($){
 		  });
 		  
 		  jQuery(".dropdown-menu .editvideobutton").click(function (e) {
+			  console.log(e);
 				e.preventDefault();
 				jQuery(this).prev().submit();
 			});

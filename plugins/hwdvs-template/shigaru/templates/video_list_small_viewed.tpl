@@ -9,8 +9,19 @@
 <li>
 	<div class="fleft thumb">{$data->thumbnail}<span class="videotime"> {$data->duration} </span></div>
 	<div class="fleft">
-		<h6>{$data->title} {$data->editvideo} {$data->deletevideo}</h6>
-		<span class="fleft mright6">{$smarty.const._HWDVIDS_INFO_SHARED} </span>{$data->uploader}
+		<h6>{$data->title}</h6>
+		
+			<div class="videolistoptions">
+				{if $data->editvideo neq ""}
+				<a class="btn btn-small" href="#"><i class="icon-cog"></i></a>
+				<ul class="dropdown-menu">
+					<li>{$data->editvideo}</li>
+					<li>{$data->deletevideo}</li>
+				</ul>
+				{/if}
+				<span class="fleft mright6">{$smarty.const._HWDVIDS_INFO_SHARED} </span>{$data->uploader}
+			</div>
+		
 	</div>
 	<div class="plays">
 		<div class="fright">

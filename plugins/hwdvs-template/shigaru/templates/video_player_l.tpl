@@ -26,16 +26,32 @@
 						<div class="contentautor"><span>Content Owner</span></div>
 					</div>
 					{/if}
-					<div class="fleft {if $contentauthor}w85{else}w100{/if}">
+					<div class="clearfix fleft {if $contentauthor}w85{else}w100{/if}">
 						<div class="fleft mbot12">{$videoplayer->avatar}</div>
-						<div class="fleft mright6 titleText w85">
+						<div class="clearfix fleft mright6 titleText w85">
 							<h2 >{$videoplayer->titleText}</h2>
-							<!--<div class="fright mbot6 mright6 f12em"><button title="Click on this button to subscribe to this user's channel" class="btn btn-danger fleft">Follow<i class="icon-circle-arrow-right padleft4"></i></button><div class="fleft timesactioned mtop8"><i class="icon-angle-left"></i><i class="icon-caret-left"></i><span>{$videoplayer->commentsNum}</span></div></div>-->
+							<div class="fright mbot6 mright6 f12em">
+									<div class="fleft">
+										<div class="videolistoptions">
+											<a class="btn btn-small" href="#"><i class="icon-cog"></i></a>
+											<ul class="dropdown-menu">
+												<li>{$videoplayer->editvideo}</li>
+												<li>{$videoplayer->deletevideo}</li>
+											</ul>
+										</div>
+									</div>	
+									<!--<button title="Click on this button to subscribe to this user's channel" class="btn btn-danger fleft">
+										Follow <i class="icon-circle-arrow-right padleft4"></i>
+									</button>
+									<div class="fleft timesactioned mtop8">
+											<i class="icon-angle-left"></i>
+											<i class="icon-caret-left"></i>
+											<span>{$videoplayer->commentsNum}</span>
+									</div>-->
+								</div>
 							<span class="mleft20">{$smarty.const._HWDVIDS_INFO_SHARED}</span> {$videoplayer->uploader}
 						</div>
-					<div>
-						{$videoplayer->editvideo} {$videoplayer->deletevideo}
-					</div>	
+					
 					 
 				</div>
 				<div class="clear"></div>

@@ -65,8 +65,4 @@ foreach( $langActive as $language )
 }
 echo $outString;
 
-if( $inc_jf_css && JFile::exists(JPATH_ROOT.DS.'modules'.DS.'mod_jflanguageselection'.DS.'tmpl'.DS.'mod_jflanguageselection.css') ) {
-	$document = JFactory::getDocument();
-	$document->addStyleSheet(JURI::base(true).'/modules/mod_jflanguageselection/tmpl/mod_jflanguageselection.css');
-}
 
